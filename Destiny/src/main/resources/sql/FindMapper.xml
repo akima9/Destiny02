@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FindMapper">	
+ 	
+	<resultMap id="userSelectMap" type="com.destiny.service.domain.User">
+		<result property="userId" 			column="user_id" 			jdbcType="VARCHAR"/>
+		<result property="password" 		column="password" 			jdbcType="VARCHAR" />
+		<result property="nickName"			column="nick_name" 			jdbcType="VARCHAR" />
+		<result property="userGrade"		column="user_grade" 		jdbcType="CHAR"/>
+		<result property="email" 			column="email" 				jdbcType="VARCHAR" />
+		<result property="birthday" 		column="birthday" 			jdbcType="DATE" />
+		<result property="address" 			column="address" 			jdbcType="VARCHAR" />
+		<result property="profile" 			column="profile_img" 		jdbcType="VARCHAR" />
+		<result property="gender" 			column="gender" 			jdbcType="CHAR" />
+		<result property="phone" 			column="phone" 				jdbcType="VARCHAR" />
+		<result property="attendCount" 		column="attend_count" 		jdbcType="INTEGER" />
+		<result property="lastLoginDay" 	column="last_login_day" 	jdbcType="DATE" />
+		<result property="warningCount" 	column="warning_count" 		jdbcType="INTEGER" />
+		<result property="myType" 			column="my_type" 			jdbcType="NUMERIC" />
+		<result property="firstType" 		column="first_type" 		jdbcType="NUMERIC" />
+		<result property="secondType" 		column="second_type" 		jdbcType="NUMERIC" />
+		<result property="thirdType" 		column="thrid_type" 		jdbcType="NUMERIC" />
+		<result property="firstInterest" 	column="first_interest" 	jdbcType="NUMERIC" />
+		<result property="secondInterest" 	column="second_interest" 	jdbcType="NUMERIC" />
+		<result property="thirdInterest" 	column="third_interest" 	jdbcType="NUMERIC" />			
+	</resultMap>
+	
+	<resultMap id="MeetingMapper" type="com.destiny.service.domain.Meeting">
+		<result property="meetingNo" 			column="meeting_no" 			jdbcType="NUMERIC"/>
+		<result property="crew" 				column="meeting_master_id" 		jdbcType="VARCHAR" />
+		<result property="meetingRule"			column="meeting_name" 			jdbcType="VARCHAR" />
+		<result property="titleImg"				column="title_img" 				jdbcType="VARCHAR"/>
+		<result property="meetingLocation" 		column="meeting_location" 		jdbcType="VARCHAR" />
+		<result property="meetingDay" 			column="meeting_date" 			jdbcType="DATE" />		
+	</resultMap>
+	 
+	 <!-- SQL : SELECT ONE ///////////////////////////////////////////////////////////////////////////////////////////// -->
+	 <select 	id="getUserResult"	parameterType="com.destiny.service.domain.Find" resultType="int">		
+		SELECT
+		 count(*)
+		FROM users u, age_range ar
+		WHERE substr( NVL(TRUNC(MONTHS_BETWEEN(SYSDATE, TO_DATE(u.birthday, 'YYYY-mm-dd'))/12), 0), 3,4) BETWEEN ar.low_age AND ar.high_age
+			AND u.gender=#{selectGender}
+			AND ar.age_range_no=#{selectAge}
+			AND u.address LIKE '%'||#{town}||'%'
+			AND( u.first_interest=#{selectInterest01} OR u.first_interest=#{selectInterest02} OR u.first_interest=#{selectInterest03}
+				OR u.second_interest=#{selectInterest01} OR u.second_interest=#{selectInterest02} OR u.second_interest=#{selectInterest03}
+				OR u.third_interest=#{selectInterest01} OR u.third_interest=#{selectInterest02} OR u.third_interest=#{selectInterest03})
+		GROUP BY ar.age_range_no
+	 </select>
+	 <!--  ///////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	 
+	 <!-- SQL : SELECT List //////////////////////////////////////////////////////////////////////////////////////////// -->
+	 <select 	id="getMeetingResult"	parameterType="com.destiny.service.domain.Find" resultMap="MeetingMapper">		
+		SELECT
+		 meeting_no, meeting_master_id, meeting_name, title_img, meeting_location, meeting_date
+		FROM meeting
+		WHERE meeting_location LIKE '%'||#{find.town}||'%'
+	 </select>
+	 <!--  //////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	 
+</mapper>

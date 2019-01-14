@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MeetingMapper">
+ 	
+ 	
+	<resultMap id="meetingSelectMap" type="com.destiny.service.domain.Meeting">
+		<result property="meetingNo" 			column="meeting_no" 		jdbcType="NUMERIC"/>
+		<result property="role" 				column="ffffff" 			jdbcType="VARCHAR" />
+		<result property="titleImg"				column="title_img" 			jdbcType="VARCHAR" />
+		<result property="meetingDetail"		column="meeting_detail" 	jdbcType="VARCHAR"/>
+		<result property="meetingRule" 			column="meeting_rule" 		jdbcType="VARCHAR" />
+		<result property="meetingLocation" 		column="meeting_location" 	jdbcType="VARCHAR" />
+		<result property="crew" 				column="ffffff" 			jdbcType="VARCHAR" />
+		<result property="meetingDate" 			column="meeting_date" 		jdbcType="DATE" />
+		<result property="snooze" 				column="snooze" 			jdbcType="CHAR" />
+		<result property="meetingDay" 			column="meeting_day" 		jdbcType="VARCHAR" />
+		<result property="meetingDues" 			column="meeting_dues" 		jdbcType="VARCHAR" />
+		<result property="profile" 				column="master_profile_img" jdbcType="VARCHAR" />
+		<result property="interestNo" 			column="INTEREST_NO" 		jdbcType="NUMERIC"/>
+		<result property="interestName" 			column="INTEREST_NAME" 	jdbcType="VARCHAR" />
+	</resultMap>
+
+	 <select 	id="getInterestList" resultMap="meetingSelectMap">
+		SELECT* FROM interest
+	 </select>
+	 
+	 <insert 	id="addMeeting"		parameterType="com.destiny.service.domain.Meeting">
+	 	 <selectKey keyProperty="meetingNo" resultType="int" order="BEFORE">
+    		select seq_meeting_no FROM DUAL
+  		  </selectKey>
+	 	
+	 	INSERT
+		INTO meeting( meeting_no, role, meeting_master_id, title_img , meeting_name , meeting_detail , meeting_rule, meeting_location, meeting_crew_limit,meeting_date, snooze) 
+		VALUES	 ( #{meetingNo}, #{role}, #{meetingMasterId} , #{titleImg} , #{meetingName},to_char(to_date(#{manuDate:DATE},'yyyy/mm/dd')) ,
+		 #{price} , #{fileName} , SYSDATE , #{brandId.brand_id})
+	 </insert>
+	 
+	 
+</mapper>

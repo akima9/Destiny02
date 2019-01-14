@@ -1,0 +1,511 @@
+<%@ page contentType="text/html; charset=euc-kr" %>
+<%@ page pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="EUC-KR">
+	
+	
+	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!--  ///////////////////////// 데이트픽커 시작////////////////////////// -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="../javascript/calendar.js"></script>
+    <!--  ///////////////////////// 데이트픽커 엔드 ////////////////////////// -->
+    
+	<!--  ///////////////////////// CSS ////////////////////////// -->
+	<style>
+       body > div.container{
+        	border: 3px solid #D6CDB7;
+            margin-top: 10px;
+        }
+    </style>
+
+     <!--  ///////////////////////// JavaScript ////////////////////////// -->
+	<script type="text/javascript">
+	
+	////////////////* 데이트픽커 데이터 포맷 */////////
+	$( function() {
+
+	    $( "#datepicker" ).datepicker({
+	    	dateFormat:"yy-mm-dd"
+	    });
+    		
+	} );
+	
+	
+	
+	function fncAddProduct(){
+		//Form 유효성 검증
+
+		/* 
+		var metaKey=$("input[name='metaKey']").val();
+		var name=$("input[name='prodName']").val();
+		var detail=$("textarea[name='prodDetail']").val();
+		var manuDate=$("input[name='manuDate']").val();
+		var price=$("input[name='price']").val();	
+		
+		//var quantity = document.detailForm.quantity.value;
+		
+		var quantity=$("input[name='quantity']").val();
+	
+		
+		if(metaKey == null || metaKey.length<1){
+			alert("메타키는 반드시 입력하여야 합니다.");
+			return;
+		}
+		if(name == null || name.length<1){
+			alert("상품명은 반드시 입력하여야 합니다.");
+			return;
+		}
+		if(detail == null || detail.length<1){
+			alert("상품상세정보는 반드시 입력하여야 합니다.");
+			return;
+		}
+		if(manuDate == null || manuDate.length<1){
+			alert("제조일자는 반드시 입력하셔야 합니다.");
+			return;
+		}
+		if(price == null || price.length<1){
+			alert("가격은 반드시 입력하셔야 합니다.");
+			return;
+		}
+		if(quantity == null || quantity.length<1){
+			alert("수량은 반드시 입력하셔야 합니다.");
+			return;
+		}
+		
+		if($('#priceWirte').text() != "" && $('#priceWirte').text() != null){
+			alert("잘못된 가격입력입니다.");
+			return;
+		}
+		if($('#quantityWirte').text() != "" && $('#quantityWirte').text() != null){
+			alert("잘못된 수량입력입니다.");
+			return;
+		}
+		if($('#metaKeyWirte').text() != "" && $('#metaKeyWirte').text() != null){
+			alert("잘못된 메타키입력입니다.");
+			return;
+		} */
+		
+		$("form").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/addMeeting").submit();
+	}
+	
+	$(function() {
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
+		 $( "button.btn.btn-primary" ).on("click" , function() {
+			//Debug..
+			//alert(  $( "td.ct_btn01:contains('등록')" ).html() );
+			fncAddProduct();
+		});
+	});
+	
+	$(function() {
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
+		 $( "a[href='#' ]" ).on("click" , function() {
+				//Debug..
+				//alert(  $( "a[href='#' ]" ).html() );
+				//$("form")[0].reset();
+				 self.location = "/product/listProduct?menu=search";
+		});
+	});	
+	 
+	//=====================================수량 / 가격 체크===============================
+	
+	$(function() {
+		
+		$('input[name="price"]').on("keyup", function(){
+			
+			var price = $('input[name="price"]').val();
+			
+			if(parseInt(price) <= 0){
+				//alert("옹냥");
+				$('input[name="price"]').css('background-color','pink');
+				$('#priceWirte').text("가격이 0이하입니다.");
+			} else if (parseInt(price) >= 0 || price == null || price == "") {
+				$('#priceWirte').text("");
+				$('input[name="price"]').css('background-color','white');
+			}
+		});
+	});
+	
+	$(function() {
+		
+		$('input[name="quantity"]').on("keyup", function(){
+		
+			var quantity = $('input[name="quantity"]').val();
+			
+			if(parseInt(quantity) <= 0){
+				$('input[name="quantity"]').css('background-color','pink');
+				$('#quantityWirte').text("수량이 0이하입니다.");
+			} else if (parseInt(quantity) >= 0 || quantity == null || quantity == "") {
+				$('#quantityWirte').text("");
+				$('input[name="quantity"]').css('background-color','white');
+			}
+			
+			
+			
+		});
+	});
+	
+	$(function(){
+		$('input[name="metaKey"]').on("keyup", function(){
+			
+			var metaKey = $('input[name="metaKey"]').val();
+			
+			metaKey = parseInt(metaKey);
+			
+			//String은 parseInt되면 NAN을 출력함을 이용한 로직 구축
+			if(metaKey != $('input[name="metaKey"]').val()){
+				$('input[name="metaKey"]').css('background-color','pink');
+				$('#metaKeyWirte').text("잘못된 데이터 타입입니다. 숫자만 입력하세요.");
+			} else if(metaKey == $('input[name="metaKey"]').val()) {
+				//alert(metaKey);
+				$('input[name="metaKey"]').css('background-color','white');
+				$('#metaKeyWirte').text("");
+				
+				//동일한 metaKey가 이미 있는지 확인
+				$.ajax({
+					url : "/product/json/getProductByMetaKey/"+metaKey,
+					method : "GET",
+					dataType : "json",
+					headers :{
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(JSONData , status) {
+						//alert(JSONData.product);
+						if(JSONData.product != null){
+							$('input[name="metaKey"]').css('background-color','pink');
+							$('#metaKeyWirte').text("이미 존재하는 메타키입니다.");
+						}
+					}, 
+					error : function(what){
+						$('input[name="metaKey"]').css('background-color','white');
+						$('#metaKeyWirte').text("");
+					}
+				});
+			}
+		});
+	});
+	
+
+	 $( function() {
+		    $( "#manuDate" ).datepicker();
+	});
+	 
+	////* 관심사가 선택되면  *////
+	 $(function(){
+			$( "#interest" ).on("change" , function() {
+				//var idx = $(".brand_ids").index(this);
+				var interestNo=$(this).val();
+				console.log(interestNo);
+				
+				$( "#selectedInterest" ).val(interestNo);
+					
+			});
+		});
+	////* 관심사 끝  *////
+	
+	////* 지역구 선택부  *////
+	 $(function(){
+			$( "#centerLocation" ).on("change" , function() {
+				//var idx = $(".brand_ids").index(this);
+				var city=$(this).val();
+				console.log(city);
+				
+				$.ajax( 
+						{
+							url : "/user/json/getLocationList/"+city,
+							method : "GET" ,
+							dataType : "json" ,
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function(JSONData , status) {
+								
+								var list="";
+								list+="<select name='meetingCenter' class='form-control'>";
+								list+="<option>시/군/구 선택</option>";
+								for(i in JSONData.list){
+									var town = JSONData.list[i].townName;
+									
+									list+="<option value='"+town+"'>"+town+"</option>";
+							}
+								$( "#location" ).empty().append(list);
+							}
+					});
+			});
+		});
+	////* 지역구 선택부 끝!!!!!  *////
+	
+	////* 모임원 선택부  *////
+
+	
+	////* 모임원 선택부  끝!!!!!!!!!!*////
+	 
+	////* 반복여부가 선택되면  *////
+	 $(function(){
+			$( "#snooze" ).on("change" , function() {
+				//var idx = $(".brand_ids").index(this);
+				var snooze=$(this).val();
+				console.log(snooze);
+				
+				if(snooze=='반복'){
+					console.log("반복선택됨")
+					var list = "";
+					list+="<select id='snooze' class='form-control'>";
+					list+="<option value='월요일'>월요일</option>";
+					list+="<option value='화요일'>화요일</option>";
+					list+="<option value='수요일'>수요일</option>";
+					list+="<option value='목요일'>목요일</option>";
+					list+="<option value='금요일'>금요일</option>";
+					list+="<option value='토요일'>토요일</option>";
+					list+="<option value='일요일'>일요일</option>";
+					list+="</select>";
+					$( "#dateOrDay" ).empty().append(list);
+				}
+			});
+		});
+	
+	
+	</script>
+	
+	
+	<!-- 다음 우편 -->
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54cfa5aea3e5609fcbb420ef8cd6ed4c"></script>
+	<script>
+	    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+	        mapOption = {
+	            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+	            level: 5 // 지도의 확대 레벨
+	        };
+	
+	    //지도를 미리 생성
+	    var map = new daum.maps.Map(mapContainer, mapOption);
+	    //주소-좌표 변환 객체를 생성
+	    var geocoder = new daum.maps.services.Geocoder();
+	    //마커를 미리 생성
+	    var marker = new daum.maps.Marker({
+	        position: new daum.maps.LatLng(37.537187, 127.005476),
+	        map: map
+	    });
+	
+	
+	    function sample5_execDaumPostcode() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                var addr = data.address; // 최종 주소 변수
+	
+	                // 주소 정보를 해당 필드에 넣는다.
+	                document.getElementById("sample5_address").value = addr;
+	                // 주소로 상세 정보를 검색
+	                geocoder.addressSearch(data.address, function(results, status) {
+	                    // 정상적으로 검색이 완료됐으면
+	                    if (status === daum.maps.services.Status.OK) {
+	
+	                        var result = results[0]; //첫번째 결과의 값을 활용
+	
+	                        // 해당 주소에 대한 좌표를 받아서
+	                        var coords = new daum.maps.LatLng(result.y, result.x);
+	                        // 지도를 보여준다.
+	                        mapContainer.style.display = "block";
+	                        map.relayout();
+	                        // 지도 중심을 변경한다.
+	                        map.setCenter(coords);
+	                        // 마커를 결과값으로 받은 위치로 옮긴다.
+	                        marker.setPosition(coords)
+	                    }
+	                });
+	            }
+	        }).open();
+	    }
+	</script>
+	<!-- 다음우편 끝 -->
+	
+	</head>
+	
+	<body>
+   	<!--  화면구성 div Start /////////////////////////////////////-->
+	<div class="container">
+   		<h1 class="bg-primary text-center">개설하기</h1>
+   	
+   		<!-- form Start /////////////////////////////////////-->
+		<form class="form-horizontal">
+		<input type="hidden" name="meetingMasterId" value="aaaaa">
+		 <div  class="form-group col-sm-4 col-md-4">
+		 	<select id="interest" class="form-control" name="category">
+		 		<option >관심사</option>
+		 		<c:forEach var="Meeting" items="${list}">
+		 		
+		 			<option name="interestNo" value="${Meeting.interestName}">${Meeting.interestName }</option>
+		 		
+		 		</c:forEach>
+		 	</select>
+		 </div>
+		
+		 <div class="form-group col-sm-8 col-md-8">
+		 	<input  id="selectedInterest" type="text" class="form-control" placeholder="관심사를 선택해 주세요">
+		 </div>
+		 
+		 <div class="form-group col-sm-6 col-md-6">
+		 	<select id="centerLocation" class="form-control">
+		 		<option>중심지역-지역</option>
+		 		<option value="서울">서울</option>
+                <option value="경기">경기</option>
+                <option value="인천">인천</option>
+                <option value="부산">부산</option>
+                <option value="대구">대구</option>
+                <option value="광주">광주</option>
+                <option value="대전">대전</option>
+                <option value="울산">울산</option>
+                <option value="세종">세종</option>
+                <option value="강원">강원</option>
+                <option value="경남">경남</option>
+                <option value="경북">경북</option>
+                <option value="전남">전남</option>
+                <option value="전북">전북</option>
+                <option value="충남">충남</option>
+                <option value="충북">충북</option>
+                <option value="제주">제주</option>
+		 	</select>
+		 </div>
+		 
+		 <div id="location" class="form-group col-sm-6 col-md-6">
+		 	<span class="form-control"></span>
+		 </div>
+		 	
+		 
+		<!--
+		 <div class="form-group col-sm-8 col-md-8">
+		 	<input type="text" class="form-control" placeholder="모임지역을 입력해주세요">
+		 </div>
+		 -->
+		 <div class="form-group col-sm-10 col-md-10">
+		 	<input type="text" class="form-control" name="titleImg" placeholder="대표이미지를 설정하여 주세요" value="test">
+		 </div>
+		 
+		 <div class="form-group col-sm-2 col-md-2">
+		 	<button type="button" class="btn btn-warning" >첨부파일</button>
+		 </div>
+		 
+		 <div class="form-group col-sm-12 col-md-12">
+		 	<input type="text" class="form-control" name="meetingName" placeholder="모임이름을 적어주세요" value="test">
+		 </div>
+		 
+		 <div class="form-group col-sm-12 col-md-12">
+		 	<textarea class="form-control" cols="100" rows="3" 
+		 	name="meetingDetail" placeholder="어떤 모임인지 설명해주세요" >test</textarea>
+		 </div>
+		 
+		 <div class="form-group col-sm-12 col-md-12">
+		 	<textarea class="form-control" cols="100" rows="3" 
+		 	name="meetingRule" placeholder="모임에 규칙이 있나요? 있다면 간략히 적어주세요">test</textarea>
+		 </div>
+		 
+		 <div class="form-group col-sm-10 col-md-10">
+		 	모임인원을 입력하여 주세요
+		 </div>
+		
+		 <div id="crewNo" class="form-group col-sm-2 col-md-2">
+		 	<select name="crewLimit" class="form-control">
+		 		<option value="1">1</option>
+		 		<option value="2">2</option>
+		 		<option value="3">3</option>
+		 		<option value="4">4</option>
+		 		<option value="5">5</option>
+		 		<option value="6">6</option>
+		 		<option value="7">7</option>
+		 		<option value="8">8</option>
+		 		<option value="9">9</option>
+		 		<option value="10">10</option>
+		 		<option value="11">11</option>
+		 		<option value="12">12</option>
+		 		<option value="13">13</option>
+		 		<option value="14">14</option>
+		 		<option value="15">15</option>
+		 		<option value="16">16</option>
+		 		<option value="17">17</option>
+		 		<option value="18">18</option>
+		 		<option value="19">19</option>
+		 		<option value="20">20</option>
+		 	</select>
+		 </div>
+		 
+		 <div class="form-group col-sm-4 col-md-4">
+		 	<select name="snooze" id="snooze" class="form-control">
+		 		<option>반복여부</option>
+		 		<option value="Y">반복</option>
+		 		<option value="N">한번</option>
+		 	</select>
+		 </div>
+		 
+		 <div  id="dateOrDay" class="form-group col-sm-4 col-md-4">
+		 	<input 	type="text" id="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜or요일"/>
+		 	
+		 	<!--  
+		 	<select class="form-control">
+		 		<option value="">모임날짜or요일</option>
+		 	</select>
+		 	-->
+		 </div>
+		 
+		 <div class="form-group col-sm-4 col-md-4">
+		 	<select name="meetingTime" class="form-control">
+		 		<option>모임시간</option>
+		 		<option value="13:00">13:00</option>
+		 		<option value="14:00">14:00</option>
+		 	</select>
+		 </div>
+		 
+		 <div class="form-group col-sm-10 col-md-10">
+		 	회비가 있다면 입력해주세요
+		 </div>
+		 
+		 <div class="form-group col-sm-2 col-md-2">
+		 	<input name="meetingDues" type="text" class="form-control" placeholder="$" value="test">
+		 </div>
+		 
+		 <div class="form-group col-sm-10 col-md-10">
+		 <input name="meetingLocation" type="text" class="form-control" id="sample5_address" placeholder="주소" value="test">
+		 	<!-- <input type="text" class="form-control" placeholder="모임장소를 입력하여주세요."> -->
+		 </div>
+		 
+		 <div class="form-group col-sm-2 col-md-2">
+			<input type="button" class="btn btn-warning" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+			<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+		 	<!-- <button type="button" class="btn btn-warning">우편검색</button> -->
+		 </div>
+		  
+		 <div class="form-group">
+		   <div class="col-sm-offset-4  col-sm-4 text-center">
+		     <button type="button" class="btn btn-primary"  >등 &nbsp;록</button>
+			 <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+		   </div>
+		 </div>
+	</form>
+ 	</div>
+	<!--  화면구성 div end /////////////////////////////////////-->
+	
+</body>
+
+</html>	
+	

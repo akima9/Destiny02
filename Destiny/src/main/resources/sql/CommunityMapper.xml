@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CommunityMapper">
+ 	
+ 	
+	<resultMap id="communitySelectMap" type="com.destiny.service.domain.Community">
+		<result property="communityNo" 			column="community_no" 										jdbcType="NUMERIC"/>
+		<result property="writerId"						column="community_writer_id" 							jdbcType="VARCHAR" />
+		<result property="meetingNo" 				column="meeting_no" 											jdbcType="NUMERIC" />
+		<result property="category" 					column="category" 													jdbcType="CHAR" />
+		<result property="userGrade"					column="community_user_grade" 						jdbcType="CHAR" />
+		<result property="title"								column="community_title" 									jdbcType="VARCHAR" />
+		<result property="writerNickName" 		column="community_writer_nick_name" 			jdbcType="VARCHAR" />
+		<result property="detail"							column="community_detail" 									jdbcType="VARCHAR" />
+		<result property="writeDate"					column="community_write_date" 						jdbcType="DATE" />
+		<result property="views"							column="community_views" 									jdbcType="INTEGER" />
+		<result property="like"								column="community_like" 										jdbcType="INTEGER" />
+		<result property="importRank"				column="import_rank" 											jdbcType="CHAR" />
+		<result property="viewCondition"			column="community_view_condition" 				jdbcType="CHAR" />
+	</resultMap>
+	
+	<!-- SQL : INSERT -->
+	<insert id="addCommunity" parameterType="com.destiny.service.domain.Community" >
+	 	INSERT
+		INTO community( community_no, community_writer_id, category, community_user_grade, community_title, community_writer_nick_name, community_detail, community_write_date,  community_views, community_like, import_rank, community_view_condition) 
+		VALUES( seq_community_no.nextval, #{writerId}, #{category}, #{userGrade}, #{title}, #{writerNickName}, #{detail}, SYSDATE, #{views}, #{like}, #{importRank}, #{viewCondition})
+	</insert>
+	 
+	 <!-- SQL : SELECT ONE -->
+	 <!-- <select id="getProduct" parameterType="int" resultMap="productSelectMap">
+		SELECT
+		prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date
+		FROM product
+		WHERE prod_no = #{value}
+	 </select> -->
+	 
+	 <!-- SQL : UPDATE -->
+	 <!-- <update	id="updateProduct"	parameterType="com.model2.mvc.service.domain.Product" >
+	   	UPDATE product
+	   	<set>
+	   		prod_name 			= #{prodName},
+			prod_detail			= #{prodDetail},
+			manufacture_day		= #{manuDate},
+			price				= #{price},
+			image_file			= #{fileName:VARCHAR}
+	   	</set>
+	   	WHERE prod_no = #{prodNo}
+	 </update> -->
+		 
+	<!-- SQL : SELECT LIST -->
+	<!-- <select id="getProductList" parameterType="search" resultMap="productSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT pro.prod_no, pro.prod_name, pro.prod_detail, pro.manufacture_day, pro.price, pro.image_file, pro.reg_date, tra.tran_status_code
+											FROM product pro, transaction tra
+											WHERE pro.prod_no = tra.prod_no(+)
+											<if test="searchCondition != null">
+												<if test="searchCondition == 0 and searchKeyword !='' ">
+									 				and pro.prod_no = #{searchKeyword}
+												</if>
+												<if test="searchCondition == 1 and searchKeyword !='' ">
+									 				and pro.prod_name like '%'||#{searchKeyword}||'%'
+												</if>
+												<if test="searchCondition == 2 and searchKeyword !='' ">
+									 				and pro.price = #{searchKeyword}
+												</if>
+											</if>
+											<if test="tranCondition != null and tranCondition != '' ">
+												<if test="tranCondition == 0">
+													and tra.tran_status_code = 1
+												</if>
+												<if test="tranCondition == 1">
+													and tra.tran_status_code = 2
+												</if>
+											</if>
+											<if test="priceCondition == 1">
+												ORDER BY pro.price desc ) inner_table
+											</if>
+											<if test="priceCondition == 2">
+												ORDER BY pro.price asc ) inner_table
+											</if>
+											<if test="priceCondition == 3">
+												ORDER BY pro.prod_no desc ) inner_table
+											</if>
+											<if test="priceCondition != 1 and priceCondition != 2 and priceCondition != 3">
+												ORDER BY pro.prod_no desc ) inner_table
+											</if>
+											ORDER BY pro.prod_no desc ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select> -->
+	 	<!--  위 두번째 subQuery 의  
+	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
+	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
+	 			< 는 keyword 로 &lt; 를	사용.
+	 			
+	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
+	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
+
+				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
+		-->
+	
+	<!-- SQL : SELECT ROW Count -->	 
+	 <!-- <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT pro.prod_name, pro.price, pro.reg_date
+						FROM product pro, transaction tra
+						WHERE pro.prod_no = tra.prod_no(+)
+						<if test="searchCondition != null">
+							<if test="searchCondition == 0 and searchKeyword !='' ">
+					 			and pro.prod_no = #{searchKeyword}
+							</if>
+							<if test="searchCondition == 1 and searchKeyword !='' ">
+					 			and pro.prod_name like '%'||#{searchKeyword}||'%'
+							</if>
+							<if test="searchCondition == 2 and searchKeyword !='' ">
+				 				and pro.price = #{searchKeyword}
+							</if>
+						</if>
+						<if test="tranCondition != null and tranCondition != '' ">
+							<if test="tranCondition == 0">
+								and tra.tran_status_code = 1
+							</if>
+							<if test="tranCondition == 1">
+								and tra.tran_status_code = 2
+							</if>
+						</if>
+						<if test="priceCondition == 1">
+							ORDER BY pro.price desc
+						</if>
+						<if test="priceCondition == 2">
+							ORDER BY pro.price asc
+						</if> ) countTable						
+	 </select> -->
+	 
+</mapper>
