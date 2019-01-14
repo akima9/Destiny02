@@ -1,19 +1,20 @@
 package com.destiny.service.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Chatting {
 	
-	private int 			chattingNo;
-	private String		beforeTranslationText;
-	private String		afterTranslationText;
-	private Date			chattingDate;
-	private String		chattingTime;
-	private String		anonymousNickName;
-	private String		language;
-	private int			favorability;
-	private Telepathy	telepathy;
-	private boolean	contactMeeting;
+	private int 				chattingNo;
+	private String			beforeTranslationText;
+	private String			afterTranslationText;
+	private Date				chattingDate;
+	private String			chattingTime;
+	private String			anonymousNickName;
+	private String			language;
+	private int				favorability;
+	private List<String>	telepathyResult;
+	private boolean		contactMeeting;
 	
 	
 	
@@ -101,14 +102,14 @@ public class Chatting {
 
 
 
-	public Telepathy getTelepathy() {
-		return telepathy;
+	public List<String> getTelepathyResult() {
+		return telepathyResult;
 	}
 
 
 
-	public void setTelepathy(Telepathy telepathy) {
-		this.telepathy = telepathy;
+	public void setTelepathyResult(List<String> telepathyResult) {
+		this.telepathyResult = telepathyResult;
 	}
 
 
@@ -142,7 +143,7 @@ public class Chatting {
 		return "Chatting [chattingNo=" + chattingNo + ", beforeTranslationText=" + beforeTranslationText
 				+ ", afterTranslationText=" + afterTranslationText + ", chattingDate=" + chattingDate
 				+ ", chattingTime=" + chattingTime + ", anonymousNickName=" + anonymousNickName + ", language="
-				+ language + ", favorability=" + favorability + ", telepathy=" + telepathy + ", contactMeeting="
+				+ language + ", favorability=" + favorability + ", telepathy=" + telepathyResult + ", contactMeeting="
 				+ contactMeeting + "]";
 	}
 

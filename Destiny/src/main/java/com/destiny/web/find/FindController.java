@@ -1,18 +1,26 @@
 package com.destiny.web.find;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Find;
+import com.destiny.service.domain.User;
 import com.destiny.service.find.FindService;
 
 @Controller
@@ -51,7 +59,7 @@ public class FindController {
 		}
 		
 		@RequestMapping(value="getUserResult", method=RequestMethod.POST)
-		public ModelAndView getUserResult(@ModelAttribute("find") Find find) throws Exception{
+		public ModelAndView getUserResult(@ModelAttribute("find") Find find, HttpServletRequest request) throws Exception{
 			System.out.println("/find/getUserResult : POST");
 			System.out.println("FIND : "+ find +"======================");
 			
@@ -65,12 +73,31 @@ public class FindController {
 			System.out.println("second : " + find.getSelectInterest02());
 			System.out.println("third : " + find.getSelectInterest03());
 			
+			//////////////// 현재 접속자 수 추가 진행 중////////////////////////////////////////////////////////////////
+			ServletContext applicationScope = request.getSession().getServletContext();
+			
+			List<User> loginList = new ArrayList<User>();
+			
+			if(applicationScope.getAttribute("loginList") != null) {
+				loginList = (List<User>) applicationScope.getAttribute("loginList");
+			}
+			
+			int numberOfLogin = 0;
+			
+			if(applicationScope.getAttribute("numberOfLogin") != null) {
+				numberOfLogin = (int) applicationScope.getAttribute("numberOfLogin");
+			}
+			
+			System.out.println("현재 접속자" + numberOfLogin);
+			/////////////////////////////////////////////////////////////////////////////////////////////////////
+			
 			int totalCount = findService.getUserResult(find);
 			
 			System.out.println("FindMapper.getUserResult 갔다옴 / totalCount: " + totalCount);
 			
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.addObject("totalCount",totalCount);
+			modelAndView.addObject("numberOfLogin",numberOfLogin);
 			modelAndView.setViewName("forward:/find/getUserResult.jsp");
 			return modelAndView;
 		}
@@ -82,16 +109,17 @@ public class FindController {
 			return modelAndView;
 		}
 				
-		@RequestMapping(value="getMeetingResult", method=RequestMethod.POST)
-		public ModelAndView getMeetingResult(@ModelAttribute("find") Find find) throws Exception{
+		@RequestMapping(value="getMeetingResult/{town}", method=RequestMethod.POST)
+		public ModelAndView getMeetingResult(@RequestParam("town") String town) throws Exception{
 			System.out.println("/find/getMeetingResult : POST");
-			System.out.println("FIND : "+ find +"======================");
+			System.out.println("FIND : "+ town +"======================");
 			
-			Map<String, Object> map = findService.getMeetingResult(find);
-			
+			Map<String, Object> map = findService.getMeetingResult(town);
+
 			ModelAndView modelAndView = new ModelAndView();
-			//modelAndView.addObject("list",map.get("list")); 
+			modelAndView.addObject("list",map.get("list"));
 			modelAndView.setViewName("forward:/find/getMeetingResult.jsp");
+			
 			return modelAndView;
 		}
 

@@ -79,8 +79,7 @@ public class MeetingController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/meeting/getMeetingList.jsp");
-		//return modelAndView;
-		return null;
+		return modelAndView;
 	}
 	
 	@RequestMapping(value="getMeeting", method=RequestMethod.GET)

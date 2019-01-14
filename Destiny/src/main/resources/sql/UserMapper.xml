@@ -90,6 +90,22 @@
 	 	</where>
 	 </select>
 	 
+	 <select id="getInterest" parameterType="int" resultType="String">
+	 	SELECT INTEREST_NAME
+	 	from interest
+	 	<where>
+	 		interest_no = #{value}
+	 	</where>
+	 </select>
+	 
+	 <select id="getType" parameterType="int" resultType="String">
+	 	SELECT type_name
+	 	from type
+	 	<where>
+	 		type_no = #{value}
+	 	</where>
+	 </select>
+	 
 	 
 	 
 </mapper>

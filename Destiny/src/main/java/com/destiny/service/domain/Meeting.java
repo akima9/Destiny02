@@ -5,23 +5,26 @@ public class Meeting {
 	private	int		meetingNo;
 	private	String	role;
 	private	String	meetingMasterId;
-	private	String	titleImg;
+	private	String	masterProfileImg;
+	private String	meetingCenter;
 	private String 	meetingName;
+	private	String	titleImg;
 	private	String	meetingDetail;
 	private	String	meetingRule;
+	private String	interestName;
 	private	String	meetingLocation;
-	private	String	crewLimit;
 	private	String	meetingDate;
-	private	String	snooze;
-	private	String	meetingTime;
 	private	String	meetingDay;
+	private	String	meetingTime;
+	private	String	snooze;
 	private	String	meetingDues;
-	private	String	profile;
+	private	String	meetingViews;
+	private	String	meetingCondition;
+	private	String	shutDownDate;
+	private	String	meetingCrewLimit;
+	private int		interestNo;
 	private	String	actCountNo;
 	private	String	interview;
-	private int		interestNo;
-	private String	interestName;
-	private String	meetingCenter;
 	
 	public int getMeetingNo() {
 		return meetingNo;
@@ -35,12 +38,29 @@ public class Meeting {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
 	public String getMeetingMasterId() {
 		return meetingMasterId;
 	}
 	public void setMeetingMasterId(String meetingMasterId) {
 		this.meetingMasterId = meetingMasterId;
+	}
+	public String getMasterProfileImg() {
+		return masterProfileImg;
+	}
+	public void setMasterProfileImg(String masterProfileImg) {
+		this.masterProfileImg = masterProfileImg;
+	}
+	public String getMeetingCenter() {
+		return meetingCenter;
+	}
+	public void setMeetingCenter(String meetingCenter) {
+		this.meetingCenter = meetingCenter;
+	}
+	public String getMeetingName() {
+		return meetingName;
+	}
+	public void setMeetingName(String meetingName) {
+		this.meetingName = meetingName;
 	}
 	public String getTitleImg() {
 		return titleImg;
@@ -60,17 +80,17 @@ public class Meeting {
 	public void setMeetingRule(String meetingRule) {
 		this.meetingRule = meetingRule;
 	}
+	public String getInterestName() {
+		return interestName;
+	}
+	public void setInterestName(String interestName) {
+		this.interestName = interestName;
+	}
 	public String getMeetingLocation() {
 		return meetingLocation;
 	}
 	public void setMeetingLocation(String meetingLocation) {
 		this.meetingLocation = meetingLocation;
-	}
-	public String getCrew() {
-		return crewLimit;
-	}
-	public void setCrew(String crew) {
-		this.crewLimit = crewLimit;
 	}
 	public String getMeetingDate() {
 		return meetingDate;
@@ -78,11 +98,11 @@ public class Meeting {
 	public void setMeetingDate(String meetingDate) {
 		this.meetingDate = meetingDate;
 	}
-	public String getSnooze() {
-		return snooze;
+	public String getMeetingDay() {
+		return meetingDay;
 	}
-	public void setSnooze(String snooze) {
-		this.snooze = snooze;
+	public void setMeetingDay(String meetingDay) {
+		this.meetingDay = meetingDay;
 	}
 	public String getMeetingTime() {
 		return meetingTime;
@@ -90,11 +110,11 @@ public class Meeting {
 	public void setMeetingTime(String meetingTime) {
 		this.meetingTime = meetingTime;
 	}
-	public String getMeetingDay() {
-		return meetingDay;
+	public String getSnooze() {
+		return snooze;
 	}
-	public void setMeetingDay(String meetingDay) {
-		this.meetingDay = meetingDay;
+	public void setSnooze(String snooze) {
+		this.snooze = snooze;
 	}
 	public String getMeetingDues() {
 		return meetingDues;
@@ -102,11 +122,35 @@ public class Meeting {
 	public void setMeetingDues(String meetingDues) {
 		this.meetingDues = meetingDues;
 	}
-	public String getProfile() {
-		return profile;
+	public String getMeetingViews() {
+		return meetingViews;
 	}
-	public void setProfile(String profile) {
-		this.profile = profile;
+	public void setMeetingViews(String meetingViews) {
+		this.meetingViews = meetingViews;
+	}
+	public String getMeeting_condition() {
+		return meetingCondition;
+	}
+	public void setMeeting_condition(String meeting_condition) {
+		this.meetingCondition = meeting_condition;
+	}
+	public String getShutDownDate() {
+		return shutDownDate;
+	}
+	public void setShutDownDate(String shutDownDate) {
+		this.shutDownDate = shutDownDate;
+	}
+	public String getMeetingCrewLimit() {
+		return meetingCrewLimit;
+	}
+	public void setMeetingCrewLimit(String meetingCrewLimit) {
+		this.meetingCrewLimit = meetingCrewLimit;
+	}
+	public int getInterestNo() {
+		return interestNo;
+	}
+	public void setInterestNo(int interestNo) {
+		this.interestNo = interestNo;
 	}
 	public String getActCountNo() {
 		return actCountNo;
@@ -120,46 +164,18 @@ public class Meeting {
 	public void setInterview(String interview) {
 		this.interview = interview;
 	}
-	public int getInterestNo() {
-		return interestNo;
-	}
-	public void setInterestNo(int interestNo) {
-		this.interestNo = interestNo;
-	}
-	public String getInterestName() {
-		return interestName;
-	}
-	public void setInterestName(String interestName) {
-		this.interestName = interestName;
-	}
-	public String getMeetingName() {
-		return meetingName;
-	}
-	public void setMeetingName(String meetingName) {
-		this.meetingName = meetingName;
-	}
-	public String getCrewLimit() {
-		return crewLimit;
-	}
-	public void setCrewLimit(String crewLimit) {
-		this.crewLimit = crewLimit;
-	}
-	public String getMeetingCenter() {
-		return meetingCenter;
-	}
-	public void setMeetingCenter(String meetingCenter) {
-		this.meetingCenter = meetingCenter;
-	}
 	@Override
 	public String toString() {
 		return "Meeting [meetingNo=" + meetingNo + ", role=" + role + ", meetingMasterId=" + meetingMasterId
-				+ ", titleImg=" + titleImg + ", meetingName=" + meetingName + ", meetingDetail=" + meetingDetail
-				+ ", meetingRule=" + meetingRule + ", meetingLocation=" + meetingLocation + ", crewLimit=" + crewLimit
-				+ ", meetingDate=" + meetingDate + ", snooze=" + snooze + ", meetingTime=" + meetingTime
-				+ ", meetingDay=" + meetingDay + ", meetingDues=" + meetingDues + ", profile=" + profile
-				+ ", actCountNo=" + actCountNo + ", interview=" + interview + ", interestNo=" + interestNo
-				+ ", interestName=" + interestName + ", meetingCenter=" + meetingCenter + "]";
+				+ ", masterProfileImg=" + masterProfileImg + ", meetingCenter=" + meetingCenter + ", meetingName="
+				+ meetingName + ", titleImg=" + titleImg + ", meetingDetail=" + meetingDetail + ", meetingRule="
+				+ meetingRule + ", interestName=" + interestName + ", meetingLocation=" + meetingLocation
+				+ ", meetingDate=" + meetingDate + ", meetingDay=" + meetingDay + ", meetingTime=" + meetingTime
+				+ ", snooze=" + snooze + ", meetingDues=" + meetingDues + ", meetingViews=" + meetingViews
+				+ ", meeting_condition=" + meetingCondition + ", shutDownDate=" + shutDownDate + ", meetingCrewLimit="
+				+ meetingCrewLimit + ", interestNo=" + interestNo + ", actCountNo=" + actCountNo + ", interview="
+				+ interview + "]";
 	}
 	
-
+	
 }

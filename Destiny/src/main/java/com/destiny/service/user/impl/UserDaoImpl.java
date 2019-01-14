@@ -59,6 +59,18 @@ public class UserDaoImpl implements UserDao{
 	public List<Location> getLocationList(String city) throws Exception {
 		return sqlSession.selectList("UserMapper.locationList", city);
 	}
+
+	@Override
+	public String getInterest(int interestNo) throws Exception {
+		return sqlSession.selectOne("UserMapper.getInterest", interestNo);
+	}
+
+	@Override
+	public String getType(int typeNo) throws Exception {
+		return sqlSession.selectOne("UserMapper.getType", typeNo);
+	}
+	
+	
 	
 	
 	

@@ -54,11 +54,6 @@
 		<div class="page-header">
 	       <h3 class=" text-info">이상형 찾기 결과</h3>
 	    </div>
-	
-		<%-- <div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>성별</strong></div>
-			<div class="col-xs-8 col-md-4">${totalCount}</div>
-		</div> --%>
 		
 		<div class="row" >
 			회원님이 찾는 조건의 회원수는
@@ -67,13 +62,7 @@
 		<br/><br/>
 		<div class="row">
 			회원님이 찾는 조건의 회원 중 현재 접속중인 회원의 수는<br/>
-			<span class="count">~~~명</span> 입니다.
-		</div>
-		<br/><br/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>관심사</strong></div>
-			<div class="col-xs-8 col-md-4">${find.selectInterest}</div>
+			<span class="count"> ${numberOfLogin}명</span> 입니다.
 		</div>
 		<br/><br/>
 		

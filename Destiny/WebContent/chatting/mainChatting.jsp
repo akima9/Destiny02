@@ -31,8 +31,8 @@
    <!-- 케러셀 완료 -->
 	<!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
-	function getRandomChatting(){
-		popWin = window.open("getRandomChatting.jsp",
+	function getTelepathyTest(){
+		popWin = window.open("getTelepathyTest.jsp",
 													"popWin",
 													"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 	}
@@ -41,14 +41,24 @@
 													"popWin",
 													"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 	}
+	
+	function getNode(){
+		location = "/chatting/json/getPerfectChatting";
+		 
+	}
 	$(function() {
-		$( "#random" ).on("click" , function() {
+		$( "#telepathy" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			getRandomChatting();
+			getTelepathyTest();
 		});
 		$( "#perfect" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			getPerfectChatting();
+		});
+		
+		$( "#node" ).on("click" , function() {
+	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			getNode();
 		});
 	});
 	</script>
@@ -124,7 +134,7 @@ main Chatting
 			        <p class='text-primary'>이성과 랜덤채팅 기능을 제공합니다.</p>
 			        <p  >
 			        	<!-- <a href='getTelepathyTest.jsp' class="btn btn-primary" role="button" id="random">참여</a> --> 
-						<a href='#' class="btn btn-primary" role="button" id="random">참여</a>			       
+						<a href='#' class="btn btn-primary" role="button" id="telepathy">참여</a>			       
 			        </p>
 			      </div>
 			    </div>
@@ -145,7 +155,7 @@ main Chatting
 			    </div>
 		    </div> 
    
-  
+  			<a href='#' class="btn btn-primary" role="button" id="node">node연결</a>	
 
 
    

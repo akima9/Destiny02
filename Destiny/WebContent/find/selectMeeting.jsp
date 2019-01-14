@@ -50,9 +50,11 @@
 	
 		
 			$(function() {
-				
+				var town = $(this).val();
+				console.log(town);
 				$( "button:contains('茫扁')" ).on("click" , function() {
-					$("form").attr("method", "POST").attr("action", "/find/getMeetingResult").submit();
+					$("form").attr("method", "POST").attr("action", "/find/getMeetingResult/town?="+town).submit();
+					//$("form").attr("method", "POST").attr("action", "/find/getMeetingResult").submit();
 				});
 				
 				$( "button:contains('捞傈')" ).on("click" , function() {
@@ -105,11 +107,13 @@
 				      	<option value="力林">力林</option>
 				      </select>
 				      
+				      <br/>
+				      
 					<select class="form-control" id="town" name="town">
-		      	<c:forEach var="location" items="${list}">
-					<option value="${location.townName}">${location.townName}</option>
-				</c:forEach>
-		      </select>
+				      	<c:forEach var="location" items="${list}">
+							<option value="${location.townName}">${location.townName}</option>
+						</c:forEach>
+					</select>
 				</div>
 			</div>
 			

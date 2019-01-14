@@ -83,10 +83,11 @@
 
     <script type="text/javascript">
 		    $(function() {
-				$( ".ddd" ).on("click", function() {
-					console.log("컴인");
+				$( ".addMeeting" ).on("click", function() {
+					console.log("${sessionScope.user.userId}");
 					
-					self.location="/meeting/addMeeting"
+					//if()
+					//self.location="/meeting/addMeeting"
 				});
 		    });
 		    
@@ -357,7 +358,7 @@
 			 <!-- 검색창 종료 -->
 			 
 			 <!-- 개설하기 버튼 시작 -->
-			 <div align="right" class="ddd">
+			 <div align="right" class="addMeeting">
 			 <button type="button" class="btn btn-warning">개설하기</button>
 			 </div>
 			 <!-- 개설하기 버튼 종료 -->

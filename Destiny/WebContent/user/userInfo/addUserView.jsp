@@ -94,6 +94,17 @@
 			
 			alert(address);
 			
+			var items = [];
+			$('input:checkbox[type=checkbox]:checked').each(function () {
+			    items.push($(this).val());
+			});
+			
+			alert(items);
+			
+			$("input:hidden[name='firstInterest']").val( items[0] );
+			$("input:hidden[name='secondInterest']").val( items[1] );
+			$("input:hidden[name='thirdInterest']").val( items[2] );
+			
 			/*if($("#authnumPhoneWirte").text() != "" && $("#authnumPhoneWirte ").text() != null){
 				alert("휴대폰 인증이 제대로 수행되지 않았습니다. 인증번호를 확인해 주세요.");
 				return;
@@ -132,10 +143,10 @@
 			}*/
 				
 			var value = "";	
-			if( $("input:text[name='phone2']").val() != ""  &&  $("input:text[name='phone3']").val() != "") {
-				var value = $("select[name='phone1']").val() + "-" 
-									+ $("input[name='phone2']").val() + "-" 
-									+ $("input[name='phone3']").val();
+			if( $("input:text[id='phone2']").val() != ""  &&  $("input:text[id='phone3']").val() != "") {
+				var value = $("select[id='phone1']").val() + "-" 
+									+ $("input[id='phone2']").val() + "-" 
+									+ $("input[id='phone3']").val();
 			}
 
 			
@@ -253,10 +264,10 @@
 			 $("#phoneConfirm").on("click" , function() {
 				 
 				var value = "";	
-				if( $("input:text[name='phone2']").val() != ""  &&  $("input:text[name='phone3']").val() != "") {
-					var value = $("select[name='phone1']").val()  
-										+ $("input[name='phone2']").val() 
-										+ $("input[name='phone3']").val();
+				if( $("input:text[id='phone2']").val() != ""  &&  $("input:text[id='phone3']").val() != "") {
+					var value = $("select[id='phone1']").val()  
+										+ $("input[id='phone2']").val() 
+										+ $("input[id='phone3']").val();
 				}
 				//alert("입력된 번호 : "+value);
 				
@@ -409,15 +420,15 @@
 		 });
 		 
 		 $(function() {
-			 $('input[name="phone3"]').on("keyup", function(){
+			 $('input[name="phoneBe"]').on("keyup", function(){
 				 
 				 var phone = "";	
-					if( $("input:text[name='phone2']").val() != ""  &&  $("input:text[name='phone3']").val() != "") {
-						var phone = $("select[name='phone1']").val() + "-"
-											+ $("input[name='phone2']").val() + "-"
-											+ $("input[name='phone3']").val();
+					if( $("input:text[id='phone2']").val() != ""  &&  $("input:text[id='phone3']").val() != "") {
+						var phone = $("select[id='phone1']").val() + "-"
+											+ $("input[id='phone2']").val() + "-"
+											+ $("input[id='phone3']").val();
 					}
-					alert("입력된 번호 : "+phone);
+					//alert("입력된 번호 : "+phone);
 				 
 				 $.ajax({
 					 url : "/user/json/getUserByPhone/"+phone,
@@ -430,19 +441,36 @@
 					 success : function(JSONData, status){
 						 //alert(JSONData.user);
 						 if(JSONData.user != null){
-							$('input[name="phone3"]').css('background-color','pink');
+							$('input[name="phoneBe"]').css('background-color','pink');
 							$('#authnumPhoneWirte').text("이미 존재하는 번호입니다.");
 						 } else {
-							$('input[name="phone3"]').css('background-color','white');
-							$('#authnumPhoneWirte').text("");
+							 if(phone.length < 13){
+								$('input[name="phoneBe"]').css('background-color','pink');
+								$('#authnumPhoneWirte').text("전화번호 형식이 아닙니다.");
+							 } else {
+								$('input[name="phoneBe"]').css('background-color','rgb(207, 253, 170)');
+								$('#authnumPhoneWirte').text("");
+							 }
 						 }
-					 }
+					 }, error : function(what){
+							
+					}
 				 });
 			 });
 		 });
 		 
 		 
-		
+		 $(function() {
+			 $('.inter-chk').on('change', function() {
+				
+				if( $('.inter-chk:checked').length <= 2 ) {
+					$('.inter-chk').attr('disabled', false);
+				} else {
+					$('.inter-chk').attr('disabled', true);
+					$('.inter-chk:checked').attr('disabled', false);
+				}
+			}); 
+		 });
 		 
 		
 		
@@ -537,7 +565,7 @@
 		  <div class="form-group">
 		    <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">휴대전화번호</label>
 		     <div class="col-sm-2">
-		      <select class="form-control" name="phone1" id="phone1">
+		      <select class="form-control" name="phoneBe" id="phone1">
 				  	<option value="010" >010</option>
 					<option value="011" >011</option>
 					<option value="016" >016</option>
@@ -546,10 +574,10 @@
 			 </select>
 		    </div>
 		    <div class="col-sm-2">
-		      <input type="text" class="form-control" id="phone2" name="phone2" placeholder="번호">
+		      <input type="text" class="form-control" id="phone2" name="phoneBe" placeholder="번호">
 		    </div>
 		    <div class="col-sm-2">
-		      <input type="text" class="form-control" id="phone3" name="phone3" placeholder="번호">
+		      <input type="text" class="form-control" id="phone3" name="phoneBe" placeholder="번호">
 		    </div>
 		     <div class="col-sm-2">
 		       <button id="phoneConfirm" type="button" class="btn btn-info">휴대폰 인증</button>
@@ -596,6 +624,43 @@
 		    </div>
 		  </div>
 		  
+		  <!--  //////////////////////////////////////////////////관심사 선택 /////////////////////////////////////////////////////////////////////////////-->
+		<div class="form-group">
+		   <label for="profile" class="col-sm-offset-1 col-sm-3 control-label">관심사(3개 선택)</label>
+		   <div class="col-sm-4">
+				<input type="checkbox" name="selectInterest" value="10000" class="inter-chk" id="sltInter01"><label for="sltInter01">아웃도어/여행</label>
+				<input type="checkbox" name="selectInterest" value="10001" class="inter-chk" id="sltInter02"><label for="sltInter02">운동/스포츠</label>
+				<input type="checkbox" name="selectInterest" value="10002" class="inter-chk" id="sltInter03"><label for="sltInter03">인문학/책/글</label>
+				<br/><br/>
+				<input type="checkbox" name="selectInterest" value="10003" class="inter-chk" id="sltInter04"><label for="sltInter04">업종/직무</label>
+				<input type="checkbox" name="selectInterest" value="10004" class="inter-chk" id="sltInter05"><label for="sltInter05">외국/언어</label>
+				<input type="checkbox" name="selectInterest" value="10005" class="inter-chk" id="sltInter06"><label for="sltInter06">문화/공연/축제</label>
+				<br/><br/>
+				<input type="checkbox" name="selectInterest" value="10006" class="inter-chk" id="sltInter07"><label for="sltInter07">음악/악기</label>
+				<input type="checkbox" name="selectInterest" value="10007" class="inter-chk" id="sltInter08"><label for="sltInter08">공예/만들기</label>
+				<input type="checkbox" name="selectInterest" value="10008" class="inter-chk" id="sltInter09"><label for="sltInter09">댄스/무용</label>
+				<br/><br/>
+				<input type="checkbox" name="selectInterest" value="10009" class="inter-chk" id="sltInter10"><label for="sltInter10">봉사활동</label>
+				<input type="checkbox" name="selectInterest" value="10010" class="inter-chk" id="sltInter11"><label for="sltInter11">사교/인맥</label>
+				<input type="checkbox" name="selectInterest" value="10011" class="inter-chk" id="sltInter12"><label for="sltInter12">차/오토바이</label>
+				<br/><br/>
+				<input type="checkbox" name="selectInterest" value="10012" class="inter-chk" id="sltInter13"><label for="sltInter13">사진/영상</label>
+				<input type="checkbox" name="selectInterest" value="10013" class="inter-chk" id="sltInter14"><label for="sltInter14">야구관람</label>
+				<input type="checkbox" name="selectInterest" value="10014" class="inter-chk" id="sltInter15"><label for="sltInter15">게임/오락</label>
+				<br/><br/>
+				<input type="checkbox" name="selectInterest" value="10015" class="inter-chk" id="sltInter16"><label for="sltInter16">요리/제조</label>
+				<input type="checkbox" name="selectInterest" value="10016" class="inter-chk" id="sltInter17"><label for="sltInter17">반려동물</label>
+				<input type="checkbox" name="selectInterest" value="10017" class="inter-chk" id="sltInter18"><label for="sltInter18">가족/결혼</label>
+				<br/><br/>
+				<input type="checkbox" name="selectInterest" value="10018" class="inter-chk" id="sltInter19"><label for="sltInter19">함께해요</label>
+				<br/><br/>
+				</div>
+				<input type="hidden" name="firstInterest">
+				<input type="hidden" name="secondInterest">
+				<input type="hidden" name="thirdInterest">
+			</div>
+			<!--  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+			
 		  
 		  
 		  <div id="addConfirm" class="form-group">

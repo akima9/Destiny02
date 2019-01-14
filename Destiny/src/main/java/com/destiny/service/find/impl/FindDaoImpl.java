@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.destiny.common.Search;
 import com.destiny.service.domain.Find;
+import com.destiny.service.domain.Meeting;
 import com.destiny.service.find.FindDao;
 
 @Repository("findDaoImpl")
@@ -35,10 +36,8 @@ public class FindDaoImpl implements FindDao{
 	}
 
 	@Override
-	public List<Find> getMeetingResult(Find find) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("find", find);
-		return sqlSession.selectList("FindMapper.getMeetingResult", map);
+	public List<Meeting> getMeetingResult(String town) throws Exception {
+		return sqlSession.selectList("FindMapper.getMeetingResult", town);
 	}
 
 	@Override

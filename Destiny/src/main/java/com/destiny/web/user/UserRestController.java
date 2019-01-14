@@ -67,20 +67,22 @@ public class UserRestController {
 	}
 	
 	@RequestMapping(value="json/getUserByEmail/{email}", method=RequestMethod.GET)
-	public Map<String, Object> getUserByEmail(@PathVariable String email) throws Exception{
+	public Map<String, Object> getUserByEmail(@PathVariable String email, HttpSession session) throws Exception{
 		email += ".com";
 		System.out.println("restController 진입 성공. json/getUserByEmail/"+email);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("user", userService.getUserByEmail(email));
+		map.put("me", session.getAttribute("me"));
 		System.out.println("여긴 오냐?");
 		return map;
 	}
 	
 	@RequestMapping(value="json/getUserByPhone/{phone}", method=RequestMethod.GET)
-	public Map<String, Object> getUserByPhone(@PathVariable String phone) throws Exception{
+	public Map<String, Object> getUserByPhone(@PathVariable String phone, HttpSession session) throws Exception{
 		System.out.println("restController 진입 성공. json/getUserByPhone/"+phone);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("user", userService.getUserByPhone(phone));
+		map.put("me", session.getAttribute("me"));
 		System.out.println("여긴 오냐?");
 		return map;
 	}

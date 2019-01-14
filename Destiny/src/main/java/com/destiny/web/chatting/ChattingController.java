@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -58,6 +59,7 @@ public class ChattingController {
 	
 	@RequestMapping(value="telepathyTest", method=RequestMethod.GET)
 	public ModelAndView telepathyTest(HttpSession session, HttpServletRequest request) throws Exception{
+			System.out.println("telepathyTest들어옴");
 		//===========================================현제 접속자 구현 로직 part=================================================
 				ServletContext applicationScope = request.getSession().getServletContext();
 				User user=(User)session.getAttribute("user");
@@ -117,6 +119,16 @@ public class ChattingController {
 		
 		//telepathy 선택 답안과 user두명의 아이디 값을 보낸다. 채팅방 생성
 		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/chatting/getRandomChatting.jsp");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="addRandomChatting", method=RequestMethod.POST, consumes = "application/json")
+	public ModelAndView addRandomChattingPost(HttpSession session, @RequestBody String body) throws Exception{
+		
+		//telepathy 선택 답안과 user두명의 아이디 값을 보낸다. 채팅방 생성
+		System.out.println("node"+body);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/chatting/getRandomChatting.jsp");
 		return modelAndView;

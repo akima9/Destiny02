@@ -35,8 +35,8 @@ public class FindServiceImpl implements FindService {
 	}
 
 	@Override
-	public Map<String, Object> getMeetingResult(Find find) throws Exception {
-		List<Find> list = findDao.getMeetingResult(find);
+	public Map<String, Object> getMeetingResult(String town) throws Exception {
+		List<Meeting> list = findDao.getMeetingResult(town);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );

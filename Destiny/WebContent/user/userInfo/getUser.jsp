@@ -41,7 +41,7 @@
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( "button" ).on("click" , function() {
-					self.location = "/user/updateUser?userId=${user.userId}"
+					self.location = "/user/updateUser/${user.userId}";
 				});
 		});
 		
@@ -106,13 +106,6 @@
 		<hr/>
 		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>프로필사진</strong></div>
-			<img src="/resources/images/userprofile/${file}" width="500" height="500"/>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
 		  	<div class="col-xs-4 col-md-2"><strong>프로필사진</strong></div>
 			<div class="col-xs-8 col-md-4">
 				<c:set var="i" value="0" />
@@ -122,7 +115,37 @@
 				</c:forEach>
 			</div>
 		</div>
+	
+		<hr/>
 		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>관심사</strong></div>
+			<div class="col-xs-8 col-md-2">${interestList[0]}</div>
+			<div class="col-xs-8 col-md-2">${interestList[1]}</div>
+			<div class="col-xs-8 col-md-2">${interestList[2]}</div>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>내 성격유형</strong></div>
+			<div class="col-xs-8 col-md-2">${typeMap.myType}</div>
+			<img src="/resources/images/MBTI/${typeFileMap.myTpyeFile}" width="300" height="300"/>
+			
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상대방 성격유형</strong></div>
+			<div class="col-xs-8 col-md-2">${typeMap.firstType}</div>
+			<div class="col-xs-8 col-md-2">${typeMap.secondType}</div>
+			<div class="col-xs-8 col-md-2">${typeMap.thirdType}</div>
+			<br/>
+			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[0]}" width="200" height="250"/>
+			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[1]}" width="200" height="250"/>
+			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[2]}" width="200" height="250"/>
+		</div>
 		
 		<hr/>
 		

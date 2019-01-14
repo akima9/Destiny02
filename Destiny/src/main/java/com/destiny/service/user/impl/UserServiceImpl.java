@@ -1,5 +1,6 @@
 package com.destiny.service.user.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +64,29 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Location> list = userDao.getLocationList(city);
 		map.put("list", list);
+		return map;
+	}
+
+	@Override
+	public List<String> getInterestByUser(int[] interestNo) throws Exception {
+		List<String> list = new ArrayList<String>();
+		
+		list.add(userDao.getInterest(interestNo[0]));
+		list.add(userDao.getInterest(interestNo[1]));
+		list.add(userDao.getInterest(interestNo[2]));
+		
+		return list;
+	}
+
+	@Override
+	public Map<String, Object> getTypeByUser(int[] typeNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("myType", userDao.getType(typeNo[0]));
+		map.put("firstType", userDao.getType(typeNo[1]));
+		map.put("secondType", userDao.getType(typeNo[2]));
+		map.put("thirdType", userDao.getType(typeNo[3]));
+		
 		return map;
 	}
 	

@@ -52,57 +52,94 @@
 	function fncAddProduct(){
 		//Form 유효성 검증
 
-		/* 
-		var metaKey=$("input[name='metaKey']").val();
-		var name=$("input[name='prodName']").val();
-		var detail=$("textarea[name='prodDetail']").val();
-		var manuDate=$("input[name='manuDate']").val();
-		var price=$("input[name='price']").val();	
+		 
+		var interestName=$("input[name='interestName']").val();
+		var meetingCenter=$("#meetingCenter").val();
+		var titleImg=$("input[name='titleImg']").val();
+		var meetingName=$("input[name='meetingName']").val();
+		var meetingDetail=$("textarea[name='meetingDetail']").val();
+		var meetingCrewLimit=$("select[name='meetingCrewLimit']").val();
+		var snooze=$("select[name='snooze']").val();
+		var meetingDate=$("input[name='meetingDate']").val();
+		var meetingDay=$("#weekday").val();
+		var meetingTime=$("select[name='meetingTime']").val();
+		var meetingLocation=$("input[name='meetingLocation']").val();
 		
-		//var quantity = document.detailForm.quantity.value;
+		console.log("관심사"+interestName);
+		console.log("미팅센터"+meetingCenter);
+		console.log("타이틀이미지"+titleImg);
+		console.log("제목"+meetingName);
+		console.log("내용"+meetingDetail);
+		console.log("인원"+meetingCrewLimit);
+		console.log("스누즈"+snooze);
+		console.log("날짜"+meetingDate);
+		console.log("요일"+meetingDay);
+		console.log("시간"+meetingTime);
+		console.log("장소"+meetingLocation);
 		
-		var quantity=$("input[name='quantity']").val();
-	
 		
-		if(metaKey == null || metaKey.length<1){
-			alert("메타키는 반드시 입력하여야 합니다.");
-			return;
-		}
-		if(name == null || name.length<1){
-			alert("상품명은 반드시 입력하여야 합니다.");
-			return;
-		}
-		if(detail == null || detail.length<1){
-			alert("상품상세정보는 반드시 입력하여야 합니다.");
-			return;
-		}
-		if(manuDate == null || manuDate.length<1){
-			alert("제조일자는 반드시 입력하셔야 합니다.");
-			return;
-		}
-		if(price == null || price.length<1){
-			alert("가격은 반드시 입력하셔야 합니다.");
-			return;
-		}
-		if(quantity == null || quantity.length<1){
-			alert("수량은 반드시 입력하셔야 합니다.");
+		if(interestName == null || interestName.length<1){
+			alert("관심사를 선택해 주세요.");
 			return;
 		}
 		
-		if($('#priceWirte').text() != "" && $('#priceWirte').text() != null){
-			alert("잘못된 가격입력입니다.");
+		if(meetingCenter == null|| meetingCenter.length<1){
+			alert("중심지역을 선택해 주세요.");
 			return;
 		}
-		if($('#quantityWirte').text() != "" && $('#quantityWirte').text() != null){
-			alert("잘못된 수량입력입니다.");
-			return;
-		}
-		if($('#metaKeyWirte').text() != "" && $('#metaKeyWirte').text() != null){
-			alert("잘못된 메타키입력입니다.");
-			return;
-		} */
 		
-		$("form").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/addMeeting").submit();
+		if(titleImg == null || titleImg.length<1){
+			alert("대표이미지를 설정하여 주세요.");
+			return;
+		}
+		
+		if(meetingName == null || meetingName.length<1){
+			alert("모임이름을 작성하여 주세요.");
+			return;
+		}
+		
+		if(meetingDetail == null || meetingDetail.length<1){
+			alert("모임설명을 작성하여 주세요.");
+			return;
+		}
+		
+		if(meetingCrewLimit == null || meetingCrewLimit.length<1){
+			alert("모임인원을 설정하여 주세요.");
+			return;
+		}
+		
+		if(snooze!='Y' && snooze!='N'){
+			alert("반복여부를 설정하여 주세요.");
+			return;
+		}
+		
+		if(meetingDate == null && meetingDay == null){
+			alert("날짜or요일을 설정하요 주세요.");
+			return;
+		}
+		
+		if(meetingTime == null || meetingTime=='모임시간'){
+			alert("모임시간을 입력하여 주세요.");
+			return;
+		}
+		
+		if(meetingLocation == null || meetingLocation.length<1){
+			alert("모임장소를 입력하여 주세요.");
+			return;
+		}
+		
+		if (confirm("모임을 등록하시겠습니까?") == true){    //확인
+			 
+			$("form").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/addMeeting").submit();
+
+		     //document.removefrm.submit();
+
+		 }else{   //취소
+
+		     return;
+
+		 }
+		//alert("모임이 등록되었습니다.");
 	}
 	
 	$(function() {
@@ -242,12 +279,12 @@
 							success : function(JSONData , status) {
 								
 								var list="";
-								list+="<select name='meetingCenter' class='form-control'>";
+								list+="<select id='meetingCenter' name='meetingCenter' class='form-control'>";
 								list+="<option>시/군/구 선택</option>";
 								for(i in JSONData.list){
 									var town = JSONData.list[i].townName;
 									
-									list+="<option value='"+town+"'>"+town+"</option>";
+									list+="<option name='meetingCenter' value='"+town+"'>"+town+"</option>";
 							}
 								$( "#location" ).empty().append(list);
 							}
@@ -268,10 +305,10 @@
 				var snooze=$(this).val();
 				console.log(snooze);
 				
-				if(snooze=='반복'){
+				if(snooze=='Y'){
 					console.log("반복선택됨")
 					var list = "";
-					list+="<select id='snooze' class='form-control'>";
+					list+="<select id='weekday' class='form-control'>";
 					list+="<option value='월요일'>월요일</option>";
 					list+="<option value='화요일'>화요일</option>";
 					list+="<option value='수요일'>수요일</option>";
@@ -351,19 +388,20 @@
    		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
 		<input type="hidden" name="meetingMasterId" value="aaaaa">
+		<input type="hidden" name="masterProfileImg" value="aaaaa">
 		 <div  class="form-group col-sm-4 col-md-4">
-		 	<select id="interest" class="form-control" name="category">
+		 	<select id="interest" class="form-control">
 		 		<option >관심사</option>
 		 		<c:forEach var="Meeting" items="${list}">
 		 		
-		 			<option name="interestNo" value="${Meeting.interestName}">${Meeting.interestName }</option>
+		 			<option value="${Meeting.interestName}">${Meeting.interestName }</option>
 		 		
 		 		</c:forEach>
 		 	</select>
 		 </div>
 		
 		 <div class="form-group col-sm-8 col-md-8">
-		 	<input  id="selectedInterest" type="text" class="form-control" placeholder="관심사를 선택해 주세요">
+		 	<input  name="interestName" id="selectedInterest" type="text" class="form-control" placeholder="관심사를 선택해 주세요">
 		 </div>
 		 
 		 <div class="form-group col-sm-6 col-md-6">
@@ -390,7 +428,7 @@
 		 </div>
 		 
 		 <div id="location" class="form-group col-sm-6 col-md-6">
-		 	<span class="form-control"></span>
+		 	<input type="text" class="form-control" placeholder="시/군/구를 설정해주세요">
 		 </div>
 		 	
 		 
@@ -400,7 +438,7 @@
 		 </div>
 		 -->
 		 <div class="form-group col-sm-10 col-md-10">
-		 	<input type="text" class="form-control" name="titleImg" placeholder="대표이미지를 설정하여 주세요" value="test">
+		 	<input type="text" class="form-control" name="titleImg" placeholder="대표이미지를 설정하여 주세요">
 		 </div>
 		 
 		 <div class="form-group col-sm-2 col-md-2">
@@ -408,17 +446,17 @@
 		 </div>
 		 
 		 <div class="form-group col-sm-12 col-md-12">
-		 	<input type="text" class="form-control" name="meetingName" placeholder="모임이름을 적어주세요" value="test">
+		 	<input type="text" class="form-control" name="meetingName" placeholder="모임이름을 적어주세요">
 		 </div>
 		 
 		 <div class="form-group col-sm-12 col-md-12">
 		 	<textarea class="form-control" cols="100" rows="3" 
-		 	name="meetingDetail" placeholder="어떤 모임인지 설명해주세요" >test</textarea>
+		 	name="meetingDetail" placeholder="어떤 모임인지 설명해주세요" ></textarea>
 		 </div>
 		 
 		 <div class="form-group col-sm-12 col-md-12">
 		 	<textarea class="form-control" cols="100" rows="3" 
-		 	name="meetingRule" placeholder="모임에 규칙이 있나요? 있다면 간략히 적어주세요">test</textarea>
+		 	name="meetingRule" placeholder="모임에 규칙이 있나요? 있다면 간략히 적어주세요"></textarea>
 		 </div>
 		 
 		 <div class="form-group col-sm-10 col-md-10">
@@ -426,7 +464,7 @@
 		 </div>
 		
 		 <div id="crewNo" class="form-group col-sm-2 col-md-2">
-		 	<select name="crewLimit" class="form-control">
+		 	<select name="meetingCrewLimit" class="form-control">
 		 		<option value="1">1</option>
 		 		<option value="2">2</option>
 		 		<option value="3">3</option>
@@ -459,7 +497,7 @@
 		 </div>
 		 
 		 <div  id="dateOrDay" class="form-group col-sm-4 col-md-4">
-		 	<input 	type="text" id="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜or요일"/>
+		 	<input 	type="text" id="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜or요일" name="meetingDate"/>
 		 	
 		 	<!--  
 		 	<select class="form-control">
@@ -481,11 +519,11 @@
 		 </div>
 		 
 		 <div class="form-group col-sm-2 col-md-2">
-		 	<input name="meetingDues" type="text" class="form-control" placeholder="$" value="test">
+		 	<input name="meetingDues" type="text" class="form-control" placeholder="$">
 		 </div>
 		 
 		 <div class="form-group col-sm-10 col-md-10">
-		 <input name="meetingLocation" type="text" class="form-control" id="sample5_address" placeholder="주소" value="test">
+		 <input name="meetingLocation" type="text" class="form-control" id="sample5_address" placeholder="주소">
 		 	<!-- <input type="text" class="form-control" placeholder="모임장소를 입력하여주세요."> -->
 		 </div>
 		 

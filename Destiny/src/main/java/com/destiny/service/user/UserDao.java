@@ -23,4 +23,7 @@ public interface UserDao {
 	
 	public List<Location> getLocationList(String city) throws Exception;
 	
+	public String getInterest(int interestNo) throws Exception;
+	
+	public String getType(int typeNo) throws Exception;
 }

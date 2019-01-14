@@ -78,7 +78,14 @@
 		select * from( 
     		select * from telepathy
    			order by DBMS_RANDOM.RANDOM) 
-   		where rownum <![CDATA[ < ]]> 4;
+   		where rownum <![CDATA[ < ]]> 4
+
+	 </select>
+	 
+	 <select 	id="getTelepathyResult"	parameterType="map" resultMap="telepathySelectMap">
+		select *
+		from telepathy
+		where telepathy_no=#{telepathyNo}
 
 	 </select>
 	 

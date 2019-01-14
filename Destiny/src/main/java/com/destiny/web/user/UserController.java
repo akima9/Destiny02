@@ -68,6 +68,8 @@ public class UserController {
 		//Business Logic
 		User dbUser=userService.getUser(user.getUserId());
 		
+		session.setAttribute("me", dbUser);
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/index.jsp");
 		
@@ -147,6 +149,8 @@ public class UserController {
 		
 		System.out.println("/user/logout : GET");
 		
+		session.invalidate();
+		
 		//========================================현제 접속자에서 해당 회원 remove, 접속자수 update====================================
 		ServletContext applicationScope = request.getSession().getServletContext();
 		List<User> loginList = new ArrayList<User>();
@@ -189,7 +193,10 @@ public class UserController {
 		System.out.println("/user/addUser : POST");
 		
 		System.out.println("가져온 user정보 : " + user);
-
+		
+		
+		
+		//===========================프로필 사진 업로드(다중)===========================
 		String temDir = "C:\\Users\\Bit\\git\\Destiny\\Destiny\\WebContent\\resources\\images\\userprofile\\";
 		
 		List<MultipartFile> fileList  = multipartHttpServletRequest.getFiles("file");
@@ -229,31 +236,103 @@ public class UserController {
 			file = new File(safeFile);
 			mf.transferTo(file);
 		}
-		user.setProfile(String.valueOf(list));
-		//================product DB수행=======================
+		String profileDomain = String.valueOf(list);
+		profileDomain = profileDomain.replace("[", "");
+		profileDomain = profileDomain.replace("]", "");
+		
+		user.setProfile(profileDomain);
+		//====================================================
+		//=========================================================================
 		
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/user/userInfo/loginView.jsp");
 
-		//userService.addUser(user);
+		userService.addUser(user);
 		
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="getUserView", method=RequestMethod.GET)
+	public ModelAndView getUserView(HttpSession session) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userInfo/getUserView.jsp");
+		modelAndView.addObject("me", session.getAttribute("me"));
 		return modelAndView;
 	}
 	
 	@RequestMapping(value="getUser/{userId}", method=RequestMethod.GET)
 	public ModelAndView getUser(@PathVariable("userId") String userId) throws Exception {
 		
+		System.out.println("/user/getUser");
+		
 		User user = userService.getUser(userId);
 		
+		//프로필 사진
 		String[] filelist = user.getProfile().split(", ");
 		
+		//관심사 가져오기
+		int[] interestNo = new int[3];
+		interestNo[0] = user.getFirstInterest();
+		interestNo[1] = user.getSecondInterest();
+		interestNo[2] = user.getThirdInterest();
+		
+		List<String> interestList = userService.getInterestByUser(interestNo);
+		
+		//성격유형 및 이미지 파일 가져오기
+		int[] typeNo = new int[4];
+		typeNo[0] = user.getMyType();
+		typeNo[1] = user.getFirstType();
+		typeNo[2] = user.getSecondType();
+		typeNo[3] = user.getThirdType();
+		
+		Map<String, Object> typeMap = userService.getTypeByUser(typeNo);
+		
+		String myTypeFile = (String) typeMap.get("myType") + ".JPG";
+		List<String> typeFileList = new ArrayList<String>();
+		typeFileList.add((String) typeMap.get("firstType") + ".JPG");
+		typeFileList.add((String) typeMap.get("secondType") + ".JPG");
+		typeFileList.add((String) typeMap.get("thirdType") + ".JPG");
+		
+		Map<String, Object> typeFileMap = new HashMap<String, Object>();
+		typeFileMap.put("myTpyeFile", myTypeFile);
+		typeFileMap.put("typeFileList", typeFileList);
+		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/user/userInfo/getUser.jsp");
+		modelAndView.setViewName("forward:/user/userInfo/getUser.jsp");
 		modelAndView.addObject("user", user);
 		modelAndView.addObject("filelist", filelist);
+		modelAndView.addObject("interestList", interestList);
+		modelAndView.addObject("typeMap", typeMap);
+		modelAndView.addObject("typeFileMap", typeFileMap);
 		return modelAndView;
 	}
 	
-	
+	@RequestMapping(value="updateUser/{userId}", method=RequestMethod.GET)
+	public ModelAndView updateUser(@PathVariable String userId) throws Exception{
+		
+		User user = userService.getUser(userId);
+		
+		//지역 시/도  - 구/군 따로 확보
+		List<String> location = new ArrayList<String>();
+		location.add(user.getAddress().split(" ")[0]);
+		location.add(user.getAddress().split(" ")[1]);
+		
+		//폰 번호 따로 확보
+		List<String> phone = new ArrayList<String>();
+		phone.add(user.getPhone().split("-")[0]);
+		phone.add(user.getPhone().split("-")[1]);
+		phone.add(user.getPhone().split("-")[2]);
+		
+
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userInfo/updateUser.jsp");
+		modelAndView.addObject("user", user);
+		modelAndView.addObject("location", location);
+		modelAndView.addObject("phone", phone);
+
+		
+		return modelAndView;
+	}
 }

@@ -88,7 +88,8 @@
 		
 		$( function() { 
 			$("#findButton").on("click" , function() {
-				var userId = $("input[name='getUserId']");
+				var userId = $("input[name='getUserId']").val();
+				alert(userId);
 				self.location = "/user/getUser/"+userId;
 			});
 		});
@@ -107,23 +108,18 @@
 
 <body>
 
-		
+	
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
+		
+	   	 	
+		
 		<!--  row Start /////////////////////////////////////-->
 		<div class="row">
 		
 			
-	   	 	
 	 	 	<div class="col-md-6">
 	 	 		
-	 	 		<div class="form-group">
-				    <label for="userId" class="col-sm-4 control-label">회원 검색</label>
-				    <div class="col-sm-6">
-				      <input type="text" class="form-control" name="getUserId" id="getUserId"  placeholder="아이디" >
-				      <button id="findButton" type="button" class="btn btn-primary"  >회원검색</button>
-				    </div>
-				</div>
 	 	 		
 		 	 	<button id="btn-open-dialog">창 열기</button>
 
@@ -156,7 +152,7 @@
 				</div>
 				<div id="dialog-background"></div>
 						 	 	
-			
+				
 			</div>
 			
   	 	</div>
