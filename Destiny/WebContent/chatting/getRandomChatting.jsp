@@ -30,7 +30,7 @@
     <input type="text" id="msg">
     <button id="msg_process">전송</button>
  
-    <script src="http://localhost:82/socket.io/socket.io.js"></script>
+    <script src="http://192.168.0.28:82/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
             $(document).ready(function(){

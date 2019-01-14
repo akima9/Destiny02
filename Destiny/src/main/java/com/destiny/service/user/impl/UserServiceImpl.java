@@ -89,6 +89,12 @@ public class UserServiceImpl implements UserService {
 		
 		return map;
 	}
+
+	@Override
+	public void updateUser(User user) throws Exception {
+		userDao.updateUser(user);
+	}
+	
 	
 	
 }

@@ -35,7 +35,8 @@
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( "button" ).on("click" , function() {
-					self.location = "/user/getUser/${me.userId}";
+				 	var userId = $("input[name='getUserId']").val();
+					self.location = "/user/getUser/"+userId;
 				});
 		});
 		

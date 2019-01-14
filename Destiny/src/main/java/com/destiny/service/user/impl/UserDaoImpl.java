@@ -69,6 +69,12 @@ public class UserDaoImpl implements UserDao{
 	public String getType(int typeNo) throws Exception {
 		return sqlSession.selectOne("UserMapper.getType", typeNo);
 	}
+
+	@Override
+	public void updateUser(User user) throws Exception {
+		sqlSession.update("UserMapper.updateUser", user);
+		
+	}
 	
 	
 	

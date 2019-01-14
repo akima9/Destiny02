@@ -1,5 +1,7 @@
 package com.destiny.service.chatting.impl;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,25 +30,32 @@ public class ChattingServiceImpl implements ChattingService {
 
 	@Override
 	public void addRandomChatting(Chatting chatting) throws Exception {
-		// TODO Auto-generated method stub
-		
+		chattingDao.addRandomChatting(chatting);
+		System.out.println("addRandomChatting");
 	}
 
 	@Override
 	public void addPerfectChatting(Chatting chatting) throws Exception {
-		// TODO Auto-generated method stub
+		chattingDao.addPerfectChatting(chatting);
+		System.out.println("addPerfectChatting");
 		
 	}
 
 	@Override
 	public Map<String, Object> listContactMeeting(Chatting chatting) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Chatting> list = chattingDao.listContactMeeting(chatting);
+		int totalCount = chattingDao.getTotalCount(chatting);
+		
+		Map<String, Object> map= new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		System.out.println("listContactMeeting : "+chattingDao.listContactMeeting(chatting));
+		return map;
 	}
 
 	@Override
 	public String addVoice(String voiceFileName) throws Exception {
-		// TODO Auto-generated method stub
+		chattingDao.addVoice(voiceFileName);
 		return null;
 	}
 
