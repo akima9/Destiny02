@@ -78,6 +78,13 @@
 		<hr/>
 		
 		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>회원등급</strong></div>
+			<div class="col-xs-8 col-md-4">${user.userGrade}</div>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>주소</strong></div>
 			<div class="col-xs-8 col-md-4">${user.address}</div>
 		</div>

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -197,7 +198,7 @@ public class UserController {
 		
 		
 		//===========================프로필 사진 업로드(다중)===========================
-		String temDir = "C:\\Users\\Bit\\git\\Destiny\\Destiny\\WebContent\\resources\\images\\userprofile\\";
+		String temDir = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\userprofile\\";
 		
 		List<MultipartFile> fileList  = multipartHttpServletRequest.getFiles("file");
 		System.out.println("받은 파일들 : " + fileList);
@@ -269,6 +270,8 @@ public class UserController {
 		User user = userService.getUser(userId);
 		
 		//프로필 사진
+		user.setProfile(user.getProfile().replace("[", ""));
+		user.setProfile(user.getProfile().replace("]", ""));
 		String[] filelist = user.getProfile().split(", ");
 		
 		//관심사 가져오기
@@ -324,15 +327,133 @@ public class UserController {
 		phone.add(user.getPhone().split("-")[1]);
 		phone.add(user.getPhone().split("-")[2]);
 		
-
+		//프로필 사진 따로
+		List<String> profile = new ArrayList<String>();
+		for(String v : user.getProfile().split(", ")) {
+			profile.add(v);
+		}
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/user/userInfo/updateUser.jsp");
 		modelAndView.addObject("user", user);
 		modelAndView.addObject("location", location);
 		modelAndView.addObject("phone", phone);
-
+		modelAndView.addObject("filelist", profile);
 		
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="updateUserResult", method=RequestMethod.POST)
+	public ModelAndView updateUserResult(@ModelAttribute("user") User user, MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request) throws Exception{
+		System.out.println("user/updateUserResult POST 가져온 user정보 : " + user);
+		
+		//===========================프로필 사진을 수정하거나 수정하지 않았을 때 프로필 사진 업로드(다중)===========================
+		String temDir = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\userprofile\\";
+		
+		List<MultipartFile> fileList  = multipartHttpServletRequest.getFiles("file");
+		System.out.println("받은 파일들 : " + fileList);
+		
+		//새로운 프로필 사진을 등록하지 않았을 때
+		if(fileList.get(0).getOriginalFilename() == "") {
+			String[] profile = new String[3];
+			String profileRe = "";
+			for(int i = 0; i<=2; i++) {
+				profile[i] = request.getParameter("profile"+(i+1));
+				System.out.println("기존 프로필 사진 : "+profile[i]);
+				if(profile[i] != "") {
+					profileRe = profileRe + profile[i] + ", ";
+				}
+			}
+			user.setProfile(profileRe);
+		//새로운 프로필 사진을 등록했을 때
+		} else {
+			
+			String originalFileName = null;
+			long fileSize = 0;
+			int idx = 0;
+			String initail = "";
+			
+			List list = new ArrayList();
+			
+			File file = new File(temDir);
+			if(file.exists() == false) {
+				file.mkdirs();
+			}
+			
+	
+			//	================ File이름 setting==================
+			for(MultipartFile mf : fileList) {
+				System.out.println("각 파일 : " + mf);
+				originalFileName = mf.getOriginalFilename();
+				System.out.println("파일 이름 : " + originalFileName);
+				
+				idx = originalFileName.indexOf('.');
+				initail = originalFileName.substring(idx, originalFileName.length());
+				originalFileName = originalFileName.substring(0, idx);
+				originalFileName += System.currentTimeMillis();
+				originalFileName += initail;
+				
+				list.add(originalFileName);
+				
+				fileSize = mf.getSize();
+				System.out.println("파일 사이즈 : " + fileSize);
+				
+				String safeFile = temDir + originalFileName;
+				System.out.println("파일 경로 + 이름 : " + safeFile);
+				file = new File(safeFile);
+				mf.transferTo(file);
+			}
+			String profileDomain = String.valueOf(list);
+			profileDomain = profileDomain.replace("[", "");
+			profileDomain = profileDomain.replace("]", "");
+			
+			user.setProfile(profileDomain);
+			//====================================================
+			//=========================================================================
+		}
+		
+		userService.updateUser(user);
+		User reUser = userService.getUser(user.getUserId());
+		
+		//프로필 사진
+		reUser.setProfile(reUser.getProfile().replace("[", ""));
+		reUser.setProfile(reUser.getProfile().replace("]", ""));
+		String[] filelist = reUser.getProfile().split(", ");
+		
+		//관심사 가져오기
+		int[] interestNo = new int[3];
+		interestNo[0] = reUser.getFirstInterest();
+		interestNo[1] = reUser.getSecondInterest();
+		interestNo[2] = reUser.getThirdInterest();
+		
+		List<String> interestList = userService.getInterestByUser(interestNo);
+		
+		//성격유형 및 이미지 파일 가져오기
+		int[] typeNo = new int[4];
+		typeNo[0] = reUser.getMyType();
+		typeNo[1] = reUser.getFirstType();
+		typeNo[2] = reUser.getSecondType();
+		typeNo[3] = reUser.getThirdType();
+		
+		Map<String, Object> typeMap = userService.getTypeByUser(typeNo);
+		
+		String myTypeFile = (String) typeMap.get("myType") + ".JPG";
+		List<String> typeFileList = new ArrayList<String>();
+		typeFileList.add((String) typeMap.get("firstType") + ".JPG");
+		typeFileList.add((String) typeMap.get("secondType") + ".JPG");
+		typeFileList.add((String) typeMap.get("thirdType") + ".JPG");
+		
+		Map<String, Object> typeFileMap = new HashMap<String, Object>();
+		typeFileMap.put("myTpyeFile", myTypeFile);
+		typeFileMap.put("typeFileList", typeFileList);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userInfo/getUser.jsp");
+		modelAndView.addObject("user", reUser);
+		modelAndView.addObject("filelist", filelist);
+		modelAndView.addObject("interestList", interestList);
+		modelAndView.addObject("typeMap", typeMap);
+		modelAndView.addObject("typeFileMap", typeFileMap);
 		return modelAndView;
 	}
 }

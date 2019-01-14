@@ -12,7 +12,7 @@
 		<result property="manId" 			column="man_id" 			jdbcType="VARCHAR" />
 		<result property="womanId" 			column="woman_id" 			jdbcType="VARCHAR" />
 		<result property="chattingDate" 	column="chatting_date" 		jdbcType="DATE" />
-		<result property="contactMeeting" 	column="contact_meeting" 	jdbcType="CHAR" />
+		<result property="contactMeeting" 	column="contact_meeting" 	jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<resultMap id="telepathySelectMap" type="com.destiny.service.domain.Telepathy">
@@ -50,8 +50,8 @@
 
 	 <!-- SQL : SELECT ONE -->
 	 <insert 	id="addChatting"	parameterType="com.destiny.service.domain.Chatting">
-		INSERT INTO chatting
-	 	VALUES (seq_chatting_no.nextval,#{manId:VARCHAR},#{womanId:VARCHAR},SYSDATE,#{contactMeeting:CHAR})
+		INSERT INTO chatting(chatting_no, man_id,woman_id, chatting_date, contact_meeting)
+	 	VALUES (seq_chatting_no.nextval,#{manId:VARCHAR},#{womanId:VARCHAR},SYSDATE,#{contactMeeting:VARCHAR})
 	 </insert>
 	 
 	 <select 	id="getChatting"	parameterType="int"	resultMap="chattingSelectMap">

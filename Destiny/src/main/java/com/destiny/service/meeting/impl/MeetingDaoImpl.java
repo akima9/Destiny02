@@ -27,12 +27,27 @@ public class MeetingDaoImpl implements MeetingDao {
 
 	@Override
 	public List<Meeting> getInterestList() throws Exception {
-		System.out.println("관심사 맵퍼연결부");
 		return sqlSession.selectList("MeetingMapper.getInterestList");
 	}
 
 	@Override
 	public void addMeeting(Meeting meeting) throws Exception {
+		String picpath = "";
+		if(meeting.getImgFile() !=null && !meeting.getImgFile().isEmpty()) {
+			MultipartFile file = meeting.getImgFile();
+			byte fileData[] = file.getBytes();
+			picpath = file.getOriginalFilename();
+			FileOutputStream fos = new FileOutputStream("C:\\Users\\Bitcamp\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\meeting" + picpath);
+			fos.write(fileData);
+			fos.close();
+		}
+		meeting.setTitleImg(picpath);
+		
 		sqlSession.insert("MeetingMapper.addMeeting", meeting);
+	}
+
+	@Override
+	public List<Meeting> getMeetingList() throws Exception {
+		return sqlSession.selectList("MeetingMapper.getMeetingList");
 	}
 }

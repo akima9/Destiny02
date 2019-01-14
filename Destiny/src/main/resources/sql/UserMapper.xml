@@ -11,7 +11,7 @@
 		<result property="userId" 			column="user_id" 			jdbcType="VARCHAR"/>
 		<result property="password" 		column="password" 			jdbcType="VARCHAR" />
 		<result property="nickName"			column="nick_name" 			jdbcType="VARCHAR" />
-		<result property="userGrade"		column="user_grade" 		jdbcType="CHAR"/>
+		<result property="userGrade"		column="user_grade" 		jdbcType="VARCHAR"/>
 		<result property="email" 			column="email" 				jdbcType="VARCHAR" />
 		<result property="birthday" 		column="birthday" 			jdbcType="DATE" />
 		<result property="address" 			column="address" 			jdbcType="VARCHAR" />
@@ -105,6 +105,21 @@
 	 		type_no = #{value}
 	 	</where>
 	 </select>
+	 
+	 <update id="updateUser" parameterType="com.destiny.service.domain.User">
+	 	UPDATE users
+	 	<set>
+	 		nick_name = #{nickName},
+	 		address	  = #{address},
+	 		phone	  = #{phone},
+	 		email	  = #{email},
+	 		first_interest = #{firstInterest},
+	 		second_interest = #{secondInterest},
+	 		third_interest = #{thirdInterest},
+	 		profile_img = #{profile}
+	 	</set>
+	 	WHERE user_id = #{userId}
+	 </update>
 	 
 	 
 	 

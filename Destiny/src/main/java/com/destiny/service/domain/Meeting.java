@@ -1,5 +1,7 @@
 package com.destiny.service.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Meeting {
 	
 	private	int		meetingNo;
@@ -25,6 +27,7 @@ public class Meeting {
 	private int		interestNo;
 	private	String	actCountNo;
 	private	String	interview;
+	private MultipartFile  imgFile;
 	
 	public int getMeetingNo() {
 		return meetingNo;
@@ -164,6 +167,19 @@ public class Meeting {
 	public void setInterview(String interview) {
 		this.interview = interview;
 	}
+	
+	public String getMeetingCondition() {
+		return meetingCondition;
+	}
+	public void setMeetingCondition(String meetingCondition) {
+		this.meetingCondition = meetingCondition;
+	}
+	public MultipartFile getImgFile() {
+		return imgFile;
+	}
+	public void setImgFile(MultipartFile imgFile) {
+		this.imgFile = imgFile;
+	}
 	@Override
 	public String toString() {
 		return "Meeting [meetingNo=" + meetingNo + ", role=" + role + ", meetingMasterId=" + meetingMasterId
@@ -172,10 +188,11 @@ public class Meeting {
 				+ meetingRule + ", interestName=" + interestName + ", meetingLocation=" + meetingLocation
 				+ ", meetingDate=" + meetingDate + ", meetingDay=" + meetingDay + ", meetingTime=" + meetingTime
 				+ ", snooze=" + snooze + ", meetingDues=" + meetingDues + ", meetingViews=" + meetingViews
-				+ ", meeting_condition=" + meetingCondition + ", shutDownDate=" + shutDownDate + ", meetingCrewLimit="
+				+ ", meetingCondition=" + meetingCondition + ", shutDownDate=" + shutDownDate + ", meetingCrewLimit="
 				+ meetingCrewLimit + ", interestNo=" + interestNo + ", actCountNo=" + actCountNo + ", interview="
-				+ interview + "]";
+				+ interview + ", imgFile=" + imgFile + "]";
 	}
+	
 	
 	
 }

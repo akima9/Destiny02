@@ -10,142 +10,92 @@ public class Chatting {
 	private String			afterTranslationText;
 	private Date				chattingDate;
 	private String			chattingTime;
-	private String			anonymousNickName;
+	private String			manId;
+	private String 			womanId;
 	private String			language;
 	private int				favorability;
 	private List<String>	telepathyResult;
-	private boolean		contactMeeting;
-	
-	
-	
-	public String getBeforeTranslationText() {
-		return beforeTranslationText;
-	}
-
-
-
-	public void setBeforeTranslationText(String beforeTranslationText) {
-		this.beforeTranslationText = beforeTranslationText;
-	}
-
-
-
-	public String getAfterTranslationText() {
-		return afterTranslationText;
-	}
-
-
-
-	public void setAfterTranslationText(String afterTranslationText) {
-		this.afterTranslationText = afterTranslationText;
-	}
-
-
-
-	public Date getChattingDate() {
-		return chattingDate;
-	}
-
-
-
-	public void setChattingDate(Date chattingDate) {
-		this.chattingDate = chattingDate;
-	}
-
-
-
-	public String getChattingTime() {
-		return chattingTime;
-	}
-
-
-
-	public void setChattingTime(String chattingTime) {
-		this.chattingTime = chattingTime;
-	}
-
-
-
-	public String getAnonymousNickName() {
-		return anonymousNickName;
-	}
-
-
-
-	public void setAnonymousNickName(String anonymousNickName) {
-		this.anonymousNickName = anonymousNickName;
-	}
-
-
-
-	public String getLanguage() {
-		return language;
-	}
-
-
-
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-
-
-
-	public int getFavorability() {
-		return favorability;
-	}
-
-
-
-	public void setFavorability(int favorability) {
-		this.favorability = favorability;
-	}
-
-
-
-	public List<String> getTelepathyResult() {
-		return telepathyResult;
-	}
-
-
-
-	public void setTelepathyResult(List<String> telepathyResult) {
-		this.telepathyResult = telepathyResult;
-	}
-
-
-
-	public boolean isContactMeeting() {
-		return contactMeeting;
-	}
-
-
-
-	public void setContactMeeting(boolean contactMeeting) {
-		this.contactMeeting = contactMeeting;
-	}
-
-	
-
+	private String		contactMeeting;
 	public int getChattingNo() {
 		return chattingNo;
 	}
-
-
-
+	public String getBeforeTranslationText() {
+		return beforeTranslationText;
+	}
+	public String getAfterTranslationText() {
+		return afterTranslationText;
+	}
+	public Date getChattingDate() {
+		return chattingDate;
+	}
+	public String getChattingTime() {
+		return chattingTime;
+	}
+	public String getManId() {
+		return manId;
+	}
+	public String getWomanId() {
+		return womanId;
+	}
+	public String getLanguage() {
+		return language;
+	}
+	public int getFavorability() {
+		return favorability;
+	}
+	public List<String> getTelepathyResult() {
+		return telepathyResult;
+	}
+	public String getContactMeeting() {
+		return contactMeeting;
+	}
 	public void setChattingNo(int chattingNo) {
 		this.chattingNo = chattingNo;
 	}
-
-
-
+	public void setBeforeTranslationText(String beforeTranslationText) {
+		this.beforeTranslationText = beforeTranslationText;
+	}
+	public void setAfterTranslationText(String afterTranslationText) {
+		this.afterTranslationText = afterTranslationText;
+	}
+	public void setChattingDate(Date chattingDate) {
+		this.chattingDate = chattingDate;
+	}
+	public void setChattingTime(String chattingTime) {
+		this.chattingTime = chattingTime;
+	}
+	public void setManId(String manId) {
+		this.manId = manId;
+	}
+	public void setWomanId(String womanId) {
+		this.womanId = womanId;
+	}
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+	public void setFavorability(int favorability) {
+		this.favorability = favorability;
+	}
+	public void setTelepathyResult(List<String> telepathyResult) {
+		this.telepathyResult = telepathyResult;
+	}
+	public void setContactMeeting(String contactMeeting) {
+		this.contactMeeting = contactMeeting;
+	}
 	@Override
 	public String toString() {
 		return "Chatting [chattingNo=" + chattingNo + ", beforeTranslationText=" + beforeTranslationText
 				+ ", afterTranslationText=" + afterTranslationText + ", chattingDate=" + chattingDate
-				+ ", chattingTime=" + chattingTime + ", anonymousNickName=" + anonymousNickName + ", language="
-				+ language + ", favorability=" + favorability + ", telepathy=" + telepathyResult + ", contactMeeting="
-				+ contactMeeting + "]";
+				+ ", chattingTime=" + chattingTime + ", manId=" + manId + ", womanId=" + womanId + ", language="
+				+ language + ", favorability=" + favorability + ", telepathyResult=" + telepathyResult
+				+ ", contactMeeting=" + contactMeeting + "]";
 	}
+	
+	
+	
+
+
+
 
 
 

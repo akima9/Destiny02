@@ -21,5 +21,7 @@ public interface ChattingDao {
 	public void updateContactMeeting(String contact) throws Exception;
 	
 	public Map<String, Object> listTelepathy(Telepathy telepathy) throws Exception;
+
+	public int getTotalCount(Chatting chatting);
 	
 }

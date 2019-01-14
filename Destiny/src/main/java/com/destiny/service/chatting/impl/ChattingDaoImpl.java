@@ -27,13 +27,13 @@ public class ChattingDaoImpl implements ChattingDao {
 
 	@Override
 	public void addRandomChatting(Chatting chatting) throws Exception {
-		// TODO Auto-generated method stub
+		sqlSession.insert("ChattingMapper.addChatting", chatting);
 		
 	}
 
 	@Override
 	public void addPerfectChatting(Chatting chatting) throws Exception {
-		// TODO Auto-generated method stub
+		sqlSession.insert("ChattingMapper.addChatting", chatting);
 		
 	}
 
@@ -65,6 +65,12 @@ public class ChattingDaoImpl implements ChattingDao {
 	public Map<String, Object> listTelepathy(Telepathy telepathy) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int getTotalCount(Chatting chatting) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

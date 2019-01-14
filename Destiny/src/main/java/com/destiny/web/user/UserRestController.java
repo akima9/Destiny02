@@ -58,10 +58,11 @@ public class UserRestController {
 	}
 	
 	@RequestMapping(value="json/getUserByNickName/{nickName}", method=RequestMethod.GET)
-	public Map<String, Object> getUserByNickName(@PathVariable String nickName) throws Exception{
+	public Map<String, Object> getUserByNickName(@PathVariable String nickName, HttpSession session) throws Exception{
 		System.out.println("restController 진입 성공. json/getUserByNickName/"+nickName);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("user", userService.getUserByNickName(nickName));
+		map.put("me", session.getAttribute("me"));
 		System.out.println("여긴 오냐?");
 		return map;
 	}

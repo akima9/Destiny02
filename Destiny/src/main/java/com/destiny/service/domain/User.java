@@ -16,7 +16,7 @@ public class User {
 	private int		attendCount;
 	private Date	lastLoginDay;
 	private	int		warningCount;
-	private char	userGrade;
+	private String	userGrade;
 	private int		myType;
 	private int		firstType;
 	private int		secondType;
@@ -115,10 +115,10 @@ public class User {
 	public void setThirdInterest(int thirdInterest) {
 		this.thirdInterest = thirdInterest;
 	}
-	public char getUserGrade() {
+	public String getUserGrade() {
 		return userGrade;
 	}
-	public void setUserGrade(char userGrade) {
+	public void setUserGrade(String userGrade) {
 		this.userGrade = userGrade;
 	}
 	public int getMyType() {
