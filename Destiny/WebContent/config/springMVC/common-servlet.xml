@@ -110,4 +110,9 @@
 		
 	</bean>
 	
+	<bean id = "uploadPath" class="java.lang.String">
+		<constructor-arg value="C:\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Destiny\resources\images\imgUpload">
+		</constructor-arg>
+	</bean>
+	
 </beans>

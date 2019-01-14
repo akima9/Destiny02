@@ -1,16 +1,20 @@
 package com.destiny.web.info;
 
+import java.io.File;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.service.community.CommunityService;
@@ -83,12 +87,4 @@ public class InfoController {
 		return modelAndView;
 	}
 	/*addRestaurantInfo : end*/
-	
-	@RequestMapping(value="imgUpload", method=RequestMethod.POST)
-	public ModelAndView imgUpload(HttpServletRequest request) throws Exception{
-		
-		
-		ModelAndView modelAndView = new ModelAndView();
-		return modelAndView;
-	}
 }

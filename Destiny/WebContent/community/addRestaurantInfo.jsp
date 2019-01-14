@@ -21,10 +21,33 @@
 		$(document).ready(function(){
 			$("#summernote").summernote({ //summernote를 사용하기 위한 선언
 				placeholder : '내용을 입력해주세요.',
-				height : 500
-				
+				height : 400,
+				lang : 'ko-KR',
+				callbacks : {
+					onImageUpload : function(files, editor, welEditable){
+						for(var i = files.length - 1; i >= 0; i--){
+							sendFile(files[i], editor, welEditable);
+						}
+					}	
+				}
 			});
 		});
+		
+		function sendFile(file, editor, welEditable){
+			data = new FormData();
+			data.append("file", file);
+			$.ajax({
+				data : data,
+				type : "POST",
+				url : "/info/json/imgUpload",
+				cache : false,
+				contentType : false,
+				processData : false,
+				success : function(url){
+					editor.insertImage(welEditable, url);
+				}
+			});
+		}
 		
 		$("#save").on("click",function(){
 			$("form").attr("method","POST").attr("action","/info/addRestaurantInfo").submit();
