@@ -106,6 +106,21 @@
 	 	</where>
 	 </select>
 	 
+	 <update id="updateUser" parameterType="com.destiny.service.domain.User">
+	 	UPDATE users
+	 	<set>
+	 		nick_name = #{nickName},
+	 		address	  = #{address},
+	 		phone	  = #{phone},
+	 		email	  = #{email},
+	 		first_interest = #{firstInterest},
+	 		second_interest = #{secondInterest},
+	 		third_interest = #{thirdInterest},
+	 		profile_img = #{profile}
+	 	</set>
+	 	WHERE user_id = #{userId}
+	 </update>
+	 
 	 
 	 
 </mapper>

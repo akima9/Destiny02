@@ -144,28 +144,45 @@
 		 });
 			
 		
-		///////////////////////////////////////////////////////////////////////
-		function fncUpdateUser() {
-			var name=$("input[name='nickName']").val();
-			
-			if(name == null || name.length <1){
-				alert("닉네임은  반드시 입력하셔야 합니다.");
-				return;
-			}
-				
-			var value = "";	
-			if( $("input[id='phone2']").val() != ""  &&  $("id[name='phone3']").val() != "") {
-				var value = $("select[id='phone1']").val() + "-" 
-									+ $("input[id='phone2']").val() + "-" 
-									+ $("input[id='phone3']").val();
-			}
-			
-			//Debug...
-			//alert("phone : "+value);
-			$("input:hidden[name='phone']").val( value );
-				
-			$("form").attr("method" , "POST").attr("action" , "/user/updateUser").submit();
-		}
+		
+		
+
+		 $(function() {
+			 $('input[name="nickName"]').on("keyup", function(){
+				 
+				 var nickName = $('input[name="nickName"]').val();
+				 
+				 $.ajax({
+					 url : "/user/json/getUserByNickName/"+nickName,
+					 method : "GET",
+					 datatype : "json",
+					 headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					 },
+					 success : function(JSONData, status){
+						 //alert(JSONData.user);
+						 if(JSONData.user != null){
+							 if(JSONData.user.nickName != JSONData.me.nickName){
+								$('input[name="nickName"]').css('background-color','pink');
+								$('#nickNameWirte').text("이미 존재하는 닉네임입니다.");
+							 } else {
+								$('input[name="nickName"]').css('background-color','white');
+								$('#nickNameWirte').text("");
+							 }
+						 } else {
+							 if(nickName.length < 4){
+								$('input[name="nickName"]').css('background-color','pink');
+								$('#nickNameWirte').text("너무 짧습니다.");
+							 } else {
+								$('input[name="nickName"]').css('background-color','rgb(207, 253, 170)');
+								$('#nickNameWirte').text("");
+							 }
+						 }
+					 }
+				 });
+			 });
+		 });
 		
 
 		 $(function() {
@@ -174,7 +191,7 @@
 				var idx = $("#address1").index(this);
 				var city = $(this).val();
 				
-				alert(city + idx);
+				//alert(city + idx);
 				
 				$.ajax( 
 					{
@@ -186,7 +203,7 @@
 							"Content-Type" : "application/json"
 						},
 						success : function(JSONData , status) {
-							alert("성공?");
+							//alert("성공?");
 							var list="";
 							//list+="<option></option>";
 							for(i in JSONData.list){
@@ -197,7 +214,7 @@
 							$( "#address2:eq("+idx+")" ).empty().append(list);
 						},
 						error : function(what){
-							alert("ㅇㅇ?" + what);
+							//alert("ㅇㅇ?" + what);
 						}
 					});
 				});
@@ -301,7 +318,43 @@
 		 });
 		 
 		 
-		 
+		///////////////////////////////////////////////////////////////////////
+		function fncUpdateUser() {
+			var name=$("input[name='nickName']").val();
+			var address1=$("select[name='address1']").val();
+			var address2=$("select[name='address2']").val();
+			
+			
+			
+			if(name == null || name.length <1){
+				alert("닉네임은  반드시 입력하셔야 합니다.");
+				return;
+			}
+				
+			var address = address1 + " " + address2;
+			
+			var items = [];
+			$('input:checkbox[type=checkbox]:checked').each(function () {
+			    items.push($(this).val());
+			});
+			
+			var value = "";	
+			if( $("input[id='phone2']").val() != ""  &&  $("id[name='phone3']").val() != "") {
+				var value = $("select[id='phone1']").val() + "-" 
+									+ $("input[id='phone2']").val() + "-" 
+									+ $("input[id='phone3']").val();
+			}
+			
+			//Debug...
+			//alert("phone : "+value);
+			$("input:hidden[name='firstInterest']").val( items[0] );
+			$("input:hidden[name='secondInterest']").val( items[1] );
+			$("input:hidden[name='thirdInterest']").val( items[2] );
+			$("input:hidden[name='phone']").val( value );
+			$("input:hidden[name='address']").val( address );
+			
+			$("form").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/user/updateUserResult").submit();
+		}
 		 
 	
 	</script>
@@ -336,9 +389,10 @@
 		  
 		  
 		  <div class="form-group">
-		    <label for="userName" class="col-sm-offset-1 col-sm-3 control-label">닉네임</label>
+		    <label for="nickName" class="col-sm-offset-1 col-sm-3 control-label">닉네임</label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" id="nickName" name="nickName" value="${user.nickName}" placeholder="${user.nickName}">
+		      <span id="nickNameWirte"></span>
 		    </div>
 		  </div>
 		  
@@ -420,31 +474,31 @@
 		<div class="form-group">
 		   <label for="profile" class="col-sm-offset-1 col-sm-3 control-label">관심사(3개 선택)</label>
 		   <div class="col-sm-4">
-				<input type="checkbox" name="selectInterest" value="10000" class="inter-chk" id="sltInter01"><label for="sltInter01">아웃도어/여행</label>
-				<input type="checkbox" name="selectInterest" value="10001" class="inter-chk" id="sltInter02"><label for="sltInter02">운동/스포츠</label>
-				<input type="checkbox" name="selectInterest" value="10002" class="inter-chk" id="sltInter03"><label for="sltInter03">인문학/책/글</label>
+				<input type="checkbox" name="selectInterest" value="10000" class="inter-chk" id="sltInter01" ${ (user.firstInterest == '10000' || user.secondInterest == '10000' || user.thirdInterest == '10000') ? 'checked' : '' }><label for="sltInter01">아웃도어/여행</label>
+				<input type="checkbox" name="selectInterest" value="10001" class="inter-chk" id="sltInter02" ${ (user.firstInterest == '10001' || user.secondInterest == '10001' || user.thirdInterest == '10001') ? 'checked' : '' }><label for="sltInter02">운동/스포츠</label>
+				<input type="checkbox" name="selectInterest" value="10002" class="inter-chk" id="sltInter03" ${ (user.firstInterest == '10002' || user.secondInterest == '10002' || user.thirdInterest == '10002') ? 'checked' : '' }><label for="sltInter03">인문학/책/글</label>
 				<br/><br/>
-				<input type="checkbox" name="selectInterest" value="10003" class="inter-chk" id="sltInter04"><label for="sltInter04">업종/직무</label>
-				<input type="checkbox" name="selectInterest" value="10004" class="inter-chk" id="sltInter05"><label for="sltInter05">외국/언어</label>
-				<input type="checkbox" name="selectInterest" value="10005" class="inter-chk" id="sltInter06"><label for="sltInter06">문화/공연/축제</label>
+				<input type="checkbox" name="selectInterest" value="10003" class="inter-chk" id="sltInter04" ${ (user.firstInterest == '10003' || user.secondInterest == '10003' || user.thirdInterest == '10003') ? 'checked' : '' }><label for="sltInter04">업종/직무</label>
+				<input type="checkbox" name="selectInterest" value="10004" class="inter-chk" id="sltInter05" ${ (user.firstInterest == '10004' || user.secondInterest == '10004' || user.thirdInterest == '10004') ? 'checked' : '' }><label for="sltInter05">외국/언어</label>
+				<input type="checkbox" name="selectInterest" value="10005" class="inter-chk" id="sltInter06" ${ (user.firstInterest == '10005' || user.secondInterest == '10005' || user.thirdInterest == '10005') ? 'checked' : '' }><label for="sltInter06">문화/공연/축제</label>
 				<br/><br/>
-				<input type="checkbox" name="selectInterest" value="10006" class="inter-chk" id="sltInter07"><label for="sltInter07">음악/악기</label>
-				<input type="checkbox" name="selectInterest" value="10007" class="inter-chk" id="sltInter08"><label for="sltInter08">공예/만들기</label>
-				<input type="checkbox" name="selectInterest" value="10008" class="inter-chk" id="sltInter09"><label for="sltInter09">댄스/무용</label>
+				<input type="checkbox" name="selectInterest" value="10006" class="inter-chk" id="sltInter07" ${ (user.firstInterest == '10006' || user.secondInterest == '10006' || user.thirdInterest == '10006') ? 'checked' : '' }><label for="sltInter07">음악/악기</label>
+				<input type="checkbox" name="selectInterest" value="10007" class="inter-chk" id="sltInter08" ${ (user.firstInterest == '10007' || user.secondInterest == '10007' || user.thirdInterest == '10007') ? 'checked' : '' }><label for="sltInter08">공예/만들기</label>
+				<input type="checkbox" name="selectInterest" value="10008" class="inter-chk" id="sltInter09" ${ (user.firstInterest == '10008' || user.secondInterest == '10008' || user.thirdInterest == '10008') ? 'checked' : '' }><label for="sltInter09">댄스/무용</label>
 				<br/><br/>
-				<input type="checkbox" name="selectInterest" value="10009" class="inter-chk" id="sltInter10"><label for="sltInter10">봉사활동</label>
-				<input type="checkbox" name="selectInterest" value="10010" class="inter-chk" id="sltInter11"><label for="sltInter11">사교/인맥</label>
-				<input type="checkbox" name="selectInterest" value="10011" class="inter-chk" id="sltInter12"><label for="sltInter12">차/오토바이</label>
+				<input type="checkbox" name="selectInterest" value="10009" class="inter-chk" id="sltInter10" ${ (user.firstInterest == '10009' || user.secondInterest == '10009' || user.thirdInterest == '10009') ? 'checked' : '' }><label for="sltInter10">봉사활동</label>
+				<input type="checkbox" name="selectInterest" value="10010" class="inter-chk" id="sltInter11" ${ (user.firstInterest == '10010' || user.secondInterest == '10010' || user.thirdInterest == '10010') ? 'checked' : '' }><label for="sltInter11">사교/인맥</label>
+				<input type="checkbox" name="selectInterest" value="10011" class="inter-chk" id="sltInter12" ${ (user.firstInterest == '10011' || user.secondInterest == '10011' || user.thirdInterest == '10011') ? 'checked' : '' }><label for="sltInter12">차/오토바이</label>
 				<br/><br/>
-				<input type="checkbox" name="selectInterest" value="10012" class="inter-chk" id="sltInter13"><label for="sltInter13">사진/영상</label>
-				<input type="checkbox" name="selectInterest" value="10013" class="inter-chk" id="sltInter14"><label for="sltInter14">야구관람</label>
-				<input type="checkbox" name="selectInterest" value="10014" class="inter-chk" id="sltInter15"><label for="sltInter15">게임/오락</label>
+				<input type="checkbox" name="selectInterest" value="10012" class="inter-chk" id="sltInter13" ${ (user.firstInterest == '10012' || user.secondInterest == '10012' || user.thirdInterest == '10012') ? 'checked' : '' }><label for="sltInter13">사진/영상</label>
+				<input type="checkbox" name="selectInterest" value="10013" class="inter-chk" id="sltInter14" ${ (user.firstInterest == '10013' || user.secondInterest == '10013' || user.thirdInterest == '10013') ? 'checked' : '' }><label for="sltInter14">야구관람</label>
+				<input type="checkbox" name="selectInterest" value="10014" class="inter-chk" id="sltInter15" ${ (user.firstInterest == '10014' || user.secondInterest == '10014' || user.thirdInterest == '10014') ? 'checked' : '' }><label for="sltInter15">게임/오락</label>
 				<br/><br/>
-				<input type="checkbox" name="selectInterest" value="10015" class="inter-chk" id="sltInter16"><label for="sltInter16">요리/제조</label>
-				<input type="checkbox" name="selectInterest" value="10016" class="inter-chk" id="sltInter17"><label for="sltInter17">반려동물</label>
-				<input type="checkbox" name="selectInterest" value="10017" class="inter-chk" id="sltInter18"><label for="sltInter18">가족/결혼</label>
+				<input type="checkbox" name="selectInterest" value="10015" class="inter-chk" id="sltInter16" ${ (user.firstInterest == '10015' || user.secondInterest == '10015' || user.thirdInterest == '10015') ? 'checked' : '' }><label for="sltInter16">요리/제조</label>
+				<input type="checkbox" name="selectInterest" value="10016" class="inter-chk" id="sltInter17" ${ (user.firstInterest == '10016' || user.secondInterest == '10016' || user.thirdInterest == '10016') ? 'checked' : '' }><label for="sltInter17">반려동물</label>
+				<input type="checkbox" name="selectInterest" value="10017" class="inter-chk" id="sltInter18" ${ (user.firstInterest == '10017' || user.secondInterest == '10017' || user.thirdInterest == '10017') ? 'checked' : '' }><label for="sltInter18">가족/결혼</label>
 				<br/><br/>
-				<input type="checkbox" name="selectInterest" value="10018" class="inter-chk" id="sltInter19"><label for="sltInter19">함께해요</label>
+				<input type="checkbox" name="selectInterest" value="10018" class="inter-chk" id="sltInter19" ${ (user.firstInterest == '10018' || user.secondInterest == '10018' || user.thirdInterest == '10018') ? 'checked' : '' }><label for="sltInter19">함께해요</label>
 				<br/><br/>
 				</div>
 				<input type="hidden" name="firstInterest">
@@ -453,6 +507,18 @@
 			</div>
 			<!--  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 			
+		  <div class="form-group">
+		    <label for="profile" class="col-sm-offset-1 col-sm-3 control-label">프로필 이미지</label>
+		    <div class="col-sm-4">
+		      <input type="file" class="form-control" id="file" name="file"  multiple>
+		      <c:set var="i" value="0" />
+			  <c:forEach var="file" items="${filelist}" >
+				   <c:set var="i" value="${ i+1 }" />
+				   <img src="/resources/images/userprofile/${file}" width="500" height="500"/>
+				   <input type="hidden" name="profile${i}" value="${file}">
+			  </c:forEach>
+		    </div>
+		  </div>
 		  
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">

@@ -86,7 +86,7 @@
 			var id=$("input[name='userId']").val();
 			var pw=$("input[name='password']").val();
 			var pw_confirm=$("input[name='password2']").val();
-			var name=$("input[name='userName']").val();
+			//var name=$("input[name='userName']").val();
 			var address1=$("select[name='address1']").val();
 			var address2=$("select[name='address2']").val();
 			

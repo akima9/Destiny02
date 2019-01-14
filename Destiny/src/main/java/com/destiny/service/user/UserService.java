@@ -28,4 +28,6 @@ public interface UserService {
 	public List<String> getInterestByUser(int[] interestNo) throws Exception;
 		
 	public Map<String, Object> getTypeByUser(int[] typeNo) throws Exception;
+	
+	public void updateUser(User user) throws Exception;
 }

@@ -26,4 +26,6 @@ public interface UserDao {
 	public String getInterest(int interestNo) throws Exception;
 	
 	public String getType(int typeNo) throws Exception;
+	
+	public void updateUser(User user)throws Exception;
 }
