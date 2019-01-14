@@ -40,4 +40,13 @@ public class MeetingServiceImpl implements MeetingService {
 	public void addMeeting(Meeting meeting) throws Exception {
 		meetingDao.addMeeting(meeting);
 	}
+
+	@Override
+	public Map<String, Object> getMeetingList() throws Exception {
+		List<Meeting> list= meetingDao.getMeetingList();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		return map;
+	}
 }

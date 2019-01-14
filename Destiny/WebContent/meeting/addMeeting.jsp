@@ -87,12 +87,12 @@
 			alert("중심지역을 선택해 주세요.");
 			return;
 		}
-		
+		/*
 		if(titleImg == null || titleImg.length<1){
 			alert("대표이미지를 설정하여 주세요.");
 			return;
 		}
-		
+		*/
 		if(meetingName == null || meetingName.length<1){
 			alert("모임이름을 작성하여 주세요.");
 			return;
@@ -152,97 +152,6 @@
 		});
 	});
 	
-	$(function() {
-		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
-		 $( "a[href='#' ]" ).on("click" , function() {
-				//Debug..
-				//alert(  $( "a[href='#' ]" ).html() );
-				//$("form")[0].reset();
-				 self.location = "/product/listProduct?menu=search";
-		});
-	});	
-	 
-	//=====================================수량 / 가격 체크===============================
-	
-	$(function() {
-		
-		$('input[name="price"]').on("keyup", function(){
-			
-			var price = $('input[name="price"]').val();
-			
-			if(parseInt(price) <= 0){
-				//alert("옹냥");
-				$('input[name="price"]').css('background-color','pink');
-				$('#priceWirte').text("가격이 0이하입니다.");
-			} else if (parseInt(price) >= 0 || price == null || price == "") {
-				$('#priceWirte').text("");
-				$('input[name="price"]').css('background-color','white');
-			}
-		});
-	});
-	
-	$(function() {
-		
-		$('input[name="quantity"]').on("keyup", function(){
-		
-			var quantity = $('input[name="quantity"]').val();
-			
-			if(parseInt(quantity) <= 0){
-				$('input[name="quantity"]').css('background-color','pink');
-				$('#quantityWirte').text("수량이 0이하입니다.");
-			} else if (parseInt(quantity) >= 0 || quantity == null || quantity == "") {
-				$('#quantityWirte').text("");
-				$('input[name="quantity"]').css('background-color','white');
-			}
-			
-			
-			
-		});
-	});
-	
-	$(function(){
-		$('input[name="metaKey"]').on("keyup", function(){
-			
-			var metaKey = $('input[name="metaKey"]').val();
-			
-			metaKey = parseInt(metaKey);
-			
-			//String은 parseInt되면 NAN을 출력함을 이용한 로직 구축
-			if(metaKey != $('input[name="metaKey"]').val()){
-				$('input[name="metaKey"]').css('background-color','pink');
-				$('#metaKeyWirte').text("잘못된 데이터 타입입니다. 숫자만 입력하세요.");
-			} else if(metaKey == $('input[name="metaKey"]').val()) {
-				//alert(metaKey);
-				$('input[name="metaKey"]').css('background-color','white');
-				$('#metaKeyWirte').text("");
-				
-				//동일한 metaKey가 이미 있는지 확인
-				$.ajax({
-					url : "/product/json/getProductByMetaKey/"+metaKey,
-					method : "GET",
-					dataType : "json",
-					headers :{
-						"Accept" : "application/json",
-						"Content-Type" : "application/json"
-					},
-					success : function(JSONData , status) {
-						//alert(JSONData.product);
-						if(JSONData.product != null){
-							$('input[name="metaKey"]').css('background-color','pink');
-							$('#metaKeyWirte').text("이미 존재하는 메타키입니다.");
-						}
-					}, 
-					error : function(what){
-						$('input[name="metaKey"]').css('background-color','white');
-						$('#metaKeyWirte').text("");
-					}
-				});
-			}
-		});
-	});
-	
-
 	 $( function() {
 		    $( "#manuDate" ).datepicker();
 	});
@@ -386,9 +295,9 @@
    		<h1 class="bg-primary text-center">개설하기</h1>
    	
    		<!-- form Start /////////////////////////////////////-->
-		<form class="form-horizontal">
-		<input type="hidden" name="meetingMasterId" value="aaaaa">
-		<input type="hidden" name="masterProfileImg" value="aaaaa">
+		<form class="form-horizontal" enctype="multipart/form-data">
+		<input type="hidden" name="meetingMasterId" value="${sessionScope.me.userId}">
+		<input type="hidden" name="masterProfileImg" value="${sessionScope.me.profile}">
 		 <div  class="form-group col-sm-4 col-md-4">
 		 	<select id="interest" class="form-control">
 		 		<option >관심사</option>
@@ -438,7 +347,7 @@
 		 </div>
 		 -->
 		 <div class="form-group col-sm-10 col-md-10">
-		 	<input type="text" class="form-control" name="titleImg" placeholder="대표이미지를 설정하여 주세요">
+		 	<input type="file" class="form-control" name="imgFile" placeholder="대표이미지를 설정하여 주세요">
 		 </div>
 		 
 		 <div class="form-group col-sm-2 col-md-2">

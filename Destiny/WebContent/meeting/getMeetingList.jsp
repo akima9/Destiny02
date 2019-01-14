@@ -83,19 +83,33 @@
 
     <script type="text/javascript">
 		    $(function() {
-				$( ".addMeeting" ).on("click", function() {
-					console.log("${sessionScope.user.userId}");
+				$( "#addMeeting" ).on("click", function() {
+					console.log("${empty sessionScope.me}");
 					
-					//if()
-					//self.location="/meeting/addMeeting"
+					if(${sessionScope.me.userGrade !='NEW'} && ${!empty sessionScope.me.userId}){
+						//alert("성공");
+						self.location="/meeting/addMeeting"
+					}else if(${empty sessionScope.me}){
+						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+							self.location="/user/login";
+						 }else{   //취소
+
+						     return;
+
+						 }
+					}else if(${sessionScope.me.userGrade =='NEW'}){
+						alert("${sessionScope.me.nickName}님은 우연등급입니다.\n인연이상 회원부터 개설 하능합니다.");
+					}else{
+						alert("이용 불가합니다.");
+					}
 				});
 		    });
 		    
 		    $(function() {
 				$( ".listingTAB" ).on("click", function() {
-					console.log("컴인 리스팅");
-					
-					self.location="/meeting/getMeeting"
+					var meetingNo = $(this).data("param7");
+					console.log(meetingNo);
+					self.location="/meeting/getMeeting?meetingNo="+meetingNo;
 				});
 		    });
 
@@ -227,7 +241,7 @@
             <!-- 베스트상품 테이블 -->
             <table>
             <c:set var="i" value="0" />
-				  <c:forEach var="product" items="${Bestlist}">
+				  <c:forEach var="meeting" items="${Bestlist}">
 				  <c:set var="i" value="${ i+1 }" />
 				  </c:forEach>
 	            <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -359,57 +373,38 @@
 			 
 			 <!-- 개설하기 버튼 시작 -->
 			 <div align="right" class="addMeeting">
-			 <button type="button" class="btn btn-warning">개설하기</button>
+			 <button type="button" class="btn btn-warning" id="addMeeting">개설하기</button>
 			 </div>
 			 <!-- 개설하기 버튼 종료 -->
 			 
 			 <!-- 리스트 시작 -->
-                <table class="listingTAB" width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+			 	<c:set var="i" value="0" />
+				  <c:forEach var="meeting" items="${list}">
+				  <c:set var="i" value="${ i+1 }" />
+                <table class="listingTAB" width="100%" border="0" cellspacing="0" cellpadding="0" 
+                style="margin-top:10px;" data-param7="${meeting.meetingNo}">
                     <tr>
                         <td colspan="11" align="left">
                            	 전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage} 페이지
                         </td>
                     </tr>
-<%-- 
-                    <tr>
-                        <td class="ct_list_b" width="100">No</td>
-                        <td class="ct_line02"></td>
-                        <td class="ct_list_b" width="100">브랜드</td>
-                        <td class="ct_line02"></td>
-                        <td class="ct_list_b" width="100">사진</td>
-                        <td class="ct_line02"></td>
-                        <td class="ct_list_b" width="150">
-                        	    상품명
-                            <input onclick="fncGetProductList('1')" type="checkbox" name="sort" value="1" ${ search.sort==1 ? "checked='checked'" : "" }>
-                        </td>
-                        <td class="ct_line02"></td>
-                        <td class="ct_list_b" width="150">가격
-                            <input onclick="fncGetProductList('1')" type="checkbox" name="sort" value="2" ${ search.sort==2 ? "checked='checked'" : "" }>
-                        </td>
-                        <td class="ct_line02"></td>
-                        <td class="ct_list_b">등록일
-                            <input onclick="fncGetProductList('1')" type="checkbox" name="sort" value="3" ${ search.sort==3 ? "checked='checked'" : "" }>
-                        </td>
-                        <td class="ct_line02"></td>
-                        <td class="ct_list_b">조회수</td>
-                    </tr>
-                     --%>
+                  
                     <tr>
                         <td colspan="15" bgcolor="808285" height="1"></td>
                     </tr>
                   
                     <tr class="ct_list_pop">
                         <td>
-                            <img width="100px" src="/uppic/Wallpaper.jpg">
+                            <img width="100px" src="/resources/images/meeting/${meeting.titleImg}" >
                         </td>
                         <td></td>
-                        <td align="left" data-param="${ product.prodNo}" data-param2="${product.proTranCode}">
-                        	부천시
+                        <td align="left" data-param="${meeting.meetingCenter}" data-param2="${meeting.meetingCenter}">
+                        ${meeting.meetingCenter}
                         </td>
                         <td></td>
                         <td align="left">모임인원</td>
                         <td></td>
-                        <td align="left">80명</td>
+                        <td align="left">${meeting.meetingCrewLimit}명</td>
                         <td></td>
                     </tr>
                     
@@ -417,8 +412,8 @@
                     	<td>
                         </td>
                         <td></td>
-                        <td align="left" data-param="${ product.prodNo}" data-param2="${product.proTranCode}">
-                        	(요리 실습) 만들고 먹고 즐겨요~!!
+                        <td align="left" data-param="${meeting.meetingName}" data-param2="${meeting.meetingName}">
+                        	${meeting.meetingName}
                         </td>
                         <td></td>
                         <td align="left">조회수</td>
@@ -431,8 +426,8 @@
                     	<td>
                         </td>
                         <td></td>
-                        <td align="left" data-param="${ product.prodNo}" data-param2="${product.proTranCode}">
-                        	모임날짜: 12/2 서울시 서초구 서초동 132
+                        <td align="left">
+                        	모임날짜:${meeting.meetingDate} ${meeting.meetingLocation}
                         </td>
                         <td></td>
                         <td align="left"></td>
@@ -444,7 +439,8 @@
                     <tr>
                         <td colspan="15" bgcolor="D6D7D6" height="1"></td>
                     </tr>
-                   
+                     
+                   </c:forEach>
                 </table>
                 <!-- 리스트 종료 -->
                 

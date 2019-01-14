@@ -9,5 +9,7 @@ public interface MeetingService {
 	public Map<String , Object> getInterestList() throws Exception;
 	
 	public void addMeeting(Meeting meeting) throws Exception;
+	
+	public Map<String , Object> getMeetingList() throws Exception;
 
 }

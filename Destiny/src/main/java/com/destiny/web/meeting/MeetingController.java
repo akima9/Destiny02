@@ -2,6 +2,8 @@ package com.destiny.web.meeting;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.service.domain.Meeting;
@@ -41,11 +44,16 @@ public class MeetingController {
 	///Method
 	
 	@RequestMapping(value="listMeeting", method=RequestMethod.GET)
-	public ModelAndView listMeeting() throws Exception{
+	public ModelAndView listMeeting(Model model) throws Exception{
 		
 		System.out.println("하이리스트");
+		
+		Map<String , Object> map=meetingService.getMeetingList();
+		
+		model.addAttribute("list", map.get("list"));
+		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/meeting/getMeetingList.jsp");
+		modelAndView.setViewName("forward:/meeting/getMeetingList.jsp");
 		return modelAndView;
 		
 	}
@@ -83,10 +91,16 @@ public class MeetingController {
 	}
 	
 	@RequestMapping(value="getMeeting", method=RequestMethod.GET)
-	public ModelAndView getMeeting() throws Exception{
+	public ModelAndView getMeeting(@RequestParam("meetingNo") int meetingNo) throws Exception{
 		System.out.println("하이 겟 미팅");
+		System.out.println(meetingNo);
+		
+		//Meeting meeting = meetingService.getMeeting(meetingNo);
+		//meetingService.updateViews(meetingNo);
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/meeting/getMeeting.jsp");
-		return modelAndView;
+		//return modelAndView;
+		return null;
 	}
 }

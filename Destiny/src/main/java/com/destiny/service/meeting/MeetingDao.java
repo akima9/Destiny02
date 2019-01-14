@@ -9,4 +9,6 @@ public interface MeetingDao {
 	public List<Meeting> getInterestList() throws Exception;
 
 	public void addMeeting(Meeting meeting)throws Exception;
+	
+	public List<Meeting> getMeetingList() throws Exception;
 }
