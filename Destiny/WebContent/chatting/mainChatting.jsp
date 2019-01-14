@@ -37,9 +37,7 @@
 													"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 	}
 	function getPerfectChatting(){
-		popWin = window.open("getPerfectChatting.jsp",
-													"popWin",
-													"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+		location = "/chatting/addPerfectChatting";
 	}
 	
 	function getNode(){

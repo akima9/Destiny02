@@ -44,5 +44,6 @@
 		<mapper resource="sql/FindMapper.xml"/>		
 		<mapper resource="sql/MeetingMapper.xml"/>
 		<mapper resource="sql/CommunityMapper.xml"/>
+		<mapper resource="sql/ChattingMapper.xml"/>
 	</mappers>
 </configuration>

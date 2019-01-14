@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.service.chatting.ChattingService;
+import com.destiny.service.domain.Chatting;
 import com.destiny.service.domain.User;
 import com.destiny.service.user.UserService;
 
@@ -136,10 +137,19 @@ public class ChattingController {
 	
 	@RequestMapping(value="addPerfectChatting", method=RequestMethod.GET)
 	public ModelAndView addPerfectChatting(HttpSession session) throws Exception{
-		
+		System.out.println("addPerfectChatting 들어옴");
 		// user의 아이디필요 본인의 성격유형, 이상형 유형을 통해 매칭
 		//채팅방 생성
-		
+		Chatting chatting=new Chatting();
+
+		////////매칭된 아이디 2개 넣기
+		//		chatting.setManId(manId);
+		//		chatting.setWomanId(womanId);
+		/////////test
+		chatting.setManId("aaaaa");
+		chatting.setWomanId("aaaab");
+		chatting.setContactMeeting("N");
+		chattingService.addPerfectChatting(chatting);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/chatting/getPerfectChatting.jsp");
 		return modelAndView;
