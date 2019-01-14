@@ -30,9 +30,10 @@
     <input type="text" id="msg">
     <button id="msg_process">전송</button>
  
-    <script src="http://localhost:82/socket.io/socket.io.js"></script>
+    <script src="http://192.168.0.28:82/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
+    
             $(document).ready(function(){
                 var socket = io("http://192.168.0.28:82");
                 
@@ -48,8 +49,12 @@
                 //msg_process를 클릭할 때
                 $("#msg_process").click(function(){
                     //소켓에 send_msg라는 이벤트로 input에 #msg의 벨류를 담고 보내준다.
-                     socket.emit("send_msg", $("#msg").val());
+                    
+                   
+                     socket.emit("send_msg",  $("#msg").val());
                     //#msg에 벨류값을 비워준다.
+                    //var text=${me.userId}+":"+$("#msg").val();
+                    //var userId=${me.userId};
                     $('<div style = "text-align:right;"></div>').text($("#msg").val()).appendTo("#chat_box");
                    
                     
@@ -60,6 +65,8 @@
                 socket.on('send_msg', function(msg) {
                     //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
                    if (msg!=$("#msg").val()) {
+                	
+                	   
                 	   $('<div></div>').text(msg).appendTo("#chat_box");
 				}else{
 					$("#msg").val("");
@@ -76,3 +83,36 @@
 
 
 
+
+<%--  <%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+ 
+ <!--index.ejs-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <script src="../socket.io-client/dist/socket.io.js"></script>
+    <script src="../jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+<textarea rows="20" cols="30" id="chat"></textarea><br>
+<input type="text" id="user"><input type="button" value="msg submit" onclick="myOnClick()">
+</body>
+<script>
+    var socket = io.connect('http://192.168.0.28:82');
+
+    socket.emit('joinRoom', {roomName: 'myroom'});
+
+    socket.on('recMsg', function (data) {
+        console.log(data.comment)
+        $('#chat').append(data.comment);
+    });
+
+    function myOnClick() {
+        socket.emit("reqMsg", {comment: $('#user').val()});
+        $('#user').val('');
+    }
+</script>
+</html> --%>
