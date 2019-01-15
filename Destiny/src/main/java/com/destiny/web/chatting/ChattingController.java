@@ -62,49 +62,41 @@ public class ChattingController {
 	public ModelAndView telepathyTest(HttpSession session, HttpServletRequest request) throws Exception{
 			System.out.println("telepathyTest들어옴");
 		//===========================================현제 접속자 구현 로직 part=================================================
+				
 				ServletContext applicationScope = request.getSession().getServletContext();
-				User user=(User)session.getAttribute("user");
-				User dbUser=userService.getUser(user.getUserId());
-				List<User> loginList = new ArrayList<User>();
+				User user=(User)session.getAttribute("me");
 				ModelAndView modelAndView = new ModelAndView();
-				if(applicationScope.getAttribute("loginList") != null) {
-					loginList = (List<User>) applicationScope.getAttribute("loginList");
-				}
-				
-				int numberOfLogin = 0;
-				
-				if(applicationScope.getAttribute("numberOfLogin") != null) {
-					numberOfLogin = (int) applicationScope.getAttribute("numberOfLogin");
-				}
-
-				if( user.getPassword().equals(dbUser.getPassword())){
+				if (!user.getUserId().isEmpty()) {
+					User dbUser=userService.getUser(user.getUserId());
+					List<User> loginList = new ArrayList<User>();
 					
-					if(loginList.contains(user.getUserId())) {
-
+						if(applicationScope.getAttribute("loginList") != null) {
+							loginList = (List<User>) applicationScope.getAttribute("loginList");
+						}
 						loginList.add(dbUser);
-						
-						numberOfLogin++;
-						
+							
 						applicationScope.setAttribute("loginList", loginList);
-						applicationScope.setAttribute("numberOfLogin", numberOfLogin);
+							
 						for(User v : loginList) {
 							System.out.println("현제 접속자 목록 : " + v);
 						}
-						System.out.println("현제 접속자 : " + numberOfLogin);
-						String userId=user.getUserId();
-						
+						///////////////////////////////////
+						//매칭
+						//////////////////////////////////
+					/////////////////////////////////////////
+						//이심전심
+						/////////////////////////////////////
 						modelAndView.setViewName("redirect:/chatting/getTelepathyTest.jsp");
 						modelAndView.addObject("result", "Success");
 						modelAndView.addObject(dbUser.getUserId(), dbUser);
 					
-					} else {
-						System.out.println("이미 로그인된 회원입니다.");
-						modelAndView.addObject("result", "Fail");
-					}
-					
-				} else {
-					modelAndView.addObject("result", "Fail");
+									
+				}else {
+					modelAndView.setViewName("redirect:/user/userInfo/loginView.jsp");
 				}
+				
+				
+				
 				//====================================================================================================
 				
 		//매칭(클릭한 사람들 중 남녀 한명씩 선정) 후 telepathy로 navigation 문제3개와 user두명의 아이디 값을 보낸다.

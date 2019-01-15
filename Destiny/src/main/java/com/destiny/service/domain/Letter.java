@@ -1,6 +1,6 @@
 package com.destiny.service.domain;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Letter {
 	
@@ -9,7 +9,7 @@ public class Letter {
 	private	String		receiverId;
 	private	Date		sendLetterDate;
 	private	Date		getLetterDate;
-	private	String		letterText;
+	private	String		letterDetail;
 	private	String		letterTitle;
 	public int getLetterNo() {
 		return letterNo;
@@ -41,11 +41,11 @@ public class Letter {
 	public void setGetLetterDate(Date getLetterDate) {
 		this.getLetterDate = getLetterDate;
 	}
-	public String getLetterText() {
-		return letterText;
+	public String getLetterDetail() {
+		return letterDetail;
 	}
-	public void setLetterText(String letterText) {
-		this.letterText = letterText;
+	public void setLetterDetail(String letterDetail) {
+		this.letterDetail = letterDetail;
 	}
 	public String getLetterTitle() {
 		return letterTitle;
@@ -56,8 +56,8 @@ public class Letter {
 	@Override
 	public String toString() {
 		return "Letter [letterNo=" + letterNo + ", senderId=" + senderId + ", receiverId=" + receiverId
-				+ ", sendLetterDate=" + sendLetterDate + ", getLetterDate=" + getLetterDate + ", letterText="
-				+ letterText + ", letterTitle=" + letterTitle + "]";
+				+ ", sendLetterDate=" + sendLetterDate + ", getLetterDate=" + getLetterDate + ", letterDetail="
+				+ letterDetail + ", letterTitle=" + letterTitle + "]";
 	}
 	
 	

@@ -85,6 +85,20 @@
 		<hr/>
 		
 		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>출석일</strong></div>
+			<div class="col-xs-8 col-md-4">${user.attendCount}</div>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>경고횟수</strong></div>
+			<div class="col-xs-8 col-md-4">${user.warningCount}</div>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>주소</strong></div>
 			<div class="col-xs-8 col-md-4">${user.address}</div>
 		</div>
