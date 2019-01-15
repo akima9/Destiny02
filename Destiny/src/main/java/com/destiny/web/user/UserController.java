@@ -590,7 +590,35 @@ public class UserController {
 	
 	@RequestMapping( value="getLetterList", method=RequestMethod.GET)
 	public String getReceiveLetterList(@ModelAttribute("search") Search search , Model model, HttpSession session) throws Exception{
-		System.out.println("/user/getReceiveLetterList : GET");
+		System.out.println("/user/getLetterList : GET");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		User user = (User) session.getAttribute("me");
+		String Id = user.getUserId();
+		
+		Map<String , Object> map = userService.getLetterList(search, Id);
+		
+		//Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		//System.out.println("아이시때루 : " + resultPage);
+		
+		// Model 과 View 연결
+
+		model.addAttribute("listReceive", map.get("listReceive"));
+
+		model.addAttribute("totalReceiveCount", map.get("totalReceiveCount"));
+		//model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
+		return "forward:/letter/getLetterList.jsp";
+	}
+	
+	@RequestMapping( value="sendLetterList", method=RequestMethod.GET)
+	public String getSendLetterList(@ModelAttribute("search") Search search , Model model, HttpSession session) throws Exception{
+		System.out.println("/user/sendLetterList : GET");
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
@@ -607,15 +635,14 @@ public class UserController {
 		
 		// Model 과 View 연결
 		model.addAttribute("listSend", map.get("listSend"));
-		model.addAttribute("listReceive", map.get("listReceive"));
+
 		model.addAttribute("totalSendCount", map.get("totalSendCount"));
-		model.addAttribute("totalReceiveCount", map.get("totalReceiveCount"));
+
 		//model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		return "forward:/letter/letters.jsp";
+		return "forward:/letter/sendLetterList.jsp";
 	}
-	
 	
 	
 	

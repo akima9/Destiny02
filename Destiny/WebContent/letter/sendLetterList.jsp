@@ -31,6 +31,12 @@
     <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
+	//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
+	function fncGetLetterList(currentPage) {
+		$("#currentPage").val(currentPage)
+		$("form").attr("method" , "GET").attr("action" , "/user/getLetterList").submit();
+	}
+	
 	$(function() {
 		$(".ct_list_pop td:nth-child(8n+7)").on("click" , function() {
 			var letterNo = $(this).data("param");
@@ -58,47 +64,7 @@
    	
    		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
-		
-		<div class="form-group">
-		    <label for="senderId" class="col-sm-offset-1 col-sm-3 control-label">받은 쪽지함 ${totalReceiveCount}</label>
-		    <div class="col-sm-4">
-		      <span id="receiverId"></span>
-		    </div>
-		 </div>
-		 
-		 <table class="table table-hover table-striped" >
-		 	<thead>
-				<tr>
-				 	<td class="ct_list_b" width="100">쪽지번호</td>
-					<td class="ct_line02"></td>
-					<td class="ct_list_b" width="100">발신자</td>
-					<td class="ct_line02"></td>
-					<td class="ct_list_b" width="150">발신일</td>
-					<td class="ct_line02"></td>
-					<td class="ct_list_b" width="150">쪽지제목</td>
-					<td class="ct_line02"></td>
-				</tr>
-			</thead>
-			
-			<tbody>
-				<c:set var="i" value="0" />
-				<c:forEach var="letter" items="${listReceive}">
-					<c:set var="i" value="${ i+1 }" />
-	
-					<tr class="ct_list_pop">
-					<td align="left">${letter.letterNo}</td>
-					<td></td>		
-					<td align="left">${letter.senderId}</td>
-					<td></td>
-					<td align="left">${letter.sendLetterDate}</td>
-					<td></td>
-					<td align="left" data-param="${letter.letterNo}">${letter.letterTitle}</td>
-					<td></td>
-			
-				</c:forEach>
-			</tbody>
-		 </table>
-		 
+
 		 <div class="form-group">
 		    <label for="senderId" class="col-sm-offset-1 col-sm-3 control-label">보낸 쪽지함 ${totalSendCount}</label>
 		    <div class="col-sm-4">
@@ -130,7 +96,7 @@
 					<td></td>		
 					<td align="left">${letter.receiverId}</td>
 					<td></td>
-					<td align="left">${letter.getLetterDate}</td>
+					<td align="left">${letter.sendLetterDate}</td>
 					<td></td>
 					<td align="left" data-param="${letter.letterNo}">${letter.letterTitle}</td>
 					<td></td>
@@ -144,6 +110,12 @@
 		     	<button type="button" class="btn btn-primary"  >작&nbsp;성</button>
 		    </div>
 		  </div>
+		
+		<!-- PageNavigation Start... -->
+		<jsp:include page="/common/pageNavigator_new.jsp">
+			<jsp:param value="Letter" name="type"/>
+		</jsp:include>
+		<!-- PageNavigation End... -->
 		
 	   </form>
  	</div>
