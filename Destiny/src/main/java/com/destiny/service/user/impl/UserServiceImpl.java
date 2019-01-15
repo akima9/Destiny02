@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.destiny.common.Search;
 import com.destiny.service.domain.Location;
 import com.destiny.service.domain.User;
 import com.destiny.service.user.UserDao;
 import com.destiny.service.user.UserService;
+import com.destiny.service.domain.Letter;
 
 @Service("userServiceImpl")
 public class UserServiceImpl implements UserService {
@@ -91,10 +93,58 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public List<String> getTypeList() throws Exception {
+		return userDao.getTypeList();
+	}
+
+	@Override
 	public void updateUser(User user) throws Exception {
 		userDao.updateUser(user);
 	}
+
+	@Override
+	public void updateType(User user) throws Exception {
+		userDao.updateType(user);
+	}
+
+	@Override
+	public Map<String, Object> getUserList(Search search) throws Exception {
+		List<User> list= userDao.getUserList(search);
+		int totalCount = userDao.getUserTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+	///Method
+	public void sendLetter(Letter letter) throws Exception{
+		userDao.sendLetter(letter);
+	}
 	
+	public Letter getLetter(int no) throws Exception{
+		return userDao.getLetter(no);
+	}
 	
+	@Override
+	public Map<String, Object> getLetterList(Search search, String Id) throws Exception {
+		Map<String, Object> map = userDao.getLetterList(search, Id);
+		
+		
+		System.out.println("ServiceImpl ¿¡¼­ÀÇ map : " + map);
+		
+		int totalReceiveCount = userDao.getReceiveLetterTotalCount(Id);
+		int totalSendCount = userDao.getSendLetterTotalCount(Id);
+		
+		//Map<String, Object> map = new HashMap<String, Object>();
+		//map.put("list", list );
+		
+		map.put("totalReceiveCount", new Integer(totalReceiveCount));
+		map.put("totalSendCount", new Integer(totalSendCount));
+		
+		return map;
+	}
+		
 	
 }

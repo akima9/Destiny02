@@ -1,8 +1,12 @@
 package com.destiny.service.user;
 
 import java.util.List;
+import java.util.Map;
+
+import com.destiny.common.Search;
 import com.destiny.service.domain.Location;
 import com.destiny.service.domain.User;
+import com.destiny.service.domain.Letter;
 
 
 //==> 회원관리에서 CRUD 추상화/캡슐화한 DAO Interface Definition
@@ -27,5 +31,21 @@ public interface UserDao {
 	
 	public String getType(int typeNo) throws Exception;
 	
+	public List<String> getTypeList() throws Exception;
+	
 	public void updateUser(User user)throws Exception;
+	
+	public void updateType(User user)throws Exception;
+	
+	public List<User> getUserList(Search search) throws Exception;
+	
+	public int getUserTotalCount(Search search) throws Exception;
+	
+	public void sendLetter(Letter letter) throws Exception;
+	public Letter getLetter(int no) throws Exception;
+	
+	public Map<String, Object> getLetterList(Search search, String Id) throws Exception;
+	
+	public int getReceiveLetterTotalCount(String Id) throws Exception;
+	public int getSendLetterTotalCount(String Id) throws Exception;
 }
