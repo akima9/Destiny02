@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.destiny.common.Coolsms;
 import com.destiny.service.domain.Location;
+import com.destiny.service.domain.User;
 import com.destiny.service.user.UserService;
 
 
@@ -52,7 +53,16 @@ public class UserRestController {
 	public Map<String, Object> getUser(@PathVariable String userId) throws Exception{
 		System.out.println("restController 진입 성공. json/getUser/"+userId);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("user", userService.getUser(userId));
+		
+		User user = userService.getUser(userId);
+		
+		map.put("user", user);
+		//프로필 사진
+		user.setProfile(user.getProfile().replace("[", ""));
+		user.setProfile(user.getProfile().replace("]", ""));
+		String[] filelist = user.getProfile().split(", ");
+		map.put("filelist", filelist);
+		
 		System.out.println("여긴 오냐?");
 		return map;
 	}

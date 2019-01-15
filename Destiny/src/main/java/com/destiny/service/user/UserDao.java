@@ -1,6 +1,8 @@
 package com.destiny.service.user;
 
 import java.util.List;
+
+import com.destiny.common.Search;
 import com.destiny.service.domain.Location;
 import com.destiny.service.domain.User;
 
@@ -27,5 +29,13 @@ public interface UserDao {
 	
 	public String getType(int typeNo) throws Exception;
 	
+	public List<String> getTypeList() throws Exception;
+	
 	public void updateUser(User user)throws Exception;
+	
+	public void updateType(User user)throws Exception;
+	
+	public List<User> getUserList(Search search) throws Exception;
+	
+	public int getUserTotalCount(Search search) throws Exception;
 }

@@ -106,6 +106,11 @@
 	 	</where>
 	 </select>
 	 
+	 <select id="getTypeList" resultType="String">
+	 	SELECT type_name
+	 	FROM type
+	 </select>
+	 
 	 <update id="updateUser" parameterType="com.destiny.service.domain.User">
 	 	UPDATE users
 	 	<set>
@@ -121,6 +126,57 @@
 	 	WHERE user_id = #{userId}
 	 </update>
 	 
+	 <update id="updateType" parameterType="com.destiny.service.domain.User" >
+	 	UPDATE users
+	 	<set>
+	 		my_type 	= #{myType},
+	 		first_type  = #{firstType},
+	 		second_type = #{secondType},
+	 		thrid_type  = #{thirdType}
+	 	</set>
+	 	WHERE user_id = #{userId}
+	 </update>
+	 
+	 <!-- SQL : SELECT LIST -->
+	<select  id="getUserList"  parameterType="com.destiny.common.Search"	resultMap="userSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT user_id, password, nick_name, user_grade, email, birthday, address,
+	  					                    profile_img, gender, phone, attend_count, last_login_day, warning_count,
+	  					                    my_type, first_type, second_type, thrid_type, first_interest, second_interest, third_interest    
+											FROM users
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				user_id like #{searchKeyword}||'%' 
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				nick_name like #{searchKeyword}||'%'
+													</if>
+												</where>
+											</if>
+											ORDER BY user_id ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 
+	 <select  id="getTotalCount"  parameterType="com.destiny.common.Search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT  user_id, password, nick_name, user_grade, email, birthday, address,
+	                    profile_img, gender, phone, attend_count, last_login_day, warning_count,
+	                    my_type, first_type, second_type, thrid_type, first_interest, second_interest, third_interest    
+						FROM users
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			user_id like #{searchKeyword}||'%' 
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 			nick_name like #{searchKeyword}||'%' 
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>
 	 
 	 
 </mapper>

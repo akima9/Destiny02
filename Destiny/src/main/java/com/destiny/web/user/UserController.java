@@ -25,8 +25,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.destiny.common.Search;
 import com.destiny.service.domain.User;
 import com.destiny.service.user.UserService;
+import com.destiny.common.Page;
 
 
 
@@ -456,4 +458,66 @@ public class UserController {
 		modelAndView.addObject("typeFileMap", typeFileMap);
 		return modelAndView;
 	}
+	
+	@RequestMapping(value="addTypeView/{userId}", method=RequestMethod.GET)
+	public ModelAndView addTypeView(@PathVariable String userId) throws Exception{
+		
+		System.out.println("/user/addTypeView : GET");
+		
+		User user = userService.getUser(userId);
+		
+		int[] userList = new int[4];
+		userList[0] = user.getMyType();
+		userList[1] = user.getFirstType();
+		userList[2] = user.getSecondType();
+		userList[3] = user.getThirdType();
+		
+		List<String> list = userService.getTypeList();
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userInfo/addTypeView.jsp");
+		modelAndView.addObject("list", list);
+		modelAndView.addObject("userList", userList);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="addType", method=RequestMethod.POST)
+	public ModelAndView addType(@ModelAttribute("user") User user, HttpSession session) throws Exception{
+		
+		System.out.println("/user/addType POST 가져온 user : " + user);
+		
+		user.setUserId(((User)session.getAttribute("me")).getUserId());
+		
+		userService.updateType(user);
+		 
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/user/getUser/"+user.getUserId());
+		return modelAndView;		
+	}
+	
+	@RequestMapping(value="listUser", method=RequestMethod.GET)
+	public ModelAndView listUser(@ModelAttribute("search") Search search) throws Exception{
+		
+		System.out.println("/user/listUser : GET");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+
+		// Business logic 수행
+		Map<String , Object> map=userService.getUserList(search);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userInfo/listUser.jsp");
+		modelAndView.addObject("list",  map.get("list"));
+		modelAndView.addObject("resultPage", resultPage);
+		modelAndView.addObject("search", search);
+		return modelAndView;
+	}
+	
+	
 }
