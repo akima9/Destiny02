@@ -54,10 +54,13 @@
 	 	VALUES (seq_chatting_no.nextval,#{manId:VARCHAR},#{womanId:VARCHAR},SYSDATE,#{contactMeeting:VARCHAR})
 	 </insert>
 	 
-	 <select 	id="getChatting"	parameterType="int"	resultMap="chattingSelectMap">
-		SELECT *
-		FROM chatting
-	 	WHERE chatting_no=#{chattingNo} 
+	 <select 	id="getChatting"	parameterType="String"	resultMap="chattingSelectMap">
+		
+	 	select * from( 
+    		select * from chatting
+    		where man_id=#{userId} OR man_id=#{userId} 
+   			order by chatting_date) 
+   		where rownum <![CDATA[ < ]]> 2
 	 </select>
 	 
 	 <select 	id="listChatting"	parameterType="map" resultMap="chattingSelectMap">

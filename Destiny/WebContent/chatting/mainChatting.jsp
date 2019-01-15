@@ -32,9 +32,7 @@
 	<!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	function getTelepathyTest(){
-		popWin = window.open("getTelepathyTest.jsp",
-													"popWin",
-													"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+		
 	}
 	function getPerfectChatting(){
 		location = "/chatting/addPerfectChatting";
@@ -47,11 +45,16 @@
 	$(function() {
 		$( "#telepathy" ).on("click" , function() {
 	 		//==> DOM Object GET 3啊瘤 规过 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			getTelepathyTest();
+			popWin = window.open("/chatting/telepathyTest",
+													"popWin",
+													"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+	 		
 		});
 		$( "#perfect" ).on("click" , function() {
 	 		//==> DOM Object GET 3啊瘤 规过 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			getPerfectChatting();
+			popWin = window.open("/chatting/addPerfectChatting","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+	
+	 		
 		});
 		
 		$( "#node" ).on("click" , function() {
