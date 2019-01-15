@@ -1,12 +1,15 @@
 package com.destiny.web.user;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +20,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.destiny.common.Search;
 import com.destiny.service.domain.User;
 import com.destiny.service.user.UserService;
+import com.destiny.service.domain.Letter;
 import com.destiny.common.Page;
 
 
@@ -518,6 +524,99 @@ public class UserController {
 		modelAndView.addObject("search", search);
 		return modelAndView;
 	}
+	
+	
+
+	@RequestMapping( value="getLetter", method=RequestMethod.GET)
+	public String getLetter( @RequestParam int no, Model model, HttpSession session) throws Exception{
+		System.out.println("/user/getLetter : GET");
+		
+		User receiverUser = (User) session.getAttribute("me");
+		
+		Letter letter = userService.getLetter(no);
+
+		String letterMetaDataTitle = letter.getLetterDetail();
+		//"C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\letterDetail\\";
+		File temDirText = new File("C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\letterDetail\\"+letterMetaDataTitle+".txt");
+		
+		Scanner scan = new Scanner(temDirText);
+		String receiveLetterText = "";
+		while(scan.hasNextLine()) {
+			receiveLetterText += scan.nextLine() + "\n";
+		}
+		
+		letter.setLetterDetail(receiveLetterText);
+		
+		System.out.println("완성된 letter : " +letter);
+		
+		model.addAttribute("letter", letter);
+		
+		
+		
+		return "forward:/letter/getletter.jsp";
+	}
+	
+	@RequestMapping( value="sendLetter", method=RequestMethod.POST)
+	public String sendLetter(@ModelAttribute("letter") Letter letter, HttpSession session) throws Exception{
+		System.out.println("/user/sendLetter : POST");
+		
+		User senderUser = (User) session.getAttribute("me");
+		
+		letter.setSenderId(senderUser.getUserId());
+		
+		//=================================user별 letter meta-data생성============================================
+		String letterMetaDataTitle = letter.getLetterTitle()+System.currentTimeMillis();
+		
+		String temDirText = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\letterDetail\\"+letterMetaDataTitle+".txt";
+		File sendLetter = new File(temDirText);
+		
+		//FileWriter fw = new FileWriter(detailProduct, true);
+		BufferedWriter fw = new BufferedWriter(new FileWriter(sendLetter, true));
+		fw.write(letter.getLetterDetail());
+		fw.flush();
+		fw.close();
+		
+		letter.setLetterDetail(letterMetaDataTitle);
+		//===================================================================================================
+		
+		System.out.println(letter);
+		
+		//==============================================DB 운용===============================================
+		userService.sendLetter(letter);
+		//===================================================================================================
+		
+		return "forward:/letter/getlettercomplete.jsp";
+	}
+	
+	@RequestMapping( value="getLetterList", method=RequestMethod.GET)
+	public String getReceiveLetterList(@ModelAttribute("search") Search search , Model model, HttpSession session) throws Exception{
+		System.out.println("/user/getReceiveLetterList : GET");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		User user = (User) session.getAttribute("me");
+		String Id = user.getUserId();
+		
+		Map<String , Object> map = userService.getLetterList(search, Id);
+		
+		//Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		//System.out.println("아이시때루 : " + resultPage);
+		
+		// Model 과 View 연결
+		model.addAttribute("listSend", map.get("listSend"));
+		model.addAttribute("listReceive", map.get("listReceive"));
+		model.addAttribute("totalSendCount", map.get("totalSendCount"));
+		model.addAttribute("totalReceiveCount", map.get("totalReceiveCount"));
+		//model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
+		return "forward:/letter/letters.jsp";
+	}
+	
+	
 	
 	
 }

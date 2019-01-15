@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.destiny.service.domain.Location;
 import com.destiny.service.domain.User;
+import com.destiny.service.domain.Letter;
 import com.destiny.common.Search;
 
 
@@ -37,5 +38,10 @@ public interface UserService {
 	public void updateType(User user) throws Exception;
 	
 	public Map<String , Object> getUserList(Search search) throws Exception;
+	
+	public void sendLetter(Letter letter) throws Exception;
+	public Letter getLetter(int no) throws Exception;
+	
+	public Map<String, Object> getLetterList(Search search, String Id) throws Exception;
 	
 }

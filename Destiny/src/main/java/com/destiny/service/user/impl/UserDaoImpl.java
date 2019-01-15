@@ -1,6 +1,8 @@
 package com.destiny.service.user.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import com.destiny.common.Search;
 import com.destiny.service.domain.Location;
 import com.destiny.service.domain.User;
 import com.destiny.service.user.UserDao;
+import com.destiny.service.domain.Letter;
 
 @Repository("userDaoImpl")
 public class UserDaoImpl implements UserDao{
@@ -96,7 +99,43 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
 	}
 	
+
+	public void sendLetter(Letter letter) throws Exception{
+		sqlSession.insert("UserMapper.sendLetter", letter);
+	}
 	
+	public Letter getLetter(int no) throws Exception{
+		sqlSession.update("UserMapper.updateReceiveDate", no);
+		return sqlSession.selectOne("UserMapper.getLetter", no);
+	}
+	
+	public Map<String, Object> getLetterList(Search search, String Id) throws Exception{
+		Map<String, Object> inputMap = new HashMap<String, Object>();
+		inputMap.put("Id", Id);
+		inputMap.put("search", search);
+		
+		List<Letter> listReceive = sqlSession.selectList("UserMapper.getReceiveLetterList", inputMap);
+		List<Letter> listSend = sqlSession.selectList("UserMapper.getSendLetterList", inputMap);
+		
+		Map<String, Object> getMap = new HashMap<String, Object>();
+		
+		getMap.put("listReceive", listReceive);
+		getMap.put("listSend", listSend);
+		
+		System.out.println("dao에서 전달된 값들 : " + Id + search);
+		System.out.println("dao에 매핑된 값 : " + inputMap);
+		System.out.println("dao에서 확보한 map : " + getMap);
+		
+		return getMap;
+	}
+	
+	public int getReceiveLetterTotalCount(String Id) throws Exception{
+		return sqlSession.selectOne("UserMapper.getReceiveLetterTotalCount", Id);
+	}
+	
+	public int getSendLetterTotalCount(String Id) throws Exception{
+		return sqlSession.selectOne("UserMapper.getSendLetterTotalCount", Id);
+	}
 	
 	
 }

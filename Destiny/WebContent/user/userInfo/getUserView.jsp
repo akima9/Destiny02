@@ -53,6 +53,15 @@
 			});
 		});
 		
+		$(function(){
+			$("button[id='letterList']").on("click", function(){
+				popWin = window.open("/user/getLetterList",
+					   	 "popWin",
+						 "left=300, top=200, width=700, height=700, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+
+			});
+		});
+		
 	</script>
 	<title>Insert title here</title>
 	</head>
@@ -74,5 +83,12 @@
 		    </div>
 		</div>	
 		
+		<br/>
+		<div class="form-group">
+		    <label  class="col-sm-4 control-label"></label>
+		    <div class="col-sm-4">
+		      <button id="letterList" type="button">쪽지리스트</button>
+		    </div>
+		</div>	
 	</body>
 </html>

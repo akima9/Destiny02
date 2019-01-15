@@ -14,6 +14,7 @@ import com.destiny.service.domain.Location;
 import com.destiny.service.domain.User;
 import com.destiny.service.user.UserDao;
 import com.destiny.service.user.UserService;
+import com.destiny.service.domain.Letter;
 
 @Service("userServiceImpl")
 public class UserServiceImpl implements UserService {
@@ -117,7 +118,33 @@ public class UserServiceImpl implements UserService {
 		
 		return map;
 	}
+	///Method
+	public void sendLetter(Letter letter) throws Exception{
+		userDao.sendLetter(letter);
+	}
 	
+	public Letter getLetter(int no) throws Exception{
+		return userDao.getLetter(no);
+	}
 	
+	@Override
+	public Map<String, Object> getLetterList(Search search, String Id) throws Exception {
+		Map<String, Object> map = userDao.getLetterList(search, Id);
+		
+		
+		System.out.println("ServiceImpl ¿¡¼­ÀÇ map : " + map);
+		
+		int totalReceiveCount = userDao.getReceiveLetterTotalCount(Id);
+		int totalSendCount = userDao.getSendLetterTotalCount(Id);
+		
+		//Map<String, Object> map = new HashMap<String, Object>();
+		//map.put("list", list );
+		
+		map.put("totalReceiveCount", new Integer(totalReceiveCount));
+		map.put("totalSendCount", new Integer(totalSendCount));
+		
+		return map;
+	}
+		
 	
 }
