@@ -40,55 +40,10 @@ public class RestInfoController {
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 
-	@RequestMapping(value="json/imgUpload")
+	/*@RequestMapping(value="json/imgUpload")
 	public void profileUpload(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
 		System.out.println("RestInfoController/info/json/imgUpload 실행======================");
-		
-		/*response.setContentType("text/html;charset=utf-8");*/
-		PrintWriter out = response.getWriter();
-		
-		//업로드할 폴더 경로
-		String realFolder = request.getSession().getServletContext().getRealPath("imageUpload");
-		System.out.println("realFolder : "+realFolder);
-		UUID uuid = UUID.randomUUID();
-		
-		//업로드할 파일 이름
-		String orgFilename = file.getOriginalFilename();
-		String strFilename = uuid.toString() + orgFilename;
-		
-		System.out.println("원본 파일명 : "+orgFilename);
-		System.out.println("저장할 파일명 : "+strFilename);
-		
-		String filepath = realFolder +"\\"+ strFilename;
-		System.out.println("파일경로 : "+filepath);
-		
-		File f = new File(filepath);
-		if (!f.exists()) {
-			f.mkdirs();
-		}
-		file.transferTo(f);
-		out.println("imageUpload/"+strFilename);
-		out.close();
-		
-		JSONObject jobj = new JSONObject();
-		jobj.put("url", filepath);
-		response.setContentType("application/json");
-		out.print(jobj.toJSONString());
-		System.out.println("jobj.toJSONString() : "+jobj.toJSONString());
-	}
-	
-	/*@Autowired
-	@Qualifier("jsonView")
-	MappingJackson2JsonView jsonView;
-	
-	@RequestMapping(value="json/imgUpload")
-	public ModelAndView profileUpload(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception{
-		
-		System.out.println("RestInfoController/info/json/imgUpload 실행======================");
-		
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setView(jsonView);
 		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
@@ -113,18 +68,46 @@ public class RestInfoController {
 			f.mkdirs();
 		}
 		file.transferTo(f);
-		
 		out.println("imageUpload/"+strFilename);
 		out.close();
 		
 		JSONObject jobj = new JSONObject();
 		jobj.put("url", filepath);
-		modelAndView.addObject("result",jobj);
 		response.setContentType("application/json");
 		out.print(jobj.toJSONString());
 		System.out.println("jobj.toJSONString() : "+jobj.toJSONString());
-		return modelAndView;
-		
-		
 	}*/
+	
+	@RequestMapping(value="json/imgUpload")
+	public void profileUpload(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		System.out.println("RestInfoController/info/json/imgUpload 실행======================");
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		//업로드할 폴더 경로
+		/*String realFolder = request.getSession().getServletContext().getRealPath("imageUpload");*/
+		String realFolder = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\uploadImg";
+		System.out.println("realFolder : "+realFolder);
+		UUID uuid = UUID.randomUUID();
+		
+		//업로드할 파일 이름
+		String orgFilename = file.getOriginalFilename();
+		String strFilename = uuid.toString() + orgFilename;
+		
+		System.out.println("원본 파일명 : "+orgFilename);
+		System.out.println("저장할 파일명 : "+strFilename);
+		
+		String filepath = realFolder +"\\"+ strFilename;
+		System.out.println("파일경로 : "+filepath);
+		
+		File f = new File(filepath);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+		file.transferTo(f); // 지정한 파일에 저장
+		out.print("/resources/images/uploadImg/"+strFilename);
+		out.close();
+	}
 }

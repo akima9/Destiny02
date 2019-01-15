@@ -52,12 +52,14 @@
 	 </update> -->
 		 
 	<!-- SQL : SELECT LIST -->
-	<!-- <select id="getProductList" parameterType="search" resultMap="productSelectMap">
+	<select id="getCommunityList" parameterType="com.destiny.common.Search" resultMap="communitySelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT pro.prod_no, pro.prod_name, pro.prod_detail, pro.manufacture_day, pro.price, pro.image_file, pro.reg_date, tra.tran_status_code
-											FROM product pro, transaction tra
-											WHERE pro.prod_no = tra.prod_no(+)
+	  					FROM		(	SELECT  comu.community_no, comu.community_writer_id, comu.meeting_no, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition
+											FROM community comu
+											WHERE  category = 'RES' and community_view_condition = 'DEF'
+											
+											<!-- pro.prod_no = tra.prod_no(+)
 											<if test="searchCondition != null">
 												<if test="searchCondition == 0 and searchKeyword !='' ">
 									 				and pro.prod_no = #{searchKeyword}
@@ -88,11 +90,11 @@
 											</if>
 											<if test="priceCondition != 1 and priceCondition != 2 and priceCondition != 3">
 												ORDER BY pro.prod_no desc ) inner_table
-											</if>
-											ORDER BY pro.prod_no desc ) inner_table
+											</if> -->
+											ORDER BY comu.community_no desc ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
-	 </select> -->
+	 </select>
 	 	<!--  위 두번째 subQuery 의  
 	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
 	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
@@ -105,12 +107,12 @@
 		-->
 	
 	<!-- SQL : SELECT ROW Count -->	 
-	 <!-- <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	 <select  id="getTotalCount"  parameterType="com.destiny.common.Search"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT pro.prod_name, pro.price, pro.reg_date
-						FROM product pro, transaction tra
-						WHERE pro.prod_no = tra.prod_no(+)
-						<if test="searchCondition != null">
+	  	FROM(	SELECT comu.community_no, comu.community_writer_id, comu.meeting_no, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition
+						FROM community comu
+						WHERE  category = 'RES' and community_view_condition = 'DEF'
+						<!-- <if test="searchCondition != null">
 							<if test="searchCondition == 0 and searchKeyword !='' ">
 					 			and pro.prod_no = #{searchKeyword}
 							</if>
@@ -134,7 +136,7 @@
 						</if>
 						<if test="priceCondition == 2">
 							ORDER BY pro.price asc
-						</if> ) countTable						
-	 </select> -->
+						</if> --> ) countTable						
+	 </select>
 	 
 </mapper>

@@ -2,6 +2,7 @@ package com.destiny.web.info;
 
 import java.io.File;
 import java.util.Enumeration;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.destiny.common.Page;
+import com.destiny.common.Search;
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Community;
 
@@ -43,10 +46,24 @@ public class InfoController {
 	///Method
 	
 	/*getRestaurantInfoList.jsp로 단순 Navigation : start*/
-	@RequestMapping(value="listRestaurantInfo", method=RequestMethod.GET)
-	public ModelAndView listRestaurantInfo() throws Exception{
+	@RequestMapping(value="listRestaurantInfo")
+	public ModelAndView listRestaurantInfo(@ModelAttribute("search") Search search) throws Exception{
+		System.out.println("::InfoController/listRestaurantInfo/get : 실행");
+		
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		Map<String, Object> map = communityService.getCommunityList(search);
+		
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/community/getRestaurantInfoList.jsp");
+		modelAndView.addObject("list", map.get("list"));
+		modelAndView.addObject("resultPage", resultPage);
+		modelAndView.addObject("search", search);
+		modelAndView.setViewName("/community/getRestaurantInfoList.jsp");
 		return modelAndView;
 	}
 	/*getRestaurantInfoList.jsp로 단순 Navigation : end*/

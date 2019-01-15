@@ -32,9 +32,7 @@
 	<!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	function getTelepathyTest(){
-		popWin = window.open("getTelepathyTest.jsp",
-													"popWin",
-													"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+		
 	}
 	function getPerfectChatting(){
 		location = "/chatting/addPerfectChatting";
@@ -47,11 +45,16 @@
 	$(function() {
 		$( "#telepathy" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			getTelepathyTest();
+			popWin = window.open("/chatting/telepathyTest",
+													"popWin",
+													"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+	 		
 		});
 		$( "#perfect" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			getPerfectChatting();
+			popWin = window.open("/chatting/addPerfectChatting","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+	
+	 		
 		});
 		
 		$( "#node" ).on("click" , function() {
@@ -61,10 +64,25 @@
 	});
 	</script>
 <title>mainChatting</title>
+
+<!-- 참조 : http://getbootstrap.com/css/   -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+
+
 </head>
 
 <body>
-toolbar<br>
+  <!-- ToolBar Start /////////////////////////////////////-->
+	<jsp:include page="/layout/toolBar.jsp" />
+  <!-- ToolBar End /////////////////////////////////////-->
+    
 main Chatting
 
 <table>
