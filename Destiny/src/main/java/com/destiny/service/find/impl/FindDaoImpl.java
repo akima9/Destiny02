@@ -1,15 +1,12 @@
 package com.destiny.service.find.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.destiny.common.Search;
 import com.destiny.service.domain.Find;
 import com.destiny.service.domain.Meeting;
 import com.destiny.service.find.FindDao;

@@ -4,9 +4,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
-</head>
-<body>
+<title>우리들의 연결고리 footer</title>
 
-</body>
+<style>
+        footer{color: #5a5a5a; background-color: #E6E6E6;}
+   	</style>
+   	
+</head>
+	<body>
+	
+		<footer class="footer">
+		      <div class="container">
+		      <p class="text-muted">========================================================================</p>
+		        <p>예성 기용 보미 보름 주영</p>
+		        <br/><br/><br/><br/><br/><br/>
+		      </div>
+		</footer>
+	
+	</body>
 </html>

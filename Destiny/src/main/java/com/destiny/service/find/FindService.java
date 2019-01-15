@@ -1,8 +1,9 @@
 package com.destiny.service.find;
 
-import java.util.Map;
+import java.util.List;
 
 import com.destiny.service.domain.Find;
+import com.destiny.service.domain.Meeting;
 
  
 public interface FindService {
@@ -11,6 +12,6 @@ public interface FindService {
 	public int getUserResult(Find find) throws Exception;
 	
 	//모임찾기
-	public Map<String, Object> getMeetingResult(String town) throws Exception;
+	public List<Meeting> getMeetingResult(String town) throws Exception;
 
 }
