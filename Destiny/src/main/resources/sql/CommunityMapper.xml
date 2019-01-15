@@ -55,7 +55,7 @@
 	<select id="getCommunityList" parameterType="com.destiny.common.Search" resultMap="communitySelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT  comu.community_no, comu.community_writer_id, comu.meeting_no, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition
+	  					FROM		(	SELECT  comu.community_no, comu.community_writer_id, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition
 											FROM community comu
 											WHERE  category = 'RES' and community_view_condition = 'DEF'
 											
@@ -109,7 +109,7 @@
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalCount"  parameterType="com.destiny.common.Search"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT comu.community_no, comu.community_writer_id, comu.meeting_no, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition
+	  	FROM(	SELECT comu.community_no, comu.community_writer_id, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition
 						FROM community comu
 						WHERE  category = 'RES' and community_view_condition = 'DEF'
 						<!-- <if test="searchCondition != null">
