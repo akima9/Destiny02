@@ -151,13 +151,32 @@
 										 				user_id like #{searchKeyword}||'%' 
 													</if>
 													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				nick_name like #{searchKeyword}||'%'
+										 				nick_name like #{searchKeyword}||'%' 
 													</if>
 												</where>
 											</if>
-											ORDER BY user_id ) inner_table
+											<if test="searchSortingOption != null and searchSortingOption != ''">											
+												<if test="searchSortingOption == 0 and searchSortingOption != '' ">											
+													ORDER BY user_id
+												</if>
+												<if test="searchSortingOption == 1 and searchSortingOption != '' ">
+													ORDER BY attend_count ASC
+												</if>	
+												<if test="searchSortingOption == 2 and searchSortingOption != '' ">
+													ORDER BY attend_count DESC
+												</if>										
+										</if>
+											 ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+		<if test="searchSortingOption != null">											
+			<if test="searchSortingOption == 3 and searchSortingOption != '' ">
+				ORDER BY attend_count ASC
+			</if>
+			<if test="searchSortingOption == 4 and searchSortingOption != '' ">
+				ORDER BY attend_count DESC
+			</if>											
+		</if>	
 	 </select>
 	 
 	 <select  id="getTotalCount"  parameterType="com.destiny.common.Search"	 resultType="int">
