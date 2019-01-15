@@ -34,10 +34,32 @@
 		//============= 회원정보수정 Event  처리 =============	
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button" ).on("click" , function() {
+			 $( "button[id='findButton']" ).on("click" , function() {
 				 	var userId = $("input[name='getUserId']").val();
 					self.location = "/user/getUser/"+userId;
 				});
+		});
+		
+		$(function(){
+			$("button[id='typeButton']").on("click", function(){
+				var userId = $("input[name='getUserId']").val();
+				self.location = "/user/addTypeView/"+userId;
+			});
+		});
+		
+		$(function(){
+			$("button[id='listButton']").on("click", function(){
+				self.location = "/user/listUser";
+			});
+		});
+		
+		$(function(){
+			$("button[id='letterList']").on("click", function(){
+				popWin = window.open("/letter/letterMain.jsp",
+					   	 "popWin",
+						 "left=300, top=200, width=700, height=700, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+
+			});
 		});
 		
 	</script>
@@ -48,7 +70,24 @@
 		    <label for="userId" class="col-sm-4 control-label"></label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" name="getUserId" id="getUserId"  placeholder="아이디" >
-		      <button id="findButton" type="button"  >회원검색</button>
+		      <button id="findButton" type="button">회원검색</button>
+		      <button id="typeButton" type="button">성격유형</button>
+		    </div>
+		</div>	
+		
+		<br/>
+		<div class="form-group">
+		    <label  class="col-sm-4 control-label"></label>
+		    <div class="col-sm-4">
+		      <button id="listButton" type="button">회원리스트</button>
+		    </div>
+		</div>	
+		
+		<br/>
+		<div class="form-group">
+		    <label  class="col-sm-4 control-label"></label>
+		    <div class="col-sm-4">
+		      <button id="letterList" type="button">쪽지</button>
 		    </div>
 		</div>	
 	</body>
