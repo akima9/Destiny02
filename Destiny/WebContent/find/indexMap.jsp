@@ -4,10 +4,10 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style>
 #map {
-    height: 500px; 
-    min-width: 500x; 
-    max-width: 500px; 
-    margin: 0 auto; 
+    height: 1000px; 
+    min-width: 1000x; 
+    max-width: 1000px; 
+    margin: 50 auto; 
 }
 </style>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
