@@ -37,11 +37,15 @@ public interface UserService {
 	
 	public void updateType(User user) throws Exception;
 	
+	public void updateGrade(User user) throws Exception;
+	
 	public Map<String , Object> getUserList(Search search) throws Exception;
 	
 	public void sendLetter(Letter letter) throws Exception;
 	public Letter getLetter(int no) throws Exception;
 	
 	public Map<String, Object> getLetterList(Search search, String Id) throws Exception;
+	
+	public void updateReceiveDate(int no) throws Exception;
 	
 }

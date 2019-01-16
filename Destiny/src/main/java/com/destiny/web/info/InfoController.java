@@ -15,6 +15,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -58,6 +59,7 @@ public class InfoController {
 		Map<String, Object> map = communityService.getCommunityList(search);
 		
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println("resultPage : "+resultPage);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("list", map.get("list"));
@@ -104,4 +106,56 @@ public class InfoController {
 		return modelAndView;
 	}
 	/*addRestaurantInfo : end*/
+	
+	/*getRestaurantInfo : start*/
+	@RequestMapping(value="getRestaurantInfo", method=RequestMethod.GET)
+	public ModelAndView getRestaurantInfo(@RequestParam("communityNo") int communityNo) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("community", communityService.getCommunity(communityNo));
+		modelAndView.setViewName("/community/getRestaurantInfo.jsp");
+		return modelAndView;
+	}
+	/*getRestaurantInfo : end*/
+	
+	/*updateRestaurantInfo : start*/
+	@RequestMapping(value="updateRestaurantInfo", method=RequestMethod.GET)
+	public ModelAndView updateRestaurantInfo(@RequestParam("communityNo") int communityNo) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("community", communityService.getCommunity(communityNo));
+		modelAndView.setViewName("/community/updateRestaurantInfo.jsp");
+		return modelAndView;
+	}
+	/*updateRestaurantInfo : end*/
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

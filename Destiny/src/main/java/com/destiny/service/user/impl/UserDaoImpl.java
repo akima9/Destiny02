@@ -89,6 +89,12 @@ public class UserDaoImpl implements UserDao{
 		sqlSession.update("UserMapper.updateType", user);
 	}
 
+
+	@Override
+	public void updateGrade(User user) throws Exception {
+		sqlSession.update("UserMapper.updateGrade", user);
+	}
+
 	@Override
 	public List<User> getUserList(Search search) throws Exception {
 		return sqlSession.selectList("UserMapper.getUserList", search);
@@ -105,8 +111,11 @@ public class UserDaoImpl implements UserDao{
 	}
 	
 	public Letter getLetter(int no) throws Exception{
-		sqlSession.update("UserMapper.updateReceiveDate", no);
 		return sqlSession.selectOne("UserMapper.getLetter", no);
+	}
+	
+	public void updateReceiveDate(int no) throws Exception{
+		sqlSession.update("UserMapper.updateReceiveDate", no);
 	}
 	
 	public Map<String, Object> getLetterList(Search search, String Id) throws Exception{
