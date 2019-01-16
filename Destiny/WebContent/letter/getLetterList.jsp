@@ -32,7 +32,7 @@
 	<script type="text/javascript">
 	
 	//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
-	function fncGetLetterList(currentPage) {
+	function fncGetGetLetterList(currentPage) {
 		$("#currentPage").val(currentPage)
 		$("form").attr("method" , "GET").attr("action" , "/user/getLetterList").submit();
 	}
@@ -41,7 +41,7 @@
 		$(".ct_list_pop td:nth-child(8n+7)").on("click" , function() {
 			var letterNo = $(this).data("param");
 			
-			self.location = "/user/getLetter?no="+letterNo;
+			self.location = "/user/getLetter?no="+letterNo+"&from=getList";
 			
 		});
 	});
@@ -64,6 +64,12 @@
    	
    		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
+		
+		<div class="col-md-6 text-left">
+	    	<p class="text-primary">
+	    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
+	    	</p>
+	    </div>
 		
 		<div class="form-group">
 		    <label for="senderId" class="col-sm-offset-1 col-sm-3 control-label">받은 쪽지함 ${totalReceiveCount}</label>
@@ -109,11 +115,12 @@
 		<div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 		     	<button type="button" class="btn btn-primary"  >작&nbsp;성</button>
+		     	 <a class="btn btn-primary btn" href="/letter/letterMain.jsp" role="button">메인으로</a>
 		    </div>
 		  </div>
 		 <!-- PageNavigation Start... -->
 		<jsp:include page="/common/pageNavigator_new.jsp">
-			<jsp:param value="Letter" name="type"/>
+			<jsp:param value="GetLetter" name="type"/>
 		</jsp:include>
 		<!-- PageNavigation End... -->
 

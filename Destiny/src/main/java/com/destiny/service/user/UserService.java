@@ -44,4 +44,6 @@ public interface UserService {
 	
 	public Map<String, Object> getLetterList(Search search, String Id) throws Exception;
 	
+	public void updateReceiveDate(int no) throws Exception;
+	
 }

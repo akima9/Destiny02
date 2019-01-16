@@ -145,6 +145,12 @@ public class UserServiceImpl implements UserService {
 		
 		return map;
 	}
-		
+
+	@Override
+	public void updateReceiveDate(int no) throws Exception {
+		userDao.updateReceiveDate(no);
+	}
+	
+	
 	
 }
