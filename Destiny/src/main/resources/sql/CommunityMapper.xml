@@ -31,12 +31,12 @@
 	</insert>
 	 
 	 <!-- SQL : SELECT ONE -->
-	 <!-- <select id="getProduct" parameterType="int" resultMap="productSelectMap">
+	 <select id="getCommunity" parameterType="int" resultMap="communitySelectMap">
 		SELECT
-		prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date
-		FROM product
-		WHERE prod_no = #{value}
-	 </select> -->
+		community_no, community_writer_id, category, community_user_grade, community_title, community_writer_nick_name, community_detail, community_write_date,  community_views, community_like, import_rank, community_view_condition
+		FROM community
+		WHERE community_no = #{value}
+	 </select>
 	 
 	 <!-- SQL : UPDATE -->
 	 <!-- <update	id="updateProduct"	parameterType="com.model2.mvc.service.domain.Product" >

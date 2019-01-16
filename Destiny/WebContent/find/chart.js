@@ -62,6 +62,7 @@ highMaps.prototype.init = function(){
                                          *  디폴트 상태입니다. ex)textShadow: '0 0 0px #000000'를 설정하지 않는다면 textShadow 효과가 지속됩니다.
                                          *                                      * 
                                          * */
+                                        
                                         style : {
                                         	color : '#000',
                                             textShadow: '0 0 0px #000000',
@@ -129,7 +130,7 @@ highMaps.prototype.init = function(){
             drilldown: {
             	// 상위 지도 레이블 스타일 설정
                 activeDataLabelStyle: {
-                	color : '#000',
+                	color : '#000', //지역이름text색상
                 	shadow: false,
                     textShadow: '0 0 0px #000000',
                     fontWeight: "none",
