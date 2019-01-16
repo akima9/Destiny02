@@ -32,7 +32,7 @@
 	<script type="text/javascript">
 	$(function() {
 		 $( "button.btn.btn-primary" ).on("click" , function() {
-			 self.location = "/user/getLetterList";
+			 self.location = "/letter/letterMain.jsp";
 		});
 	});
 	
@@ -54,16 +54,16 @@
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 		     
-		      <button type="button" class="btn btn-primary"  >목&nbsp;록</button>
+		      <button type="button" class="btn btn-primary"  >쪽지 메인으로</button>
 		    
-			  <a class="btn btn-primary btn" href="/sendletter.jsp" role="button">또&nbsp;보내기</a>
+			  <a class="btn btn-primary btn" href="/letter/sendletter.jsp" role="button">또&nbsp;보내기</a>
 		    </div>
 		  </div>
 
 	   </form>
  	</div>
 	<!--  화면구성 div end /////////////////////////////////////-->
-		  
+		
 	
 </body>
 </html>

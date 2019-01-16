@@ -32,16 +32,16 @@
 	<script type="text/javascript">
 	
 	//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
-	function fncGetLetterList(currentPage) {
+	function fncGetSendLetterList(currentPage) {
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "GET").attr("action" , "/user/getLetterList").submit();
+		$("form").attr("method" , "GET").attr("action" , "/user/sendLetterList").submit();
 	}
 	
 	$(function() {
 		$(".ct_list_pop td:nth-child(8n+7)").on("click" , function() {
 			var letterNo = $(this).data("param");
 			
-			self.location = "/user/getLetter?no="+letterNo;
+			self.location = "/user/getLetter?no="+letterNo+"&from=sendList";
 			
 		});
 	});
@@ -64,6 +64,12 @@
    	
    		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
+		
+		<div class="col-md-6 text-left">
+	    	<p class="text-primary">
+	    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
+	    	</p>
+	    </div>
 
 		 <div class="form-group">
 		    <label for="senderId" class="col-sm-offset-1 col-sm-3 control-label">보낸 쪽지함 ${totalSendCount}</label>
@@ -96,7 +102,7 @@
 					<td></td>		
 					<td align="left">${letter.receiverId}</td>
 					<td></td>
-					<td align="left">${letter.sendLetterDate}</td>
+					<td align="left">${letter.getLetterDate}</td>
 					<td></td>
 					<td align="left" data-param="${letter.letterNo}">${letter.letterTitle}</td>
 					<td></td>
@@ -105,15 +111,19 @@
 			</tbody>
 		 </table>
 		 
+		 <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+		<input type="hidden" id="currentPage" name="currentPage" value=""/>
+		 
 		 <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 		     	<button type="button" class="btn btn-primary"  >작&nbsp;성</button>
+		     	 <a class="btn btn-primary btn" href="/letter/letterMain.jsp" role="button">메인으로</a>
 		    </div>
 		  </div>
 		
 		<!-- PageNavigation Start... -->
 		<jsp:include page="/common/pageNavigator_new.jsp">
-			<jsp:param value="Letter" name="type"/>
+			<jsp:param value="SendLetter" name="type"/>
 		</jsp:include>
 		<!-- PageNavigation End... -->
 		

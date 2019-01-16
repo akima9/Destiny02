@@ -106,6 +106,11 @@ public class UserServiceImpl implements UserService {
 	public void updateType(User user) throws Exception {
 		userDao.updateType(user);
 	}
+	
+	@Override
+	public void updateGrade(User user) throws Exception {
+		userDao.updateGrade(user);
+	}
 
 	@Override
 	public Map<String, Object> getUserList(Search search) throws Exception {
@@ -145,6 +150,12 @@ public class UserServiceImpl implements UserService {
 		
 		return map;
 	}
-		
+
+	@Override
+	public void updateReceiveDate(int no) throws Exception {
+		userDao.updateReceiveDate(no);
+	}
+	
+	
 	
 }

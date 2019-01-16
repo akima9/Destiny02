@@ -59,7 +59,7 @@
 		 <div class="form-group">
 		    <label for="receiverId" class="col-sm-offset-1 col-sm-3 control-label">수신자ID</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="receiverId" name="receiverId">
+		      <input type="text" class="form-control" id="receiverId" name="receiverId" value="${senderId}">
 		    </div> 
 		 </div>
 		 
@@ -82,7 +82,7 @@
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 		      <button type="button" class="btn btn-primary"  >전 &nbsp;송</button>
-			  <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+			  <a class="btn btn-primary btn" href="/letter/letterMain.jsp" role="button">취&nbsp;소</a>
 		    </div>
 		  </div>
 

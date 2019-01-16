@@ -20,18 +20,34 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw" crossorigin="anonymous"></script>
 <script type="text/javascript">
+
+
+function fncGetList(currentPage){
+	$("#currentPage").val(currentPage)
+	$("form").attr("method","POST").attr("action","/info/listRestaurantInfo").submit();
+}
+
 $(function() {
-	
-	function fncGetList(currentPage){
-		$("#currentPage").val(currentPage)
-		$("form").attr("method","POST").attr("action","/info/listRestaurantInfo").submit();
-	}
 	
 	$("button:contains('글쓰기')").on("click", function() {
 		self.location = "/info/addRestaurantInfo"
 	});
 	
+	/* 글 제목 마우스 오버 : start */
+	$(".getRestaurantLink").on("mouseover",function(){
+		$(".getRestaurantLink").css("cursor","pointer")
+	});
+	/* 글 제목 마우스 오버 : end */
+	
+	/* 글 제목 클릭 : start */
+	$(".getRestaurantLink").on("click", function(){
+		var communityNo = $(this).data("param")
+		self.location="/info/getRestaurantInfo?communityNo="+communityNo
+	});
+	/* 글 제목 클릭 : end */
+	
 });
+
 </script>
 </head>
 <body>
@@ -44,9 +60,11 @@ $(function() {
 	
 		<h1>getRestaurantInfoList.jsp</h1>
 		
-		<div class="form-group">
-			<input type="hidden" id="currentPage" name="currentPage" value=""/>
-		</div>
+		<form>
+			<div class="form-group">
+				<input type="hidden" id="currentPage" name="currentPage" value="">
+			</div>
+		</form>
 		
 		<table class="table table-hover table-striped">
 		
@@ -70,7 +88,7 @@ $(function() {
 							<span>${community.communityNo }</span>
 						</td>
 						<td>
-							<span>${community.title }</span>
+							<span class="getRestaurantLink" data-param="${ community.communityNo }">${community.title }</span>
 						</td>
 						<td>
 							<span>${community.writerNickName }</span>
@@ -95,6 +113,10 @@ $(function() {
 		</div>
 	
 	</div>
+	
+	<!-- PageNavigation : start -->
+	<jsp:include page="../common/pageNavigator_new.jsp"/>
+	<!-- PageNavigation : end -->
 	
 </body>
 </html>
