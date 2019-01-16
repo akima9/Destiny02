@@ -49,8 +49,10 @@ public class MeetingController {
 		System.out.println("하이리스트");
 		
 		Map<String , Object> map=meetingService.getMeetingList();
+		Map<String , Object> bestMap=meetingService.getBestProduct();
 		
 		model.addAttribute("list", map.get("list"));
+		model.addAttribute("bestList", bestMap.get("bestList"));
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/meeting/getMeetingList.jsp");
@@ -91,16 +93,35 @@ public class MeetingController {
 	}
 	
 	@RequestMapping(value="getMeeting", method=RequestMethod.GET)
-	public ModelAndView getMeeting(@RequestParam("meetingNo") int meetingNo) throws Exception{
+	public ModelAndView getMeeting(Model model, @RequestParam("meetingNo") int meetingNo) throws Exception{
 		System.out.println("하이 겟 미팅");
 		System.out.println(meetingNo);
 		
-		//Meeting meeting = meetingService.getMeeting(meetingNo);
-		//meetingService.updateViews(meetingNo);
+		Meeting meeting = meetingService.getMeeting(meetingNo);
+		meetingService.updateViews(meetingNo);
+		
+		model.addAttribute("meeting", meeting);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/meeting/getMeeting.jsp");
-		//return modelAndView;
-		return null;
+		modelAndView.setViewName("forward:/meeting/getMeeting.jsp");
+		return modelAndView;
+		//return null;
+	}
+	
+	@RequestMapping(value="updateMeeting", method=RequestMethod.POST)
+	public ModelAndView updateMeeting(Model model,
+			@ModelAttribute("meeting") Meeting meeting) throws Exception{
+		System.out.println("하이 업데이트");
+		System.out.println(meeting.getMeetingCondition());
+		System.out.println(meeting.getMeetingNo());
+		//Meeting meeting = meetingService.getMeeting(meetingNo);
+		meetingService.updateMeeting(meeting);
+		
+		//model.addAttribute("meeting", meeting);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/meeting/getMeetingList.jsp");
+		return modelAndView;
+		//return null;
 	}
 }

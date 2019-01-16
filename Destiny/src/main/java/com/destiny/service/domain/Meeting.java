@@ -20,7 +20,7 @@ public class Meeting {
 	private	String	meetingTime;
 	private	String	snooze;
 	private	String	meetingDues;
-	private	String	meetingViews;
+	private	int		meetingViews;
 	private	String	meetingCondition;
 	private	String	shutDownDate;
 	private	String	meetingCrewLimit;
@@ -99,7 +99,7 @@ public class Meeting {
 		return meetingDate;
 	}
 	public void setMeetingDate(String meetingDate) {
-		this.meetingDate = meetingDate;
+		this.meetingDate = meetingDate.substring(0,10);
 	}
 	public String getMeetingDay() {
 		return meetingDay;
@@ -125,18 +125,13 @@ public class Meeting {
 	public void setMeetingDues(String meetingDues) {
 		this.meetingDues = meetingDues;
 	}
-	public String getMeetingViews() {
+	public int getMeetingViews() {
 		return meetingViews;
 	}
-	public void setMeetingViews(String meetingViews) {
+	public void setMeetingViews(int meetingViews) {
 		this.meetingViews = meetingViews;
 	}
-	public String getMeeting_condition() {
-		return meetingCondition;
-	}
-	public void setMeeting_condition(String meeting_condition) {
-		this.meetingCondition = meeting_condition;
-	}
+
 	public String getShutDownDate() {
 		return shutDownDate;
 	}

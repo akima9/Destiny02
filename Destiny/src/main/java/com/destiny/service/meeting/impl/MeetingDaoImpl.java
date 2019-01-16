@@ -50,4 +50,24 @@ public class MeetingDaoImpl implements MeetingDao {
 	public List<Meeting> getMeetingList() throws Exception {
 		return sqlSession.selectList("MeetingMapper.getMeetingList");
 	}
+
+	@Override
+	public Meeting getMeeting(int meetingNo) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.getMeeting", meetingNo);
+	}
+
+	@Override
+	public void updateViews(int meetingNo) throws Exception {
+		sqlSession.selectOne("MeetingMapper.updateViews", meetingNo);		
+	}
+
+	@Override
+	public List<Meeting> getBestProduct() throws Exception {
+		return sqlSession.selectList("MeetingMapper.getBestProduct");
+	}
+
+	@Override
+	public void updateMeeting(Meeting meeting) throws Exception {
+		sqlSession.update("MeetingMapper.updateMeeting",meeting);
+	}
 }

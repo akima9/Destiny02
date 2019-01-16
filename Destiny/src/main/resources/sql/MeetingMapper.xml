@@ -51,7 +51,38 @@
 	 </insert>
 	 
 	 <select 	id="getMeetingList" resultMap="meetingSelectMap">
-		SELECT* FROM meeting
+		SELECT* FROM meeting WHERE meeting_condition ='DEF'
 	 </select>
+	 
+	 <select 	id	="getMeeting"	parameterType="string"	resultMap="meetingSelectMap">
+		SELECT*FROM meeting
+		where meeting_no = #{meetingNo}
+	 </select>
+	 
+	 <update 	id="updateViews"		parameterType="com.destiny.service.domain.Meeting">
+	 	UPDATE meeting
+	 	<set>
+	 	 meeting_views = NVL(meeting_views,0) +1
+	 	</set>
+	 	WHERE meeting_no = #{meetingNo}
+	 </update>
+	 
+	  <select  id="getBestProduct"  resultMap="meetingSelectMap">
+	 		SELECT *
+			FROM ( SELECT inner_table. * ,  ROWNUM AS row_seq 
+				FROM (
+				select*from meeting where meeting_views is not null order by meeting_views desc
+				) inner_table 
+			WHERE ROWNUM &lt;= 3)
+			WHERE row_seq BETWEEN 1 AND 3 
+	 </select>
+	 
+	 <update	id="updateMeeting"	parameterType="com.destiny.service.domain.Meeting" >
+	   	UPDATE meeting
+	   	<set>
+	   		meeting_condition 		= #{meetingCondition}
+	   	</set>
+	   	WHERE meeting_no = #{meetingNo}
+	 </update>
 	 
 </mapper>
