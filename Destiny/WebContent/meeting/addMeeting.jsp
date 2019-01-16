@@ -290,6 +290,9 @@
 	</head>
 	
 	<body>
+	<!-- ToolBar Start /////////////////////////////////////-->
+    <jsp:include page="/layout/toolBar.jsp" />
+    <!-- ToolBar End /////////////////////////////////////-->
    	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
    		<h1 class="bg-primary text-center">개설하기</h1>

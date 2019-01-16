@@ -11,4 +11,13 @@ public interface MeetingDao {
 	public void addMeeting(Meeting meeting)throws Exception;
 	
 	public List<Meeting> getMeetingList() throws Exception;
+	
+	public Meeting getMeeting(int meetingNo)throws Exception;
+	
+	public void updateViews(int meetingNo)throws Exception;
+	
+	public List<Meeting> getBestProduct() throws Exception;
+	
+	public void updateMeeting(Meeting meeting)throws Exception;
+	
 }
