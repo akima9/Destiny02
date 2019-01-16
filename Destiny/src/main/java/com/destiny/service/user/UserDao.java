@@ -37,6 +37,8 @@ public interface UserDao {
 	
 	public void updateType(User user)throws Exception;
 	
+	public void updateGrade(User user)throws Exception;
+	
 	public List<User> getUserList(Search search) throws Exception;
 	
 	public int getUserTotalCount(Search search) throws Exception;

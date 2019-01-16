@@ -89,6 +89,12 @@ public class UserDaoImpl implements UserDao{
 		sqlSession.update("UserMapper.updateType", user);
 	}
 
+
+	@Override
+	public void updateGrade(User user) throws Exception {
+		sqlSession.update("UserMapper.updateGrade", user);
+	}
+
 	@Override
 	public List<User> getUserList(Search search) throws Exception {
 		return sqlSession.selectList("UserMapper.getUserList", search);

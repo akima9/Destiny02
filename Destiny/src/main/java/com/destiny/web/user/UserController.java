@@ -77,11 +77,11 @@ public class UserController {
 		//Business Logic
 		User dbUser=userService.getUser(user.getUserId());
 		
-		session.setAttribute("me", dbUser);
-		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/index.jsp");
-		
+		if(dbUser == null) {
+			modelAndView.addObject("result", "Fail");
+		}
 		//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
 		ServletContext applicationScope = request.getSession().getServletContext();
 		
@@ -97,10 +97,20 @@ public class UserController {
 			numberOfLogin = (int) applicationScope.getAttribute("numberOfLogin");
 		}
 
+		System.out.println("현 접속자 중 지금 로그인 시도한 사람이 있습니까? ");
+		boolean checkDe = false;
+		for(int i = 0; i < loginList.size(); i++) {
+			if(loginList.get(i).toString().equals(dbUser.toString())) {
+				System.out.println("어 있엉~~~~~~~~~~~~~~~~~~~~~~~");
+				checkDe = true;
+			}
+		}
+		
 		if( user.getPassword().equals(dbUser.getPassword())){
 			
-			if(loginList.contains(user.getUserId())) {
-
+			if(!checkDe) {
+				session.setAttribute("me", dbUser);
+				
 				loginList.add(dbUser);
 				
 				numberOfLogin++;
@@ -118,9 +128,11 @@ public class UserController {
 			} else {
 				System.out.println("이미 로그인된 회원입니다.");
 				modelAndView.addObject("result", "Fail");
+				modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 			}
 			
 		} else {
+			System.out.println("비밀번호가 다릅니다.");
 			modelAndView.addObject("result", "Fail");
 		}
 		//====================================================================================================
@@ -255,7 +267,7 @@ public class UserController {
 		
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/user/userInfo/loginView.jsp");
+		modelAndView.setViewName("redirect:/index.jsp");
 
 		userService.addUser(user);
 		
@@ -525,7 +537,15 @@ public class UserController {
 		return modelAndView;
 	}
 	
-	
+	@RequestMapping(value="leaveSite/{userId}", method=RequestMethod.GET)
+	public ModelAndView leaveSite(@PathVariable String userId) throws Exception{
+		
+		
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/logout/"+userId);
+		return modelAndView;
+	}
 
 	@RequestMapping( value="getLetter", method=RequestMethod.GET)
 	public String getLetter( @RequestParam int no, Model model, HttpSession session, @RequestParam String from) throws Exception{
