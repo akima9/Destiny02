@@ -11,5 +11,12 @@ public interface MeetingService {
 	public void addMeeting(Meeting meeting) throws Exception;
 	
 	public Map<String , Object> getMeetingList() throws Exception;
+	
+	public Meeting getMeeting(int meetingNo) throws Exception;
+	
+	public void updateViews(int meetingNo) throws Exception;
+	
+	public Map<String , Object> getBestProduct() throws Exception;
 
+	public void updateMeeting(Meeting meeting) throws Exception;
 }

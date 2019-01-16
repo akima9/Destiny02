@@ -49,4 +49,30 @@ public class MeetingServiceImpl implements MeetingService {
 		map.put("list", list );
 		return map;
 	}
+
+	@Override
+	public Meeting getMeeting(int meetingNo) throws Exception {
+		return meetingDao.getMeeting(meetingNo);
+	}
+
+	@Override
+	public void updateViews(int meetingNo) throws Exception {
+		meetingDao.updateViews(meetingNo);
+	}
+
+	@Override
+	public Map<String, Object> getBestProduct() throws Exception {
+		List<Meeting> bestList= meetingDao.getBestProduct();
+		
+		Map<String, Object> bestMap = new HashMap<String, Object>();
+		bestMap.put("bestList", bestList );
+		return bestMap;
+	}
+
+	@Override
+	public void updateMeeting(Meeting meeting) throws Exception {
+		meetingDao.updateMeeting(meeting);
+		
+	}
+	
 }
