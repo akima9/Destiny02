@@ -106,8 +106,8 @@
 		    });
 		    
 		    $(function() {
-				$( ".listingTAB" ).on("click", function() {
-					var meetingNo = $(this).data("param7");
+				$( ".list_pop td:nth-child(3)" ).on("click", function() {
+					var meetingNo = $(this).data("param");
 					console.log(meetingNo);
 					self.location="/meeting/getMeeting?meetingNo="+meetingNo;
 				});
@@ -229,7 +229,7 @@
 
 <body>
     <!-- ToolBar Start /////////////////////////////////////-->
-    <%-- <jsp:include page="/layout/toolbar.jsp" /> --%>
+    <jsp:include page="/layout/toolBar.jsp" />
     <!-- ToolBar End /////////////////////////////////////-->
 
     <div style="width:98%; margin-left:10px;">
@@ -241,7 +241,7 @@
             <!-- 베스트상품 테이블 -->
             <table>
             <c:set var="i" value="0" />
-				  <c:forEach var="meeting" items="${Bestlist}">
+				  <c:forEach var="meeting" items="${bestList}">
 				  <c:set var="i" value="${ i+1 }" />
 				  </c:forEach>
 	            <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -253,7 +253,7 @@
 			      </ol>
 			      <div class="carousel-inner" role="listbox">
 			        <div class="item active">
-			          <img class="first-slide" src="/uppic/911.png" alt="First slide"><!-- 첫번째 사진 -->
+			          <img class="first-slide" src="/resources/images/meeting/${bestList[0].titleImg}" alt="First slide"><!-- 첫번째 사진 -->
 			          <div class="container">
 			            <div class="carousel-caption">
 			            	무슨설명 달고싶으면 여기에
@@ -264,7 +264,7 @@
 			          </div>
 			        </div>
 			        <div class="item">
-			          <img class="second-slide" src="/uppic/macan.png" alt="Second slide"><!-- 두번째 사진 -->
+			          <img class="second-slide" src="/resources/images/meeting/${bestList[1].titleImg}" alt="Second slide"><!-- 두번째 사진 -->
 			          <div class="container">
 			            <div class="carousel-caption">
 			              <h1>Another example headline.</h1>
@@ -274,7 +274,7 @@
 			          </div>
 			        </div>
 			        <div class="item">
-			          <img class="third-slide" src="/uppic/macan.png" alt="Third slide"><!-- 세번째 사진 -->
+			          <img class="third-slide" src="/resources/images/meeting/${bestList[2].titleImg}" alt="Third slide"><!-- 세번째 사진 -->
 			          <div class="container">
 			        	<div class="carousel-caption">
 			              <h1>One more for good measure.</h1>
@@ -378,11 +378,8 @@
 			 <!-- 개설하기 버튼 종료 -->
 			 
 			 <!-- 리스트 시작 -->
-			 	<c:set var="i" value="0" />
-				  <c:forEach var="meeting" items="${list}">
-				  <c:set var="i" value="${ i+1 }" />
-                <table class="listingTAB" width="100%" border="0" cellspacing="0" cellpadding="0" 
-                style="margin-top:10px;" data-param7="${meeting.meetingNo}">
+			 	
+                <table class="listingTAB" width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
                     <tr>
                         <td colspan="11" align="left">
                            	 전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage} 페이지
@@ -392,8 +389,12 @@
                     <tr>
                         <td colspan="15" bgcolor="808285" height="1"></td>
                     </tr>
+                    
+                    <c:set var="i" value="0" />
+				 	 <c:forEach var="meeting" items="${list}">
+				 	 <c:set var="i" value="${ i+1 }" />
                   
-                    <tr class="ct_list_pop">
+                    <tr>
                         <td>
                             <img width="100px" src="/resources/images/meeting/${meeting.titleImg}" >
                         </td>
@@ -408,17 +409,17 @@
                         <td></td>
                     </tr>
                     
-                    <tr>
+                    <tr class="list_pop">
                     	<td>
                         </td>
                         <td></td>
-                        <td align="left" data-param="${meeting.meetingName}" data-param2="${meeting.meetingName}">
+                        <td id="meetingNo" align="left" data-param="${meeting.meetingNo}">
                         	${meeting.meetingName}
                         </td>
                         <td></td>
                         <td align="left">조회수</td>
                         <td></td>
-                        <td align="left">101회</td>
+                        <td align="left">${meeting.meetingViews}회</td>
                         <td></td>
                     </tr>
                     
@@ -427,7 +428,7 @@
                         </td>
                         <td></td>
                         <td align="left">
-                        	모임날짜:${meeting.meetingDate} ${meeting.meetingLocation}
+                        	모임날짜:${meeting.meetingDate} 다음모임장소:${meeting.meetingLocation}
                         </td>
                         <td></td>
                         <td align="left"></td>
