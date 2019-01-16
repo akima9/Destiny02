@@ -116,7 +116,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
  <style>
-#chat_box {
+#conversation {
     width: 400px;
     min-width: 400px;
     height: 500px;
@@ -148,7 +148,7 @@
 		if (username!='${me.userId}') {
 			
 			
-			$('#conversation').append('<c>'+username + '<br> ' + data + '<br></c>');
+			$('#conversation').append('<div>'+username + '<br> ' + data + '</div><br>');
 		}
 		
 	});
@@ -200,16 +200,9 @@
  </head> 
  <body> 
  
- <!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolBar.jsp" />
-  <!-- ToolBar End /////////////////////////////////////-->
-    
- 
 
-<div id='chat_box' style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
-	<div id="conversation"></div>
-
-</div>
+<div id='chat_box'></div>
+<div id="conversation"></div>
 <input id="data" style="width:200px;" />
 <input type="button" id="datasend" value="send" />
 

@@ -38,9 +38,7 @@
 </head>
 <body>
 
-  <!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolBar.jsp" />
-  <!-- ToolBar End /////////////////////////////////////-->
+ 
     
     <div id="chat_box"></div>
     <input type="text" id="msg">
