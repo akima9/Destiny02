@@ -21,13 +21,9 @@
             padding-top : 100px;
         }
         .navbar-fixed-top{height:100px; padding-top:20px;}
-        .thumbnail img{width:300px; height:300px;}
+        .thumbnail img{width:300px; height:300px; vertical-align:middle;}
         .jumbotron{height:450px;}
-        
-        .thumbnail:hover{
-        	rgba(255, 0, 0, 0.2);
-        	z-index: 99;
-        }
+
    	</style>
    	
   </head>
@@ -58,10 +54,11 @@
     <!-- Begin page content -->
     <div class="row">
 	  <div class="col-xs-6 col-md-3">
-	    <a href="#" class="thumbnail">
+	      <a href="#" class="thumbnail">
 	      <img src="../resources/images/layout/mbti.jpg" alt="...">
 	    </a>
 	  </div>
+	  
 	  <div class="col-xs-6 col-md-3">
 	    <a href="#" class="thumbnail">
 	      <img src="../resources/images/layout/meeting.jpg" alt="...">

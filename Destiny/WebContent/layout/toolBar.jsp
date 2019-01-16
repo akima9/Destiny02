@@ -20,9 +20,9 @@
 			$("a[href='#' ]:contains('RestaurantInfo')").on("click", function() {
 				self.location = "/info/listRestaurantInfo"
 			});
-			$("a[href='#' ]:contains('login')").on("click", function() {
+			/* $("a[href='#' ]:contains('login')").on("click", function() {
 				self.location = "/user/login"
-			});
+			}); */
 			$("a[href='#' ]:contains('join')").on("click", function() {
 				self.location = "/user/addUser"
 			});
@@ -33,8 +33,49 @@
 				self.location = "/user/logout/${me.userId}"
 			});
 			
+			$("#btn-open-dialog,#dialog-background,#btn-close-dialog").click(function () {
+				$("#my-dialog,#dialog-background").toggle();
+			});
 			
 		});
+		
+		//============= "로그인"  Event 연결 =============
+		$( function() {
+			
+			$("#userId").focus();
+			
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$("#loginButton").on("click" , function() {
+				var id=$("input:text").val();
+				var pw=$("input:password").val();
+				
+				if(id == null || id.length <1) {
+					alert('ID 를 입력하지 않으셨습니다.');
+					$("#userId").focus();
+					return;
+				}
+				
+				if(pw == null || pw.length <1) {
+					alert('패스워드를 입력하지 않으셨습니다.');
+					$("#password").focus();
+					return;
+				}
+				
+				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
+			});
+		});	
+		
+		//============= 회원 찾기===================
+		
+		$( function() { 
+			$("#findButton").on("click" , function() {
+				var userId = $("input[name='getUserId']").val();
+				alert(userId);
+				self.location = "/user/getUser/"+userId;
+			});
+		});
+		
+		
 	</script>
 	
 	<style>
@@ -43,6 +84,25 @@
         }
         .navbar-fixed-top{height:100px; padding-top:20px;}
         .navbar-nav-left{text-align:right;}
+        
+        #dialog-background {
+		    display: none;
+		    position: fixed;
+		    top: 0; left: 0;
+		    width: 100%; height: 100%;
+		    background: rgba(0,0,0,.3);
+		    z-index: 10;
+		}
+		
+		#my-dialog {
+		    display: none;
+		    position: fixed;
+		    left: calc( 50% - 160px ); top: calc( 50% - 70px );
+		    width: 320px; height: 250px; 
+		    background: #fff;
+		    z-index: 11;
+		    padding: 10px;
+		}
    	</style>
 
 	<!-- Fixed navbar -->
@@ -57,6 +117,7 @@
           </button>
           <a class="navbar-brand" href="#">우리들의 연결고리</a>
         </div>
+        
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <!-- <li class="active"><a href="#">Home</a></li> -->
@@ -66,7 +127,10 @@
             <!-- <li><a href="#">맛집정보</a></li>
             <li><a href="#">연애조언</a></li> -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Story <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+              	<span>Story</span>
+              	<span class="caret"></span>
+              </a>
               <ul class="dropdown-menu">
                 <li><a href="#">RestaurantInfo</a></li>
                 <li><a href="#">LoveAdvice</a></li>
@@ -74,16 +138,45 @@
             </li>
             <li><a href="#">Notice</a></li>
           </ul>
+          
           <ul class="nav navbar-nav navbar-right">
           	<c:if test="${me == null}">
-	            <li><a href="#">login</a></li>
+	           
+	           <li><a href="#" id="btn-open-dialog">login</a></li>
 	            <li><a href="#">join</a></li>
+	            
+	            	<div id="my-dialog">
+	            		<form class="form-horizontal">
+	            			<div class="form-group">
+	            				<label for="userId" class="col-sm-4 control-label">아 이 디</label>
+		            			<div class="col-sm-6">
+		            				<input type="text" class="form-control" name="userId" id="userId"  placeholder="아이디" >
+		            			</div>
+	            			</div>
+	            			
+	            			<div class="form-group">
+	            				<label for="password" class="col-sm-4 control-label">패 스 워 드</label>
+	            				<div class="col-sm-6">
+	            					<input type="password" class="form-control" name="password" id="password" placeholder="패스워드" >
+					    		</div>
+					  		</div>
+					  		
+					  		<div class="form-group">
+					  			<div class="col-sm-offset-4 col-sm-6 text-center">
+					  				<button id="loginButton" type="button" class="btn btn-primary"  >로 &nbsp;그 &nbsp;인</button>
+					      			<a class="btn btn-primary btn" href="#" role="button">회 &nbsp;원 &nbsp;가 &nbsp;입</a>
+					      		</div>
+					      	</div>
+						</form>
+					   	
+						<button id="btn-close-dialog">창 닫기</button>
+					</div>
+					<div id="dialog-background"></div>
             </c:if>
             <c:if test="${me != null}">
 				<li><a href="#">MyPage</a></li>
 				<li><a href="#">logout</a></li>
 			</c:if>
-            
           </ul>
         </div><!--/.nav-collapse -->
       </div>
