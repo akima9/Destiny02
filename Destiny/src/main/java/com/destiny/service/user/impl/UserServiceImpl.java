@@ -112,6 +112,12 @@ public class UserServiceImpl implements UserService {
 		userDao.updateGrade(user);
 	}
 
+
+	@Override
+	public void updateState(User user) throws Exception {
+		userDao.updateState(user);
+	}
+
 	@Override
 	public Map<String, Object> getUserList(Search search) throws Exception {
 		List<User> list= userDao.getUserList(search);
@@ -123,38 +129,7 @@ public class UserServiceImpl implements UserService {
 		
 		return map;
 	}
-	///Method
-	public void sendLetter(Letter letter) throws Exception{
-		userDao.sendLetter(letter);
-	}
 	
-	public Letter getLetter(int no) throws Exception{
-		return userDao.getLetter(no);
-	}
-	
-	@Override
-	public Map<String, Object> getLetterList(Search search, String Id) throws Exception {
-		Map<String, Object> map = userDao.getLetterList(search, Id);
-		
-		
-		System.out.println("ServiceImpl ¿¡¼­ÀÇ map : " + map);
-		
-		int totalReceiveCount = userDao.getReceiveLetterTotalCount(Id);
-		int totalSendCount = userDao.getSendLetterTotalCount(Id);
-		
-		//Map<String, Object> map = new HashMap<String, Object>();
-		//map.put("list", list );
-		
-		map.put("totalReceiveCount", new Integer(totalReceiveCount));
-		map.put("totalSendCount", new Integer(totalSendCount));
-		
-		return map;
-	}
-
-	@Override
-	public void updateReceiveDate(int no) throws Exception {
-		userDao.updateReceiveDate(no);
-	}
 	
 	
 	

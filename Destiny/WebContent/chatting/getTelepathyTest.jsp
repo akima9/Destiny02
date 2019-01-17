@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+    <!--  ///////////////////////// JSTL  ////////////////////////// -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -23,7 +26,7 @@
 
 
 function getRandomChatting(){
-	popWin = window.open("getRandomChatting.jsp",
+	popWin = window.open("chatting/addrandomChatting",
 												"popWin",
 												"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 }
@@ -42,7 +45,32 @@ $(function() {
 </head>
 <body>
 TelepathyTest<br>
+${roomNo}<br>
+<div>
+<c:set var="i" value="0" />
 
-<a href='#' class="btn btn-primary center" role="button" id="random">참여</a>
+<c:forEach var="telepathy" items="${list}">
+<c:set var="i" value="${ i+1 }" />	
+	<div class="row">
+	  		<div class="col-xs-1 col-md-1"><strong>${i}</strong></div>
+			<div class="col-xs-6 col-md-6">${telepathy.telepathyQuestion}</div>
+	</div>
+	
+	<div class="row">
+	  		<div class="col-xs-6 col-md-6"><strong>ONE</strong> ${telepathy.exOne}</div>
+			<div class="col-xs-6 col-md-6"><strong>TWO</strong>${telepathy.exTwo}</div>
+	</div>
+	<div class="row">
+	  		<div class="col-xs-6 col-md-6"><img src="/resources/images/telepathy/${telepathy.exOneImg}" width='100' height='100' ></div>
+			<div class="col-xs-6 col-md-6"><img src="/resources/images/telepathy/${telepathy.exTwoImg}" width='100' height='100' ></div>
+	</div>
+	
+		
+		<br>
+</c:forEach>
+</div>
+<div class='text-center'>
+<a href='#' class="btn btn-primary" role="button" id="random">참여</a>
+</div>
 </body>
 </html>

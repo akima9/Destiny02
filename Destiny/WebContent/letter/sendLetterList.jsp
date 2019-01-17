@@ -32,16 +32,16 @@
 	<script type="text/javascript">
 	
 	//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
-	function fncGetSendLetterList(currentPage) {
+	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "GET").attr("action" , "/user/sendLetterList").submit();
+		$("form").attr("method" , "GET").attr("action" , "/letter/sendLetterList").submit();
 	}
 	
 	$(function() {
 		$(".ct_list_pop td:nth-child(8n+7)").on("click" , function() {
 			var letterNo = $(this).data("param");
 			
-			self.location = "/user/getLetter?no="+letterNo+"&from=sendList";
+			self.location = "/letter/getLetter?no="+letterNo+"&from=sendList";
 			
 		});
 	});
@@ -122,9 +122,7 @@
 		  </div>
 		
 		<!-- PageNavigation Start... -->
-		<jsp:include page="/common/pageNavigator_new.jsp">
-			<jsp:param value="SendLetter" name="type"/>
-		</jsp:include>
+		<jsp:include page="/common/pageNavigator_new.jsp"/>
 		<!-- PageNavigation End... -->
 		
 	   </form>

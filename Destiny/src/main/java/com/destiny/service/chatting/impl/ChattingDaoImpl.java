@@ -1,5 +1,6 @@
 package com.destiny.service.chatting.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,11 +37,17 @@ public class ChattingDaoImpl implements ChattingDao {
 		sqlSession.insert("ChattingMapper.addChatting", chatting);
 		
 	}
+	
+	@Override
+	public Chatting getChatting(Chatting chatting) throws Exception {
+		sqlSession.selectOne("ChattingMapper.getChatting", chatting);
+		return sqlSession.selectOne("ChattingMapper.getChatting", chatting);
+	}
 
 	@Override
 	public List<Chatting> listContactMeeting(Chatting chatting) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		sqlSession.selectList("ChattingMapper.listChatting", chatting);
+		return sqlSession.selectList("ChattingMapper.listChatting", chatting);
 	}
 
 	@Override
@@ -57,20 +64,34 @@ public class ChattingDaoImpl implements ChattingDao {
 
 	@Override
 	public void updateContactMeeting(String contact) throws Exception {
-		// TODO Auto-generated method stub
+		sqlSession.update(contact);
 		
 	}
 
 	@Override
-	public Map<String, Object> listTelepathy(Telepathy telepathy) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Telepathy> listTelepathy(int chattingNo) throws Exception {
+		
+		Map<String , Object>  map = new HashMap<String, Object>();
+				
+				map.put("chattingNo", chattingNo);
+				
+				System.out.println("listTelepathy dao map"+map);
+				
+		return sqlSession.selectList("ChattingMapper.listTelepathy", map);
 	}
 
 	@Override
 	public int getTotalCount(Chatting chatting) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	
+
+	@Override
+	public String getTelepathyResult(Telepathy telepathy) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

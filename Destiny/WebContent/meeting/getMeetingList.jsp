@@ -91,7 +91,8 @@
 						self.location="/meeting/addMeeting"
 					}else if(${empty sessionScope.me}){
 						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
-							self.location="/user/login";
+							$("#my-dialog,#dialog-background").toggle();
+							//self.location="/user/login";
 						 }else{   //취소
 
 						     return;
@@ -114,107 +115,45 @@
 		    });
 
         
-        $(function() {
-			$( ".search" ).on("click" , function() {
-				console.log("들어옴");
-				
-				var list="";
-					list+="<table>";
-					list+="<tr>";
-					list+="<th class='city' data-param='서울'>서울</th>";
-					list+="<th class='city' data-param='경기'>경기</th>";
-					list+="<th colspan='5' rowspan='11'></th>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td>인천</td>";
-					list+="<td>부산</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td>대구</td>";
-					list+="<td>광주</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td>대전</td>";
-					list+="<td>울산</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td>세종</td>";
-					list+="<td>강원</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td>경남</td>";
-					list+="<td>경북</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td>전남</td>";
-					list+="<td>전북</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td>충남</td>";
-					list+="<td>충북</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td colspan='2'>제주</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td colspan='2' rowspan='2'></td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="</tr>";
-					list+="</table>";
+		    $(function(){
+				$( "#centerLocation" ).on("change" , function() {
+					//var idx = $(".brand_ids").index(this);
+					var city=$(this).val();
+					console.log(city);
 					
-					$(".search2").html(list);
-				
-			}); 
-				
-			
-        });
-        
-         $(function() {
-			$( ".search2" ).on("click",".city", function() {
-				console.log("다시들어옴");
-				
-				//var idx = $(".city").index(this);
-				//console.log(idx);
-				var cityName =$(this).data("param");
-				console.log(cityName);
-				 
-				$.ajax( 
-						{
-							url : "/product/json/location?cityName="+cityName,
-							method : "GET" ,
-							dataType : "json" ,
-							headers : {
-								"Accept" : "application/json",
-								"Content-Type" : "application/json"
-							},
-							success : function(JSONData , status) {
-								alert("dd");
-								var townList ="";
-									townList+="<table>";
-									townList+="<tr>";
-									townList+="<td width='155px'>";
-									townList+="서울&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"+JSONData.city[0].town+"<br/>";
-									townList+="인천&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;부산"+"<br/>";
-									townList+="대구&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;광주"+"<br/>";
-									townList+="대전&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;울산"+"<br/>";
-									townList+="세종&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;강원"+"<br/>";
-									townList+="경남&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;경북"+"<br/>";
-									townList+="전남&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;전북"+"<br/>";
-									townList+="충남&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;충북"+"<br/>";
-									townList+="제주";
-									townList+="</td>";
-									townList+="<td width='655px'>";
-									townList+="</td>";
-									townList+="</tr>";
-									townList+="</table>";
-								$(".search2").html(townList);
-								 
-							}
-					}); 
-				 
+					$.ajax( 
+							{
+								url : "/user/json/getLocationList/"+city,
+								method : "GET" ,
+								dataType : "json" ,
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(JSONData , status) {
+									
+									var list="";
+									list+="<select name='meetingCenter' class='form-control'>";
+									list+="<option>시/군/구 선택</option>";
+									for(i in JSONData.list){
+										var town = JSONData.list[i].townName;
+										
+										list+="<option id='centerMeeting' name='meetingCenter'value='"+town+"'>"+town+"</option>";
+								}
+									$( "#location" ).empty().append(list);
+								}
+						});
+				});
 			});
-        }); 
+		    
+		    $(function() {
+		    	 $( "#plzsearch" ).on("click" , function() {
+		    		 alert("dddddd");
+		    		 //alert($(this).data("param"));
+		    		 $("form").attr("method" , "POST").attr("action" , "/meeting/listMeeting").submit();
+		    		 //self.location="/meeting/getMeeting?searchKeyword="+meetingNo;
+				 });
+		    });
         
         
     </script>
@@ -234,10 +173,7 @@
 
     <div style="width:98%; margin-left:10px;">
 
-        <form name="detailForm">
-
-            <input type="hidden" id="currentPage" name="currentPage" value="" />
-            
+        <form>
             <!-- 베스트상품 테이블 -->
             <table>
             <c:set var="i" value="0" />
@@ -304,71 +240,53 @@
             	<tr>
             		<td width='250px'>
 	            		&nbsp;&nbsp;<i class="glyphicon glyphicon-search" aria-hidden="true"></i>
-	            		<input type="text" placeholder="검색어를 입력"/>
+	            		<input name="searchKeyword"  
+	            		type="text" placeholder="검색어를 입력"/>
             		</td>
             		<td class='search' width='250px'>
-						&nbsp;&nbsp;지역선택&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span>
+						<select id="centerLocation" class="form-control">
+				 		<option>중심지역-지역</option>
+				 		<option value="서울">서울</option>
+		                <option value="경기">경기</option>
+		                <option value="인천">인천</option>
+		                <option value="부산">부산</option>
+		                <option value="대구">대구</option>
+		                <option value="광주">광주</option>
+		                <option value="대전">대전</option>
+		                <option value="울산">울산</option>
+		                <option value="세종">세종</option>
+		                <option value="강원">강원</option>
+		                <option value="경남">경남</option>
+		                <option value="경북">경북</option>
+		                <option value="전남">전남</option>
+		                <option value="전북">전북</option>
+		                <option value="충남">충남</option>
+		                <option value="충북">충북</option>
+		                <option value="제주">제주</option>
+				 	</select>
+            		</td>
+            		<td id="location" class='search' width='250px'>
+						<input type="text" class="form-control" id="centerMeeting" name="meetingCenter" data-param="${meeting.meetingCenter}" value="${meeting.meetingCenter}">
             		</td>
             		<td width='250px'>
-            			&nbsp;&nbsp;<i class="glyphicon glyphicon-star" aria-hidden="true"></i> 
-            			<select name="brand_id" class="ct_input_g" 
-									style="width: 100px; height: 25px" maxLength="20">
-						<option >관심사 선택</option>
-						<%-- <c:forEach var="brand" items="${list}">
-						
-							
-							<option value="${brand.brand_id}">${brand.brandNam }</option>
-						</c:forEach> --%>
-						</select>
+            			<select id="interest" class="form-control">
+					 		<option >관심사</option>
+					 		<c:forEach var="Meeting" items="${list}">
+					 		
+					 			<option value="${Meeting.interestName}">${Meeting.interestName }</option>
+					 		
+					 		</c:forEach>
+				 		</select>
             		</td>
-            		<td width='54px' bgcolor='#326ada'><button type='submit' class='sch_smit'>검색</button></td>
+            		<td width='54px' bgcolor='#326ada'><button type='button' id="plzsearch" class='sch_smit'>찾기</button></td>
             	</tr>
 			</table>
 			
 			 <table class=search2 align="center" height="34px">
-			 	  <tr>
-				    <th></th>
-				    <th></th>
-				    <th></th>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				  </tr>
-				  <tr>
-				  </tr>		
+			 	
+			 	  
 			 </table>
-			 
+		</form>	 
 			 <!-- 검색창 종료 -->
 			 
 			 <!-- 개설하기 버튼 시작 -->
@@ -460,7 +378,7 @@
                 </table>
                 <!-- PageNavigation End... -->
             
-        </form>
+        
     </div>
     
 </body>

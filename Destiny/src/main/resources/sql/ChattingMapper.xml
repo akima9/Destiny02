@@ -54,12 +54,12 @@
 	 	VALUES (seq_chatting_no.nextval,#{manId:VARCHAR},#{womanId:VARCHAR},SYSDATE,#{contactMeeting:VARCHAR})
 	 </insert>
 	 
-	 <select 	id="getChatting"	parameterType="String"	resultMap="chattingSelectMap">
+	 <select 	id="getChatting"	parameterType="com.destiny.service.domain.Chatting"	resultMap="chattingSelectMap">
 		
 	 	select * from( 
-    		select * from chatting
-    		where man_id=#{userId} OR man_id=#{userId} 
-   			order by chatting_date) 
+    		select * from chatting 
+    		where man_id=#{manId} AND woman_id=#{womanId} 
+   			order by chatting_date desc) 
    		where rownum <![CDATA[ < ]]> 2
 	 </select>
 	 
@@ -77,7 +77,7 @@
 	 	WHERE chatting_no=#{chattingNo} 
 	 </update>
 	 
-	 <select 	id="getTelepathy"	parameterType="map" resultMap="telepathySelectMap">
+	 <select 	id="listTelepathy"	parameterType="map" resultMap="telepathySelectMap">
 		select * from( 
     		select * from telepathy
    			order by DBMS_RANDOM.RANDOM) 

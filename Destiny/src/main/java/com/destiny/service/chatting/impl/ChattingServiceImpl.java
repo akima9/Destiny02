@@ -40,6 +40,13 @@ public class ChattingServiceImpl implements ChattingService {
 		System.out.println("addPerfectChatting");
 		
 	}
+	
+	@Override
+	public Chatting getChatting(Chatting chatting) throws Exception {
+		chattingDao.getChatting(chatting);
+		return chattingDao.getChatting(chatting);
+	}
+
 
 	@Override
 	public Map<String, Object> listContactMeeting(Chatting chatting) throws Exception {
@@ -72,7 +79,19 @@ public class ChattingServiceImpl implements ChattingService {
 	}
 
 	@Override
-	public Map<String, Object> listTelepathy(Telepathy telepathy) throws Exception {
+	public Map<String, Object> listTelepathy(int chattingNo) throws Exception {
+		List<Telepathy> list = chattingDao.listTelepathy(chattingNo);
+		
+		Map<String, Object> map= new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("roomNo", chattingNo);
+		System.out.println("listTelepathy : "+list);
+		return map;
+	}
+
+	
+	@Override
+	public String getTelepathyResult(Telepathy telepathy) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

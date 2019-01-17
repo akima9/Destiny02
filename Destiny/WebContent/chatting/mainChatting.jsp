@@ -10,19 +10,17 @@
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css" integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous">
 	
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw" crossorigin="anonymous"></script>
-
-
+   
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	
 	
@@ -34,30 +32,55 @@
    <!-- 케러셀 완료 -->
 	<!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
+	var userId="${me.userId}";
+	var userType="${me.myType}";
+	var firstType="${me.firstType}";
+	var secondType="${me.secondType}";
+	var thirdType="${me.thirdType}";
+	
 	function getTelepathyTest(){
-		
+		if (userId=="") {
+			alert("로그인 후 이용 가능합니다.");
+			location="/user/login";
+		}else{
+			//location="/chatting/addRandomChatting";
+			popWin = window.open("/chatting/telepathyTest",
+					"popWin",
+					"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+
+		}
 	}
 	function getPerfectChatting(){
-		location = "/chatting/addPerfectChatting";
+		//////////////로그인 기능 작동 가능시
+		 if (userId=="") {
+			alert("로그인 후 이용 가능합니다.");
+			location="/user/login";
+		}else {
+			if(userType==""||firstType==""){
+				location = "/user/addTypeView";
+			}else{
+				//location = "/chatting/addPerfectChatting";
+				popWin = window.open("/chatting/addPerfectChatting","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+			}
+			
+		} 
+		
 	}
 	
-	function getNode(){
+	 function getNode(){
 		location = "/chatting/json/getPerfectChatting";
 		 
-	}
+	} 
 	$(function() {
 		$( "#telepathy" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			popWin = window.open("/chatting/telepathyTest",
-													"popWin",
-													"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-	 		
+			getTelepathyTest();
 		});
 		$( "#perfect" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			popWin = window.open("/chatting/addPerfectChatting","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+			
 	
-	 		
+			getPerfectChatting();
 		});
 		
 		$( "#node" ).on("click" , function() {
@@ -77,7 +100,7 @@
 	<jsp:include page="/layout/toolBar.jsp" />
   <!-- ToolBar End /////////////////////////////////////-->
     
-main Chatting
+
 
 <table>
             
