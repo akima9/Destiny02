@@ -33,7 +33,7 @@
  <script src="http://192.168.0.28:82/socket.io/socket.io.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script>
-	var socket = io.connect('http://192.168.0.28:8111');
+	var socket = io.connect('http://192.168.0.28:82');
 	// on connection to server, ask for user's name with an anonymous callback
 	socket.on('connect', function(){
 		// call the server-side function 'adduser' and send one parameter (value of prompt)

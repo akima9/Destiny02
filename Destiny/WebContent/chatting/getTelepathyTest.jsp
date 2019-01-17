@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+    <!--  ///////////////////////// JSTL  ////////////////////////// -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -23,7 +26,7 @@
 
 
 function getRandomChatting(){
-	popWin = window.open("getRandomChatting.jsp",
+	popWin = window.open("chatting/addrandomChatting",
 												"popWin",
 												"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 }
@@ -42,7 +45,11 @@ $(function() {
 </head>
 <body>
 TelepathyTest<br>
-
+<div>
+<c:forEach var="telepathy" items="${list}">
+	<b>${telepathy.exOne}</b>
+</c:forEach>
+</div>
 <a href='#' class="btn btn-primary center" role="button" id="random">Âü¿©</a>
 </body>
 </html>

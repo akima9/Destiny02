@@ -140,7 +140,7 @@ public class ChattingController {
 						modelAndView.addObject("womanId", woman);
 						modelAndView.addObject("manId", man);
 						modelAndView.addObject("roomNo", roomNo);
-						modelAndView.addObject("Telepathy", map);
+						modelAndView.addObject("telepathy", map);
 					
 					}	
 
