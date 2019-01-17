@@ -86,7 +86,6 @@ public class InfoController {
 	public ModelAndView addRestaurantInfo(@ModelAttribute("community") Community community) throws Exception{
 		System.out.println(":: InfoController/addRestaurantInfo/post : 실행");
 		
-		/*Business Logic : start*/
 		community.setWriterId("kimgiyong");
 		community.setCategory("RES");
 		community.setUserGrade("NOR");
@@ -99,7 +98,6 @@ public class InfoController {
 		community.setViewCondition("DEF");
 		
 		System.out.println(":: InfoController/addRestaurantInfo/post의 community : "+community);
-		/*Business Logic : end*/
 		
 		ModelAndView modelAndView = new ModelAndView();
 		communityService.addCommunity(community);
@@ -132,11 +130,7 @@ public class InfoController {
 	@RequestMapping(value="updateRestaurantInfo", method=RequestMethod.POST)
 	public ModelAndView updateRestaurantInfo(@ModelAttribute("community") Community community, @RequestParam("communityNo") int communityNo) throws Exception{
 		
-		System.out.println("업데이트 컨트롤러 왔다");
-		
 		communityService.updateCommunity(community);
-		
-		System.out.println(community);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("community", community);
@@ -145,19 +139,20 @@ public class InfoController {
 	}
 	/*updateRestaurantInfo/POST : end*/
 	
-	/*@RequestMapping(value="updatePurchase", method=RequestMethod.POST)
-	public ModelAndView updatePurchase(@ModelAttribute("purchase") Purchase purchase) throws Exception{
+	/*deleteRestaurantInfo : start*/
+	@RequestMapping(value="deleteRestaurantInfo", method=RequestMethod.GET)
+	public ModelAndView deleteRestaurantInfo(@ModelAttribute("community") Community community, @RequestParam("communityNo") int communityNo) throws Exception{
 		
-		System.out.println(":: [PurchaseController]의 [updatePurchase:POST]실행");
-		
-		purchaseService.updatePurchase(purchase);
+		communityService.deleteCommunity(community);
+		System.out.println(community);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("purchase", purchase);
-		modelAndView.setViewName("redirect:/purchase/getPurchase?tranNo="+purchase.getTranNo());
-		
+		modelAndView.addObject("community", community);
+		modelAndView.setViewName("/info/listRestaurantInfo");
 		return modelAndView;
-	}*/
+	}
+	/*deleteRestaurantInfo : end*/
+	
 }
 
 

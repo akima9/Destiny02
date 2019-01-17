@@ -45,10 +45,23 @@
 		});
 		/* 글쓰기 버튼 이벤트 : end */
 		
+		/* 신고 버튼 이벤트 : start */
+		$("button:contains('신고')").on("click", function() {
+			self.location = "/complain/addComplain?communityNo=${community.communityNo}"
+		});
+		/* 신고 버튼 이벤트 : end */
+		
 		/* 수정 버튼 이벤트 : start */
 		$("button:contains('수정')").on("click", function() {
 			//self.location = "/info/updateRestaurantInfo?communityNo="+${community.communityNo}
 			self.location = "/info/updateRestaurantInfo?communityNo=${community.communityNo}"
+		});
+		/* 수정 버튼 이벤트 : end */
+		
+		/* 수정 버튼 이벤트 : start */
+		$("button:contains('삭제')").on("click", function() {
+			//self.location = "/info/updateRestaurantInfo?communityNo="+${community.communityNo}
+			self.location = "/info/deleteRestaurantInfo?communityNo=${community.communityNo}"
 		});
 		/* 수정 버튼 이벤트 : end */
 		
@@ -95,6 +108,7 @@
 				<button type="button" class="btn btn-primary">다음글</button>
 				<button type="button" class="btn btn-primary">목록</button>
 				<button type="button" class="btn btn-primary">글쓰기</button>
+				<button type="button" class="btn btn-primary">신고</button>
 				
 				<!-- 작성자만 수정 삭제 가능하게 수정해야 되는 부분 : start -->
 				<button type="button" class="btn btn-primary">수정</button>

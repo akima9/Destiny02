@@ -53,4 +53,9 @@ public class CommunityDaoImpl implements CommunityDao{
 		return sqlSession.selectOne("CommunityMapper.getTotalCount", search);
 	}
 
+	@Override
+	public void deleteCommunity(Community community) throws Exception {
+		sqlSession.delete("CommunityMapper.deleteCommunity", community);		
+	}
+
 }
