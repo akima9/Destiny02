@@ -38,6 +38,9 @@ public class ChattingController {
 	private UserService userService;
 	
 	private int count;
+////여성 리스트와 남성 리스트를 담을 객체 생성
+	private List<User> womanList = new ArrayList<User>();
+	private List<User> manList = new ArrayList<User>();
 	
 	
 	///Constructor
@@ -65,7 +68,8 @@ public class ChattingController {
 	@RequestMapping(value="telepathyTest", method=RequestMethod.GET)
 	public ModelAndView telepathyTest(HttpSession session, HttpServletRequest request) throws Exception{
 			System.out.println("telepathyTest들어옴");
-		//===========================================현제 접속자 구현 로직 part=================================================
+		
+			//===========================================현제 접속자 구현 로직 part=================================================
 				
 				//채팅방 생성
 				Chatting chatting=new Chatting();
@@ -78,9 +82,7 @@ public class ChattingController {
 				if (user.getUserId()!=null) {
 					////아이디로 user정보를 가져온다.
 					User dbUser=userService.getUser(user.getUserId());
-					////여성 리스트와 남성 리스트를 담을 객체 생성
-					List<User> womanList = new ArrayList<User>();
-					List<User> manList = new ArrayList<User>();
+					
 					/////여성일 경우
 					if (user.getGender().equals("W")) {
 						if(applicationScope.getAttribute("womanList") != null) {
@@ -92,6 +94,7 @@ public class ChattingController {
 						
 						for(User v : womanList) {
 							System.out.println("현재  여성 접속자 목록 : " + v);
+							
 						}
 					}else {
 						//남성일 경우
@@ -109,11 +112,14 @@ public class ChattingController {
 					String man=null;
 					String woman=null;
 					int roomNo=0;
+					System.out.println("manList.size() : "+manList.size()+"womanList.size() : "+womanList.size());
+					System.out.println("manList : "+manList+"womanList : "+womanList);
 					if (manList.size()==womanList.size()) {
 						////////매칭된 아이디 2개 넣기
 						//		chatting.setManId(manId);
 						//		chatting.setWomanId(womanId);
 						/////////test
+						System.out.println("manList==womanList");
 						woman=womanList.get(count).getUserId();
 						man=manList.get(count).getUserId();
 						//addChatting
@@ -134,13 +140,15 @@ public class ChattingController {
 						//이심전심문항
 						Map<String, Object> map=chattingService.listTelepathy(roomNo);
 						System.out.println("이심전심 문항, chattingNo : "+map);
+						List<Telepathy> list01=(List<Telepathy>)map.get("list");
+						System.out.println(list01);
 						/////////////////////////////////////
-						modelAndView.setViewName("redirect:/chatting/getTelepathyTest.jsp");
+						modelAndView.setViewName("/chatting/getTelepathyTest.jsp");
 						modelAndView.addObject("result", "Success");
 						modelAndView.addObject("womanId", woman);
 						modelAndView.addObject("manId", man);
 						modelAndView.addObject("roomNo", roomNo);
-						modelAndView.addObject("telepathy", map);
+						modelAndView.addObject("list", list01);
 					
 					}	
 
@@ -169,11 +177,11 @@ public class ChattingController {
 	
 	@RequestMapping(value="addRandomChatting", method=RequestMethod.GET)
 	public ModelAndView addRandomChatting(HttpSession session) throws Exception{
-		
+		System.out.println("addRandomChatting들어옴");
 		//telepathy 선택 답안과 user두명의 아이디 값을 보낸다. 채팅방 생성
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/chatting/getRandomChatting.jsp");
+		modelAndView.setViewName("/chatting/getRandomChatting.jsp");
 		return modelAndView;
 	}
 	
@@ -183,11 +191,11 @@ public class ChattingController {
 		//telepathy 선택 답안과 user두명의 아이디 값을 보낸다. 채팅방 생성
 		System.out.println("node"+body);
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/chatting/getRandomChatting.jsp");
+		modelAndView.setViewName("/chatting/getRandomChatting.jsp");
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="addPerfectChatting", method=RequestMethod.GET)
+	@RequestMapping(value="addPerfectChatting", method=RequestMethod.POST)
 	public ModelAndView addPerfectChatting(HttpSession session,HttpServletRequest request) throws Exception{
 		System.out.println("addPerfectChatting 들어옴");
 		
@@ -213,7 +221,17 @@ public class ChattingController {
 						///////////////////////////////////
 						//이상형매칭
 						//////////////////////////////////
-					
+						//채팅방 생성
+						Chatting chatting=new Chatting();
+
+						////////매칭된 아이디 2개 넣기
+						//		chatting.setManId(manId);
+						//		chatting.setWomanId(womanId);
+						/////////test
+						chatting.setManId("aaaaa");
+						chatting.setWomanId("aaaab");
+						chatting.setContactMeeting("N");
+						chattingService.addPerfectChatting(chatting);
 						modelAndView.setViewName("/chatting/getPerfectChatting.jsp");
 						modelAndView.addObject("result", "Success");
 						modelAndView.addObject(dbUser.getUserId(), dbUser);
@@ -228,17 +246,7 @@ public class ChattingController {
 				//====================================================================================================
 				
 		// user의 아이디필요 본인의 성격유형, 이상형 유형을 통해 매칭
-		//채팅방 생성
-		Chatting chatting=new Chatting();
-
-		////////매칭된 아이디 2개 넣기
-		//		chatting.setManId(manId);
-		//		chatting.setWomanId(womanId);
-		/////////test
-		chatting.setManId("aaaaa");
-		chatting.setWomanId("aaaab");
-		chatting.setContactMeeting("N");
-		chattingService.addPerfectChatting(chatting);
+		
 		
 		return modelAndView;
 	}

@@ -45,9 +45,25 @@ $(function() {
 </head>
 <body>
 TelepathyTest<br>
+${roomNo}<br>
 <div>
+<c:set var="i" value="0" />
+
 <c:forEach var="telepathy" items="${list}">
-	<b>${telepathy.exOne}</b>
+<c:set var="i" value="${ i+1 }" />	
+	<tr>
+	
+		<td>${i}</td>
+		<td>${telepathy.telepathyQuestion}<br></td>
+		<td>1. 
+			${telepathy.exOne} 
+			<img src="/images/telepathy/${telepathy.exOneImg}" >
+		</td>
+		<td>2.
+			${telepathy.exTwo}
+			<img src="/images/telepathy/${telepathy.exTwoImg}" >
+		</td>
+	</tr><br>
 </c:forEach>
 </div>
 <a href='#' class="btn btn-primary center" role="button" id="random">Âü¿©</a>
