@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.destiny.common.Search;
 import com.destiny.service.domain.Meeting;
 import com.destiny.service.meeting.MeetingDao;
 
@@ -45,10 +46,22 @@ public class MeetingDaoImpl implements MeetingDao {
 		
 		sqlSession.insert("MeetingMapper.addMeeting", meeting);
 	}
+	
+	@Override
+	public void addAct(Meeting meeting) throws Exception {
+		sqlSession.insert("MeetingMapper.addAct", meeting);
+		
+	}
+	
+	@Override
+	public void addCrewList(Meeting meeting) throws Exception {
+		sqlSession.insert("MeetingMapper.addCrewList", meeting);
+		
+	}
 
 	@Override
-	public List<Meeting> getMeetingList() throws Exception {
-		return sqlSession.selectList("MeetingMapper.getMeetingList");
+	public List<Meeting> getMeetingList(Search search) throws Exception {
+		return sqlSession.selectList("MeetingMapper.getMeetingList",search);
 	}
 
 	@Override
@@ -87,4 +100,7 @@ public class MeetingDaoImpl implements MeetingDao {
 		sqlSession.update("MeetingMapper.updateContentsMeeting",meeting);
 		
 	}
+
+	
+
 }

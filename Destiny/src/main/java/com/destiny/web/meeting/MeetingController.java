@@ -2,8 +2,6 @@ package com.destiny.web.meeting;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.destiny.common.Search;
 import com.destiny.service.domain.Meeting;
 import com.destiny.service.meeting.MeetingService;
 
@@ -42,15 +41,30 @@ public class MeetingController {
 	
 	
 	///Method
-	
 	@RequestMapping(value="listMeeting", method=RequestMethod.GET)
 	public ModelAndView listMeeting(Model model) throws Exception{
 		
 		System.out.println("하이리스트");
-		
-		Map<String , Object> map=meetingService.getMeetingList();
+		//System.out.println(search.getSearchCondition());
+		Search search = new Search();
+		Map<String , Object> map=meetingService.getMeetingList(search);
 		Map<String , Object> bestMap=meetingService.getBestProduct();
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("bestList", bestMap.get("bestList"));
 		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/meeting/getMeetingList.jsp");
+		return modelAndView;
+		
+	}
+	
+	@RequestMapping(value="listMeeting", method=RequestMethod.POST)
+	public ModelAndView listMeeting(Model model,@ModelAttribute("search") Search search) throws Exception{
+		
+		System.out.println("하이리스트");
+		System.out.println(search);
+		Map<String , Object> map=meetingService.getMeetingList(search);
+		Map<String , Object> bestMap=meetingService.getBestProduct();
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("bestList", bestMap.get("bestList"));
 		
@@ -67,10 +81,7 @@ public class MeetingController {
 		
 		Map<String , Object> map=meetingService.getInterestList();
 		
-		//Map<String , Object> locationmap=meetingService.getInterestList();
-		
 		model.addAttribute("list", map.get("list"));
-		//model.addAttribute("locationList", locationmap.get("list"));
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/meeting/addMeeting.jsp");
@@ -86,9 +97,11 @@ public class MeetingController {
 		System.out.println(meeting);
 		
 		meetingService.addMeeting(meeting);
+		meetingService.addAct(meeting);
+		meetingService.addCrewList(meeting);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/meeting/getMeetingList.jsp");
+		modelAndView.setViewName("/meeting/getMeetingList.jsp");
 		return modelAndView;
 	}
 	
