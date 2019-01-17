@@ -112,6 +112,12 @@ public class UserServiceImpl implements UserService {
 		userDao.updateGrade(user);
 	}
 
+
+	@Override
+	public void updateState(User user) throws Exception {
+		userDao.updateState(user);
+	}
+
 	@Override
 	public Map<String, Object> getUserList(Search search) throws Exception {
 		List<User> list= userDao.getUserList(search);

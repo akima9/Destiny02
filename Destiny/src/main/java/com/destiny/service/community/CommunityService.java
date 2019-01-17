@@ -18,5 +18,8 @@ public interface CommunityService {
 	
 	//게시글 수정
 	public void updateCommunity(Community community) throws Exception;
+	
+	//게시글 삭제로 변경
+	public void deleteCommunity(Community community) throws Exception;
 
 }
