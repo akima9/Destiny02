@@ -86,9 +86,9 @@ public class UserController {
 			modelAndView.addObject("reason", "가입되지 않은 아이디입니다.");
 		} else {
 			dbUser=userService.getUser(userId);
-			char O = 'O';
+		
 			//만일 탈퇴한 유저라면
-			if(dbUser.getUserState() == O) {
+			if(dbUser.getUserState().equals("O")) {
 				modelAndView.addObject("result", "Fail");
 				modelAndView.addObject("reason", "탈퇴한 회원입니다. 새로 가입하여 주십시요.");
 			} else {
@@ -239,13 +239,12 @@ public class UserController {
 		System.out.println("가져온 user정보 : " + user);
 
 		//=====================탈퇴한 회원인지 조회해서 탈퇴한 회원이면 신규회원으로 전환=========================
-		char O = 'O';
-		char I = 'I';
+	
 		if(userService.getUser(user.getUserId()) != null) {
-			if(user.getUserState() == O) {
+			if(user.getUserState().equals("O")) {
 				User dbUser = userService.getUser(user.getUserId());
 				
-				dbUser.setUserState(I);
+				dbUser.setUserState("I");
 			}
 		}
 
@@ -575,8 +574,8 @@ public class UserController {
 		System.out.println("/user/leaveSite/{"+userId+"}");
 		
 		User user = userService.getUser(userId);
-		char O = 'O';
-		user.setUserState(O);
+		
+		user.setUserState("O");
 		userService.updateState(user);
 		
 		ModelAndView modelAndView = new ModelAndView();
