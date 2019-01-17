@@ -31,7 +31,7 @@
 	<script type="text/javascript">
 	$(function() {
 		 $( "button.btn.btn-primary" ).on("click" , function() {
-			 $("form").attr("method" , "POST").attr("action" , "/user/sendLetter").submit();
+			 $("form").attr("method" , "POST").attr("action" , "/letter/sendLetter").submit();
 		});
 	});
 	
