@@ -13,10 +13,10 @@ public class Complain {
 	private String 	complainDetail;	
 	private String	complainType;
 	private String	complainKind;
-	private Date		compainDate;
+	private Date		complainDate;
 	private Date 	checkDate;
 	private String 	complainState;
-	//private int		warningNo;
+//	private int		warningNo;
 	
 	public Complain() {
 	}
@@ -93,12 +93,12 @@ public class Complain {
 		this.complainKind = complainKind;
 	}
 
-	public Date getCompainDate() {
-		return compainDate;
+	public Date getComplainDate() {
+		return complainDate;
 	}
 
-	public void setCompainDate(Date compainDate) {
-		this.compainDate = compainDate;
+	public void setComplainDate(Date complainDate) {
+		this.complainDate = complainDate;
 	}
 
 	public Date getCheckDate() {
@@ -122,9 +122,8 @@ public class Complain {
 		return "Complain [complainNo=" + complainNo + ", complainerId=" + complainerId + ", defendantId=" + defendantId
 				+ ", meetingNo=" + meetingNo + ", communityNo=" + communityNo + ", commentNo=" + commentNo
 				+ ", complainDetail=" + complainDetail + ", complainType=" + complainType + ", complainKind="
-				+ complainKind + ", compainDate=" + compainDate + ", checkDate=" + checkDate + ", complainState="
+				+ complainKind + ", complainDate=" + complainDate + ", checkDate=" + checkDate + ", complainState="
 				+ complainState + "]";
 	}
-	
 	
 }

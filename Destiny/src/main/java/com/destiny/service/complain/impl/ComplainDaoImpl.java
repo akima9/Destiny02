@@ -1,10 +1,13 @@
 package com.destiny.service.complain.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.destiny.common.Search;
 import com.destiny.service.complain.ComplainDao;
 import com.destiny.service.domain.Complain;
 
@@ -28,6 +31,16 @@ public class ComplainDaoImpl implements ComplainDao {
 	@Override
 	public void addComplain(Complain complain) throws Exception {
 		sqlSession.insert("ComplainMapper.addComplain", complain);
+	}
+
+	@Override
+	public List<Complain> getComplainList(Search search) throws Exception {
+		return sqlSession.selectList("ComplainMapper.getComplainList", search);
+	}
+
+	@Override
+	public int getTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("ComplainMapper.getTotalCount", search);
 	}
 
 	

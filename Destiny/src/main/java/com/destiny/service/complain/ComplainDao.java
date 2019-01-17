@@ -10,16 +10,10 @@ public interface ComplainDao {
 	//insert
 	public void addComplain(Complain complain) throws Exception;
 	
-/*	//select one
-	public Complain getComplain(int compalinNo) throws Exception;
-	
 	//select list
 	public List<Complain> getComplainList(Search search) throws Exception;
 	
-	//update
-	public void updateComplain(Complain compalin) throws Exception;
-	
 	//게시판 page 처리를 위한 전체 row(totalCount) return
-	public int getTotalCount(Search search) throws Exception;*/
+	public int getTotalCount(Search search) throws Exception;
 
 }

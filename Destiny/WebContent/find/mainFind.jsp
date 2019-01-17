@@ -25,7 +25,7 @@
 				});
 				$("a[href='#' ]:contains('모임 찾기')").on("click", function() {
 					self.location = "/find/selectMeeting"
-				});			
+				});
 			});
 			
 		</script>
