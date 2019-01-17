@@ -5,6 +5,10 @@
 <head>
 <meta charset="EUC-KR">
 	
+	
+	
+	
+	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
@@ -31,6 +35,12 @@
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
+	
+	
+
+		
+			
+	
 		
 		//============= 회원정보수정 Event  처리 =============	
 		 $(function() {
@@ -76,6 +86,15 @@
 
 			});
 		});
+		
+		
+		$(function(){
+			$("button[id='pushButton']").on("click", function(){
+				
+			});
+		});
+		
+		
 		
 	</script>
 	<title>Insert title here</title>
@@ -135,6 +154,13 @@
 		</div>	
 		
 		<br/>
+		
+		<div class="form-group">
+		    <label  class="col-sm-4 control-label"></label>
+		    <div class="col-sm-4">
+		      <button id="pushButton" type="button">푸쉬 보넹!</button>
+		    </div>
+		</div>	
 		
 	</body>
 </html>
