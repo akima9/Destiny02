@@ -60,6 +60,8 @@ $(function() {
 	
 		<h1>getRestaurantInfoList.jsp</h1>
 		
+		<input type="hidden" name="views" value="${ community.views }">
+		
 		<form>
 			<div class="form-group">
 				<input type="hidden" id="currentPage" name="currentPage" value="">

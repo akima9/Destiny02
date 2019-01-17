@@ -24,5 +24,11 @@ public interface CommunityDao {
 	
 	//게시판 page 처리를 위한 전체 row(totalCount) return
 	public int getTotalCount(Search search) throws Exception;
+	
+	//조회수
+	public void updateViews(int communityNo)throws Exception;
+	
+	//공감수
+	public void likeCommunity(int communityNo)throws Exception;
 
 }

@@ -8,19 +8,19 @@
  	
  	
 	<resultMap id="communitySelectMap" type="com.destiny.service.domain.Community">
-		<result property="communityNo" 			column="community_no" 										jdbcType="NUMERIC"/>
-		<result property="writerId"						column="community_writer_id" 							jdbcType="VARCHAR" />
-		<result property="meetingNo" 				column="meeting_no" 											jdbcType="NUMERIC" />
-		<result property="category" 					column="category" 													jdbcType="CHAR" />
-		<result property="userGrade"					column="community_user_grade" 						jdbcType="CHAR" />
-		<result property="title"								column="community_title" 									jdbcType="VARCHAR" />
+		<result property="communityNo" 			column="community_no" 							jdbcType="NUMERIC"/>
+		<result property="writerId"				column="community_writer_id" 					jdbcType="VARCHAR" />
+		<result property="meetingNo" 			column="meeting_no" 							jdbcType="NUMERIC" />
+		<result property="category" 			column="category" 								jdbcType="CHAR" />
+		<result property="userGrade"			column="community_user_grade" 					jdbcType="CHAR" />
+		<result property="title"				column="community_title" 						jdbcType="VARCHAR" />
 		<result property="writerNickName" 		column="community_writer_nick_name" 			jdbcType="VARCHAR" />
-		<result property="detail"							column="community_detail" 									jdbcType="VARCHAR" />
-		<result property="writeDate"					column="community_write_date" 						jdbcType="DATE" />
-		<result property="views"							column="community_views" 									jdbcType="INTEGER" />
-		<result property="like"								column="community_like" 										jdbcType="INTEGER" />
-		<result property="importRank"				column="import_rank" 											jdbcType="CHAR" />
-		<result property="viewCondition"			column="community_view_condition" 				jdbcType="CHAR" />
+		<result property="detail"				column="community_detail" 						jdbcType="VARCHAR" />
+		<result property="writeDate"			column="community_write_date" 					jdbcType="DATE" />
+		<result property="views"				column="community_views" 						jdbcType="INTEGER" />
+		<result property="like"					column="community_like" 						jdbcType="INTEGER" />
+		<result property="importRank"			column="import_rank" 							jdbcType="CHAR" />
+		<result property="viewCondition"		column="community_view_condition" 				jdbcType="CHAR" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
@@ -37,6 +37,44 @@
 		FROM community
 		WHERE community_no = #{value}
 	 </select>
+	 
+	 <!-- SQL : VIEW UPDATE -->
+	 <update id="updateViews"	parameterType="com.destiny.service.domain.Community" >
+	   	UPDATE community
+	   	<set>
+	   		<!-- community_writer_id			= #{writerId},
+	   		category					= #{category},
+	   		community_user_grade		= #{userGrade},
+	   		community_title 			= #{title},
+	   		community_writer_nick_name	= #{writerNickName},
+			community_detail			= #{detail},
+			community_write_date		= SYSDATE -->
+			community_views				= community_views + 1
+			<!-- community_like				= #{like},
+			import_rank					= #{importRank},
+			community_view_condition	= #{viewCondition} -->
+	   	</set>
+	   	WHERE community_no = #{communityNo}
+	 </update>
+	 
+	 <!-- SQL : LIKE UPDATE -->
+	 <update id="likeCommunity"	parameterType="com.destiny.service.domain.Community" >
+	   	UPDATE community
+	   	<set>
+	   		<!-- community_writer_id			= #{writerId},
+	   		category					= #{category},
+	   		community_user_grade		= #{userGrade},
+	   		community_title 			= #{title},
+	   		community_writer_nick_name	= #{writerNickName},
+			community_detail			= #{detail},
+			community_write_date		= SYSDATE
+			community_views				= community_views + 1 -->
+			community_like				= community_like + 1
+			<!-- import_rank					= #{importRank},
+			community_view_condition	= #{viewCondition} -->
+	   	</set>
+	   	WHERE community_no = #{communityNo}
+	 </update>
 	 
 	 <!-- SQL : UPDATE -->
 	 <update id="updateCommunity"	parameterType="com.destiny.service.domain.Community" >

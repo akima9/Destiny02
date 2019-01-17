@@ -58,4 +58,15 @@ public class CommunityDaoImpl implements CommunityDao{
 		sqlSession.delete("CommunityMapper.deleteCommunity", community);		
 	}
 
+	@Override
+	public void updateViews(int communityNo) throws Exception {
+		sqlSession.update("CommunityMapper.updateViews", communityNo);
+		
+	}
+
+	@Override
+	public void likeCommunity(int communityNo) throws Exception {
+		sqlSession.update("CommunityMapper.likeCommunity", communityNo);
+	}
+
 }

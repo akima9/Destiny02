@@ -86,11 +86,11 @@ public class InfoController {
 	public ModelAndView addRestaurantInfo(@ModelAttribute("community") Community community) throws Exception{
 		System.out.println(":: InfoController/addRestaurantInfo/post : ½ÇÇà");
 		
-		community.setWriterId("kimgiyong");
+		community.setWriterId("kimbomi");
 		community.setCategory("RES");
 		community.setUserGrade("NOR");
 		/*community.setTitle(title);*/
-		community.setWriterNickName("javaKing");
+		community.setWriterNickName("bboms");
 		/*community.setDetail(detail);*/
 		community.setViews(0);
 		community.setLike(0);
@@ -108,9 +108,15 @@ public class InfoController {
 	
 	/*getRestaurantInfo : start*/
 	@RequestMapping(value="getRestaurantInfo", method=RequestMethod.GET)
-	public ModelAndView getRestaurantInfo(@RequestParam("communityNo") int communityNo) throws Exception{
+	public ModelAndView getRestaurantInfo(Model model, @RequestParam("communityNo") int communityNo) throws Exception{
+		
+		Community community = communityService.getCommunity(communityNo);
+		communityService.updateViews(communityNo);
+		
+		System.out.println(community);
+		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("community", communityService.getCommunity(communityNo));
+		modelAndView.addObject("community", community);
 		modelAndView.setViewName("/community/getRestaurantInfo.jsp");
 		return modelAndView;
 	}

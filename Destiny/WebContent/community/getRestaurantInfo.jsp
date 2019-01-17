@@ -65,6 +65,30 @@
 		});
 		/* 수정 버튼 이벤트 : end */
 		
+		/* 공감 버튼 이벤트 : start */
+		$("button:contains('공감')").on("click", function() {
+			var communityNo = ${community.communityNo}
+			console.log(communityNo);
+			$.ajax({
+				method : "POST",
+				url : '/info/json/likeRestaurantInfo/'+communityNo,
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				dataType : "json",
+				success : function(JSONData, state){
+					
+					console.log(JSONData);
+					var like = JSONData.community.like;
+					$("#likeCount").html(like);
+					
+					$("button:contains('공감')").off("click");
+				}
+			});
+		});
+		/* 공감 버튼 이벤트 : end */
+		
 	});
 
 </script>
@@ -100,6 +124,16 @@
 		<div class="row">
 			<div class="col-xs-4 col-md-2">내용</div>
 			<div class="col-xs-8 col-md-4">${ community.detail }</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-4 col-md-2">조회수</div>
+			<div class="col-xs-8 col-md-4">${ community.views }</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-4 col-md-2">공감수</div>
+			<div id="likeCount" class="col-xs-8 col-md-4">${ community.like }</div>
 		</div>		
 		
 		<div class="row">
@@ -109,6 +143,7 @@
 				<button type="button" class="btn btn-primary">목록</button>
 				<button type="button" class="btn btn-primary">글쓰기</button>
 				<button type="button" class="btn btn-primary">신고</button>
+				<button type="button" class="btn btn-primary">공감</button>
 				
 				<!-- 작성자만 수정 삭제 가능하게 수정해야 되는 부분 : start -->
 				<button type="button" class="btn btn-primary">수정</button>

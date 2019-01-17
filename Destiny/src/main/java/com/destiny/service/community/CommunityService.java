@@ -21,5 +21,11 @@ public interface CommunityService {
 	
 	//게시글 삭제로 변경
 	public void deleteCommunity(Community community) throws Exception;
+	
+	//게시물 조회수
+	public void updateViews(int communityNo) throws Exception;
+	
+	//게시물 공감수
+	public void likeCommunity(int communityNo) throws Exception;
 
 }
