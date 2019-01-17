@@ -67,10 +67,10 @@ public class MeetingController {
 		
 		Map<String , Object> map=meetingService.getInterestList();
 		
-		Map<String , Object> locationmap=meetingService.getInterestList();
+		//Map<String , Object> locationmap=meetingService.getInterestList();
 		
 		model.addAttribute("list", map.get("list"));
-		model.addAttribute("locationList", locationmap.get("list"));
+		//model.addAttribute("locationList", locationmap.get("list"));
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/meeting/addMeeting.jsp");
@@ -97,6 +97,9 @@ public class MeetingController {
 		System.out.println("하이 겟 미팅");
 		System.out.println(meetingNo);
 		
+		Map<String , Object> map=meetingService.getInterestList();
+		model.addAttribute("list", map.get("list"));
+		
 		Meeting meeting = meetingService.getMeeting(meetingNo);
 		meetingService.updateViews(meetingNo);
 		
@@ -109,18 +112,27 @@ public class MeetingController {
 	}
 	
 	@RequestMapping(value="updateMeeting", method=RequestMethod.POST)
-	public ModelAndView updateMeeting(Model model,
-			@ModelAttribute("meeting") Meeting meeting) throws Exception{
-		System.out.println("하이 업데이트");
-		System.out.println(meeting.getMeetingCondition());
-		System.out.println(meeting.getMeetingNo());
+	public ModelAndView updateMeeting(@ModelAttribute("meeting") Meeting meeting) throws Exception{
+		//System.out.println("하이 업데이트");
+		//Meeting meeting = new Meeting();
+		System.out.println("미팅컨디션은"+meeting.getMeetingCondition());
+		//System.out.println(meeting.getMeetingNo());
 		//Meeting meeting = meetingService.getMeeting(meetingNo);
-		meetingService.updateMeeting(meeting);
+		
+		if(meeting.getMeetingCondition()!="DEF" && meeting.getMeetingCondition()!=null) {
+			System.out.println("def가 아니다");
+			//개시물 삭제 플래그 처리 
+			meetingService.updateMeeting(meeting);
+		}else {
+			//개시물 내용 수정
+			meetingService.updateContentsMeeting(meeting);
+		}
+		
 		
 		//model.addAttribute("meeting", meeting);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/meeting/getMeetingList.jsp");
+		modelAndView.setViewName("redirect:/meeting/getMeetingList.jsp");
 		return modelAndView;
 		//return null;
 	}

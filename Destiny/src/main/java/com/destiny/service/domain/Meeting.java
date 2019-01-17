@@ -131,12 +131,7 @@ public class Meeting {
 	public void setMeetingViews(String meetingViews) {
 		this.meetingViews = meetingViews;
 	}
-	public String getMeeting_condition() {
-		return meetingCondition;
-	}
-	public void setMeeting_condition(String meeting_condition) {
-		this.meetingCondition = meeting_condition;
-	}
+	
 	public String getShutDownDate() {
 		return shutDownDate;
 	}

@@ -91,7 +91,8 @@
 						self.location="/meeting/addMeeting"
 					}else if(${empty sessionScope.me}){
 						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
-							self.location="/user/login";
+							$("#my-dialog,#dialog-background").toggle();
+							//self.location="/user/login";
 						 }else{   //취소
 
 						     return;

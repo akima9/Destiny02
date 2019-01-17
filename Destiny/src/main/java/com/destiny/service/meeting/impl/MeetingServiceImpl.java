@@ -74,5 +74,11 @@ public class MeetingServiceImpl implements MeetingService {
 		meetingDao.updateMeeting(meeting);
 		
 	}
+
+	@Override
+	public void updateContentsMeeting(Meeting meeting) throws Exception {
+		meetingDao.updateContentsMeeting(meeting);
+		
+	}
 	
 }

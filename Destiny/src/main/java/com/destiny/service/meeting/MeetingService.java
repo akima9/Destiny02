@@ -19,4 +19,6 @@ public interface MeetingService {
 	public Map<String , Object> getBestProduct() throws Exception;
 
 	public void updateMeeting(Meeting meeting) throws Exception;
+	
+	public void updateContentsMeeting(Meeting meeting) throws Exception;
 }
