@@ -5,6 +5,10 @@
 <head>
 <meta charset="EUC-KR">
 	
+	
+	
+	
+	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
@@ -31,6 +35,12 @@
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
+	
+	
+
+		
+			
+	
 		
 		//============= 회원정보수정 Event  처리 =============	
 		 $(function() {
@@ -43,7 +53,8 @@
 		
 		$(function(){
 			$("button[id='typeButton']").on("click", function(){
-				var userId = $("input[name='getUserId']").val();
+				//var userId = $("input[name='getUserId']").val();
+				var userId = "${me.userId}";
 				self.location = "/user/addTypeView/"+userId;
 			});
 		});
@@ -55,6 +66,19 @@
 		});
 		
 		$(function(){
+			$("button[id='leaveSite']").on("click", function(){
+				self.location = "/user/userInfo/leaveSite.jsp";
+			});
+		});
+		
+		$(function(){
+			$("button[id='actMainButton']").on("click", function(){
+				self.location = "/user/userAct/actMain.jsp";
+			});
+		});
+		
+		
+		$(function(){
 			$("button[id='letterList']").on("click", function(){
 				popWin = window.open("/letter/letterMain.jsp",
 					   	 "popWin",
@@ -62,6 +86,15 @@
 
 			});
 		});
+		
+		
+		$(function(){
+			$("button[id='pushButton']").on("click", function(){
+				
+			});
+		});
+		
+		
 		
 	</script>
 	<title>Insert title here</title>
@@ -77,6 +110,13 @@
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" name="getUserId" id="getUserId"  placeholder="아이디" >
 		      <button id="findButton" type="button">회원검색</button>
+		    </div>
+		</div>	
+		
+		<br/>
+		<div class="form-group">
+		    <label  class="col-sm-4 control-label"></label>
+		    <div class="col-sm-4">
 		      <button id="typeButton" type="button">성격유형</button>
 		    </div>
 		</div>	
@@ -96,5 +136,31 @@
 		      <button id="letterList" type="button">쪽지</button>
 		    </div>
 		</div>	
+		
+		<br/>
+		<div class="form-group">
+		    <label  class="col-sm-4 control-label"></label>
+		    <div class="col-sm-4">
+		      <button id="leaveSite" type="button">사이트 탈퇴</button>
+		    </div>
+		</div>	
+		
+		<br/>
+		<div class="form-group">
+		    <label  class="col-sm-4 control-label"></label>
+		    <div class="col-sm-4">
+		      <button id="actMainButton" type="button">활동관리</button>
+		    </div>
+		</div>	
+		
+		<br/>
+		
+		<div class="form-group">
+		    <label  class="col-sm-4 control-label"></label>
+		    <div class="col-sm-4">
+		      <button id="pushButton" type="button">푸쉬 보넹!</button>
+		    </div>
+		</div>	
+		
 	</body>
 </html>

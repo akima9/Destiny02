@@ -29,6 +29,7 @@
 		<result property="shutDownDate" 		column="shut_down_date" 	jdbcType="DATE" />
 		<result property="meetingCrewLimit" 	column="meeting_crew_limit" jdbcType="NUMERIC" />
 		<result property="interestNo" 			column="interest_no" 		jdbcType="NUMERIC" />
+		<result property="crewCondition" 		column="crew_condition" 	jdbcType="CHAR" />
 	</resultMap>
 
 	 <select 	id="getInterestList" resultMap="meetingSelectMap">
@@ -50,8 +51,11 @@
 			'DEF', #{meetingCrewLimit})
 	 </insert>
 	 
-	 <select 	id="getMeetingList" resultMap="meetingSelectMap">
+	 <select 	id="getMeetingList" parameterType="com.destiny.common.Search" resultMap="meetingSelectMap">
 		SELECT* FROM meeting WHERE meeting_condition ='DEF'
+		<if test="searchKeyword != null">
+			and meeting_name LIKE '%'||#{searchKeyword}||'%'
+		</if>
 	 </select>
 	 
 	 <select 	id	="getMeeting"	parameterType="string"	resultMap="meetingSelectMap">
@@ -84,5 +88,41 @@
 	   	</set>
 	   	WHERE meeting_no = #{meetingNo}
 	 </update>
+	 
+	 <update	id="updateContentsMeeting"	parameterType="com.destiny.service.domain.Meeting" >
+	   	UPDATE meeting
+	   	<set>
+	   		meeting_center		=#{meetingCenter:VARCHAR}, 
+			meeting_name		=#{meetingName:VARCHAR}, 
+			title_img			=#{titleImg:VARCHAR}, 
+			meeting_detail		=#{meetingDetail:VARCHAR}, 
+			meeting_rule		=#{meetingRule:VARCHAR}, 
+			interest_name		=#{interestName:VARCHAR},
+			meeting_location	=#{meetingLocation:VARCHAR}, 
+			meeting_date		=#{meetingDate:DATE}, 
+			meeting_day			=#{meetingDay:VARCHAR}, 
+			meeting_time		=#{meetingTime:VARCHAR}, 
+			snooze				=#{snooze:CHAR}, 
+			meeting_dues		=#{meetingDues:VARCHAR},
+			meeting_crew_limit 	=#{meetingCrewLimit:NUMERIC}
+	   	</set>
+	   	WHERE meeting_no = #{meetingNo}
+	 </update>
+	 
+	 <insert 	id="addAct"		parameterType="com.destiny.service.domain.Meeting">
+	 	INSERT
+		INTO meeting_act ( meeting_act_no, meeting_no, meeting_act_count, act_date,
+					act_location, act_time,act_dues) 
+		VALUES	 ( seq_meeting_act_no.nextval, #{meetingNo}, 1, #{meetingDate:DATE}, 
+					#{meetingLocation:VARCHAR}, #{meetingTime:VARCHAR}, #{meetingDues:VARCHAR})
+	 </insert>
+	 
+	 <insert 	id="addCrewList"		parameterType="com.destiny.service.domain.Meeting">
+	 	INSERT
+		INTO meeting_crew_list ( meeting_crew_no, meeting_no, crew_id, crew_nick_name,
+					role, profile_img,crew_condition) 
+		VALUES	 ( seq_meeting_crew_no.nextval, #{meetingNo}, #{meetingMasterId}, #{crewNickName:VARCHAR}, 
+					'MST', #{masterProfileImg:VARCHAR},'YES')
+	 </insert>
 	 
 </mapper>

@@ -6,7 +6,7 @@
    <script type="text/javascript">
 		$(function() {
 			$("a[href='#' ]:contains('우리들의 연결고리')").on("click", function() {
-				self.location = "../index.jsp"
+				self.location = "/index.jsp"
 			});
 			$("a[href='#' ]:contains('Meeting')").on("click", function() {
 				self.location = "/meeting/listMeeting"
@@ -39,8 +39,17 @@
 			
 		});
 		
+		
+		
 		//============= "로그인"  Event 연결 =============
 		$( function() {
+			
+			$("#password").keypress(function(e) {
+				if(e.which == 13) {
+					$(this).blur();
+					$('#loginButton').focus().click();
+				}
+			});
 			
 			$("#userId").focus();
 			
@@ -61,7 +70,8 @@
 					return;
 				}
 				
-				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
+				//$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
+				self.location = "/user/login/"+id+"/"+pw;
 			});
 		});	
 		
@@ -74,6 +84,8 @@
 				self.location = "/user/getUser/"+userId;
 			});
 		});
+		
+		
 		
 		
 	</script>
@@ -146,27 +158,27 @@
 	            <li><a href="#">join</a></li>
 	            
 	            	<div id="my-dialog">
-	            		<form class="form-horizontal">
-	            			<div class="form-group">
+	            		
+	            			
 	            				<label for="userId" class="col-sm-4 control-label">아 이 디</label>
 		            			<div class="col-sm-6">
 		            				<input type="text" class="form-control" name="userId" id="userId"  placeholder="아이디" >
 		            			</div>
-	            			</div>
 	            			
-	            			<div class="form-group">
+	            			
+	            			
 	            				<label for="password" class="col-sm-4 control-label">패 스 워 드</label>
 	            				<div class="col-sm-6">
 	            					<input type="text" class="form-control" name="password" id="password" placeholder="패스워드" >
 					    		</div>
-					  		</div>
 					  		
-					  		<div class="form-group">
+					  		
+					  		
 					  			<div class="col-sm-offset-4 col-sm-6 text-center">
 					  				<button id="loginButton" type="button" class="btn btn-primary">로 &nbsp;그 &nbsp;인</button>
 					      		</div>
-					      	</div>
-						</form>
+					      	
+						
 					   	
 						<button id="btn-close-dialog">창 닫기</button>
 					</div>

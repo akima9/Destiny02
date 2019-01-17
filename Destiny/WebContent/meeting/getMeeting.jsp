@@ -42,20 +42,221 @@
 		    z-index: 10;
 		}
 		
-		#my-dialog {
+		#dialog {
 		    display: none;
 		    position: fixed;
-		    left: calc( 50% - 160px ); top: calc( 50% - 70px );
-		    width: 320px; height: 250px; 
-		    background: #fff;
+		    left: calc( 50% - 160px ); top: calc( 30% - 70px );
+		    width: 500px; height: 650px; 
+		    background: gainsboro;
 		    z-index: 11;
 		    padding: 10px;
 		}
      </style>
      
+     <style>
+       body > div.container{
+        	border: 3px solid #D6CDB7;
+            margin-top: 10px;
+        }
+    </style>
+     
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
+		
+		////////////////* 데이트픽커 데이터 포맷 */////////
+		$( function() {
+	
+		    $( "#datepicker" ).datepicker({
+		    	dateFormat:"yy-mm-dd"
+		    });
+	    		
+		} );
+		
+		function fncAddProduct(){
+			//Form 유효성 검증
+
+			 
+			var interestName=$("input[name='interestName']").val();
+			var meetingCenter=$("#centerMeeting").data("param");
+			var titleImg=$("input[name='imgFile']").val();
+			var meetingName=$("input[name='meetingName']").val();
+			var meetingDetail=$("textarea[name='meetingDetail']").val();
+			var meetingCrewLimit=$("select[name='meetingCrewLimit']").val();
+			var snooze=$("select[name='snooze']").val();
+			var meetingDate=$("input[name='meetingDate']").val();
+			var meetingDay=$("#weekday").val();
+			var meetingTime=$("select[name='meetingTime']").val();
+			var meetingLocation=$("input[name='meetingLocation']").val();
+			
+			console.log("관심사"+interestName);
+			console.log("미팅센터"+meetingCenter);
+			console.log("타이틀이미지"+titleImg);
+			console.log("제목"+meetingName);
+			console.log("내용"+meetingDetail);
+			console.log("인원"+meetingCrewLimit);
+			console.log("스누즈"+snooze);
+			console.log("날짜"+meetingDate);
+			console.log("요일"+meetingDay);
+			console.log("시간"+meetingTime);
+			console.log("장소"+meetingLocation);
+			
+			
+			if(interestName == null || interestName.length<1){
+				alert("관심사를 선택해 주세요.");
+				return;
+			}
+			
+			if(meetingCenter == null|| meetingCenter.length<1){
+				alert("중심지역을 선택해 주세요.");
+				return;
+			}
+			
+			if(titleImg == null || titleImg.length<1){
+				alert("대표이미지를 설정하여 주세요.");
+				return;
+			}
+			
+			if(meetingName == null || meetingName.length<1){
+				alert("모임이름을 작성하여 주세요.");
+				return;
+			}
+			
+			if(meetingDetail == null || meetingDetail.length<1){
+				alert("모임설명을 작성하여 주세요.");
+				return;
+			}
+			
+			if(meetingCrewLimit == null || meetingCrewLimit.length<1){
+				alert("모임인원을 설정하여 주세요.");
+				return;
+			}
+			
+			if(snooze!='Y' && snooze!='N'){
+				alert("반복여부를 설정하여 주세요.");
+				return;
+			}
+			
+			if(meetingDate == null && meetingDay == null){
+				alert("날짜or요일을 설정하요 주세요.");
+				return;
+			}
+			
+			if(meetingTime == null || meetingTime=='모임시간'){
+				alert("모임시간을 입력하여 주세요.");
+				return;
+			}
+			
+			if(meetingLocation == null || meetingLocation.length<1){
+				alert("모임장소를 입력하여 주세요.");
+				return;
+			}
+			
+			if (confirm("모임을 등록하시겠습니까?") == true){    //확인
+				 
+				$("form").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
+
+			     //document.removefrm.submit();
+
+			 }else{   //취소
+
+			     return;
+
+			 }
+			//alert("모임이 등록되었습니다.");
+		}
+		
+		$(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
+			 $( "button.btn.btn-primary" ).on("click" , function() {
+				//Debug..
+				//alert(  $( "td.ct_btn01:contains('등록')" ).html() );
+				fncAddProduct();
+			});
+		});
+		
+		 $( function() {
+			    $( "#manuDate" ).datepicker();
+		});
+		 
+		////* 관심사가 선택되면  *////
+		 $(function(){
+				$( "#interest" ).on("change" , function() {
+					//var idx = $(".brand_ids").index(this);
+					var interestNo=$(this).val();
+					console.log(interestNo);
+					
+					$( "#selectedInterest" ).val(interestNo);
+						
+				});
+			});
+		////* 관심사 끝  *////
+		
+		////* 지역구 선택부  *////
+		 $(function(){
+				$( "#centerLocation" ).on("change" , function() {
+					//var idx = $(".brand_ids").index(this);
+					var city=$(this).val();
+					console.log(city);
+					
+					$.ajax( 
+							{
+								url : "/user/json/getLocationList/"+city,
+								method : "GET" ,
+								dataType : "json" ,
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(JSONData , status) {
+									
+									var list="";
+									list+="<select name='meetingCenter' class='form-control'>";
+									list+="<option>시/군/구 선택</option>";
+									for(i in JSONData.list){
+										var town = JSONData.list[i].townName;
+										
+										list+="<option id='centerMeeting' name='meetingCenter'value='"+town+"'>"+town+"</option>";
+								}
+									$( "#location" ).empty().append(list);
+								}
+						});
+				});
+			});
+		////* 지역구 선택부 끝!!!!!  *////
+		
+		////* 모임원 선택부  *////
+
+		
+		////* 모임원 선택부  끝!!!!!!!!!!*////
+		 
+		////* 반복여부가 선택되면  *////
+		 $(function(){
+				$( "#snooze" ).on("change" , function() {
+					//var idx = $(".brand_ids").index(this);
+					var snooze=$(this).val();
+					console.log(snooze);
+					
+					if(snooze=='Y'){
+						console.log("반복선택됨")
+						var list = "";
+						list+="<select id='weekday' class='form-control'>";
+						list+="<option value='월요일'>월요일</option>";
+						list+="<option value='화요일'>화요일</option>";
+						list+="<option value='수요일'>수요일</option>";
+						list+="<option value='목요일'>목요일</option>";
+						list+="<option value='금요일'>금요일</option>";
+						list+="<option value='토요일'>토요일</option>";
+						list+="<option value='일요일'>일요일</option>";
+						list+="</select>";
+						$( "#dateOrDay" ).empty().append(list);
+					}
+				});
+			});
+		
+		
+		
 		
 		//============= 회원정보수정 Event  처리 =============	
 		 $(function() {
@@ -74,7 +275,7 @@
 		
 		 $( function() {
 				$("#update-dialog").click(function () {
-					$("#my-dialog").toggle();
+					$("#dialog").toggle();
 				});
 			});
 		 
@@ -84,14 +285,71 @@
 					//document.detailForm.submit();
 				});
 			});
+		 $( function() {
+				$("#pushCancle").click(function () {
+					$("#dialog").toggle();
+				});
+			});
 		
 	</script>
+	
+	<!-- 다음 우편 -->
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54cfa5aea3e5609fcbb420ef8cd6ed4c"></script>
+	<script>
+	    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+	        mapOption = {
+	            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+	            level: 5 // 지도의 확대 레벨
+	        };
+	
+	    //지도를 미리 생성
+	    var map = new daum.maps.Map(mapContainer, mapOption);
+	    //주소-좌표 변환 객체를 생성
+	    var geocoder = new daum.maps.services.Geocoder();
+	    //마커를 미리 생성
+	    var marker = new daum.maps.Marker({
+	        position: new daum.maps.LatLng(37.537187, 127.005476),
+	        map: map
+	    });
+	
+	
+	    function sample5_execDaumPostcode() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                var addr = data.address; // 최종 주소 변수
+	
+	                // 주소 정보를 해당 필드에 넣는다.
+	                document.getElementById("sample5_address").value = addr;
+	                // 주소로 상세 정보를 검색
+	                geocoder.addressSearch(data.address, function(results, status) {
+	                    // 정상적으로 검색이 완료됐으면
+	                    if (status === daum.maps.services.Status.OK) {
+	
+	                        var result = results[0]; //첫번째 결과의 값을 활용
+	
+	                        // 해당 주소에 대한 좌표를 받아서
+	                        var coords = new daum.maps.LatLng(result.y, result.x);
+	                        // 지도를 보여준다.
+	                        mapContainer.style.display = "block";
+	                        map.relayout();
+	                        // 지도 중심을 변경한다.
+	                        map.setCenter(coords);
+	                        // 마커를 결과값으로 받은 위치로 옮긴다.
+	                        marker.setPosition(coords)
+	                    }
+	                });
+	            }
+	        }).open();
+	    }
+	</script>
+	<!-- 다음우편 끝 -->
 	
 </head>
 
 <body>
 	<!-- ToolBar Start /////////////////////////////////////-->
-    <%-- <jsp:include page="/layout/toolBar.jsp" /> --%>
+    <jsp:include page="/layout/toolBar.jsp" />
     <!-- ToolBar End /////////////////////////////////////-->
 
 
@@ -104,16 +362,163 @@
 	
 		<div class="page-header">
 	       <h3 class=" text-info">getMeeting.jsp</h3>
-	       <a href="#" id="update-dialog">수정하기</a>
+	       <a id="update-dialog">수정하기</a>
 	       <button type="button" id="btn-delete-dialog">삭제</button>
 	       <button type="button" id="complain">신고</button>
 	    </div>
 	    <!-- 모달창 디자인 부분 -->
-        <div id="my-dialog">
+        <div id="dialog">
+        <!-- //////////////////////////모달창  내용부/////////////////////////////////////////////////// -->
         	<form class="form-horizontal">
-        		ㅇㅇㅇㅇㅇ
-			</form>
-			<button id="close-dialog">창 닫기</button>
+        	<input type="hidden" name="meetingNo" value="${meeting.meetingNo}">
+				 <div  class="form-group col-sm-4 col-md-4">
+				 	<select id="interest" class="form-control">
+				 		<option >관심사</option>
+				 		<c:forEach var="Meeting" items="${list}">
+				 		
+				 			<option value="${Meeting.interestName}">${Meeting.interestName }</option>
+				 		
+				 		</c:forEach>
+				 	</select>
+				 </div>
+				
+				 <div class="form-group col-sm-8 col-md-8">
+				 	<input  name="interestName" id="selectedInterest" type="text" class="form-control" value="${meeting.interestName}">
+				 </div>
+				 
+				 <div class="form-group col-sm-6 col-md-6">
+				 	<select id="centerLocation" class="form-control">
+				 		<option>중심지역-지역</option>
+				 		<option value="서울">서울</option>
+		                <option value="경기">경기</option>
+		                <option value="인천">인천</option>
+		                <option value="부산">부산</option>
+		                <option value="대구">대구</option>
+		                <option value="광주">광주</option>
+		                <option value="대전">대전</option>
+		                <option value="울산">울산</option>
+		                <option value="세종">세종</option>
+		                <option value="강원">강원</option>
+		                <option value="경남">경남</option>
+		                <option value="경북">경북</option>
+		                <option value="전남">전남</option>
+		                <option value="전북">전북</option>
+		                <option value="충남">충남</option>
+		                <option value="충북">충북</option>
+		                <option value="제주">제주</option>
+				 	</select>
+				 </div>
+				 
+				 <div id="location" class="form-group col-sm-6 col-md-6">
+				 	<input type="text" class="form-control" id="centerMeeting" name="meetingCenter" data-param="${meeting.meetingCenter}" value="${meeting.meetingCenter}">
+				 	
+				 </div>
+				 
+				 <div class="form-group col-sm-10 col-md-10">
+				 	<input type="file" class="form-control" name="imgFile" id="imgFile" value="${meeting.titleImg}">
+				 </div>
+				 
+				 <div class="form-group col-sm-2 col-md-2">
+				 	<button type="button" class="btn btn-warning" >첨부파일</button>
+				 </div>
+				 
+				 <div class="form-group col-sm-12 col-md-12">
+				 	<input type="text" class="form-control" name="meetingName" value="${meeting.meetingName}">
+				 </div>
+				 
+				 <div class="form-group col-sm-12 col-md-12">
+				 	<textarea class="form-control" cols="100" rows="3" 
+				 	name="meetingDetail" placeholder="어떤 모임인지 설명해주세요" >${meeting.meetingDetail}</textarea>
+				 </div>
+				 
+				 <div class="form-group col-sm-12 col-md-12">
+				 	<textarea class="form-control" cols="100" rows="3" 
+				 	name="meetingRule" placeholder="모임에 규칙이 있나요? 있다면 간략히 적어주세요">${meeting.meetingRule}</textarea>
+				 </div>
+				 
+				 <div class="form-group col-sm-10 col-md-10">
+				 	모임인원을 입력하여 주세요
+				 </div>
+				
+				 <div id="crewNo" class="form-group col-sm-2 col-md-2">
+				 	<select name="meetingCrewLimit" class="form-control">
+				 		<option value="1"  ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==1 ? "selected" : "" }>1</option>
+				 		<option value="2" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==2 ? "selected" : "" }>2</option>
+				 		<option value="3" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==3 ? "selected" : "" }>3</option>
+				 		<option value="4" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==4 ? "selected" : "" }>4</option>
+				 		<option value="5" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==5 ? "selected" : "" }>5</option>
+				 		<option value="6" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==6 ? "selected" : "" }>6</option>
+				 		<option value="7" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==7 ? "selected" : "" }>7</option>
+				 		<option value="8" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==8 ? "selected" : "" }>8</option>
+				 		<option value="9" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==9 ? "selected" : "" }>9</option>
+				 		<option value="10" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==10 ? "selected" : "" }>10</option>
+				 		<option value="11" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==11 ? "selected" : "" }>11</option>
+				 		<option value="12" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==12 ? "selected" : "" }>12</option>
+				 		<option value="13" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==13 ? "selected" : "" }>13</option>
+				 		<option value="14" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==14 ? "selected" : "" }>14</option>
+				 		<option value="15" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==15 ? "selected" : "" }>15</option>
+				 		<option value="16" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==16 ? "selected" : "" }>16</option>
+				 		<option value="17" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==17 ? "selected" : "" }>17</option>
+				 		<option value="18" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==18 ? "selected" : "" }>18</option>
+				 		<option value="19" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==19 ? "selected" : "" }>19</option>
+				 		<option value="20" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==20 ? "selected" : "" }>20</option>
+				 	</select>
+				 </div>
+				 
+				 <div class="form-group col-sm-4 col-md-4">
+				 	<select name="snooze" id="snooze" class="form-control">
+				 		<option>반복여부</option>
+				 		<option value="Y" ${ ! empty meeting.snooze && meeting.snooze=='Y' ? "selected" : "" }>반복</option>
+				 		<option value="N" ${ ! empty meeting.snooze && meeting.snooze=='N' ? "selected" : "" }>한번</option>
+				 	</select>
+				 </div>
+				 
+				 <div  id="dateOrDay" class="form-group col-sm-4 col-md-4">
+				 	<input 	type="text" id="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜or요일" name="meetingDate"/>
+				 	
+				 	<!--  
+				 	<select class="form-control">
+				 		<option value="">모임날짜or요일</option>
+				 	</select>
+				 	-->
+				 </div>
+				 
+				 <div class="form-group col-sm-4 col-md-4">
+				 	<select name="meetingTime" class="form-control">
+				 		<option>모임시간</option>
+				 		<option value="12:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='12:00' ? "selected" : "" }>13:00</option>
+				 		<option value="13:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='13:00' ? "selected" : "" }>13:00</option>
+				 		<option value="14:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='14:00' ? "selected" : "" }>14:00</option>
+				 	</select>
+				 </div>
+				 
+				 <div class="form-group col-sm-10 col-md-10">
+				 	회비가 있다면 입력해주세요
+				 </div>
+				 
+				 <div class="form-group col-sm-2 col-md-2">
+				 	<input name="meetingDues" type="text" class="form-control" value="${meeting.meetingDues}">
+				 </div>
+				 
+				 <div class="form-group col-sm-10 col-md-10">
+				 <input name="meetingLocation" type="text" class="form-control" id="sample5_address" value="${meeting.meetingLocation}">
+				 	<!-- <input type="text" class="form-control" placeholder="모임장소를 입력하여주세요."> -->
+				 </div>
+				 
+				 <div class="form-group col-sm-2 col-md-2">
+					<input type="button" class="btn btn-warning" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+					<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+				 	<!-- <button type="button" class="btn btn-warning">우편검색</button> -->
+				 </div>
+				  
+				 <div class="form-group">
+				   <div class="col-sm-offset-4  col-sm-4 text-center">
+				     <button type="button" class="btn btn-primary"  >등 &nbsp;록</button>
+					 <a class="btn btn-primary btn" id="pushCancle" role="button">취&nbsp;소</a>
+				   </div>
+				 </div>
+		</form>
+		<!-- //////////////////////////모달창  내용부 끝/////////////////////////////////////////////////// -->
 		</div>
 	</div>
 	

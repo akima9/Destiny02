@@ -33,13 +33,13 @@
 	
 	$(function(){
 		$("button[id='getletterList']").on("click", function(){
-			self.location = "/user/getLetterList";
+			self.location = "/letter/getLetterList";
 		});
 	});
 	
 	$(function(){
 		$("button[id='sendletterList']").on("click", function(){
-			self.location = "/user/sendLetterList";
+			self.location = "/letter/sendLetterList";
 		});
 	});
 	

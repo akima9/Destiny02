@@ -36,7 +36,12 @@
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
-		
+	$(function(){
+		$('#getBackButton').on("click", function(){
+			var userId = $("input[name='getBack']").val();
+			self.location = "/user/getBackSite/"+userId;
+		});		
+	});
 		
 	</script>
 	
@@ -52,8 +57,14 @@
 	<div class="container">
 	
 		<div class="page-header">
-	       <h3 class=" text-info"><strong class="text-danger">이미 로그인된 계정입니다!!</strong></h3>
+	       <h3 class=" text-info"><strong class="text-danger">${reason}</strong></h3>
+   	       <c:if test="${reason eq '탈퇴한 회원입니다. 다시 이용하고 싶으시면 계정을 복구해 주십시요.'}">
+   	       		<input type="text" id="getBack" name="getBack">
+ 	    		<button id="getBackButton" type="button"  >계정복구</button>
+	       </c:if>
 	    </div>
+	    
+	    
 	
 		
 		

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.destiny.common.Search;
 import com.destiny.service.domain.Meeting;
 import com.destiny.service.letter.LetterDao;
 import com.destiny.service.meeting.MeetingDao;
@@ -40,10 +41,22 @@ public class MeetingServiceImpl implements MeetingService {
 	public void addMeeting(Meeting meeting) throws Exception {
 		meetingDao.addMeeting(meeting);
 	}
+	
+	@Override
+	public void addAct(Meeting meeting) throws Exception {
+		meetingDao.addAct(meeting);
+		
+	}
+	
+	@Override
+	public void addCrewList(Meeting meeting) throws Exception {
+		meetingDao.addCrewList(meeting);
+		
+	}
 
 	@Override
-	public Map<String, Object> getMeetingList() throws Exception {
-		List<Meeting> list= meetingDao.getMeetingList();
+	public Map<String, Object> getMeetingList(Search search) throws Exception {
+		List<Meeting> list= meetingDao.getMeetingList(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );
@@ -74,5 +87,15 @@ public class MeetingServiceImpl implements MeetingService {
 		meetingDao.updateMeeting(meeting);
 		
 	}
+
+	@Override
+	public void updateContentsMeeting(Meeting meeting) throws Exception {
+		meetingDao.updateContentsMeeting(meeting);
+		
+	}
+
+	
+
+	
 	
 }

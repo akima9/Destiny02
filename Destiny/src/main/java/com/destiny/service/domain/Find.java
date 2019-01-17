@@ -4,14 +4,12 @@ import java.util.List;
 
 public class Find {
 
-	//private Meeting	findMeeting;
 	private	String		selectGender;
 	private	String		selectAge;
 	private	String		selectInterest;
 	private	String		selectInterest01;
 	private	String		selectInterest02;
 	private	String		selectInterest03;
-	//private	String		city;
 	private	String		town;
 
 

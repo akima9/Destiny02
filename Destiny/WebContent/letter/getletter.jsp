@@ -35,7 +35,7 @@
 			 //$("form").attr("method" , "POST").attr("action" , "/user/sendLetter").submit();
 			 var sender = $("input[id='sender']").val();
 			 
-			 self.location = "/user/sendLetterView/"+sender;
+			 self.location = "/letter/sendLetterView/"+sender;
 		});
 	});
 	
@@ -89,10 +89,10 @@
 		     	 <button type="button" class="btn btn-primary"  >답&nbsp;장</button>
 		     </c:if>
 		     <c:if test="${from eq 'getList'}">
-			  <a class="btn btn-primary btn" href="/user/getLetterList" role="button">뒤&nbsp;로</a>
+			  <a class="btn btn-primary btn" href="/letter/getLetterList" role="button">뒤&nbsp;로</a>
 			  </c:if>
 			  <c:if test="${from eq 'sendList'}">
-			   <a class="btn btn-primary btn" href="/user/sendLetterList" role="button">뒤&nbsp;로</a>
+			   <a class="btn btn-primary btn" href="/letter/sendLetterList" role="button">뒤&nbsp;로</a>
 			  </c:if>
 		    </div>
 		  </div>

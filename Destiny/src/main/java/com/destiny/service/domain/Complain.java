@@ -5,98 +5,125 @@ import java.util.Date;
 public class Complain {
 	
 	private int		complainNo;
+	private String 	complainerId;
+	private String 	defendantId;
+	private int 		meetingNo;
+	private int		communityNo;
+	private int 		commentNo;
+	private String 	complainDetail;	
 	private String	complainType;
-	private String	complainDetail;
 	private String	complainKind;
-	private String	complainState;
-	private Date	compainDate;
-	private String	complainantld;
-	private String	defendantId;
-	private int		warningNo;
-	private Comment	coComment;
-	private Comment	coCommunity;
-	private Meeting	Meeting;
+	private Date		complainDate;
+	private Date 	checkDate;
+	private String 	complainState;
+//	private int		warningNo;
+	
+	public Complain() {
+	}
+
 	public int getComplainNo() {
 		return complainNo;
 	}
+
 	public void setComplainNo(int complainNo) {
 		this.complainNo = complainNo;
 	}
-	public String getComplainType() {
-		return complainType;
+
+	public String getComplainerId() {
+		return complainerId;
 	}
-	public void setComplainType(String complainType) {
-		this.complainType = complainType;
+
+	public void setComplainerId(String complainerId) {
+		this.complainerId = complainerId;
 	}
-	public String getComplainDetail() {
-		return complainDetail;
-	}
-	public void setComplainDetail(String complainDetail) {
-		this.complainDetail = complainDetail;
-	}
-	public String getComplainKind() {
-		return complainKind;
-	}
-	public void setComplainKind(String complainKind) {
-		this.complainKind = complainKind;
-	}
-	public String getComplainState() {
-		return complainState;
-	}
-	public void setComplainState(String complainState) {
-		this.complainState = complainState;
-	}
-	public Date getCompainDate() {
-		return compainDate;
-	}
-	public void setCompainDate(Date compainDate) {
-		this.compainDate = compainDate;
-	}
-	public String getComplainantld() {
-		return complainantld;
-	}
-	public void setComplainantld(String complainantld) {
-		this.complainantld = complainantld;
-	}
+
 	public String getDefendantId() {
 		return defendantId;
 	}
+
 	public void setDefendantId(String defendantId) {
 		this.defendantId = defendantId;
 	}
-	public int getWarningNo() {
-		return warningNo;
+
+	public int getMeetingNo() {
+		return meetingNo;
 	}
-	public void setWarningNo(int warningNo) {
-		this.warningNo = warningNo;
+
+	public void setMeetingNo(int meetingNo) {
+		this.meetingNo = meetingNo;
 	}
-	public Comment getCoComment() {
-		return coComment;
+
+	public int getCommunityNo() {
+		return communityNo;
 	}
-	public void setCoComment(Comment coComment) {
-		this.coComment = coComment;
+
+	public void setCommunityNo(int communityNo) {
+		this.communityNo = communityNo;
 	}
-	public Comment getCoCommunity() {
-		return coCommunity;
+
+	public int getCommentNo() {
+		return commentNo;
 	}
-	public void setCoCommunity(Comment coCommunity) {
-		this.coCommunity = coCommunity;
+
+	public void setCommentNo(int commentNo) {
+		this.commentNo = commentNo;
 	}
-	public Meeting getMeeting() {
-		return Meeting;
+
+	public String getComplainDetail() {
+		return complainDetail;
 	}
-	public void setMeeting(Meeting meeting) {
-		Meeting = meeting;
+
+	public void setComplainDetail(String complainDetail) {
+		this.complainDetail = complainDetail;
 	}
+
+	public String getComplainType() {
+		return complainType;
+	}
+
+	public void setComplainType(String complainType) {
+		this.complainType = complainType;
+	}
+
+	public String getComplainKind() {
+		return complainKind;
+	}
+
+	public void setComplainKind(String complainKind) {
+		this.complainKind = complainKind;
+	}
+
+	public Date getComplainDate() {
+		return complainDate;
+	}
+
+	public void setComplainDate(Date complainDate) {
+		this.complainDate = complainDate;
+	}
+
+	public Date getCheckDate() {
+		return checkDate;
+	}
+
+	public void setCheckDate(Date checkDate) {
+		this.checkDate = checkDate;
+	}
+
+	public String getComplainState() {
+		return complainState;
+	}
+
+	public void setComplainState(String complainState) {
+		this.complainState = complainState;
+	}
+
 	@Override
 	public String toString() {
-		return "Complain [complainNo=" + complainNo + ", complainType=" + complainType + ", complainDetail="
-				+ complainDetail + ", complainKind=" + complainKind + ", complainState=" + complainState
-				+ ", compainDate=" + compainDate + ", complainantld=" + complainantld + ", defendantId=" + defendantId
-				+ ", warningNo=" + warningNo + ", coComment=" + coComment + ", coCommunity=" + coCommunity
-				+ ", Meeting=" + Meeting + "]";
+		return "Complain [complainNo=" + complainNo + ", complainerId=" + complainerId + ", defendantId=" + defendantId
+				+ ", meetingNo=" + meetingNo + ", communityNo=" + communityNo + ", commentNo=" + commentNo
+				+ ", complainDetail=" + complainDetail + ", complainType=" + complainType + ", complainKind="
+				+ complainKind + ", complainDate=" + complainDate + ", checkDate=" + checkDate + ", complainState="
+				+ complainState + "]";
 	}
 	
-	
-
 }

@@ -50,7 +50,7 @@ public class ChattingRestController {
         auth.put("passwordCredentials", cred);
         parent.put("auth", auth);
 
-        URLCOnn conn = new URLCOnn("http://192.168.0.28",1516);
+        URLCOnn conn = new URLCOnn("http://192.168.0.28",83);
         conn.urlPost(parent);
 
        

@@ -20,14 +20,15 @@ public class Meeting {
 	private	String	meetingTime;
 	private	String	snooze;
 	private	String	meetingDues;
-	private	String	meetingViews;
+	private	int	meetingViews;
 	private	String	meetingCondition;
 	private	String	shutDownDate;
 	private	String	meetingCrewLimit;
 	private int		interestNo;
-	private	String	actCountNo;
+	private	String	crewNickName;
 	private	String	interview;
 	private MultipartFile  imgFile;
+	private	String	crewCondition;
 	
 	public int getMeetingNo() {
 		return meetingNo;
@@ -125,18 +126,13 @@ public class Meeting {
 	public void setMeetingDues(String meetingDues) {
 		this.meetingDues = meetingDues;
 	}
-	public String getMeetingViews() {
+	public int getMeetingViews() {
 		return meetingViews;
 	}
-	public void setMeetingViews(String meetingViews) {
+	public void setMeetingViews(int meetingViews) {
 		this.meetingViews = meetingViews;
 	}
-	public String getMeeting_condition() {
-		return meetingCondition;
-	}
-	public void setMeeting_condition(String meeting_condition) {
-		this.meetingCondition = meeting_condition;
-	}
+	
 	public String getShutDownDate() {
 		return shutDownDate;
 	}
@@ -155,11 +151,11 @@ public class Meeting {
 	public void setInterestNo(int interestNo) {
 		this.interestNo = interestNo;
 	}
-	public String getActCountNo() {
-		return actCountNo;
+	public String getCrewNickName() {
+		return crewNickName;
 	}
-	public void setActCountNo(String actCountNo) {
-		this.actCountNo = actCountNo;
+	public void setCrewNickName(String crewNickName) {
+		this.crewNickName = crewNickName;
 	}
 	public String getInterview() {
 		return interview;
@@ -180,6 +176,14 @@ public class Meeting {
 	public void setImgFile(MultipartFile imgFile) {
 		this.imgFile = imgFile;
 	}
+	
+	
+	public String getCrewCondition() {
+		return crewCondition;
+	}
+	public void setCrewCondition(String crewCondition) {
+		this.crewCondition = crewCondition;
+	}
 	@Override
 	public String toString() {
 		return "Meeting [meetingNo=" + meetingNo + ", role=" + role + ", meetingMasterId=" + meetingMasterId
@@ -189,8 +193,8 @@ public class Meeting {
 				+ ", meetingDate=" + meetingDate + ", meetingDay=" + meetingDay + ", meetingTime=" + meetingTime
 				+ ", snooze=" + snooze + ", meetingDues=" + meetingDues + ", meetingViews=" + meetingViews
 				+ ", meetingCondition=" + meetingCondition + ", shutDownDate=" + shutDownDate + ", meetingCrewLimit="
-				+ meetingCrewLimit + ", interestNo=" + interestNo + ", actCountNo=" + actCountNo + ", interview="
-				+ interview + ", imgFile=" + imgFile + "]";
+				+ meetingCrewLimit + ", interestNo=" + interestNo + ", crewNickName=" + crewNickName + ", interview="
+				+ interview + ", imgFile=" + imgFile + ", crewCondition=" + crewCondition + "]";
 	}
 	
 	

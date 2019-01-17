@@ -301,6 +301,7 @@
 		<form class="form-horizontal" enctype="multipart/form-data">
 		<input type="hidden" name="meetingMasterId" value="${sessionScope.me.userId}">
 		<input type="hidden" name="masterProfileImg" value="${sessionScope.me.profile}">
+		<input type="hidden" name="crewNickName" value="${sessionScope.me.nickName}">
 		 <div  class="form-group col-sm-4 col-md-4">
 		 	<select id="interest" class="form-control">
 		 		<option >°ü½É»ç</option>

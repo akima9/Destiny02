@@ -38,21 +38,13 @@
 	</resultMap>
 	
 	
-	<resultMap id="letterSelectMap" type="com.destiny.service.domain.Letter">
-		<result property="senderId" 			column="sender_id" 			jdbcType="VARCHAR"/>
-		<result property="receiverId" 			column="receiver_id" 			jdbcType="VARCHAR"/>
-		<result property="sendLetterDate" 		column="send_date" 			jdbcType="DATE"/>
-		<result property="getLetterDate" 		column="receive_date" 			jdbcType="DATE"/>
-		<result property="letterTitle" 			column="letter_title" 			jdbcType="VARCHAR"/>
-		<result property="letterDetail" 		column="letter_detail" 			jdbcType="VARCHAR"/>
-		<result property="letterNo" 			column="letter_no" 			jdbcType="NUMERIC"/>
-	</resultMap>
+	
 	
 
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
-		user_id, nick_name, user_grade, password, email, birthday, address, profile_img, gender, phone, attend_count, last_login_day, warning_count, my_type, first_type, second_type, thrid_type, first_interest, second_interest, third_interest	
+		user_id, nick_name, user_grade, password, email, birthday, address, profile_img, gender, phone, attend_count, last_login_day, warning_count, my_type, first_type, second_type, thrid_type, first_interest, second_interest, third_interest, user_state	
 		FROM users 
 		WHERE user_id = #{value}
 	 </select>
@@ -60,21 +52,21 @@
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getUserByNickName"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
-		user_id, nick_name, user_grade, password, email, birthday, address, profile_img, gender, phone, attend_count, last_login_day, warning_count, my_type, first_type, second_type, thrid_type, first_interest, second_interest, third_interest	
+		user_id, nick_name, user_grade, password, email, birthday, address, profile_img, gender, phone, attend_count, last_login_day, warning_count, my_type, first_type, second_type, thrid_type, first_interest, second_interest, third_interest, user_state
 		FROM users 
 		WHERE nick_name = #{value}
 	 </select>
 	 
 	 <select 	id="getUserByEmail"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
-		user_id, nick_name, user_grade, password, email, birthday, address, profile_img, gender, phone, attend_count, last_login_day, warning_count, my_type, first_type, second_type, thrid_type, first_interest, second_interest, third_interest	
+		user_id, nick_name, user_grade, password, email, birthday, address, profile_img, gender, phone, attend_count, last_login_day, warning_count, my_type, first_type, second_type, thrid_type, first_interest, second_interest, third_interest, user_state	
 		FROM users 
 		WHERE email = #{value}
 	 </select>
 	 
 	 <select 	id="getUserByPhone"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
-		user_id, nick_name, user_grade, password, email, birthday, address, profile_img, gender, phone, attend_count, last_login_day, warning_count, my_type, first_type, second_type, thrid_type, first_interest, second_interest, third_interest	
+		user_id, nick_name, user_grade, password, email, birthday, address, profile_img, gender, phone, attend_count, last_login_day, warning_count, my_type, first_type, second_type, thrid_type, first_interest, second_interest, third_interest, user_state	
 		FROM users 
 		WHERE phone = #{value}
 	 </select>
@@ -159,10 +151,10 @@
 	 	</where>
 	 </update>
 	 
-	 <update id="leaveSite" parameterType="com.destiny.service.domain.User">
+	 <update id="updateState" parameterType="com.destiny.service.domain.User">
 	 	UPDATE users
 	 	<set>
-	 		user_state = 'O'
+	 		user_state = #{userState}
 	 	</set>
 	 	<where>
 	 		user_id = #{userId}
@@ -175,7 +167,7 @@
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT user_id, password, nick_name, user_grade, email, birthday, address,
 	  					                    profile_img, gender, phone, attend_count, last_login_day, warning_count,
-	  					                    my_type, first_type, second_type, thrid_type, first_interest, second_interest, third_interest    
+	  					                    my_type, first_type, second_type, thrid_type, first_interest, second_interest, third_interest, user_state    
 											FROM users
 											<if test="searchCondition != null">
 												<where>
@@ -230,71 +222,5 @@
 	 </select>
 	 
 	 
-	<insert id="sendLetter"       parameterType="com.destiny.service.domain.Letter" >
-		INSERT
-		INTO letter(sender_id, receiver_id, send_date, receive_date, letter_title, letter_detail, letter_no)
-		VALUES (#{senderId}, #{receiverId}, SYSDATE, to_date('2019/01/01 10:48:43', 'YYYY/MM/DD HH24:MI:SS'), #{letterTitle}, #{letterDetail}, seq_letter_no.nextval)
-	</insert>
-	
-	<select id="getLetter" 	 	  parameterType="int"	resultMap="letterSelectMap">
-		SELECT sender_id, receiver_id, send_date, receive_date, letter_title, letter_detail, letter_no
-		FROM letter
-		<where>
-		letter_no = #{no}
-		</where>						
-	</select>
-	
-	<update id="updateReceiveDate" parameterType="int" >
-		UPDATE letter SET receive_date = SYSDATE
-		<where>
-		letter_no = #{no}
-		</where>	
-	</update>
-	
-	<select  id="getReceiveLetterList"  parameterType="map"	resultMap="letterSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT sender_id, receiver_id, send_date, receive_date, letter_title, letter_detail, letter_no
-											FROM letter
-											<where>
-											receiver_id = #{Id}
-											</where>
-											ORDER BY send_date ) inner_table
-						WHERE ROWNUM &lt;= #{search.endRowNum} )
-		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 
-	 </select>
-	 
-	 <select  id="getSendLetterList"  parameterType="map"	resultMap="letterSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT sender_id, receiver_id, send_date, receive_date, letter_title, letter_detail, letter_no
-											FROM letter
-											<where>
-											sender_id = #{Id}
-											</where>
-											ORDER BY send_date ) inner_table
-						WHERE ROWNUM &lt;= #{search.endRowNum} )
-		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 
-	 </select>
-	
-	<select  id="getReceiveLetterTotalCount"  parameterType="String" resultType="int">
-	  	SELECT COUNT(*)
-	  	FROM(	SELECT sender_id, receiver_id, send_date, receive_date, letter_title, letter_detail, letter_no
-						FROM letter
-						<where>
-						receiver_id = #{Id}
-						</where>
-			) countTable						
-	 </select>
-	 
-	 <select  id="getSendLetterTotalCount"  parameterType="String" resultType="int">
-	  	SELECT COUNT(*)
-	  	FROM(	SELECT sender_id, receiver_id, send_date, receive_date, letter_title, letter_detail, letter_no
-						FROM letter
-						<where>
-						sender_id = #{Id}
-						</where>
-			) countTable						
-	 </select>
 	 
 </mapper>

@@ -6,35 +6,70 @@ public class Telepathy {
 	
 	private int		chattingNo;
 	private String	userId;
-	private List	telepathyNo;
+	private int	telepathyNo;
+	private String telepathyQuestion;
+	private String exOne;
+	private String exTwo;
+	private String exOneImg;
+	private String exTwoImg;
 	private List	womanTelepathyResult;
 	private List	manTelepathyResult;
 	public int getChattingNo() {
 		return chattingNo;
 	}
-	public void setChattingNo(int chattingNo) {
-		this.chattingNo = chattingNo;
-	}
 	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public List getTelepathyNo() {
+	public int getTelepathyNo() {
 		return telepathyNo;
 	}
-	public void setTelepathyNo(List telepathyNo) {
-		this.telepathyNo = telepathyNo;
+	public String getTelepathyQuestion() {
+		return telepathyQuestion;
+	}
+	public String getExOne() {
+		return exOne;
+	}
+	public String getExTwo() {
+		return exTwo;
+	}
+	public String getExOneImg() {
+		return exOneImg;
+	}
+	public String getExTwoImg() {
+		return exTwoImg;
 	}
 	public List getWomanTelepathyResult() {
 		return womanTelepathyResult;
 	}
-	public void setWomanTelepathyResult(List womanTelepathyResult) {
-		this.womanTelepathyResult = womanTelepathyResult;
-	}
 	public List getManTelepathyResult() {
 		return manTelepathyResult;
+	}
+	public void setChattingNo(int chattingNo) {
+		this.chattingNo = chattingNo;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public void setTelepathyNo(int telepathyNo) {
+		this.telepathyNo = telepathyNo;
+	}
+	public void setTelepathyQuestion(String telepathyQuestion) {
+		this.telepathyQuestion = telepathyQuestion;
+	}
+	public void setExOne(String exOne) {
+		this.exOne = exOne;
+	}
+	public void setExTwo(String exTwo) {
+		this.exTwo = exTwo;
+	}
+	public void setExOneImg(String exOneImg) {
+		this.exOneImg = exOneImg;
+	}
+	public void setExTwoImg(String exTwoImg) {
+		this.exTwoImg = exTwoImg;
+	}
+	public void setWomanTelepathyResult(List womanTelepathyResult) {
+		this.womanTelepathyResult = womanTelepathyResult;
 	}
 	public void setManTelepathyResult(List manTelepathyResult) {
 		this.manTelepathyResult = manTelepathyResult;
@@ -42,8 +77,12 @@ public class Telepathy {
 	@Override
 	public String toString() {
 		return "Telepathy [chattingNo=" + chattingNo + ", userId=" + userId + ", telepathyNo=" + telepathyNo
-				+ ", womanTelepathyResult=" + womanTelepathyResult + ", manTelepathyResult=" + manTelepathyResult + "]";
+				+ ", telepathyQuestion=" + telepathyQuestion + ", exOne=" + exOne + ", exTwo=" + exTwo + ", exOneImg="
+				+ exOneImg + ", exTwoImg=" + exTwoImg + ", womanTelepathyResult=" + womanTelepathyResult
+				+ ", manTelepathyResult=" + manTelepathyResult + "]";
 	}
+	
+	
 	
 	
 
