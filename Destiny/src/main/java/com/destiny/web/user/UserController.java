@@ -67,101 +67,115 @@ public class UserController {
 		return modelAndView;
 	}
 	
-	@RequestMapping( value="login", method=RequestMethod.POST )
-	public ModelAndView login(@ModelAttribute("user") User user , HttpSession session, HttpServletRequest request) throws Exception{
+	@RequestMapping( value="login/{userId}/{password}", method=RequestMethod.GET )
+	public ModelAndView login(@PathVariable("userId") String userId, @PathVariable("password") String password , HttpSession session, HttpServletRequest request) throws Exception{
 		
-		System.out.println("/user/login : POST");
-		System.out.println("userId : " + user.getUserId());
-		System.out.println("password : " + user.getPassword());
+		System.out.println("/user/login : GET");
+		System.out.println("userId : " + userId);
+		System.out.println("password : " + password);
 		
 		//Business Logic
-		User dbUser=userService.getUser(user.getUserId());
-		
+		User dbUser = new User();
+		 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/index.jsp");
-		if(dbUser == null) {
+		//만일 유저가 없다면
+		if(userService.getUser(userId) == null) {
+			System.out.println("가입되지 않은 아이디입니다.");
 			modelAndView.addObject("result", "Fail");
-		}
-		//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
-		ServletContext applicationScope = request.getSession().getServletContext();
-		
-		List<User> loginList = new ArrayList<User>();
-		
-		if(applicationScope.getAttribute("loginList") != null) {
-			loginList = (List<User>) applicationScope.getAttribute("loginList");
-		}
-		
-		int numberOfLogin = 0;
-		
-		if(applicationScope.getAttribute("numberOfLogin") != null) {
-			numberOfLogin = (int) applicationScope.getAttribute("numberOfLogin");
-		}
-
-		System.out.println("현 접속자 중 지금 로그인 시도한 사람이 있습니까? ");
-		boolean checkDe = false;
-		for(int i = 0; i < loginList.size(); i++) {
-			if(loginList.get(i).toString().equals(dbUser.toString())) {
-				System.out.println("어 있엉~~~~~~~~~~~~~~~~~~~~~~~");
-				checkDe = true;
-			}
-		}
-		
-		if( user.getPassword().equals(dbUser.getPassword())){
-			
-			if(!checkDe) {
-				session.setAttribute("me", dbUser);
-				
-				loginList.add(dbUser);
-				
-				numberOfLogin++;
-				
-				applicationScope.setAttribute("loginList", loginList);
-				applicationScope.setAttribute("numberOfLogin", numberOfLogin);
-				for(User v : loginList) {
-					System.out.println("현제 접속자 목록 : " + v);
-				}
-				System.out.println("현제 접속자 : " + numberOfLogin);
-				
-				modelAndView.addObject("result", "Success");
-				modelAndView.addObject(dbUser.getUserId(), dbUser);
-			
-			} else {
-				System.out.println("이미 로그인된 회원입니다.");
+			modelAndView.addObject("reason", "가입되지 않은 아이디입니다.");
+		} else {
+			dbUser=userService.getUser(userId);
+			char O = 'O';
+			//만일 탈퇴한 유저라면
+			if(dbUser.getUserState() == O) {
 				modelAndView.addObject("result", "Fail");
-				modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+				modelAndView.addObject("reason", "탈퇴한 회원입니다. 새로 가입하여 주십시요.");
+			} else {
+				//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
+				ServletContext applicationScope = request.getSession().getServletContext();
+				
+				List<User> loginList = new ArrayList<User>();
+				
+				if(applicationScope.getAttribute("loginList") != null) {
+					loginList = (List<User>) applicationScope.getAttribute("loginList");
+				}
+				
+				int numberOfLogin = 0;
+				
+				if(applicationScope.getAttribute("numberOfLogin") != null) {
+					numberOfLogin = (int) applicationScope.getAttribute("numberOfLogin");
+				}
+		
+				System.out.println("현 접속자 중 지금 로그인 시도한 사람이 있습니까? ");
+				boolean checkDe = false;
+				for(int i = 0; i < loginList.size(); i++) {
+					if(loginList.get(i).toString().equals(dbUser.toString())) {
+						System.out.println("어 있엉~~~~~~~~~~~~~~~~~~~~~~~");
+						checkDe = true;
+					}
+				}
+				
+				//비밀번호가 일치하는가?
+				if(password.equals(dbUser.getPassword())){
+					//중복 로그인이 아닌가?
+					if(!checkDe) {
+						session.setAttribute("me", dbUser);
+						
+						loginList.add(dbUser);
+						
+						numberOfLogin++;
+						
+						applicationScope.setAttribute("loginList", loginList);
+						applicationScope.setAttribute("numberOfLogin", numberOfLogin);
+						for(User v : loginList) {
+							System.out.println("현제 접속자 목록 : " + v);
+						}
+						System.out.println("현제 접속자 : " + numberOfLogin);
+						
+						modelAndView.addObject("result", "Success");
+						modelAndView.addObject(dbUser.getUserId(), dbUser);
+						
+						//=========================================출석체크 로직 구현 part===========================================
+						int numAttendCount = dbUser.getAttendCount();
+						Date lastLoginDate = dbUser.getLastLoginDay();
+						System.out.println(dbUser.getUserId() + "의 마지막 로그인 날자 : " + lastLoginDate);
+						
+						java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
+				
+						System.out.println("현제 날짜(sql) : " + sqlDate);
+						
+						LocalDate lastLoginDateLocal = new Date(lastLoginDate.getTime()).toLocalDate();
+						LocalDate sqlDateLocal = new Date(sqlDate.getTime()).toLocalDate();
+						
+						if(lastLoginDateLocal.isBefore(sqlDateLocal)) {
+							System.out.println("다른날 접속입니다. 마지막 접속 : " + lastLoginDate + " 오늘 접속 : " + sqlDate);
+							
+							dbUser.setLastLoginDay(sqlDate);
+							numAttendCount++;
+							dbUser.setAttendCount(numAttendCount);
+							
+							userService.attendLogin(dbUser);
+						} else {
+							System.out.println("같은날 접속입니다. 마지막 접속 : " + lastLoginDate+ " 오늘 접속 : " + sqlDate);
+						}
+						//=======================================================================================================
+						
+					
+					} else {
+						modelAndView.addObject("reason", "이미 로그인된 계정입니다.");
+						modelAndView.addObject("result", "Fail");
+						modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+					}
+					
+				} else {
+					System.out.println("비밀번호가 다릅니다.");
+					modelAndView.addObject("reason", "비밀번호가 다릅니다.");
+					modelAndView.addObject("result", "Fail");
+				}
+				//====================================================================================================
 			}
-			
-		} else {
-			System.out.println("비밀번호가 다릅니다.");
-			modelAndView.addObject("result", "Fail");
 		}
-		//====================================================================================================
-		
-		//=========================================출석체크 로직 구현 part===========================================
-		int numAttendCount = dbUser.getAttendCount();
-		Date lastLoginDate = dbUser.getLastLoginDay();
-		System.out.println(dbUser.getUserId() + "의 마지막 로그인 날자 : " + lastLoginDate);
-		
-		java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
-
-		System.out.println("현제 날짜(sql) : " + sqlDate);
-		
-		LocalDate lastLoginDateLocal = new Date(lastLoginDate.getTime()).toLocalDate();
-		LocalDate sqlDateLocal = new Date(sqlDate.getTime()).toLocalDate();
-		
-		if(lastLoginDateLocal.isBefore(sqlDateLocal)) {
-			System.out.println("다른날 접속입니다. 마지막 접속 : " + lastLoginDate + " 오늘 접속 : " + sqlDate);
-			
-			dbUser.setLastLoginDay(sqlDate);
-			numAttendCount++;
-			dbUser.setAttendCount(numAttendCount);
-			
-			userService.attendLogin(dbUser);
-		} else {
-			System.out.println("같은날 접속입니다. 마지막 접속 : " + lastLoginDate+ " 오늘 접속 : " + sqlDate);
-		}
-		//=======================================================================================================
-		
 		return modelAndView;
 	}
 	
@@ -179,8 +193,17 @@ public class UserController {
 		if(applicationScope.getAttribute("loginList") != null) {
 			loginList = (List<User>) applicationScope.getAttribute("loginList");
 		}
+		User user = userService.getUser(userId);
 		
-		loginList.remove(userId);
+		boolean checkDe = false;
+		for(int i = 0; i < loginList.size(); i++) {
+			if(loginList.get(i).toString().equals(user.toString())) {
+				System.out.println("어 있엉~~~~~~~~~~~~~~~~~~~~~~~");
+				loginList.remove(i);
+			}
+		}
+		
+		//loginList.remove(user);
 		
 		int numberOfLogin = 0;
 		
@@ -214,9 +237,18 @@ public class UserController {
 		System.out.println("/user/addUser : POST");
 		
 		System.out.println("가져온 user정보 : " + user);
-		
-		
-		
+
+		//=====================탈퇴한 회원인지 조회해서 탈퇴한 회원이면 신규회원으로 전환=========================
+		char O = 'O';
+		char I = 'I';
+		if(userService.getUser(user.getUserId()) != null) {
+			if(user.getUserState() == O) {
+				User dbUser = userService.getUser(user.getUserId());
+				
+				dbUser.setUserState(I);
+			}
+		}
+
 		//===========================프로필 사진 업로드(다중)===========================
 		String temDir = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\userprofile\\";
 		
@@ -540,7 +572,12 @@ public class UserController {
 	@RequestMapping(value="leaveSite/{userId}", method=RequestMethod.GET)
 	public ModelAndView leaveSite(@PathVariable String userId) throws Exception{
 		
+		System.out.println("/user/leaveSite/{"+userId+"}");
 		
+		User user = userService.getUser(userId);
+		char O = 'O';
+		user.setUserState(O);
+		userService.updateState(user);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/user/logout/"+userId);

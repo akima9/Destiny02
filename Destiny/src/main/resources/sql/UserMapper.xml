@@ -159,10 +159,10 @@
 	 	</where>
 	 </update>
 	 
-	 <update id="leaveSite" parameterType="com.destiny.service.domain.User">
+	 <update id="updateState" parameterType="com.destiny.service.domain.User">
 	 	UPDATE users
 	 	<set>
-	 		user_state = 'O'
+	 		user_state = #{userState}
 	 	</set>
 	 	<where>
 	 		user_id = #{userId}

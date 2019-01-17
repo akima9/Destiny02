@@ -63,9 +63,9 @@
 			 $( "button:contains('확인')" ).on("click" , function() {
 				 self.location = "/product/listProduct?menu=${param.menu}"
 				});
-			/*  $( "button:contains('수정')" ).on("click" , function() {
-				 self.location = "/purchase/addPurchaseView?prodNo=${product.prodNo}"
-				}); */
+			  	$( "button:contains('신고')" ).on("click" , function() {
+				 self.location = "/complain/addComplain?meetingNo=${meeting.meetingNo}"
+				}); 
 			/*  $( "button:contains('삭제')" ).on("click" , function() {
 				 //history.go(-1);
 				 self.location = "/product/listProduct02?menu=${param.menu}"
@@ -73,10 +73,11 @@
 		});
 		
 		 $( function() {
-				$("#btn-update-dialog,#dialog-background,#btn-close-dialog").click(function () {
-					$("#my-dialog,#dialog-background").toggle();
+				$("#update-dialog").click(function () {
+					$("#my-dialog").toggle();
 				});
 			});
+		 
 		 $( function() {
 				$("#btn-delete-dialog").click(function () {
 					$("#detailForm").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
@@ -90,7 +91,7 @@
 
 <body>
 	<!-- ToolBar Start /////////////////////////////////////-->
-    <jsp:include page="/layout/toolBar.jsp" />
+    <%-- <jsp:include page="/layout/toolBar.jsp" /> --%>
     <!-- ToolBar End /////////////////////////////////////-->
 
 
@@ -103,15 +104,16 @@
 	
 		<div class="page-header">
 	       <h3 class=" text-info">getMeeting.jsp</h3>
-	       <button type="button" id="btn-update-dialog" class="btn btn-primary">수정하기</button>
-	       <button type="button" id="btn-delete-dialog" class="btn btn-primary">삭제</button>
+	       <a href="#" id="update-dialog">수정하기</a>
+	       <button type="button" id="btn-delete-dialog">삭제</button>
+	       <button type="button" id="complain">신고</button>
 	    </div>
 	    <!-- 모달창 디자인 부분 -->
         <div id="my-dialog">
         	<form class="form-horizontal">
         		ㅇㅇㅇㅇㅇ
 			</form>
-			<button id="btn-close-dialog">창 닫기</button>
+			<button id="close-dialog">창 닫기</button>
 		</div>
 	</div>
 	
