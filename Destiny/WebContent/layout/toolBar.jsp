@@ -6,7 +6,7 @@
    <script type="text/javascript">
 		$(function() {
 			$("a[href='#' ]:contains('우리들의 연결고리')").on("click", function() {
-				self.location = "../index.jsp"
+				self.location = "/index.jsp"
 			});
 			$("a[href='#' ]:contains('Meeting')").on("click", function() {
 				self.location = "/meeting/listMeeting"
@@ -39,8 +39,17 @@
 			
 		});
 		
+		
+		
 		//============= "로그인"  Event 연결 =============
 		$( function() {
+			
+			$("#password").keypress(function(e) {
+				if(e.which == 13) {
+					$(this).blur();
+					$('#loginButton').focus().click();
+				}
+			});
 			
 			$("#userId").focus();
 			

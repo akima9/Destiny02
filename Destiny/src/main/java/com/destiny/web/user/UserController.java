@@ -91,7 +91,7 @@ public class UserController {
 			//만일 탈퇴한 유저라면
 			if(dbUser.getUserState().equals("O")) {
 				modelAndView.addObject("result", "Fail");
-				modelAndView.addObject("reason", "탈퇴한 회원입니다. 새로 가입하여 주십시요.");
+				modelAndView.addObject("reason", "탈퇴한 회원입니다. 다시 이용하고 싶으시면 계정을 복구해 주십시요.");
 				modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 			} else {
 				//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
@@ -151,7 +151,7 @@ public class UserController {
 						LocalDate sqlDateLocal = new Date(sqlDate.getTime()).toLocalDate();
 						
 						if(lastLoginDateLocal.isBefore(sqlDateLocal)) {
-							System.out.println("다른날 접속입니다. 마지막 접속 : " + lastLoginDate + " 오늘 접속 : " + sqlDate);
+							System.out.println("다른날 접속입니다. 마지막 접속 : " + lastLoginDate + " 오늘 접속 : " + sqlDate + " 출석 횟수 : " + numAttendCount);
 							
 							dbUser.setLastLoginDay(sqlDate);
 							numAttendCount++;
@@ -160,7 +160,14 @@ public class UserController {
 							userService.attendLogin(dbUser);
 							
 							//==========================================등급 업!(일단 출석일로만)===================================
-							
+							if(numAttendCount == 2) {
+								dbUser.setUserGrade("NOR");
+								userService.updateGrade(dbUser);
+							}
+							if(numAttendCount == 20) {
+								dbUser.setUserGrade("VIP");
+								userService.updateGrade(dbUser);
+							}
 							//==============================================================================================
 							
 						} else {
@@ -250,11 +257,13 @@ public class UserController {
 		//=====================탈퇴한 회원인지 조회해서 탈퇴한 회원이면 신규회원으로 전환=========================
 	
 		if(userService.getUser(user.getUserId()) != null) {
+			/*User dbUser = userService.getUser(user.getUserId());
 			if(user.getUserState().equals("O")) {
-				User dbUser = userService.getUser(user.getUserId());
-				
-				dbUser.setUserState("I");
-			}
+				user.setUserState("I");
+				userService.updateState(user);
+				user.setUserGrade("NEW");
+				userService.updateGrade(user);
+			}*/
 		} else {
 			//===========================프로필 사진 업로드(다중)===========================
 			String temDir = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\userprofile\\";
@@ -303,15 +312,12 @@ public class UserController {
 			user.setProfile(profileDomain);
 			//====================================================
 			//=========================================================================
+			userService.addUser(user);
 		}
 
-		user.setUserState("I");
-		
-		
-		
 		modelAndView.setViewName("redirect:/index.jsp");
 
-		userService.addUser(user);
+		
 		
 		return modelAndView;
 	}
@@ -591,6 +597,25 @@ public class UserController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/user/logout/"+userId);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="getBackSite/{userId}", method=RequestMethod.GET)
+	public ModelAndView getBackSite(@PathVariable String userId) throws Exception{
+		System.out.println("getBackSite : GET : " + userId);
+		User user = userService.getUser(userId);
+		user.setUserState("I");
+		userService.updateState(user);
+		user.setUserGrade("NEW");
+		userService.updateGrade(user);
+		
+		user.setAttendCount(1);
+		user.setLastLoginDay(new java.sql.Date(new java.util.Date().getTime()));
+		userService.attendLogin(user);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("reason", "계정이 복구되었습니다. 다시 로그인해주세요.");
+		modelAndView.setViewName("redirect:/index.jsp");
 		return modelAndView;
 	}
 
