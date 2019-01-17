@@ -106,13 +106,13 @@
 			$("input:hidden[name='secondInterest']").val( items[1] );
 			$("input:hidden[name='thirdInterest']").val( items[2] );
 			
-			/*if($("#authnumPhoneWirte").text() != "" && $("#authnumPhoneWirte ").text() != null){
-				alert("휴대폰 인증이 제대로 수행되지 않았습니다. 인증번호를 확인해 주세요.");
+			if($("#authnumPhoneWirte").text() != "" && $("#authnumPhoneWirte ").text() != null){
+				alert("휴대폰 번호가 제대로 입력되거나 인증이 수행되지 않았습니다. 확인해 주세요.");
 				return;
 			}
 			
 			if($("#authnumWirte").text() != "" && $("#authnumWirte").text() != null){
-				alert("이메일 인증이 제대로 수행되지 않았습니다. 인증번호를 확인해 주세요.");
+				alert("이메일이 제대로 입력되거나 인증이 수행되지 않았습니다. 확인해 주세요.");
 				return;
 			}
 			
@@ -141,7 +141,7 @@
 				alert("비밀번호 확인이 일치하지 않습니다.");
 				$("input:text[name='password2']").focus();
 				return;
-			}*/
+			}
 				
 			var value = "";	
 			if( $("input:text[id='phone2']").val() != ""  &&  $("input:text[id='phone3']").val() != "") {
@@ -360,6 +360,9 @@
 							$('input[name="userId"]').css('background-color','white');
 							$('#userIdWirte').text("");
 						 }
+					 },
+					error : function(what){
+							
 					 }
 				 });
 			 });
@@ -387,7 +390,10 @@
 							$('input[name="nickName"]').css('background-color','white');
 							$('#nickNameWirte').text("");
 						 }
-					 }
+					 },
+					error : function(what){
+							
+					}
 				 });
 			 });
 		 });
@@ -415,6 +421,9 @@
 							$('input[name="email"]').css('background-color','white');
 							$('#authnumWirte').text("");
 						 }
+					 },
+					error : function(what){
+						
 					 }
 				 });
 			 });
@@ -445,7 +454,7 @@
 							$('input[name="phoneBe"]').css('background-color','pink');
 							$('#authnumPhoneWirte').text("이미 존재하는 번호입니다.");
 						 } else {
-							 if(phone.length < 13){
+							 if(phone.length < 13 || phone.length > 13){
 								$('input[name="phoneBe"]').css('background-color','pink');
 								$('#authnumPhoneWirte').text("전화번호 형식이 아닙니다.");
 							 } else {
@@ -482,9 +491,7 @@
 
 <body>
 
-	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolBar.jsp" />
-  <!-- ToolBar End /////////////////////////////////////-->
+	
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
@@ -667,7 +674,7 @@
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 		      <button type="button" class="btn btn-primary"  >가 &nbsp;입</button>
-			  <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+			  <a class="btn btn-primary btn" href="/index.jsp" role="button">취&nbsp;소</a>
 		    </div>
 		  </div>
 		</form>

@@ -32,7 +32,10 @@
 	<script type="text/javascript">
 	$(function() {
 		 $( "button.btn.btn-primary" ).on("click" , function() {
-			 $("form").attr("method" , "POST").attr("action" , "/user/sendLetter").submit();
+			 //$("form").attr("method" , "POST").attr("action" , "/user/sendLetter").submit();
+			 var sender = $("input[id='sender']").val();
+			 
+			 self.location = "/user/sendLetterView/"+sender;
 		});
 	});
 	
@@ -61,6 +64,7 @@
 		    <label for="receiverId" class="col-sm-offset-1 col-sm-3 control-label">발신자ID</label>
 		    <div class="col-sm-4">
 		        ${letter.senderId}
+		        <input type="hidden" id="sender" value="${letter.senderId}">
 		    </div> 
 		 </div>
 		 
@@ -81,10 +85,15 @@
 		  
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		     <c:if test="${me.userId} eq ${letter.senderId}">	
+		     <c:if test="${me.userId eq letter.receiverId}">	
 		     	 <button type="button" class="btn btn-primary"  >답&nbsp;장</button>
 		     </c:if>
+		     <c:if test="${from eq 'getList'}">
 			  <a class="btn btn-primary btn" href="/user/getLetterList" role="button">뒤&nbsp;로</a>
+			  </c:if>
+			  <c:if test="${from eq 'sendList'}">
+			   <a class="btn btn-primary btn" href="/user/sendLetterList" role="button">뒤&nbsp;로</a>
+			  </c:if>
 		    </div>
 		  </div>
 

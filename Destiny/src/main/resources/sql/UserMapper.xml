@@ -27,7 +27,8 @@
 		<result property="thirdType" 		column="thrid_type" 		jdbcType="NUMERIC" />
 		<result property="firstInterest" 	column="first_interest" 	jdbcType="NUMERIC" />
 		<result property="secondInterest" 	column="second_interest" 	jdbcType="NUMERIC" />
-		<result property="thirdInterest" 	column="third_interest" 	jdbcType="NUMERIC" />			
+		<result property="thirdInterest" 	column="third_interest" 	jdbcType="NUMERIC" />		
+		<result property="userState" 		column="user_state" 		jdbcType="CHAR"/>	
 	</resultMap>
 	
 	<resultMap id="locationSelectMap" type="com.destiny.service.domain.Location">
@@ -146,6 +147,26 @@
 	 		thrid_type  = #{thirdType}
 	 	</set>
 	 	WHERE user_id = #{userId}
+	 </update>
+	 
+	 <update id="updateGrade" parameterType="com.destiny.service.domain.User">
+	 	UPDATE users
+	 	<set>
+	 		user_grade = #{userGrade}
+	 	</set>
+	 	<where>
+	 		user_id = #{userId}
+	 	</where>
+	 </update>
+	 
+	 <update id="leaveSite" parameterType="com.destiny.service.domain.User">
+	 	UPDATE users
+	 	<set>
+	 		user_state = 'O'
+	 	</set>
+	 	<where>
+	 		user_id = #{userId}
+	 	</where>
 	 </update>
 	 
 	 <!-- SQL : SELECT LIST -->

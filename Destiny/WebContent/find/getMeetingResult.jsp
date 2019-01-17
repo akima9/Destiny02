@@ -121,7 +121,7 @@
 						            '        </div>' + 
 						            '        <div class="body">' + 
 						            '            <div class="img">' +
-						            '                <img src="/resources/images/find/${meeting.titleImg}" width="73" height="70"/>' +
+						            '                <img src="/resources/images/meeting/${meeting.titleImg}" width="73" height="70"/>' +
 						            '           </div>' + 
 						            '            <div class="desc">' + 
 						            '                <div class="ellipsis">${meeting.meetingLocation}</div>' + 	
@@ -215,7 +215,7 @@
 							<c:set var="i" value="${ i+1 }" />
 							<tr>
 							  <td align="center">${ i }</td>
-							  <td align="left"> <img src="/resources/images/find/${meeting.titleImg}" width=200px height=150px/></td>
+							  <td align="left"> <img src="/resources/images/meeting/${meeting.titleImg}" width=200px height=150px/></td>
 							  <td align="left"  data-param="${meeting.meetingNo}" >${meeting.meetingName}</td>
 							  <td align="left">${meeting.meetingDate}</td>
 							</tr>

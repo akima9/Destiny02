@@ -33,7 +33,26 @@
  		body {
             padding-top : 50px;
         }
+        #dialog-background {
+		    display: none;
+		    position: fixed;
+		    top: 0; left: 0;
+		    width: 100%; height: 100%;
+		    background: rgba(0,0,0,.3);
+		    z-index: 10;
+		}
+		
+		#my-dialog {
+		    display: none;
+		    position: fixed;
+		    left: calc( 50% - 160px ); top: calc( 50% - 70px );
+		    width: 320px; height: 250px; 
+		    background: #fff;
+		    z-index: 11;
+		    padding: 10px;
+		}
      </style>
+     
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
@@ -44,47 +63,77 @@
 			 $( "button:contains('확인')" ).on("click" , function() {
 				 self.location = "/product/listProduct?menu=${param.menu}"
 				});
-			 $( "button:contains('구매')" ).on("click" , function() {
+			/*  $( "button:contains('수정')" ).on("click" , function() {
 				 self.location = "/purchase/addPurchaseView?prodNo=${product.prodNo}"
-				});
-			 $( "button:contains('이전')" ).on("click" , function() {
+				}); */
+			/*  $( "button:contains('삭제')" ).on("click" , function() {
 				 //history.go(-1);
 				 self.location = "/product/listProduct02?menu=${param.menu}"
-				});
+				}); */
 		});
+		
+		 $( function() {
+				$("#btn-update-dialog,#dialog-background,#btn-close-dialog").click(function () {
+					$("#my-dialog,#dialog-background").toggle();
+				});
+			});
+		 $( function() {
+				$("#btn-delete-dialog").click(function () {
+					$("#detailForm").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
+					//document.detailForm.submit();
+				});
+			});
 		
 	</script>
 	
 </head>
 
 <body>
+	<!-- ToolBar Start /////////////////////////////////////-->
+    <jsp:include page="/layout/toolBar.jsp" />
+    <!-- ToolBar End /////////////////////////////////////-->
+
+
 	<!--  화면구성 div Start /////////////////////////////////////-->
+	<form id="detailForm">
+	<input type="hidden" name="meetingNo" value="${meeting.meetingNo}">
+	<input type="hidden" name="meetingCondition" value="DEL">
+	</form>
 	<div class="container" >
 	
 		<div class="page-header">
-	       <h3 class=" text-info">상품상세조회</h3>
+	       <h3 class=" text-info">getMeeting.jsp</h3>
+	       <button type="button" id="btn-update-dialog" class="btn btn-primary">수정하기</button>
+	       <button type="button" id="btn-delete-dialog" class="btn btn-primary">삭제</button>
 	    </div>
+	    <!-- 모달창 디자인 부분 -->
+        <div id="my-dialog">
+        	<form class="form-horizontal">
+        		ㅇㅇㅇㅇㅇ
+			</form>
+			<button id="btn-close-dialog">창 닫기</button>
+		</div>
 	</div>
 	
-	<div class="container">
+	<div class="container"> <!-- 가장큰 틀 -->
 		<div class="row">
 		
-		  <div class="col-md-7">
-		  	<img src="/images/uploadFiles/${product.fileName}" width="600px" height="500px"/>
+		  <div class="col-md-12">
+		  	<img src="/resources/images/meeting/${meeting.titleImg}" width="600px" height="500px"/>
 		  </div>
 		  
 		  <div class="col-md-5">
 		  
 		  	<div class="row">
-	  			<div class="col-xs-4 col-md-3"><strong>상품번호</strong></div>
-				<div class="col-xs-8 col-md-3">${product.prodNo}</div>
+	  			<div class="col-xs-4 col-md-3"><strong>모임설명</strong></div><hr/>
+				<div class="col-xs-8 col-md-3">${meeting.meetingDetail}</div>
 			</div>
 		
 			<hr/>
 		
 			<div class="row">
-		  		<div class="col-xs-5 col-md-3 "><strong>상품명</strong></div>
-				<div class="col-xs-7 col-md-3">${product.prodName}</div>
+		  		<div class="col-xs-5 col-md-3 "><strong>모임규칙</strong></div><hr/>
+				<div class="col-xs-7 col-md-3">${meeting.meetingRule}</div>
 			</div>
 			
 			<hr/>
@@ -122,7 +171,7 @@
 				<div class="col-xs-7 col-md-3">${product.regDate}</div>
 			</div>
 			
-			<hr/>
+			<br/>
 			
 			
 			<div class="row">
@@ -163,7 +212,7 @@
 			var ps = new daum.maps.services.Places();
 			
 			// 키워드로 장소를 검색합니다
-			ps.keywordSearch('${product.prodAddress} ', placesSearchCB); 
+			ps.keywordSearch('${meeting.meetingLocation} ', placesSearchCB); 
 		
 			// 키워드 검색 완료 시 호출되는 콜백함수 입니다
 			function placesSearchCB (data, status, pagination) {
