@@ -1,15 +1,12 @@
 package com.destiny.web.user;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -18,14 +15,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,7 +27,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.destiny.common.Search;
 import com.destiny.service.domain.User;
 import com.destiny.service.user.UserService;
-import com.destiny.service.domain.Letter;
 import com.destiny.common.Page;
 
 
@@ -84,13 +77,15 @@ public class UserController {
 			System.out.println("가입되지 않은 아이디입니다.");
 			modelAndView.addObject("result", "Fail");
 			modelAndView.addObject("reason", "가입되지 않은 아이디입니다.");
+			modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 		} else {
 			dbUser=userService.getUser(userId);
 		
 			//만일 탈퇴한 유저라면
 			if(dbUser.getUserState().equals("O")) {
 				modelAndView.addObject("result", "Fail");
-				modelAndView.addObject("reason", "탈퇴한 회원입니다. 새로 가입하여 주십시요.");
+				modelAndView.addObject("reason", "탈퇴한 회원입니다. 다시 이용하고 싶으시면 계정을 복구해 주십시요.");
+				modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 			} else {
 				//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
 				ServletContext applicationScope = request.getSession().getServletContext();
@@ -149,16 +144,29 @@ public class UserController {
 						LocalDate sqlDateLocal = new Date(sqlDate.getTime()).toLocalDate();
 						
 						if(lastLoginDateLocal.isBefore(sqlDateLocal)) {
-							System.out.println("다른날 접속입니다. 마지막 접속 : " + lastLoginDate + " 오늘 접속 : " + sqlDate);
+							System.out.println("다른날 접속입니다. 마지막 접속 : " + lastLoginDate + " 오늘 접속 : " + sqlDate + " 출석 횟수 : " + numAttendCount);
 							
 							dbUser.setLastLoginDay(sqlDate);
 							numAttendCount++;
 							dbUser.setAttendCount(numAttendCount);
 							
 							userService.attendLogin(dbUser);
+							
+							//==========================================등급 업!(일단 출석일로만)===================================
+							if(numAttendCount == 2) {
+								dbUser.setUserGrade("NOR");
+								userService.updateGrade(dbUser);
+							}
+							if(numAttendCount == 20) {
+								dbUser.setUserGrade("VIP");
+								userService.updateGrade(dbUser);
+							}
+							//==============================================================================================
+							
 						} else {
 							System.out.println("같은날 접속입니다. 마지막 접속 : " + lastLoginDate+ " 오늘 접속 : " + sqlDate);
 						}
+						
 						//=======================================================================================================
 						
 					
@@ -172,6 +180,7 @@ public class UserController {
 					System.out.println("비밀번호가 다릅니다.");
 					modelAndView.addObject("reason", "비밀번호가 다릅니다.");
 					modelAndView.addObject("result", "Fail");
+					modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 				}
 				//====================================================================================================
 			}
@@ -241,11 +250,13 @@ public class UserController {
 		//=====================탈퇴한 회원인지 조회해서 탈퇴한 회원이면 신규회원으로 전환=========================
 	
 		if(userService.getUser(user.getUserId()) != null) {
+			/*User dbUser = userService.getUser(user.getUserId());
 			if(user.getUserState().equals("O")) {
-				User dbUser = userService.getUser(user.getUserId());
-				
-				dbUser.setUserState("I");
-			}
+				user.setUserState("I");
+				userService.updateState(user);
+				user.setUserGrade("NEW");
+				userService.updateGrade(user);
+			}*/
 		} else {
 			//===========================프로필 사진 업로드(다중)===========================
 			String temDir = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\userprofile\\";
@@ -294,15 +305,12 @@ public class UserController {
 			user.setProfile(profileDomain);
 			//====================================================
 			//=========================================================================
+			userService.addUser(user);
 		}
 
-		user.setUserState("I");
-		
-		
-		
 		modelAndView.setViewName("redirect:/index.jsp");
 
-		userService.addUser(user);
+		
 		
 		return modelAndView;
 	}
@@ -563,7 +571,7 @@ public class UserController {
 		System.out.println(resultPage);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/user/userInfo/listUser.jsp");
+		modelAndView.setViewName("forward:/user/userInfo/getListUser.jsp");
 		modelAndView.addObject("list",  map.get("list"));
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
@@ -584,136 +592,26 @@ public class UserController {
 		modelAndView.setViewName("forward:/user/logout/"+userId);
 		return modelAndView;
 	}
-
-	@RequestMapping( value="getLetter", method=RequestMethod.GET)
-	public String getLetter( @RequestParam int no, Model model, HttpSession session, @RequestParam String from) throws Exception{
-		System.out.println("/user/getLetter : GET");
-		
-		User receiverUser = (User) session.getAttribute("me");
-		Letter letter = userService.getLetter(no);
-		
-		//쪽지 수신자가 본인일때만 수신일 업데이트
-		if(letter.getReceiverId().equals(receiverUser.getUserId())) {
-			userService.updateReceiveDate(no);
-		}
-
-		String letterMetaDataTitle = letter.getLetterDetail();
-		//"C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\letterDetail\\";
-		File temDirText = new File("C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\letterDetail\\"+letterMetaDataTitle+".txt");
-		
-		Scanner scan = new Scanner(temDirText);
-		String receiveLetterText = "";
-		while(scan.hasNextLine()) {
-			receiveLetterText += scan.nextLine() + "\n";
-		}
-		
-		letter.setLetterDetail(receiveLetterText);
-		
-		System.out.println("완성된 letter : " +letter);
-		
-		model.addAttribute("letter", letter);
-		model.addAttribute("from", from);
-		
-		
-		return "forward:/letter/getletter.jsp";
-	}
 	
-	@RequestMapping( value="sendLetterView/{senderId}", method=RequestMethod.GET)
-	public ModelAndView sendLetterView(@PathVariable String senderId)throws Exception{
+	@RequestMapping(value="getBackSite/{userId}", method=RequestMethod.GET)
+	public ModelAndView getBackSite(@PathVariable String userId) throws Exception{
+		System.out.println("getBackSite : GET : " + userId);
+		User user = userService.getUser(userId);
+		user.setUserState("I");
+		userService.updateState(user);
+		user.setUserGrade("NEW");
+		userService.updateGrade(user);
+		
+		user.setAttendCount(1);
+		user.setLastLoginDay(new java.sql.Date(new java.util.Date().getTime()));
+		userService.attendLogin(user);
+		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/letter/sendletter.jsp");
-		modelAndView.addObject("senderId", senderId);
+		modelAndView.addObject("reason", "계정이 복구되었습니다. 다시 로그인해주세요.");
+		modelAndView.setViewName("redirect:/index.jsp");
 		return modelAndView;
 	}
-	
-	@RequestMapping( value="sendLetter", method=RequestMethod.POST)
-	public String sendLetter(@ModelAttribute("letter") Letter letter, HttpSession session) throws Exception{
-		System.out.println("/user/sendLetter : POST");
-		
-		User senderUser = (User) session.getAttribute("me");
-		
-		letter.setSenderId(senderUser.getUserId());
-		
-		//=================================user별 letter meta-data생성============================================
-		String letterMetaDataTitle = letter.getLetterTitle()+System.currentTimeMillis();
-		
-		String temDirText = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\letterDetail\\"+letterMetaDataTitle+".txt";
-		File sendLetter = new File(temDirText);
-		
-		//FileWriter fw = new FileWriter(detailProduct, true);
-		BufferedWriter fw = new BufferedWriter(new FileWriter(sendLetter, true));
-		fw.write(letter.getLetterDetail());
-		fw.flush();
-		fw.close();
-		
-		letter.setLetterDetail(letterMetaDataTitle);
-		//===================================================================================================
-		
-		System.out.println(letter);
-		
-		//==============================================DB 운용===============================================
-		userService.sendLetter(letter);
-		//===================================================================================================
-		
-		return "forward:/letter/getlettercomplete.jsp";
-	}
-	
-	@RequestMapping( value="getLetterList", method=RequestMethod.GET)
-	public String getReceiveLetterList(@ModelAttribute("search") Search search , Model model, HttpSession session) throws Exception{
-		System.out.println("/user/getLetterList : GET");
-		
-		if(search.getCurrentPage() ==0 ){
-			search.setCurrentPage(1);
-		}
-		search.setPageSize(pageSize);
-		
-		User user = (User) session.getAttribute("me");
-		String Id = user.getUserId();
-		
-		Map<String , Object> map = userService.getLetterList(search, Id);
-		
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalReceiveCount")).intValue(), pageUnit, pageSize);
-		System.out.println("아이시때루 : " + resultPage);
-		
-		// Model 과 View 연결
 
-		model.addAttribute("listReceive", map.get("listReceive"));
-
-		model.addAttribute("totalReceiveCount", map.get("totalReceiveCount"));
-		model.addAttribute("resultPage", resultPage);
-		model.addAttribute("search", search);
-		
-		return "forward:/letter/getLetterList.jsp";
-	}
-	
-	@RequestMapping( value="sendLetterList", method=RequestMethod.GET)
-	public String getSendLetterList(@ModelAttribute("search") Search search , Model model, HttpSession session) throws Exception{
-		System.out.println("/user/sendLetterList : GET");
-		
-		if(search.getCurrentPage() ==0 ){
-			search.setCurrentPage(1);
-		}
-		search.setPageSize(pageSize);
-		
-		User user = (User) session.getAttribute("me");
-		String Id = user.getUserId();
-		
-		Map<String , Object> map = userService.getLetterList(search, Id);
-		
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalSendCount")).intValue(), pageUnit, pageSize);
-		System.out.println("아이시때루 : " + resultPage);
-		
-		// Model 과 View 연결
-		model.addAttribute("listSend", map.get("listSend"));
-
-		model.addAttribute("totalSendCount", map.get("totalSendCount"));
-
-		model.addAttribute("resultPage", resultPage);
-		model.addAttribute("search", search);
-		
-		return "forward:/letter/sendLetterList.jsp";
-	}
-	
 	
 	
 }

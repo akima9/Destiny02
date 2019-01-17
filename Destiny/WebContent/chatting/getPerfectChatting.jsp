@@ -80,7 +80,12 @@
 		$('#datasend').click( function() {
 			var message = $('#data').val();
 			var userId="${me.userId}";
-			$('#conversation').append('<div style = "text-align:right;">'+userId + '<br> ' + message + '</div><br>');
+			if (message=="") {
+				
+			}else{
+				$('#conversation').append('<div style = "text-align:right;">'+userId + '<br> ' + message + '</div><br>');
+				
+			}
 			$('#data').val('');
 			// tell server to execute 'sendchat' and send along one parameter
 			socket.emit('sendchat', message);

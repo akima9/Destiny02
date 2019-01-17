@@ -37,6 +37,7 @@
 	var firstType="${me.firstType}";
 	var secondType="${me.secondType}";
 	var thirdType="${me.thirdType}";
+	
 	function getTelepathyTest(){
 		if (userId=="") {
 			alert("로그인 후 이용 가능합니다.");
@@ -50,7 +51,8 @@
 		}
 	}
 	function getPerfectChatting(){
-		if (userId=="") {
+		//////////////로그인 기능 작동 가능시
+		 if (userId=="") {
 			alert("로그인 후 이용 가능합니다.");
 			location="/user/login";
 		}else {
@@ -61,14 +63,14 @@
 				popWin = window.open("/chatting/addPerfectChatting","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 			}
 			
-		}
+		} 
 		
 	}
 	
-	function getNode(){
+	 function getNode(){
 		location = "/chatting/json/getPerfectChatting";
 		 
-	}
+	} 
 	$(function() {
 		$( "#telepathy" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -98,7 +100,7 @@
 	<jsp:include page="/layout/toolBar.jsp" />
   <!-- ToolBar End /////////////////////////////////////-->
     
-main Chatting
+
 
 <table>
             
