@@ -12,6 +12,8 @@ public interface ChattingDao {
 	
 	public void addPerfectChatting(Chatting chatting) throws Exception;
 	
+	public Chatting getChatting(Chatting chatting) throws Exception;
+	
 	public List<Chatting> listContactMeeting(Chatting chatting) throws Exception;
 	
 	public String addVoice(String voiceFileName) throws Exception;
@@ -20,7 +22,9 @@ public interface ChattingDao {
 	
 	public void updateContactMeeting(String contact) throws Exception;
 	
-	public Map<String, Object> listTelepathy(Telepathy telepathy) throws Exception;
+	public List<Telepathy> listTelepathy(int chattingNo) throws Exception;
+	
+	public String getTelepathyResult(Telepathy telepathy) throws Exception;
 
 	public int getTotalCount(Chatting chatting);
 	
