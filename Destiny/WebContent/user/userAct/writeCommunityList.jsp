@@ -57,7 +57,7 @@
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "GET").attr("action" , "/user/listUser").submit();
+			$("form").attr("method" , "GET").attr("action" , "/act/getWriteCommunityList").submit();
 		}
 		
 		
@@ -74,9 +74,9 @@
 		 $(function() {
 		
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "td:nth-child(2)" ).on("click" , function() {
+			/*$( "td:nth-child(2)" ).on("click" , function() {
 				 self.location ="/user/getUser/"+$(this).text().trim();
-			});
+			});*/
 						
 			//==> userId LINK Event End User 에게 보일수 있도록 
 			$( "td:nth-child(2)" ).css("color" , "red");
@@ -86,7 +86,7 @@
 		
 		//============= userId 에 회원정보보기  Event  처리 (double Click)=============
 		 $(function() {
-			 
+			/* 
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(  "td:nth-child(5)" ).on("click" , function() {
 
@@ -141,7 +141,7 @@
 					////////////////////////////////////////////////////////////////////////////////////////////
 				
 			});
-			
+			*/
 			//==> userId LINK Event End User 에게 보일수 있도록 
 			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
 			$("h7").css("color" , "red");
@@ -181,18 +181,18 @@
 			    
 			     <div class="form-group">
 				  	<select  class="form-control" name="searchSortingOption">
-						<option value="0" ${! empty search.searchSortingOption && search.searchSortingOption==0 ? "selected" : ""}>기본</option>
+						<!--  <option value="0" ${! empty search.searchSortingOption && search.searchSortingOption==0 ? "selected" : ""}>기본</option>
 						<option value="1" ${! empty search.searchSortingOption && search.searchSortingOption==1 ? "selected" : ""}>출석일수 낮은순(이 페이지)</option>
 						<option value="2" ${! empty search.searchSortingOption && search.searchSortingOption==2 ? "selected" : ""}>출석일수 높은순(이 페이지)</option>
 						<option value="3" ${! empty search.searchSortingOption && search.searchSortingOption==1 ? "selected" : ""}>출석일수 낮은순(전체)</option>
-						<option value="4" ${! empty search.searchSortingOption && search.searchSortingOption==2 ? "selected" : ""}>출석일수 높은순(전체)</option>
+						<option value="4" ${! empty search.searchSortingOption && search.searchSortingOption==2 ? "selected" : ""}>출석일수 높은순(전체)</option>-->
 					</select>
 				  </div>
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원닉네임</option>
+						<!-- <option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원닉네임</option> -->
 					</select>
 				  </div>
 				  
@@ -220,28 +220,28 @@
         <thead>
           <tr>
             <th align="center">No</th>
-            <th align="left">회원 ID</th>
-            <th align="left">닉네임</th>
-            <th align="left">이메일</th>
-            <th align="left">간략정보</th>
+            <th align="left">작성자 닉네임</th>
+            <th align="left">개시글 제목</th>
+            <th align="left">카테고리</th>
+            <th align="left">작성일</th>
+            <th align="left">공감수</th>
+            <th align="left">댓글수</th>
           </tr>
         </thead>
        
 		<tbody>
 		
 		  <c:set var="i" value="0" />
-		  <c:forEach var="user" items="${list}">
+		  <c:forEach var="community" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : 회원정보 확인">${user.userId}</td>
-			  <td align="left">${user.nickName}</td>
-			  <td align="left">${user.email}</td>
-			  <td align="left" data-param="${user.userId}">간략한 보기</td>
-			  <tr>
-				 <td id="${user.userId}" colspan="11" height="1"></td>
-				 <td id="${user.userId}2"  ></td>
-			  </tr>
+			  <td align="left"  title="Click : 개시글 이동">${community.writerNickName}</td>
+			  <td align="left">${community.title}</td>
+			  <td align="left">${community.category}</td>
+			  <td align="left">${community.writeDate}</td>
+			  <td align="left">${community.like}</td>
+			  <td align="left">0</td>
 			</tr>
           </c:forEach>
         

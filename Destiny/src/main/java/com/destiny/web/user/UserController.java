@@ -1,15 +1,12 @@
 package com.destiny.web.user;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -18,14 +15,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,7 +27,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.destiny.common.Search;
 import com.destiny.service.domain.User;
 import com.destiny.service.user.UserService;
-import com.destiny.service.domain.Letter;
 import com.destiny.common.Page;
 
 
@@ -578,7 +571,7 @@ public class UserController {
 		System.out.println(resultPage);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/user/userInfo/listUser.jsp");
+		modelAndView.setViewName("forward:/user/userInfo/getListUser.jsp");
 		modelAndView.addObject("list",  map.get("list"));
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
