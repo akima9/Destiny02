@@ -45,5 +45,6 @@
 		<mapper resource="sql/MeetingMapper.xml"/>
 		<mapper resource="sql/CommunityMapper.xml"/>
 		<mapper resource="sql/ChattingMapper.xml"/>
+		<mapper resource="sql/ComplainMapper.xml"/>
 	</mappers>
 </configuration>

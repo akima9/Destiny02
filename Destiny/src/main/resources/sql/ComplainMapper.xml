@@ -1,1 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ComplainMapper">
+ 	
+ 	
+	<resultMap id="complainSelectMap" type="com.destiny.service.domain.Complain">
+		<result property="complainNo" 			column="complain_no" 				jdbcType="NUMERIC"/>
+		<result property="complainerId"			column="complainer_id" 				jdbcType="VARCHAR" />
+		<result property="defendantId" 			column="defendant_id" 				jdbcType="VARCHAR" />
+		<result property="meetingNo" 			column="meeting_no" 				jdbcType="NUMERIC" />
+		<result property="communityNo"			column="community_no" 				jdbcType="NUMERIC" />
+		<result property="commentNo"			column="comment_no" 				jdbcType="NUMERIC" />
+		<result property="complainDetail" 		column="complain_detail" 			jdbcType="VARCHAR" />
+		<result property="complainType"			column="complain_type" 				jdbcType="CHAR" />
+		<result property="complainKind"			column="complain_kind" 				jdbcType="CHAR" />
+		<result property="compainDate"			column="complain_date" 				jdbcType="DATE" />
+		<result property="checkDate"			column="complain_check_date" 		jdbcType="DATE" />
+		<result property="complainState"		column="complain_state" 			jdbcType="CHAR" />
+	</resultMap>
+	
+	<!-- SQL : INSERT -->
+	<insert id="addComplain" parameterType="com.destiny.service.domain.Complain" >
+	 	<!-- INSERT
+		INTO community( community_no, community_writer_id, category, community_user_grade, community_title, community_writer_nick_name, community_detail, community_write_date,  community_views, community_like, import_rank, community_view_condition) 
+		VALUES( seq_community_no.nextval, #{writerId}, #{category}, #{userGrade}, #{title}, #{writerNickName}, #{detail}, SYSDATE, #{views}, #{like}, #{importRank}, #{viewCondition}) -->
+	</insert>
+	 
+</mapper>
