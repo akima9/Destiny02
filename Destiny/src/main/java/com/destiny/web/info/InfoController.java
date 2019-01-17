@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,7 +86,6 @@ public class InfoController {
 	public ModelAndView addRestaurantInfo(@ModelAttribute("community") Community community) throws Exception{
 		System.out.println(":: InfoController/addRestaurantInfo/post : Ω««‡");
 		
-		/*Business Logic : start*/
 		community.setWriterId("kimgiyong");
 		community.setCategory("RES");
 		community.setUserGrade("NOR");
@@ -98,7 +98,6 @@ public class InfoController {
 		community.setViewCondition("DEF");
 		
 		System.out.println(":: InfoController/addRestaurantInfo/post¿« community : "+community);
-		/*Business Logic : end*/
 		
 		ModelAndView modelAndView = new ModelAndView();
 		communityService.addCommunity(community);
@@ -117,7 +116,7 @@ public class InfoController {
 	}
 	/*getRestaurantInfo : end*/
 	
-	/*updateRestaurantInfo : start*/
+	/*updateRestaurantInfo/GET : start*/
 	@RequestMapping(value="updateRestaurantInfo", method=RequestMethod.GET)
 	public ModelAndView updateRestaurantInfo(@RequestParam("communityNo") int communityNo) throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
@@ -125,7 +124,35 @@ public class InfoController {
 		modelAndView.setViewName("/community/updateRestaurantInfo.jsp");
 		return modelAndView;
 	}
-	/*updateRestaurantInfo : end*/
+	/*updateRestaurantInfo/GET : end*/
+	
+	/*updateRestaurantInfo/POST : start*/
+	@RequestMapping(value="updateRestaurantInfo", method=RequestMethod.POST)
+	public ModelAndView updateRestaurantInfo(@ModelAttribute("community") Community community, @RequestParam("communityNo") int communityNo) throws Exception{
+		
+		communityService.updateCommunity(community);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("community", community);
+		modelAndView.setViewName("redirect:/info/getRestaurantInfo?communityNo="+community.getCommunityNo());
+		return modelAndView;
+	}
+	/*updateRestaurantInfo/POST : end*/
+	
+	/*deleteRestaurantInfo : start*/
+	@RequestMapping(value="deleteRestaurantInfo", method=RequestMethod.GET)
+	public ModelAndView deleteRestaurantInfo(@ModelAttribute("community") Community community, @RequestParam("communityNo") int communityNo) throws Exception{
+		
+		communityService.deleteCommunity(community);
+		System.out.println(community);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("community", community);
+		modelAndView.setViewName("/info/listRestaurantInfo");
+		return modelAndView;
+	}
+	/*deleteRestaurantInfo : end*/
+	
 }
 
 
