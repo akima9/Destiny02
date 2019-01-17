@@ -84,6 +84,7 @@ public class UserController {
 			System.out.println("가입되지 않은 아이디입니다.");
 			modelAndView.addObject("result", "Fail");
 			modelAndView.addObject("reason", "가입되지 않은 아이디입니다.");
+			modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 		} else {
 			dbUser=userService.getUser(userId);
 		
@@ -91,6 +92,7 @@ public class UserController {
 			if(dbUser.getUserState().equals("O")) {
 				modelAndView.addObject("result", "Fail");
 				modelAndView.addObject("reason", "탈퇴한 회원입니다. 새로 가입하여 주십시요.");
+				modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 			} else {
 				//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
 				ServletContext applicationScope = request.getSession().getServletContext();
@@ -156,9 +158,15 @@ public class UserController {
 							dbUser.setAttendCount(numAttendCount);
 							
 							userService.attendLogin(dbUser);
+							
+							//==========================================등급 업!(일단 출석일로만)===================================
+							
+							//==============================================================================================
+							
 						} else {
 							System.out.println("같은날 접속입니다. 마지막 접속 : " + lastLoginDate+ " 오늘 접속 : " + sqlDate);
 						}
+						
 						//=======================================================================================================
 						
 					
@@ -172,6 +180,7 @@ public class UserController {
 					System.out.println("비밀번호가 다릅니다.");
 					modelAndView.addObject("reason", "비밀번호가 다릅니다.");
 					modelAndView.addObject("result", "Fail");
+					modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 				}
 				//====================================================================================================
 			}

@@ -55,6 +55,12 @@
 		});
 		
 		$(function(){
+			$("button[id='leaveSite']").on("click", function(){
+				self.location = "/user/userInfo/leaveSite.jsp";
+			});
+		});
+		
+		$(function(){
 			$("button[id='letterList']").on("click", function(){
 				popWin = window.open("/letter/letterMain.jsp",
 					   	 "popWin",
@@ -96,5 +102,15 @@
 		      <button id="letterList" type="button">ÂÊÁö</button>
 		    </div>
 		</div>	
+		
+		<br/>
+		<div class="form-group">
+		    <label  class="col-sm-4 control-label"></label>
+		    <div class="col-sm-4">
+		      <button id="leaveSite" type="button">»çÀÌÆ® Å»Åð</button>
+		    </div>
+		</div>	
+		
+		
 	</body>
 </html>

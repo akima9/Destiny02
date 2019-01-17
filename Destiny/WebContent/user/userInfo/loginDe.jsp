@@ -52,7 +52,7 @@
 	<div class="container">
 	
 		<div class="page-header">
-	       <h3 class=" text-info"><strong class="text-danger">이미 로그인된 계정입니다!!</strong></h3>
+	       <h3 class=" text-info"><strong class="text-danger">${reason}</strong></h3>
 	    </div>
 	
 		
