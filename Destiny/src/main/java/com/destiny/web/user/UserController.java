@@ -237,7 +237,7 @@ public class UserController {
 		System.out.println("/user/addUser : POST");
 		
 		System.out.println("가져온 user정보 : " + user);
-
+		ModelAndView modelAndView = new ModelAndView();
 		//=====================탈퇴한 회원인지 조회해서 탈퇴한 회원이면 신규회원으로 전환=========================
 	
 		if(userService.getUser(user.getUserId()) != null) {
@@ -246,58 +246,60 @@ public class UserController {
 				
 				dbUser.setUserState("I");
 			}
+		} else {
+			//===========================프로필 사진 업로드(다중)===========================
+			String temDir = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\userprofile\\";
+			
+			List<MultipartFile> fileList  = multipartHttpServletRequest.getFiles("file");
+			System.out.println("받은 파일들 : " + fileList);
+			
+			String originalFileName = null;
+			long fileSize = 0;
+			int idx = 0;
+			String initail = "";
+			
+			List list = new ArrayList();
+			
+			File file = new File(temDir);
+			if(file.exists() == false) {
+				file.mkdirs();
+			}
+			
+			//	================DB에 File이름 setting==================
+			for(MultipartFile mf : fileList) {
+				System.out.println("각 파일 : " + mf);
+				originalFileName = mf.getOriginalFilename();
+				System.out.println("파일 이름 : " + originalFileName);
+				
+				idx = originalFileName.indexOf('.');
+				initail = originalFileName.substring(idx, originalFileName.length());
+				originalFileName = originalFileName.substring(0, idx);
+				originalFileName += System.currentTimeMillis();
+				originalFileName += initail;
+				
+				list.add(originalFileName);
+				
+				fileSize = mf.getSize();
+				System.out.println("파일 사이즈 : " + fileSize);
+				
+				String safeFile = temDir + originalFileName;
+				System.out.println("파일 경로 + 이름 : " + safeFile);
+				file = new File(safeFile);
+				mf.transferTo(file);
+			}
+			String profileDomain = String.valueOf(list);
+			profileDomain = profileDomain.replace("[", "");
+			profileDomain = profileDomain.replace("]", "");
+			
+			user.setProfile(profileDomain);
+			//====================================================
+			//=========================================================================
 		}
 
-		//===========================프로필 사진 업로드(다중)===========================
-		String temDir = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\userprofile\\";
-		
-		List<MultipartFile> fileList  = multipartHttpServletRequest.getFiles("file");
-		System.out.println("받은 파일들 : " + fileList);
-		
-		String originalFileName = null;
-		long fileSize = 0;
-		int idx = 0;
-		String initail = "";
-		
-		List list = new ArrayList();
-		
-		File file = new File(temDir);
-		if(file.exists() == false) {
-			file.mkdirs();
-		}
-		
-		//	================DB에 File이름 setting==================
-		for(MultipartFile mf : fileList) {
-			System.out.println("각 파일 : " + mf);
-			originalFileName = mf.getOriginalFilename();
-			System.out.println("파일 이름 : " + originalFileName);
-			
-			idx = originalFileName.indexOf('.');
-			initail = originalFileName.substring(idx, originalFileName.length());
-			originalFileName = originalFileName.substring(0, idx);
-			originalFileName += System.currentTimeMillis();
-			originalFileName += initail;
-			
-			list.add(originalFileName);
-			
-			fileSize = mf.getSize();
-			System.out.println("파일 사이즈 : " + fileSize);
-			
-			String safeFile = temDir + originalFileName;
-			System.out.println("파일 경로 + 이름 : " + safeFile);
-			file = new File(safeFile);
-			mf.transferTo(file);
-		}
-		String profileDomain = String.valueOf(list);
-		profileDomain = profileDomain.replace("[", "");
-		profileDomain = profileDomain.replace("]", "");
-		
-		user.setProfile(profileDomain);
-		//====================================================
-		//=========================================================================
+		user.setUserState("I");
 		
 		
-		ModelAndView modelAndView = new ModelAndView();
+		
 		modelAndView.setViewName("redirect:/index.jsp");
 
 		userService.addUser(user);

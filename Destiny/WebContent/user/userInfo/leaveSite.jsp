@@ -35,9 +35,9 @@
 		//============= 회원정보수정 Event  처리 =============	
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button[id='findButton']" ).on("click" , function() {
-				 	var userId = $("input[name='getUserId']").val();
-					self.location = "/user/getUser/"+userId;
+			 $( "button[id='leaveButton']" ).on("click" , function() {
+				 	var userId = $("input[name='userId']").val();
+					self.location = "/user/leaveSite/"+userId;
 				});
 		});
 		
@@ -56,7 +56,8 @@
 		<div class="form-group">
 		    <label  class="col-sm-4 control-label">진짜로 나가시겠습니까? 탈퇴하는 경우 다시 가입할 수 있으나 등급이 신규회원으로 리셋됩니다!</label>
 		    <div class="col-sm-4">
-		      <button id="listButton" type="button">회원리스트</button>
+		    	<input type="hidden" name="userId" value="${me.userId}">
+		        <button id="leaveButton" type="button">탈-퇴</button>
 		    </div>
 		</div>	
 		
