@@ -100,7 +100,7 @@
 	<jsp:include page="/layout/toolBar.jsp" />
   <!-- ToolBar End /////////////////////////////////////-->
     
-main Chatting
+
 
 <table>
             

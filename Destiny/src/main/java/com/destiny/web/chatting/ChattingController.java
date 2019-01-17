@@ -37,7 +37,7 @@ public class ChattingController {
 	@Qualifier("userServiceImpl")
 	private UserService userService;
 	
-	private int count;
+	
 ////여성 리스트와 남성 리스트를 담을 객체 생성
 	private List<User> womanList = new ArrayList<User>();
 	private List<User> manList = new ArrayList<User>();
@@ -114,14 +114,14 @@ public class ChattingController {
 					int roomNo=0;
 					System.out.println("manList.size() : "+manList.size()+"womanList.size() : "+womanList.size());
 					System.out.println("manList : "+manList+"womanList : "+womanList);
-					if (manList.size()==womanList.size()) {
+					if (manList.size()>0 && womanList.size()>0) {
 						////////매칭된 아이디 2개 넣기
 						//		chatting.setManId(manId);
 						//		chatting.setWomanId(womanId);
 						/////////test
 						System.out.println("manList==womanList");
-						woman=womanList.get(count).getUserId();
-						man=manList.get(count).getUserId();
+						woman=womanList.get(0).getUserId();
+						man=manList.get(0).getUserId();
 						//addChatting
 						System.out.println("man  : "+man+"  woman : "+woman);
 						chatting.setManId(man);
@@ -129,7 +129,7 @@ public class ChattingController {
 						chatting.setContactMeeting("N");
 						
 						chattingService.addPerfectChatting(chatting);
-						count++;
+						
 						//getChatting NO
 						Chatting resultChatting=chattingService.getChatting(chatting);
 						//roomName은 ChattingNo로 지정
@@ -150,6 +150,8 @@ public class ChattingController {
 						modelAndView.addObject("roomNo", roomNo);
 						modelAndView.addObject("list", list01);
 					
+						womanList.remove(0);
+						manList.remove(0);
 					}	
 
 						
@@ -195,56 +197,106 @@ public class ChattingController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="addPerfectChatting", method=RequestMethod.POST)
+	@RequestMapping(value="addPerfectChatting", method=RequestMethod.GET)
 	public ModelAndView addPerfectChatting(HttpSession session,HttpServletRequest request) throws Exception{
 		System.out.println("addPerfectChatting 들어옴");
 		
 		//===========================================현제 접속자 구현 로직 part=================================================
-				
-				ServletContext applicationScope = request.getSession().getServletContext();
-				User user=(User)session.getAttribute("me");
-				ModelAndView modelAndView = new ModelAndView();
-				if (!user.getUserId().isEmpty()) {
-					User dbUser=userService.getUser(user.getUserId());
-					List<User> loginList = new ArrayList<User>();
-					
-						if(applicationScope.getAttribute("loginList") != null) {
-							loginList = (List<User>) applicationScope.getAttribute("loginList");
-						}
-						loginList.add(dbUser);
-							
-						applicationScope.setAttribute("loginList", loginList);
-							
-						for(User v : loginList) {
-							System.out.println("현제 접속자 목록 : " + v);
-						}
-						///////////////////////////////////
-						//이상형매칭
-						//////////////////////////////////
-						//채팅방 생성
-						Chatting chatting=new Chatting();
-
-						////////매칭된 아이디 2개 넣기
-						//		chatting.setManId(manId);
-						//		chatting.setWomanId(womanId);
-						/////////test
-						chatting.setManId("aaaaa");
-						chatting.setWomanId("aaaab");
-						chatting.setContactMeeting("N");
-						chattingService.addPerfectChatting(chatting);
-						modelAndView.setViewName("/chatting/getPerfectChatting.jsp");
-						modelAndView.addObject("result", "Success");
-						modelAndView.addObject(dbUser.getUserId(), dbUser);
-					
-									
-				}else {
-					modelAndView.setViewName("redirect:/user/userInfo/loginView.jsp");
+		
+		//채팅방 생성
+		Chatting chatting=new Chatting();
+		
+		ServletContext applicationScope = request.getSession().getServletContext();
+		User user=(User)session.getAttribute("me");
+		System.out.println("user"+user);
+		ModelAndView modelAndView = new ModelAndView();
+		////user가로그인 한 경우
+		if (user.getUserId()!=null) {
+			////아이디로 user정보를 가져온다.
+			User dbUser=userService.getUser(user.getUserId());
+			
+			/////여성일 경우
+			if (user.getGender().equals("W")) {
+				if(applicationScope.getAttribute("womanList") != null) {
+					womanList = (List<User>) applicationScope.getAttribute("womanList");
 				}
+				womanList.add(dbUser);
+					
+				applicationScope.setAttribute("womanList", womanList);
 				
+				for(User v : womanList) {
+					System.out.println("현재  여성 접속자 목록 : " + v);
+					
+				}
+			}else {
+				//남성일 경우
+				if(applicationScope.getAttribute("manList") != null) {
+					manList = (List<User>) applicationScope.getAttribute("manList");
+				}
+				manList.add(dbUser);
+					
+				applicationScope.setAttribute("manList", manList);
 				
+				for(User v : manList) {
+					System.out.println("현재  남성 접속자 목록 : " + v);
+				}
+			}
+			//////////////////////////////
+			////이상형 매칭
+			//////////////////////////////
+			String man=null;
+			String woman=null;
+			int roomNo=0;
+			System.out.println("manList.size() : "+manList.size()+"womanList.size() : "+womanList.size());
+			System.out.println("manList : "+manList+"womanList : "+womanList);
+			if (manList.size()>0 && womanList.size()>0) {
+				////////매칭된 아이디 2개 넣기
+				//		chatting.setManId(manId);
+				//		chatting.setWomanId(womanId);
+				/////////test
+				System.out.println("manList==womanList");
+				woman=womanList.get(0).getUserId();
+				man=manList.get(0).getUserId();
+				//addChatting
+				System.out.println("man  : "+man+"  woman : "+woman);
+				chatting.setManId(man);
+				chatting.setWomanId(woman);
+				chatting.setContactMeeting("N");
 				
-				//====================================================================================================
+				chattingService.addPerfectChatting(chatting);
 				
+				//getChatting NO
+				Chatting resultChatting=chattingService.getChatting(chatting);
+				//roomName은 ChattingNo로 지정
+				roomNo=resultChatting.getChattingNo();
+				System.out.println("resultChatting : "+resultChatting);
+				System.out.println("roomNo : "+roomNo);
+				
+				modelAndView.setViewName("/chatting/getPerfectChatting.jsp");
+				modelAndView.addObject("result", "Success");
+				modelAndView.addObject("womanId", woman);
+				modelAndView.addObject("manId", man);
+				modelAndView.addObject("roomNo", roomNo);
+				womanList.remove(0);
+				manList.remove(0);
+			
+			}	
+
+				
+			
+			
+			
+							
+		}else { 
+			////로그인 하지 않은 경우
+			System.out.println("로그인 안함");
+			modelAndView.setViewName("index.jsp");
+		}
+		
+		
+		
+		//====================================================================================================
+		
 		// user의 아이디필요 본인의 성격유형, 이상형 유형을 통해 매칭
 		
 		

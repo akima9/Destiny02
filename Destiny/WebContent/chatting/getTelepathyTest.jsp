@@ -51,21 +51,26 @@ ${roomNo}<br>
 
 <c:forEach var="telepathy" items="${list}">
 <c:set var="i" value="${ i+1 }" />	
-	<tr>
+	<div class="row">
+	  		<div class="col-xs-1 col-md-1"><strong>${i}</strong></div>
+			<div class="col-xs-6 col-md-6">${telepathy.telepathyQuestion}</div>
+	</div>
 	
-		<td>${i}</td>
-		<td>${telepathy.telepathyQuestion}<br></td>
-		<td>1. 
-			${telepathy.exOne} 
-			<img src="/images/telepathy/${telepathy.exOneImg}" >
-		</td>
-		<td>2.
-			${telepathy.exTwo}
-			<img src="/images/telepathy/${telepathy.exTwoImg}" >
-		</td>
-	</tr><br>
+	<div class="row">
+	  		<div class="col-xs-6 col-md-6"><strong>ONE</strong> ${telepathy.exOne}</div>
+			<div class="col-xs-6 col-md-6"><strong>TWO</strong>${telepathy.exTwo}</div>
+	</div>
+	<div class="row">
+	  		<div class="col-xs-6 col-md-6"><img src="/resources/images/telepathy/${telepathy.exOneImg}" width='100' height='100' ></div>
+			<div class="col-xs-6 col-md-6"><img src="/resources/images/telepathy/${telepathy.exTwoImg}" width='100' height='100' ></div>
+	</div>
+	
+		
+		<br>
 </c:forEach>
 </div>
-<a href='#' class="btn btn-primary center" role="button" id="random">참여</a>
+<div class='text-center'>
+<a href='#' class="btn btn-primary" role="button" id="random">참여</a>
+</div>
 </body>
 </html>
