@@ -57,9 +57,9 @@
 	 <select 	id="getChatting"	parameterType="com.destiny.service.domain.Chatting"	resultMap="chattingSelectMap">
 		
 	 	select * from( 
-    		select * from chatting
-    		where man_id=#{manId} AND man_id=#{womanId} 
-   			order by chatting_date) 
+    		select * from chatting 
+    		where man_id=#{manId} AND woman_id=#{womanId} 
+   			order by chatting_date desc) 
    		where rownum <![CDATA[ < ]]> 2
 	 </select>
 	 

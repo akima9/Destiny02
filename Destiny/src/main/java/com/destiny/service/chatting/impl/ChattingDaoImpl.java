@@ -1,5 +1,6 @@
 package com.destiny.service.chatting.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,8 +46,8 @@ public class ChattingDaoImpl implements ChattingDao {
 
 	@Override
 	public List<Chatting> listContactMeeting(Chatting chatting) throws Exception {
-		sqlSession.selectList("ChattingMapper.getChatting", chatting);
-		return sqlSession.selectList("ChattingMapper.getChatting", chatting);
+		sqlSession.selectList("ChattingMapper.listChatting", chatting);
+		return sqlSession.selectList("ChattingMapper.listChatting", chatting);
 	}
 
 	@Override
@@ -69,8 +70,14 @@ public class ChattingDaoImpl implements ChattingDao {
 
 	@Override
 	public List<Telepathy> listTelepathy(int chattingNo) throws Exception {
-		sqlSession.selectList("ChattingMapper.getChatting", chattingNo);
-		return sqlSession.selectList("ChattingMapper.getChatting", chattingNo);
+		
+		Map<String , Object>  map = new HashMap<String, Object>();
+				
+				map.put("chattingNo", chattingNo);
+				
+				System.out.println("listTelepathy dao map"+map);
+				
+		return sqlSession.selectList("ChattingMapper.listTelepathy", map);
 	}
 
 	@Override
