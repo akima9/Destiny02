@@ -19,6 +19,9 @@ public interface CommunityDao {
 	//update
 	public void updateCommunity(Community community) throws Exception;
 	
+	//delete
+	public void deleteCommunity(Community community) throws Exception;
+	
 	//게시판 page 처리를 위한 전체 row(totalCount) return
 	public int getTotalCount(Search search) throws Exception;
 
