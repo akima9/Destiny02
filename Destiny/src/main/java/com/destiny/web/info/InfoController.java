@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -117,7 +118,7 @@ public class InfoController {
 	}
 	/*getRestaurantInfo : end*/
 	
-	/*updateRestaurantInfo : start*/
+	/*updateRestaurantInfo/GET : start*/
 	@RequestMapping(value="updateRestaurantInfo", method=RequestMethod.GET)
 	public ModelAndView updateRestaurantInfo(@RequestParam("communityNo") int communityNo) throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
@@ -125,7 +126,38 @@ public class InfoController {
 		modelAndView.setViewName("/community/updateRestaurantInfo.jsp");
 		return modelAndView;
 	}
-	/*updateRestaurantInfo : end*/
+	/*updateRestaurantInfo/GET : end*/
+	
+	/*updateRestaurantInfo/POST : start*/
+	@RequestMapping(value="updateRestaurantInfo", method=RequestMethod.POST)
+	public ModelAndView updateRestaurantInfo(@ModelAttribute("community") Community community, @RequestParam("communityNo") int communityNo) throws Exception{
+		
+		System.out.println("업데이트 컨트롤러 왔다");
+		
+		communityService.updateCommunity(community);
+		
+		System.out.println(community);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("community", community);
+		modelAndView.setViewName("redirect:/info/getRestaurantInfo?communityNo="+community.getCommunityNo());
+		return modelAndView;
+	}
+	/*updateRestaurantInfo/POST : end*/
+	
+	/*@RequestMapping(value="updatePurchase", method=RequestMethod.POST)
+	public ModelAndView updatePurchase(@ModelAttribute("purchase") Purchase purchase) throws Exception{
+		
+		System.out.println(":: [PurchaseController]의 [updatePurchase:POST]실행");
+		
+		purchaseService.updatePurchase(purchase);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("purchase", purchase);
+		modelAndView.setViewName("redirect:/purchase/getPurchase?tranNo="+purchase.getTranNo());
+		
+		return modelAndView;
+	}*/
 }
 
 

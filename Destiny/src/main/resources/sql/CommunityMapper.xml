@@ -39,17 +39,23 @@
 	 </select>
 	 
 	 <!-- SQL : UPDATE -->
-	 <!-- <update	id="updateProduct"	parameterType="com.model2.mvc.service.domain.Product" >
-	   	UPDATE product
+	 <update id="updateCommunity"	parameterType="com.destiny.service.domain.Community" >
+	   	UPDATE community
 	   	<set>
-	   		prod_name 			= #{prodName},
-			prod_detail			= #{prodDetail},
-			manufacture_day		= #{manuDate},
-			price				= #{price},
-			image_file			= #{fileName:VARCHAR}
+	   		<!-- community_writer_id			= #{writerId},
+	   		category					= #{category}, -->
+	   		community_user_grade		= #{userGrade},
+	   		community_title 			= #{title},
+	   		community_writer_nick_name	= #{writerNickName},
+			community_detail			= #{detail},
+			community_write_date		= SYSDATE
+			<!-- community_views				= #{views},
+			community_like				= #{like},
+			import_rank					= #{importRank},
+			community_view_condition	= #{viewCondition} -->
 	   	</set>
-	   	WHERE prod_no = #{prodNo}
-	 </update> -->
+	   	WHERE community_no = #{communityNo}
+	 </update>
 		 
 	<!-- SQL : SELECT LIST -->
 	<select id="getCommunityList" parameterType="com.destiny.common.Search" resultMap="communitySelectMap">

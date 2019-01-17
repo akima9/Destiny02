@@ -47,7 +47,8 @@
 		
 		/* 수정 버튼 이벤트 : start */
 		$("button:contains('수정')").on("click", function() {
-			self.location = "/info/updateRestaurantInfo?communityNo="+${community.communityNo}
+			//self.location = "/info/updateRestaurantInfo?communityNo="+${community.communityNo}
+			self.location = "/info/updateRestaurantInfo?communityNo=${community.communityNo}"
 		});
 		/* 수정 버튼 이벤트 : end */
 		
