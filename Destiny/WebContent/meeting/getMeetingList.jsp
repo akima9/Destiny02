@@ -133,12 +133,12 @@
 								success : function(JSONData , status) {
 									
 									var list="";
-									list+="<select name='meetingCenter' class='form-control'>";
+									list+="<select  id='centering' name='meetingCenter' class='form-control'>";
 									list+="<option>시/군/구 선택</option>";
 									for(i in JSONData.list){
 										var town = JSONData.list[i].townName;
 										
-										list+="<option id='centerMeeting' name='meetingCenter'value='"+town+"'>"+town+"</option>";
+										list+="<option id='centerMeeting' name='searchCondition' data-param='$(this).value' value='"+town+"'>"+town+"</option>";
 								}
 									$( "#location" ).empty().append(list);
 								}
@@ -146,12 +146,23 @@
 				});
 			});
 		    
+		    //검색 이벤트 처리 
 		    $(function() {
 		    	 $( "#plzsearch" ).on("click" , function() {
-		    		 alert("dddddd");
-		    		 //alert($(this).data("param"));
-		    		 $("form").attr("method" , "POST").attr("action" , "/meeting/listMeeting").submit();
-		    		 //self.location="/meeting/getMeeting?searchKeyword="+meetingNo;
+		    		 var meetingCenter=$("#centering").val();
+		    		 var seconCenter=$("#sconcentering").val();
+		    		 var interest=$("#interest").val();
+		    		 console.log(meetingCenter);
+		    		 console.log(interest);
+		    		 console.log(seconCenter);
+		    		 if(interest=='관심사'){
+		    			 $("#interest").val("");
+		    		 }
+		    		 if(meetingCenter=="" || seconCenter==""){
+		    			 //alert("모임인원을 설정하여 주세요.");
+		    			 meetingCenter="아님";
+		    		 }
+		    		$("form").attr("method" , "POST").attr("action" , "/meeting/listMeeting/"+meetingCenter).submit();
 				 });
 		    });
         
@@ -189,7 +200,7 @@
 			      </ol>
 			      <div class="carousel-inner" role="listbox">
 			        <div class="item active">
-			          <img class="first-slide" src="/resources/images/meeting/${bestList[0].titleImg}" alt="First slide"><!-- 첫번째 사진 -->
+			          <img class="first-slide" src="/resources/images/meeting/${bestList[0].titleImg}" width="350px" height="350px" alt="First slide"><!-- 첫번째 사진 -->
 			          <div class="container">
 			            <div class="carousel-caption">
 			            	무슨설명 달고싶으면 여기에
@@ -200,7 +211,7 @@
 			          </div>
 			        </div>
 			        <div class="item">
-			          <img class="second-slide" src="/resources/images/meeting/${bestList[1].titleImg}" alt="Second slide"><!-- 두번째 사진 -->
+			          <img class="second-slide" src="/resources/images/meeting/${bestList[1].titleImg}" width="350px" height="350px"  alt="Second slide"><!-- 두번째 사진 -->
 			          <div class="container">
 			            <div class="carousel-caption">
 			              <h1>Another example headline.</h1>
@@ -210,7 +221,7 @@
 			          </div>
 			        </div>
 			        <div class="item">
-			          <img class="third-slide" src="/resources/images/meeting/${bestList[2].titleImg}" alt="Third slide"><!-- 세번째 사진 -->
+			          <img class="third-slide" src="/resources/images/meeting/${bestList[2].titleImg}" width="350px" height="350px" alt="Third slide"><!-- 세번째 사진 -->
 			          <div class="container">
 			        	<div class="carousel-caption">
 			              <h1>One more for good measure.</h1>
@@ -266,12 +277,12 @@
 				 	</select>
             		</td>
             		<td id="location" class='search' width='250px'>
-						<input type="text" class="form-control" id="centerMeeting" name="meetingCenter" data-param="${meeting.meetingCenter}" value="${meeting.meetingCenter}">
+						<input id="sconcentering" type="text" class="form-control"> 
             		</td>
             		<td width='250px'>
-            			<select id="interest" class="form-control">
+            			<select id="interest" name="searchSortingOption" class="form-control">
 					 		<option >관심사</option>
-					 		<c:forEach var="Meeting" items="${list}">
+					 		<c:forEach var="Meeting" items="${interlist}">
 					 		
 					 			<option value="${Meeting.interestName}">${Meeting.interestName }</option>
 					 		
@@ -297,7 +308,7 @@
 			 
 			 <!-- 리스트 시작 -->
 			 	
-                <table class="listingTAB" width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+                <table class="listingTAB" width="100%" border="0" cellspacing="0" style="margin-top:10px;">
                     <tr>
                         <td colspan="11" align="left">
                            	 전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage} 페이지
@@ -364,7 +375,7 @@
                 <!-- 리스트 종료 -->
                 
                 <!-- PageNavigation Start... -->
-                <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+                <table width="100%" border="0" cellspacing="0" style="margin-top:10px;">
                     <tr>
                         <td align="center">
 

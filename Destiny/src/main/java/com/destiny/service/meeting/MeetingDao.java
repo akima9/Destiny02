@@ -19,6 +19,12 @@ public interface MeetingDao {
 	
 	public Meeting getMeeting(int meetingNo)throws Exception;
 	
+	public int getAct(int meetingNo)throws Exception;
+	
+	public int getCrewCount(int meetingNo)throws Exception;
+	
+	public List<Meeting> getCrew(int meetingNo) throws Exception;
+	
 	public void updateViews(int meetingNo)throws Exception;
 	
 	public List<Meeting> getBestProduct() throws Exception;
@@ -26,5 +32,7 @@ public interface MeetingDao {
 	public void updateMeeting(Meeting meeting)throws Exception;
 	
 	public void updateContentsMeeting(Meeting meeting)throws Exception;
+	
+	public void addCrewM(Meeting meeting)throws Exception;
 	
 }
