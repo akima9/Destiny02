@@ -26,9 +26,10 @@
 		$("form").attr("method","POST").attr("action","/complain/listComplain").submit();
 	}
 	
-	$(function() {
-		$("button:contains('글쓰기')").on("click", function() {
-			self.location = "/info/addRestaurantInfo"
+	$(function (){
+		$("button:contains('보기')").on("click", function(){
+			var complainNo = $(this).data("param");
+			self.location = "/complain/getComplain?complainNo="+complainNo;
 		});
 	});
 	
@@ -77,19 +78,33 @@
 								<span>${i}</span>
 							</td>
 							<td>
-								<span class="getComplain" data-param="${ complain.complainNo }">${complain.complainerId }</span>
+								<span class="getComplain">${complain.complainerId }</span>
 							</td>
 							<td>
-								<span>${complain.complainKind }</span>
+								<c:if test="${complain.complainKind == 'BD'}">
+									<span>게시물</span>
+								</c:if>
+								<c:if test="${complain.complainKind == 'MT'}">
+									<span>모임</span>
+								</c:if>
 							</td>
 							<td>
 								<span>${complain.complainDate }</span>
 							</td>
 							<td>
-								<span>${complain.complainState }</span>
+								<c:if test="${complain.complainState=='N'}">
+									<span>대기</span>
+								</c:if>
+								<c:if test="${complain.complainState=='Y'}">
+									<span>완료
+										<c:if test="${complain.complainCondition == 'NOT'}">(무고)</c:if>
+										<c:if test="${complain.complainCondition == 'WAR'}">(경고)</c:if>
+										<c:if test="${complain.complainCondition == 'BLK'}">(블랙리스트)</c:if>
+									</span>
+								</c:if>
 							</td>
 							<td>
-								<span>보기</span>
+								<button type="button" class="btn btn-default btn-mg" data-param="${complain.complainNo}">보기</button>
 							</td>
 						</tr>
 					</c:forEach>

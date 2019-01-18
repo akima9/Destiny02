@@ -43,5 +43,15 @@ public class ComplainDaoImpl implements ComplainDao {
 		return sqlSession.selectOne("ComplainMapper.getTotalCount", search);
 	}
 
+	@Override
+	public Complain getComplain(int complainNo) throws Exception {
+		return sqlSession.selectOne("ComplainMapper.getComplain", complainNo);
+	}
+
+	@Override
+	public void updateComplain(Complain complain) throws Exception {
+		sqlSession.update("ComplainMapper.updateComplain", complain);
+	}
+
 	
 }

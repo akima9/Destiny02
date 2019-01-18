@@ -117,6 +117,11 @@ public class UserServiceImpl implements UserService {
 	public void updateState(User user) throws Exception {
 		userDao.updateState(user);
 	}
+	
+	@Override
+	public void updateWarningCount(User user) throws Exception {
+		userDao.updateWarningCount(user);
+	}
 
 	@Override
 	public Map<String, Object> getUserList(Search search) throws Exception {
