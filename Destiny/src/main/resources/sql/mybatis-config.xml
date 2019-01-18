@@ -47,5 +47,6 @@
 		<mapper resource="sql/CommunityMapper.xml"/>
 		<mapper resource="sql/ChattingMapper.xml"/>
 		<mapper resource="sql/ComplainMapper.xml"/>
+		<mapper resource="sql/LikeCountMapper.xml"/>
 	</mappers>
 </configuration>

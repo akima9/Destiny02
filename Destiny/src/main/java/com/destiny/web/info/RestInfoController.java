@@ -25,6 +25,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Community;
+import com.destiny.service.domain.LikeCount;
 
 @RestController
 @RequestMapping("/info/*")
@@ -77,38 +78,26 @@ public class RestInfoController {
 		}
 		file.transferTo(f); // 지정한 파일에 저장
 		
-		/*File str = new File(strFilename);
-		if (str.isFile()) {
-			System.out.println("파일이 존재합니다."+str);
-		}
-		else {
-			System.out.println("파일이 존재하지 않습니다."+str);
-		}*/
-		
-		out.print("/resources/images/uploadImg/"+strFilename);
+		out.print("http://127.0.0.1:8080/resources/images/uploadImg/"+strFilename);
 		out.close();
 	}
 	/*profileUpload : end*/
 	
 	/*likeRestaurantInfo : start*/
 	@RequestMapping(value="/json/likeRestaurantInfo/{communityNo}", method=RequestMethod.POST)
-	public Map<String, Object> likeRestaurantInfo(@PathVariable("communityNo") int communityNo) throws Exception{
-		
+	public Map<String, Object> likeRestaurantInfo(@PathVariable("communityNo") int communityNo, @ModelAttribute("likecount") LikeCount likecount) throws Exception{
+				
 		System.out.println("likeRestaurantInfo() 실행================");
 		
 		communityService.likeCommunity(communityNo);
 		
 		Community community = communityService.getCommunity(communityNo);
 		
+		System.out.println("community2 : "+community);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("community", community);
 		
-		System.out.println(community);
-		
-		
-		
-		/*ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("community", community);*/
 		return map;
 	}
 	/*likeRestaurantInfo : end*/

@@ -12,6 +12,7 @@ import com.destiny.common.Search;
 import com.destiny.service.community.CommunityDao;
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Community;
+import com.destiny.service.domain.LikeCount;
 
 @Service("communityServiceImpl")
 public class CommunityServiceImpl implements CommunityService {
@@ -71,6 +72,26 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public void likeCommunity(int communityNo) throws Exception {
 		communityDao.likeCommunity(communityNo);
+	}
+
+	@Override
+	public void addLikecount(LikeCount likecount) throws Exception {
+		communityDao.addLikecount(likecount);
+	}
+
+	@Override
+	public void updateLikecount(LikeCount likecount) throws Exception {
+		communityDao.updateLikecount(likecount);
+	}
+
+	@Override
+	public LikeCount getLikecount(int likecountNo) throws Exception {
+		return communityDao.getLikecount(likecountNo);
+	}
+
+	@Override
+	public void updateViewsCondition(Community community) throws Exception {
+		communityDao.updateViewsCondition(community);
 	}
 
 }
