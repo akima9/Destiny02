@@ -209,7 +209,7 @@ public class ChattingRestController {
          System.out.println("번역결과 : "+a);
          return a;	
 	}
-	
+	@ResponseBody
 	@RequestMapping(value="json/translate",method=RequestMethod.POST)
 
 	public String chatGoogleTranslatePOST(@RequestBody JSONObject body, HttpSession session ) throws Exception {

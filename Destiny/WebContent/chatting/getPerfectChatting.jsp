@@ -53,46 +53,49 @@
 			//alert(message);
 			//alert(lang);
 			if (username!="SERVER : ") {
-				alert(lang);
+				//alert(lang);
 				
 				var message=data1;
-				alert(message);
-				$.ajax({	
+				//alert(message);
+				var trans=$.ajax({	
 					
-					url : "http://192.168.0.28:8080/chatting/json/translate" ,
+					url : "/chatting/json/translate" ,
 					type : "POST" ,
-					dataType : "json" ,
-					async: false,
+					dataType : "text" ,
 					headers : {
 						"Accept" : "application/json",
 						"Content-Type" : "application/json"
 					},
 					//data : JSON.stringify(data2),
 					data : JSON.stringify(data2),
-					success : function(transText) {
-						//alert("여기");
-						alert("다른 사람 message");
-						//Debug...
-						//alert(status);
-						
-						//alert(JSONData.translations[0].translatedText);
-					////////////////////////////번역끝////////
-						
-						//$('#conversation').append('<div>'+username + '<br> ' + message +'<br>'+JSONData.translations[0].translatedText+'</div><br>');
-						$('#conversation').append('<div>'+username + '<br> ' + message +'<br>'+transText+'</div><br>');
-					},//success
+					success : function(Data) {
+											},//success
 				      error: function () {
-				    	  alert("error");
+				    	  //alert("error");
 				      },
 				      complete: function () {
 				        // Handle the complete event
-				        alert("aa");
+				        //alert("complete");
 				      }
-					//return false;
+					
 				});//ajax
-				return false;
+				//return false;
+				trans.done(function(Data) {
+					//alert("여기");
+					//alert("다른 사람 message");
+					//Debug...
+					//alert(status);
+					
+					//alert(JSONData.translations[0].translatedText);
+				////////////////////////////번역끝////////
+					
+					//$('#conversation').append('<div>'+username + '<br> ' + message +'<br>'+JSONData.translations[0].translatedText+'</div><br>');
+					$('#conversation').append('<div>'+username + '<br> ' + message +'<br>'+Data+'</div><br>');
+
+
+				})
 			}else{
-				alert("server message");
+				//alert("server message");
 				$('#conversation').append('<div>'+username + '<br> ' + data1 +'<br>');
 			}
 			 
@@ -106,7 +109,7 @@
 			
 			//$('#conversation').append('<div>'+username + '<br> ' + data + '</div><br>');
 		}else{
-			alert("내 message");
+			//alert("내 message");
 			$('#conversation').append('<div style = "text-align:right;">'+username + '<br> ' + data1 + '</div><br>');
 			
 		}
