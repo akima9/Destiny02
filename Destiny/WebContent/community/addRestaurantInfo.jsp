@@ -55,8 +55,6 @@
 							enctype : 'multipart/form-data',
 							processData : false,
 							success : function(url){
-								alert(url);
-								alert("±â´Ù·Á^^")
 								$note.summernote('insertImage', url);
 							}
 						});

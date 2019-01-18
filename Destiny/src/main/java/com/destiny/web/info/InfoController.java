@@ -86,11 +86,11 @@ public class InfoController {
 	public ModelAndView addRestaurantInfo(@ModelAttribute("community") Community community) throws Exception{
 		System.out.println(":: InfoController/addRestaurantInfo/post : ½ÇÇà");
 		
-		community.setWriterId("kimbomi");
+		community.setWriterId("kimgiyong");
 		community.setCategory("RES");
 		community.setUserGrade("NOR");
 		/*community.setTitle(title);*/
-		community.setWriterNickName("bboms");
+		community.setWriterNickName("javaKing");
 		/*community.setDetail(detail);*/
 		community.setViews(0);
 		community.setLike(0);

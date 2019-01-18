@@ -76,6 +76,15 @@ public class RestInfoController {
 			f.mkdirs();
 		}
 		file.transferTo(f); // 지정한 파일에 저장
+		
+		/*File str = new File(strFilename);
+		if (str.isFile()) {
+			System.out.println("파일이 존재합니다."+str);
+		}
+		else {
+			System.out.println("파일이 존재하지 않습니다."+str);
+		}*/
+		
 		out.print("/resources/images/uploadImg/"+strFilename);
 		out.close();
 	}
