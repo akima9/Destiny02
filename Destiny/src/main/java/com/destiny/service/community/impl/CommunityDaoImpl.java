@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.destiny.common.Search;
 import com.destiny.service.community.CommunityDao;
 import com.destiny.service.domain.Community;
+import com.destiny.service.domain.LikeCount;
 
 @Repository("communityDaoImpl")
 public class CommunityDaoImpl implements CommunityDao{
@@ -67,6 +68,26 @@ public class CommunityDaoImpl implements CommunityDao{
 	@Override
 	public void likeCommunity(int communityNo) throws Exception {
 		sqlSession.update("CommunityMapper.likeCommunity", communityNo);
+	}
+
+	@Override
+	public void addLikecount(LikeCount likecount) throws Exception {
+		sqlSession.insert("LikeCountMapper.addLikecount", likecount);
+	}
+
+	@Override
+	public void updateLikecount(LikeCount likecount) throws Exception {
+		sqlSession.update("LikeCountMapper.updateLikecount", likecount);
+	}
+
+	@Override
+	public LikeCount getLikecount(int likecountNo) throws Exception {
+		return sqlSession.selectOne("LikeCountMapper.getLikecount", likecountNo);
+	}
+
+	@Override
+	public void updateViewsCondition(Community community) throws Exception {
+		sqlSession.update("CommunityMapper.updateViewsCondition", community);
 	}
 
 }

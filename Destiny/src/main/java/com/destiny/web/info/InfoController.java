@@ -108,7 +108,7 @@ public class InfoController {
 	
 	/*getRestaurantInfo : start*/
 	@RequestMapping(value="getRestaurantInfo", method=RequestMethod.GET)
-	public ModelAndView getRestaurantInfo(Model model, @RequestParam("communityNo") int communityNo) throws Exception{
+	public ModelAndView getRestaurantInfo(@RequestParam("communityNo") int communityNo) throws Exception{
 		
 		Community community = communityService.getCommunity(communityNo);
 		communityService.updateViews(communityNo);

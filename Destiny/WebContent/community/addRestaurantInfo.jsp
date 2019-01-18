@@ -55,13 +55,34 @@
 							enctype : 'multipart/form-data',
 							processData : false,
 							success : function(url){
-								$note.summernote('insertImage', url);
+								console.log("url : "+url)
+								while(true){
+									var re = doesFileExist(url);
+									console.log("re : "+re)
+									if(re){
+										$note.summernote('insertImage', url);
+										break;	
+									}
+								}
 							}
 						});
 					}	
 				}
 			});
 		});
+		
+		function doesFileExist(urlToFile){
+			var xhr = new XMLHttpRequest();
+			xhr.open('HEAD', urlToFile, false);
+			xhr.send();
+			
+			if (xhr.status == "404") {
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
 		
 		$("#save").on("click",function(){
 			fncAddcommunity();
