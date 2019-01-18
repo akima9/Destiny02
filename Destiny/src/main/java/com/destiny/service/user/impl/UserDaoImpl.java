@@ -100,6 +100,11 @@ public class UserDaoImpl implements UserDao{
 	public void updateState(User user) throws Exception {
 		sqlSession.update("UserMapper.updateState", user);
 	}
+	
+	@Override
+	public void updateWarningCount(User user) throws Exception {
+		sqlSession.update("UserMapper.updateWarningCount", user);
+	}
 
 	@Override
 	public List<User> getUserList(Search search) throws Exception {

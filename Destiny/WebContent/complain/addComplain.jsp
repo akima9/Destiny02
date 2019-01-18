@@ -19,6 +19,7 @@
 			$(function() {
 				
 				$("button:contains('신고하기')").on("click", function() {
+					alert("신고하시겠습니까?");
 					$("form").attr("method" , "POST").attr("action" , "/complain/addComplain").submit();
 				});		
 				
@@ -27,7 +28,7 @@
 				});
 				
 			});
-	</script>
+		</script>
 		
 </head>
 
@@ -47,8 +48,10 @@
 		<form class="form-horizontal">
 		<input type="hidden" name="communityNo" value="${community.communityNo}"/>
 		<input type="hidden" name="writerId" value="${ community.writerId }">
+		<input type="hidden" name="title" value="${ community.title }">
 		<input type="hidden" name="meetingNo" value="${ meeting.meetingNo }">
 		<input type="hidden" name="meetingMasterId" value="${ meeting.meetingMasterId }">
+		<input type="hidden" name="meetingName" value="${ meeting.meetingName }">
 		
 			<div class="row">
 			  	<div class="col-xs-4 col-md-2"><strong>신고자</strong></div>
@@ -78,12 +81,12 @@
 				<%-- 게시글:제목 / 댓글:내용 / 모임:모임명 --%>
 				<c:if test="${community.communityNo != 0}">
 			  		<div class="col-xs-4 col-md-2"><strong>제목</strong></div>
-					<div class="col-xs-8 col-md-4" name="complainType"> ${community.title} </div>
+					<div class="col-xs-8 col-md-4" name="complainDetail"> ${community.title} </div>
 				</c:if>
 				
 				<c:if test="${meeting.meetingNo != 0}">
 			  		<div class="col-xs-4 col-md-2"><strong>모임명</strong></div>
-					<div class="col-xs-8 col-md-4" name="complainType"> ${meeting.meetingName} </div>
+					<div class="col-xs-8 col-md-4" name="complainDetail"> ${meeting.meetingName} </div>
 				</c:if>
 				
 				<%-- <c:if test="${comment.commentNo != 0}">
@@ -112,7 +115,7 @@
 			
 			<div class="row">
 		  		<div class="col-xs-4 col-md-2"><strong>신고내용</strong></div>
-				<input type="text" class="form-control" name="complainDetail" placeholder="신고내용을 입력해주세요.">
+				<input type="text" class="form-control" name="complainText" placeholder="신고내용을 입력해주세요.">
 			</div>
 				
 			<hr/>

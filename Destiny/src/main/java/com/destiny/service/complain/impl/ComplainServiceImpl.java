@@ -48,6 +48,16 @@ public class ComplainServiceImpl implements ComplainService{
 		
 		return map;
 	}
+
+	@Override
+	public Complain getComplain(int complainNo) throws Exception {
+		return complainDao.getComplain(complainNo);
+	}
+
+	@Override
+	public void updateComplain(Complain complain) throws Exception {
+		complainDao.updateComplain(complain);
+	}
 	
 	
 }
