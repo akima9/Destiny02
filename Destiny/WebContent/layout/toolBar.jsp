@@ -134,8 +134,6 @@
 				<li><a href="#">Meeting</a></li>
 				<li><a href="#">Chatting</a></li>
 				<li><a href="#">Place</a></li>
-				<!-- <li><a href="#">맛집정보</a></li>
-				<li><a href="#">연애조언</a></li> -->
 				
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
