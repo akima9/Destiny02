@@ -71,8 +71,8 @@
 					return;
 				}
 				
-				//$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
-				self.location = "/user/login/"+id+"/"+pw;
+				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
+				//self.location = "/user/login/"+id+"/"+pw;
 			});
 		});	
 		
@@ -158,6 +158,7 @@
 					<li><a href="#">join</a></li>
 				 
 					<div id="my-dialog">
+					<form class="form-horizontal">
 						<label for="userId" class="col-sm-4 control-label">아 이 디</label>
 							
 						<div class="col-sm-6">
@@ -174,6 +175,7 @@
 						</div>
 					 	
 						<button id="btn-close-dialog">창 닫기</button>
+						</form>
 					</div>
 				 
 					<div id="dialog-background"></div>
