@@ -29,6 +29,7 @@
 				$( "button:contains('확인')" ).on("click" , function() {
 					self.location = "/complain/listComplain"
 				});
+				
 			});
 		</script>
 		
@@ -48,7 +49,7 @@
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
-		<%-- <input type="hidden" name="complainNo" value="${complain.complainNo}"/> --%>
+		<input type="hidden" name="category" value="${community.category}"/>
 			<hr/>
 			<div class="row">
 				<div class="col-xs-4 col-md-2"><strong>신고처리상태</strong></div>
@@ -84,7 +85,7 @@
 				<%-- 게시글:제목 / 댓글:내용 / 모임:모임명 --%>
 				<c:if test="${complain.complainKind == 'BD'}">
 			  		<div class="col-xs-4 col-md-2"><strong>제목</strong></div>
-			  		<div class="col-xs-8 col-md-4" name="complainDetail" data-param="${complain.communityNo}"> ${complain.complainDetail} </div>
+			  		<div class="col-xs-8 col-md-4" name="complainDetail" data-param="${complain.communityNo}" value="${community.category}"> ${complain.complainDetail} </div>
 				</c:if>
 				<c:if test="${complain.complainKind == 'MT'}">
 			  		<div class="col-xs-4 col-md-2"><strong>모임명</strong></div>

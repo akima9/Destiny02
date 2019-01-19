@@ -141,7 +141,7 @@ public class ComplainController {
 			
 			Complain complain = complainService.getComplain(complainNo);
 			User user = userService.getUser(complain.getDefendantId());
-				
+			
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.addObject("complain", complainService.getComplain(complainNo));
 			modelAndView.addObject("user",userService.getUser(complain.getDefendantId()));
@@ -158,10 +158,12 @@ public class ComplainController {
 			
 			Complain complain = complainService.getComplain(complainNo);
 			User user = userService.getUser(complain.getDefendantId());
+			Community community = communityService.getCommunity(complain.getCommunityNo());
 			
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.addObject("complain", complainService.getComplain(complainNo));
 			modelAndView.addObject("user",userService.getUser(complain.getDefendantId()));
+			modelAndView.addObject("community",communityService.getCommunity(complain.getCommunityNo()));
 			modelAndView.setViewName("forward:/complain/updateComplain.jsp");
 			return modelAndView;
 		}

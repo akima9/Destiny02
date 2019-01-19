@@ -18,6 +18,29 @@
 		<script type="text/javascript">
 			$(function() {
 				
+				/* 글 제목 마우스 오버 : start */
+				$(".getComplainLink").on("mouseover",function(){
+					$(".getComplainLink").css("cursor","pointer")
+				});
+				/* 글 제목 마우스 오버 : end */
+				
+				/* 글 제목 클릭 : start */
+				$(".getComplainLink").on("click", function(){
+					var communityNo = $(this).data("param");
+					var meetingNo = $(this).data("param1");
+					
+					if(meetingNo == null){
+						if(${community.category == "RES"}){
+							self.location="/info/getRestaurantInfo?communityNo="+communityNo
+						} 
+						
+					}else if(communityNo == null){
+						self.location="/meeting/getMeeting?meetingNo="+meetingNo
+					}
+					
+				});
+				/* 글 제목 클릭 : end */
+				
 				$( "button:contains('확인')" ).on("click" , function() {
 					alert("처리를 완료하시겠습니까?");
 					$("form").attr("method" , "POST").attr("action" , "/complain/updateComplain?complainNo=${complain.complainNo}").submit();
@@ -64,11 +87,11 @@
 				<%-- 게시글:제목 / 댓글:내용 / 모임:모임명 --%>
 				<c:if test="${complain.complainKind == 'BD'}">
 			  		<div class="col-xs-4 col-md-2"><strong>제목</strong></div>
-			  		<div class="col-xs-8 col-md-4" name="complainDetail" data-param="${complain.communityNo}"> ${complain.complainDetail} </div>
+			  		<div class="col-xs-8 col-md-4 getComplainLink" name="complainDetail" data-param="${complain.communityNo}"> ${complain.complainDetail} </div>
 				</c:if>
 				<c:if test="${complain.complainKind == 'MT'}">
 			  		<div class="col-xs-4 col-md-2"><strong>모임명</strong></div>
-			  		<div class="col-xs-8 col-md-4" name="complainDetail" data-param="${complain.meetingNo}"> ${complain.complainDetail} </div>
+			  		<div class="col-xs-8 col-md-4 getComplainLink" name="complainDetail" data-param1="${complain.meetingNo}"> ${complain.complainDetail} </div>
 				</c:if>
 				
 				

@@ -41,6 +41,10 @@
 	<!-- SQL : SELECT ONE -->
 	 <select id="getComplain" parameterType="int" resultMap="complainSelectMap">
 			SELECT * FROM complain WHERE complain_no = ${value}
+			<!-- SELECT co.category, co.community_title, c.*
+			FROM community co, complain c 
+			WHERE co.community_no = c.community_no
+				AND c.complain_no = ${value} -->
 	 </select>
 	 
 	 <!-- SQL : UPDATE -->
