@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Community;
 import com.destiny.service.domain.LikeCount;
+import com.destiny.service.domain.User;
 
 @RestController
 @RequestMapping("/info/*")
@@ -85,11 +87,50 @@ public class RestInfoController {
 	
 	/*likeRestaurantInfo : start*/
 	@RequestMapping(value="/json/likeRestaurantInfo/{communityNo}", method=RequestMethod.POST)
-	public Map<String, Object> likeRestaurantInfo(@PathVariable("communityNo") int communityNo, @ModelAttribute("likecount") LikeCount likecount) throws Exception{
+	public Map<String, Object> likeRestaurantInfo(@PathVariable("communityNo") int communityNo, @ModelAttribute("likeCount") LikeCount likeCount, HttpSession session ) throws Exception{
 				
 		System.out.println("likeRestaurantInfo() 실행================");
 		
-		communityService.likeCommunity(communityNo);
+		
+		User user = (User)session.getAttribute("me"); 
+		String userId = user.getUserId();
+		System.out.println("userId :: " + userId);
+		System.out.println("comminityNo?? : " + communityNo);
+		
+		likeCount.setLikeCountId(userId);
+		likeCount.setLikeCountCommunityNo(communityNo);
+		communityService.checkId(likeCount);
+		
+		System.out.println("여기는 아이디체크! : " + communityService.checkId(likeCount));
+		
+		
+		if(communityService.checkId(likeCount) != null) {
+			String likeCountCheck = communityService.checkId(likeCount).getLikeCountCheck();
+			likeCount.setLikeCountCheck(likeCountCheck);
+			System.out.println("====likeCheckId가 null이 아닙니다.=====");
+			
+			if(communityService.checkId(likeCount).getLikeCountCheck().equals("Y")) {
+				System.out.println("====likeCheckId가 null이 아닙니다. ( Y)=====");
+				likeCount.setLikeCountCheck("N");
+				communityService.updateLikeCount(likeCount);
+				System.out.println("====Like(-)=====");
+				communityService.subLikeCommunity(communityNo); //-1 / LIKECOUNT_CHECK = 'N'
+				
+			}else if(communityService.checkId(likeCount).getLikeCountCheck().equals("N")) {
+				System.out.println("====likeCheckId가 null이 아닙니다. (N)=====");
+				likeCount.setLikeCountCheck("Y");
+				communityService.updateLikeCount(likeCount);
+				System.out.println("====Like(+)=====");
+				communityService.addLikeCommunity(communityNo); //+1 /LIKECOUNT_CHECK = 'Y'
+				
+			}
+			
+		}else if(communityService.checkId(likeCount) == null) {
+			System.out.println("====likeCheckId가 null입니다.=====");
+			communityService.addLikeCount(likeCount);
+			System.out.println("====addLike null=====");
+			communityService.addLikeCommunity(communityNo); //+1
+		}
 		
 		Community community = communityService.getCommunity(communityNo);
 		

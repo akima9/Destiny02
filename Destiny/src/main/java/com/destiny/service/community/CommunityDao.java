@@ -29,17 +29,23 @@ public interface CommunityDao {
 	//조회수
 	public void updateViews(int communityNo)throws Exception;
 	
-	//공감수
-	public void likeCommunity(int communityNo)throws Exception;
+	//공감수(+1)
+	public void addLikeCommunity(int communityNo)throws Exception;
+	
+	//공감수(-1)
+	public void subLikeCommunity(int communityNo)throws Exception;
+	
+	//공감id 체크
+	public  LikeCount checkId(LikeCount likeCount) throws Exception;
 	
 	//공감 등록
-	public void addLikecount(LikeCount likecount) throws Exception;
+	public void addLikeCount(LikeCount likeCount) throws Exception;
 	
 	//공감 수정
-	public void updateLikecount(LikeCount likecount) throws Exception;
+	public void updateLikeCount(LikeCount likeCount) throws Exception;
 	
 	//공감 상세보기
-	public LikeCount getLikecount(int likecountNo) throws Exception;
+	public LikeCount getLikeCount(int likeCountNo) throws Exception;
 	
 	//viewCondition 수정
 	public void updateViewsCondition(Community community) throws Exception;

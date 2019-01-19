@@ -2,40 +2,40 @@ package com.destiny.service.domain;
 
 public class LikeCount {
 	
-	private int likecountNo;
-	private String likecountId;
-	private int likecountCommunityNo;
-	private String likecountCheck;
+	private int likeCountNo;
+	private String likeCountId;
+	private int likeCountCommunityNo;
+	private String likeCountCheck;
 	
+	public int getLikeCountNo() {
+		return likeCountNo;
+	}
+	public void setLikeCountNo(int likeCountNo) {
+		this.likeCountNo = likeCountNo;
+	}
+	public String getLikeCountId() {
+		return likeCountId;
+	}
+	public void setLikeCountId(String likeCountId) {
+		this.likeCountId = likeCountId;
+	}
+	public int getLikeCountCommunityNo() {
+		return likeCountCommunityNo;
+	}
+	public void setLikeCountCommunityNo(int likeCountCommunityNo) {
+		this.likeCountCommunityNo = likeCountCommunityNo;
+	}
+	public String getLikeCountCheck() {
+		return likeCountCheck;
+	}
+	public void setLikeCountCheck(String likeCountCheck) {
+		this.likeCountCheck = likeCountCheck;
+	}
 	
-	public int getLikecountNo() {
-		return likecountNo;
-	}
-	public void setLikecountNo(int likecountNo) {
-		this.likecountNo = likecountNo;
-	}
-	public String getLikecountId() {
-		return likecountId;
-	}
-	public void setLikecountId(String likecountId) {
-		this.likecountId = likecountId;
-	}
-	public int getLikecountCommunityNo() {
-		return likecountCommunityNo;
-	}
-	public void setLikecountCommunityNo(int likecountCommunityNo) {
-		this.likecountCommunityNo = likecountCommunityNo;
-	}
-	public String getLikecountCheck() {
-		return likecountCheck;
-	}
-	public void setLikecountCheck(String likecountCheck) {
-		this.likecountCheck = likecountCheck;
-	}
 	@Override
 	public String toString() {
-		return "LikeCount [likecountNo=" + likecountNo + ", likecountId=" + likecountId + ", likecountCommunityNo="
-				+ likecountCommunityNo + ", likecountCheck=" + likecountCheck + "]";
+		return "LikeCount [likeCountNo=" + likeCountNo + ", likeCountId=" + likeCountId + ", likeCountCommunityNo="
+				+ likeCountCommunityNo + ", likeCountCheck=" + likeCountCheck + "]";
 	}
 	
 	
