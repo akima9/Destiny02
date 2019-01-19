@@ -119,7 +119,6 @@ public class UserController {
 						System.out.println("두 사람의 IP가 동일합니까?");
 						if(ipLoginList.get(i).equals(Ip)) {
 							System.out.println("같은 ip에서의 접근입니다. ");
-							appendScope = true;
 						} else {
 							checkDe = true;
 						}
