@@ -41,6 +41,8 @@ public interface UserService {
 	
 	public void updateState(User user) throws Exception;
 	
+	public void updateWarningCount(User user) throws Exception;
+	
 	public Map<String , Object> getUserList(Search search) throws Exception;
 	
 	

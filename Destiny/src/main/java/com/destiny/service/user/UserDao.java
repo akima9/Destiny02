@@ -41,6 +41,8 @@ public interface UserDao {
 	
 	public void updateState(User user)throws Exception;
 	
+	public void updateWarningCount(User user)throws Exception;
+	
 	public List<User> getUserList(Search search) throws Exception;
 	
 	public int getUserTotalCount(Search search) throws Exception;

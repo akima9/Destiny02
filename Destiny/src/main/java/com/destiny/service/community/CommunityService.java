@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.destiny.common.Search;
 import com.destiny.service.domain.Community;
+import com.destiny.service.domain.LikeCount;
 
 public interface CommunityService {
 
@@ -27,5 +28,16 @@ public interface CommunityService {
 	
 	//게시물 공감수
 	public void likeCommunity(int communityNo) throws Exception;
+	
+	//공감 등록
+	public void addLikecount(LikeCount likecount) throws Exception;
+	
+	//공감 수정
+	public void updateLikecount(LikeCount likecount) throws Exception;
 
+	//공감 상세보기
+	public LikeCount getLikecount(int likecountNo) throws Exception;
+	
+	//viewCondition 수정
+	public void updateViewsCondition(Community community) throws Exception;
 }

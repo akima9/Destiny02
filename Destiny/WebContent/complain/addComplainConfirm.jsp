@@ -15,6 +15,25 @@
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 		
+		<script type="text/javascript">
+			$(function() {	
+				var communityNo = ${community.communityNo};
+				console.log(communityNo);
+				var meetingNo = ${meeting.meetingNo};
+				console.log(meetingNo);
+				
+				$( "button:contains('확인')" ).on("click" , function() {
+					if(communityNo != 0){
+						$("form").attr("method" , "POST").attr("action" , "/info/listRestaurantInfo").submit();
+					}else if(meetingNo != 0){
+						$("form").attr("method" , "POST").attr("action" , "/meeting/listMeeting").submit();
+					}
+					
+				});
+				
+			});
+		</script>
+		
 </head>
 
 <body>
@@ -62,8 +81,11 @@
 				<%-- 게시글:제목 / 댓글:내용 / 모임:모임명 --%>
 				<c:if test="${community.communityNo != 0}">
 			  		<div class="col-xs-4 col-md-2"><strong>제목</strong></div>
-					<div class="col-xs-8 col-md-4" name="complainType"> ${community.title} </div>
 				</c:if>
+				<c:if test="${meeting.meetingNo != 0}">
+			  		<div class="col-xs-4 col-md-2"><strong>모임명</strong></div>
+				</c:if>
+				<div class="col-xs-8 col-md-4" name="complainDetail"> ${complain.complainDetail} </div>
 				
 			</div>
 				
@@ -85,14 +107,14 @@
 			<div class="row">
 				<%-- 게시글:제목 / 댓글:내용 / 모임:모임명 --%>
 		  		<div class="col-xs-4 col-md-2"><strong>신고내용</strong></div>
-				<div class="col-xs-8 col-md-4">${complain.complainDetail}</div>
+				<div class="col-xs-8 col-md-4">${complain.complainText}</div>
 			</div>
 			
 			<hr/>
 			
 			<div class="form-group text-center">
 				
-				<button type="button" class="btn btn-default btn-lg" id="save">신고처리하기</button>
+				<button type="button" class="btn btn-default btn-lg" id="save">확인</button>
 					
 			</div>
 			

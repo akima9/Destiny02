@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,13 +45,15 @@ public class MeetingController {
 	@RequestMapping(value="listMeeting", method=RequestMethod.GET)
 	public ModelAndView listMeeting(Model model) throws Exception{
 		
-		System.out.println("하이리스트");
+		System.out.println("하이rpt리스트");
 		//System.out.println(search.getSearchCondition());
 		Search search = new Search();
 		Map<String , Object> map=meetingService.getMeetingList(search);
 		Map<String , Object> bestMap=meetingService.getBestProduct();
+		Map<String , Object> interestmap=meetingService.getInterestList();
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("bestList", bestMap.get("bestList"));
+		model.addAttribute("interlist", interestmap.get("list"));
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/meeting/getMeetingList.jsp");
@@ -58,15 +61,30 @@ public class MeetingController {
 		
 	}
 	
-	@RequestMapping(value="listMeeting", method=RequestMethod.POST)
-	public ModelAndView listMeeting(Model model,@ModelAttribute("search") Search search) throws Exception{
+	@RequestMapping(value="listMeeting/{meetingCenter}", method=RequestMethod.POST)
+	public ModelAndView listMeeting(Model model, @PathVariable("meetingCenter") String meetingCenter,
+			@ModelAttribute("search") Search search) throws Exception{
 		
 		System.out.println("하이리스트");
 		System.out.println(search);
+		System.out.println(meetingCenter);
+		
+		if(meetingCenter !=null) {
+			if(search.getSearchCondition()=="시/군/구 선택" || meetingCenter.length()==2) {
+				System.out.println("시군구 선택");
+				search.setSearchCondition("");
+			}else {
+				System.out.println("시군구 아님아님아님");
+				search.setSearchCondition(meetingCenter);
+			}
+		}
+		
+		Map<String , Object> interestmap=meetingService.getInterestList();
 		Map<String , Object> map=meetingService.getMeetingList(search);
 		Map<String , Object> bestMap=meetingService.getBestProduct();
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("bestList", bestMap.get("bestList"));
+		model.addAttribute("interlist", interestmap.get("list"));
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/meeting/getMeetingList.jsp");
@@ -115,13 +133,21 @@ public class MeetingController {
 		
 		Meeting meeting = meetingService.getMeeting(meetingNo);
 		meetingService.updateViews(meetingNo);
+		int meetingAct = meetingService.getAct(meetingNo);
+		int crewCount = meetingService.getCrewCount(meetingNo);
+		Map<String , Object> crewMap=meetingService.getCrew(meetingNo);
+		
 		
 		model.addAttribute("meeting", meeting);
+		model.addAttribute("meetingAct", meetingAct);
+		model.addAttribute("crewCount", crewCount);
+		model.addAttribute("crewList", crewMap.get("crewList"));
 		
+		System.out.println("이러나ㅣㅇ러ㅣ만어라ㅣㄴ얼민ㄹㅇ"+crewMap.get("crewList"));
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/meeting/getMeeting.jsp");
 		return modelAndView;
-		//return null;
+//		return null;
 	}
 	
 	@RequestMapping(value="updateMeeting", method=RequestMethod.POST)

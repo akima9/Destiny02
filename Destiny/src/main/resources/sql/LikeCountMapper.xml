@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="LikeCountMapper">
+ 	
+ 	
+	<resultMap id="likecountSelectMap" type="com.destiny.service.domain.LikeCount">
+		<result property="likecountNo" 				column="likecount_no" 					jdbcType="NUMERIC"/>
+		<result property="likecountId"				column="likecount_id" 					jdbcType="VARCHAR" />
+		<result property="likecountCommunityNo" 	column="likecount_community_no" 		jdbcType="NUMERIC" />
+		<result property="likecountCheck" 			column="likecount_check" 				jdbcType="CHAR" />
+	</resultMap>
+	
+	<!-- SQL : INSERT -->
+	<insert id="addLikecount" parameterType="com.destiny.service.domain.LikeCount" >
+	 	INSERT
+		INTO likecount( likecount_no, likecount_id, likecount_community_no, likecount_check) 
+		VALUES( seq_likecount_no.nextval, #{likecountId}, #{likecountCommunityNo}, '1')
+	</insert>
+	
+	<!-- SQL : SELECT ONE -->
+	 <!-- <select id="getLikecount" parameterType="int" resultMap="LikeCountMapper">
+		SELECT
+		likecount_no, likecount_id, likecount_community_no, likecount_check
+		FROM likecount
+		WHERE likecount_no = #{value}
+	 </select> -->
+	
+	<!-- SQL : UPDATE -->
+	 <update id="updateLikecount"	parameterType="com.destiny.service.domain.LikeCount" >
+	   	UPDATE likecount
+	   	<set>
+	   		<if test="likecountCheck == 1">
+	   			likecount_check = '0'
+	   		</if>
+			<if test="likecountCheck == 0">
+	   			likecount_check = '1'
+	   		</if>
+	   	</set>
+	   	WHERE likecount_community_no = #{likecountCommunityNo} AND likecount_id = #{likecountId}
+	 </update>
+	 
+</mapper>

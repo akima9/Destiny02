@@ -12,10 +12,10 @@ public interface ComplainService {
 	
 	public Map<String, Object> getComplainList(Search search) throws Exception;
 	
-	/*//게시글 상세보기
-	public Complain getComplain(int compalinNo) throws Exception;
+	//게시글 상세보기
+	public Complain getComplain(int complainNo) throws Exception;
 	
 	//게시글 수정
-	public void updateComplain(Complain complain) throws Exception;*/
+	public void updateComplain(Complain complain) throws Exception;
 
 }
