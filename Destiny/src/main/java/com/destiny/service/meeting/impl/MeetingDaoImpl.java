@@ -68,7 +68,22 @@ public class MeetingDaoImpl implements MeetingDao {
 	public Meeting getMeeting(int meetingNo) throws Exception {
 		return sqlSession.selectOne("MeetingMapper.getMeeting", meetingNo);
 	}
-
+	
+	@Override
+	public int getAct(int meetingNo) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.getAct", meetingNo);
+	}
+	
+	@Override
+	public int getCrewCount(int meetingNo) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.getCrewCount", meetingNo);
+	}
+	
+	@Override
+	public List<Meeting> getCrew(int meetingNo) throws Exception {
+		return sqlSession.selectList("MeetingMapper.getCrew",meetingNo);
+	}
+	
 	@Override
 	public void updateViews(int meetingNo) throws Exception {
 		sqlSession.selectOne("MeetingMapper.updateViews", meetingNo);		
@@ -101,6 +116,11 @@ public class MeetingDaoImpl implements MeetingDao {
 		
 	}
 
+	@Override
+	public void addCrewM(Meeting meeting) throws Exception {
+		sqlSession.insert("MeetingMapper.addCrewM", meeting);
+		
+	}
 	
 
 }
