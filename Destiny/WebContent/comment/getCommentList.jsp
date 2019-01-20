@@ -7,6 +7,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<h1>getCommentList.jsp</h1>
+	
+	<form>
+		
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="댓글을 입력해주세요">
+			<button type="button" class="btn btn-default btn-md" id="save">등록</button>
+		</div>
+		
+	</form>
 </body>
 </html>
