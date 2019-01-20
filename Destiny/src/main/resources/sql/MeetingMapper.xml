@@ -159,15 +159,21 @@
 	 <insert 	id="addCrewAct"		parameterType="com.destiny.service.domain.Meeting">
 	 	INSERT
 		INTO meeting_act_crew_list ( act_crew_no, meeting_act_no, meeting_crew_no,
-					crew_nick_name,master_profile_img) 
+					act_crew_id) 
 		VALUES	 ( seq_act_crew_no.nextval, #{meetingActNo}, #{meetingCrewNo},
-					#{crewNickName:VARCHAR}, #{masterProfileImg:VARCHAR})
+					#{meetingMasterId})
 	 </insert>
 	 
 	 
 	 <select  id="checkDuplicationCrew" resultType="int">
 	 		select count(*) CREW_ID from meeting_crew_list where meeting_no=#{meetingNo} 
 	 		and crew_id=#{meetingMasterId}
+	 </select>
+	 
+	 <select  id="duplicationAct" resultType="int">
+	 		select count(*) from meeting_act_crew_list 
+	 		where meeting_act_no=#{meetingActNo} 
+	 		and act_crew_id=#{meetingMasterId}
 	 </select>
 	 
 	 <select  id="getActNo" resultMap="meetingSelectMap">

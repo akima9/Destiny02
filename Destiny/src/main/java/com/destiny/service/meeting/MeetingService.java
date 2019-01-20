@@ -43,4 +43,6 @@ public interface MeetingService {
 	
 	public Meeting getCrewNo(Meeting meeting) throws Exception; /*참여할떄 회원번호 가져오기*/
 	
+	public int DuplicationAct(Meeting meeting) throws Exception; /*참여할떄 중복체크*/
+	
 }

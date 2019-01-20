@@ -141,6 +141,11 @@ public class MeetingDaoImpl implements MeetingDao {
 	public Meeting getCrewNo(Meeting meeting) throws Exception {
 		return sqlSession.selectOne("MeetingMapper.getCrewNo", meeting);
 	}
+
+	@Override
+	public int DuplicationAct(Meeting meeting) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.duplicationAct", meeting);
+	}
 	
 
 }

@@ -415,15 +415,11 @@
 										 }else{   //취소
 										     return;
 										 }
-									}else{
-										if (confirm("이번 모임에 참여하시겠습니까?") == true){    //확인
-											$("#my-dialog,#dialog-background").toggle();
-											//self.location="/user/login";
-										 }else{   //취소
-
-										     return;
-
-										 }
+									}else if(JSONData==486){
+										alert("이미 참여하셨습니다.");
+									}
+									else{
+										alert("${meeting.meetingName} ${meetingAct} 회\n모임에 참여되었습니다.");
 										
 									}
 								}

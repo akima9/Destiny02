@@ -68,34 +68,31 @@ public class MeetingRestController {
 	@RequestMapping( value="meetingRest/addActList", method=RequestMethod.POST)
 	public int addActList(@RequestBody Meeting meeting)throws Exception{
 		System.out.println("참여하기시작함");
-		boolean flag = false;
+		// 모임원인지 체크 
+		int result = meetingService.checkDuplicationCrew(meeting);
+		System.out.println(result);
+		if(result < 1) return 5018;/*모임원 아님*/
+		//유저정보확인
+		User user =userService.getUser(meeting.getMeetingMasterId());
+		meeting.setMasterProfileImg(user.getProfile());
+		meeting.setCrewNickName(user.getNickName());
 		
-		if(flag==false){
-			int result = meetingService.checkDuplicationCrew(meeting);
-			System.out.println(result);
-			if(result>0) {
-				flag=true;
-				System.out.println(result);
-			}
-			
-		}
-		System.out.println(flag);
+		meeting.setMeetingActNo(meetingService.getActNo(meeting).getMeetingActNo());
+		meeting.setMeetingCrewNo(meetingService.getCrewNo(meeting).getMeetingCrewNo());
 		
-		if(flag==true) {
-			User user =userService.getUser(meeting.getMeetingMasterId());
-			
-			System.out.println("유저내용을 가져와랏!!"+user);
-			meeting.setMasterProfileImg(user.getProfile());
-			meeting.setCrewNickName(user.getNickName());
-			
-			meeting.setMeetingActNo(meetingService.getActNo(meeting).getMeetingActNo());
-			meeting.setMeetingCrewNo(meetingService.getCrewNo(meeting).getMeetingCrewNo());
-			
-			int susses= meetingService.addCrewAct(meeting);
-			//System.out.println("미팅내용 가져와랏"+meeting);
-			System.out.println("끝냄");
-			return susses;
-		}else {
+		// 참여했는지 체크
+		int duplicationAct = meetingService.DuplicationAct(meeting);
+		System.out.println("참여중복값은"+duplicationAct);
+		if(duplicationAct >0 ) return 486; /*이미참여함*/
+
+		//회차에 추가 
+		int success= meetingService.addCrewAct(meeting);
+		//System.out.println("미팅내용 가져와랏"+meeting);
+		System.out.println("끝냄");
+		
+		if (success == 1) {
+			return success;
+		} else {
 			return 5018;
 		}
 		

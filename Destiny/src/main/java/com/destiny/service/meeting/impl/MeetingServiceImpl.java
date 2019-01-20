@@ -139,6 +139,11 @@ public class MeetingServiceImpl implements MeetingService {
 		return meetingDao.getCrewNo(meeting);
 	}
 
+	@Override
+	public int DuplicationAct(Meeting meeting) throws Exception {
+		return meetingDao.DuplicationAct(meeting);
+	}
+
 	
 
 	
