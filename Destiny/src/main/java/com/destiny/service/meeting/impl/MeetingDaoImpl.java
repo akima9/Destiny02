@@ -117,9 +117,29 @@ public class MeetingDaoImpl implements MeetingDao {
 	}
 
 	@Override
-	public void addCrewM(Meeting meeting) throws Exception {
-		sqlSession.insert("MeetingMapper.addCrewM", meeting);
+	public int addCrewM(Meeting meeting) throws Exception {
+		return sqlSession.insert("MeetingMapper.addCrewM", meeting);
 		
+	}
+
+	@Override
+	public int checkDuplicationCrew(Meeting meeting) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.checkDuplicationCrew", meeting);
+	}
+
+	@Override
+	public int addCrewAct(Meeting meeting) throws Exception {
+		return sqlSession.insert("MeetingMapper.addCrewAct", meeting);
+	}
+
+	@Override
+	public Meeting getActNo(Meeting meeting) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.getActNo", meeting);
+	}
+
+	@Override
+	public Meeting getCrewNo(Meeting meeting) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.getCrewNo", meeting);
 	}
 	
 

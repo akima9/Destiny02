@@ -33,6 +33,14 @@ public interface MeetingService {
 	
 	public void updateContentsMeeting(Meeting meeting) throws Exception; /*모임 수정*/
 	
-	public void addCrewM(Meeting meeting) throws Exception; /*모임원 리스트에 업데이트*/
+	public int addCrewM(Meeting meeting) throws Exception; /*모임원 리스트에 업데이트*/
+	
+	public int addCrewAct(Meeting meeting) throws Exception; /*참여원 리스트에 업데이트*/
+	
+	public int checkDuplicationCrew(Meeting meeting) throws Exception; /*가입할떄 중복체크*/
+	
+	public Meeting getActNo(Meeting meeting) throws Exception; /*참여할떄 참여번호 가져오기*/
+	
+	public Meeting getCrewNo(Meeting meeting) throws Exception; /*참여할떄 회원번호 가져오기*/
 	
 }

@@ -31,6 +31,8 @@
 		<result property="interestNo" 			column="interest_no" 		jdbcType="NUMERIC" />
 		<result property="crewCondition" 		column="crew_condition" 	jdbcType="CHAR" />
 		<result property="crewNickName" 		column="crew_nick_name" 	jdbcType="VARCHAR" />
+		<result property="meetingActNo" 		column="meeting_act_no" 	jdbcType="VARCHAR" />
+		<result property="meetingCrewNo" 		column="meeting_Crew_no" 	jdbcType="VARCHAR" />
 
 	</resultMap>
 
@@ -153,5 +155,28 @@
 		VALUES	 ( seq_meeting_crew_no.nextval, #{meetingNo}, #{meetingMasterId}, #{crewNickName:VARCHAR}, 
 					'MEM', #{masterProfileImg:VARCHAR}, #{interviewTitle}, #{interview},'APL')
 	 </insert>
+	 
+	 <insert 	id="addCrewAct"		parameterType="com.destiny.service.domain.Meeting">
+	 	INSERT
+		INTO meeting_act_crew_list ( act_crew_no, meeting_act_no, meeting_crew_no,
+					crew_nick_name,master_profile_img) 
+		VALUES	 ( seq_act_crew_no.nextval, #{meetingActNo}, #{meetingCrewNo},
+					#{crewNickName:VARCHAR}, #{masterProfileImg:VARCHAR})
+	 </insert>
+	 
+	 
+	 <select  id="checkDuplicationCrew" resultType="int">
+	 		select count(*) CREW_ID from meeting_crew_list where meeting_no=#{meetingNo} 
+	 		and crew_id=#{meetingMasterId}
+	 </select>
+	 
+	 <select  id="getActNo" resultMap="meetingSelectMap">
+	 		select meeting_act_no from meeting_act where meeting_no = #{meetingNo}
+	 </select>
+	 
+	 <select  id="getCrewNo" resultMap="meetingSelectMap">
+	 		select meeting_crew_no from meeting_crew_list where meeting_no = #{meetingNo} and crew_id=#{meetingMasterId}
+	 </select>
+	 
 	 
 </mapper>
