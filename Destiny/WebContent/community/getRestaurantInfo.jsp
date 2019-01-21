@@ -9,25 +9,34 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>우리들의 연결고리</title>
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
 
+
+<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet"
+<!-- <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
 	integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+"
-	crossorigin="anonymous">
+	crossorigin="anonymous"> -->
 
 <!-- Optional theme -->
-<link rel="stylesheet"
+<!-- <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css"
 	integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR"
-	crossorigin="anonymous">
+	crossorigin="anonymous"> -->
 
 <!-- Latest compiled and minified JavaScript -->
-<script
+<!-- <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"
 	integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw"
-	crossorigin="anonymous"></script>
+	crossorigin="anonymous">
+	</script> -->
 
 <script type="text/javascript">
 	
