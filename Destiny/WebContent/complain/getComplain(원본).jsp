@@ -18,8 +18,16 @@
 		<script type="text/javascript">
 			$(function() {
 				
-				$( "button:contains('확인')" ).on("click" , function() {
+				$( "button:contains('신고처리하기')" ).on("click" , function() {
+					self.location = "/complain/updateComplain?complainNo=${complain.complainNo}"
+				});
+				
+				$( "button:contains('취소')" ).on("click" , function() {
 					history.go(-1);
+				});
+				
+				$( "button:contains('확인')" ).on("click" , function() {
+					self.location = "/complain/listComplain"
 				});
 				
 			});
@@ -41,10 +49,25 @@
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
-		<%-- <input type="hidden" name="communityNo" value="${community.communityNo}"/> --%>
+		<input type="hidden" name="category" value="${community.category}"/>
+			<hr/>
+			<div class="row">
+				<div class="col-xs-4 col-md-2"><strong>신고처리상태</strong></div>
+				<div class="col-xs-8 col-md-4" name="complainState">
+				 	${complain.complainState=='N' ? "신고처리 대기중":"신고처리 완료"}
+				 </div>
+			</div>
+			
+			<hr/>
+			
+			<div class="row">
+		  		<div class="col-xs-4 col-md-2"><strong>신고날짜</strong></div>
+				<div class="col-xs-8 col-md-4" name="complainDate"> ${complain.complainDate}  </div>
+			</div>
+				
+			<hr/>
 		
 			<div class="row">
-			
 				<div class="col-xs-4 col-md-2"><strong>신고자</strong></div>
 				<div class="col-xs-8 col-md-4" name="complainType"> ${complain.complainerId} ( ${user.warningCount} )</div>
 			</div>
@@ -62,11 +85,13 @@
 				<%-- 게시글:제목 / 댓글:내용 / 모임:모임명 --%>
 				<c:if test="${complain.complainKind == 'BD'}">
 			  		<div class="col-xs-4 col-md-2"><strong>제목</strong></div>
+			  		<div class="col-xs-8 col-md-4" name="complainDetail" data-param="${complain.communityNo}" value="${community.category}"> ${complain.complainDetail} </div>
 				</c:if>
 				<c:if test="${complain.complainKind == 'MT'}">
 			  		<div class="col-xs-4 col-md-2"><strong>모임명</strong></div>
+			  		<div class="col-xs-8 col-md-4" name="complainDetail" data-param="${complain.meetingNo}"> ${complain.complainDetail} </div>
 				</c:if>
-				<div class="col-xs-8 col-md-4" name="complainDetail"> ${complain.complainDetail} </div>
+				
 				
 			</div>
 				
@@ -94,9 +119,13 @@
 			<hr/>
 			
 			<div class="form-group text-center">
-				
-				<button type="button" class="btn btn-default btn-lg" id="save">확인</button>
-					
+				<c:if test="${complain.complainState=='N'}">
+					<button type="button" class="btn btn-default btn-mg" >신고처리하기</button>
+					<button type="button" class="btn btn-default btn-mg" >취소</button>
+				</c:if>
+				<c:if test="${complain.complainState=='Y'}">
+					<button type="button" class="btn btn-default btn-mg" >확인</button>
+				</c:if>
 			</div>
 			
 		</form>

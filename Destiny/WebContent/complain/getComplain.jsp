@@ -18,19 +18,73 @@
 		<script type="text/javascript">
 			$(function() {
 				
-				$( "button:contains('신고처리하기')" ).on("click" , function() {
+				/* $( "button:contains('신고처리하기')" ).on("click" , function() {
 					self.location = "/complain/updateComplain?complainNo=${complain.complainNo}"
-				});
+				}); */
 				
-				$( "button:contains('취소')" ).on("click" , function() {
+				$( "#okBtn" ).on("click" , function() {
 					history.go(-1);
+					//$('.doComplain').hide();
+					//$('#doComplainBtn').show();
+					//$('#cancleBtn').show();
 				});
 				
-				$( "button:contains('확인')" ).on("click" , function() {
+				$( "#okBtn" ).on("click" , function() {
 					self.location = "/complain/listComplain"
 				});
 				
+				$( "#doComplainBtn" ).on("click", function(){
+					var complainNo = ${complain.complainNo}
+					console.log(complainNo);
+					
+					var displayValue = '<div class="row">\n'
+				  		+'<div class="col-xs-4 col-md-2"><strong>신고처리</strong></div>\n'
+				  		+'<div class="col-xs-8 col-md-4" id="complainCondition">\n'
+				  		+'	<input type="radio" class="complainCondition" name="complainCondition" value="NOT">무고</input>\n'
+				  		+'	<input type="radio" class="complainCondition" name="complainCondition" value="WAR">경고</input>\n'
+				  		+'	<input type="radio" class="complainCondition" name="complainCondition" value="BLK">블랙리스트</input>\n'
+				  		+'</div>\n'
+				  		+'</div>\n'
+				  		+'<hr/>\n'
+				  		+'<div class="form-group text-center">\n'
+				  		+'	<button type="button" class="btn btn-default btn-mg" id="endBtn" onClick="okComplainBtn()">확인</button>\n'
+				  		+'</div>\n'
+				  		
+				  	$('.doComplain').append(displayValue);
+				  	$('#doComplainBtn').hide();
+				  	$('#okBtn').hide();
+			  		
+				});
 			});
+			
+
+			function okComplainBtn(){
+				
+				var complainNo = ${complain.complainNo}
+				console.log('okComplainBtn : ' + complainNo);
+				var complainCondition = '';
+				
+				complainCondition = $('.complainCondition:checked').val()
+				console.log('complainCondition : ' + complainCondition);
+				
+				$.ajax(
+						{
+					method : "GET",
+					url : '/complain/json/updateComplain/'+complainNo+'/'+complainCondition,
+					success : function(JSONData){
+						var complainState = JSONData.complainState;
+						console.log(complainState);
+						$('#complainState').html("${complainState=='Y' ? '신고처리 대기중':'신고처리 완료'}");
+						$('#complainCondition').html('<div class="col-xs-8 col-md-4">${complain.complainCondition}</div>');
+						
+						$('#endBtn').hide();
+						$('#okBtn').show();
+						
+					}
+				});
+			}	
+			
+			
 		</script>
 		
 </head>
@@ -53,11 +107,18 @@
 			<hr/>
 			<div class="row">
 				<div class="col-xs-4 col-md-2"><strong>신고처리상태</strong></div>
-				<div class="col-xs-8 col-md-4" name="complainState">
+				<div class="col-xs-8 col-md-4" name="complainState" id="complainState">
 				 	${complain.complainState=='N' ? "신고처리 대기중":"신고처리 완료"}
 				 </div>
 			</div>
 			
+			<hr/>
+			
+			<div class="row">
+		  		<div class="col-xs-4 col-md-2"><strong>신고날짜</strong></div>
+				<div class="col-xs-8 col-md-4" name="complainDate"> ${complain.complainDate}  </div>
+			</div>
+				
 			<hr/>
 		
 			<div class="row">
@@ -70,13 +131,6 @@
 			<div class="row">
 		  		<div class="col-xs-4 col-md-2"><strong>작성자</strong></div>
 				<div class="col-xs-8 col-md-4" name="complainType"> ${complain.defendantId} (${user.warningCount}) </div>
-			</div>
-				
-			<hr/>
-			
-			<div class="row">
-		  		<div class="col-xs-4 col-md-2"><strong>신고날짜</strong></div>
-				<div class="col-xs-8 col-md-4" name="complainDate"> ${complain.complainDate}  </div>
 			</div>
 				
 			<hr/>
@@ -118,21 +172,25 @@
 			
 			<hr/>
 			
+			<div class="row doComplain">
+			</div>
+			
 			<div class="form-group text-center">
 				<c:if test="${complain.complainState=='N'}">
-					<button type="button" class="btn btn-default btn-mg" >신고처리하기</button>
-					<button type="button" class="btn btn-default btn-mg" >취소</button>
+					<button type="button" class="btn btn-default btn-mg" id="doComplainBtn">신고처리</button>
+					<button type="button" class="btn btn-default btn-mg" id="okBtn">확인</button>
 				</c:if>
 				<c:if test="${complain.complainState=='Y'}">
-					<button type="button" class="btn btn-default btn-mg" >확인</button>
+					<button type="button" class="btn btn-default btn-mg" id="okBtn">확인2</button>
 				</c:if>
 			</div>
+			
 			
 		</form>
 		
 		
 	
 	</div>
-	
 </body>
+
 </html>

@@ -66,7 +66,6 @@
 		/* 수정 버튼 이벤트 : end */
 		
 		/* 공감 버튼 이벤트 : start */
-		/* $("button:contains('공감')").on("click", function() { */
 			$('.btn-heart').on("click", function() {
 			var communityNo = ${community.communityNo}
 			console.log(communityNo);
@@ -204,7 +203,6 @@
 				<button type="button" class="btn btn-primary">글쓰기</button>
 				<button type="button" class="btn btn-primary">신고</button>
 				<!-- <button type="button" class="btn btn-primary">공감</button> -->
-				<!-- <button type="button" class="btn-heart on"></button> -->
 				
 				<c:if test= '${likeCount.likeCountCheck=="Y"}'>
 					<button type="button" class="btn-heart on"></button>
