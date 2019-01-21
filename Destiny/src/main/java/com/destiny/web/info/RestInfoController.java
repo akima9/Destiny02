@@ -101,8 +101,6 @@ public class RestInfoController {
 		likeCount.setLikeCountCommunityNo(communityNo);
 		communityService.checkId(likeCount);
 		
-		System.out.println("여기는 아이디체크! : " + communityService.checkId(likeCount));
-		
 		
 		if(communityService.checkId(likeCount) != null) {
 			String likeCountCheck = communityService.checkId(likeCount).getLikeCountCheck();
@@ -138,7 +136,8 @@ public class RestInfoController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("community", community);
-		
+		map.put("likeCount",likeCount);
+		System.out.println("map : " + map);
 		return map;
 	}
 	/*likeRestaurantInfo : end*/

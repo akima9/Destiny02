@@ -31,6 +31,8 @@ public class Meeting {
 	private	String	crewCondition;
 	private int		meetingActCount;
 	private String	interviewTitle;
+	private int		meetingActNo;
+	private int		meetingCrewNo;
 	
 	public int getMeetingNo() {
 		return meetingNo;
@@ -201,6 +203,18 @@ public class Meeting {
 	public void setInterviewTitle(String interviewTitle) {
 		this.interviewTitle = interviewTitle;
 	}
+	public int getMeetingActNo() {
+		return meetingActNo;
+	}
+	public void setMeetingActNo(int meetingActNo) {
+		this.meetingActNo = meetingActNo;
+	}
+	public int getMeetingCrewNo() {
+		return meetingCrewNo;
+	}
+	public void setMeetingCrewNo(int meetingCrewNo) {
+		this.meetingCrewNo = meetingCrewNo;
+	}
 	
 	@Override
 	public String toString() {
@@ -213,6 +227,8 @@ public class Meeting {
 				+ ", meetingCondition=" + meetingCondition + ", shutDownDate=" + shutDownDate + ", meetingCrewLimit="
 				+ meetingCrewLimit + ", interestNo=" + interestNo + ", crewNickName=" + crewNickName + ", interview="
 				+ interview + ", imgFile=" + imgFile + ", crewCondition=" + crewCondition + ", meetingActCount="
-				+ meetingActCount + ", interviewTitle=" + interviewTitle + "]";
+				+ meetingActCount + ", interviewTitle=" + interviewTitle + ", meetingActNo=" + meetingActNo
+				+ ", meeintCrewNo=" + meetingCrewNo + "]";
 	}
+	
 }
