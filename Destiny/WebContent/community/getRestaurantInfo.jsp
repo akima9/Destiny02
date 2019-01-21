@@ -78,17 +78,34 @@
 				},
 				dataType : "json",
 				success : function(JSONData, state){
-					
 					console.log(JSONData);
 					var like = JSONData.community.like;
 					$("#likeCount").html(like);
-					
-					$("button:contains('공감')").off("click");
 				}
 			});
 		});
 		/* 공감 버튼 이벤트 : end */
 		
+		/* 작업중 */
+		/* $("button:contains('공감')").on("click", function() {
+			var communityNo = ${community.communityNo}
+			console.log(communityNo);
+			$.ajax({
+				method : "POST",
+				url : '/info/json/likeRestaurantInfo/'+communityNo,
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				dataType : "json",
+				success : function(JSONData, state){
+					console.log(JSONData);
+					var like = JSONData.community.like;
+					$("#likeCount").html(like);
+				}
+			});
+		}); */
+		/* 작업중 */
 	});
 
 </script>
@@ -101,6 +118,12 @@
 	<!-- ToolBar End /////////////////////////////////////-->
 
 	<div class="container">
+	
+		<!-- 상세페이지에서 업데이트 컨트롤러로 보내는 데이터 : start -->
+		<%-- <input type="text" name="likecountId" value="${ community.writerId }">
+		<input type="text" name="likecountCommunityNo" value="${ community.communityNo }">
+		<input type="text" name="likecountCheck" value="${ likecount.likecountCheck }"> --%>
+		<!-- 상세페이지에서 업데이트 컨트롤러로 보내는 데이터 : end -->
 	
 		<div class="row">
 			<h1>getRestaurantInfo.jsp</h1>
@@ -152,6 +175,10 @@
 				
 			</div>
 		</div>
+		
+		<!-- 댓글 : start -->
+		<jsp:include page="/comment/addComment.jsp" />
+		<!-- 댓글 : end -->
 	
 	</div>
 

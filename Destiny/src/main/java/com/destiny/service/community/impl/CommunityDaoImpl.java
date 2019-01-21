@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.destiny.common.Search;
 import com.destiny.service.community.CommunityDao;
 import com.destiny.service.domain.Community;
+import com.destiny.service.domain.LikeCount;
 
 @Repository("communityDaoImpl")
 public class CommunityDaoImpl implements CommunityDao{
@@ -65,8 +66,38 @@ public class CommunityDaoImpl implements CommunityDao{
 	}
 
 	@Override
-	public void likeCommunity(int communityNo) throws Exception {
-		sqlSession.update("CommunityMapper.likeCommunity", communityNo);
+	public void addLikeCommunity(int communityNo) throws Exception {
+		sqlSession.update("CommunityMapper.addLikeCommunity", communityNo);
+	}
+	
+	@Override
+	public void subLikeCommunity(int communityNo) throws Exception {
+		sqlSession.update("CommunityMapper.subLikeCommunity", communityNo);
+	}
+	
+	@Override
+	public LikeCount checkId(LikeCount likeCount) throws Exception {
+		return sqlSession.selectOne("LikeCountMapper.checkId", likeCount);
+	}
+
+	@Override
+	public void addLikeCount(LikeCount likeCount) throws Exception {
+		sqlSession.insert("LikeCountMapper.addLikeCount", likeCount);
+	}
+
+	@Override
+	public void updateLikeCount(LikeCount likeCount) throws Exception {
+		sqlSession.update("LikeCountMapper.updateLikeCount", likeCount);
+	}
+
+	@Override
+	public LikeCount getLikeCount(int likeCountNo) throws Exception {
+		return sqlSession.selectOne("LikeCountMapper.getLikeCount", likeCountNo);
+	}
+
+	@Override
+	public void updateViewsCondition(Community community) throws Exception {
+		sqlSession.update("CommunityMapper.updateViewsCondition", community);
 	}
 
 }

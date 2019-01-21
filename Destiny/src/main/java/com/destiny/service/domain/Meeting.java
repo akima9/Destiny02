@@ -20,7 +20,7 @@ public class Meeting {
 	private	String	meetingTime;
 	private	String	snooze;
 	private	String	meetingDues;
-	private	int	meetingViews;
+	private	int		meetingViews;
 	private	String	meetingCondition;
 	private	String	shutDownDate;
 	private	String	meetingCrewLimit;
@@ -29,6 +29,10 @@ public class Meeting {
 	private	String	interview;
 	private MultipartFile  imgFile;
 	private	String	crewCondition;
+	private int		meetingActCount;
+	private String	interviewTitle;
+	private int		meetingActNo;
+	private int		meetingCrewNo;
 	
 	public int getMeetingNo() {
 		return meetingNo;
@@ -97,10 +101,10 @@ public class Meeting {
 		this.meetingLocation = meetingLocation;
 	}
 	public String getMeetingDate() {
-		return meetingDate;
+		return meetingDate.substring(0,10);
 	}
 	public void setMeetingDate(String meetingDate) {
-		this.meetingDate = meetingDate;
+		this.meetingDate = meetingDate.substring(0,10);
 	}
 	public String getMeetingDay() {
 		return meetingDay;
@@ -184,6 +188,34 @@ public class Meeting {
 	public void setCrewCondition(String crewCondition) {
 		this.crewCondition = crewCondition;
 	}
+	
+	public int getMeetingActCount() {
+		return meetingActCount;
+	}
+	
+	public void setMeetingActCount(int meetingActCount) {
+		this.meetingActCount = meetingActCount;
+	}
+	public String getInterviewTitle() {
+		return interviewTitle;
+	}
+	
+	public void setInterviewTitle(String interviewTitle) {
+		this.interviewTitle = interviewTitle;
+	}
+	public int getMeetingActNo() {
+		return meetingActNo;
+	}
+	public void setMeetingActNo(int meetingActNo) {
+		this.meetingActNo = meetingActNo;
+	}
+	public int getMeetingCrewNo() {
+		return meetingCrewNo;
+	}
+	public void setMeetingCrewNo(int meetingCrewNo) {
+		this.meetingCrewNo = meetingCrewNo;
+	}
+	
 	@Override
 	public String toString() {
 		return "Meeting [meetingNo=" + meetingNo + ", role=" + role + ", meetingMasterId=" + meetingMasterId
@@ -194,9 +226,9 @@ public class Meeting {
 				+ ", snooze=" + snooze + ", meetingDues=" + meetingDues + ", meetingViews=" + meetingViews
 				+ ", meetingCondition=" + meetingCondition + ", shutDownDate=" + shutDownDate + ", meetingCrewLimit="
 				+ meetingCrewLimit + ", interestNo=" + interestNo + ", crewNickName=" + crewNickName + ", interview="
-				+ interview + ", imgFile=" + imgFile + ", crewCondition=" + crewCondition + "]";
+				+ interview + ", imgFile=" + imgFile + ", crewCondition=" + crewCondition + ", meetingActCount="
+				+ meetingActCount + ", interviewTitle=" + interviewTitle + ", meetingActNo=" + meetingActNo
+				+ ", meeintCrewNo=" + meetingCrewNo + "]";
 	}
-	
-	
 	
 }

@@ -161,6 +161,18 @@
 	 	</where>
 	 </update>
 	 
+	 <!-- //////////SQL : WARNING UPDATE///////////////////////////////////////////////////////////////////////// -->
+	 <update id="updateWarningCount" parameterType="com.destiny.service.domain.User">
+	 	UPDATE users
+	 	<set>
+	 		warning_count = warning_count+1
+	 	</set>
+	 	<where>
+	 		user_id = #{userId}
+	 	</where>
+	 </update>
+	 <!-- //////////SQL : WARNING UPDATE///////////////////////////////////////////////////////////////////////// -->
+	 
 	 <!-- SQL : SELECT LIST -->
 	<select  id="getUserList"  parameterType="com.destiny.common.Search"	resultMap="userSelectMap">
 	  	SELECT *

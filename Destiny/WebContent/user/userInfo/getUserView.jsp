@@ -6,9 +6,7 @@
 <meta charset="EUC-KR">
 	
 	
-	
-	
-	
+
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
@@ -88,11 +86,6 @@
 		});
 		
 		
-		$(function(){
-			$("button[id='pushButton']").on("click", function(){
-				
-			});
-		});
 		
 		
 		
@@ -100,6 +93,7 @@
 	<title>Insert title here</title>
 	</head>
 	<body>
+	
 	
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolBar.jsp" />

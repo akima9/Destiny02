@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.destiny.common.Search;
 import com.destiny.service.domain.Community;
+import com.destiny.service.domain.LikeCount;
 
 public interface CommunityDao {
 	
@@ -28,7 +29,25 @@ public interface CommunityDao {
 	//조회수
 	public void updateViews(int communityNo)throws Exception;
 	
-	//공감수
-	public void likeCommunity(int communityNo)throws Exception;
+	//공감수(+1)
+	public void addLikeCommunity(int communityNo)throws Exception;
+	
+	//공감수(-1)
+	public void subLikeCommunity(int communityNo)throws Exception;
+	
+	//공감id 체크
+	public  LikeCount checkId(LikeCount likeCount) throws Exception;
+	
+	//공감 등록
+	public void addLikeCount(LikeCount likeCount) throws Exception;
+	
+	//공감 수정
+	public void updateLikeCount(LikeCount likeCount) throws Exception;
+	
+	//공감 상세보기
+	public LikeCount getLikeCount(int likeCountNo) throws Exception;
+	
+	//viewCondition 수정
+	public void updateViewsCondition(Community community) throws Exception;
 
 }

@@ -68,7 +68,22 @@ public class MeetingDaoImpl implements MeetingDao {
 	public Meeting getMeeting(int meetingNo) throws Exception {
 		return sqlSession.selectOne("MeetingMapper.getMeeting", meetingNo);
 	}
-
+	
+	@Override
+	public int getAct(int meetingNo) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.getAct", meetingNo);
+	}
+	
+	@Override
+	public int getCrewCount(int meetingNo) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.getCrewCount", meetingNo);
+	}
+	
+	@Override
+	public List<Meeting> getCrew(int meetingNo) throws Exception {
+		return sqlSession.selectList("MeetingMapper.getCrew",meetingNo);
+	}
+	
 	@Override
 	public void updateViews(int meetingNo) throws Exception {
 		sqlSession.selectOne("MeetingMapper.updateViews", meetingNo);		
@@ -101,6 +116,36 @@ public class MeetingDaoImpl implements MeetingDao {
 		
 	}
 
+	@Override
+	public int addCrewM(Meeting meeting) throws Exception {
+		return sqlSession.insert("MeetingMapper.addCrewM", meeting);
+		
+	}
+
+	@Override
+	public int checkDuplicationCrew(Meeting meeting) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.checkDuplicationCrew", meeting);
+	}
+
+	@Override
+	public int addCrewAct(Meeting meeting) throws Exception {
+		return sqlSession.insert("MeetingMapper.addCrewAct", meeting);
+	}
+
+	@Override
+	public Meeting getActNo(Meeting meeting) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.getActNo", meeting);
+	}
+
+	@Override
+	public Meeting getCrewNo(Meeting meeting) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.getCrewNo", meeting);
+	}
+
+	@Override
+	public int DuplicationAct(Meeting meeting) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.duplicationAct", meeting);
+	}
 	
 
 }

@@ -10,13 +10,14 @@ public class Complain {
 	private int 		meetingNo;
 	private int		communityNo;
 	private int 		commentNo;
-	private String 	complainDetail;	
+	private String	complainDetail;
+	private String 	complainText;	
 	private String	complainType;
 	private String	complainKind;
 	private Date		complainDate;
 	private Date 	checkDate;
 	private String 	complainState;
-//	private int		warningNo;
+	private String 	complainCondition;
 	
 	public Complain() {
 	}
@@ -77,6 +78,14 @@ public class Complain {
 		this.complainDetail = complainDetail;
 	}
 
+	public String getComplainText() {
+		return complainText;
+	}
+
+	public void setComplainText(String complainText) {
+		this.complainText = complainText;
+	}
+
 	public String getComplainType() {
 		return complainType;
 	}
@@ -117,13 +126,23 @@ public class Complain {
 		this.complainState = complainState;
 	}
 
+	public String getComplainCondition() {
+		return complainCondition;
+	}
+
+	public void setComplainCondition(String complainCondition) {
+		this.complainCondition = complainCondition;
+	}
+
 	@Override
 	public String toString() {
 		return "Complain [complainNo=" + complainNo + ", complainerId=" + complainerId + ", defendantId=" + defendantId
 				+ ", meetingNo=" + meetingNo + ", communityNo=" + communityNo + ", commentNo=" + commentNo
-				+ ", complainDetail=" + complainDetail + ", complainType=" + complainType + ", complainKind="
-				+ complainKind + ", complainDate=" + complainDate + ", checkDate=" + checkDate + ", complainState="
-				+ complainState + "]";
+				+ ", complainDetail=" + complainDetail + ", complainText=" + complainText + ", complainType="
+				+ complainType + ", complainKind=" + complainKind + ", complainDate=" + complainDate + ", checkDate="
+				+ checkDate + ", complainState=" + complainState + ", complainCondition=" + complainCondition + "]";
 	}
+	
+	
 	
 }

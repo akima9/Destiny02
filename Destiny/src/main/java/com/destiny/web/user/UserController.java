@@ -60,12 +60,12 @@ public class UserController {
 		return modelAndView;
 	}
 	
-	@RequestMapping( value="login/{userId}/{password}", method=RequestMethod.GET )
-	public ModelAndView login(@PathVariable("userId") String userId, @PathVariable("password") String password , HttpSession session, HttpServletRequest request) throws Exception{
+	@RequestMapping( value="login", method=RequestMethod.POST )
+	public ModelAndView login(@ModelAttribute("user") User user , HttpSession session, HttpServletRequest request) throws Exception{
 		
 		System.out.println("/user/login : GET");
-		System.out.println("userId : " + userId);
-		System.out.println("password : " + password);
+		System.out.println("userId : " + user.getUserId());
+		System.out.println("password : " + user.getPassword());
 		
 		//Business Logic
 		User dbUser = new User();
@@ -73,13 +73,13 @@ public class UserController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/index.jsp");
 		//만일 유저가 없다면
-		if(userService.getUser(userId) == null) {
+		if(userService.getUser( user.getUserId()) == null) {
 			System.out.println("가입되지 않은 아이디입니다.");
 			modelAndView.addObject("result", "Fail");
 			modelAndView.addObject("reason", "가입되지 않은 아이디입니다.");
 			modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 		} else {
-			dbUser=userService.getUser(userId);
+			dbUser=userService.getUser( user.getUserId());
 		
 			//만일 탈퇴한 유저라면
 			if(dbUser.getUserState().equals("O")) {
@@ -89,6 +89,13 @@ public class UserController {
 			} else {
 				//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
 				ServletContext applicationScope = request.getSession().getServletContext();
+				
+				String Ip = request.getRemoteAddr();
+				List<String> ipLoginList = new ArrayList<String>();
+				
+				if(applicationScope.getAttribute("ipLoginList") != null) {
+					ipLoginList = (List<String>)applicationScope.getAttribute("ipLoginList");
+				}
 				
 				List<User> loginList = new ArrayList<User>();
 				
@@ -101,30 +108,50 @@ public class UserController {
 				if(applicationScope.getAttribute("numberOfLogin") != null) {
 					numberOfLogin = (int) applicationScope.getAttribute("numberOfLogin");
 				}
-		
+				
+				boolean appendScope = false;
+				
 				System.out.println("현 접속자 중 지금 로그인 시도한 사람이 있습니까? ");
 				boolean checkDe = false;
 				for(int i = 0; i < loginList.size(); i++) {
 					if(loginList.get(i).toString().equals(dbUser.toString())) {
 						System.out.println("어 있엉~~~~~~~~~~~~~~~~~~~~~~~");
-						checkDe = true;
+						System.out.println("두 사람의 IP가 동일합니까?");
+						if(ipLoginList.get(i).equals(Ip)) {
+							System.out.println("같은 ip에서의 접근입니다. ");
+						} else {
+							System.out.println("다른 ip에서의 접근입니다. ");
+							checkDe = true;
+						}
+					} else {
+						appendScope = true;
 					}
 				}
 				
 				//비밀번호가 일치하는가?
-				if(password.equals(dbUser.getPassword())){
+				if(user.getPassword().equals(dbUser.getPassword())){
 					//중복 로그인이 아닌가?
 					if(!checkDe) {
+						
 						session.setAttribute("me", dbUser);
 						
-						loginList.add(dbUser);
-						
-						numberOfLogin++;
-						
-						applicationScope.setAttribute("loginList", loginList);
-						applicationScope.setAttribute("numberOfLogin", numberOfLogin);
+						//applicationScope에 올려도 되는가?
+						if(appendScope || loginList.size() == 0) { 
+							loginList.add(dbUser);
+							
+							numberOfLogin++;
+							
+							ipLoginList.add(Ip);
+							
+							applicationScope.setAttribute("loginList", loginList);
+							applicationScope.setAttribute("numberOfLogin", numberOfLogin);
+							applicationScope.setAttribute("ipLoginList", ipLoginList);
+						}
 						for(User v : loginList) {
 							System.out.println("현제 접속자 목록 : " + v);
+						}
+						for(String v : ipLoginList) {
+							System.out.println("접속한 유저의 ip : " + v);
 						}
 						System.out.println("현제 접속자 : " + numberOfLogin);
 						
@@ -171,6 +198,9 @@ public class UserController {
 						
 					
 					} else {
+						
+						
+						
 						modelAndView.addObject("reason", "이미 로그인된 계정입니다.");
 						modelAndView.addObject("result", "Fail");
 						modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
@@ -202,13 +232,20 @@ public class UserController {
 		if(applicationScope.getAttribute("loginList") != null) {
 			loginList = (List<User>) applicationScope.getAttribute("loginList");
 		}
+		
+		List<String> ipLoginList = new ArrayList<String>();
+		
+		if(applicationScope.getAttribute("ipLoginList") != null) {
+			ipLoginList = (List<String>) applicationScope.getAttribute("ipLoginList");
+		}
+		
 		User user = userService.getUser(userId);
 		
-		boolean checkDe = false;
 		for(int i = 0; i < loginList.size(); i++) {
 			if(loginList.get(i).toString().equals(user.toString())) {
 				System.out.println("어 있엉~~~~~~~~~~~~~~~~~~~~~~~");
 				loginList.remove(i);
+				ipLoginList.remove(i);
 			}
 		}
 		
@@ -224,6 +261,7 @@ public class UserController {
 		
 		applicationScope.setAttribute("loginList", loginList);
 		applicationScope.setAttribute("numberOfLogin", numberOfLogin);
+		applicationScope.setAttribute("ipLoginList", ipLoginList);
 		//==================================================================================================================
 		
 		ModelAndView modelAndView = new ModelAndView();

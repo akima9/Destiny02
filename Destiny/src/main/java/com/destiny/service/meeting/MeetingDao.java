@@ -19,6 +19,12 @@ public interface MeetingDao {
 	
 	public Meeting getMeeting(int meetingNo)throws Exception;
 	
+	public int getAct(int meetingNo)throws Exception;
+	
+	public int getCrewCount(int meetingNo)throws Exception;
+	
+	public List<Meeting> getCrew(int meetingNo) throws Exception;
+	
 	public void updateViews(int meetingNo)throws Exception;
 	
 	public List<Meeting> getBestProduct() throws Exception;
@@ -26,5 +32,17 @@ public interface MeetingDao {
 	public void updateMeeting(Meeting meeting)throws Exception;
 	
 	public void updateContentsMeeting(Meeting meeting)throws Exception;
+	
+	public int addCrewM(Meeting meeting)throws Exception;
+	
+	public int addCrewAct(Meeting meeting)throws Exception;
+	
+	public int checkDuplicationCrew(Meeting meeting)throws Exception;
+	
+	public Meeting getActNo(Meeting meeting) throws Exception; /*참여할떄 참여번호 가져오기*/
+	
+	public Meeting getCrewNo(Meeting meeting) throws Exception; /*참여할떄 회원번호 가져오기*/
+	
+	public int DuplicationAct(Meeting meeting) throws Exception; /*참여할떄 중복체크*/
 	
 }
