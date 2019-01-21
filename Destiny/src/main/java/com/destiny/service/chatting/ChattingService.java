@@ -11,7 +11,7 @@ public interface ChattingService {
 	
 	public void addPerfectChatting(Chatting chatting) throws Exception;
 	
-	public Chatting getChatting(Chatting chatting) throws Exception;
+	public Chatting getChatting(String userId) throws Exception;
 	
 	public Map<String, Object> listContactMeeting(Chatting chatting) throws Exception;
 	

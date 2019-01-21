@@ -37,6 +37,9 @@
 	var firstType="${me.firstType}";
 	var secondType="${me.secondType}";
 	var thirdType="${me.thirdType}";
+	var manCount=0;
+	var womanCount=0;
+	
 	
 	function getTelepathyTest(){
 		if (userId=="") {
@@ -60,7 +63,66 @@
 				location = "/user/addTypeView";
 			}else{
 				//location = "/chatting/addPerfectChatting";
-				popWin = window.open("/chatting/addPerfectChatting","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+				///////////////////////////////////////////////
+				
+				$.ajax({	
+					
+					url : "/chatting/json/addPerfectChatting" ,
+					type : "GET" ,
+					dataType : "json" ,
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(JsonData) {
+						alert("성공");
+						//alert(JsonData.manList[0].userId);
+						//alert(JsonData.womanList[0].userId);
+						//alert(JsonData.manList.length);
+						
+						//manCount=JsonData.manList.length;
+						//womanCount=JsonData.womanList.length;
+						
+						popWin = window.open("/chatting/matching.jsp","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+						
+						
+						
+								/* if (manCount>0 && womanCount>0) {
+									alert("한명만 있는 경우");
+									popWin = window.open("/chatting/addPerfectChatting","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");	
+									condition=false;
+								} */
+						
+							
+						
+						
+						
+											},//success
+				      error: function () {
+				    	  alert("error");
+				      },
+				      complete: function () {
+				        // Handle the complete event
+				        //alert("complete");
+				      }
+					
+				});//ajax
+				
+				/* setTimeout(function() {
+					var m='${manList.size()}';
+					var w='${womanList.size()}';
+					var login='${loginList.size()}';
+					alert("manCount1"+m);
+					alert("womanCount1"+w);
+					alert(login);
+					}, 5000); */
+					
+					/* setInterval(function(){
+						alert("manCount1"+m);
+						alert("womanCount1"+w);}, 3000);	 */
+					
+						//popWin = window.open("/chatting/addPerfectChatting","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+				
 			}
 			
 		} 
