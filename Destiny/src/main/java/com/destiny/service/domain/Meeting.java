@@ -101,10 +101,19 @@ public class Meeting {
 		this.meetingLocation = meetingLocation;
 	}
 	public String getMeetingDate() {
+		if(meetingDate != null) {
 		return meetingDate.substring(0,10);
+		}else {
+			return meetingDate;
+		}
 	}
 	public void setMeetingDate(String meetingDate) {
-		this.meetingDate = meetingDate.substring(0,10);
+		if(meetingDate != null) {
+			this.meetingDate = meetingDate.substring(0,10);
+		}else {
+			this.meetingDate = meetingDate;
+		}
+		
 	}
 	public String getMeetingDay() {
 		return meetingDay;
