@@ -6,10 +6,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
@@ -28,6 +32,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.service.chatting.ChattingService;
+import com.destiny.service.domain.Chatting;
+import com.destiny.service.domain.Telepathy;
 import com.destiny.service.domain.User;
 import com.destiny.service.user.UserService;
 
@@ -44,6 +50,12 @@ public class ChattingRestController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+////여성 리스트와 남성 리스트를 담을 객체 생성
+	private List<User> womanList = new ArrayList<User>();
+	private List<User> manList = new ArrayList<User>();
+	private int no;
+	
 	
 		
 	
@@ -69,78 +81,6 @@ public class ChattingRestController {
 		modelAndView.setViewName("redirect:/chatting/mainChatting.jsp");
 		return modelAndView;
 	}
-	
-	
-	/*@RequestMapping(value="json/translate", method=RequestMethod.POST, consumes = "application/json")
-	public ModelAndView translate(Locale locale,  @RequestBody JSONObject body) throws Exception{
-		System.out.println("translate 연결");
-		 System.out.println(body);
-		 
-		 String userId=(String)body.get("userId");
-		 String text=(String)body.get("text");
-		 System.out.println("userId : "+userId);
-		 System.out.println("text : "+text);
-		 //////////////////번역/////////////////
-		 String query = URLEncoder.encode(text, "UTF-8");
-		 String target="en";
-		 String key="AIzaSyBFXIiBAU7QfCf0fwndqoR63wwS0P8kNDM";
-		 System.out.println("query : "+query+"target : "+target);
-		 
-		 String googleApi="https://translation.googleapis.com/language/translate/v2?q="+query+"&target="+target+"&model=nmt&key="+key;
-		
-			URL url = new URL(googleApi);
-	        HttpURLConnection con = (HttpURLConnection)url.openConnection();
-	        con.setRequestMethod("POST");
-	       
-	        // post request
-	        
-	        con.setDoOutput(true);
-	        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-	      
-	        wr.flush();
-	        wr.close();
-	        int responseCode = con.getResponseCode();
-	        BufferedReader br;
-	        if(responseCode==200) { // 정상 호출
-	            br = new BufferedReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
-	        } else {  // 에러 발생
-	            br = new BufferedReader(new InputStreamReader(con.getErrorStream(),"UTF-8"));
-	        }
-	        String inputLine;
-	        StringBuffer response = new StringBuffer();
-	        while ((inputLine = br.readLine()) != null) {
-	            response.append(inputLine);
-	        }
-	        JSONObject jsonobj = (JSONObject)JSONValue.parse(response.toString());
-			System.out.println(jsonobj.get("data").toString());
-			
-	         br.close();
-	         //System.out.println(response.toString());
-			
-	         JSONObject data=(JSONObject)jsonobj.get("data");
-	         JSONArray translations=(JSONArray)data.get("translations");
-	         JSONObject translationsArr= (JSONObject)translations.get(0);
-	         String transText=(String)translationsArr.get("translatedText");
-	       //  String translatedText=(String)translations.get(0).toString();
-	         System.out.println("translations"+(String)translations.toString());
-			System.out.println("translationsArr :"+translations.get(0).toString());
-			System.out.println("번역된 text :"+transText);
-		 ///////////////////////////////////////
-		JSONObject user = new JSONObject();
-        
-        user.put("userId",userId);
-        user.put("text", URLEncoder.encode(text, "UTF-8"));
-        user.put("transText", transText);
-        URLCOnn conn = new URLCOnn("http://192.168.0.28",83);
-        conn.urlPost(user);
-
-       
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("index");
-		//modelAndView.setViewName("redirect:/chatting/mainChatting.jsp");
-		return modelAndView;
-	}*/
 	
 	
 	
@@ -292,5 +232,192 @@ public class ChattingRestController {
 		System.out.println("번역된 text :"+transText);
 	 ///////////////////////////////////////
          return transText;	
+	}
+	
+	
+	
+	@RequestMapping(value="json/addPerfectChatting", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String,Object> addPerfectChatting(HttpSession session,HttpServletRequest request) throws Exception{
+		System.out.println("json/addPerfectChatting 들어옴");
+		
+		//===========================================현제 접속자 구현 로직 part=================================================
+		
+	
+		Chatting chatting=new Chatting();
+		ServletContext applicationScope = request.getSession().getServletContext();
+		Map<String, Object> map=new HashMap<String, Object>();
+		User user=(User)session.getAttribute("me");
+		System.out.println("user"+user);
+		ModelAndView modelAndView = new ModelAndView();
+		////user가로그인 한 경우
+	
+			////아이디로 user정보를 가져온다.
+			User dbUser=userService.getUser(user.getUserId());
+			
+			/////여성일 경우
+			if (user.getGender().equals("W")) {
+				if(applicationScope.getAttribute("womanList") != null) {
+					womanList = (List<User>) applicationScope.getAttribute("womanList");
+				}
+				womanList.add(dbUser);
+					
+				applicationScope.setAttribute("womanList", womanList);
+				
+				for(User v : womanList) {
+					System.out.println("현재  여성 접속자 목록 : " + v);
+					
+				}
+			}else {
+				//남성일 경우
+				if(applicationScope.getAttribute("manList") != null) {
+					manList = (List<User>) applicationScope.getAttribute("manList");
+				}
+				manList.add(dbUser);
+					
+				applicationScope.setAttribute("manList", manList);
+				
+				for(User v : manList) {
+					System.out.println("현재  남성 접속자 목록 : " + v);
+				}
+			}
+			
+			
+			System.out.println("manList.size() : "+manList.size()+"womanList.size() : "+womanList.size());
+			System.out.println("manList : "+manList+"womanList : "+womanList);
+			
+			String man=null;
+			String woman=null;
+			
+			int roomNo=0;
+			
+			if (manList.size()>no && womanList.size()>no) {
+				////////매칭된 아이디 2개 넣기
+				//		chatting.setManId(manId);
+				//		chatting.setWomanId(womanId);
+				/////////test
+				System.out.println("manList==womanList");
+				man=manList.get(no).getUserId();
+				woman=womanList.get(no).getUserId();
+				chatting.setManId(man);
+				chatting.setWomanId(woman);
+				chatting.setContactMeeting("N");
+				//addChatting
+				System.out.println("man  : "+man+"  woman : "+woman);
+				
+				
+				chattingService.addPerfectChatting(chatting);
+				
+				no++;
+				//womanList.remove(0);
+				//manList.remove(0);
+				////대기상태//////////////////////////////
+				
+				map.put("manList", manList);
+				map.put("womanList", womanList);
+			
+				
+				
+			}else {
+				System.out.println("아직");
+				map.put("manList", "아직");
+				map.put("womanList", "아직");
+			}
+			
+		
+			
+			
+			
+			
+					
+				
+		
+				
+			
+			
+			
+							
+		
+		
+		
+		
+		//====================================================================================================
+		
+		// user의 아이디필요 본인의 성격유형, 이상형 유형을 통해 매칭
+		
+		
+		return map;
+	}
+	
+	@RequestMapping(value="json/matching", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String,Object> matching(HttpSession session,HttpServletRequest request) throws Exception{
+		System.out.println("json/addPerfectChatting 들어옴");
+		
+		//===========================================현제 접속자 구현 로직 part=================================================
+		
+	
+		Chatting chatting=new Chatting();
+		Map<String, Object> map=new HashMap<String, Object>();
+		ServletContext applicationScope = request.getSession().getServletContext();
+		User user=(User)session.getAttribute("me");
+		System.out.println("user"+user);
+		String userId=user.getUserId();
+		ModelAndView modelAndView = new ModelAndView();
+		////user가로그인 한 경우
+	
+			////아이디로 user정보를 가져온다.
+			User dbUser=userService.getUser(user.getUserId());
+			
+			/////여성일 경우
+			if (user.getGender().equals("W")) {
+				if(applicationScope.getAttribute("womanList") != null) {
+					womanList = (List<User>) applicationScope.getAttribute("womanList");
+				}
+			
+				for(User v : womanList) {
+					System.out.println("현재  여성 접속자 목록 : " + v);
+					
+				}
+			}else {
+				//남성일 경우
+				if(applicationScope.getAttribute("manList") != null) {
+					manList = (List<User>) applicationScope.getAttribute("manList");
+				}
+				
+				for(User v : manList) {
+					System.out.println("현재  남성 접속자 목록 : " + v);
+				}
+			}
+			
+			
+			System.out.println("manList.size() : "+manList.size()+"womanList.size() : "+womanList.size());
+			System.out.println("manList : "+manList+"womanList : "+womanList);
+			String man=null;
+			String woman=null;
+			int roomNo=0;
+			
+			//get
+			System.out.println("getChatting");
+				Chatting resultChatting=chattingService.getChatting(userId);
+				//roomName은 ChattingNo로 지정
+				roomNo=resultChatting.getChattingNo();
+				System.out.println("resultChatting : "+resultChatting);
+				System.out.println("roomNo : "+roomNo);
+				man=resultChatting.getManId();
+				woman=resultChatting.getWomanId();
+				map.put("womanId", woman);
+				map.put("manId", man);
+				map.put("roomNo", roomNo);
+			
+		
+			
+			
+		//====================================================================================================
+		
+		// user의 아이디필요 본인의 성격유형, 이상형 유형을 통해 매칭
+		
+		
+		return map;
 	}
 }

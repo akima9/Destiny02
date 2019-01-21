@@ -39,9 +39,9 @@ public class ChattingDaoImpl implements ChattingDao {
 	}
 	
 	@Override
-	public Chatting getChatting(Chatting chatting) throws Exception {
-		sqlSession.selectOne("ChattingMapper.getChatting", chatting);
-		return sqlSession.selectOne("ChattingMapper.getChatting", chatting);
+	public Chatting getChatting(String userId) throws Exception {
+		sqlSession.selectOne("ChattingMapper.getChatting", userId);
+		return sqlSession.selectOne("ChattingMapper.getChatting", userId);
 	}
 
 	@Override

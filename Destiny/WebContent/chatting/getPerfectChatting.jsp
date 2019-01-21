@@ -50,6 +50,7 @@
 			var data2={"message":data1,"lang":lang};
 			var transText='';
 			
+		   /////////////////////
 			//alert(message);
 			//alert(lang);
 			if (username!="SERVER : ") {
@@ -81,22 +82,18 @@
 				});//ajax
 				//return false;
 				trans.done(function(Data) {
-					//alert("여기");
-					//alert("다른 사람 message");
-					//Debug...
-					//alert(status);
-					
-					//alert(JSONData.translations[0].translatedText);
 				////////////////////////////번역끝////////
+					//Debug...
+					//alert("다른 사람 message");
 					
-					//$('#conversation').append('<div>'+username + '<br> ' + message +'<br>'+JSONData.translations[0].translatedText+'</div><br>');
 					$('#conversation').append('<div>'+username + '<br> ' + message +'<br>'+Data+'</div><br>');
-
+					
 
 				})
 			}else{
 				//alert("server message");
 				$('#conversation').append('<div>'+username + '<br> ' + data1 +'<br>');
+			
 			}
 			 
 			
@@ -113,6 +110,11 @@
 			$('#conversation').append('<div style = "text-align:right;">'+username + '<br> ' + data1 + '</div><br>');
 			
 		}
+		
+
+		$('#conversation').scrollTop($('#conversation').height());
+
+		
 		
 	});
 	// listener, whenever the server emits 'updaterooms', this updates the room the client is in
@@ -186,7 +188,7 @@
  
 
 <div id='chat_box'></div>
-<div id="conversation"></div>
+<div id="conversation" style="overflow: auto;"></div>
 		<div class="form-group">
 	  		<label for="lang" class="col-sm-offset-1 col-sm-1 col-md-2 control-label">언어</label>
 			
