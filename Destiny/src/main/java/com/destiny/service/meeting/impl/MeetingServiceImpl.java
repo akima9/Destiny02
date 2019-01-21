@@ -67,7 +67,26 @@ public class MeetingServiceImpl implements MeetingService {
 	public Meeting getMeeting(int meetingNo) throws Exception {
 		return meetingDao.getMeeting(meetingNo);
 	}
+	
+	@Override
+	public int getAct(int meetingNo) throws Exception {
+		return meetingDao.getAct(meetingNo);
+	}
+	
+	@Override
+	public int getCrewCount(int meetingNo) throws Exception {
+		return meetingDao.getCrewCount(meetingNo);
+	}
 
+	@Override
+	public Map<String, Object> getCrew(int meetingNo) throws Exception {
+		List<Meeting> crewList= meetingDao.getCrew(meetingNo);
+		
+		Map<String, Object> crewMap = new HashMap<String, Object>();
+		crewMap.put("crewList", crewList );
+		return crewMap;
+	}
+	
 	@Override
 	public void updateViews(int meetingNo) throws Exception {
 		meetingDao.updateViews(meetingNo);
@@ -93,6 +112,43 @@ public class MeetingServiceImpl implements MeetingService {
 		meetingDao.updateContentsMeeting(meeting);
 		
 	}
+
+	@Override
+	public int addCrewM(Meeting meeting) throws Exception {
+		return meetingDao.addCrewM(meeting);
+		
+	}
+
+	@Override
+	public int checkDuplicationCrew(Meeting meeting) throws Exception {
+		return meetingDao.checkDuplicationCrew(meeting);
+	}
+
+	@Override
+	public int addCrewAct(Meeting meeting) throws Exception {
+		return meetingDao.addCrewAct(meeting);
+	}
+
+	@Override
+	public Meeting getActNo(Meeting meeting) throws Exception {
+		return meetingDao.getActNo(meeting);
+	}
+
+	@Override
+	public Meeting getCrewNo(Meeting meeting) throws Exception {
+		return meetingDao.getCrewNo(meeting);
+	}
+
+	@Override
+	public int DuplicationAct(Meeting meeting) throws Exception {
+		return meetingDao.DuplicationAct(meeting);
+	}
+
+	
+
+	
+
+	
 
 	
 

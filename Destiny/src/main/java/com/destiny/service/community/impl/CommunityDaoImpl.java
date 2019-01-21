@@ -66,23 +66,33 @@ public class CommunityDaoImpl implements CommunityDao{
 	}
 
 	@Override
-	public void likeCommunity(int communityNo) throws Exception {
-		sqlSession.update("CommunityMapper.likeCommunity", communityNo);
+	public void addLikeCommunity(int communityNo) throws Exception {
+		sqlSession.update("CommunityMapper.addLikeCommunity", communityNo);
+	}
+	
+	@Override
+	public void subLikeCommunity(int communityNo) throws Exception {
+		sqlSession.update("CommunityMapper.subLikeCommunity", communityNo);
+	}
+	
+	@Override
+	public LikeCount checkId(LikeCount likeCount) throws Exception {
+		return sqlSession.selectOne("LikeCountMapper.checkId", likeCount);
 	}
 
 	@Override
-	public void addLikecount(LikeCount likecount) throws Exception {
-		sqlSession.insert("LikeCountMapper.addLikecount", likecount);
+	public void addLikeCount(LikeCount likeCount) throws Exception {
+		sqlSession.insert("LikeCountMapper.addLikeCount", likeCount);
 	}
 
 	@Override
-	public void updateLikecount(LikeCount likecount) throws Exception {
-		sqlSession.update("LikeCountMapper.updateLikecount", likecount);
+	public void updateLikeCount(LikeCount likeCount) throws Exception {
+		sqlSession.update("LikeCountMapper.updateLikeCount", likeCount);
 	}
 
 	@Override
-	public LikeCount getLikecount(int likecountNo) throws Exception {
-		return sqlSession.selectOne("LikeCountMapper.getLikecount", likecountNo);
+	public LikeCount getLikeCount(int likeCountNo) throws Exception {
+		return sqlSession.selectOne("LikeCountMapper.getLikeCount", likeCountNo);
 	}
 
 	@Override

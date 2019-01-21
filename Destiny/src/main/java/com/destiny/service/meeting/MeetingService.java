@@ -19,6 +19,12 @@ public interface MeetingService {
 	
 	public Meeting getMeeting(int meetingNo) throws Exception; /*상세보기 */
 	
+	public int getAct(int meetingNo) throws Exception; /*상세보기 갈때 엑트 가져가기 */
+	
+	public int getCrewCount(int meetingNo) throws Exception; /*상세보기 멤버수*/
+	
+	public Map<String , Object> getCrew(int meetingNo) throws Exception; /*상세보기 멤버 리스트*/
+	
 	public void updateViews(int meetingNo) throws Exception; /*상세보기 들어갈때 조회수 올려주기*/
 	
 	public Map<String , Object> getBestProduct() throws Exception; /*리스트 불러올떄 베스트 테이브 불러오기*/
@@ -26,5 +32,17 @@ public interface MeetingService {
 	public void updateMeeting(Meeting meeting) throws Exception; /*모임 삭제될떄 상태값 변경*/
 	
 	public void updateContentsMeeting(Meeting meeting) throws Exception; /*모임 수정*/
+	
+	public int addCrewM(Meeting meeting) throws Exception; /*모임원 리스트에 업데이트*/
+	
+	public int addCrewAct(Meeting meeting) throws Exception; /*참여원 리스트에 업데이트*/
+	
+	public int checkDuplicationCrew(Meeting meeting) throws Exception; /*가입할떄 중복체크*/
+	
+	public Meeting getActNo(Meeting meeting) throws Exception; /*참여할떄 참여번호 가져오기*/
+	
+	public Meeting getCrewNo(Meeting meeting) throws Exception; /*참여할떄 회원번호 가져오기*/
+	
+	public int DuplicationAct(Meeting meeting) throws Exception; /*참여할떄 중복체크*/
 	
 }

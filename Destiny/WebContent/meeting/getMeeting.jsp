@@ -51,6 +51,16 @@
 		    z-index: 11;
 		    padding: 10px;
 		}
+		
+		#dialog2 {
+		    display: none;
+		    position: fixed;
+		    left: calc( 50% - 160px ); top: calc( 30% - 70px );
+		    width: 350px; height: 350px; 
+		    background: gainsboro;
+		    z-index: 11;
+		    padding: 10px;
+		}
      </style>
      
      <style>
@@ -152,7 +162,7 @@
 				return;
 			}
 			
-			if (confirm("모임을 등록하시겠습니까?") == true){    //확인
+			if (confirm("내용을 수정하시겠습니까?") == true){    //확인
 				 
 				$("form").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
 
@@ -165,6 +175,57 @@
 			 }
 			//alert("모임이 등록되었습니다.");
 		}
+		///////////* 수정하기에서 확인누르면 이벤트 처리 *//////////////
+		$(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
+			 $( "button.btn.btn-primary" ).on("click" , function() {
+				//Debug..
+				//alert(  $( "td.ct_btn01:contains('등록')" ).html() );
+				fncAddProduct();
+			});
+		});
+		
+		///////////* 가입하기에서 확인누르면 이벤트 처리 *//////////////
+		$(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
+			 $( "button.btn.btn-success" ).on("click" , function() {
+				 //var meetingNo = ${meeting.meetingNo};
+				// var meetingMasterId= ${sessionScope.me.userId};
+				//alert("호잇!");
+				  $.ajax( 
+							{
+								url : "/meetingRest/addCrewM",
+								method : "post" ,
+								dataType : "json" ,
+								data : JSON.stringify({
+									meetingNo : "${meeting.meetingNo}" ,
+									meetingMasterId : "${sessionScope.me.userId}", 
+									interviewTitle : $("#interviewTitle").val(),
+									interview : $("#interview").val()
+									
+								}),
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(JSONData , status) {
+									if(JSONData==5018){
+										alert("이미 가입하셨습니다.");
+										$("#dialog2form")[0].reset();
+										$("#dialog2").toggle();
+									}else{
+										alert("가입 신청이 완료되었습니다.");
+										//window.opener.location.reload(false);
+										$("#dialog2form")[0].reset();
+										$("#dialog2").toggle();
+									}
+								}
+				});
+				 
+			});
+		});
 		
 		$(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -261,11 +322,23 @@
 		//============= 회원정보수정 Event  처리 =============	
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button:contains('확인')" ).on("click" , function() {
+			/*  $( "button:contains('확인')" ).on("click" , function() {
 				 self.location = "/product/listProduct?menu=${param.menu}"
-				});
+				}); */
 			  	$( "button:contains('신고')" ).on("click" , function() {
-				 self.location = "/complain/addComplain?meetingNo=${meeting.meetingNo}"
+			  		if(${empty sessionScope.me}){
+						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+							$("#my-dialog,#dialog-background").toggle();
+							//self.location="/user/login";
+						 }else{   //취소
+
+						     return;
+
+						 }
+					}else{
+						self.location = "/complain/addComplain?meetingNo=${meeting.meetingNo}"
+					}
+				 
 				}); 
 			/*  $( "button:contains('삭제')" ).on("click" , function() {
 				 //history.go(-1);
@@ -288,6 +361,78 @@
 		 $( function() {
 				$("#pushCancle").click(function () {
 					$("#dialog").toggle();
+				});
+			});
+		 //////////////////* 가입하기 눌렀을때 로그인 확인 이벤트 처리  *////////////////
+		 $( function() {
+				$("button:contains('가입하기')").click(function () {
+					if(${empty sessionScope.me}){
+						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+							$("#my-dialog,#dialog-background").toggle();
+							//self.location="/user/login";
+						 }else{   //취소
+
+						     return;
+
+						 }
+					}else{
+						$("#dialog2").toggle();
+					}
+				});
+			});
+		 /* 참여하기 눌렀을때 이벤트 처리부분 */
+		 $( function() {
+				$("button:contains('참여하기')").click(function () {
+					if(${empty sessionScope.me}){
+						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+							$("#my-dialog,#dialog-background").toggle();
+							//self.location="/user/login";
+						 }else{   //취소
+
+						     return;
+
+						 }
+					}else{
+						
+						$.ajax( 
+						 {
+								url : "/meetingRest/addActList",
+								method : "post" ,
+								dataType : "json" ,
+								data : JSON.stringify({
+									meetingNo : "${meeting.meetingNo}" ,
+									meetingMasterId : "${sessionScope.me.userId}", 
+									
+								}),
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(JSONData , status) {
+									if(JSONData==5018){
+										if (confirm("모임원만 참여가능합니다.\n가입하시겠습니까?") == true){    //확인
+											$("#dialog2").toggle();
+										 }else{   //취소
+										     return;
+										 }
+									}else if(JSONData==486){
+										alert("이미 참여하셨습니다.");
+									}
+									else{
+										alert("${meeting.meetingName} ${meetingAct} 회\n모임에 참여되었습니다.");
+										
+									}
+								}
+						}); 
+						
+					}
+					
+				});
+			});
+		 
+		 $( function() {
+				$("#pushCancle2").click(function () {
+					$("#dialog2").toggle();
 				});
 			});
 		
@@ -529,7 +674,7 @@
 		  	<img src="/resources/images/meeting/${meeting.titleImg}" width="600px" height="500px"/>
 		  </div>
 		  
-		  <div class="col-md-5">
+		  <div class="col-md-12">
 		  
 		  	<div class="row">
 	  			<div class="col-xs-4 col-md-3"><strong>모임설명</strong></div><hr/>
@@ -544,65 +689,63 @@
 			</div>
 			
 			<hr/>
-			
-			<div class="row">
-		  		<div class="col-xs-5 col-md-3 "><strong>주소</strong></div>
-				<div class="col-xs-7 col-md-9">${product.prodAddress}</div>
-			</div>
-			
-			<hr/>
-			
-			<div class="row">
-		  		<div class="col-xs-5 col-md-3 "><strong>상품상세정보</strong></div>
-				<div class="col-xs-7 col-md-9">${product.prodDetail}</div>
-			</div>
-			
-			<hr/>
-			
-			<div class="row">
-		  		<div class="col-xs-5 col-md-3"><strong>유효기간</strong></div>
-				<div class="col-xs-7 col-md-3">${product.manuDate}</div>
-			</div>
-			
-			<hr/>
-			
-			<div class="row">
-		  		<div class="col-xs-5 col-md-3 "><strong>가격</strong></div>
-				<div class="col-xs-7 col-md-3">${product.price}</div>
-			</div>
-			
-			<hr/>
-			
-			<div class="row">
-		  		<div class="col-xs-5 col-md-3 "><strong>등록일자</strong></div>
-				<div class="col-xs-7 col-md-3">${product.regDate}</div>
-			</div>
-			
-			<br/>
-			
-			
-			<div class="row">
-				<div class="col-md-12 text-center ">
-				<c:if test="${param.menu=='ok'}">
-			  		<button type="button" class="btn btn-primary">확인</button>
-			  	</c:if>
-			  	<c:if test='${param.menu=="search"}'>
-			  		<c:if test="${user.role=='user'}">
-			  		<%-- <c:if test=" ${user != null && user.role=='admin'} || prodTranCode==''  "> --%>
-			  			<c:if test="${product.proTranCode==null}">
-			  				<button type="button" class="btn btn-primary">구매</button>
-			  			</c:if>
-			  		</c:if>
-			  		<button type="button" class="btn btn-primary">이전</button>
-			  	</c:if>
-			  	</div>
-			</div>
 		  </div>
 		</div>
 		
-		<hr/><hr/><hr/>
+		<hr/>
+		${meetingAct}회차 모임 일정<br/>
+		${meeting.meetingDate} ${meeting.meetingTime }<br/>
+		${meeting.meetingLocation}<br/>
+		${meeting.meetingDues}<br/>
+		<button>참여하기</button>
+		<hr/>
+		<button>가입하기</button>
+		<!-- 모달창 디자인 부분 -->
+        <div id="dialog2">
+        <form id="dialog2form" class="form-horizontal">
+        	<div name="meetingMasterId" value="${sessionScope.me.userId}" class="form-group col-sm-12 col-md-12" align="center">
+        		<img src="/resources/images/userprofile/${sessionScope.me.profile}" width="100px" height="100px">
+        	</div>
+        	
+        	<div class="form-group col-sm-12 col-md-12" align="center">
+        		${sessionScope.me.nickName}
+        	</div>
+        	
+        	<div class="form-group col-sm-12 col-md-12" align="center">
+        		<textarea id="interviewTitle" class="form-control" cols="100" rows="1" 
+		 	 placeholder="제목을 입력해주세요" ></textarea>
+        	</div>
+        	
+        	<div class="form-group col-sm-12 col-md-12" align="center">
+		 	<textarea id="interview" class="form-control" cols="100" rows="3" 
+		 	 placeholder="내용을 입력해주세요" ></textarea>
+		 	</div>
+	        <div class="form-group col-sm-12 col-md-12" align="center">
+	         <button type="button" class="btn btn-success"  >확 &nbsp;인</button>
+	         <a class="btn btn-primary btn" id="pushCancle2" role="button">취&nbsp;소</a>
+	         </div>
+        </form>
+        <!-- 모달창 디자인 부분  끝-->
+        </div>
+		<hr/>
+		<hr/>
+		<div >
+			모임멤버${crewCount}명
+			<input type="checkbox">로그인된 멤버만 보기<br/>
+			<c:forEach var="crew" items="${crewList}">
+		 		<img class="first-slide" src="/resources/images/userprofile/${crew.masterProfileImg}" width="100px" height="100px"> ${crew.crewNickName}
+		 		<c:if test="${crew.role=='MST' }">
+					모임장
+		 		</c:if>
+		 		<br/>
+			
+			</c:forEach>
+		</div>
+		<hr/>
 		
-		<div id="map" style="width:800px;height:400px;"></div>
+		
+		
+		<!-- <div id="map" style="width:800px;height:400px;"></div>
 		<script>
 			var infowindow = new daum.maps.InfoWindow({zIndex:1});
 		
@@ -664,7 +807,7 @@
 	
 	<hr/><hr/><hr/>
 	
-	<!-- <div id="map" style="width:100%;height:350px;"></div>
+	<div id="map" style="width:100%;height:350px;"></div>
 	<script>
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 		    mapOption = { 

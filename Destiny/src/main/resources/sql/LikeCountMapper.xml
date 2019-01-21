@@ -8,17 +8,23 @@
  	
  	
 	<resultMap id="likecountSelectMap" type="com.destiny.service.domain.LikeCount">
-		<result property="likecountNo" 				column="likecount_no" 					jdbcType="NUMERIC"/>
-		<result property="likecountId"				column="likecount_id" 					jdbcType="VARCHAR" />
-		<result property="likecountCommunityNo" 	column="likecount_community_no" 		jdbcType="NUMERIC" />
-		<result property="likecountCheck" 			column="likecount_check" 				jdbcType="CHAR" />
+		<result property="likeCountNo" 				column="likecount_no" 					jdbcType="NUMERIC"/>
+		<result property="likeCountId"				column="likecount_id" 					jdbcType="VARCHAR" />
+		<result property="likeCountCommunityNo" 	column="likecount_community_no" 		jdbcType="NUMERIC" />
+		<result property="likeCountCheck" 			column="likecount_check" 				jdbcType="CHAR" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
-	<insert id="addLikecount" parameterType="com.destiny.service.domain.LikeCount" >
+	<select id="checkId" parameterType="com.destiny.service.domain.LikeCount" resultMap="likecountSelectMap" >
+	 	SELECT * FROM likeCount 
+	 	WHERE likecount_id = #{likeCountId} AND likecount_community_no = #{likeCountCommunityNo}
+	</select>
+	
+	<!-- SQL : INSERT -->
+	<insert id="addLikeCount" parameterType="com.destiny.service.domain.LikeCount" >
 	 	INSERT
 		INTO likecount( likecount_no, likecount_id, likecount_community_no, likecount_check) 
-		VALUES( seq_likecount_no.nextval, #{likecountId}, #{likecountCommunityNo}, '1')
+		VALUES( seq_likecount_no.nextval, #{likeCountId}, #{likeCountCommunityNo}, 'Y')
 	</insert>
 	
 	<!-- SQL : SELECT ONE -->
@@ -30,17 +36,12 @@
 	 </select> -->
 	
 	<!-- SQL : UPDATE -->
-	 <update id="updateLikecount"	parameterType="com.destiny.service.domain.LikeCount" >
+	 <update id="updateLikeCount"	parameterType="com.destiny.service.domain.LikeCount" >
 	   	UPDATE likecount
 	   	<set>
-	   		<if test="likecountCheck == 1">
-	   			likecount_check = '0'
-	   		</if>
-			<if test="likecountCheck == 0">
-	   			likecount_check = '1'
-	   		</if>
+	   		likecount_check = #{likeCountCheck}
 	   	</set>
-	   	WHERE likecount_community_no = #{likecountCommunityNo} AND likecount_id = #{likecountId}
+	   	WHERE likecount_community_no = #{likeCountCommunityNo} AND likecount_id = #{likeCountId}
 	 </update>
 	 
 </mapper>

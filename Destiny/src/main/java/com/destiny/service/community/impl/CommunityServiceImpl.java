@@ -70,23 +70,33 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public void likeCommunity(int communityNo) throws Exception {
-		communityDao.likeCommunity(communityNo);
+	public void addLikeCommunity(int communityNo) throws Exception {
+		communityDao.addLikeCommunity(communityNo);
+	}
+	
+	@Override
+	public void subLikeCommunity(int communityNo) throws Exception {
+		communityDao.subLikeCommunity(communityNo);
+	}
+	
+	@Override
+	public LikeCount checkId(LikeCount likeCount) throws Exception {
+		return communityDao.checkId(likeCount);
 	}
 
 	@Override
-	public void addLikecount(LikeCount likecount) throws Exception {
-		communityDao.addLikecount(likecount);
+	public void addLikeCount(LikeCount likeCount) throws Exception {
+		communityDao.addLikeCount(likeCount);
 	}
 
 	@Override
-	public void updateLikecount(LikeCount likecount) throws Exception {
-		communityDao.updateLikecount(likecount);
+	public void updateLikeCount(LikeCount likeCount) throws Exception {
+		communityDao.updateLikeCount(likeCount);
 	}
 
 	@Override
-	public LikeCount getLikecount(int likecountNo) throws Exception {
-		return communityDao.getLikecount(likecountNo);
+	public LikeCount getLikeCount(int likeCountNo) throws Exception {
+		return communityDao.getLikeCount(likeCountNo);
 	}
 
 	@Override

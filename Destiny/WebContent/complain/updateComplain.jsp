@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-	<title>AddComplainConfirm</title>
+	<title>우리들의 연결고리</title>
 		<!-- 참조 : http://getbootstrap.com/css/   -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		
@@ -16,19 +16,34 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 		
 		<script type="text/javascript">
-			$(function() {	
-				var communityNo = ${community.communityNo};
-				console.log(communityNo);
-				var meetingNo = ${meeting.meetingNo};
-				console.log(meetingNo);
+			$(function() {
 				
-				$( "button:contains('확인')" ).on("click" , function() {
-					if(communityNo != 0){
-						$("form").attr("method" , "POST").attr("action" , "/info/listRestaurantInfo").submit();
-					}else if(meetingNo != 0){
-						$("form").attr("method" , "POST").attr("action" , "/meeting/listMeeting").submit();
+				/* 글 제목 마우스 오버 : start */
+				$(".getComplainLink").on("mouseover",function(){
+					$(".getComplainLink").css("cursor","pointer")
+				});
+				/* 글 제목 마우스 오버 : end */
+				
+				/* 글 제목 클릭 : start */
+				$(".getComplainLink").on("click", function(){
+					var communityNo = $(this).data("param");
+					var meetingNo = $(this).data("param1");
+					
+					if(meetingNo == null){
+						if(${community.category == "RES"}){
+							self.location="/info/getRestaurantInfo?communityNo="+communityNo
+						} 
+						
+					}else if(communityNo == null){
+						self.location="/meeting/getMeeting?meetingNo="+meetingNo
 					}
 					
+				});
+				/* 글 제목 클릭 : end */
+				
+				$( "button:contains('확인')" ).on("click" , function() {
+					alert("처리를 완료하시겠습니까?");
+					$("form").attr("method" , "POST").attr("action" , "/complain/updateComplain?complainNo=${complain.complainNo}").submit();
 				});
 				
 			});
@@ -45,47 +60,40 @@
 	<div class="container">
 	
 		<div class="row text-center">
-			<h1>신고확인</h1>
+			<h1>신고처리</h1>
 		</div>
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
-		<%-- <input type="hidden" name="communityNo" value="${community.communityNo}"/> --%>
+		<input type="hidden" name="complainNo" value="${complain.complainNo}"/>
+		<input type="hidden" name="defendantId" value="${complain.defendantId}"/>
 		
 			<div class="row">
 			
 				<div class="col-xs-4 col-md-2"><strong>신고자</strong></div>
-			  	<c:if test="${community.communityNo != 0}">
-					<div class="col-xs-8 col-md-4" name="complainType"> ${community.communityNo} </div>
-				</c:if>
-				<c:if test="${meeting.meetingNo != 0}">
-					<div class="col-xs-8 col-md-4" name="complainType"> ${meeting.meetingNo} </div>
-				</c:if>
+				<div class="col-xs-8 col-md-4" name="complainType"> ${complain.complainerId} ( ${user.warningCount} )</div>
 			</div>
 				
 			<hr/>
 				
 			<div class="row">
 		  		<div class="col-xs-4 col-md-2"><strong>작성자</strong></div>
-			  	<c:if test="${community.communityNo != 0}">
-					<div class="col-xs-8 col-md-4" name="complainType"> ${community.writerId} </div>
-				</c:if>
-				<c:if test="${meeting.meetingNo != 0}">
-					<div class="col-xs-8 col-md-4" name="complainType"> ${meeting.meetingMasterId} </div>
-				</c:if>
+				<div class="col-xs-8 col-md-4" name="complainType"> ${complain.defendantId} (${user.warningCount}) </div>
 			</div>
 				
 			<hr/>
 			
 			<div class="row">
 				<%-- 게시글:제목 / 댓글:내용 / 모임:모임명 --%>
-				<c:if test="${community.communityNo != 0}">
+				<c:if test="${complain.complainKind == 'BD'}">
 			  		<div class="col-xs-4 col-md-2"><strong>제목</strong></div>
+			  		<div class="col-xs-8 col-md-4 getComplainLink" name="complainDetail" data-param="${complain.communityNo}"> ${complain.complainDetail} </div>
 				</c:if>
-				<c:if test="${meeting.meetingNo != 0}">
+				<c:if test="${complain.complainKind == 'MT'}">
 			  		<div class="col-xs-4 col-md-2"><strong>모임명</strong></div>
+			  		<div class="col-xs-8 col-md-4 getComplainLink" name="complainDetail" data-param1="${complain.meetingNo}"> ${complain.complainDetail} </div>
 				</c:if>
-				<div class="col-xs-8 col-md-4" name="complainDetail"> ${complain.complainDetail} </div>
+				
 				
 			</div>
 				
@@ -112,9 +120,20 @@
 			
 			<hr/>
 			
+			<div class="row">
+		  		<div class="col-xs-4 col-md-2"><strong>신고처리</strong></div>
+				<div class="col-xs-8 col-md-4">
+					<input type="radio" class="complainCondition" name="complainCondition" value='NOT'>무고</input>
+					<input type="radio" class="complainCondition" name="complainCondition" value='WAR'>경고</input>
+					<input type="radio" class="complainCondition" name="complainCondition" value='BLK'>블랙리스트</input>
+				</div>
+			</div>
+			
+			<hr/>
+			
 			<div class="form-group text-center">
 				
-				<button type="button" class="btn btn-default btn-lg" id="save">확인</button>
+				<button type="button" class="btn btn-default btn-mg">확인</button>
 					
 			</div>
 			
