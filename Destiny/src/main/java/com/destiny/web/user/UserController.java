@@ -120,6 +120,7 @@ public class UserController {
 						if(ipLoginList.get(i).equals(Ip)) {
 							System.out.println("같은 ip에서의 접근입니다. ");
 						} else {
+							System.out.println("다른 ip에서의 접근입니다. ");
 							checkDe = true;
 						}
 					} else {
@@ -135,7 +136,7 @@ public class UserController {
 						session.setAttribute("me", dbUser);
 						
 						//applicationScope에 올려도 되는가?
-						if(appendScope) { 
+						if(appendScope || loginList.size() == 0) { 
 							loginList.add(dbUser);
 							
 							numberOfLogin++;

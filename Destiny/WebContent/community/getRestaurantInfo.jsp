@@ -218,6 +218,10 @@
 				
 			</div>
 		</div>
+		
+		<!-- ´ñ±Û : start -->
+		<jsp:include page="/comment/addComment.jsp" />
+		<!-- ´ñ±Û : end -->
 	
 	</div>
 

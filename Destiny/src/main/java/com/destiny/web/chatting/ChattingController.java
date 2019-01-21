@@ -1,5 +1,8 @@
 package com.destiny.web.chatting;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +79,7 @@ public class ChattingController {
 				
 				ServletContext applicationScope = request.getSession().getServletContext();
 				User user=(User)session.getAttribute("me");
+				String userId=user.getUserId();
 				System.out.println("user"+user);
 				ModelAndView modelAndView = new ModelAndView();
 				////user가로그인 한 경우
@@ -131,11 +135,15 @@ public class ChattingController {
 						chattingService.addPerfectChatting(chatting);
 						
 						//getChatting NO
-						Chatting resultChatting=chattingService.getChatting(chatting);
+						Chatting resultChatting=chattingService.getChatting(userId);
 						//roomName은 ChattingNo로 지정
 						roomNo=resultChatting.getChattingNo();
 						System.out.println("resultChatting : "+resultChatting);
 						System.out.println("roomNo : "+roomNo);
+						
+						////대기상태//////////////////////////////
+						
+						//////////////////////////////////
 						/////////////////////////////////////////
 						//이심전심문항
 						Map<String, Object> map=chattingService.listTelepathy(roomNo);
@@ -143,6 +151,7 @@ public class ChattingController {
 						List<Telepathy> list01=(List<Telepathy>)map.get("list");
 						System.out.println(list01);
 						/////////////////////////////////////
+					
 						modelAndView.setViewName("/chatting/getTelepathyTest.jsp");
 						modelAndView.addObject("result", "Success");
 						modelAndView.addObject("womanId", woman);
@@ -152,7 +161,9 @@ public class ChattingController {
 					
 						womanList.remove(0);
 						manList.remove(0);
-					}	
+					}else {
+						
+					}
 
 						
 					
@@ -207,7 +218,14 @@ public class ChattingController {
 		Chatting chatting=new Chatting();
 		
 		ServletContext applicationScope = request.getSession().getServletContext();
+		if(applicationScope.getAttribute("womanList") != null) {
+			womanList = (List<User>) applicationScope.getAttribute("womanList");
+		}
+		if(applicationScope.getAttribute("manList") != null) {
+			manList = (List<User>) applicationScope.getAttribute("manList");
+		}
 		User user=(User)session.getAttribute("me");
+		String userId=user.getUserId();
 		System.out.println("user"+user);
 		ModelAndView modelAndView = new ModelAndView();
 		////user가로그인 한 경우
@@ -215,32 +233,8 @@ public class ChattingController {
 			////아이디로 user정보를 가져온다.
 			User dbUser=userService.getUser(user.getUserId());
 			
-			/////여성일 경우
-			if (user.getGender().equals("W")) {
-				if(applicationScope.getAttribute("womanList") != null) {
-					womanList = (List<User>) applicationScope.getAttribute("womanList");
-				}
-				womanList.add(dbUser);
-					
-				applicationScope.setAttribute("womanList", womanList);
-				
-				for(User v : womanList) {
-					System.out.println("현재  여성 접속자 목록 : " + v);
-					
-				}
-			}else {
-				//남성일 경우
-				if(applicationScope.getAttribute("manList") != null) {
-					manList = (List<User>) applicationScope.getAttribute("manList");
-				}
-				manList.add(dbUser);
-					
-				applicationScope.setAttribute("manList", manList);
-				
-				for(User v : manList) {
-					System.out.println("현재  남성 접속자 목록 : " + v);
-				}
-			}
+		
+			
 			//////////////////////////////
 			////이상형 매칭
 			//////////////////////////////
@@ -249,38 +243,63 @@ public class ChattingController {
 			int roomNo=0;
 			System.out.println("manList.size() : "+manList.size()+"womanList.size() : "+womanList.size());
 			System.out.println("manList : "+manList+"womanList : "+womanList);
-			if (manList.size()>0 && womanList.size()>0) {
-				////////매칭된 아이디 2개 넣기
-				//		chatting.setManId(manId);
-				//		chatting.setWomanId(womanId);
-				/////////test
-				System.out.println("manList==womanList");
-				woman=womanList.get(0).getUserId();
-				man=manList.get(0).getUserId();
-				//addChatting
-				System.out.println("man  : "+man+"  woman : "+woman);
-				chatting.setManId(man);
-				chatting.setWomanId(woman);
-				chatting.setContactMeeting("N");
+		
+			//남녀매칭////////////////////////
+//			MyThreadTask task1 = new MyThreadTask();
+//			MyThreadTask task2 = new MyThreadTask();
+//			MyThreadTask task3 = new MyThreadTask();
+//
+//			Thread thread1 = new Thread(task1,"firstThread");
+//			Thread thread2 = new Thread(task2,"secondThread");
+//			Thread thread3 = new Thread(task3,"thirdThread");
+//			thread1.start();
+//			thread2.start();
+//			thread3.start();
+					if(manList.size()>0 && womanList.size()>0) {
+						////////매칭된 아이디 2개 넣기
+						//		chatting.setManId(manId);
+						//		chatting.setWomanId(womanId);
+						/////////test
+						try{ 
+							System.out.println("manList==womanList");
+							woman=womanList.get(0).getUserId();
+							man=manList.get(0).getUserId();
+							//addChatting
+							System.out.println("man  : "+man+"  woman : "+woman);
+							chatting.setManId(man);
+							chatting.setWomanId(woman);
+							chatting.setContactMeeting("N");
+							
+							chattingService.addPerfectChatting(chatting);
+							
+							//getChatting NO
+							Chatting resultChatting=chattingService.getChatting(userId);
+							//roomName은 ChattingNo로 지정
+							roomNo=resultChatting.getChattingNo();
+							System.out.println("resultChatting : "+resultChatting);
+							System.out.println("roomNo : "+roomNo);
+							
+							modelAndView.setViewName("/chatting/getPerfectChatting.jsp");
+							modelAndView.addObject("result", "Success");
+							modelAndView.addObject("womanId", woman);
+							modelAndView.addObject("manId", man);
+							modelAndView.addObject("roomNo", roomNo);
+							womanList.remove(0);
+							manList.remove(0);
+							
+					     } catch (Exception e){
+					      e.printStackTrace();
+					      
+					     }
+					
 				
-				chattingService.addPerfectChatting(chatting);
+					
 				
-				//getChatting NO
-				Chatting resultChatting=chattingService.getChatting(chatting);
-				//roomName은 ChattingNo로 지정
-				roomNo=resultChatting.getChattingNo();
-				System.out.println("resultChatting : "+resultChatting);
-				System.out.println("roomNo : "+roomNo);
-				
-				modelAndView.setViewName("/chatting/getPerfectChatting.jsp");
-				modelAndView.addObject("result", "Success");
-				modelAndView.addObject("womanId", woman);
-				modelAndView.addObject("manId", man);
-				modelAndView.addObject("roomNo", roomNo);
-				womanList.remove(0);
-				manList.remove(0);
+			}
 			
-			}	
+			
+			////////////////////////
+			
 
 				
 			
@@ -301,5 +320,15 @@ public class ChattingController {
 		
 		
 		return modelAndView;
+	}
+	
+	class MyThreadTask implements Runnable{
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 }

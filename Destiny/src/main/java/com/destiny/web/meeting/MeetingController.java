@@ -137,7 +137,6 @@ public class MeetingController {
 		int crewCount = meetingService.getCrewCount(meetingNo);
 		Map<String , Object> crewMap=meetingService.getCrew(meetingNo);
 		
-		
 		model.addAttribute("meeting", meeting);
 		model.addAttribute("meetingAct", meetingAct);
 		model.addAttribute("crewCount", crewCount);

@@ -54,11 +54,11 @@
 	 	VALUES (seq_chatting_no.nextval,#{manId:VARCHAR},#{womanId:VARCHAR},SYSDATE,#{contactMeeting:VARCHAR})
 	 </insert>
 	 
-	 <select 	id="getChatting"	parameterType="com.destiny.service.domain.Chatting"	resultMap="chattingSelectMap">
+	 <select 	id="getChatting"	parameterType="string"	resultMap="chattingSelectMap">
 		
 	 	select * from( 
     		select * from chatting 
-    		where man_id=#{manId} AND woman_id=#{womanId} 
+    		where man_id=#{value} OR woman_id=#{value} 
    			order by chatting_date desc) 
    		where rownum <![CDATA[ < ]]> 2
 	 </select>
