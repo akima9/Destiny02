@@ -33,7 +33,6 @@
 		<result property="crewNickName" 		column="crew_nick_name" 	jdbcType="VARCHAR" />
 		<result property="meetingActNo" 		column="meeting_act_no" 	jdbcType="VARCHAR" />
 		<result property="meetingCrewNo" 		column="meeting_Crew_no" 	jdbcType="VARCHAR" />
-
 	</resultMap>
 
 	 <select 	id="getInterestList" resultMap="meetingSelectMap">
@@ -101,7 +100,11 @@
 	 </select>
 	 
 	 <select  id="getCrew" resultMap="meetingSelectMap">
-	 		select profile_img as master_profile_img,crew_nick_name,role from meeting_crew_list where meeting_no= #{meetingNo}
+	 	select u.user_id as meeting_master_id, u.profile_img as master_profile_img, 
+      			u.nick_name as crew_nick_name, cl.role 
+		from meeting_crew_list cl, users u
+		where u.user_id= cl.crew_id
+		and cl.meeting_no= #{meetingNo}
 	 </select>
 	 
 	 <update	id="updateMeeting"	parameterType="com.destiny.service.domain.Meeting" >
@@ -184,5 +187,13 @@
 	 		select meeting_crew_no from meeting_crew_list where meeting_no = #{meetingNo} and crew_id=#{meetingMasterId}
 	 </select>
 	 
+	 <select 	id="getActCrew" resultMap="meetingSelectMap">
+		select macl.act_crew_id as meeting_master_id, u.profile_img as master_profile_img, 
+       	u.nick_name as crew_nick_name, cl.meeting_no as meeting_no
+		from users u, meeting_act_crew_list macl, meeting_crew_list cl
+		where u.user_id = macl.act_crew_id
+		and cl.meeting_crew_no = macl.meeting_crew_no
+		and cl.meeting_no = #{meetingNo}
+	 </select>
 	 
 </mapper>

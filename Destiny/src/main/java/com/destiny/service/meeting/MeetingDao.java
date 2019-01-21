@@ -45,4 +45,6 @@ public interface MeetingDao {
 	
 	public int DuplicationAct(Meeting meeting) throws Exception; /*참여할떄 중복체크*/
 	
+	public List<Meeting> getActCrew(int meetingNo) throws Exception;/*참여자 명단 가져오기*/
+	
 }

@@ -12,7 +12,7 @@ public interface ChattingDao {
 	
 	public void addPerfectChatting(Chatting chatting) throws Exception;
 	
-	public Chatting getChatting(Chatting chatting) throws Exception;
+	public Chatting getChatting(String userId) throws Exception;
 	
 	public List<Chatting> listContactMeeting(Chatting chatting) throws Exception;
 	

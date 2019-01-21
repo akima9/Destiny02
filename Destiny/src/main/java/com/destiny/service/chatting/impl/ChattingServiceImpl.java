@@ -42,9 +42,9 @@ public class ChattingServiceImpl implements ChattingService {
 	}
 	
 	@Override
-	public Chatting getChatting(Chatting chatting) throws Exception {
-		chattingDao.getChatting(chatting);
-		return chattingDao.getChatting(chatting);
+	public Chatting getChatting(String userId) throws Exception {
+		chattingDao.getChatting(userId);
+		return chattingDao.getChatting(userId);
 	}
 
 
