@@ -191,11 +191,39 @@
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
 			 $( "button.btn.btn-success" ).on("click" , function() {
-				//Debug..
-				alert(  "호잇!" );
-				//document.dialog2form.submit();
-				$("form").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
-				//fncAddProduct();
+				 //var meetingNo = ${meeting.meetingNo};
+				// var meetingMasterId= ${sessionScope.me.userId};
+				//alert("호잇!");
+				  $.ajax( 
+							{
+								url : "/meetingRest/addCrewM",
+								method : "post" ,
+								dataType : "json" ,
+								data : JSON.stringify({
+									meetingNo : "${meeting.meetingNo}" ,
+									meetingMasterId : "${sessionScope.me.userId}", 
+									interviewTitle : $("#interviewTitle").val(),
+									interview : $("#interview").val()
+									
+								}),
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(JSONData , status) {
+									if(JSONData==5018){
+										alert("이미 가입하셨습니다.");
+										$("#dialog2form")[0].reset();
+										$("#dialog2").toggle();
+									}else{
+										alert("가입 신청이 완료되었습니다.");
+										//window.opener.location.reload(false);
+										$("#dialog2form")[0].reset();
+										$("#dialog2").toggle();
+									}
+								}
+				});
+				 
 			});
 		});
 		
@@ -350,6 +378,55 @@
 					}else{
 						$("#dialog2").toggle();
 					}
+				});
+			});
+		 /* 참여하기 눌렀을때 이벤트 처리부분 */
+		 $( function() {
+				$("button:contains('참여하기')").click(function () {
+					if(${empty sessionScope.me}){
+						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+							$("#my-dialog,#dialog-background").toggle();
+							//self.location="/user/login";
+						 }else{   //취소
+
+						     return;
+
+						 }
+					}else{
+						
+						$.ajax( 
+						 {
+								url : "/meetingRest/addActList",
+								method : "post" ,
+								dataType : "json" ,
+								data : JSON.stringify({
+									meetingNo : "${meeting.meetingNo}" ,
+									meetingMasterId : "${sessionScope.me.userId}", 
+									
+								}),
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(JSONData , status) {
+									if(JSONData==5018){
+										if (confirm("모임원만 참여가능합니다.\n가입하시겠습니까?") == true){    //확인
+											$("#dialog2").toggle();
+										 }else{   //취소
+										     return;
+										 }
+									}else if(JSONData==486){
+										alert("이미 참여하셨습니다.");
+									}
+									else{
+										alert("${meeting.meetingName} ${meetingAct} 회\n모임에 참여되었습니다.");
+										
+									}
+								}
+						}); 
+						
+					}
+					
 				});
 			});
 		 
@@ -620,13 +697,14 @@
 		${meeting.meetingDate} ${meeting.meetingTime }<br/>
 		${meeting.meetingLocation}<br/>
 		${meeting.meetingDues}<br/>
+		<button>참여하기</button>
 		<hr/>
 		<button>가입하기</button>
 		<!-- 모달창 디자인 부분 -->
         <div id="dialog2">
-        <form action="dialog2form" class="form-horizontal">
+        <form id="dialog2form" class="form-horizontal">
         	<div name="meetingMasterId" value="${sessionScope.me.userId}" class="form-group col-sm-12 col-md-12" align="center">
-        		<img class="first-slide" src="/resources/images/userprofile/${sessionScope.me.profile}" width="100px" height="100px">
+        		<img src="/resources/images/userprofile/${sessionScope.me.profile}" width="100px" height="100px">
         	</div>
         	
         	<div class="form-group col-sm-12 col-md-12" align="center">
@@ -634,12 +712,12 @@
         	</div>
         	
         	<div class="form-group col-sm-12 col-md-12" align="center">
-        		<textarea name="interviewTitle" class="form-control" cols="100" rows="1" 
+        		<textarea id="interviewTitle" class="form-control" cols="100" rows="1" 
 		 	 placeholder="제목을 입력해주세요" ></textarea>
         	</div>
         	
         	<div class="form-group col-sm-12 col-md-12" align="center">
-		 	<textarea name="interview" class="form-control" cols="100" rows="3" 
+		 	<textarea id="interview" class="form-control" cols="100" rows="3" 
 		 	 placeholder="내용을 입력해주세요" ></textarea>
 		 	</div>
 	        <div class="form-group col-sm-12 col-md-12" align="center">

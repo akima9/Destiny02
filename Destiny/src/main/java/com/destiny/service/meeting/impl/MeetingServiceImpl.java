@@ -114,9 +114,34 @@ public class MeetingServiceImpl implements MeetingService {
 	}
 
 	@Override
-	public void addCrewM(Meeting meeting) throws Exception {
-		meetingDao.addCrewM(meeting);
+	public int addCrewM(Meeting meeting) throws Exception {
+		return meetingDao.addCrewM(meeting);
 		
+	}
+
+	@Override
+	public int checkDuplicationCrew(Meeting meeting) throws Exception {
+		return meetingDao.checkDuplicationCrew(meeting);
+	}
+
+	@Override
+	public int addCrewAct(Meeting meeting) throws Exception {
+		return meetingDao.addCrewAct(meeting);
+	}
+
+	@Override
+	public Meeting getActNo(Meeting meeting) throws Exception {
+		return meetingDao.getActNo(meeting);
+	}
+
+	@Override
+	public Meeting getCrewNo(Meeting meeting) throws Exception {
+		return meetingDao.getCrewNo(meeting);
+	}
+
+	@Override
+	public int DuplicationAct(Meeting meeting) throws Exception {
+		return meetingDao.DuplicationAct(meeting);
 	}
 
 	

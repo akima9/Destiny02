@@ -33,6 +33,16 @@ public interface MeetingDao {
 	
 	public void updateContentsMeeting(Meeting meeting)throws Exception;
 	
-	public void addCrewM(Meeting meeting)throws Exception;
+	public int addCrewM(Meeting meeting)throws Exception;
+	
+	public int addCrewAct(Meeting meeting)throws Exception;
+	
+	public int checkDuplicationCrew(Meeting meeting)throws Exception;
+	
+	public Meeting getActNo(Meeting meeting) throws Exception; /*참여할떄 참여번호 가져오기*/
+	
+	public Meeting getCrewNo(Meeting meeting) throws Exception; /*참여할떄 회원번호 가져오기*/
+	
+	public int DuplicationAct(Meeting meeting) throws Exception; /*참여할떄 중복체크*/
 	
 }
