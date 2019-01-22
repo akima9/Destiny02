@@ -1,6 +1,7 @@
 package com.destiny.service.comment.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,23 +37,28 @@ public class CommentDaoImpl implements CommentDao{
 	}
 
 	@Override
-	public List<Comment> getCommentList(Search search) throws Exception {
-		return sqlSession.selectList("CommentMapper.getCommentList", search);
-	}
-
-	@Override
 	public void updateComment(Comment comment) throws Exception {
 		sqlSession.update("CommentMapper.updateComment", comment);
 	}
 
 	@Override
-	public void updateViewCondition(Comment comment) throws Exception {
-		sqlSession.update("CommentMapper.updateViewCondition", comment);
+	public void updateViewCondition(int commentNo) throws Exception {
+		sqlSession.update("CommentMapper.updateViewCondition", commentNo);
 	}
 
 	@Override
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("CommentMapper.getTotalCount", search);
+	}
+
+	@Override
+	public List<Comment> getCommentList(int commentComuNo) throws Exception {
+		return sqlSession.selectList("CommentMapper.getCommentList", commentComuNo);
+	}
+
+	@Override
+	public void addReComment(Comment comment) throws Exception {
+		sqlSession.insert("CommentMapper.addReComment", comment);
 	}
 	
 }

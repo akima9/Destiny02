@@ -39,25 +39,22 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	@Override
-	public Map<String, Object> getCommentList(Search search) throws Exception {
-		
-		List<Comment> list = commentDao.getCommentList(search);
-		int totalCount = commentDao.getTotalCount(search);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list);
-		map.put("totalCount", new Integer(totalCount));
-		
-		return map;
-	}
-
-	@Override
 	public void updateComment(Comment comment) throws Exception {
 		commentDao.updateComment(comment);
 	}
 
 	@Override
-	public void updateViewCondition(Comment comment) throws Exception {
-		commentDao.updateViewCondition(comment);
+	public void updateViewCondition(int commentNo) throws Exception {
+		commentDao.updateViewCondition(commentNo);
+	}
+
+	@Override
+	public List<Comment> getCommentList(int commentComuNo) throws Exception {
+		return commentDao.getCommentList(commentComuNo);
+	}
+
+	@Override
+	public void addReComment(Comment comment) throws Exception {
+		commentDao.addReComment(comment);
 	}
 }
