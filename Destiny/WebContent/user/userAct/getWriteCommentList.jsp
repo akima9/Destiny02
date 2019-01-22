@@ -57,7 +57,7 @@
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "GET").attr("action" , "/act/getOpenMeetingList").submit();
+			$("form").attr("method" , "GET").attr("action" , "/act/getWriteCommentList").submit();
 		}
 		
 		
@@ -74,9 +74,9 @@
 		 $(function() {
 		
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "td:nth-child(2)" ).on("click" , function() {
-				 self.location ="/meeting/getMeeting?meetingNo="+$(this).data("param");
-			});
+			/*$( "td:nth-child(2)" ).on("click" , function() {
+				 self.location ="/user/getUser/"+$(this).text().trim();
+			});*/
 						
 			//==> userId LINK Event End User 에게 보일수 있도록 
 			$( "td:nth-child(2)" ).css("color" , "red");
@@ -164,7 +164,7 @@
 	<div class="container">
 	
 		<div class="page-header text-info">
-	       <h3>개설한 모임 조회</h3>
+	       <h3>작성한 댓글목록조회</h3>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -220,28 +220,24 @@
         <thead>
           <tr>
             <th align="center">No</th>
-            <th align="left">모임 제목</th>
-            <th align="left">모임 이미지</th>
-            <th align="left">중심지</th>
-            <th align="left">관심사</th>
-            <th align="left">가입 신청자 관리</th>
-            <th align="left">회차 조회</th>
+            <th align="left">개시글</th>
+            <th align="left">작성자 닉네임</th>
+            <th align="left">댓글 내용</th>
+            <th align="left">작성일</th>
           </tr>
         </thead>
        
 		<tbody>
 		
 		  <c:set var="i" value="0" />
-		  <c:forEach var="meeting" items="${list}">
+		  <c:forEach var="community" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center">${ i }</td>
-			  <td align="left" data-param="${meeting.meetingNo}" title="Click : 모임 이동">${meeting.meetingName}</td>
-			  <td align="left"><img src="/resources/images/meeting/${meeting.titleImg}" width="170" height="170"/></td>
-			  <td align="left">${meeting.meetingCenter}</td>
-			  <td align="left">${meeting.interestName}</td>
-			  <td align="left">ㅇㅇ</td>
-			  <td align="left">ㅇㅇ</td>
+			  <td align="left"  title="Click : 개시글 이동">${comment.commentComuNo}</td>
+			  <td align="left">${comment.commentWriterId}</td>
+			  <td align="left">${comment.commentDetail}</td>
+			  <td align="left">${comment.commentDate}</td>
 			</tr>
           </c:forEach>
         
