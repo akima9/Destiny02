@@ -21,17 +21,6 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-	<!-- 참조 : http://getbootstrap.com/css/   -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	
-	
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
@@ -88,7 +77,7 @@
 		 $(function() {
 			 
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(  "td:nth-child(5)" ).on("click" , function() {
+			$(  "td:nth-child(6)" ).on("click" , function() {
 
 				//var userId = $(this).next().val();
 				var userId = $(this).data("param");
@@ -223,6 +212,7 @@
             <th align="left">회원 ID</th>
             <th align="left">닉네임</th>
             <th align="left">이메일</th>
+            <th align="left">회원등급</th>
             <th align="left">간략정보</th>
           </tr>
         </thead>
@@ -237,6 +227,25 @@
 			  <td align="left"  title="Click : 회원정보 확인">${user.userId}</td>
 			  <td align="left">${user.nickName}</td>
 			  <td align="left">${user.email}</td>
+			  
+			  <!-- 회원등급 추가 -->
+			  <c:if test="${user.userGrade=='NEW'}">
+			  	<td align="left">신규회원</td>
+			  </c:if>
+			  <c:if test="${user.userGrade=='NOR'}">
+			  	<td align="left">일반회원</td>
+			  </c:if>
+			  <c:if test="${user.userGrade=='VIP'}">
+			  	<td align="left">우수회원</td>
+			  </c:if>
+			  <c:if test="${user.userGrade=='ADM'}">
+			  	<td align="left">관리자</td>
+			  </c:if>
+			  <c:if test="${user.userGrade=='BLK'}">
+			  	<td align="left">블랙리스트</td>
+			  </c:if>
+			  <!-- 회원등급 추가 -->
+			  
 			  <td align="left" data-param="${user.userId}">간략한 보기</td>
 			  <tr>
 				 <td id="${user.userId}" colspan="11" height="1"></td>

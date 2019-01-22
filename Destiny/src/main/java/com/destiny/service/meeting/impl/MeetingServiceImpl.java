@@ -144,6 +144,16 @@ public class MeetingServiceImpl implements MeetingService {
 		return meetingDao.DuplicationAct(meeting);
 	}
 
+	@Override
+	public Map<String, Object> getActCrew(int meetingNo) throws Exception {
+		List<Meeting> list= meetingDao.getActCrew(meetingNo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		return map;
+	}
+
+	
 	
 
 	

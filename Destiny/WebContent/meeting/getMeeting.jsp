@@ -61,6 +61,16 @@
 		    z-index: 11;
 		    padding: 10px;
 		}
+		
+		#dialog3 {
+		    display: none;
+		    position: fixed;
+		    left: calc( 50% - 160px ); top: calc( 30% - 70px );
+		    width: 350px; height: 350px; 
+		    background: gainsboro;
+		    z-index: 11;
+		    padding: 10px;
+		}
      </style>
      
      <style>
@@ -430,9 +440,99 @@
 				});
 			});
 		 
+		 /* 참여자목록 눌렀을때 이벤트 처리부분 */
+		 $( function() {
+				$("button:contains('참여자목록')").click(function () {
+					if(${empty sessionScope.me}){
+						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+							$("#my-dialog,#dialog-background").toggle();
+							//self.location="/user/login";
+						 }else{   //취소
+
+						     return;
+
+						 }
+					}else{
+						
+						$.ajax( 
+						 {
+								url : "/meetingRest/getActCrew",
+								method : "post" ,
+								dataType : "json" ,
+								data : JSON.stringify({
+									meetingNo : "${meeting.meetingNo}" ,
+									meetingMasterId : "${sessionScope.me.userId}", 
+									
+								}),
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(JSONData , status) {
+									if(JSONData.result==0){
+										if (confirm("모임원만 참여가능합니다.\n가입하시겠습니까?") == true){    //확인
+											$("#dialog2").toggle();
+										 }else{   //취소
+										     return;
+										 }
+									}else {
+										//alert(JSONData.actCrewList[0].masterProfileImg);
+										 var crewArray = new Array();
+										var displayValue = JSONData.actCrewList;
+										for(i=0; i+1<=displayValue.length; i++){
+											crewArray[i] = displayValue[i].masterProfileImg;
+										}
+										//console.log(crewArray);
+										//console.log("<img src='/resources/images/userprofile/"+crewArray[0]+"'width='100px' height='100px'>")
+										
+											var display = "<h6>"
+											for(i=0; i+1<=displayValue.length; i++){
+												display+="<img src='/resources/images/userprofile/"+displayValue[i].masterProfileImg+"' width='100px' height='100px'> <br/>";
+												display+=displayValue[i].crewNickName+"<br/>";
+											}
+												display+="<a class='btn btn-primary btn' id='pushCancle3' role='button'>확&nbsp;인</a>"
+												display+="</h6>";
+												
+										console.log(display);	
+										/* var displayValue = "<h6>"
+											+"<c:forEach var='actCrew' items='${actCrewList}'>"
+											+"<img src='/resources/images/userprofile/actCrewList.masterProfileImg' width='100px' height='100px'>"
+											+"</c:forEach>"
+											+"</h6>"; */
+										//var list = "";
+										//list+="<h6>";
+										//+"<c:forEach var='actCrew' items='${actCrewList}'>"
+										
+										//list+="<img src='/resources/images/userprofile/"+displayValue[0]+" width='100px' height='100px'>"
+										//list+=
+										//list+="캬캬";
+										//list+="<img src='/resources/images/userprofile/${actCrew.masterProfileImg}' width='100px' height='100px'>";
+										//+"</c:forEach>"
+										//list+="</h6>";
+										//$("#dialog2").html(list);
+										
+										//$("h6").remove();
+										$( ".actCrewList" ).html(display);
+										$("#dialog3").toggle();
+										
+									}
+								}
+						}); 
+						
+					}	 
+				});
+			});
+		/*  //가입하기에서 취소 눌렀을때 이벤트 처리 //*/
 		 $( function() {
 				$("#pushCancle2").click(function () {
 					$("#dialog2").toggle();
+				});
+			});
+		/*///////참여자목록에서 확인 눌렀을때 //////////////*/
+		 $( function() {
+				$("#pushCancle3").click(function () {
+					alert("dd");
+					$("#dialog3").toggle();
 				});
 			});
 		
@@ -698,11 +798,13 @@
 		${meeting.meetingLocation}<br/>
 		${meeting.meetingDues}<br/>
 		<button>참여하기</button>
+		<button>참여자목록</button>
 		<hr/>
 		<button>가입하기</button>
 		<!-- 모달창 디자인 부분 -->
         <div id="dialog2">
         <form id="dialog2form" class="form-horizontal">
+        <div>
         	<div name="meetingMasterId" value="${sessionScope.me.userId}" class="form-group col-sm-12 col-md-12" align="center">
         		<img src="/resources/images/userprofile/${sessionScope.me.profile}" width="100px" height="100px">
         	</div>
@@ -724,6 +826,7 @@
 	         <button type="button" class="btn btn-success"  >확 &nbsp;인</button>
 	         <a class="btn btn-primary btn" id="pushCancle2" role="button">취&nbsp;소</a>
 	         </div>
+	    </div>
         </form>
         <!-- 모달창 디자인 부분  끝-->
         </div>
@@ -732,6 +835,7 @@
 		<div >
 			모임멤버${crewCount}명
 			<input type="checkbox">로그인된 멤버만 보기<br/>
+			<ul>
 			<c:forEach var="crew" items="${crewList}">
 		 		<img class="first-slide" src="/resources/images/userprofile/${crew.masterProfileImg}" width="100px" height="100px"> ${crew.crewNickName}
 		 		<c:if test="${crew.role=='MST' }">
@@ -740,6 +844,15 @@
 		 		<br/>
 			
 			</c:forEach>
+			
+			</ul>
+		</div>
+		<div id="dialog3">
+		<div class="actCrewList">
+		<form class="form-horizontal">
+		
+		</form>
+		</div>
 		</div>
 		<hr/>
 		

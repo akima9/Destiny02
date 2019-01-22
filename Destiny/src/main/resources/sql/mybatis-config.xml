@@ -40,6 +40,7 @@
 		
 	</mappers> -->
 	<mappers>
+		<mapper resource="sql/ActMapper.xml"/>
 		<mapper resource="sql/UserMapper.xml"/>
 		<mapper resource="sql/LetterMapper.xml"/>
 		<mapper resource="sql/FindMapper.xml"/>		
@@ -48,5 +49,6 @@
 		<mapper resource="sql/ChattingMapper.xml"/>
 		<mapper resource="sql/ComplainMapper.xml"/>
 		<mapper resource="sql/LikeCountMapper.xml"/>
+		<mapper resource="sql/CommentMapper.xml"/>
 	</mappers>
 </configuration>

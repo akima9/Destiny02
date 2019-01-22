@@ -95,13 +95,18 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public LikeCount getLikeCount(int likeCountNo) throws Exception {
-		return communityDao.getLikeCount(likeCountNo);
+	public LikeCount getLikeCount(LikeCount likeCount) throws Exception {
+		return communityDao.getLikeCount(likeCount);
 	}
 
 	@Override
 	public void updateViewsCondition(Community community) throws Exception {
 		communityDao.updateViewsCondition(community);
+	}
+	
+	@Override
+	public void updateViewsConditionAdmin(Community community) throws Exception {
+		communityDao.updateViewsConditionAdmin(community);
 	}
 
 }

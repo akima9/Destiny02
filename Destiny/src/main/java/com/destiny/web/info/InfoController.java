@@ -1,29 +1,25 @@
 package com.destiny.web.info;
 
-import java.io.File;
-import java.util.Enumeration;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.common.Page;
 import com.destiny.common.Search;
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Community;
+import com.destiny.service.domain.LikeCount;
+import com.destiny.service.domain.User;
 
 @Controller
 @RequestMapping("/info/*")
@@ -108,15 +104,24 @@ public class InfoController {
 	
 	/*getRestaurantInfo : start*/
 	@RequestMapping(value="getRestaurantInfo", method=RequestMethod.GET)
-	public ModelAndView getRestaurantInfo(@RequestParam("communityNo") int communityNo) throws Exception{
+	public ModelAndView getRestaurantInfo(@RequestParam("communityNo") int communityNo, @ModelAttribute("likeCount") LikeCount likeCount,  HttpSession session) throws Exception{
+		
+		User user = (User)session.getAttribute("me"); 
+		String userId = user.getUserId();
+		System.out.println("userId :: " + userId);
+		
 		
 		Community community = communityService.getCommunity(communityNo);
 		communityService.updateViews(communityNo);
-		
+		likeCount.setLikeCountId(userId);
+		likeCount.setLikeCountCommunityNo(communityNo);
+		communityService.getLikeCount(likeCount);
+		likeCount = communityService.getLikeCount(likeCount);
 		System.out.println(community);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("community", community);
+		modelAndView.addObject("likeCount", likeCount);
 		modelAndView.setViewName("/community/getRestaurantInfo.jsp");
 		return modelAndView;
 	}

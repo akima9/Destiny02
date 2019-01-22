@@ -1,7 +1,14 @@
 package com.destiny.web.meeting;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -94,6 +101,33 @@ public class MeetingRestController {
 			return success;
 		} else {
 			return 5018;
+		}
+		
+	}
+	
+	@RequestMapping( value="meetingRest/getActCrew", method=RequestMethod.POST)
+	public Map<String , Object> getActCrew(@RequestBody Meeting meeting, Model model)throws Exception{
+		System.out.println("참여자목록  시작함");
+		int result = meetingService.checkDuplicationCrew(meeting);
+		System.out.println("리저트도 없는거냐?"+result);
+		if(result < 1) {
+			System.out.println("여기들어옴");
+			Map<String, Object> notCrewMap = new HashMap<String, Object>();
+			notCrewMap.put("result", result);
+			return notCrewMap; /*모임원아님*/
+		}else {
+			System.out.println("여기나옴");
+			Map<String, Object> actmap = new HashMap<String, Object>();
+			actmap = meetingService.getActCrew(meeting.getMeetingNo());
+//			List list = (List)actmap.get("list");
+//			System.out.println("두둥 리스트는"+list);
+//			List list2 = list.iterator();
+			//for(int i=0; i<=list.size(); i++) {
+				
+			//}
+			//List<JSONObject> dataList =  (List<JSONObject>)new JSONParser().parse(actmap);
+			actmap.put("actCrewList", actmap.get("list"));
+			return actmap;
 		}
 		
 	}

@@ -45,9 +45,12 @@ public interface CommunityDao {
 	public void updateLikeCount(LikeCount likeCount) throws Exception;
 	
 	//공감 상세보기
-	public LikeCount getLikeCount(int likeCountNo) throws Exception;
+	public LikeCount getLikeCount(LikeCount likeCount) throws Exception;
 	
 	//viewCondition 수정
 	public void updateViewsCondition(Community community) throws Exception;
+	
+	//viewCondition 수정 (Admin)
+	public void updateViewsConditionAdmin(Community community) throws Exception;
 
 }
