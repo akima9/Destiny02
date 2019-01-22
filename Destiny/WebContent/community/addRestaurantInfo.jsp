@@ -127,6 +127,50 @@
 		 left: 50%; 
 		 z-index: 100; 
 	}
+	
+	body{
+		position : relative;
+	}
+	.topImg{
+		display : block;
+		position : absolute;
+		top : 0;
+		background-image : url("/resources/images/background/getRestaurantInfo_background.jpg");
+		background-repeat : no-repeat;
+		background-position : center center;
+		background-size : cover;
+		width : 100%;
+		height : 400px;
+	}
+	.topImg::after{
+		content : "";
+		background : rgba(0, 0, 0, 0.2);
+		position : absolute;
+		top : 0;
+		left : 0;
+		width : 100%;
+		height : 400px;
+		z-index : 1;
+	}
+	.topImg h1{
+		position : absolute;
+		line-height : 450px;
+		width : 100%;
+		text-align : center;
+		color : white;
+		z-index : 2;
+		font-size : 60px;
+		font-weight : bold;
+	}
+	
+	
+	form{
+		margin-top : 400px;
+	}
+	
+	.container{
+		padding-bottom : 100px;
+	}
 </style>
 </head>
 <body>
@@ -134,12 +178,12 @@
 <!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolBar.jsp" />
   <!-- ToolBar End /////////////////////////////////////-->
-
-	<div class="container">
 	
-		<div class="row text-center">
-			<h1>¸ÀÁýÁ¤º¸ µî·Ï</h1>
-		</div>
+	<div class="topImg">
+		<h1>¸ÀÁý<span class="slim">Á¤º¸</span></h1>
+	</div>
+	
+	<div class="container">
 		
 		<div class="row">
 		

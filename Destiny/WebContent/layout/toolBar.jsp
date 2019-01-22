@@ -2,6 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!doctype html>
+<html>
+<head>
+
+
 
 	<script type="text/javascript">
 	
@@ -116,6 +120,8 @@
 		    padding: 10px;
 		}
    	</style>
+   	</head>
+   	<body>
 
 	<!-- Fixed navbar -->
 	<nav class="navbar navbar-default navbar-fixed-top">
@@ -206,5 +212,5 @@
 		</div><!--/.nav-collapse -->
 	</div>
 	</nav>
-
+</body>
 </html>
