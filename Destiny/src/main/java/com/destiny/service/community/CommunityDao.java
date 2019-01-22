@@ -49,5 +49,8 @@ public interface CommunityDao {
 	
 	//viewCondition 수정
 	public void updateViewsCondition(Community community) throws Exception;
+	
+	//viewCondition 수정 (Admin)
+	public void updateViewsConditionAdmin(Community community) throws Exception;
 
 }

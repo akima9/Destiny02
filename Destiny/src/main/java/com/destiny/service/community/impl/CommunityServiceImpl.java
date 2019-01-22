@@ -103,5 +103,10 @@ public class CommunityServiceImpl implements CommunityService {
 	public void updateViewsCondition(Community community) throws Exception {
 		communityDao.updateViewsCondition(community);
 	}
+	
+	@Override
+	public void updateViewsConditionAdmin(Community community) throws Exception {
+		communityDao.updateViewsConditionAdmin(community);
+	}
 
 }

@@ -18,15 +18,8 @@
 		<script type="text/javascript">
 			$(function() {
 				
-				/* $( "button:contains('신고처리하기')" ).on("click" , function() {
-					self.location = "/complain/updateComplain?complainNo=${complain.complainNo}"
-				}); */
-				
 				$( "#okBtn" ).on("click" , function() {
 					history.go(-1);
-					//$('.doComplain').hide();
-					//$('#doComplainBtn').show();
-					//$('#cancleBtn').show();
 				});
 				
 				$( "#okBtn" ).on("click" , function() {
@@ -73,16 +66,57 @@
 					url : '/complain/json/updateComplain/'+complainNo+'/'+complainCondition,
 					success : function(JSONData){
 						var complainState = JSONData.complainState;
+						var complainCondition = JSONData.complainCondition;
 						console.log(complainState);
+						console.log(complainCondition);
+						
 						$('#complainState').html("${complainState=='Y' ? '신고처리 대기중':'신고처리 완료'}");
-						$('#complainCondition').html('<div class="col-xs-8 col-md-4">${complain.complainCondition}</div>');
+						
+						if(complainCondition=="NOT"){
+							$('#complainCondition').html('<div class="col-xs-8 col-md-4">무죄</div>');
+						}else if(complainCondition=="WAR"){
+							$('#complainCondition').html('<div class="col-xs-8 col-md-4">경고</div>');
+						}else if(complainCondition=="BLK"){
+							$('#complainCondition').html('<div class="col-xs-8 col-md-4">블랙리스트</div>');
+						}
+						
 						
 						$('#endBtn').hide();
 						$('#okBtn').show();
 						
 					}
 				});
-			}	
+			}
+			
+			$(function() {
+				
+				/* 글 제목 마우스 오버 : start */
+				$(".getComplainLink").on("mouseover",function(){
+					$(".getComplainLink").css("cursor","pointer")
+				});
+				/* 글 제목 마우스 오버 : end */
+				
+				/* 글 제목 클릭 : start */
+				$(".getComplainLink").on("click", function(){
+					var communityNo = $(this).data("param");
+					var meetingNo = $(this).data("param1");
+					
+					if(meetingNo == null){
+						/* if(${community.category == "RES"}){
+							self.location="/info/getRestaurantInfo?communityNo="+communityNo
+						}  */
+						
+						self.location="/info/getRestaurantInfo?communityNo="+communityNo
+
+
+						
+					}else if(communityNo == null){
+						self.location="/meeting/getMeeting?meetingNo="+meetingNo
+					}
+					
+				});
+				
+			});
 			
 			
 		</script>
@@ -139,11 +173,15 @@
 				<%-- 게시글:제목 / 댓글:내용 / 모임:모임명 --%>
 				<c:if test="${complain.complainKind == 'BD'}">
 			  		<div class="col-xs-4 col-md-2"><strong>제목</strong></div>
-			  		<div class="col-xs-8 col-md-4" name="complainDetail" data-param="${complain.communityNo}" value="${community.category}"> ${complain.complainDetail} </div>
+			  		<div class="col-xs-8 col-md-4" name="complainDetail" data-param="${complain.communityNo}" value="${community.category}"> 
+			  			<a href="/info/getRestaurantInfo?communityNo=${complain.communityNo}" target=“_blank”>${complain.complainDetail}</a>
+			  		</div>
 				</c:if>
 				<c:if test="${complain.complainKind == 'MT'}">
 			  		<div class="col-xs-4 col-md-2"><strong>모임명</strong></div>
-			  		<div class="col-xs-8 col-md-4" name="complainDetail" data-param="${complain.meetingNo}"> ${complain.complainDetail} </div>
+			  		<div class="col-xs-8 col-md-4 getComplainLink" name="complainDetail" data-param="${complain.meetingNo}">
+			  		 	<a href="/meeting/getMeeting?meetingNo=${complain.meetingNo}" target=“_blank”>${complain.complainDetail}</a>
+			  		</div>
 				</c:if>
 				
 				

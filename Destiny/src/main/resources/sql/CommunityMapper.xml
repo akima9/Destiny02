@@ -42,19 +42,18 @@
 	 <update id="updateViewsCondition"	parameterType="com.destiny.service.domain.Community" >
 	   	UPDATE community
 	   	<set>
-	   		<!-- community_writer_id			= #{writerId},
-	   		category					= #{category},
-	   		community_user_grade		= #{userGrade},
-	   		community_title 			= #{title},
-	   		community_writer_nick_name	= #{writerNickName},
-			community_detail			= #{detail},
-			community_write_date		= SYSDATE
-			community_views				= community_views + 1
-			community_like				= #{like},
-			import_rank					= #{importRank}, -->
 			community_view_condition	= #{viewCondition}
 	   	</set>
 	   	WHERE community_no = #{communityNo}
+	 </update>
+	 
+	 <!-- SQL : VIEW_CONDITION UPDATE ADMIN -->
+	 <update id="updateViewsConditionAdmin"	parameterType="com.destiny.service.domain.Community" >
+	   	UPDATE community
+	   	<set>
+			community_view_condition	= #{viewCondition}
+	   	</set>
+	   	WHERE community_writer_id = #{writerId}
 	 </update>
 	 
 	 <!-- SQL : VIEW UPDATE -->
