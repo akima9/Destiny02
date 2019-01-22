@@ -6,21 +6,11 @@
 
 <!DOCTYPE html>
 
-<html lang="ko">
+<html>
 	
 <head>
-	<meta charset="EUC-KR">
-	
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	<!-- 참조 : http://getbootstrap.com/css/   -->
+<title>우리들의 연결고리</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -88,7 +78,22 @@
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>회원등급</strong></div>
-			<div class="col-xs-8 col-md-4">${user.userGrade}</div>
+	  		<div class="col-xs-8 col-md-4">
+	  			<c:if test="${user.userGrade=='NEW'}">신규회원</c:if>
+	  		</div>
+	  		<div class="col-xs-8 col-md-4">
+	  			<c:if test="${user.userGrade=='NOR'}">일반회원</c:if>
+	  		</div>
+	  		<div class="col-xs-8 col-md-4">
+	  			<c:if test="${user.userGrade=='VIP'}">우수회원</c:if>
+	  		</div>
+	  		<div class="col-xs-8 col-md-4">
+	  			<c:if test="${user.userGrade=='ADM'}">관리자</c:if>
+	  		</div>
+	  		<div class="col-xs-8 col-md-4">
+	  			<c:if test="${user.userGrade=='BLK'}">블랙리스트</c:if>
+	  		</div>
+			<<%-- div class="col-xs-8 col-md-4">${user.userGrade}</div> --%>
 		</div>
 		
 		<hr/>
@@ -102,7 +107,7 @@
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>경고횟수</strong></div>
-			<div class="col-xs-8 col-md-4">${user.warningCount}</div>
+			<div class="col-xs-8 col-md-4">${user.warningCount} 회</div>
 		</div>
 		
 		<hr/>
@@ -160,8 +165,7 @@
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>내 성격유형</strong></div>
 			<div class="col-xs-8 col-md-2">${typeMap.myType}</div>
-			<img src="/resources/images/MBTI/${typeFileMap.myTpyeFile}" width="300" height="300"/>
-			
+			<img src="/resources/images/MBTI/${typeFileMap.myTpyeFile}" width="150" height="200"/>
 		</div>
 		
 		<hr/>
@@ -172,9 +176,10 @@
 			<div class="col-xs-8 col-md-2">${typeMap.secondType}</div>
 			<div class="col-xs-8 col-md-2">${typeMap.thirdType}</div>
 			<br/>
-			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[0]}" width="200" height="250"/>
-			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[1]}" width="200" height="250"/>
-			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[2]}" width="200" height="250"/>
+			<div class="col-xs-4 col-md-2"></div>
+			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[0]}" width="150" height="200"/>
+			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[1]}" width="150" height="200"/>
+			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[2]}" width="150" height="200"/>
 		</div>
 		
 		<hr/>

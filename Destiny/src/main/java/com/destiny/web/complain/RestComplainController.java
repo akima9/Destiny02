@@ -69,31 +69,68 @@ public class RestComplainController {
 			
 			Complain complain = complainService.getComplain(complainNo);
 			complain.setComplainCondition(complainCondition);
+			int meetingNo = complain.getMeetingNo();
+			int communityNo = complain.getCommunityNo();
 			
 			User user = userService.getUser(complain.getDefendantId());
 			Community community = communityService.getCommunity(complain.getCommunityNo());
+			Meeting meeting = meetingService.getMeeting(complain.getMeetingNo());
 			
 			
 			if(complain.getComplainCondition().equals("WAR") ) {
-				System.out.println("1은 왔니!?");
 				userService.updateWarningCount(user);
+				
 				if(userService.getUser(complain.getDefendantId()).getWarningCount() >= 5) {
-					System.out.println("2는 왔니!?");
+					System.out.println("경고 5회 이상 받을 시 블랙리스트로 등록함");
 					user.setUserGrade("BLK");
 					userService.updateGrade(user);
+					
+					/*System.out.println("블랙리스트가 된 게시물은 블라인드 처리함");
+					community = communityService.getCommunity(complain.getCommunityNo());
+					System.out.println("community : " + community + "================================");
+					community.setViewCondition("BLD");
+					communityService.updateViewsCondition(community);*/
+					if(meetingNo == 0) {
+						System.out.println("블랙리스트가된 회원의 모든 게시물이 블라인드 처리됨");
+						community = communityService.getCommunity(complain.getCommunityNo());
+						community.setViewCondition("BLD");
+						communityService.updateViewsConditionAdmin(community);
+					} else if(communityNo == 0) {
+						System.out.println("블랙리스트가된 모임이 블라인드 처리됨");
+						meeting = meetingService.getMeeting(complain.getMeetingNo());
+						meeting.setMeetingCondition("BLD");
+						meetingService.updateMeeting(meeting);
+					}
+					
 				}
 			}
-			System.out.println("여기는?!");
-			System.out.println("1111111111111111"+complain);
+			
+			if(complain.getComplainCondition().equals("BLK")) {
+				
+				System.out.println("신고처리가 블랙리스트일 경우 USER_GRADE 업데이트 함");
+				user.setUserGrade("BLK");
+				userService.updateGrade(user);
+				
+				if(meetingNo == 0) {
+					/*System.out.println("블랙리스트가 된 게시물은 블라인드 처리");
+					community = communityService.getCommunity(complain.getCommunityNo());
+					System.out.println("community : " + community + "================================");
+					community.setViewCondition("BLD");
+					communityService.updateViewsCondition(community);*/
+					System.out.println("블랙리스트가된 회원의 모든 게시물이 블라인드 처리됨");
+					community.setViewCondition("BLD");
+					communityService.updateViewsConditionAdmin(community);
+				} else if(communityNo == 0) {
+					System.out.println("블랙리스트가된 회원의 모든 모임이 블라인드 처리됨");
+					meeting.setMeetingCondition("BLD");
+					meetingService.updateMeeting(meeting);
+				}
+				
+			}
+			
 			complainService.updateComplain(complain);
-			System.out.println("22222222222222"+complain);
 			Complain complain1=complainService.getComplain(complain.getComplainNo());
-			System.out.println("333333333333333333"+complain1);
-
-			/*Map<String, Object> map = new HashMap<String, Object>();
-			map.put("complain",complain);
-			System.out.println("map12312321 : " + map);
-			*/
+			
 			return complain1;
 		}
 		/*updateComplain/POST : end*/

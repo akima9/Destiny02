@@ -147,7 +147,7 @@
 
 <style>
 	.btn-heart{width:50px; height:50px; border:none; background:url(../resources/images/img_heart.png) no-repeat 0 0; cursor:pointer;}
-	.btn-heart.on{background:url(../resources/images/img_heart_on.png) no-repeat 0 0;}
+	.btn-heart.on{width:50px; height:50px; background:url(../resources/images/img_heart_on.png) no-repeat 0 0;}
 </style>
 
 </head>
