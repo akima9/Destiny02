@@ -40,7 +40,7 @@
 	var manCount=0;
 	var womanCount=0;
 	var n=0;
-	var chattingNo='${roomNo}';
+	var chattingNo='${chatting.chattingNo}';
 	(function poll() {
 	    $.ajax({
 	        url: '/chatting/json/matching',

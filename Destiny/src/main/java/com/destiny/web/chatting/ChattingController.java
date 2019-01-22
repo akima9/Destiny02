@@ -347,4 +347,14 @@ public class ChattingController {
 		modelAndView.addObject("roomNo", roomNo);
 		return modelAndView;
 	}
+	
+	@RequestMapping(value="endChatting", method=RequestMethod.GET)
+	public ModelAndView endChatting(@PathVariable int roomNo,HttpSession session,HttpServletRequest request) throws Exception{
+		System.out.println("endChatting 들어옴");
+		ModelAndView modelAndView = new ModelAndView();
+		Chatting emptyChatting=new Chatting();
+		session.setAttribute("chatting", emptyChatting);
+		modelAndView.addObject("채팅방 나감");
+		return modelAndView;
+	}
 }

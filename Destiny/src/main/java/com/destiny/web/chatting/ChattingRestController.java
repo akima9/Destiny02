@@ -416,14 +416,15 @@ public class ChattingRestController {
 					map.put("manId", man);
 					map.put("roomNo", roomNo);
 					map.put("no", no); 
-					session.setAttribute("roomNo", roomNo);
+					session.setAttribute("chatting", resultChatting);
 					chattingList.add(resultChatting);
 					System.out.println("map : "+map);
 				}else {
 					map.put("womanId", woman);
 					map.put("manId", man);
 					map.put("roomNo", roomNo); 
-					
+					Chatting emptyChatting=new Chatting();
+					session.setAttribute("chatting", emptyChatting);
 					System.out.println("map : "+map);
 				}
 				
