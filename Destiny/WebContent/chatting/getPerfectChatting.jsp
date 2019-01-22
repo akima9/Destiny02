@@ -49,6 +49,7 @@
  
 
 ////////////////////////////////////////////
+
 	var socket = io.connect('http://192.168.0.28:82');
 	var timeout;
 	var roomNo='${roomNo}';
@@ -195,12 +196,17 @@
 				$('#datasend').focus().click();
 			}
 		});
+		
+/////////////////////////////////////////////
+///////////////////////////////////////////////
 	});
 	
-	
-  
-  
-  
+	window.addEventListener('beforeunload', function (e) {
+		var confirmationMessage = '\o/';
+
+		(e || window.event).returnValue = confirmationMessage; //Gecko + IE
+		return confirmationMessage; //Webkit, Safari, Chrome
+		});
   /////////////////////////////////
 	//////////////////////////////////////////
 </script>

@@ -377,9 +377,7 @@ public class ChattingRestController {
 
 			if (manList.size()>no && womanList.size()>no) {
 				////////매칭된 아이디 2개 넣기
-				//		chatting.setManId(manId);
-				//		chatting.setWomanId(womanId);
-				/////////test
+				
 				System.out.println("manList==womanList");
 				man=manList.get(no).getUserId();
 				woman=womanList.get(no).getUserId();
@@ -405,6 +403,7 @@ public class ChattingRestController {
 			}
 			//get
 			System.out.println("getChatting");
+			
 				if (no>0&&(womanList.get(no-1).getUserId().equals(userId)||manList.get(no-1).getUserId().equals(userId))) {
 					Chatting resultChatting=chattingService.getChatting(userId);
 					//roomName은 ChattingNo로 지정
