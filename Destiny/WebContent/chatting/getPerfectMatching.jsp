@@ -40,6 +40,7 @@
 	var manCount=0;
 	var womanCount=0;
 	var n=0;
+	var chattingNo='${chatting.chattingNo}';
 	(function poll() {
 	    $.ajax({
 	        url: '/chatting/json/matching',
@@ -54,8 +55,23 @@
 				if (JsonData.roomNo!=0) {
 					alert("manId : "+JsonData.manId+" womanId : "+JsonData.womanId);
 					//location="/chatting/getPerfectChatting/"+JsonData.roomNo;
-					
-					popWin = window.open("/chatting/getPerfectChatting.jsp","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+					if (JsonData.roomNo==chattingNo&&chattingNo!=0) {
+						 var confirmflag = confirm("채팅중입니다. 새로운 채팅을 하시겠습니까?");
+
+				           if(confirmflag){
+
+				              //확인 버튼 클릭 true 
+				        	   //session에서 채팅 번호 삭제
+				           }else{
+
+				             //취소 버튼 클릭 false
+
+				           }
+						
+					}else{
+						popWin = window.open("/chatting/getPerfectChatting.jsp","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+						
+					}
 					return false;
 				}else{
 					alert("manCount : "+manCount+" womanCount : "+womanCount);
@@ -86,26 +102,41 @@
 	 
 	 
 	 
-	$(function() {
-		
-		$( "#matching" ).on("click" , function() {
-	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			
-	 		
-		});
-	});
+	
+	
 	</script>
 <title>matching</title>
+<style>
+#load {
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	position: fixed;
+	display: block;
+	opacity: 0.8;
+	background: white;
+	z-index: 99;
+	text-align: center;
+}
 
-
-
+/* #load > img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 100;
+} */
+</style>
 </head>
 
 <body>
   
 
 			  
-  			<a href='#' class="btn btn-primary" role="button" id="matching">matching</a>	
+	<div id="load" >
+		<img src="/resources/images/chatting/loading.gif" alt="loading">
+		<br> <h1>loading...</h1>
+	</div>
 
 
    

@@ -49,18 +49,22 @@
  
 
 ////////////////////////////////////////////
+
 	var socket = io.connect('http://192.168.0.28:82');
 	var timeout;
-	var roomNo='${roomNo}';
+	var chattingNo='${chatting.chattingNo}';
+	var manId="${chatting.manId}";
+	var womanId="${chatting.womanId}";
+	var chatting={"chattingNo":chattingNo,"manId":manId,"womanId":womanId};
 	// on connection to server, ask for user's name with an anonymous callback
 	socket.on('connect', function(){
 		// call the server-side function 'adduser' and send one parameter (value of prompt)
 		//socket.emit('adduser', prompt("What's your name?"));
-		alert(roomNo);
+		//alert(roomNo);
 		//alert($.session.get("roomNo"));
 		
 		socket.emit('adduser', "${me.userId}");
-		socket.emit('addroom',roomNo);
+		socket.emit('addroom',chatting);
 	});
 	// listener, whenever the server emits 'updatechat', this updates the chat body
 	socket.on('updatechat', function (username, data1) {
@@ -195,12 +199,18 @@
 				$('#datasend').focus().click();
 			}
 		});
+		
+/////////////////////////////////////////////
+///////////////////////////////////////////////
 	});
 	
-	
-  
-  
-  
+	window.addEventListener('beforeunload', function (e) {
+		location="/chatting/endChatting";
+		/* var confirmationMessage = '\o/';
+
+		(e || window.event).returnValue = confirmationMessage; //Gecko + IE
+		return confirmationMessage; //Webkit, Safari, Chrome */
+		});
   /////////////////////////////////
 	//////////////////////////////////////////
 </script>
