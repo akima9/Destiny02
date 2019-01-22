@@ -49,16 +49,62 @@ $(function() {
 });
 
 </script>
+<style>
+	body{
+		position : relative;
+	}
+	.topImg{
+		display : block;
+		position : absolute;
+		top : 0;
+		background-image : url("/resources/images/background/getRestaurantInfo_background.jpg");
+		background-repeat : no-repeat;
+		background-position : center center;
+		background-size : cover;
+		width : 100%;
+		height : 400px;
+	}
+	.topImg::after{
+		content : "";
+		background : rgba(0, 0, 0, 0.2);
+		position : absolute;
+		top : 0;
+		left : 0;
+		width : 100%;
+		height : 400px;
+		z-index : 1;
+	}
+	.topImg h1{
+		position : absolute;
+		line-height : 450px;
+		width : 100%;
+		text-align : center;
+		color : white;
+		z-index : 2;
+		font-size : 60px;
+		font-weight : bold;
+	}
+	h1 .slim{
+		font-weight : lighter;
+	}
+	.wrap{
+		margin-top : 400px;
+	}
+</style>
 </head>
 <body>
-	 <!-- ToolBar Start /////////////////////////////////////-->
-		<jsp:include page="/layout/toolBar.jsp" />
+	
+	<!-- ToolBar Start /////////////////////////////////////-->
+	<jsp:include page="/layout/toolBar.jsp" />
   	<!-- ToolBar End /////////////////////////////////////-->
     
+	<div class="topImg">
+		<h1>맛집<span class="slim">정보</span></h1>
+	</div>
 	
 	<div class="container">
 	
-		<h1>getRestaurantInfoList.jsp</h1>
+		<div class="wrap">
 		
 		<input type="hidden" name="views" value="${ community.views }">
 		
@@ -113,12 +159,16 @@ $(function() {
 		<div class="form-group text-center">
 			<button type="button" class="btn btn-default btn-lg">글쓰기</button>
 		</div>
+		
+		
 	
 	</div>
 	
 	<!-- PageNavigation : start -->
 	<jsp:include page="../common/pageNavigator_new.jsp"/>
 	<!-- PageNavigation : end -->
+	
+	</div>
 	
 </body>
 </html>
