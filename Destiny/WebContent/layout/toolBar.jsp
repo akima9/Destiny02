@@ -24,6 +24,9 @@
 			$("a[href='#' ]:contains('Complain')").on("click", function() {
 				self.location = "/complain/listComplain"
 			});
+			$("a[href='#' ]:contains('UserList')").on("click", function() {
+				self.location = "/user/listUser"
+			});
 			/* $("a[href='#' ]:contains('login')").on("click", function() {
 				self.location = "/user/login"
 			}); */
@@ -148,7 +151,19 @@
 				<li><a href="#">Notice</a></li>
 				
 				<c:if test="${me.userGrade == 'ADM'}">
-					<li><a href="#">Complain</a></li>
+				
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+							<span>Admin</span>
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Complain</a></li>
+							<li><a href="#">UserList</a></li>
+						</ul>
+					</li>
+				
+					<!-- <li><a href="#">Complain</a></li> -->
 				</c:if>
 			</ul>
 

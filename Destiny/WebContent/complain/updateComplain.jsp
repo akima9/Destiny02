@@ -30,9 +30,12 @@
 					var meetingNo = $(this).data("param1");
 					
 					if(meetingNo == null){
-						if(${community.category == "RES"}){
+						/* if(${community.category == "RES"}){
 							self.location="/info/getRestaurantInfo?communityNo="+communityNo
-						} 
+						}  */
+						
+						self.location="/info/getRestaurantInfo?communityNo="+communityNo
+
 						
 					}else if(communityNo == null){
 						self.location="/meeting/getMeeting?meetingNo="+meetingNo
@@ -68,8 +71,24 @@
 		<input type="hidden" name="complainNo" value="${complain.complainNo}"/>
 		<input type="hidden" name="defendantId" value="${complain.defendantId}"/>
 		
+			<hr/>
 			<div class="row">
+				<div class="col-xs-4 col-md-2"><strong>신고처리상태</strong></div>
+				<div class="col-xs-8 col-md-4" name="complainState">
+				 	${complain.complainState=='N' ? "신고처리 대기중":"신고처리 완료"}
+				 </div>
+			</div>
 			
+			<hr/>
+			
+			<div class="row">
+		  		<div class="col-xs-4 col-md-2"><strong>신고날짜</strong></div>
+				<div class="col-xs-8 col-md-4" name="complainDate"> ${complain.complainDate}  </div>
+			</div>
+				
+			<hr/>
+		
+			<div class="row">
 				<div class="col-xs-4 col-md-2"><strong>신고자</strong></div>
 				<div class="col-xs-8 col-md-4" name="complainType"> ${complain.complainerId} ( ${user.warningCount} )</div>
 			</div>
@@ -132,9 +151,7 @@
 			<hr/>
 			
 			<div class="form-group text-center">
-				
 				<button type="button" class="btn btn-default btn-mg">확인</button>
-					
 			</div>
 			
 		</form>

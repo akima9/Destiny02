@@ -91,13 +91,18 @@ public class CommunityDaoImpl implements CommunityDao{
 	}
 
 	@Override
-	public LikeCount getLikeCount(int likeCountNo) throws Exception {
-		return sqlSession.selectOne("LikeCountMapper.getLikeCount", likeCountNo);
+	public LikeCount getLikeCount(LikeCount likeCount) throws Exception {
+		return sqlSession.selectOne("LikeCountMapper.getLikeCount", likeCount);
 	}
 
 	@Override
 	public void updateViewsCondition(Community community) throws Exception {
 		sqlSession.update("CommunityMapper.updateViewsCondition", community);
+	}
+	
+	@Override
+	public void updateViewsConditionAdmin(Community community) throws Exception {
+		sqlSession.update("CommunityMapper.updateViewsConditionAdmin", community);
 	}
 
 }

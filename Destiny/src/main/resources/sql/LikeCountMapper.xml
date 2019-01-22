@@ -14,7 +14,13 @@
 		<result property="likeCountCheck" 			column="likecount_check" 				jdbcType="CHAR" />
 	</resultMap>
 	
-	<!-- SQL : INSERT -->
+	<!-- SQL : SELECT -->
+	<select id="getLikeCount" parameterType="com.destiny.service.domain.LikeCount" resultMap="likecountSelectMap" >
+	 	SELECT * FROM likeCount 
+	 	WHERE likecount_community_no = #{likeCountCommunityNo} AND likecount_id = #{likeCountId}
+	</select>
+	
+	<!-- SQL : SELECT -->
 	<select id="checkId" parameterType="com.destiny.service.domain.LikeCount" resultMap="likecountSelectMap" >
 	 	SELECT * FROM likeCount 
 	 	WHERE likecount_id = #{likeCountId} AND likecount_community_no = #{likeCountCommunityNo}
