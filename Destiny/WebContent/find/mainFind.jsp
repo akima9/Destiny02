@@ -29,6 +29,12 @@
 			});
 			
 		</script>
+		
+		<style>
+			.box{ width: 100%; height: 700px; margin-bottom: 10px; background: linear-gradient( to right, #dae2f8, #d6a4a4 ); }
+			.left-box {width: 50%; float: left;}
+			.right-box {width: 50%; float: right;}
+		</style>
 	   	
 	</head>
 	
@@ -37,9 +43,17 @@
 		  <jsp:include page="/layout/toolBar.jsp" />
 	  	<!-- ToolBar End /////////////////////////////////////-->
 		<h1>FIND Main화면</h1>
-	
-		<a href="#">이상형 찾기</a>
-		<a href="#">모임 찾기</a>
+		
+		<div class="box">
+			<!-- <div class='left-box'>
+				<a href="#">이상형 찾기</a>
+			</div>
+			<div class='right-box'>
+				<a href="#">모임 찾기</a> 
+			</div> -->
+		</div>
+		
+		
 	
 	
 		
