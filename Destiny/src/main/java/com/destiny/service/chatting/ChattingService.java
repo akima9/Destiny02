@@ -13,6 +13,8 @@ public interface ChattingService {
 	
 	public Chatting getChatting(String userId) throws Exception;
 	
+	public Chatting getChatting2(int roomNo) throws Exception;
+	
 	public Map<String, Object> listContactMeeting(Chatting chatting) throws Exception;
 	
 	public String addVoice(String voiceFileName) throws Exception;

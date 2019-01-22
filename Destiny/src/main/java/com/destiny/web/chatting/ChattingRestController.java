@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.service.chatting.ChattingService;
@@ -38,7 +39,7 @@ import com.destiny.service.domain.User;
 import com.destiny.service.user.UserService;
 
 
-@Controller
+@RestController
 @RequestMapping("/chatting/*")
 public class ChattingRestController {
 	///Field
@@ -54,12 +55,14 @@ public class ChattingRestController {
 ////여성 리스트와 남성 리스트를 담을 객체 생성
 	private List<User> womanList = new ArrayList<User>();
 	private List<User> manList = new ArrayList<User>();
+	private List<Chatting> chattingList = new ArrayList<Chatting>();
 	private int no;
 	
 	
 		
 	
-	@RequestMapping(value="json/getPerfectChatting", method=RequestMethod.GET)
+	/*node 연결 시도
+	 * @RequestMapping(value="json/getPerfectChatting", method=RequestMethod.GET)
 	public ModelAndView nodeConn(Locale locale, Model model) throws Exception{
 		System.out.println("nodeConn 연결");
 		JSONObject cred = new JSONObject();
@@ -80,9 +83,31 @@ public class ChattingRestController {
 		modelAndView.addObject("index");
 		modelAndView.setViewName("redirect:/chatting/mainChatting.jsp");
 		return modelAndView;
+	}*/
+	
+	@RequestMapping(value="json/getPerfectChatting/{roomNo}", method=RequestMethod.GET)
+	public ModelAndView getPerfectChatting(@PathVariable int roomNo,HttpSession session,HttpServletRequest request) throws Exception{
+		System.out.println("getPerfectChatting 들어옴");
+		ModelAndView modelAndView = new ModelAndView();
+		
+		//getChatting NO
+		Chatting resultChatting=chattingService.getChatting2(roomNo);
+		//roomName은 ChattingNo로 지정
+		String man=null;
+		String woman=null;
+		man=resultChatting.getManId();
+		woman=resultChatting.getWomanId();
+		
+		System.out.println("resultChatting : "+resultChatting);
+		System.out.println("roomNo : "+roomNo);
+		
+		modelAndView.setViewName("chatting/getPerfectChatting.jsp");
+		modelAndView.addObject("result", "Success");
+		modelAndView.addObject("womanId", woman);
+		modelAndView.addObject("manId", man);
+		modelAndView.addObject("roomNo", roomNo);
+		return modelAndView;
 	}
-	
-	
 	
 	@RequestMapping(value="json/translate/{q}/{target}",method=RequestMethod.GET)
 	public String chatGoogleTranslateGET( @PathVariable String q,@PathVariable String target, HttpSession session) throws Exception {
@@ -285,56 +310,9 @@ public class ChattingRestController {
 			
 			System.out.println("manList.size() : "+manList.size()+"womanList.size() : "+womanList.size());
 			System.out.println("manList : "+manList+"womanList : "+womanList);
-			
-			String man=null;
-			String woman=null;
-			
-			int roomNo=0;
-			
-			if (manList.size()>no && womanList.size()>no) {
-				////////매칭된 아이디 2개 넣기
-				//		chatting.setManId(manId);
-				//		chatting.setWomanId(womanId);
-				/////////test
-				System.out.println("manList==womanList");
-				man=manList.get(no).getUserId();
-				woman=womanList.get(no).getUserId();
-				chatting.setManId(man);
-				chatting.setWomanId(woman);
-				chatting.setContactMeeting("N");
-				//addChatting
-				System.out.println("man  : "+man+"  woman : "+woman);
-				
-				
-				chattingService.addPerfectChatting(chatting);
-				
-				no++;
-				//womanList.remove(0);
-				//manList.remove(0);
-				////대기상태//////////////////////////////
-				
-				map.put("manList", manList);
-				map.put("womanList", womanList);
-			
-				
-				
-			}else {
-				System.out.println("아직");
-				map.put("manList", "아직");
-				map.put("womanList", "아직");
-			}
-			
-		
-			
-			
-			
-			
-					
-				
-		
-				
-			
-			
+
+			map.put("manList", manList);
+			map.put("womanList", womanList);
 			
 							
 		
@@ -396,20 +374,60 @@ public class ChattingRestController {
 			String man=null;
 			String woman=null;
 			int roomNo=0;
+
+			if (manList.size()>no && womanList.size()>no) {
+				////////매칭된 아이디 2개 넣기
+				//		chatting.setManId(manId);
+				//		chatting.setWomanId(womanId);
+				/////////test
+				System.out.println("manList==womanList");
+				man=manList.get(no).getUserId();
+				woman=womanList.get(no).getUserId();
+				chatting.setManId(man);
+				chatting.setWomanId(woman);
+				chatting.setContactMeeting("N");
+				//addChatting
+				System.out.println("man  : "+man+"  woman : "+woman);
+				
+				
+				chattingService.addPerfectChatting(chatting);
+				
+				no++;
+				//womanList.remove(0);
+				//manList.remove(0);
+				////대기상태//////////////////////////////
+				
+				map.put("manList", manList);
+				map.put("womanList", womanList);
 			
+				
+				
+			}
 			//get
 			System.out.println("getChatting");
-				Chatting resultChatting=chattingService.getChatting(userId);
-				//roomName은 ChattingNo로 지정
-				roomNo=resultChatting.getChattingNo();
-				System.out.println("resultChatting : "+resultChatting);
-				System.out.println("roomNo : "+roomNo);
-				man=resultChatting.getManId();
-				woman=resultChatting.getWomanId();
-				map.put("womanId", woman);
-				map.put("manId", man);
-				map.put("roomNo", roomNo);
-			
+				if (no>0&&(womanList.get(no-1).getUserId().equals(userId)||manList.get(no-1).getUserId().equals(userId))) {
+					Chatting resultChatting=chattingService.getChatting(userId);
+					//roomName은 ChattingNo로 지정
+					roomNo=resultChatting.getChattingNo();
+					System.out.println("resultChatting : "+resultChatting);
+					System.out.println("roomNo : "+roomNo);
+					man=resultChatting.getManId();
+					woman=resultChatting.getWomanId();
+					map.put("womanId", woman);
+					map.put("manId", man);
+					map.put("roomNo", roomNo);
+					map.put("no", no); 
+					session.setAttribute("roomNo", roomNo);
+					chattingList.add(resultChatting);
+					System.out.println("map : "+map);
+				}else {
+					map.put("womanId", woman);
+					map.put("manId", man);
+					map.put("roomNo", roomNo); 
+					
+					System.out.println("map : "+map);
+				}
+				
 		
 			
 			

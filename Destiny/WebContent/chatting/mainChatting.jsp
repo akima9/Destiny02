@@ -75,7 +75,7 @@
 						"Content-Type" : "application/json"
 					},
 					success : function(JsonData) {
-						alert("성공");
+						//alert("성공");
 						//alert(JsonData.manList[0].userId);
 						//alert(JsonData.womanList[0].userId);
 						//alert(JsonData.manList.length);
