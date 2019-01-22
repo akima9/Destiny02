@@ -57,7 +57,7 @@
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "GET").attr("action" , "/act/getWriteCommunityList").submit();
+			$("form").attr("method" , "GET").attr("action" , "/act/getContactList").submit();
 		}
 		
 		
@@ -149,6 +149,15 @@
 			//==> 아래와 같이 정의한 이유는 ??
 			$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 		});	
+		
+		 $(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 $( "button[id='writeStoryButton']" ).on("click" , function() {
+			 	//var userId = $("input[name='getUserId']").val();
+			 	var userId = "${me.userId}";
+				self.location = "/act/addStoryView";
+		    });
+		});
 	
 	</script>
 	
@@ -249,7 +258,7 @@
 			  </c:if>
 			  
 			  <td align="left">${chatting.chattingDate}</td>
-			  <td align="left">ㄱㄱ</td>
+			  <td align="left"><button id="writeStoryButton" type="button">리뷰 작성</button></td>
 			</tr>
           </c:forEach>
         

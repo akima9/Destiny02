@@ -94,6 +94,8 @@
 	</resultMap>
 	
 	
+	
+	
 	 <!-- SQL : SELECT LIST -->
 	<select  id="getMeetingListByMaster"  parameterType="map"	resultMap="meetingSelectMap">
 	  	SELECT *

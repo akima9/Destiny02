@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +23,8 @@ import com.destiny.service.Act.ActService;
 import com.destiny.service.chatting.ChattingService;
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Chatting;
+import com.destiny.service.domain.Community;
+import com.destiny.service.domain.User;
 import com.destiny.service.info.InfoService;
 import com.destiny.service.meeting.MeetingService;
 import com.destiny.service.review.ReviewService;
@@ -192,4 +196,43 @@ public class ActController {
 		modelAndView.addObject("search", search);
 		return modelAndView;
 	}
+	
+	@RequestMapping(value="addStoryView", method=RequestMethod.GET)
+	public ModelAndView addStoryView() throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userAct/addStory.jsp");
+		return modelAndView;
+	}
+	
+	/*addRestaurantInfo : start*/
+	@RequestMapping(value="addStory", method=RequestMethod.POST)
+	public ModelAndView addStory(@ModelAttribute("community") Community community, HttpSession session) throws Exception{
+		System.out.println(":: ActController/addStory/post : Ω««‡");
+		
+		User user = (User)session.getAttribute("me"); 
+		String userId = user.getUserId();
+		String nickName = user.getNickName();
+		String userGrade = user.getUserGrade();
+		System.out.println("userId :: " + userId);
+		System.out.println("nickName : "+nickName);
+		System.out.println("userGrade : "+userGrade);
+		
+		community.setWriterId(userId);
+		community.setCategory("RES");
+		community.setUserGrade(userGrade);
+		community.setWriterNickName(nickName);
+		community.setViews(0);
+		community.setLike(0);
+		community.setImportRank("N");
+		community.setViewCondition("DEF");
+		
+		System.out.println(":: ActController/addStory/post¿« community : "+community);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		communityService.addCommunity(community);
+		modelAndView.setViewName("/user/userAct/addStoryConfirm.jsp");
+		return modelAndView;
+	}
+	/*addRestaurantInfo : end*/
+	
 }
