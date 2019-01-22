@@ -71,7 +71,7 @@
 					return;
 				}
 				
-				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
+				$("#loginForm").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
 				//self.location = "/user/login/"+id+"/"+pw;
 			});
 		});	
@@ -158,7 +158,7 @@
 					<li><a href="#">join</a></li>
 				 
 					<div id="my-dialog">
-					<form class="form-horizontal">
+					<form id="loginForm" class="form-horizontal">
 						<label for="userId" class="col-sm-4 control-label">¾Æ ÀÌ µð</label>
 							
 						<div class="col-sm-6">
