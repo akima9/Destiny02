@@ -20,20 +20,76 @@
 		<script type="text/javascript">
 			$(function() {
 				
-				$("a[href='#' ]:contains('이상형 찾기')").on("click", function() {
-					self.location = "/find/selectUser"
-				});
-				$("a[href='#' ]:contains('모임 찾기')").on("click", function() {
+				$("a[name='모임찾기']").on("click", function() {
 					self.location = "/find/selectMeeting"
+				});
+				$("a[name='이상형 찾기']").on("click", function() {
+					self.location = "/find/selectUser"
 				});
 			});
 			
 		</script>
 		
 		<style>
-			.box{ width: 100%; height: 700px; margin-bottom: 10px; background: linear-gradient( to right, #dae2f8, #d6a4a4 ); }
-			.left-box {width: 50%; float: left;}
-			.right-box {width: 50%; float: right;}
+		
+			a{color : black;}
+			a:hover{text-decoration : none;}
+			
+			.wrap{
+				display : block;
+				width : 100%;
+				height : auto;
+				margin-top : 150px;
+			}
+			
+			ul{
+				padding-left : 0;
+				overflow : hidden;
+			}
+			
+			li{
+				list-style-type : none;
+			}
+			
+			li:first-child{
+				float : left;
+			}
+			
+			li:last-child{
+				float : right;
+			}
+			
+			.search-giyong a{
+				display : block;
+				width : 500px;
+				height : 500px;
+				line-height : 500px;
+				text-align : center;
+				font-weight : bold;
+				font-size : 50px;
+				color : white;
+			}
+			
+			.search-giyong li:first-child {
+				background : url("../resources/images/find/findMeeting.jpg") no-repeat;
+				background-position : 90%;
+				background-size : cover;
+			}
+			
+			.search-giyong li:last-child {
+				background : url("../resources/images/find/findUser.jpg") no-repeat;
+				background-position : 75%;
+				background-size : cover;
+			}
+			
+			.search-giyong li{
+				display : block;
+			}
+			
+			.search-giyong span{
+				font-weight : lighter;
+			}
+			
 		</style>
 	   	
 	</head>
@@ -42,15 +98,26 @@
 		<!-- ToolBar Start /////////////////////////////////////-->
 		  <jsp:include page="/layout/toolBar.jsp" />
 	  	<!-- ToolBar End /////////////////////////////////////-->
-		<h1>FIND Main화면</h1>
+		<!-- <h1>FIND Main화면</h1> -->
 		
-		<div class="box">
-			<!-- <div class='left-box'>
-				<a href="#">이상형 찾기</a>
+		<div class="container">
+			
+			<div class="wrap">
+			
+				<ul class="search-giyong">
+					<li>
+						<a href="#" name="모임찾기">
+							모임<span>찾기</span>
+					  	</a>
+					</li>
+					<li>
+						<a href="#" name="이상형 찾기">
+							이상형 <span>찾기</span>
+					  	</a>
+					</li>
+				</ul>
+			
 			</div>
-			<div class='right-box'>
-				<a href="#">모임 찾기</a> 
-			</div> -->
 		</div>
 		
 		

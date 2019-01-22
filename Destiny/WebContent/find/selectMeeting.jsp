@@ -36,7 +36,6 @@
 									"Content-Type" : "application/json"
 								},
 								success : function(JSONData , status) {
-									alert("¼º°ø?");
 									var list="";
 									for(i in JSONData.list){
 										var town = JSONData.list[i].townName;
@@ -45,7 +44,7 @@
 									$( "#town:eq("+idx+")" ).empty().append(list);
 								},
 								error : function(what){
-									alert("town ERROR" + what);
+									/* alert("town ERROR" + what); */
 								}
 							});
 					});
