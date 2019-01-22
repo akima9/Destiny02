@@ -17,7 +17,11 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw" crossorigin="anonymous"></script>
-
+<style type="text/css">
+	.giyong{
+		margin-left : 100px;
+	}
+</style>
 <script type="text/javascript">
 	
 	var communityNo = ${community.communityNo}; //게시글 번호  하드코딩
@@ -61,7 +65,7 @@
 	        url : '/comment/rest/addComment/'+communityNo,
 	        type : 'post',
 	        data : JSON.stringify({
-	        			commentWriterId : "kimgiyong", //하드코딩 수정
+	        			commentWriterId : $('#userId').val(), //하드코딩 수정
 	        			commentComuNo : communityNo,
 	        			commentDetail : $('[name=commentDetail]').val()
 	        			}),
@@ -90,7 +94,7 @@
 	        type : 'post',
 	        data : JSON.stringify({
 	        			targetNo : targetNo,
-	        			commentWriterId : "kimgiyong", //하드코딩 수정
+	        			commentWriterId : $('#userId').val(), //하드코딩 수정
 	        			commentComuNo : communityNo,
 	        			commentDetail : $('#commentDetail').val()
 	        			}),
@@ -192,6 +196,8 @@
 			<div class="form-group">
 				<input type="text" class="form-control" name="commentDetail" placeholder="댓글을 입력해주세요">
 				<button type="button" class="btn btn-default btn-md" id="save">등록</button>
+				<input type="hidden" id="userId" name="userId" value="${ me.userId }">
+				<input type="hidden" id="nickName" name="nickName" value="${ me.nickName }">
 			</div>
 			
 	        <div class="replyList"></div>

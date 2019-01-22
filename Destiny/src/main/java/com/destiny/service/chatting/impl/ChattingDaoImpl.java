@@ -43,6 +43,13 @@ public class ChattingDaoImpl implements ChattingDao {
 		sqlSession.selectOne("ChattingMapper.getChatting", userId);
 		return sqlSession.selectOne("ChattingMapper.getChatting", userId);
 	}
+	
+	@Override
+	public Chatting getChatting2(int roomNo) throws Exception {
+		sqlSession.selectOne("ChattingMapper.getChatting2", roomNo);
+		return sqlSession.selectOne("ChattingMapper.getChatting2", roomNo);
+	}
+	
 
 	@Override
 	public List<Chatting> listContactMeeting(Chatting chatting) throws Exception {
@@ -93,6 +100,7 @@ public class ChattingDaoImpl implements ChattingDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	
 	
 }

@@ -46,6 +46,12 @@ public class ChattingServiceImpl implements ChattingService {
 		chattingDao.getChatting(userId);
 		return chattingDao.getChatting(userId);
 	}
+	
+	@Override
+	public Chatting getChatting2(int roomNo) throws Exception {
+		chattingDao.getChatting2(roomNo);
+		return chattingDao.getChatting2(roomNo);
+	}
 
 
 	@Override
@@ -95,4 +101,6 @@ public class ChattingServiceImpl implements ChattingService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 }

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="ActMapper">
+
+	<resultMap id="userSelectMap" type="com.destiny.service.domain.User">
+		<result property="userId" 			column="user_id" 			jdbcType="VARCHAR"/>
+		<result property="password" 		column="password" 			jdbcType="VARCHAR" />
+		<result property="nickName"			column="nick_name" 			jdbcType="VARCHAR" />
+		<result property="userGrade"		column="user_grade" 		jdbcType="VARCHAR"/>
+		<result property="email" 			column="email" 				jdbcType="VARCHAR" />
+		<result property="birthday" 		column="birthday" 			jdbcType="DATE" />
+		<result property="address" 			column="address" 			jdbcType="VARCHAR" />
+		<result property="profile" 			column="profile_img" 		jdbcType="VARCHAR" />
+		<result property="gender" 			column="gender" 			jdbcType="CHAR" />
+		<result property="phone" 			column="phone" 				jdbcType="VARCHAR" />
+		<result property="attendCount" 		column="attend_count" 		jdbcType="INTEGER" />
+		<result property="lastLoginDay" 	column="last_login_day" 	jdbcType="DATE" />
+		<result property="warningCount" 	column="warning_count" 		jdbcType="INTEGER" />
+		<result property="myType" 			column="my_type" 			jdbcType="NUMERIC" />
+		<result property="firstType" 		column="first_type" 		jdbcType="NUMERIC" />
+		<result property="secondType" 		column="second_type" 		jdbcType="NUMERIC" />
+		<result property="thirdType" 		column="thrid_type" 		jdbcType="NUMERIC" />
+		<result property="firstInterest" 	column="first_interest" 	jdbcType="NUMERIC" />
+		<result property="secondInterest" 	column="second_interest" 	jdbcType="NUMERIC" />
+		<result property="thirdInterest" 	column="third_interest" 	jdbcType="NUMERIC" />		
+		<result property="userState" 		column="user_state" 		jdbcType="CHAR"/>	
+	</resultMap>
+	
+	<resultMap id="locationSelectMap" type="com.destiny.service.domain.Location">
+		<result property="locationNo" column="location_no" jdbcType="INTEGER"/>
+		<result property="cityName" column="city_name" jdbcType="VARCHAR"/>
+		<result property="townName" column="town_name" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<resultMap id="meetingSelectMap" type="com.destiny.service.domain.Meeting">
+		<result property="meetingNo" 			column="meeting_no" 		jdbcType="NUMERIC"/>
+		<result property="role" 				column="role" 				jdbcType="CHAR" />
+		<result property="meetingMasterId"		column="meeting_master_id" 	jdbcType="VARCHAR" />
+		<result property="masterProfileImg"		column="master_profile_img" jdbcType="VARCHAR" />
+		<result property="meetingCenter"		column="meeting_center" 	jdbcType="VARCHAR" />
+		<result property="meetingName"			column="meeting_name" 		jdbcType="VARCHAR" />
+		<result property="titleImg"				column="title_img" 			jdbcType="VARCHAR" />
+		<result property="meetingDetail"		column="meeting_detail" 	jdbcType="VARCHAR"/>
+		<result property="meetingRule" 			column="meeting_rule" 		jdbcType="VARCHAR" />
+		<result property="interestName" 		column="interest_name" 		jdbcType="VARCHAR"/>
+		<result property="meetingLocation" 		column="meeting_location" 	jdbcType="VARCHAR" />
+		<result property="meetingDate" 			column="meeting_date" 		jdbcType="DATE" />
+		<result property="meetingDay" 			column="meeting_day" 		jdbcType="VARCHAR" />
+		<result property="meetingTime" 			column="meeting_time" 		jdbcType="VARCHAR" />
+		<result property="snooze" 				column="snooze" 			jdbcType="CHAR" />
+		<result property="meetingDues" 			column="meeting_dues" 		jdbcType="VARCHAR" />
+		<result property="meetingViews" 		column="meeting_views" 		jdbcType="NUMERIC"/>
+		<result property="meetingCondition" 	column="meeting_condition" 	jdbcType="CHAR"/>
+		<result property="shutDownDate" 		column="shut_down_date" 	jdbcType="DATE" />
+		<result property="meetingCrewLimit" 	column="meeting_crew_limit" jdbcType="NUMERIC" />
+	</resultMap>
+	
+	<resultMap id="communitySelectMap" type="com.destiny.service.domain.Community">
+		<result property="communityNo" 			column="community_no" 							jdbcType="NUMERIC"/>
+		<result property="writerId"				column="community_writer_id" 					jdbcType="VARCHAR" />
+		<result property="meetingNo" 			column="meeting_no" 							jdbcType="NUMERIC" />
+		<result property="category" 			column="category" 								jdbcType="CHAR" />
+		<result property="userGrade"			column="community_user_grade" 					jdbcType="CHAR" />
+		<result property="title"				column="community_title" 						jdbcType="VARCHAR" />
+		<result property="writerNickName" 		column="community_writer_nick_name" 			jdbcType="VARCHAR" />
+		<result property="detail"				column="community_detail" 						jdbcType="VARCHAR" />
+		<result property="writeDate"			column="community_write_date" 					jdbcType="DATE" />
+		<result property="views"				column="community_views" 						jdbcType="INTEGER" />
+		<result property="like"					column="community_like" 						jdbcType="INTEGER" />
+		<result property="importRank"			column="import_rank" 							jdbcType="CHAR" />
+		<result property="viewCondition"		column="community_view_condition" 				jdbcType="CHAR" />
+	</resultMap>
+	
+	<resultMap id="commentSelectMap" type="com.destiny.service.domain.Comment">
+		<result property="commentNo" 			column="comment_no" 					jdbcType="NUMERIC"/>
+		<result property="commentComuNo"		column="community_no" 					jdbcType="NUMERIC" />
+		<result property="commentWriterId" 		column="comment_writer_id" 				jdbcType="VARCHAR" />
+		<result property="commentDetail" 		column="comment_detail" 				jdbcType="VARCHAR" />
+		<result property="commentDate"			column="comment_write_date" 			jdbcType="DATE" />
+		<result property="targetNo"				column="comment_target_no" 				jdbcType="NUMERIC" />
+		<result property="viewCondition" 		column="comment_view_condition" 		jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	
+	 <!-- SQL : SELECT LIST -->
+	<select  id="getMeetingListByMaster"  parameterType="map"	resultMap="meetingSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT meeting_no, role, meeting_master_id, master_profile_img, meeting_center, meeting_name, title_img,
+	  					                    meeting_detail, meeting_rule, interest_name, meeting_location, meeting_date, meeting_day,
+	  					                    meeting_time, snooze, meeting_dues, meeting_views, meeting_condition, shut_down_date, meeting_crew_limit
+											FROM meeting
+											<where>
+												meeting_master_id = #{userId}
+											</where>
+											 ) inner_table
+						WHERE ROWNUM &lt;= #{search.endRowNum} )
+		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 	
+	 </select>
+	 
+	 
+	 
+	 <select  id="getTotalCountByMaster"  parameterType="String"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT  meeting_no, role, meeting_master_id, master_profile_img, meeting_center, meeting_name, title_img,
+	                    meeting_detail, meeting_rule, interest_name, meeting_location, meeting_date, meeting_day,
+	                    meeting_time, snooze, meeting_dues, meeting_views, meeting_condition, shut_down_date, meeting_crew_limit
+						FROM meeting
+						<where>
+							meeting_master_id = #{value}
+						</where>
+						 ) countTable						
+	 </select>
+	 
+	 
+	 
+	 
+	<!-- SQL : SELECT LIST -->
+	<select id="getCommunityListByWriter" parameterType="com.destiny.common.Search" resultMap="communitySelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT  comu.community_no, comu.community_writer_id, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition
+											FROM community comu
+											<where>
+												comu.community_writer_id = #{userId}
+											</where>
+											ORDER BY comu.community_no desc ) inner_table
+						WHERE ROWNUM &lt;= #{search.endRowNum} )
+		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 
+	 </select>
+	 	
+	
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCountByWriter"  parameterType="String"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT comu.community_no, comu.community_writer_id, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition
+						FROM community comu
+						<where>
+							comu.community_writer_id = #{userId}
+						</where>
+						 ) countTable						
+	 </select>
+	 
+	 <!-- SQL : SELECT LIST -->
+	<select  id="getCommentListByWriter"  parameterType="map"	resultMap="commentSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT comment_no , community_no , comment_writer_id , comment_detail , comment_write_date, comment_target_no, comment_view_condition
+											FROM comments
+											WHERE comment_writer_id = #{userId} 
+											ORDER BY comment_target_no, comment_no
+									 	) inner_table
+						WHERE ROWNUM &lt;= #{search.endRowNum} )
+		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+	 </select>
+	 
+	 <!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCountByCommentSwiter"  parameterType="String"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT comment_no , community_no , comment_writer_id , comment_detail , comment_write_date, comment_target_no, comment_view_condition
+						FROM comments
+						WHERE comment_writer_id = #{userId}
+					 ) countTable						
+	 </select>
+	
+
+
+
+
+</mapper>
+
+

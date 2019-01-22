@@ -79,15 +79,21 @@ public class InfoController {
 	
 	/*addRestaurantInfo : start*/
 	@RequestMapping(value="addRestaurantInfo", method=RequestMethod.POST)
-	public ModelAndView addRestaurantInfo(@ModelAttribute("community") Community community) throws Exception{
+	public ModelAndView addRestaurantInfo(@ModelAttribute("community") Community community, HttpSession session) throws Exception{
 		System.out.println(":: InfoController/addRestaurantInfo/post : 실행");
 		
-		community.setWriterId("kimgiyong");
+		User user = (User)session.getAttribute("me"); 
+		String userId = user.getUserId();
+		String nickName = user.getNickName();
+		String userGrade = user.getUserGrade();
+		System.out.println("userId :: " + userId);
+		System.out.println("nickName : "+nickName);
+		System.out.println("userGrade : "+userGrade);
+		
+		community.setWriterId(userId);
 		community.setCategory("RES");
-		community.setUserGrade("NOR");
-		/*community.setTitle(title);*/
-		community.setWriterNickName("javaKing");
-		/*community.setDetail(detail);*/
+		community.setUserGrade(userGrade);
+		community.setWriterNickName(nickName);
 		community.setViews(0);
 		community.setLike(0);
 		community.setImportRank("N");
@@ -105,6 +111,8 @@ public class InfoController {
 	/*getRestaurantInfo : start*/
 	@RequestMapping(value="getRestaurantInfo", method=RequestMethod.GET)
 	public ModelAndView getRestaurantInfo(@RequestParam("communityNo") int communityNo, @ModelAttribute("likeCount") LikeCount likeCount,  HttpSession session) throws Exception{
+		
+		System.out.println(":: info/getRestaurantInfo : GET 실행 ========================");
 		
 		User user = (User)session.getAttribute("me"); 
 		String userId = user.getUserId();

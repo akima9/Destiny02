@@ -59,6 +59,18 @@
 				self.location = "/act/getJoinMeetingList/"+userId;
 		    });
 		});
+		 
+		 
+		 $(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 $( "button[id='writeCommentListButton']" ).on("click" , function() {
+			 	//var userId = $("input[name='getUserId']").val();
+			 	var userId = "${me.userId}";
+				self.location = "/act/getCommentListByWriter/"+userId;
+		    });
+		});
+		 
+		 
 		
 		
 	</script>
@@ -92,6 +104,15 @@
 		    <label for="userId" class="col-sm-4 control-label"></label>
 		    <div class="col-sm-4">
 		      <button id="joinMeetingListButton" type="button">가입한 모임 목록</button>
+		    </div>
+		</div>	
+		
+		<br/>
+		
+		<div class="form-group">
+		    <label for="userId" class="col-sm-4 control-label"></label>
+		    <div class="col-sm-4">
+		      <button id="writeCommentListButton" type="button">작성한 댓글 목록</button>
 		    </div>
 		</div>	
 		

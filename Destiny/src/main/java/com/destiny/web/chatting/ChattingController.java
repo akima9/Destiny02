@@ -15,9 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.service.chatting.ChattingService;
@@ -322,13 +324,27 @@ public class ChattingController {
 		return modelAndView;
 	}
 	
-	class MyThreadTask implements Runnable{
-
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			
-		}
+	@RequestMapping(value="getPerfectChatting/{roomNo}", method=RequestMethod.GET)
+	public ModelAndView getPerfectChatting(@PathVariable int roomNo,HttpSession session,HttpServletRequest request) throws Exception{
+		System.out.println("getPerfectChatting 들어옴");
+		ModelAndView modelAndView = new ModelAndView();
 		
+		//getChatting NO
+		Chatting resultChatting=chattingService.getChatting2(roomNo);
+		//roomName은 ChattingNo로 지정
+		String man=null;
+		String woman=null;
+		man=resultChatting.getManId();
+		woman=resultChatting.getWomanId();
+		
+		System.out.println("resultChatting : "+resultChatting);
+		System.out.println("roomNo : "+roomNo);
+		
+		modelAndView.setViewName("chatting/getPerfectChatting.jsp");
+		modelAndView.addObject("result", "Success");
+		modelAndView.addObject("womanId", woman);
+		modelAndView.addObject("manId", man);
+		modelAndView.addObject("roomNo", roomNo);
+		return modelAndView;
 	}
 }

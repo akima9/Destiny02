@@ -9,34 +9,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>우리들의 연결고리</title>
 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
-
-
-<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <!-- Latest compiled and minified CSS -->
-<!-- <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
-	integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+"
-	crossorigin="anonymous"> -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
 
 <!-- Optional theme -->
-<!-- <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css"
-	integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR"
-	crossorigin="anonymous"> -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css" integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous">
+
 
 <!-- Latest compiled and minified JavaScript -->
-<!-- <script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"
-	integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw"
-	crossorigin="anonymous">
-	</script> -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
 	
@@ -107,28 +89,6 @@
 			});
 		});
 		/* 공감 버튼 이벤트 : end */
-		
-		
-		/* 작업중 */
-		/* $("button:contains('공감')").on("click", function() {
-			var communityNo = ${community.communityNo}
-			console.log(communityNo);
-			$.ajax({
-				method : "POST",
-				url : '/info/json/likeRestaurantInfo/'+communityNo,
-				headers : {
-					"Accept" : "application/json",
-					"Content-Type" : "application/json"
-				},
-				dataType : "json",
-				success : function(JSONData, state){
-					console.log(JSONData);
-					var like = JSONData.community.like;
-					$("#likeCount").html(like);
-				}
-			});
-		}); */
-		/* 작업중 */
 	});
 		
 	function changeBtn(likeId, likeCount, likeCommunityNo){
@@ -146,47 +106,151 @@
 </script>
 
 <style>
+
+	body{
+		position : relative;
+	}
+	.topImg{
+		display : block;
+		position : absolute;
+		top : 0;
+		background-image : url("/resources/images/background/getRestaurantInfo_background.jpg");
+		background-repeat : no-repeat;
+		background-position : center center;
+		background-size : cover;
+		width : 100%;
+		height : 400px;
+	}
+	.topImg::after{
+		content : "";
+		background : rgba(0, 0, 0, 0.2);
+		position : absolute;
+		top : 0;
+		left : 0;
+		width : 100%;
+		height : 400px;
+		z-index : 1;
+	}
+	.topImg h1{
+		position : absolute;
+		line-height : 450px;
+		width : 100%;
+		text-align : center;
+		color : white;
+		z-index : 2;
+		font-size : 60px;
+		font-weight : bold;
+	}
+	h1 .slim{
+		font-weight : lighter;
+	}
+	
+	.wrap{
+		margin-top : 400px;
+	}
+	
+	.wrap .button{
+		padding : 0 30px 10px 30px;
+	}
+	
+	.wrap .button .rightBtn{
+		float : right;
+	}
+	
+	.wrapContents{
+		margin-bottom : 100px;
+		border : 1px solid #E3E4E6;
+		padding : 30px;
+	}
+
+
 	.btn-heart{width:50px; height:50px; border:none; background:url(../resources/images/img_heart.png) no-repeat 0 0; cursor:pointer;}
-	.btn-heart.on{width:50px; height:50px; background:url(../resources/images/img_heart_on.png) no-repeat 0 0;}
+	.btn-heart.on{background:url(../resources/images/img_heart_on.png) no-repeat 0 0;}
+	
+	
+	.righttSort{
+		text-align : right;
+	}
+	
+	.firstRow{
+		padding-bottom : 10px;
+		border-bottom : 1px dashed #E3E4E6;
+	}
+	
+	.secondRow{
+		padding-top : 10px;
+	}
+	
+	.contentsDetail{
+		padding : 50px 10px;
+	}
+	
+	.firstColumn {
+		font-weight : bold;
+	}
 </style>
 
 </head>
 <body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
-		<jsp:include page="/layout/toolBar.jsp" />
+	<jsp:include page="/layout/toolBar.jsp" />
 	<!-- ToolBar End /////////////////////////////////////-->
+	
+	<div class="topImg">
+		<h1>맛집<span class="slim">정보</span></h1>
+	</div>
 
 	<div class="container">
 	
-		<!-- 상세페이지에서 업데이트 컨트롤러로 보내는 데이터 : start -->
-		<%-- <input type="text" name="likecountId" value="${ community.writerId }">
-		<input type="text" name="likecountCommunityNo" value="${ community.communityNo }">
-		<input type="text" name="likecountCheck" value="${ likecount.likecountCheck }"> --%>
-		<!-- 상세페이지에서 업데이트 컨트롤러로 보내는 데이터 : end -->
-	
-		<div class="row">
-			<h1>getRestaurantInfo.jsp</h1>
+		<div class="wrap">
+		
+		<div class="row button">
+			<button type="button" class="btn btn-default">이전글</button>
+			<button type="button" class="btn btn-default">다음글</button>
+			<button type="button" class="btn btn-default rightBtn">목록</button>
 		</div>
 		
-		<div class="row">
-			<div class="col-xs-4 col-md-2">제목</div>
-			<div class="col-xs-8 col-md-4">${ community.title }</div>
+		<div class="wrapContents">
+		
+		<div class="row firstRow">
+			<div class="col-xs-4 col-md-2 firstColumn">${ community.title }</div>
+			<c:if test="${community.category == 'RES'}">
+				<div class="col-xs-8 col-md-8">맛집정보</div>
+			</c:if>
+			<c:if test="${community.category == 'MET'}">
+				<div class="col-xs-8 col-md-8">모임후기</div>
+			</c:if>
+			<c:if test="${community.category == 'DAT'}">
+				<div class="col-xs-8 col-md-8">만남후기</div>
+			</c:if>
+			<c:if test="${community.category == 'LUV'}">
+				<div class="col-xs-8 col-md-8">연애조언</div>
+			</c:if>
+			<c:if test="${community.category == 'NTC'}">
+				<div class="col-xs-8 col-md-8">공지사항</div>
+			</c:if>
+			<div class="col-xs-4 col-md-2 righttSort">${ community.writeDate }</div>
 		</div>
 
-		<div class="row">
-			<div class="col-xs-4 col-md-2">닉네임</div>
-			<div class="col-xs-8 col-md-4">${ community.writerNickName }</div>
+		<div class="row secondRow">
+			<div class="col-xs-4 col-md-2 firstColumn">${ community.writerNickName }</div>
+			<c:if test="${community.userGrade == 'NEW'}">
+				<div class="col-xs-8 col-md-4">신규회원</div>
+			</c:if>
+			<c:if test="${community.userGrade == 'NOR'}">
+				<div class="col-xs-8 col-md-4">일반회원</div>
+			</c:if>
+			<c:if test="${community.userGrade == 'VIP'}">
+				<div class="col-xs-8 col-md-4">우수회원</div>
+			</c:if>
+			<c:if test="${community.userGrade == 'ADM'}">
+				<div class="col-xs-8 col-md-4">관리자</div>
+			</c:if>
 		</div>
 		
 		<div class="row">
-			<div class="col-xs-4 col-md-2">회원등급</div>
-			<div class="col-xs-8 col-md-4">${ community.userGrade }</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-xs-4 col-md-2">내용</div>
-			<div class="col-xs-8 col-md-4">${ community.detail }</div>
+			<div class="contentsDetail">${ community.detail }</div>
 		</div>
 		
 		<div class="row">
@@ -206,9 +270,6 @@
 		
 		<div class="row">
 			<div class="col-md-12 text-center">
-				<button type="button" class="btn btn-primary">이전글</button>
-				<button type="button" class="btn btn-primary">다음글</button>
-				<button type="button" class="btn btn-primary">목록</button>
 				<button type="button" class="btn btn-primary">글쓰기</button>
 				<button type="button" class="btn btn-primary">신고</button>
 				<!-- <button type="button" class="btn btn-primary">공감</button> -->
@@ -231,6 +292,10 @@
 		<!-- 댓글 : start -->
 		<jsp:include page="/comment/addComment.jsp" />
 		<!-- 댓글 : end -->
+		
+		</div>
+		
+		</div>
 	
 	</div>
 
