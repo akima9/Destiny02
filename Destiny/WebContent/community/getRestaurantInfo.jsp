@@ -188,8 +188,6 @@
 	.firstColumn {
 		font-weight : bold;
 	}
-	
-	
 </style>
 
 </head>

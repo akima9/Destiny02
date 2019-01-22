@@ -99,5 +99,10 @@ public class CommunityDaoImpl implements CommunityDao{
 	public void updateViewsCondition(Community community) throws Exception {
 		sqlSession.update("CommunityMapper.updateViewsCondition", community);
 	}
+	
+	@Override
+	public void updateViewsConditionAdmin(Community community) throws Exception {
+		sqlSession.update("CommunityMapper.updateViewsConditionAdmin", community);
+	}
 
 }

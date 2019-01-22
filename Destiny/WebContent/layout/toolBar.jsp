@@ -24,6 +24,9 @@
 			$("a[href='#' ]:contains('Complain')").on("click", function() {
 				self.location = "/complain/listComplain"
 			});
+			$("a[href='#' ]:contains('UserList')").on("click", function() {
+				self.location = "/user/listUser"
+			});
 			/* $("a[href='#' ]:contains('login')").on("click", function() {
 				self.location = "/user/login"
 			}); */
@@ -71,7 +74,7 @@
 					return;
 				}
 				
-				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
+				$("#loginForm").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
 				//self.location = "/user/login/"+id+"/"+pw;
 			});
 		});	
@@ -148,7 +151,19 @@
 				<li><a href="#">Notice</a></li>
 				
 				<c:if test="${me.userGrade == 'ADM'}">
-					<li><a href="#">Complain</a></li>
+				
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+							<span>Admin</span>
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Complain</a></li>
+							<li><a href="#">UserList</a></li>
+						</ul>
+					</li>
+				
+					<!-- <li><a href="#">Complain</a></li> -->
 				</c:if>
 			</ul>
 
@@ -158,7 +173,7 @@
 					<li><a href="#">join</a></li>
 				 
 					<div id="my-dialog">
-					<form class="form-horizontal">
+					<form id="loginForm" class="form-horizontal">
 						<label for="userId" class="col-sm-4 control-label">¾Æ ÀÌ µð</label>
 							
 						<div class="col-sm-6">

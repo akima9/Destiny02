@@ -50,17 +50,36 @@
 	            
 	           // manCount=JsonData.manList.length;
 				//womanCount=JsonData.womanList.length;
-				alert("manId : "+JsonData.manId+" womanId : "+JsonData.womanId);
-				if (userId==JsonData.manId ||userId==JsonData.womanId) {
+				//alert("manId : "+JsonData.manId+" womanId : "+JsonData.womanId);
+				if (JsonData.roomNo!=0) {
 					alert("manId : "+JsonData.manId+" womanId : "+JsonData.womanId);
-					location="/chatting/getPerfectChatting.jsp";
+					//location="/chatting/getPerfectChatting/"+JsonData.roomNo;
 					
+					popWin = window.open("/chatting/getPerfectChatting.jsp","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+					return false;
 				}else{
 					alert("manCount : "+manCount+" womanCount : "+womanCount);
 				}
 	        },
 	        //timeout: 3000,
-	        complete: setTimeout(function() { poll(); console.log(n); n++; }, 6000)
+	        complete: setTimeout(function() { 
+	        	if (n<2) {
+	        	poll();
+				}else{
+					  var confirmflag = confirm("상대방을 찾을 수 없습니다. 나가시겠습니까?");
+
+			           if(confirmflag){
+
+			              //확인 버튼 클릭 true 
+			        	   window.close();
+			           }else{
+
+			             //취소 버튼 클릭 false
+
+			           }
+			
+				}console.log(n); n++; }, 6000)
+			
 	    })
 	})();
 	

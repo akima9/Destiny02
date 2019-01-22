@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.common.Page;
 import com.destiny.common.Search;
+import com.destiny.service.Act.ActService;
 import com.destiny.service.chatting.ChattingService;
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.info.InfoService;
@@ -39,12 +40,12 @@ public class ActController {
 	private InfoService infoService;
 	
 	@Autowired
-	@Qualifier("meetingServiceImpl")
-	private MeetingService meetingService;
-	
-	@Autowired
 	@Qualifier("reviewServiceImpl")
 	private ReviewService reviewService;
+	
+	@Autowired
+	@Qualifier("actServiceImpl")
+	private ActService actService;
 	
 	
 	public ActController() {
@@ -57,7 +58,7 @@ public class ActController {
 	int pageSize;
 	
 	@RequestMapping(value="getWriteCommunityList/{userId}", method=RequestMethod.GET )
-	public ModelAndView getWriteCommunityList(@PathVariable("userId") String userId, @ModelAttribute("search") Search search) {
+	public ModelAndView getWriteCommunityList(@PathVariable("userId") String userId, @ModelAttribute("search") Search search) throws Exception {
 		
 		System.out.println("/act/getWriteCommunityList : GET + "+ userId);
 		
@@ -66,11 +67,9 @@ public class ActController {
 		}
 		search.setPageSize(pageSize);
 		
-		// Business logic 수행
-		//Map<String , Object> map=userService.getUserList(search);
-		Map<String , Object> map = new HashMap<String, Object>();
+		Map<String , Object> map = actService.getCommunityListByWriter(search, userId);
 		
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("getTotalCountByWriter")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
 		ModelAndView modelAndView = new ModelAndView();
@@ -82,7 +81,7 @@ public class ActController {
 	}
 	
 	@RequestMapping(value="getOpenMeetingList/{userId}", method=RequestMethod.GET)
-	public ModelAndView getOpenMeetingList(@PathVariable("userId") String userId, @ModelAttribute("search") Search search) {
+	public ModelAndView getOpenMeetingList(@PathVariable("userId") String userId, @ModelAttribute("search") Search search) throws Exception {
 		
 		System.out.println("act/getOpenMeetingList : GET + " + userId);
 		
@@ -91,11 +90,9 @@ public class ActController {
 		}
 		search.setPageSize(pageSize);
 		
-		// Business logic 수행
-		//Map<String , Object> map=userService.getUserList(search);
-		Map<String , Object> map = new HashMap<String, Object>();
+		Map<String , Object> map = actService.getMeetingListByMaster(search, userId);
 		
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCountByMaster")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
 		ModelAndView modelAndView = new ModelAndView();
@@ -107,7 +104,7 @@ public class ActController {
 	}
 	
 	@RequestMapping(value="getJoinMeetingList/{userId}", method=RequestMethod.GET)
-	public ModelAndView getJoinMeetingList(@PathVariable("userId") String userId, @ModelAttribute("search") Search search) {
+	public ModelAndView getJoinMeetingList(@PathVariable("userId") String userId, @ModelAttribute("search") Search search) throws Exception {
 		
 		System.out.println("act/getJoinMeetingList : GET + " + userId);
 		
@@ -125,6 +122,29 @@ public class ActController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/user/userAct/getJoinMeetingList.jsp");
+		modelAndView.addObject("list",  map.get("list"));
+		modelAndView.addObject("resultPage", resultPage);
+		modelAndView.addObject("search", search);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="getCommentListByWriter/{userId}", method=RequestMethod.GET)
+	public ModelAndView getCommentListByWriter(@PathVariable("userId") String userId, @ModelAttribute("search") Search search) throws Exception {
+		
+		System.out.println("act/getCommentListByWriter : GET + " + userId);
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		Map<String , Object> map = actService.getCommentListByWriter(search, userId);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("getTotalCountByWriter")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userAct/getWriteCommentList.jsp");
 		modelAndView.addObject("list",  map.get("list"));
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);

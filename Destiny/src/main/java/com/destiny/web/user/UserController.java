@@ -61,7 +61,7 @@ public class UserController {
 	}
 	
 	@RequestMapping( value="login", method=RequestMethod.POST )
-	public ModelAndView login(@ModelAttribute("user") User user , HttpSession session, HttpServletRequest request) throws Exception{
+	public ModelAndView login(@ModelAttribute("user") User user, HttpSession session, HttpServletRequest request) throws Exception{
 		
 		System.out.println("/user/login : GET");
 		System.out.println("userId : " + user.getUserId());
@@ -70,8 +70,10 @@ public class UserController {
 		//Business Logic
 		User dbUser = new User();
 		 
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/index.jsp");
+		
 		//만일 유저가 없다면
 		if(userService.getUser( user.getUserId()) == null) {
 			System.out.println("가입되지 않은 아이디입니다.");
@@ -90,7 +92,33 @@ public class UserController {
 				//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
 				ServletContext applicationScope = request.getSession().getServletContext();
 				
-				String Ip = request.getRemoteAddr();
+				//String Ip = request.getRemoteAddr();
+				
+				
+				String ip = request.getHeader("X-Forwarded-For");
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("Proxy-Client-IP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("WL-Proxy-Client-IP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("HTTP_CLIENT_IP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("HTTP_X_FORWARDED_FOR"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("X-Real-IP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("X-RealIP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getRemoteAddr(); 
+				 }
+				
+				
 				List<String> ipLoginList = new ArrayList<String>();
 				
 				if(applicationScope.getAttribute("ipLoginList") != null) {
@@ -117,7 +145,7 @@ public class UserController {
 					if(loginList.get(i).toString().equals(dbUser.toString())) {
 						System.out.println("어 있엉~~~~~~~~~~~~~~~~~~~~~~~");
 						System.out.println("두 사람의 IP가 동일합니까?");
-						if(ipLoginList.get(i).equals(Ip)) {
+						if(ipLoginList.get(i).equals(ip)) {
 							System.out.println("같은 ip에서의 접근입니다. ");
 						} else {
 							System.out.println("다른 ip에서의 접근입니다. ");
@@ -141,7 +169,7 @@ public class UserController {
 							
 							numberOfLogin++;
 							
-							ipLoginList.add(Ip);
+							ipLoginList.add(ip);
 							
 							applicationScope.setAttribute("loginList", loginList);
 							applicationScope.setAttribute("numberOfLogin", numberOfLogin);

@@ -75,7 +75,7 @@
 		
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$( "td:nth-child(2)" ).on("click" , function() {
-				 self.location ="/meeting/getMeeting?meetingNo="+$(this).text().trim();
+				 self.location ="/meeting/getMeeting?meetingNo="+$(this).data("param");
 			});
 						
 			//==> userId LINK Event End User 에게 보일수 있도록 
@@ -236,7 +236,7 @@
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : 모임 이동">${meeting.meetingName}</td>
+			  <td align="left" data-param="${meeting.meetingNo}" title="Click : 모임 이동">${meeting.meetingName}</td>
 			  <td align="left"><img src="/resources/images/meeting/${meeting.titleImg}" width="170" height="170"/></td>
 			  <td align="left">${meeting.meetingCenter}</td>
 			  <td align="left">${meeting.interestName}</td>
