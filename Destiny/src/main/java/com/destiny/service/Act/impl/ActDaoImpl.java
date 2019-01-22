@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.destiny.common.Search;
 import com.destiny.service.Act.ActDao;
+import com.destiny.service.domain.Chatting;
 import com.destiny.service.domain.Comment;
 import com.destiny.service.domain.Community;
 import com.destiny.service.domain.Meeting;
@@ -84,12 +85,32 @@ public class ActDaoImpl implements ActDao{
 		System.out.println("dao에 매핑된 값 : " + map);
 		System.out.println("dao에서 확보한 list : " + list);
 		
-		return null;
+		return list;
 	}
 
 	@Override
 	public int getTotalCountByCommentSwiter(String userId) throws Exception {
 		return sqlSession.selectOne("ActMapper.getTotalCountByCommentSwiter", userId);
+	}
+
+	@Override
+	public List<Chatting> getContactList(Search search, String userId) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("search", search);
+		
+		List<Chatting> list = sqlSession.selectList("ActMapper.getContactList", map);
+		
+		System.out.println("dao에서 전달된 값들 : " + userId + search);
+		System.out.println("dao에 매핑된 값 : " + map);
+		System.out.println("dao에서 확보한 list : " + list);
+		
+		return list;
+	}
+
+	@Override
+	public int getTotalContact(String userId) throws Exception {
+		return sqlSession.selectOne("ActMapper.getTotalContact", userId);
 	}
 	
 	

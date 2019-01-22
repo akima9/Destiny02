@@ -57,7 +57,7 @@
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "GET").attr("action" , "/act/getWriteCommentList").submit();
+			$("form").attr("method" , "GET").attr("action" , "/act/getWriteCommunityList").submit();
 		}
 		
 		
@@ -74,12 +74,12 @@
 		 $(function() {
 		
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "td:nth-child(2)" ).on("click" , function() {
-				 self.location ="/info/getRestaurantInfo?communityNo="+$(this).text().trim();
-			});
+			/*$( "td:nth-child(3)" ).on("click" , function() {
+				 self.location ="/info/getRestaurantInfo?communityNo="+$(this).data("param");
+			});*/
 						
 			//==> userId LINK Event End User 에게 보일수 있도록 
-			$( "td:nth-child(2)" ).css("color" , "red");
+			$( "td:nth-child(3)" ).css("color" , "red");
 			
 		});	
 		
@@ -164,7 +164,7 @@
 	<div class="container">
 	
 		<div class="page-header text-info">
-	       <h3>작성한 댓글목록조회</h3>
+	       <h3>성사된 채팅목록조회</h3>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -220,24 +220,36 @@
         <thead>
           <tr>
             <th align="center">No</th>
-            <th align="left">개시글</th>
-            <th align="left">작성자 닉네임</th>
-            <th align="left">댓글 내용</th>
-            <th align="left">작성일</th>
+            <th align="left">상대방 프로필 사진</th>
+            <th align="left">상대방 닉네임</th>
+            <th align="left">채팅일</th>
+            <th align="left">리뷰작성</th>
           </tr>
         </thead>
        
 		<tbody>
 		
 		  <c:set var="i" value="0" />
-		  <c:forEach var="comment" items="${list}">
+		  <c:forEach var="chatting" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
-			  <td align="center">${ comment.commentNo }</td>
-			  <td align="left"  title="Click : 개시글 이동">${comment.commentComuNo}</td>
-			  <td align="left">${comment.commentWriterId}</td>
-			  <td align="left">${comment.commentDetail}</td>
-			  <td align="left">${comment.commentDate}</td>
+			  <td align="center">${ chatting.chattingNo }</td>
+			  <td align="left">
+			  	<c:forEach var="file" items="${fileList}" >
+					<c:set var="i" value="${ i+1 }" />
+						   <img src="/resources/images/userprofile/${file}" width="150" height="150"/>
+				</c:forEach>
+			  </td>	
+			  
+			  <c:if test="${me.userId eq chatting.manId}">
+			  	<td align="left">${chatting.womanId}</td>
+			  </c:if>
+			  <c:if test="${me.userId eq chatting.womanId}">
+			  	<td align="left">${chatting.manId}</td>
+			  </c:if>
+			  
+			  <td align="left">${chatting.chattingDate}</td>
+			  <td align="left">ㄱㄱ</td>
 			</tr>
           </c:forEach>
         

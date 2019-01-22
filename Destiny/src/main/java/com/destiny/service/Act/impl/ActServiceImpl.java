@@ -15,6 +15,7 @@ import com.destiny.service.user.UserDao;
 import com.destiny.common.Search;
 import com.destiny.service.Act.ActDao;
 import com.destiny.service.Act.ActService;
+import com.destiny.service.domain.Chatting;
 import com.destiny.service.domain.Comment;
 import com.destiny.service.domain.Community;
 import com.destiny.service.domain.Meeting;
@@ -70,15 +71,32 @@ public class ActServiceImpl implements ActService {
 		List<Comment> list = actDao.getCommentListByWriter(search, userId);
 		System.out.println("ServiceImpl 에서의 list : " + list);
 		
-		int getCommentListByWriter = actDao.getTotalCountByCommentSwiter(userId);
-		System.out.println("ServiceImpl 에서의 getCommentListByWriter : " + getCommentListByWriter);
+		int getTotalCountByCommentSwiter = actDao.getTotalCountByCommentSwiter(userId);
+		System.out.println("ServiceImpl 에서의 getTotalCountByCommentSwiter : " + getTotalCountByCommentSwiter);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
-		map.put("getTotalCountByWriter", getCommentListByWriter);
+		map.put("getTotalCountByCommentSwiter", getTotalCountByCommentSwiter);
 		
 		return map;
 	}
+
+	@Override
+	public Map<String, Object> getContactList(Search search, String userId) throws Exception {
+		List<Chatting> list = actDao.getContactList(search, userId);
+		System.out.println("ServiceImpl 에서의 list : " + list);
+		
+		int getTotalContact = actDao.getTotalContact(userId);
+		System.out.println("ServiceImpl 에서의 getTotalContact : " + getTotalContact);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("getTotalContact", getTotalContact);
+		
+		return map;
+	}
+	
+	
 	
 	
 

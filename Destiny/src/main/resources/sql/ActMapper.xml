@@ -85,6 +85,13 @@
 		<result property="viewCondition" 		column="comment_view_condition" 		jdbcType="VARCHAR" />
 	</resultMap>
 	
+	<resultMap id="chattingSelectMap" type="com.destiny.service.domain.Chatting">
+		<result property="chattingNo" 		column="chatting_no" 		jdbcType="NUMERIC" />			
+		<result property="manId" 			column="man_id" 			jdbcType="VARCHAR" />
+		<result property="womanId" 			column="woman_id" 			jdbcType="VARCHAR" />
+		<result property="chattingDate" 	column="chatting_date" 		jdbcType="DATE" />
+		<result property="contactMeeting" 	column="contact_meeting" 	jdbcType="VARCHAR" />
+	</resultMap>
 	
 	
 	 <!-- SQL : SELECT LIST -->
@@ -168,7 +175,31 @@
 					 ) countTable						
 	 </select>
 	
-
+ 	<!-- SQL : SELECT LIST -->
+	<select  id="getContactList"  parameterType="map"	resultMap="chattingSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT chatting_no , man_id , woman_id , chatting_date , contact_meeting
+											FROM chatting
+											<where>
+												man_id = #{userId} or woman_id = #{userId}
+											</where>
+									 	) inner_table
+						WHERE ROWNUM &lt;= #{search.endRowNum} )
+		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+	 </select>
+	 
+	 <!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalContact"  parameterType="String"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT chatting_no , man_id , woman_id , chatting_date , contact_meeting
+			FROM chatting
+			<where>
+				man_id = #{userId} or woman_id = #{userId}
+			</where>
+			) countTable						
+	 </select>
+	
 
 
 

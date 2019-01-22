@@ -13,4 +13,5 @@ public interface ActService {
 	
 	public Map<String, Object> getCommentListByWriter(Search search, String userId) throws Exception;
 	
+	public Map<String, Object> getContactList(Search search, String userId) throws Exception;
 }

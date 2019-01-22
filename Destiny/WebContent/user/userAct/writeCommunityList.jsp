@@ -74,12 +74,12 @@
 		 $(function() {
 		
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			/*$( "td:nth-child(2)" ).on("click" , function() {
-				 self.location ="/user/getUser/"+$(this).text().trim();
-			});*/
+			$( "td:nth-child(3)" ).on("click" , function() {
+				 self.location ="/info/getRestaurantInfo?communityNo="+$(this).data("param");
+			});
 						
 			//==> userId LINK Event End User 에게 보일수 있도록 
-			$( "td:nth-child(2)" ).css("color" , "red");
+			$( "td:nth-child(3)" ).css("color" , "red");
 			
 		});	
 		
@@ -236,8 +236,8 @@
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : 개시글 이동">${community.writerNickName}</td>
-			  <td align="left">${community.title}</td>
+			  <td align="left">${community.writerNickName}</td>
+			  <td align="left"  title="Click : 개시글 이동" data-param="${community.communityNo}">${community.title}</td>
 			  <td align="left">${community.category}</td>
 			  <td align="left">${community.writeDate}</td>
 			  <td align="left">${community.like}</td>
