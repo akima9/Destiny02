@@ -158,20 +158,22 @@
 												<if test="tranCondition == 1">
 													and tra.tran_status_code = 2
 												</if>
+											</if>-->
+											<if test="viewSort == 1">
+												ORDER BY comu.community_views desc ) inner_table
 											</if>
-											<if test="priceCondition == 1">
-												ORDER BY pro.price desc ) inner_table
+											<if test="likeSort == 1">
+												ORDER BY comu.community_like desc ) inner_table
 											</if>
-											<if test="priceCondition == 2">
-												ORDER BY pro.price asc ) inner_table
-											</if>
-											<if test="priceCondition == 3">
+											<!--<if test="priceCondition == 3">
 												ORDER BY pro.prod_no desc ) inner_table
 											</if>
 											<if test="priceCondition != 1 and priceCondition != 2 and priceCondition != 3">
 												ORDER BY pro.prod_no desc ) inner_table
 											</if> -->
-											ORDER BY comu.community_no desc ) inner_table
+											<if test="viewSort != 1 and likeSort != 1 or noSort == 1">
+												ORDER BY comu.community_no desc ) inner_table
+											</if>
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
