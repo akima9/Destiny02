@@ -26,7 +26,7 @@
 
 
 function getRandomChatting(){
-	popWin = window.open("chatting/addrandomChatting",
+	popWin = window.open("/chatting/getRandomChatting.jsp",
 												"popWin",
 												"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 }
@@ -48,8 +48,9 @@ TelepathyTest<br>
 ${roomNo}<br>
 <div>
 <c:set var="i" value="0" />
+	
 
-<c:forEach var="telepathy" items="${list}">
+<c:forEach var="telepathy" items="${telepathyList}">
 <c:set var="i" value="${ i+1 }" />	
 	<div class="row">
 	  		<div class="col-xs-1 col-md-1"><strong>${i}</strong></div>

@@ -46,7 +46,7 @@ public class ChattingController {
 ////여성 리스트와 남성 리스트를 담을 객체 생성
 	private List<User> womanList = new ArrayList<User>();
 	private List<User> manList = new ArrayList<User>();
-	
+	private List<Telepathy> telepathyList=new  ArrayList<Telepathy>();
 	
 	///Constructor
 	public ChattingController() {
@@ -70,113 +70,61 @@ public class ChattingController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="telepathyTest", method=RequestMethod.GET)
-	public ModelAndView telepathyTest(HttpSession session, HttpServletRequest request) throws Exception{
+	@RequestMapping(value="telepathyTest/{roomNo}", method=RequestMethod.GET)
+	public ModelAndView telepathyTest(@PathVariable int roomNo,HttpSession session, HttpServletRequest request) throws Exception{
 			System.out.println("telepathyTest들어옴");
 		
 			//===========================================현제 접속자 구현 로직 part=================================================
 				
-				//채팅방 생성
-				Chatting chatting=new Chatting();
+			//getChatting NO
+			Chatting resultChatting=chattingService.getChatting2(roomNo);
+			//roomName은 ChattingNo로 지정
+			String man=null;
+			String woman=null;
+			man=resultChatting.getManId();
+			woman=resultChatting.getWomanId();
+			
+			System.out.println("resultChatting : "+resultChatting);
+			System.out.println("roomNo : "+roomNo);
+			
+			
+			/////////////////////////////////////////
+			//이심전심문항	
+			String a="";
+			String telepathyQ=a+roomNo;//roomNo=chattingNo
+			ServletContext applicationScope = request.getSession().getServletContext();
+			System.out.println("telepathyQ : "+telepathyQ);
+			if(applicationScope.getAttribute(telepathyQ) == null) {
+				//telepathyList = (List<Telepathy>) applicationScope.getAttribute(telepathyQ);
+				Map<String, Object> map=chattingService.listTelepathy(roomNo);
+				telepathyList=(List<Telepathy>)map.get("list");
+				System.out.println("이심전심 문항 생성 : "+telepathyList);
+				applicationScope.setAttribute(telepathyQ, telepathyList);
 				
-				ServletContext applicationScope = request.getSession().getServletContext();
-				User user=(User)session.getAttribute("me");
-				String userId=user.getUserId();
-				System.out.println("user"+user);
-				ModelAndView modelAndView = new ModelAndView();
-				////user가로그인 한 경우
-				if (user.getUserId()!=null) {
-					////아이디로 user정보를 가져온다.
-					User dbUser=userService.getUser(user.getUserId());
+			}else {
+				telepathyList=(List<Telepathy>)applicationScope.getAttribute(telepathyQ);
+				System.out.println("이심전심 문항 get : "+telepathyList);
+			}
+			
+			
+			
+			System.out.println("telepathyList : "+telepathyList);
+			/////////////////////////////////////
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("/chatting/getTelepathyTest.jsp");
+			modelAndView.addObject("result", "Success");
+			modelAndView.addObject("womanId", woman);
+			modelAndView.addObject("manId", man);
+			modelAndView.addObject("chattingNo", roomNo);
+		
+			modelAndView.addObject("telepathyList", telepathyList);
+			
+			/////같은 chatting방에 배정받은 사람은 같은 문항이 나와야 함
+			
+				
+				
+				
 					
-					/////여성일 경우
-					if (user.getGender().equals("W")) {
-						if(applicationScope.getAttribute("womanList") != null) {
-							womanList = (List<User>) applicationScope.getAttribute("womanList");
-						}
-						womanList.add(dbUser);
-							
-						applicationScope.setAttribute("womanList", womanList);
-						
-						for(User v : womanList) {
-							System.out.println("현재  여성 접속자 목록 : " + v);
-							
-						}
-					}else {
-						//남성일 경우
-						if(applicationScope.getAttribute("manList") != null) {
-							manList = (List<User>) applicationScope.getAttribute("manList");
-						}
-						manList.add(dbUser);
-							
-						applicationScope.setAttribute("manList", manList);
-						
-						for(User v : manList) {
-							System.out.println("현재  남성 접속자 목록 : " + v);
-						}
-					}
-					String man=null;
-					String woman=null;
-					int roomNo=0;
-					System.out.println("manList.size() : "+manList.size()+"womanList.size() : "+womanList.size());
-					System.out.println("manList : "+manList+"womanList : "+womanList);
-					if (manList.size()>0 && womanList.size()>0) {
-						////////매칭된 아이디 2개 넣기
-						//		chatting.setManId(manId);
-						//		chatting.setWomanId(womanId);
-						/////////test
-						System.out.println("manList==womanList");
-						woman=womanList.get(0).getUserId();
-						man=manList.get(0).getUserId();
-						//addChatting
-						System.out.println("man  : "+man+"  woman : "+woman);
-						chatting.setManId(man);
-						chatting.setWomanId(woman);
-						chatting.setContactMeeting("N");
-						
-						chattingService.addPerfectChatting(chatting);
-						
-						//getChatting NO
-						Chatting resultChatting=chattingService.getChatting(userId);
-						//roomName은 ChattingNo로 지정
-						roomNo=resultChatting.getChattingNo();
-						System.out.println("resultChatting : "+resultChatting);
-						System.out.println("roomNo : "+roomNo);
-						
-						////대기상태//////////////////////////////
-						
-						//////////////////////////////////
-						/////////////////////////////////////////
-						//이심전심문항
-						Map<String, Object> map=chattingService.listTelepathy(roomNo);
-						System.out.println("이심전심 문항, chattingNo : "+map);
-						List<Telepathy> list01=(List<Telepathy>)map.get("list");
-						System.out.println(list01);
-						/////////////////////////////////////
-					
-						modelAndView.setViewName("/chatting/getTelepathyTest.jsp");
-						modelAndView.addObject("result", "Success");
-						modelAndView.addObject("womanId", woman);
-						modelAndView.addObject("manId", man);
-						modelAndView.addObject("roomNo", roomNo);
-						modelAndView.addObject("list", list01);
-					
-						womanList.remove(0);
-						manList.remove(0);
-					}else {
-						
-					}
-
-						
-					
-					
-					
-									
-				}else { 
-					////로그인 하지 않은 경우
-					System.out.println("로그인 안함");
-					modelAndView.setViewName("index.jsp");
-				}
 				
 				
 				

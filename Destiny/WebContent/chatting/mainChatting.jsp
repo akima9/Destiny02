@@ -47,10 +47,51 @@
 			location="/user/login";
 		}else{
 			//location="/chatting/addRandomChatting";
-			popWin = window.open("/chatting/telepathyTest",
-					"popWin",
-					"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-
+			///////////////////////////////////////////////
+				
+				$.ajax({	
+					
+					url : "/chatting/json/addPerfectChatting" ,
+					type : "GET" ,
+					dataType : "json" ,
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(JsonData) {
+						//alert("성공");
+						//alert(JsonData.manList[0].userId);
+						//alert(JsonData.womanList[0].userId);
+						//alert(JsonData.manList.length);
+						
+						//manCount=JsonData.manList.length;
+						//womanCount=JsonData.womanList.length;
+						
+						popWin = window.open("/chatting/getRandomMatching.jsp","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+						
+						
+						
+								/* if (manCount>0 && womanCount>0) {
+									alert("한명만 있는 경우");
+									popWin = window.open("/chatting/addPerfectChatting","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");	
+									condition=false;
+								} */
+						
+							
+						
+						
+						
+											},//success
+				      error: function () {
+				    	  alert("error");
+				      },
+				      complete: function () {
+				        // Handle the complete event
+				        //alert("complete");
+				      }
+					
+				});//ajax
+			
 		}
 	}
 	function getPerfectChatting(){
@@ -83,7 +124,7 @@
 						//manCount=JsonData.manList.length;
 						//womanCount=JsonData.womanList.length;
 						
-						popWin = window.open("/chatting/matching.jsp","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+						popWin = window.open("/chatting/getPerfectMatching.jsp","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 						
 						
 						
@@ -145,10 +186,7 @@
 			getPerfectChatting();
 		});
 		
-		$( "#node" ).on("click" , function() {
-	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			getNode();
-		});
+		
 	});
 	</script>
 <title>mainChatting</title>
@@ -176,33 +214,33 @@
 			      </ol>
 			      <div class="carousel-inner" role="listbox">
 			        <div class="item active" >
-			          <img class="first-slide center-block" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg" alt="First slide"><!-- 첫번째 사진 -->
+			          <img class="first-slide center-block" src="/resources/images/chatting/main01.jpg" style="width: 960px; height: 600px;" alt="First slide"><!-- 첫번째 사진 -->
 			          <div class="container">
 			            <div class="carousel-caption">
 			            	당신의 성격유형을 등록하세요!
 			              <h1>MBTI</h1>
-			              <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
-			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+			              <p>MyPage에서 성격유형을 선택하세요.<code></code> 유형 등록 후 이상형 채팅이 가능합니다.</p>
+			              <p><a class="btn btn-lg btn-primary" href="#" role="button">MyPage</a></p>
 			            </div>
 			          </div>
 			        </div>
 			        <div class="item">
-			          <img class="second-slide center-block" src="https://cdn.pixabay.com/photo/2015/05/06/16/31/andromeda-galaxy-755442_960_720.jpg" alt="Second slide"><!-- 두번째 사진 -->
+			          <img class="second-slide center-block" src="/resources/images/chatting/main02.jpg" style="width: 960px; height: 600px;" alt="Second slide"><!-- 두번째 사진 -->
 			          <div class="container">
 			            <div class="carousel-caption">
 			              <h1>다양한 후기를 확인해 보세요!</h1>
-			              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+			              <p></p>
+			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Story</a></p>
 			            </div>
 			          </div>
 			        </div>
 			        <div class="item">
-			          <img class="third-slide center-block" src="https://cdn.pixabay.com/photo/2018/08/14/13/23/ocean-3605547_960_720.jpg" alt="Third slide"><!-- 세번째 사진 -->
+			          <img class="third-slide center-block" src="/resources/images/chatting/main03.jpg" style="width: 960px; height: 600px;" alt="Third slide"><!-- 세번째 사진 -->
 			          <div class="container">
 			        	<div class="carousel-caption">
 			              <h1>연애조언</h1>
-			              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+			              <p>고민이 있다면 이곳으로!</p>
+			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Advice</a></p>
 			            </div> 
 			          </div>
 			        </div>
@@ -218,10 +256,10 @@
 			    </div>
             </table>
             
+            <div class="col-sm-2 col-md-2" ></div>
             
-            
-           <div class="col-sm-6 col-md-6" >
-			    <div class="thumbnail"  >
+           <div class="col-sm-4 col-md-4" >
+			    <div style="text-align: center;"  >
 			    
 			    <img src="https://media.istockphoto.com/vectors/people-chatting-vector-id504078623" style="width: 200px; height: 200px;" data-image1='${product.prodNo}' data-image2='${product.proTranCode}'>
 			      <div class="caption">
@@ -235,8 +273,8 @@
 			    </div>
 		    </div> 
 		    
-		    <div class="col-sm-6 col-md-6" >
-			    <div class="thumbnail"  >
+		    <div class="col-sm-4 col-md-4" >
+			    <div style="text-align: center;"  >
 			    
 			    <img src="https://storage.googleapis.com/neris/public/images/system/home/home-16personalities.svg" style="width: 200px; height: 200px;" data-image1='${product.prodNo}' data-image2='${product.proTranCode}'>
 			      <div class="caption">
@@ -249,8 +287,8 @@
 			      </div>
 			    </div>
 		    </div> 
-   
-  			<a href='#' class="btn btn-primary" role="button" id="node">node연결</a>	
+   			 <div class="col-sm-2 col-md-2" ></div>
+  		
 
 
    
