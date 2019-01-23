@@ -52,8 +52,25 @@ public class ActDaoImpl implements ActDao{
 	public int getTotalCountByMaster(String userId) throws Exception {
 		return sqlSession.selectOne("ActMapper.getTotalCountByMaster", userId);
 	}
+
+	@Override
+	public List<Meeting> getCrewAll(int meetingNo) throws Exception {
+		List<Meeting> list = sqlSession.selectList("ActMapper.getCrewAll", meetingNo);
+		
+		return list;
+	}
+
+	@Override
+	public void updateCrewCondition(Meeting meeting) throws Exception {
+		sqlSession.update("ActMapper.updateCrewCondition", meeting);
+	}
 	
 	
+
+	@Override
+	public void delectCrew(String userId) throws Exception {
+		sqlSession.delete("ActMapper.delectCrew", userId);
+	}
 
 	@Override
 	public List<Meeting> getMeetingListByApply(Search search, String userId) throws Exception {

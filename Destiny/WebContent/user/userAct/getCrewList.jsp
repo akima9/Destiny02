@@ -75,7 +75,7 @@
 		
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$( "td:nth-child(2)" ).on("click" , function() {
-				 self.location ="/meeting/getMeeting?meetingNo="+$(this).data("param");
+				self.location ="/user/getUser/"+$(this).data("param");
 			});
 						
 			//==> userId LINK Event End User 에게 보일수 있도록 
@@ -149,6 +149,8 @@
 			//==> 아래와 같이 정의한 이유는 ??
 			$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 		});	
+		
+		 
 	
 	</script>
 	
@@ -164,7 +166,7 @@
 	<div class="container">
 	
 		<div class="page-header text-info">
-	       <h3>개설한 모임 조회</h3>
+	       <h3>개설한 모인 가입 신청 관리</h3>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -214,34 +216,43 @@
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
 		
+	  
       <!--  table Start /////////////////////////////////////-->
       <table class="table table-hover table-striped" >
       
         <thead>
           <tr>
             <th align="center">No</th>
-            <th align="left">모임 제목</th>
-            <th align="left">모임 이미지</th>
-            <th align="left">중심지</th>
-            <th align="left">관심사</th>
-            <th align="left">가입 신청자 관리</th>
-            <th align="left">회차 조회</th>
+            <th align="left">신청자 닉네임</th>
+            <th align="left">신청자 프로필 이미지</th>
+            <th align="left">소개글</th>
+            <th align="left">수락/거절</th>
           </tr>
         </thead>
        
 		<tbody>
 		
 		  <c:set var="i" value="0" />
-		  <c:forEach var="meeting" items="${list}">
+		  <c:forEach var="meeting" items="${listAPL}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
-			  <td align="center">${ i }</td>
-			  <td align="left" data-param="${meeting.meetingNo}" title="Click : 모임 이동">${meeting.meetingName}</td>
-			  <td align="left"><img src="/resources/images/meeting/${meeting.titleImg}" width="170" height="170"/></td>
-			  <td align="left">${meeting.meetingCenter}</td>
-			  <td align="left">${meeting.interestName}</td>
-			  <td align="left"><a class="btn btn-primary btn" href="/act/getCrewList/${meeting.meetingNo}" role="button" id="getCrewList">가입 &nbsp;신청자 &nbsp;조회</a></td>
-			  <td align="left">ㅇㅇ</td>
+			  <td align="center">${ meeting.meetingCrewNo }</td>
+			  <td align="left" data-param="${meeting.meetingMasterId}" >${meeting.crewNickName}</td>
+			  <td align="left"><img src="/resources/images/userprofile/${meeting.masterProfileImg}" width="170" height="170"/></td>
+			  <td align="left">
+			   <div class="panel panel-info">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">${meeting.interviewTitle}</h3>
+				  </div>
+				  <div class="panel-body">
+				   	${meeting.interview}
+				  </div>
+				</div>
+			  </td>
+			  <td align="left">
+			  	<a class="btn btn-primary btn" href="/act/judgmentApply/yes/${meetingNo}/${meeting.meetingMasterId}" role="button" id="applyOK">가입 &nbsp;수락</a>
+			  	<a class="btn btn-primary btn" href="/act/judgmentApply/no/${meetingNo}/${meeting.meetingMasterId}" role="button" id="applyNO">가입 &nbsp;거절</a>
+			  </td>
 			</tr>
           </c:forEach>
         
@@ -249,6 +260,50 @@
       
       </table>
 	  <!--  table End /////////////////////////////////////-->
+	  
+	  <!--  table Start /////////////////////////////////////-->
+      <table class="table table-hover table-striped" >
+      
+        <thead>
+          <tr>
+            <th align="center">No</th>
+            <th align="left">신청자 닉네임</th>
+            <th align="left">신청자 프로필 이미지</th>
+            <th align="left">소개글</th>
+            <th align="left">수락/거절</th>
+          </tr>
+        </thead>
+       
+		<tbody>
+		
+		  <c:set var="i" value="0" />
+		  <c:forEach var="meeting" items="${listYES}">
+			<c:set var="i" value="${ i+1 }" />
+			<tr>
+			  <td align="center">${ meeting.meetingCrewNo }</td>
+			  <td align="left" data-param="${meeting.meetingMasterId}" >${meeting.crewNickName}</td>
+			  <td align="left"><img src="/resources/images/userprofile/${meeting.masterProfileImg}" width="170" height="170"/></td>
+			  <td align="left">
+			   <div class="panel panel-info">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">${meeting.interviewTitle}</h3>
+				  </div>
+				  <div class="panel-body">
+				   	${meeting.interview}
+				  </div>
+				</div>
+			  </td>
+			  <td align="left">
+			  	수락됨
+			  </td>
+			</tr>
+          </c:forEach>
+        
+        </tbody>
+      
+      </table>
+	  <!--  table End /////////////////////////////////////-->
+	  
 	  
  	</div>
  	<!--  화면구성 div End /////////////////////////////////////-->
