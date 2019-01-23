@@ -52,6 +52,28 @@ public class ActDaoImpl implements ActDao{
 	public int getTotalCountByMaster(String userId) throws Exception {
 		return sqlSession.selectOne("ActMapper.getTotalCountByMaster", userId);
 	}
+	
+	
+
+	@Override
+	public List<Meeting> getMeetingListByApply(Search search, String userId) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("search", search);
+		
+		List<Meeting> list = sqlSession.selectList("ActMapper.getMeetingListByApply", map);
+		
+		System.out.println("dao에서 전달된 값들 : " + userId + search);
+		System.out.println("dao에 매핑된 값 : " + map);
+		System.out.println("dao에서 확보한 list : " + list);
+
+		return list;
+	}
+
+	@Override
+	public int getTotalCountByApply(String userId) throws Exception {
+		return sqlSession.selectOne("ActMapper.getTotalCountByApply", userId);
+	}
 
 	@Override
 	public List<Community> getCommunityListByWriter(Search search, String userId) throws Exception {

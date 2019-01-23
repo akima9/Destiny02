@@ -15,6 +15,10 @@ public interface ActDao {
 	
 	public int getTotalCountByMaster(String userId) throws Exception;
 	
+	public List<Meeting> getMeetingListByApply(Search search, String userId) throws Exception;
+	
+	public int getTotalCountByApply(String userId) throws Exception;
+	
 	public List<Community> getCommunityListByWriter(Search search, String userId) throws Exception;
 	
 	public int getTotalCountByWriter(String userId) throws Exception;

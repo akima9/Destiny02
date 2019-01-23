@@ -126,11 +126,9 @@ public class ActController {
 		}
 		search.setPageSize(pageSize);
 		
-		// Business logic ผ๖วเ
-		//Map<String , Object> map=userService.getUserList(search);
-		Map<String , Object> map = new HashMap<String, Object>();
+		Map<String , Object> map = actService.getMeetingListByApply(search, userId);
 		
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("getTotalCountByApply")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
 		ModelAndView modelAndView = new ModelAndView();

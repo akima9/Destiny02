@@ -100,9 +100,9 @@
 	<select  id="getMeetingListByMaster"  parameterType="map"	resultMap="meetingSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT meeting_no, role, meeting_master_id, master_profile_img, meeting_center, meeting_name, title_img,
-	  					                    meeting_detail, meeting_rule, interest_name, meeting_location, meeting_date, meeting_day,
-	  					                    meeting_time, snooze, meeting_dues, meeting_views, meeting_condition, shut_down_date, meeting_crew_limit
+	  					FROM		(	SELECT meeting_no, meeting_master_id, meeting_center, meeting_name, title_img,
+	  					                    meeting_detail, meeting_rule, interest_name,
+	  					                    snooze, meeting_views, meeting_condition, shut_down_date, meeting_crew_limit
 											FROM meeting
 											<where>
 												meeting_master_id = #{userId}
@@ -116,9 +116,9 @@
 	 
 	 <select  id="getTotalCountByMaster"  parameterType="String"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT  meeting_no, role, meeting_master_id, master_profile_img, meeting_center, meeting_name, title_img,
-	                    meeting_detail, meeting_rule, interest_name, meeting_location, meeting_date, meeting_day,
-	                    meeting_time, snooze, meeting_dues, meeting_views, meeting_condition, shut_down_date, meeting_crew_limit
+	  	FROM(	SELECT  meeting_no, meeting_master_id, meeting_center, meeting_name, title_img,
+	                    meeting_detail, meeting_rule, interest_name,
+	                    snooze, meeting_views, meeting_condition, shut_down_date, meeting_crew_limit
 						FROM meeting
 						<where>
 							meeting_master_id = #{value}
@@ -126,6 +126,38 @@
 						 ) countTable						
 	 </select>
 	 
+	 
+	 
+	 	 <!-- SQL : SELECT LIST -->
+	<select  id="getMeetingListByApply"  parameterType="map"	resultMap="meetingSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT m.meeting_no, m.meeting_master_id, m.meeting_center, m.meeting_name, m.title_img,
+	  					                    m.meeting_detail, m.meeting_rule, m.interest_name,
+	  					                    m.snooze, m.meeting_views, m.meeting_condition, m.shut_down_date, m.meeting_crew_limit
+											FROM meeting m, meeting_crew_list mcl
+											<where>
+												m.meeting_no = mcl.meeting_no AND
+												mcl.crew_id IN (#{userId})
+											</where>
+											 ) inner_table
+						WHERE ROWNUM &lt;= #{search.endRowNum} )
+		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 	
+	 </select>
+	 
+	 
+	 <select  id="getTotalCountByApply"  parameterType="String"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT  m.meeting_no, m.meeting_master_id, m.meeting_center, m.meeting_name, m.title_img,
+	                    m.meeting_detail, m.meeting_rule, m.interest_name,
+	                    m.snooze, m.meeting_views, m.meeting_condition, m.shut_down_date, m.meeting_crew_limit
+						FROM meeting m, meeting_crew_list mcl
+						<where>
+							m.meeting_no = mcl.meeting_no AND
+							mcl.crew_id IN (#{userId})
+						</where>
+						 ) countTable						
+	 </select>
 	 
 	 
 	 

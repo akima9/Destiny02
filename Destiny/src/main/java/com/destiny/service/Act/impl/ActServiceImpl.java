@@ -50,6 +50,23 @@ public class ActServiceImpl implements ActService {
 		
 		return map;
 	}
+	
+	
+
+	@Override
+	public Map<String, Object> getMeetingListByApply(Search search, String userId) throws Exception {
+		List<Meeting> list = actDao.getMeetingListByApply(search, userId);
+		System.out.println("ServiceImpl 에서의 list : " + list);
+		
+		int getTotalCountByApply = actDao.getTotalCountByApply(userId);
+		System.out.println("ServiceImpl 에서의 getTotalCountByApply : " + getTotalCountByApply);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("getTotalCountByApply", getTotalCountByApply);
+		
+		return map;
+	}
 
 	@Override
 	public Map<String, Object> getCommunityListByWriter(Search search, String userId) throws Exception {
