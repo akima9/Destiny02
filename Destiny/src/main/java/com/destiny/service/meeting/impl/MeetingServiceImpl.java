@@ -159,5 +159,10 @@ public class MeetingServiceImpl implements MeetingService {
 		
 	}
 
+	@Override
+	public String getCrewrole(Meeting meeting) throws Exception {
+		return meetingDao.getCrewrole(meeting);
+	}
+
 	
 }

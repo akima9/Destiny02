@@ -49,4 +49,5 @@ public interface MeetingService {
 	
 	public Map<String , Object> getActCrew(int meetingNo) throws Exception;/*참여자 명단 가져오기*/
 	
+	public String getCrewrole(Meeting meeting) throws Exception; /*수정 삭제 시 모임장인지 확인 */
 }

@@ -157,6 +157,11 @@ public class MeetingDaoImpl implements MeetingDao {
 		sqlSession.update("MeetingMapper.updateContentsAct",meeting);
 		
 	}
+
+	@Override
+	public String getCrewrole(Meeting meeting) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.getCrewrole", meeting);
+	}
 	
 
 }

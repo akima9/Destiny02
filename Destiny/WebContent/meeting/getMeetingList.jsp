@@ -206,7 +206,7 @@
 			      </ol>
 			      <div class="carousel-inner" role="listbox">
 			        <div class="item active" align="center">
-			          <img class="first-slide" src="/resources/images/meeting/meeting.jpg" alt="First slide"><!-- 첫번째 사진 -->
+			          <img class="first-slide" src="/resources/images/meeting/romance2.jpg" alt="First slide"><!-- 첫번째 사진 -->
 			          <%-- <div class="container">
 			            <div class="carousel-caption">
 			            	무슨설명 달고싶으면 여기에
@@ -217,7 +217,7 @@
 			          </div> --%>
 			        </div>
 			        <div class="item" align="center">
-			          <img class="second-slide" src="/resources/images/meeting/friend.jpg" alt="Second slide"><!-- 두번째 사진 -->
+			          <img class="second-slide" src="/resources/images/meeting/classsicfashion2.jpg" alt="Second slide"><!-- 두번째 사진 -->
 			          <!-- <div class="container">
 			            <div class="carousel-caption">
 			              <h1>Another example headline.</h1>
@@ -227,7 +227,7 @@
 			          </div> -->
 			        </div>
 			        <div class="item" align="center">
-			          <img class="third-slide" src="/resources/images/meeting/minimini.jpg" alt="Third slide"><!-- 세번째 사진 -->
+			          <img class="third-slide" src="/resources/images/meeting/conan2.jpg" alt="Third slide"><!-- 세번째 사진 -->
 			          <!-- <div class="container">
 			        	<div class="carousel-caption">
 			              <h1>One more for good measure.</h1>

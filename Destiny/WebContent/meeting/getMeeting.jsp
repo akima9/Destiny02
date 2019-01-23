@@ -26,13 +26,13 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script type="text/javascript" src="../javascript/calendar.js"></script>
+	<!-- <script type="text/javascript" src="../javascript/calendar.js"></script> -->
     <!--  ///////////////////////// 데이트픽커 엔드 ////////////////////////// -->
    
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=238c3f6eaacc311151fd24574cf5b8e9&libraries=services"></script>
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=238c3f6eaacc311151fd24574cf5b8e9"></script>
+  <!--  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=238c3f6eaacc311151fd24574cf5b8e9&libraries=services"></script>
+   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=238c3f6eaacc311151fd24574cf5b8e9"></script> -->
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
@@ -209,9 +209,20 @@
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
 			 $( "button.btn.btn-success" ).on("click" , function() {
-				 //var meetingNo = ${meeting.meetingNo};
-				// var meetingMasterId= ${sessionScope.me.userId};
-				//alert("호잇!");
+				 
+				 var interviewTitle = $("#interviewTitle").val();
+				 var interview = $("#interview").val();
+				 
+				 if(interviewTitle == null || interviewTitle.length<1){
+						alert("제목을 입력해주세요.");
+						return;
+					}
+				 if(interview == null || interview.length<1){
+						alert("내용을 입력해주세요.");
+						return;
+					}
+				 
+				
 				  $.ajax( 
 							{
 								url : "/meetingRest/addCrewM",
@@ -234,14 +245,14 @@
 										$("#dialog2form")[0].reset();
 										$("#dialog2").toggle();
 									}else{
-										alert("가입 신청이 완료되었습니다.");
+										alert("가입 신청이 완료되었습니다.\n 모임장의 승인후 가입됩니다.");
 										//window.opener.location.reload(false);
 										$("#dialog2form")[0].reset();
 										$("#dialog2").toggle();
 									}
 								}
 				});
-				 
+				
 			});
 		});
 		
@@ -363,25 +374,69 @@
 				 self.location = "/product/listProduct02?menu=${param.menu}"
 				}); */
 		});
-		
+		//=============수정 시 모임장인지 확인==================================//
 		 $( function() {
 				$("#update-dialog").click(function () {
-					$("#dialog").toggle();
+					
+						$.ajax( 
+						 {
+								url : "/meetingRest/getCrewrole",
+								method : "post" ,
+								dataType : "text" ,
+								data : JSON.stringify({
+									meetingNo : "${meeting.meetingNo}" ,
+									meetingMasterId : "${sessionScope.me.userId}", 
+									
+								}),
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(JSONData , status) {
+									console.log(JSONData);
+									
+									if(JSONData=='MST'){
+										$("#dialog").toggle();
+									}else {
+										alert("모임장만 가능합니다.");
+									}
+								
+								}
+						}); 
 				});
 			});
-		 
+//=============삭제 시 모임장인지 확인==================================//		 
 		 $( function() {
 				$("#btn-delete-dialog").click(function () {
-					if (confirm("삭제하시겠습니까?") == true){    //확인
-						$("#detailForm").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
-						//self.location="/user/login";
-					 }else{   //취소
-
-					     return;
-
-					 }
-					//$("#detailForm").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
-					//document.detailForm.submit();
+					
+					$.ajax( 
+							 {
+									url : "/meetingRest/getCrewrole",
+									method : "post" ,
+									dataType : "text" ,
+									data : JSON.stringify({
+										meetingNo : "${meeting.meetingNo}" ,
+										meetingMasterId : "${sessionScope.me.userId}", 
+										
+									}),
+									headers : {
+										"Accept" : "application/json",
+										"Content-Type" : "application/json"
+									},
+									success : function(JSONData , status) {
+										console.log(JSONData);
+										
+										if(JSONData=='MST'){
+											if (confirm("삭제하시겠습니까?") == true){    //확인
+												$("#detailForm").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
+											 }else{   //취소
+											     return;
+											 }
+										}else {
+											alert("모임장만 가능합니다.");
+										}
+									}
+							}); 
 				});
 			});
 		 $( function() {
@@ -460,7 +515,7 @@
 		 /* 참여자목록 눌렀을때 이벤트 처리부분 */
 		 $( function() {
 				$("button:contains('참여자목록')").click(function () {
-					if(${empty sessionScope.me}){
+					if('${empty sessionScope.me}'){
 						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
 							$("#my-dialog,#dialog-background").toggle();
 							//self.location="/user/login";
@@ -538,7 +593,7 @@
 	</script>
 	
 	<!-- 다음 우편 -->
-	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<!-- 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54cfa5aea3e5609fcbb420ef8cd6ed4c"></script>
 	<script>
 	    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -586,7 +641,7 @@
 	            }
 	        }).open();
 	    }
-	</script>
+	</script> -->
 	<!-- 다음우편 끝 -->
 	
 </head>
@@ -837,11 +892,8 @@
 			<ul>
 			<c:forEach var="crew" items="${crewList}">
 		 		<img class="first-slide" src="/resources/images/userprofile/${crew.masterProfileImg}" width="100px" height="100px"> ${crew.crewNickName}
-		 		<c:if test="${crew.role=='MST' }">
-					모임장
-		 		</c:if>
+			 		<c:if test="${crew.role=='MST' }">모임장</c:if>
 		 		<br/>
-			
 			</c:forEach>
 			
 			</ul>

@@ -119,7 +119,7 @@ public class MeetingController {
 		meetingService.addCrewList(meeting);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/meeting/getMeetingList.jsp");
+		modelAndView.setViewName("redirect:/index.jsp");
 		return modelAndView;
 	}
 	
@@ -142,7 +142,7 @@ public class MeetingController {
 		model.addAttribute("crewCount", crewCount);
 		model.addAttribute("crewList", crewMap.get("crewList"));
 		
-		System.out.println("이러나ㅣㅇ러ㅣ만어라ㅣㄴ얼민ㄹㅇ"+crewMap.get("crewList"));
+		//System.out.println("이러나ㅣㅇ러ㅣ만어라ㅣㄴ얼민ㄹㅇ"+crewMap.get("crewList"));
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/meeting/getMeeting.jsp");
 		return modelAndView;
@@ -171,7 +171,7 @@ public class MeetingController {
 		//model.addAttribute("meeting", meeting);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/meeting/getMeetingList.jsp");
+		modelAndView.setViewName("redirect:/index.jsp");
 		return modelAndView;
 		//return null;
 	}
