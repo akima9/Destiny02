@@ -14,6 +14,12 @@ public interface CommunityDao {
 	//select one
 	public Community getCommunity(int communityNo) throws Exception;
 	
+	//이전글 상세보기
+	public Community getPreCommunity(int communityNo) throws Exception;
+	
+	//다음글 상세보기
+	public Community getNextCommunity(int communityNo) throws Exception;
+	
 	//select list
 	public List<Community> getCommunityList(Search search) throws Exception;
 	
