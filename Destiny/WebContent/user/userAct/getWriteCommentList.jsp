@@ -74,9 +74,9 @@
 		 $(function() {
 		
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			/*$( "td:nth-child(2)" ).on("click" , function() {
-				 self.location ="/user/getUser/"+$(this).text().trim();
-			});*/
+			$( "td:nth-child(2)" ).on("click" , function() {
+				 self.location ="/info/getRestaurantInfo?communityNo="+$(this).text().trim();
+			});
 						
 			//==> userId LINK Event End User 에게 보일수 있도록 
 			$( "td:nth-child(2)" ).css("color" , "red");
@@ -230,10 +230,10 @@
 		<tbody>
 		
 		  <c:set var="i" value="0" />
-		  <c:forEach var="community" items="${list}">
+		  <c:forEach var="comment" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
-			  <td align="center">${ i }</td>
+			  <td align="center">${ comment.commentNo }</td>
 			  <td align="left"  title="Click : 개시글 이동">${comment.commentComuNo}</td>
 			  <td align="left">${comment.commentWriterId}</td>
 			  <td align="left">${comment.commentDetail}</td>

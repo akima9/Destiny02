@@ -3,6 +3,7 @@ package com.destiny.service.Act;
 import java.util.List;
 
 import com.destiny.common.Search;
+import com.destiny.service.domain.Chatting;
 import com.destiny.service.domain.Comment;
 import com.destiny.service.domain.Community;
 import com.destiny.service.domain.Meeting;
@@ -21,5 +22,9 @@ public interface ActDao {
 	public List<Comment> getCommentListByWriter(Search search, String userId) throws Exception;
 	
 	public int getTotalCountByCommentSwiter(String userId) throws Exception;
+	
+	public List<Chatting> getContactList(Search search, String userId) throws Exception;
+	
+	public int getTotalContact(String userId) throws Exception;
 	
 }

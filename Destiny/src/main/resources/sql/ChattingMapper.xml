@@ -63,6 +63,14 @@
    		where rownum <![CDATA[ < ]]> 2
 	 </select>
 	 
+	 <select 	id="getChatting2"	parameterType="int"	resultMap="chattingSelectMap">
+		
+	 	
+    		select * from chatting 
+    		where chatting_no=#{value} 
+   			
+	 </select>
+	 
 	 <select 	id="listChatting"	parameterType="map" resultMap="chattingSelectMap">
 		SELECT *
 		FROM chatting

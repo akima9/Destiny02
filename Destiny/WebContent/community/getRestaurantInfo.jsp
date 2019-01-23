@@ -8,36 +8,29 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>우리들의 연결고리</title>
+<!-- 
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+Latest compiled and minified CSS
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+Optional theme
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css" integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous">
 
 
-<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+Latest compiled and minified JavaScript
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw" crossorigin="anonymous"></script>
+ -->
+ 
+ <!-- 참조 : http://getbootstrap.com/css/   -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	
-<!-- Latest compiled and minified CSS -->
-<!-- <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
-	integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+"
-	crossorigin="anonymous"> -->
 
-<!-- Optional theme -->
-<!-- <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css"
-	integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR"
-	crossorigin="anonymous"> -->
-
-<!-- Latest compiled and minified JavaScript -->
-<!-- <script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"
-	integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw"
-	crossorigin="anonymous">
-	</script> -->
-
+ 
 <script type="text/javascript">
 	
 	$(function(){
@@ -55,20 +48,20 @@
 		/* 글쓰기 버튼 이벤트 : end */
 		
 		/* 신고 버튼 이벤트 : start */
-		$("button:contains('신고')").on("click", function() {
+		$(".complain").on("click", function() {
 			self.location = "/complain/addComplain?communityNo=${community.communityNo}"
 		});
 		/* 신고 버튼 이벤트 : end */
 		
 		/* 수정 버튼 이벤트 : start */
-		$("button:contains('수정')").on("click", function() {
+		$(".modify").on("click", function() {
 			//self.location = "/info/updateRestaurantInfo?communityNo="+${community.communityNo}
 			self.location = "/info/updateRestaurantInfo?communityNo=${community.communityNo}"
 		});
 		/* 수정 버튼 이벤트 : end */
 		
 		/* 수정 버튼 이벤트 : start */
-		$("button:contains('삭제')").on("click", function() {
+		$(".delete").on("click", function() {
 			//self.location = "/info/updateRestaurantInfo?communityNo="+${community.communityNo}
 			self.location = "/info/deleteRestaurantInfo?communityNo=${community.communityNo}"
 		});
@@ -107,28 +100,6 @@
 			});
 		});
 		/* 공감 버튼 이벤트 : end */
-		
-		
-		/* 작업중 */
-		/* $("button:contains('공감')").on("click", function() {
-			var communityNo = ${community.communityNo}
-			console.log(communityNo);
-			$.ajax({
-				method : "POST",
-				url : '/info/json/likeRestaurantInfo/'+communityNo,
-				headers : {
-					"Accept" : "application/json",
-					"Content-Type" : "application/json"
-				},
-				dataType : "json",
-				success : function(JSONData, state){
-					console.log(JSONData);
-					var like = JSONData.community.like;
-					$("#likeCount").html(like);
-				}
-			});
-		}); */
-		/* 작업중 */
 	});
 		
 	function changeBtn(likeId, likeCount, likeCommunityNo){
@@ -146,83 +117,269 @@
 </script>
 
 <style>
-	.btn-heart{width:50px; height:50px; border:none; background:url(../resources/images/img_heart.png) no-repeat 0 0; cursor:pointer;}
-	.btn-heart.on{width:50px; height:50px; background:url(../resources/images/img_heart_on.png) no-repeat 0 0;}
+
+	body{
+		position : relative;
+	}
+	
+	
+	.topImg{
+		display : block;
+		position : absolute;
+		top : 0;
+		background-image : url("/resources/images/background/getRestaurantInfo_background.jpg");
+		background-repeat : no-repeat;
+		background-position : center center;
+		background-size : cover;
+		width : 100%;
+		height : 400px;
+	}
+	.topImg::after{
+		content : "";
+		background : rgba(0, 0, 0, 0.2);
+		position : absolute;
+		top : 0;
+		left : 0;
+		width : 100%;
+		height : 400px;
+		z-index : 1;
+	}
+	.topImg h1{
+		position : absolute;
+		line-height : 450px;
+		width : 100%;
+		text-align : center;
+		color : white;
+		z-index : 2;
+		font-size : 60px;
+		font-weight : bold;
+	}
+	h1 .slim{
+		font-weight : lighter;
+	}
+	
+	.wrap{
+		margin-top : 400px;
+	}
+	
+	.wrap .button{
+		padding : 40px 30px 10px 30px;
+	}
+	
+	.wrap .button .rightBtn{
+		float : right;
+		margin-left : 3px;
+	}
+	
+	.wrapContents{
+		margin-bottom : 100px;
+		border : 1px solid #E3E4E6;
+		padding : 30px;
+	}
+
+
+	.btn-heart{width:16px; height:16px; border:none; background:url(../resources/images/img_heart.png) no-repeat 0 0; cursor:pointer;background-size : contain;margin-top:3px;}
+	.btn-heart.on{background:url(../resources/images/img_heart_on.png) no-repeat 0 0;background-size : contain;}
+	
+	
+	.righttSort{
+		text-align : right;
+	}
+	
+	.firstRow{
+		padding-bottom : 10px;
+		border-bottom : 1px dashed #E3E4E6;
+	}
+	
+	.secondRow{
+		padding-top : 10px;
+	}
+	
+	.thirdRow{
+		overflow : hidden;
+	}
+	
+	ul{
+		float : left;
+	}
+	
+	.contentsDetail{
+		padding : 50px 10px;
+	}
+	
+	.firstColumn {
+		font-weight : bold;
+	}
+	
+	.count{
+		overflow : hidden;
+		padding : 10px;
+	}
+	
+	.count li{
+		float : left;
+		list-style-type : none;
+		margin-right : 10px;
+	}
+	
+	.service{
+		float : right;
+		overflow : hidden;
+		padding : 10px;
+	}
+	
+	.service li{
+		float : left;
+		list-style-type : none;
+		margin-left : 10px;
+		cursor : pointer;
+	}
+	
+	.service li:hover{
+		font-weight : bold;
+	}
+	
+	li{
+		list-style-type : none;
+	}
+	
+	/* .container{
+		overflow : hidden;
+	} */
+	
+	.smallNavi{
+		overflow : hidden;
+		float : right;
+		margin-top : -30px;
+	}
+	
+	.smallNavi li{
+		float : left;
+		margin-right : 20px;
+	}
+	
+	.homeImg{
+		margin-top : -2px;
+	}
 </style>
 
 </head>
 <body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
-		<jsp:include page="/layout/toolBar.jsp" />
+	<jsp:include page="/layout/toolBar.jsp" />
 	<!-- ToolBar End /////////////////////////////////////-->
+	
+	<div class="topImg">
+		<h1>맛집<span class="slim">정보</span></h1>
+	</div>
 
 	<div class="container">
-	
-		<!-- 상세페이지에서 업데이트 컨트롤러로 보내는 데이터 : start -->
-		<%-- <input type="text" name="likecountId" value="${ community.writerId }">
-		<input type="text" name="likecountCommunityNo" value="${ community.communityNo }">
-		<input type="text" name="likecountCheck" value="${ likecount.likecountCheck }"> --%>
-		<!-- 상세페이지에서 업데이트 컨트롤러로 보내는 데이터 : end -->
-	
-		<div class="row">
-			<h1>getRestaurantInfo.jsp</h1>
+	 
+		<div class="wrap">
+		
+		<ul class="smallNavi">
+			<li class="homeImg"><img alt="home" src="../resources/images/background/home.jpg"></li>
+			<li>></li>
+			<li>스토리</li>
+			<li>></li>
+			<li>맛집정보</li>
+		</ul>
+		
+		<div class="row button">
+			<button type="button" class="btn btn-default">이전글</button>
+			<button type="button" class="btn btn-default">다음글</button>
+			
+			<button type="button" class="btn btn-default rightBtn">목록</button>
+			<button type="button" class="btn btn-default rightBtn">글쓰기</button>
 		</div>
 		
-		<div class="row">
-			<div class="col-xs-4 col-md-2">제목</div>
-			<div class="col-xs-8 col-md-4">${ community.title }</div>
+		<div class="wrapContents">
+
+		<div class="row firstRow">
+			<div class="col-xs-4 col-md-2 firstColumn">${ community.title }</div>
+			<c:if test="${community.category == 'RES'}">
+				<div class="col-xs-8 col-md-8">맛집정보</div>
+			</c:if>
+			<c:if test="${community.category == 'MET'}">
+				<div class="col-xs-8 col-md-8">모임후기</div>
+			</c:if>
+			<c:if test="${community.category == 'DAT'}">
+				<div class="col-xs-8 col-md-8">만남후기</div>
+			</c:if>
+			<c:if test="${community.category == 'LUV'}">
+				<div class="col-xs-8 col-md-8">연애조언</div>
+			</c:if>
+			<c:if test="${community.category == 'NTC'}">
+				<div class="col-xs-8 col-md-8">공지사항</div>
+			</c:if>
+			<div class="col-xs-4 col-md-2 righttSort">${ community.writeDate }</div>
 		</div>
 
-		<div class="row">
-			<div class="col-xs-4 col-md-2">닉네임</div>
-			<div class="col-xs-8 col-md-4">${ community.writerNickName }</div>
+		<div class="row secondRow">
+			<div class="col-xs-4 col-md-2 firstColumn">${ community.writerNickName }</div>
+			<c:if test="${community.userGrade == 'NEW'}">
+				<div class="col-xs-8 col-md-4">신규회원</div>
+			</c:if>
+			<c:if test="${community.userGrade == 'NOR'}">
+				<div class="col-xs-8 col-md-4">일반회원</div>
+			</c:if>
+			<c:if test="${community.userGrade == 'VIP'}">
+				<div class="col-xs-8 col-md-4">우수회원</div>
+			</c:if>
+			<c:if test="${community.userGrade == 'ADM'}">
+				<div class="col-xs-8 col-md-4">관리자</div>
+			</c:if>
 		</div>
 		
 		<div class="row">
-			<div class="col-xs-4 col-md-2">회원등급</div>
-			<div class="col-xs-8 col-md-4">${ community.userGrade }</div>
+			<div class="contentsDetail">${ community.detail }</div>
 		</div>
 		
-		<div class="row">
-			<div class="col-xs-4 col-md-2">내용</div>
-			<div class="col-xs-8 col-md-4">${ community.detail }</div>
+		<div class="row thirdRow">
+			<ul class="count">
+				<li>조회수 ${ community.views }</li>
+				<li><span>|</span></li>
+				<li>공감수 <span id="likeCount">${ community.like }</span></li>
+				<li>
+					<c:if test= '${likeCount.likeCountCheck=="Y"}'>
+						<button type="button" class="btn-heart on"></button>
+					</c:if>
+					<c:if test= '${likeCount.likeCountCheck=="N" || likeCount.likeCountCheck==null}'>
+						<button type="button" class="btn-heart"></button>
+					</c:if>
+				</li>
+			</ul>
+			<ul class="service">
+				<li class="modify">수정</li>
+				<li><span>|</span></li>
+				<li class="complain">신고</li>
+				<li><span>|</span></li>
+				<li class="delete">삭제</li>
+			</ul>
 		</div>
 		
-		<div class="row">
-			<div class="col-xs-4 col-md-2">조회수</div>
-			<div class="col-xs-8 col-md-4">${ community.views }</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-xs-4 col-md-2">공감수</div>
-			<div id="likeCount" class="col-xs-8 col-md-4">${ community.like }</div>
-		</div>		
-		
-		<div class="row">
+		<%-- <div class="row">
 			<div class="col-xs-4 col-md-2">likeCountCheck</div>
 			<div class="col-xs-8 col-md-4">${ likeCount.likeCountCheck }</div>
-		</div>
+		</div> --%>
 		
 		<div class="row">
 			<div class="col-md-12 text-center">
-				<button type="button" class="btn btn-primary">이전글</button>
-				<button type="button" class="btn btn-primary">다음글</button>
-				<button type="button" class="btn btn-primary">목록</button>
-				<button type="button" class="btn btn-primary">글쓰기</button>
-				<button type="button" class="btn btn-primary">신고</button>
+				<!-- <button type="button" class="btn btn-primary">글쓰기</button> -->
+				<!-- <button type="button" class="btn btn-primary">신고</button> -->
 				<!-- <button type="button" class="btn btn-primary">공감</button> -->
 				
-				<c:if test= '${likeCount.likeCountCheck=="Y"}'>
+				<%-- <c:if test= '${likeCount.likeCountCheck=="Y"}'>
 					<button type="button" class="btn-heart on"></button>
 				</c:if>
 				<c:if test= '${likeCount.likeCountCheck=="N" || likeCount.likeCountCheck==null}'>
 					<button type="button" class="btn-heart"></button>
-				</c:if>
+				</c:if> --%>
 				
 				<!-- 작성자만 수정 삭제 가능하게 수정해야 되는 부분 : start -->
-				<button type="button" class="btn btn-primary">수정</button>
-				<button type="button" class="btn btn-primary">삭제</button>
+				<!-- <button type="button" class="btn btn-primary">수정</button>
+				<button type="button" class="btn btn-primary">삭제</button> -->
 				<!-- 작성자만 수정 삭제 가능하게 수정해야 되는 부분 : end -->
 				
 			</div>
@@ -231,7 +388,11 @@
 		<!-- 댓글 : start -->
 		<jsp:include page="/comment/addComment.jsp" />
 		<!-- 댓글 : end -->
-	
+		
+		</div>
+		
+		</div>
+	 
 	</div>
 
 </body>

@@ -54,11 +54,12 @@
 	    .info .close:hover {cursor: pointer;}
 	    .info .body {position: relative;overflow: hidden;}
 	    .info .desc {position: relative;margin: 13px 0 0 90px; height: 90px;}
-	    .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap; }
+	    /* .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap; } */
 	    .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
 	    .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
 	    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 	    .info .link {color: #5085BB;}
+	    .ellipsis p{display:block; width:20px; height:30px;}
 	    
      </style>
      
@@ -124,7 +125,7 @@
 						            '                <img src="/resources/images/meeting/${meeting.titleImg}" width="73" height="70"/>' +
 						            '           </div>' + 
 						            '            <div class="desc">' + 
-						            '                <div class="ellipsis">${meeting.meetingLocation}</div>' + 	
+						            '                <div class=""><p>${meeting.meetingLocation}</p></div>' + 	
 						            '                <div><a href="/meeting/getMeeting?meetingNo=${meeting.meetingNo}" target="_blank" class="link">상세정보보기</a></div>' + 	
 						            '            </div>' + 
 						            '        </div>' + 
@@ -177,8 +178,6 @@
 					
 					<script>
 						function closeOverlay(meetingNo) {
-							alert('닫자!!');
-				            console.log('닫자!!!!!!');
 				            $('#'+meetingNo).click(function(){
 				            	 $('#'+meetingNo).hide();
 				            });
@@ -193,19 +192,15 @@
 				<div class="col-md-6">
 				<br/><br/><br/>
 					<table class="table table-hover table-striped" >
-						<colgroup>
-							<col style="width:10%;">
-							<col style="width:40%;">
-							<col style="width:15%;">
-							<col style="width:15%;">
-							<col style="width:20%;">
-						</colgroup>
+						
 				        <thead>
 				          <tr>
 				            <th align="center">No</th>
 				            <th align="center" >Image</th>
-				            <th align="left" >모임이름</th>
+				            <th align="left" >모임명</th>
 				            <th align="center">모임날짜</th>
+				            <th align="center">중심지</th>
+				            <th align="center">모임장소</th>
 				          </tr>
 				        </thead>
 			       
@@ -215,9 +210,11 @@
 							<c:set var="i" value="${ i+1 }" />
 							<tr>
 							  <td align="center">${ i }</td>
-							  <td align="left"> <img src="/resources/images/meeting/${meeting.titleImg}" width=200px height=150px/></td>
+							  <td align="left"> <img src="/resources/images/meeting/${meeting.titleImg}" width=100px height=100px/></td>
 							  <td align="left"  data-param="${meeting.meetingNo}" >${meeting.meetingName}</td>
 							  <td align="left">${meeting.meetingDate}</td>
+							  <td align="left">${meeting.meetingCenter}</td>
+							  <td align="left">${meeting.meetingLocation}</td>
 							</tr>
 						  </c:forEach>
 				        </tbody>

@@ -7,17 +7,23 @@
 <title>Insert title here</title>
 
 <!-- include libraries(jQuery, bootstrap) -->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> -->
 
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous"> -->
 
 <!-- Optional theme -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css" integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous">
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css" integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous"> -->
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw" crossorigin="anonymous"></script>
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw" crossorigin="anonymous"></script> -->
 
+
+<style type="text/css">
+	.giyong{
+		margin-left : 100px;
+	}
+</style>
 <script type="text/javascript">
 	
 	var communityNo = ${community.communityNo}; //게시글 번호  하드코딩
@@ -61,7 +67,7 @@
 	        url : '/comment/rest/addComment/'+communityNo,
 	        type : 'post',
 	        data : JSON.stringify({
-	        			commentWriterId : "kimgiyong", //하드코딩 수정
+	        			commentWriterId : $('#userId').val(), //하드코딩 수정
 	        			commentComuNo : communityNo,
 	        			commentDetail : $('[name=commentDetail]').val()
 	        			}),
@@ -90,7 +96,7 @@
 	        type : 'post',
 	        data : JSON.stringify({
 	        			targetNo : targetNo,
-	        			commentWriterId : "kimgiyong", //하드코딩 수정
+	        			commentWriterId : $('#userId').val(), //하드코딩 수정
 	        			commentComuNo : communityNo,
 	        			commentDetail : $('#commentDetail').val()
 	        			}),
@@ -182,22 +188,46 @@
 	
 </script>
 
+<style>
+	.commentWrap{
+		margin-top : 40px;
+		padding : 20px;
+		background-color : #EEEEEE;
+	}
+	
+	.commentForm{
+		overflow : hidden;
+	}
+	
+	.commentInput{
+		width : 93%;
+		float : left;
+	}
+	
+	.commentSave{
+		float : right;
+	}
+</style>
+
 </head>
 <body>
-	<h1>addComment.jsp</h1>
-	<div class="container">
+	
+	<div class="commentWrap">
 		
-		<form>
-			
-			<div class="form-group">
-				<input type="text" class="form-control" name="commentDetail" placeholder="댓글을 입력해주세요">
-				<button type="button" class="btn btn-default btn-md" id="save">등록</button>
-			</div>
-			
-	        <div class="replyList"></div>
-		        
-		</form>
+	<form>
 		
+		<div class="form-group commentForm">
+			<input type="text" class="form-control commentInput" name="commentDetail" placeholder="댓글을 입력해주세요">
+			<button type="button" class="btn btn-default btn-md commentSave" id="save">등록</button>
+			<input type="hidden" id="userId" name="userId" value="${ me.userId }">
+			<input type="hidden" id="nickName" name="nickName" value="${ me.nickName }">
+		</div>
+		
+        <div class="replyList"></div>
+	        
+	</form>
 	</div>
+		
+	
 </body>
 </html>

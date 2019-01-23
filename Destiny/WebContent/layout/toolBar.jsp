@@ -2,6 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!doctype html>
+<html>
+<head>
+
+
 
 	<script type="text/javascript">
 	
@@ -116,6 +120,8 @@
 		    padding: 10px;
 		}
    	</style>
+   	</head>
+   	<body>
 
 	<!-- Fixed navbar -->
 	<nav class="navbar navbar-default navbar-fixed-top">
@@ -182,7 +188,7 @@
 					 	
 						<label for="password" class="col-sm-4 control-label">패 스 워 드</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" name="password" id="password" placeholder="패스워드" >
+							<input type="password" class="form-control" name="password" id="password" placeholder="패스워드" >
 						</div>
 					 	
 						<div class="col-sm-offset-4 col-sm-6 text-center">
@@ -206,5 +212,5 @@
 		</div><!--/.nav-collapse -->
 	</div>
 	</nav>
-
+</body>
 </html>

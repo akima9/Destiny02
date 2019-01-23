@@ -70,6 +70,15 @@
 		    });
 		});
 		 
+		 $(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 $( "button[id='contactListButton']" ).on("click" , function() {
+			 	//var userId = $("input[name='getUserId']").val();
+			 	var userId = "${me.userId}";
+				self.location = "/act/getContactList/"+userId;
+		    });
+		});
+		 
 		 
 		
 		
@@ -81,7 +90,9 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolBar.jsp" />
   	<!-- ToolBar End /////////////////////////////////////-->
-  
+  		
+  		<br/>
+		
 		<div class="form-group">
 		    <label for="userId" class="col-sm-4 control-label"></label>
 		    <div class="col-sm-4">
@@ -118,6 +129,14 @@
 		
 		<br/>
 		
+		<div class="form-group">
+		    <label for="userId" class="col-sm-4 control-label"></label>
+		    <div class="col-sm-4">
+		      <button id="contactListButton" type="button">성사된 만남 목록</button>
+		    </div>
+		</div>	
+		
+		<br/>
 		
 	</body>
 </html>
