@@ -24,6 +24,7 @@ import com.destiny.service.chatting.ChattingService;
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Chatting;
 import com.destiny.service.domain.Community;
+import com.destiny.service.domain.Meeting;
 import com.destiny.service.domain.User;
 import com.destiny.service.info.InfoService;
 import com.destiny.service.meeting.MeetingService;
@@ -59,6 +60,9 @@ public class ActController {
 	@Qualifier("userServiceImpl")
 	private UserService userService;
 	
+	@Autowired
+	@Qualifier("meetingServiceImpl")
+	private MeetingService meetingService;
 	
 	public ActController() {
 		System.out.println(this.getClass());
@@ -115,6 +119,56 @@ public class ActController {
 		modelAndView.addObject("search", search);
 		return modelAndView;
 	}
+	
+	@RequestMapping(value="getCrewList/{meetingNo}", method=RequestMethod.GET)
+	public ModelAndView getCrewList(@PathVariable("meetingNo") int meetingNo) throws Exception {
+		System.out.println("act/getCrewList : GET + " + meetingNo);
+		
+		List<Meeting> list = actService.getCrewAll(meetingNo);
+		
+		List<Meeting> listAPL = new ArrayList<Meeting>();
+		List<Meeting> listYES = new ArrayList<Meeting>();
+		
+		for(Meeting v : list) {
+			if(!v.getRole().equals("MST"))
+			{
+				if(v.getCrewCondition().equals("APL")) {
+					listAPL.add(v);
+				} else if (v.getCrewCondition().equals("YES")) {
+					listYES.add(v);
+				}
+			}
+		}
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userAct/getCrewList.jsp");
+		modelAndView.addObject("listAPL", listAPL);
+		modelAndView.addObject("listYES", listYES);
+		modelAndView.addObject("meetingNo", meetingNo);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="judgmentApply/{judgment}/{meetingNo}/{userId}", method=RequestMethod.GET)
+	public ModelAndView judgmentApply(@PathVariable("judgment") String judgment, @PathVariable("meetingNo") int meetingNo, @PathVariable("userId") String userId) throws Exception{
+		
+		System.out.println("act/judgmentApply : GET + " + judgment + " + " + meetingNo);
+		
+		Meeting meeting = new Meeting();
+		
+		if(judgment.equals("yes")) {
+			meeting.setCrewCondition("YES");
+			meeting.setMeetingMasterId(userId);
+			
+			actService.updateCrewCondition(meeting);
+		} else if(judgment.equals("no")) {
+			actService.delectCrew(userId);
+		}
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/act/getCrewList/"+meetingNo);
+		return modelAndView;
+	}
+	
 	
 	@RequestMapping(value="getJoinMeetingList/{userId}", method=RequestMethod.GET)
 	public ModelAndView getJoinMeetingList(@PathVariable("userId") String userId, @ModelAttribute("search") Search search) throws Exception {
