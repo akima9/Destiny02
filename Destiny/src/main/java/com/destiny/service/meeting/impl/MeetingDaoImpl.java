@@ -70,7 +70,7 @@ public class MeetingDaoImpl implements MeetingDao {
 	}
 	
 	@Override
-	public int getAct(int meetingNo) throws Exception {
+	public Meeting getAct(int meetingNo) throws Exception {
 		return sqlSession.selectOne("MeetingMapper.getAct", meetingNo);
 	}
 	
@@ -150,6 +150,17 @@ public class MeetingDaoImpl implements MeetingDao {
 	@Override
 	public List<Meeting> getActCrew(int meetingNo) throws Exception {
 		return sqlSession.selectList("MeetingMapper.getActCrew",meetingNo);
+	}
+
+	@Override
+	public void updateContentsAct(Meeting meeting) throws Exception {
+		sqlSession.update("MeetingMapper.updateContentsAct",meeting);
+		
+	}
+
+	@Override
+	public String getCrewrole(Meeting meeting) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.getCrewrole", meeting);
 	}
 	
 

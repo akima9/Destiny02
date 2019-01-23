@@ -25,6 +25,9 @@
 
 <script type="text/javascript">
 
+var userId = "${me.userId}";
+console.log("userId : "+userId);
+
 
 function fncGetList(currentPage){
 	$("#currentPage").val(currentPage)
@@ -33,9 +36,17 @@ function fncGetList(currentPage){
 
 $(function() {
 	
+	/* 글쓰기 버튼 : start */
 	$("button:contains('글쓰기')").on("click", function() {
-		self.location = "/info/addRestaurantInfo"
+		if(userId == ""){
+			alert("로그인 후 이용 가능합니다.");
+			$("#my-dialog,#dialog-background").toggle();
+		}
+		else{
+			self.location = "/info/addRestaurantInfo"	
+		}
 	});
+	/* 글쓰기 버튼 : end */
 	
 	/* 글 제목 마우스 오버 : start */
 	$(".getRestaurantLink").on("mouseover",function(){
@@ -45,8 +56,14 @@ $(function() {
 	
 	/* 글 제목 클릭 : start */
 	$(".getRestaurantLink").on("click", function(){
-		var communityNo = $(this).data("param")
-		self.location="/info/getRestaurantInfo?communityNo="+communityNo
+		if(userId == ""){
+			alert("로그인 후 이용 가능합니다.");
+			$("#my-dialog,#dialog-background").toggle();
+		}
+		else{
+			var communityNo = $(this).data("param")
+			self.location="/info/getRestaurantInfo?communityNo="+communityNo	
+		}
 	});
 	/* 글 제목 클릭 : end */
 	

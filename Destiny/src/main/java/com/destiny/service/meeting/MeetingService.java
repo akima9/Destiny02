@@ -19,7 +19,7 @@ public interface MeetingService {
 	
 	public Meeting getMeeting(int meetingNo) throws Exception; /*상세보기 */
 	
-	public int getAct(int meetingNo) throws Exception; /*상세보기 갈때 엑트 가져가기 */
+	public Meeting getAct(int meetingNo) throws Exception; /*상세보기 갈때 엑트 가져가기 */
 	
 	public int getCrewCount(int meetingNo) throws Exception; /*상세보기 멤버수*/
 	
@@ -31,7 +31,9 @@ public interface MeetingService {
 
 	public void updateMeeting(Meeting meeting) throws Exception; /*모임 삭제될떄 상태값 변경*/
 	
-	public void updateContentsMeeting(Meeting meeting) throws Exception; /*모임 수정*/
+	public void updateContentsMeeting(Meeting meeting) throws Exception; /*모임 수정 미팅테이블*/
+	
+	public void updateContentsAct(Meeting meeting) throws Exception; /*모임 수정 회차테이블*/
 	
 	public int addCrewM(Meeting meeting) throws Exception; /*모임원 리스트에 업데이트*/
 	
@@ -47,4 +49,5 @@ public interface MeetingService {
 	
 	public Map<String , Object> getActCrew(int meetingNo) throws Exception;/*참여자 명단 가져오기*/
 	
+	public String getCrewrole(Meeting meeting) throws Exception; /*수정 삭제 시 모임장인지 확인 */
 }

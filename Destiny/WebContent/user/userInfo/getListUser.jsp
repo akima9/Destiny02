@@ -56,6 +56,13 @@
 			 $( "button.btn.btn-default" ).on("click" , function() {
 				fncGetList(1);
 			});
+			 
+			 $("input[name='searchKeyword']").keypress(function(e) {
+				if(e.which == 13) {
+					$(this).blur();
+					$('button.btn.btn-default').focus().click();
+				}
+			});
 		 });
 		
 		
