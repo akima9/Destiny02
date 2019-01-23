@@ -19,7 +19,7 @@ public interface MeetingDao {
 	
 	public Meeting getMeeting(int meetingNo)throws Exception;
 	
-	public int getAct(int meetingNo)throws Exception;
+	public Meeting getAct(int meetingNo)throws Exception;
 	
 	public int getCrewCount(int meetingNo)throws Exception;
 	
@@ -32,6 +32,8 @@ public interface MeetingDao {
 	public void updateMeeting(Meeting meeting)throws Exception;
 	
 	public void updateContentsMeeting(Meeting meeting)throws Exception;
+	
+	public void updateContentsAct(Meeting meeting) throws Exception; /*모임 수정 회차테이블*/
 	
 	public int addCrewM(Meeting meeting)throws Exception;
 	
