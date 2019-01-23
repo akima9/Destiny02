@@ -172,6 +172,70 @@ public class InfoController {
 	}
 	/*deleteRestaurantInfo : end*/
 	
+	/*getPreRestaurantInfo : start*/
+	@RequestMapping(value="getPreRestaurantInfo", method=RequestMethod.GET)
+	public ModelAndView getPreRestaurantInfo(@RequestParam("communityNo") int communityNo, @ModelAttribute("likeCount") LikeCount likeCount,  HttpSession session) throws Exception{
+		
+		System.out.println(":: info/getRestaurantInfo : GET 실행 ========================");
+		
+		User user = (User)session.getAttribute("me"); 
+		String userId = user.getUserId();
+		System.out.println("userId :: " + userId);
+		
+		
+		Community community = communityService.getPreCommunity(communityNo);
+		
+		if (community == null) {
+			community = communityService.getCommunity(communityNo);
+		}
+		
+		communityService.updateViews(communityNo);
+		likeCount.setLikeCountId(userId);
+		likeCount.setLikeCountCommunityNo(communityNo);
+		communityService.getLikeCount(likeCount);
+		likeCount = communityService.getLikeCount(likeCount);
+		System.out.println(community);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("community", community);
+		modelAndView.addObject("likeCount", likeCount);
+		modelAndView.setViewName("/community/getRestaurantInfo.jsp");
+		return modelAndView;
+	}
+	/*getPreRestaurantInfo : end*/
+	
+	/*getNextRestaurantInfo : start*/
+	@RequestMapping(value="getNextRestaurantInfo", method=RequestMethod.GET)
+	public ModelAndView getNextRestaurantInfo(@RequestParam("communityNo") int communityNo, @ModelAttribute("likeCount") LikeCount likeCount,  HttpSession session) throws Exception{
+		
+		System.out.println(":: info/getRestaurantInfo : GET 실행 ========================");
+		
+		User user = (User)session.getAttribute("me"); 
+		String userId = user.getUserId();
+		System.out.println("userId :: " + userId);
+		
+		
+		Community community = communityService.getNextCommunity(communityNo);
+		
+		if (community == null) {
+			community = communityService.getCommunity(communityNo);
+		}
+		
+		communityService.updateViews(communityNo);
+		likeCount.setLikeCountId(userId);
+		likeCount.setLikeCountCommunityNo(communityNo);
+		communityService.getLikeCount(likeCount);
+		likeCount = communityService.getLikeCount(likeCount);
+		System.out.println(community);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("community", community);
+		modelAndView.addObject("likeCount", likeCount);
+		modelAndView.setViewName("/community/getRestaurantInfo.jsp");
+		return modelAndView;
+	}
+	/*getNextRestaurantInfo : end*/
+	
 }
 
 

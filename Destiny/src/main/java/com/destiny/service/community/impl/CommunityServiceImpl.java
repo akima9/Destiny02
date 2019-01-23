@@ -109,4 +109,14 @@ public class CommunityServiceImpl implements CommunityService {
 		communityDao.updateViewsConditionAdmin(community);
 	}
 
+	@Override
+	public Community getPreCommunity(int communityNo) throws Exception {
+		return communityDao.getPreCommunity(communityNo);
+	}
+
+	@Override
+	public Community getNextCommunity(int communityNo) throws Exception {
+		return communityDao.getNextCommunity(communityNo);
+	}
+
 }

@@ -81,6 +81,7 @@ public class UserController {
 			modelAndView.addObject("reason", "가입되지 않은 아이디입니다.");
 			modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 		} else {
+			System.out.println("유저정보 가져오기");
 			dbUser=userService.getUser( user.getUserId());
 		
 			//만일 탈퇴한 유저라면
@@ -90,6 +91,7 @@ public class UserController {
 				modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 			} else {
 				//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
+				System.out.println("로그인 + 현제 접속자 구현 로직 part");
 				ServletContext applicationScope = request.getSession().getServletContext();
 				
 				//String Ip = request.getRemoteAddr();
@@ -145,6 +147,8 @@ public class UserController {
 					if(loginList.get(i).toString().equals(dbUser.toString())) {
 						System.out.println("어 있엉~~~~~~~~~~~~~~~~~~~~~~~");
 						System.out.println("두 사람의 IP가 동일합니까?");
+						System.out.println("접속 시도자 IP : " + ip);
+						System.out.println("기존 로그인 IP : " + ipLoginList.get(i));
 						if(ipLoginList.get(i).equals(ip)) {
 							System.out.println("같은 ip에서의 접근입니다. ");
 						} else {
@@ -371,6 +375,8 @@ public class UserController {
 			user.setProfile(profileDomain);
 			//====================================================
 			//=========================================================================
+			user.setUserState("I");
+			
 			userService.addUser(user);
 		}
 

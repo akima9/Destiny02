@@ -20,13 +20,13 @@
 
 
 <style type="text/css">
-	.giyong{
-		margin-left : 100px;
+	.replyAreaCoComment{
+		margin-left : 50px;
 	}
 </style>
 <script type="text/javascript">
 	
-	var communityNo = ${community.communityNo}; //게시글 번호  하드코딩
+	var communityNo = ${community.communityNo}; //게시글 번호 
 	
 	$(function() {
 		$('#save').on("click",function(){ //댓글 등록 버튼 클릭시 
@@ -47,7 +47,12 @@
 	             $.each(JSONData, function(i){
 	            	var list = JSONData[i];
 	            	console.log("list : "+list);
-	                a += '<div class="replyArea'+list.commentNo+'" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
+	            	if(list.commentNo != list.targetNo){
+	            		a += '<div class="replyAreaCoComment" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
+	            	}else{
+	            		a += '<div class="replyArea'+list.commentNo+'" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
+	            	}
+	                
 	                a += '<div class="replyInfo'+list.commentNo+'">'+'댓글번호 : '+list.commentNo+' / 작성자 : '+list.commentWriterId;
 	                a += '<a onclick="replyUpdate('+list.commentNo+',\''+list.commentDetail+'\')"> 수정 </a>';
 	                a += '<a onclick="replyDelete('+list.commentNo+')"> 삭제 </a>';
@@ -112,7 +117,7 @@
 	        }
 	    });
 	}
-	 
+	
 	//댓글 수정 - 댓글 내용 출력을 input 폼으로 변경 
 	function replyUpdate(commentNo, commentDetail, commentWriterId){
 	   var a ='';
@@ -124,7 +129,7 @@
 	   
 	   var b = '';
 	   b += '<div class="replyInfo'+commentNo+'">'+'댓글번호 : '+commentNo+' / 작성자 : '+commentWriterId;
-       b += '<a onclick="replyUpdateCancel('+commentNo+',\''+commentDetail+'\');"> 수정취소 </a>';
+       b += '<a onclick="replyUpdateCancel('+commentNo+',\''+commentDetail+'\');"> 수정취소 </a></div>';
 	   $('.replyInfo'+commentNo+'').html(b);
 	}
 	
