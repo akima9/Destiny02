@@ -79,6 +79,10 @@
 		.sch_smit:hover {
 			background: 	#433e90;
 		}
+		
+		#meetingNo {
+			font-size: 30px;
+		}
 	</style>
 
     <script type="text/javascript">
@@ -86,7 +90,7 @@
 				$( "#addMeeting" ).on("click", function() {
 					console.log("${empty sessionScope.me}");
 					
-					if(${sessionScope.me.userGrade !='NEW'} && ${!empty sessionScope.me.userId}){
+					if('${sessionScope.me.userGrade }' !='NEW' && ${!empty sessionScope.me.userId}){
 						//alert("성공");
 						self.location="/meeting/addMeeting"
 					}else if(${empty sessionScope.me}){
@@ -98,7 +102,7 @@
 						     return;
 
 						 }
-					}else if(${sessionScope.me.userGrade =='NEW'}){
+					}else if('${sessionScope.me.userGrade }'=='NEW'){
 						alert("${sessionScope.me.nickName}님은 우연등급입니다.\n인연이상 회원부터 개설 하능합니다.");
 					}else{
 						alert("이용 불가합니다.");
@@ -187,10 +191,12 @@
         <form>
             <!-- 베스트상품 테이블 -->
             <table>
+         <%--    잠깐 스탑 
             <c:set var="i" value="0" />
 				  <c:forEach var="meeting" items="${bestList}">
 				  <c:set var="i" value="${ i+1 }" />
 				  </c:forEach>
+				   --%>
 	            <div id="myCarousel" class="carousel slide" data-ride="carousel">
 			      <!-- Indicators -->
 			      <ol class="carousel-indicators">
@@ -199,36 +205,36 @@
 			        <li data-target="#myCarousel" data-slide-to="2"></li>
 			      </ol>
 			      <div class="carousel-inner" role="listbox">
-			        <div class="item active">
-			          <img class="first-slide" src="/resources/images/meeting/${bestList[0].titleImg}" width="350px" height="350px" alt="First slide"><!-- 첫번째 사진 -->
-			          <div class="container">
+			        <div class="item active" align="center">
+			          <img class="first-slide" src="/resources/images/meeting/meeting.jpg" alt="First slide"><!-- 첫번째 사진 -->
+			          <%-- <div class="container">
 			            <div class="carousel-caption">
 			            	무슨설명 달고싶으면 여기에
 			              <h1>Example headline.</h1>
 			              <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
 			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
 			            </div>
-			          </div>
+			          </div> --%>
 			        </div>
-			        <div class="item">
-			          <img class="second-slide" src="/resources/images/meeting/${bestList[1].titleImg}" width="350px" height="350px"  alt="Second slide"><!-- 두번째 사진 -->
-			          <div class="container">
+			        <div class="item" align="center">
+			          <img class="second-slide" src="/resources/images/meeting/friend.jpg" alt="Second slide"><!-- 두번째 사진 -->
+			          <!-- <div class="container">
 			            <div class="carousel-caption">
 			              <h1>Another example headline.</h1>
 			              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
 			            </div>
-			          </div>
+			          </div> -->
 			        </div>
-			        <div class="item">
-			          <img class="third-slide" src="/resources/images/meeting/${bestList[2].titleImg}" width="350px" height="350px" alt="Third slide"><!-- 세번째 사진 -->
-			          <div class="container">
+			        <div class="item" align="center">
+			          <img class="third-slide" src="/resources/images/meeting/minimini.jpg" alt="Third slide"><!-- 세번째 사진 -->
+			          <!-- <div class="container">
 			        	<div class="carousel-caption">
 			              <h1>One more for good measure.</h1>
 			              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
 			            </div> 
-			          </div>
+			          </div> -->
 			        </div>
 			      </div> 
 			      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -307,11 +313,11 @@
 			 <!-- 개설하기 버튼 종료 -->
 			 
 			 <!-- 리스트 시작 -->
-			 	
+
                 <table class="listingTAB" width="100%" border="0" cellspacing="0" style="margin-top:10px;">
                     <tr>
                         <td colspan="11" align="left">
-                           	 전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage} 페이지
+                           	<%--  전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage} 페이지 --%>
                         </td>
                     </tr>
                   
@@ -324,7 +330,7 @@
 				 	 <c:set var="i" value="${ i+1 }" />
                   
                     <tr>
-                        <td>
+                        <td valign="middle">
                             <img width="100px" src="/resources/images/meeting/${meeting.titleImg}" >
                         </td>
                         <td></td>
@@ -357,7 +363,7 @@
                         </td>
                         <td></td>
                         <td align="left">
-                        	모임날짜:${meeting.meetingDate} 다음모임장소:${meeting.meetingLocation}
+                        	모임날짜:${meeting.meetingDate} 이번모임장소:${meeting.meetingLocation}
                         </td>
                         <td></td>
                         <td align="left"></td>
@@ -369,8 +375,9 @@
                     <tr>
                         <td colspan="15" bgcolor="D6D7D6" height="1"></td>
                     </tr>
-                     
+                    
                    </c:forEach>
+                  
                 </table>
                 <!-- 리스트 종료 -->
                 
