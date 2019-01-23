@@ -66,7 +66,7 @@ public class ChattingController {
 	@RequestMapping(value="mainChatting", method=RequestMethod.GET)
 	public ModelAndView mainChatting() throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/chatting/mainChatting.jsp");
+		modelAndView.setViewName("/chatting/mainChatting.jsp");
 		return modelAndView;
 	}
 	
@@ -95,7 +95,7 @@ public class ChattingController {
 			ServletContext applicationScope = request.getSession().getServletContext();
 			System.out.println("telepathyQ : "+telepathyQ);
 			if(applicationScope.getAttribute(telepathyQ) == null) {
-				//telepathyList = (List<Telepathy>) applicationScope.getAttribute(telepathyQ);
+				
 				Map<String, Object> map=chattingService.listTelepathy(roomNo);
 				telepathyList=(List<Telepathy>)map.get("list");
 				System.out.println("이심전심 문항 생성 : "+telepathyList);
@@ -195,21 +195,10 @@ public class ChattingController {
 			System.out.println("manList : "+manList+"womanList : "+womanList);
 		
 			//남녀매칭////////////////////////
-//			MyThreadTask task1 = new MyThreadTask();
-//			MyThreadTask task2 = new MyThreadTask();
-//			MyThreadTask task3 = new MyThreadTask();
-//
-//			Thread thread1 = new Thread(task1,"firstThread");
-//			Thread thread2 = new Thread(task2,"secondThread");
-//			Thread thread3 = new Thread(task3,"thirdThread");
-//			thread1.start();
-//			thread2.start();
-//			thread3.start();
+//			
 					if(manList.size()>0 && womanList.size()>0) {
 						////////매칭된 아이디 2개 넣기
-						//		chatting.setManId(manId);
-						//		chatting.setWomanId(womanId);
-						/////////test
+					
 						try{ 
 							System.out.println("manList==womanList");
 							woman=womanList.get(0).getUserId();
@@ -305,4 +294,6 @@ public class ChattingController {
 		modelAndView.addObject("채팅방 나감");
 		return modelAndView;
 	}
+	
+	
 }

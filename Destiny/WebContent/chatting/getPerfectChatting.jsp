@@ -28,6 +28,81 @@
 #msg_process {
     width: 90px;
 }
+/* gage */
+.bar {
+		float:left;
+		clear:both;
+		width:90%;
+		height:20px;
+		position:relative;
+		}
+		  
+		.bar .percent {
+		background:#2caedd;
+		background:-moz-linear-gradient(left, #2caedd 0%, #86dd2a 28%, #e0d72a 46%, #e8902c 66%, #ed2d2d 86%, #ff0000 100%);
+		background:-webkit-gradient(linear, left top, right top, color-stop(0%,#2caedd), color-stop(28%,#86dd2a), color-stop(46%,#e0d72a), color-stop(66%,#e8902c), color-stop(86%,#ed2d2d), color-stop(100%,#ff0000));
+		background:-webkit-linear-gradient(left, #2caedd 0%,#86dd2a 28%,#e0d72a 46%,#e8902c 66%,#ed2d2d 86%,#ff0000 100%);
+		background:-o-linear-gradient(left, #2caedd 0%,#86dd2a 28%,#e0d72a 46%,#e8902c 66%,#ed2d2d 86%,#ff0000 100%);
+		background:-ms-linear-gradient(left, #2caedd 0%,#86dd2a 28%,#e0d72a 46%,#e8902c 66%,#ed2d2d 86%,#ff0000 100%);
+		background:linear-gradient(left, #2caedd 0%,#86dd2a 28%,#e0d72a 46%,#e8902c 66%,#ed2d2d 86%,#ff0000 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2caedd', endColorstr='#ff0000', GradientType=1);
+		float:left;
+		width:100%;
+		height:40px;
+		position:relative;
+		}
+		  
+		.bar .percent span {
+		display:block;
+		position:absolute;
+		top:0;
+		right:0;
+		z-index:2;
+		width:100%;
+		height:40px;
+		background:rgba(255, 255, 255, .7);
+		}
+		  
+		.bar .circle {
+		display:block;
+		position:absolute;
+		top:50%;
+		left:0;
+		z-index:3;
+		margin:-40px 0 0 -40px;
+		width:80px;
+		height:80px;
+		line-height:80px;
+		text-align:center;
+		font-size:20px;
+		font-family:'PT Sans Narrow', sans-serif;
+		color:#fff;
+		background:rgba(0, 0, 0, .1);
+		-moz-border-radius:40px;
+		-webkit-border-radius:40px;
+		border-radius:40px;
+		-webkit-transition:all 1s ease;
+		-moz-transition:all 1s ease;
+		-o-transition:all 1s ease;
+		}
+		  
+		.bar .circle.rotate {
+		-webkit-transform:rotate(1080deg);
+		-moz-transform:rotate(1080deg);
+		-o-transform:rotate(1080deg);
+		}
+		  
+		.bar .circle span {
+		display:inline-block;
+		width:70px;
+		height:70px;
+		line-height:70px;
+		background:rgba(0, 0, 0, .3);
+		-moz-border-radius:35px;
+		-webkit-border-radius:35px;
+		border-radius:35px;
+		}
+		
 </style>
 <!--  <script src="/socket.io/socket.io.js"></script> -->
  <script src="http://192.168.0.28:82/socket.io/socket.io.js"></script>
@@ -59,9 +134,6 @@
 	// on connection to server, ask for user's name with an anonymous callback
 	socket.on('connect', function(){
 		// call the server-side function 'adduser' and send one parameter (value of prompt)
-		//socket.emit('adduser', prompt("What's your name?"));
-		//alert(roomNo);
-		//alert($.session.get("roomNo"));
 		
 		socket.emit('adduser', "${me.userId}");
 		socket.emit('addroom',chatting);
@@ -129,7 +201,7 @@
 	////////////////////////////ajax끝///////
 			
 			
-			//$('#conversation').append('<div>'+username + '<br> ' + data + '</div><br>');
+			
 		}else{
 			//alert("내 message");
 			$('#conversation').append('<div style = "text-align:right;">'+username + '<br> ' + data1 + '</div><br>');
@@ -185,7 +257,6 @@
 			}
 			$('#data').val('');
 			// tell server to execute 'sendchat' and send along one parameter
-			//message=message+"<br>"+transText;
 			//보낼 메세지
 			//alert("보낼 메세지 : "+message);
 			
@@ -206,12 +277,57 @@
 	
 	window.addEventListener('beforeunload', function (e) {
 		location="/chatting/endChatting";
-		/* var confirmationMessage = '\o/';
-
-		(e || window.event).returnValue = confirmationMessage; //Gecko + IE
-		return confirmationMessage; //Webkit, Safari, Chrome */
+		
 		});
   /////////////////////////////////
+  /////////게이지
+		$(function() {
+		    var input = $('.input'),
+		        bar = $('.bar'),
+		        bw =
+		        bar.width(),
+		        percent = bar.find('.percent'),
+		        circle =
+		        bar.find('.circle'),
+		        ps = percent.find('span'),
+		        cs =
+		        circle.find('span'),
+		        name = 'rotate';
+		    var ti = 0;
+		    
+		   $('.input').click( function(e) {
+		    	
+		    	console.log(ti);
+		    	
+		        if (true) {
+		        	
+		        	ti=ti+5; 
+		            var val = ti;
+		            console.log("안쪽"+ti);
+		            if (val >= 0 && val <=
+		                100) {
+		                var w = 100 - val,
+		                    pw = (bw * w) / 100,
+		                    pa = {
+		                        width: w + '%'
+		                    },
+		                    cw =
+		                    (bw - pw) / 2,
+		                    ca = {
+		                        left: cw
+		                    }
+		                ps.animate(pa);
+		                cs.text(val + '%');
+		                circle.animate(ca, function() {
+		                    circle.removeClass(name)
+		                }).addClass(name);
+		            } else {
+		                alert('range: 0 - 100');
+		                ti.val('');
+		            }
+		        }
+		    });
+		});
 	//////////////////////////////////////////
 </script>
  </head> 
@@ -242,14 +358,24 @@
 			</div>
 		</div>
 		
+		  <div class="bar">
+			    <div class="percent">
+			        <span style="width: 100%;"></span>
+			    </div>
+			    <div class="circle">
+			        <span>0%</span>
+			    </div>
+			    <div class="text">
+			        <input type="text" class="input" value="0" />
+			        <input type="button" class="input" value="좋아요"/>
+			        <small>Please change a value and hit the enter key.</small>
+			    </div>
+			</div>
+			
+		
 
 
-<!-- room 
-<div style="float:top;width:100px;border-right:1px solid black;height:30px;padding:10px;overflow:scroll-y;">
-	<b>ROOMS</b>
-	<div id="rooms"></div>
-</div>
-   -->
+
  </body> 
  </html>
 

@@ -105,7 +105,10 @@
 	
 	 
 	 
-	 
+	window.addEventListener('beforeunload', function (e) {
+		location="/chatting/json/endRandomMatching";
+		
+		});
 	
 	
 	</script>

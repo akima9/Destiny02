@@ -48,33 +48,18 @@
 	        dataType: 'json',
 	        success: function(JsonData) {
 	            console.log('success');
-	            
-	           // manCount=JsonData.manList.length;
-				//womanCount=JsonData.womanList.length;
-				//alert("manId : "+JsonData.manId+" womanId : "+JsonData.womanId);
+	          
 				if (JsonData.roomNo!=0) {
-					//alert("manId : "+JsonData.manId+" womanId : "+JsonData.womanId);
-					//location="/chatting/getPerfectChatting/"+JsonData.roomNo;
+					
 					if (JsonData.roomNo==chattingNo&&chattingNo!=0) {
-						 /* var confirmflag = confirm("채팅중입니다. 새로운 채팅을 하시겠습니까?");
-
-				           if(confirmflag){
-
-				              //확인 버튼 클릭 true 
-				        	   //session에서 채팅 번호 삭제
-				           }else{
-
-				             //취소 버튼 클릭 false
-
-				           } */
-						
+						console.log('채팅 했던 사람');
 					}else{
 						popWin = window.open("/chatting/getPerfectChatting.jsp","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 						
 					}
 					return false;
 				}else{
-					//alert("manCount : "+manCount+" womanCount : "+womanCount);
+					console.log('roomNo가 0인 사람');
 				}
 	        },
 	        //timeout: 3000,
@@ -100,7 +85,10 @@
 	})();
 	
 	 
-	 
+	window.addEventListener('beforeunload', function (e) {
+		location="/chatting/json/endPerfectMatching";
+		
+		});
 	 
 	
 	
@@ -120,12 +108,7 @@
 	text-align: center;
 }
 
-/* #load > img {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	z-index: 100;
-} */
+
 </style>
 </head>
 
