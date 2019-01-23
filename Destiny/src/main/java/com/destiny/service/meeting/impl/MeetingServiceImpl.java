@@ -69,7 +69,7 @@ public class MeetingServiceImpl implements MeetingService {
 	}
 	
 	@Override
-	public int getAct(int meetingNo) throws Exception {
+	public Meeting getAct(int meetingNo) throws Exception {
 		return meetingDao.getAct(meetingNo);
 	}
 	
@@ -153,15 +153,11 @@ public class MeetingServiceImpl implements MeetingService {
 		return map;
 	}
 
-	
-	
+	@Override
+	public void updateContentsAct(Meeting meeting) throws Exception {
+		meetingDao.updateContentsAct(meeting);
+		
+	}
 
-	
-
-	
-
-	
-
-	
 	
 }

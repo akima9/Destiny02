@@ -119,13 +119,7 @@ public class MeetingRestController {
 			System.out.println("¿©±â³ª¿È");
 			Map<String, Object> actmap = new HashMap<String, Object>();
 			actmap = meetingService.getActCrew(meeting.getMeetingNo());
-//			List list = (List)actmap.get("list");
-//			System.out.println("µÎµÕ ¸®½ºÆ®´Â"+list);
-//			List list2 = list.iterator();
-			//for(int i=0; i<=list.size(); i++) {
-				
-			//}
-			//List<JSONObject> dataList =  (List<JSONObject>)new JSONParser().parse(actmap);
+			
 			actmap.put("actCrewList", actmap.get("list"));
 			return actmap;
 		}
