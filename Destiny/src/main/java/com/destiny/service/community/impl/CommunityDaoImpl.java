@@ -105,4 +105,14 @@ public class CommunityDaoImpl implements CommunityDao{
 		sqlSession.update("CommunityMapper.updateViewsConditionAdmin", community);
 	}
 
+	@Override
+	public Community getPreCommunity(int communityNo) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getPreCommunity", communityNo);
+	}
+
+	@Override
+	public Community getNextCommunity(int communityNo) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getNextCommunity", communityNo);
+	}
+
 }
