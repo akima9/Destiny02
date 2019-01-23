@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Find;
+import com.destiny.service.domain.Meeting;
 import com.destiny.service.domain.User;
 import com.destiny.service.find.FindService;
 
@@ -109,15 +110,16 @@ public class FindController {
 			return modelAndView;
 		}
 				
-		@RequestMapping(value="getMeetingResult/{town}", method=RequestMethod.POST)
+		@RequestMapping(value="getMeetingResult", method=RequestMethod.POST)
 		public ModelAndView getMeetingResult(@RequestParam("town") String town) throws Exception{
 			System.out.println("/find/getMeetingResult : POST");
 			System.out.println("FIND : "+ town +"======================");
 			
-			Map<String, Object> map = findService.getMeetingResult(town);
+			List<Meeting> list = findService.getMeetingResult(town);
 
 			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.addObject("list",map.get("list"));
+			//modelAndView.addObject("list",map.get("list"));
+			modelAndView.addObject("list",list);
 			modelAndView.setViewName("forward:/find/getMeetingResult.jsp");
 			
 			return modelAndView;

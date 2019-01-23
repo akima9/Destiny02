@@ -1,18 +1,41 @@
 package com.destiny.service.domain;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Comment {
 	
-	private String	commentNo;
-	private Date	commentDate;
-	private String	commentContents;
-	private User	writerId;
-	public String getCommentNo() {
+	private int commentNo;
+	private int commentComuNo;
+	private String commentWriterId;
+	private String commentDetail;
+	private Date commentDate;
+	private int targetNo;
+	private String viewCondition;
+	
+	
+	public int getCommentNo() {
 		return commentNo;
 	}
-	public void setCommentNo(String commentNo) {
+	public void setCommentNo(int commentNo) {
 		this.commentNo = commentNo;
+	}
+	public int getCommentComuNo() {
+		return commentComuNo;
+	}
+	public void setCommentComuNo(int commentComuNo) {
+		this.commentComuNo = commentComuNo;
+	}
+	public String getCommentWriterId() {
+		return commentWriterId;
+	}
+	public void setCommentWriterId(String commentWriterId) {
+		this.commentWriterId = commentWriterId;
+	}
+	public String getCommentDetail() {
+		return commentDetail;
+	}
+	public void setCommentDetail(String commentDetail) {
+		this.commentDetail = commentDetail;
 	}
 	public Date getCommentDate() {
 		return commentDate;
@@ -20,23 +43,28 @@ public class Comment {
 	public void setCommentDate(Date commentDate) {
 		this.commentDate = commentDate;
 	}
-	public String getCommentContents() {
-		return commentContents;
+	public int getTargetNo() {
+		return targetNo;
 	}
-	public void setCommentContents(String commentContents) {
-		this.commentContents = commentContents;
+	public void setTargetNo(int targetNo) {
+		this.targetNo = targetNo;
 	}
-	public User getWriterId() {
-		return writerId;
+	public String getViewCondition() {
+		return viewCondition;
 	}
-	public void setWriterId(User writerId) {
-		this.writerId = writerId;
+	public void setViewCondition(String viewCondition) {
+		this.viewCondition = viewCondition;
 	}
+	
+	
 	@Override
 	public String toString() {
-		return "Comment [commentNo=" + commentNo + ", commentContents=" + commentContents + ", writerId=" + writerId
-				+ "]";
+		return "comment [commentNo=" + commentNo + ", commentComuNo=" + commentComuNo + ", commentWriterId="
+				+ commentWriterId + ", commentDetail=" + commentDetail + ", commentDate=" + commentDate + ", targetNo="
+				+ targetNo + ", viewCondition=" + viewCondition + "]";
 	}
+	
+	
 	
 	
 

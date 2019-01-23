@@ -25,9 +25,14 @@ public class Meeting {
 	private	String	shutDownDate;
 	private	String	meetingCrewLimit;
 	private int		interestNo;
-	private	String	actCountNo;
+	private	String	crewNickName;
 	private	String	interview;
 	private MultipartFile  imgFile;
+	private	String	crewCondition;
+	private int		meetingActCount;
+	private String	interviewTitle;
+	private int		meetingActNo;
+	private int		meetingCrewNo;
 	
 	public int getMeetingNo() {
 		return meetingNo;
@@ -96,10 +101,19 @@ public class Meeting {
 		this.meetingLocation = meetingLocation;
 	}
 	public String getMeetingDate() {
-		return meetingDate;
+		if(meetingDate != null) {
+		return meetingDate.substring(0,10);
+		}else {
+			return meetingDate;
+		}
 	}
 	public void setMeetingDate(String meetingDate) {
-		this.meetingDate = meetingDate.substring(0,10);
+		if(meetingDate != null) {
+			this.meetingDate = meetingDate.substring(0,10);
+		}else {
+			this.meetingDate = meetingDate;
+		}
+		
 	}
 	public String getMeetingDay() {
 		return meetingDay;
@@ -131,7 +145,7 @@ public class Meeting {
 	public void setMeetingViews(int meetingViews) {
 		this.meetingViews = meetingViews;
 	}
-
+	
 	public String getShutDownDate() {
 		return shutDownDate;
 	}
@@ -150,11 +164,11 @@ public class Meeting {
 	public void setInterestNo(int interestNo) {
 		this.interestNo = interestNo;
 	}
-	public String getActCountNo() {
-		return actCountNo;
+	public String getCrewNickName() {
+		return crewNickName;
 	}
-	public void setActCountNo(String actCountNo) {
-		this.actCountNo = actCountNo;
+	public void setCrewNickName(String crewNickName) {
+		this.crewNickName = crewNickName;
 	}
 	public String getInterview() {
 		return interview;
@@ -175,6 +189,42 @@ public class Meeting {
 	public void setImgFile(MultipartFile imgFile) {
 		this.imgFile = imgFile;
 	}
+	
+	
+	public String getCrewCondition() {
+		return crewCondition;
+	}
+	public void setCrewCondition(String crewCondition) {
+		this.crewCondition = crewCondition;
+	}
+	
+	public int getMeetingActCount() {
+		return meetingActCount;
+	}
+	
+	public void setMeetingActCount(int meetingActCount) {
+		this.meetingActCount = meetingActCount;
+	}
+	public String getInterviewTitle() {
+		return interviewTitle;
+	}
+	
+	public void setInterviewTitle(String interviewTitle) {
+		this.interviewTitle = interviewTitle;
+	}
+	public int getMeetingActNo() {
+		return meetingActNo;
+	}
+	public void setMeetingActNo(int meetingActNo) {
+		this.meetingActNo = meetingActNo;
+	}
+	public int getMeetingCrewNo() {
+		return meetingCrewNo;
+	}
+	public void setMeetingCrewNo(int meetingCrewNo) {
+		this.meetingCrewNo = meetingCrewNo;
+	}
+	
 	@Override
 	public String toString() {
 		return "Meeting [meetingNo=" + meetingNo + ", role=" + role + ", meetingMasterId=" + meetingMasterId
@@ -184,10 +234,10 @@ public class Meeting {
 				+ ", meetingDate=" + meetingDate + ", meetingDay=" + meetingDay + ", meetingTime=" + meetingTime
 				+ ", snooze=" + snooze + ", meetingDues=" + meetingDues + ", meetingViews=" + meetingViews
 				+ ", meetingCondition=" + meetingCondition + ", shutDownDate=" + shutDownDate + ", meetingCrewLimit="
-				+ meetingCrewLimit + ", interestNo=" + interestNo + ", actCountNo=" + actCountNo + ", interview="
-				+ interview + ", imgFile=" + imgFile + "]";
+				+ meetingCrewLimit + ", interestNo=" + interestNo + ", crewNickName=" + crewNickName + ", interview="
+				+ interview + ", imgFile=" + imgFile + ", crewCondition=" + crewCondition + ", meetingActCount="
+				+ meetingActCount + ", interviewTitle=" + interviewTitle + ", meetingActNo=" + meetingActNo
+				+ ", meeintCrewNo=" + meetingCrewNo + "]";
 	}
-	
-	
 	
 }

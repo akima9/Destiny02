@@ -12,6 +12,7 @@ import com.destiny.common.Search;
 import com.destiny.service.community.CommunityDao;
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Community;
+import com.destiny.service.domain.LikeCount;
 
 @Service("communityServiceImpl")
 public class CommunityServiceImpl implements CommunityService {
@@ -56,6 +57,66 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public void updateCommunity(Community community) throws Exception {
 		communityDao.updateCommunity(community);
+	}
+
+	@Override
+	public void deleteCommunity(Community community) throws Exception {
+		communityDao.deleteCommunity(community);		
+	}
+
+	@Override
+	public void updateViews(int communityNo) throws Exception {
+		communityDao.updateViews(communityNo);		
+	}
+
+	@Override
+	public void addLikeCommunity(int communityNo) throws Exception {
+		communityDao.addLikeCommunity(communityNo);
+	}
+	
+	@Override
+	public void subLikeCommunity(int communityNo) throws Exception {
+		communityDao.subLikeCommunity(communityNo);
+	}
+	
+	@Override
+	public LikeCount checkId(LikeCount likeCount) throws Exception {
+		return communityDao.checkId(likeCount);
+	}
+
+	@Override
+	public void addLikeCount(LikeCount likeCount) throws Exception {
+		communityDao.addLikeCount(likeCount);
+	}
+
+	@Override
+	public void updateLikeCount(LikeCount likeCount) throws Exception {
+		communityDao.updateLikeCount(likeCount);
+	}
+
+	@Override
+	public LikeCount getLikeCount(LikeCount likeCount) throws Exception {
+		return communityDao.getLikeCount(likeCount);
+	}
+
+	@Override
+	public void updateViewsCondition(Community community) throws Exception {
+		communityDao.updateViewsCondition(community);
+	}
+	
+	@Override
+	public void updateViewsConditionAdmin(Community community) throws Exception {
+		communityDao.updateViewsConditionAdmin(community);
+	}
+
+	@Override
+	public Community getPreCommunity(int communityNo) throws Exception {
+		return communityDao.getPreCommunity(communityNo);
+	}
+
+	@Override
+	public Community getNextCommunity(int communityNo) throws Exception {
+		return communityDao.getNextCommunity(communityNo);
 	}
 
 }

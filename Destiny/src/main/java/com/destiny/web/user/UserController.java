@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.destiny.common.Search;
 import com.destiny.service.domain.User;
 import com.destiny.service.user.UserService;
+import com.destiny.common.Page;
 
 
 
@@ -60,88 +61,192 @@ public class UserController {
 	}
 	
 	@RequestMapping( value="login", method=RequestMethod.POST )
-	public ModelAndView login(@ModelAttribute("user") User user , HttpSession session, HttpServletRequest request) throws Exception{
+	public ModelAndView login(@ModelAttribute("user") User user, HttpSession session, HttpServletRequest request) throws Exception{
 		
-		System.out.println("/user/login : POST");
+		System.out.println("/user/login : GET");
 		System.out.println("userId : " + user.getUserId());
 		System.out.println("password : " + user.getPassword());
 		
 		//Business Logic
-		User dbUser=userService.getUser(user.getUserId());
-		
-		session.setAttribute("me", dbUser);
+		User dbUser = new User();
+		 
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/index.jsp");
 		
-		//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
-		ServletContext applicationScope = request.getSession().getServletContext();
-		
-		List<User> loginList = new ArrayList<User>();
-		
-		if(applicationScope.getAttribute("loginList") != null) {
-			loginList = (List<User>) applicationScope.getAttribute("loginList");
-		}
-		
-		int numberOfLogin = 0;
-		
-		if(applicationScope.getAttribute("numberOfLogin") != null) {
-			numberOfLogin = (int) applicationScope.getAttribute("numberOfLogin");
-		}
-
-		if( user.getPassword().equals(dbUser.getPassword())){
-			
-			if(loginList.contains(user.getUserId())) {
-
-				loginList.add(dbUser);
-				
-				numberOfLogin++;
-				
-				applicationScope.setAttribute("loginList", loginList);
-				applicationScope.setAttribute("numberOfLogin", numberOfLogin);
-				for(User v : loginList) {
-					System.out.println("현제 접속자 목록 : " + v);
-				}
-				System.out.println("현제 접속자 : " + numberOfLogin);
-				
-				modelAndView.addObject("result", "Success");
-				modelAndView.addObject(dbUser.getUserId(), dbUser);
-			
-			} else {
-				System.out.println("이미 로그인된 회원입니다.");
-				modelAndView.addObject("result", "Fail");
-			}
-			
-		} else {
+		//만일 유저가 없다면
+		if(userService.getUser( user.getUserId()) == null) {
+			System.out.println("가입되지 않은 아이디입니다.");
 			modelAndView.addObject("result", "Fail");
-		}
-		//====================================================================================================
-		
-		//=========================================출석체크 로직 구현 part===========================================
-		int numAttendCount = dbUser.getAttendCount();
-		Date lastLoginDate = dbUser.getLastLoginDay();
-		System.out.println(dbUser.getUserId() + "의 마지막 로그인 날자 : " + lastLoginDate);
-		
-		java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
-
-		System.out.println("현제 날짜(sql) : " + sqlDate);
-		
-		LocalDate lastLoginDateLocal = new Date(lastLoginDate.getTime()).toLocalDate();
-		LocalDate sqlDateLocal = new Date(sqlDate.getTime()).toLocalDate();
-		
-		if(lastLoginDateLocal.isBefore(sqlDateLocal)) {
-			System.out.println("다른날 접속입니다. 마지막 접속 : " + lastLoginDate + " 오늘 접속 : " + sqlDate);
-			
-			dbUser.setLastLoginDay(sqlDate);
-			numAttendCount++;
-			dbUser.setAttendCount(numAttendCount);
-			
-			userService.attendLogin(dbUser);
+			modelAndView.addObject("reason", "가입되지 않은 아이디입니다.");
+			modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 		} else {
-			System.out.println("같은날 접속입니다. 마지막 접속 : " + lastLoginDate+ " 오늘 접속 : " + sqlDate);
-		}
-		//=======================================================================================================
+			System.out.println("유저정보 가져오기");
+			dbUser=userService.getUser( user.getUserId());
 		
+			//만일 탈퇴한 유저라면
+			if(dbUser.getUserState().equals("O")) {
+				modelAndView.addObject("result", "Fail");
+				modelAndView.addObject("reason", "탈퇴한 회원입니다. 다시 이용하고 싶으시면 계정을 복구해 주십시요.");
+				modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+			} else {
+				//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
+				System.out.println("로그인 + 현제 접속자 구현 로직 part");
+				ServletContext applicationScope = request.getSession().getServletContext();
+				
+				//String Ip = request.getRemoteAddr();
+				
+				
+				String ip = request.getHeader("X-Forwarded-For");
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("Proxy-Client-IP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("WL-Proxy-Client-IP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("HTTP_CLIENT_IP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("HTTP_X_FORWARDED_FOR"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("X-Real-IP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("X-RealIP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getRemoteAddr(); 
+				 }
+				
+				
+				List<String> ipLoginList = new ArrayList<String>();
+				
+				if(applicationScope.getAttribute("ipLoginList") != null) {
+					ipLoginList = (List<String>)applicationScope.getAttribute("ipLoginList");
+				}
+				
+				List<User> loginList = new ArrayList<User>();
+				
+				if(applicationScope.getAttribute("loginList") != null) {
+					loginList = (List<User>) applicationScope.getAttribute("loginList");
+				}
+				
+				int numberOfLogin = 0;
+				
+				if(applicationScope.getAttribute("numberOfLogin") != null) {
+					numberOfLogin = (int) applicationScope.getAttribute("numberOfLogin");
+				}
+				
+				boolean appendScope = false;
+				
+				System.out.println("현 접속자 중 지금 로그인 시도한 사람이 있습니까? ");
+				boolean checkDe = false;
+				for(int i = 0; i < loginList.size(); i++) {
+					if(loginList.get(i).toString().equals(dbUser.toString())) {
+						System.out.println("어 있엉~~~~~~~~~~~~~~~~~~~~~~~");
+						System.out.println("두 사람의 IP가 동일합니까?");
+						System.out.println("접속 시도자 IP : " + ip);
+						System.out.println("기존 로그인 IP : " + ipLoginList.get(i));
+						if(ipLoginList.get(i).equals(ip)) {
+							System.out.println("같은 ip에서의 접근입니다. ");
+						} else {
+							System.out.println("다른 ip에서의 접근입니다. ");
+							checkDe = true;
+						}
+					} else {
+						appendScope = true;
+					}
+				}
+				
+				//비밀번호가 일치하는가?
+				if(user.getPassword().equals(dbUser.getPassword())){
+					//중복 로그인이 아닌가?
+					if(!checkDe) {
+						
+						session.setAttribute("me", dbUser);
+						
+						//applicationScope에 올려도 되는가?
+						if(appendScope || loginList.size() == 0) { 
+							loginList.add(dbUser);
+							
+							numberOfLogin++;
+							
+							ipLoginList.add(ip);
+							
+							applicationScope.setAttribute("loginList", loginList);
+							applicationScope.setAttribute("numberOfLogin", numberOfLogin);
+							applicationScope.setAttribute("ipLoginList", ipLoginList);
+						}
+						for(User v : loginList) {
+							System.out.println("현제 접속자 목록 : " + v);
+						}
+						for(String v : ipLoginList) {
+							System.out.println("접속한 유저의 ip : " + v);
+						}
+						System.out.println("현제 접속자 : " + numberOfLogin);
+						
+						modelAndView.addObject("result", "Success");
+						modelAndView.addObject(dbUser.getUserId(), dbUser);
+						
+						//=========================================출석체크 로직 구현 part===========================================
+						int numAttendCount = dbUser.getAttendCount();
+						Date lastLoginDate = dbUser.getLastLoginDay();
+						System.out.println(dbUser.getUserId() + "의 마지막 로그인 날자 : " + lastLoginDate);
+						
+						java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
+				
+						System.out.println("현제 날짜(sql) : " + sqlDate);
+						
+						LocalDate lastLoginDateLocal = new Date(lastLoginDate.getTime()).toLocalDate();
+						LocalDate sqlDateLocal = new Date(sqlDate.getTime()).toLocalDate();
+						
+						if(lastLoginDateLocal.isBefore(sqlDateLocal)) {
+							System.out.println("다른날 접속입니다. 마지막 접속 : " + lastLoginDate + " 오늘 접속 : " + sqlDate + " 출석 횟수 : " + numAttendCount);
+							
+							dbUser.setLastLoginDay(sqlDate);
+							numAttendCount++;
+							dbUser.setAttendCount(numAttendCount);
+							
+							userService.attendLogin(dbUser);
+							
+							//==========================================등급 업!(일단 출석일로만)===================================
+							if(numAttendCount == 2) {
+								dbUser.setUserGrade("NOR");
+								userService.updateGrade(dbUser);
+							}
+							if(numAttendCount == 20) {
+								dbUser.setUserGrade("VIP");
+								userService.updateGrade(dbUser);
+							}
+							//==============================================================================================
+							
+						} else {
+							System.out.println("같은날 접속입니다. 마지막 접속 : " + lastLoginDate+ " 오늘 접속 : " + sqlDate);
+						}
+						
+						//=======================================================================================================
+						
+					
+					} else {
+						
+						
+						
+						modelAndView.addObject("reason", "이미 로그인된 계정입니다.");
+						modelAndView.addObject("result", "Fail");
+						modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+					}
+					
+				} else {
+					System.out.println("비밀번호가 다릅니다.");
+					modelAndView.addObject("reason", "비밀번호가 다릅니다.");
+					modelAndView.addObject("result", "Fail");
+					modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+				}
+				//====================================================================================================
+			}
+		}
 		return modelAndView;
 	}
 	
@@ -160,7 +265,23 @@ public class UserController {
 			loginList = (List<User>) applicationScope.getAttribute("loginList");
 		}
 		
-		loginList.remove(userId);
+		List<String> ipLoginList = new ArrayList<String>();
+		
+		if(applicationScope.getAttribute("ipLoginList") != null) {
+			ipLoginList = (List<String>) applicationScope.getAttribute("ipLoginList");
+		}
+		
+		User user = userService.getUser(userId);
+		
+		for(int i = 0; i < loginList.size(); i++) {
+			if(loginList.get(i).toString().equals(user.toString())) {
+				System.out.println("어 있엉~~~~~~~~~~~~~~~~~~~~~~~");
+				loginList.remove(i);
+				ipLoginList.remove(i);
+			}
+		}
+		
+		//loginList.remove(user);
 		
 		int numberOfLogin = 0;
 		
@@ -172,6 +293,7 @@ public class UserController {
 		
 		applicationScope.setAttribute("loginList", loginList);
 		applicationScope.setAttribute("numberOfLogin", numberOfLogin);
+		applicationScope.setAttribute("ipLoginList", ipLoginList);
 		//==================================================================================================================
 		
 		ModelAndView modelAndView = new ModelAndView();
@@ -194,62 +316,73 @@ public class UserController {
 		System.out.println("/user/addUser : POST");
 		
 		System.out.println("가져온 user정보 : " + user);
-		
-		
-		
-		//===========================프로필 사진 업로드(다중)===========================
-		String temDir = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\userprofile\\";
-		
-		List<MultipartFile> fileList  = multipartHttpServletRequest.getFiles("file");
-		System.out.println("받은 파일들 : " + fileList);
-		
-		String originalFileName = null;
-		long fileSize = 0;
-		int idx = 0;
-		String initail = "";
-		
-		List list = new ArrayList();
-		
-		File file = new File(temDir);
-		if(file.exists() == false) {
-			file.mkdirs();
-		}
-		
-		//	================DB에 File이름 setting==================
-		for(MultipartFile mf : fileList) {
-			System.out.println("각 파일 : " + mf);
-			originalFileName = mf.getOriginalFilename();
-			System.out.println("파일 이름 : " + originalFileName);
-			
-			idx = originalFileName.indexOf('.');
-			initail = originalFileName.substring(idx, originalFileName.length());
-			originalFileName = originalFileName.substring(0, idx);
-			originalFileName += System.currentTimeMillis();
-			originalFileName += initail;
-			
-			list.add(originalFileName);
-			
-			fileSize = mf.getSize();
-			System.out.println("파일 사이즈 : " + fileSize);
-			
-			String safeFile = temDir + originalFileName;
-			System.out.println("파일 경로 + 이름 : " + safeFile);
-			file = new File(safeFile);
-			mf.transferTo(file);
-		}
-		String profileDomain = String.valueOf(list);
-		profileDomain = profileDomain.replace("[", "");
-		profileDomain = profileDomain.replace("]", "");
-		
-		user.setProfile(profileDomain);
-		//====================================================
-		//=========================================================================
-		
-		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/user/userInfo/loginView.jsp");
+		//=====================탈퇴한 회원인지 조회해서 탈퇴한 회원이면 신규회원으로 전환=========================
+	
+		if(userService.getUser(user.getUserId()) != null) {
+			/*User dbUser = userService.getUser(user.getUserId());
+			if(user.getUserState().equals("O")) {
+				user.setUserState("I");
+				userService.updateState(user);
+				user.setUserGrade("NEW");
+				userService.updateGrade(user);
+			}*/
+		} else {
+			//===========================프로필 사진 업로드(다중)===========================
+			String temDir = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\userprofile\\";
+			
+			List<MultipartFile> fileList  = multipartHttpServletRequest.getFiles("file");
+			System.out.println("받은 파일들 : " + fileList);
+			
+			String originalFileName = null;
+			long fileSize = 0;
+			int idx = 0;
+			String initail = "";
+			
+			List list = new ArrayList();
+			
+			File file = new File(temDir);
+			if(file.exists() == false) {
+				file.mkdirs();
+			}
+			
+			//	================DB에 File이름 setting==================
+			for(MultipartFile mf : fileList) {
+				System.out.println("각 파일 : " + mf);
+				originalFileName = mf.getOriginalFilename();
+				System.out.println("파일 이름 : " + originalFileName);
+				
+				idx = originalFileName.indexOf('.');
+				initail = originalFileName.substring(idx, originalFileName.length());
+				originalFileName = originalFileName.substring(0, idx);
+				originalFileName += System.currentTimeMillis();
+				originalFileName += initail;
+				
+				list.add(originalFileName);
+				
+				fileSize = mf.getSize();
+				System.out.println("파일 사이즈 : " + fileSize);
+				
+				String safeFile = temDir + originalFileName;
+				System.out.println("파일 경로 + 이름 : " + safeFile);
+				file = new File(safeFile);
+				mf.transferTo(file);
+			}
+			String profileDomain = String.valueOf(list);
+			profileDomain = profileDomain.replace("[", "");
+			profileDomain = profileDomain.replace("]", "");
+			
+			user.setProfile(profileDomain);
+			//====================================================
+			//=========================================================================
+			user.setUserState("I");
+			
+			userService.addUser(user);
+		}
 
-		userService.addUser(user);
+		modelAndView.setViewName("redirect:/index.jsp");
+
+		
 		
 		return modelAndView;
 	}
@@ -456,4 +589,101 @@ public class UserController {
 		modelAndView.addObject("typeFileMap", typeFileMap);
 		return modelAndView;
 	}
+	
+	@RequestMapping(value="addTypeView/{userId}", method=RequestMethod.GET)
+	public ModelAndView addTypeView(@PathVariable String userId) throws Exception{
+		
+		System.out.println("/user/addTypeView : GET");
+		
+		User user = userService.getUser(userId);
+		
+		int[] userList = new int[4];
+		userList[0] = user.getMyType();
+		userList[1] = user.getFirstType();
+		userList[2] = user.getSecondType();
+		userList[3] = user.getThirdType();
+		
+		List<String> list = userService.getTypeList();
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userInfo/addTypeView.jsp");
+		modelAndView.addObject("list", list);
+		modelAndView.addObject("userList", userList);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="addType", method=RequestMethod.POST)
+	public ModelAndView addType(@ModelAttribute("user") User user, HttpSession session) throws Exception{
+		
+		System.out.println("/user/addType POST 가져온 user : " + user);
+		
+		user.setUserId(((User)session.getAttribute("me")).getUserId());
+		
+		userService.updateType(user);
+		 
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/user/getUser/"+user.getUserId());
+		return modelAndView;		
+	}
+	
+	@RequestMapping(value="listUser", method=RequestMethod.GET)
+	public ModelAndView listUser(@ModelAttribute("search") Search search) throws Exception{
+		
+		System.out.println("/user/listUser : GET");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+
+		// Business logic 수행
+		Map<String , Object> map=userService.getUserList(search);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userInfo/getListUser.jsp");
+		modelAndView.addObject("list",  map.get("list"));
+		modelAndView.addObject("resultPage", resultPage);
+		modelAndView.addObject("search", search);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="leaveSite/{userId}", method=RequestMethod.GET)
+	public ModelAndView leaveSite(@PathVariable String userId) throws Exception{
+		
+		System.out.println("/user/leaveSite/{"+userId+"}");
+		
+		User user = userService.getUser(userId);
+		
+		user.setUserState("O");
+		userService.updateState(user);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/logout/"+userId);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="getBackSite/{userId}", method=RequestMethod.GET)
+	public ModelAndView getBackSite(@PathVariable String userId) throws Exception{
+		System.out.println("getBackSite : GET : " + userId);
+		User user = userService.getUser(userId);
+		user.setUserState("I");
+		userService.updateState(user);
+		user.setUserGrade("NEW");
+		userService.updateGrade(user);
+		
+		user.setAttendCount(1);
+		user.setLastLoginDay(new java.sql.Date(new java.util.Date().getTime()));
+		userService.attendLogin(user);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("reason", "계정이 복구되었습니다. 다시 로그인해주세요.");
+		modelAndView.setViewName("redirect:/index.jsp");
+		return modelAndView;
+	}
+
+	
+	
 }

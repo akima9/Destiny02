@@ -31,27 +31,31 @@
 	</resultMap>
 	
 	<resultMap id="meetingSelectMap" type="com.destiny.service.domain.Meeting">
-		<result property="meetingNo" 			column="meeting_no" 		jdbcType="NUMERIC"/>
-		<result property="role" 				column="role" 				jdbcType="CHAR" />
-		<result property="meetingMasterId"		column="meeting_master_id" 	jdbcType="VARCHAR" />
-		<result property="masterProfileImg"		column="master_profile_img" jdbcType="VARCHAR" />
-		<result property="meetingCenter"		column="meeting_center" 	jdbcType="VARCHAR" />
-		<result property="meetingName"			column="meeting_name" 		jdbcType="VARCHAR" />
-		<result property="titleImg"				column="title_img" 			jdbcType="VARCHAR" />
-		<result property="meetingDetail"		column="meeting_detail" 	jdbcType="VARCHAR"/>
-		<result property="meetingRule" 			column="meeting_rule" 		jdbcType="VARCHAR" />
-		<result property="interestName" 		column="interest_name" 		jdbcType="VARCHAR"/>
-		<result property="meetingLocation" 		column="meeting_location" 	jdbcType="VARCHAR" />
-		<result property="meetingDate" 			column="meeting_date" 		jdbcType="DATE" />
-		<result property="meetingDay" 			column="meeting_day" 		jdbcType="VARCHAR" />
-		<result property="meetingTime" 			column="meeting_time" 		jdbcType="VARCHAR" />
-		<result property="snooze" 				column="snooze" 			jdbcType="CHAR" />
-		<result property="meetingDues" 			column="meeting_dues" 		jdbcType="VARCHAR" />
-		<result property="meetingViews" 		column="meeting_views" 		jdbcType="NUMERIC"/>
-		<result property="meetingCondition" 	column="meeting_condition" 	jdbcType="CHAR"/>
-		<result property="shutDownDate" 		column="shut_down_date" 	jdbcType="DATE" />
-		<result property="meetingCrewLimit" 	column="meeting_crew_limit" jdbcType="NUMERIC" />
-		<result property="interestNo" 			column="interest_no" 		jdbcType="NUMERIC" />
+		<result property="meetingNo" 			column="meeting_no" 		jdbcType="NUMERIC"/>	<!-- 모임번호 -->
+		<result property="role" 				column="role" 				jdbcType="CHAR" />		<!-- 역활 MST:모임장 MEM:모임원 -->
+		<result property="meetingMasterId"		column="meeting_master_id" 	jdbcType="VARCHAR" />	<!-- 아이디 -->
+		<result property="masterProfileImg"		column="master_profile_img" jdbcType="VARCHAR" />	<!-- 프로필 -->
+		<result property="meetingCenter"		column="meeting_center" 	jdbcType="VARCHAR" />	<!-- 중심지 -->
+		<result property="meetingName"			column="meeting_name" 		jdbcType="VARCHAR" />	<!-- 모임명 -->
+		<result property="titleImg"				column="title_img" 			jdbcType="VARCHAR" />	<!-- 대표이미지 -->
+		<result property="meetingDetail"		column="meeting_detail" 	jdbcType="VARCHAR"/>	<!-- 모임설명 -->
+		<result property="meetingRule" 			column="meeting_rule" 		jdbcType="VARCHAR" />	<!-- 모임규칙 -->
+		<result property="interestName" 		column="interest_name" 		jdbcType="VARCHAR"/>	<!-- 관심사 -->
+		<result property="meetingLocation" 		column="meeting_location" 	jdbcType="VARCHAR" />	<!-- 모임장소 -->
+		<result property="meetingDate" 			column="meeting_date" 		jdbcType="DATE" />		<!-- 모임날짜 -->
+		<result property="meetingDay" 			column="meeting_day" 		jdbcType="VARCHAR" />	<!-- 모임요일 -->
+		<result property="meetingTime" 			column="meeting_time" 		jdbcType="VARCHAR" />	<!-- 모임시간 -->
+		<result property="snooze" 				column="snooze" 			jdbcType="CHAR" />		<!-- 반복여부 Y:반복 N:한번 -->
+		<result property="meetingDues" 			column="meeting_dues" 		jdbcType="VARCHAR" />	<!-- 회비	 -->
+		<result property="meetingViews" 		column="meeting_views" 		jdbcType="NUMERIC"/>	<!-- 조회수 -->
+		<result property="meetingCondition" 	column="meeting_condition" 	jdbcType="CHAR"/>		<!-- 모임컨디션 DEF:기본 DEL:삭제 BLD:블라인드 FIN:종료  -->
+		<result property="shutDownDate" 		column="shut_down_date" 	jdbcType="DATE" />		<!-- 셧다운 시작일 -->
+		<result property="meetingCrewLimit" 	column="meeting_crew_limit" jdbcType="NUMERIC" />	<!-- 모임정원 -->
+		<result property="interestNo" 			column="interest_no" 		jdbcType="NUMERIC" />	<!-- 관심사 번호 -->
+		<result property="crewCondition" 		column="crew_condition" 	jdbcType="CHAR" />		<!-- 모임원 상태 APL:신청	YES:수락	OUT:강퇴 -->
+		<result property="crewNickName" 		column="crew_nick_name" 	jdbcType="VARCHAR" />	<!-- 닉네임 -->
+		<result property="meetingActNo" 		column="meeting_act_no" 	jdbcType="VARCHAR" />	<!-- ACT_NO -->
+		<result property="meetingCrewNo" 		column="meeting_Crew_no" 	jdbcType="VARCHAR" />	<!-- CREW_NO -->
 	</resultMap>
 	 
 	 <!-- SQL : SELECT ONE ///////////////////////////////////////////////////////////////////////////////////////////// -->
@@ -73,10 +77,18 @@
 	 
 	 <!-- SQL : SELECT List //////////////////////////////////////////////////////////////////////////////////////////// -->
 	 <select 	id="getMeetingResult"	parameterType="String" resultMap="meetingSelectMap">		
-		SELECT
-		 meeting_no, meeting_master_id, meeting_name, title_img, meeting_location, meeting_date
+		<!-- SELECT
+		 meeting_no, meeting_master_id, meeting_name, title_img, meeting_center, meeting_date
 		FROM meeting
-		WHERE meeting_location LIKE '%'||#{find.town}||'%'
+		WHERE meeting_center LIKE '%'||#{find.town}||'%'
+			AND meeting_condition = 'DEF' -->
+			
+		SELECT
+		  m.meeting_no, m.meeting_master_id, m.meeting_name, m.title_img, m.meeting_center, ma.act_location as meeting_location, ma.act_date as meeting_date 
+		 FROM meeting m, meeting_act ma 
+		 WHERE m.meeting_no = ma.meeting_no 
+		 AND ma.act_location LIKE '%'||#{find.town}||'%'
+		 AND m.meeting_condition = 'DEF'
 	 </select>
 	 <!--  //////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	 

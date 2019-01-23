@@ -79,6 +79,10 @@
 		.sch_smit:hover {
 			background: 	#433e90;
 		}
+		
+		#meetingNo {
+			font-size: 30px;
+		}
 	</style>
 
     <script type="text/javascript">
@@ -86,18 +90,19 @@
 				$( "#addMeeting" ).on("click", function() {
 					console.log("${empty sessionScope.me}");
 					
-					if(${sessionScope.me.userGrade !='NEW'} && ${!empty sessionScope.me.userId}){
+					if('${sessionScope.me.userGrade }' !='NEW' && ${!empty sessionScope.me.userId}){
 						//alert("성공");
 						self.location="/meeting/addMeeting"
 					}else if(${empty sessionScope.me}){
 						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
-							self.location="/user/login";
+							$("#my-dialog,#dialog-background").toggle();
+							//self.location="/user/login";
 						 }else{   //취소
 
 						     return;
 
 						 }
-					}else if(${sessionScope.me.userGrade =='NEW'}){
+					}else if('${sessionScope.me.userGrade }'=='NEW'){
 						alert("${sessionScope.me.nickName}님은 우연등급입니다.\n인연이상 회원부터 개설 하능합니다.");
 					}else{
 						alert("이용 불가합니다.");
@@ -114,107 +119,56 @@
 		    });
 
         
-        $(function() {
-			$( ".search" ).on("click" , function() {
-				console.log("들어옴");
-				
-				var list="";
-					list+="<table>";
-					list+="<tr>";
-					list+="<th class='city' data-param='서울'>서울</th>";
-					list+="<th class='city' data-param='경기'>경기</th>";
-					list+="<th colspan='5' rowspan='11'></th>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td>인천</td>";
-					list+="<td>부산</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td>대구</td>";
-					list+="<td>광주</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td>대전</td>";
-					list+="<td>울산</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td>세종</td>";
-					list+="<td>강원</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td>경남</td>";
-					list+="<td>경북</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td>전남</td>";
-					list+="<td>전북</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td>충남</td>";
-					list+="<td>충북</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td colspan='2'>제주</td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="<td colspan='2' rowspan='2'></td>";
-					list+="</tr>";
-					list+="<tr>";
-					list+="</tr>";
-					list+="</table>";
+		    $(function(){
+				$( "#centerLocation" ).on("change" , function() {
+					//var idx = $(".brand_ids").index(this);
+					var city=$(this).val();
+					console.log(city);
 					
-					$(".search2").html(list);
-				
-			}); 
-				
-			
-        });
-        
-         $(function() {
-			$( ".search2" ).on("click",".city", function() {
-				console.log("다시들어옴");
-				
-				//var idx = $(".city").index(this);
-				//console.log(idx);
-				var cityName =$(this).data("param");
-				console.log(cityName);
-				 
-				$.ajax( 
-						{
-							url : "/product/json/location?cityName="+cityName,
-							method : "GET" ,
-							dataType : "json" ,
-							headers : {
-								"Accept" : "application/json",
-								"Content-Type" : "application/json"
-							},
-							success : function(JSONData , status) {
-								alert("dd");
-								var townList ="";
-									townList+="<table>";
-									townList+="<tr>";
-									townList+="<td width='155px'>";
-									townList+="서울&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"+JSONData.city[0].town+"<br/>";
-									townList+="인천&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;부산"+"<br/>";
-									townList+="대구&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;광주"+"<br/>";
-									townList+="대전&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;울산"+"<br/>";
-									townList+="세종&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;강원"+"<br/>";
-									townList+="경남&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;경북"+"<br/>";
-									townList+="전남&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;전북"+"<br/>";
-									townList+="충남&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;충북"+"<br/>";
-									townList+="제주";
-									townList+="</td>";
-									townList+="<td width='655px'>";
-									townList+="</td>";
-									townList+="</tr>";
-									townList+="</table>";
-								$(".search2").html(townList);
-								 
-							}
-					}); 
-				 
+					$.ajax( 
+							{
+								url : "/user/json/getLocationList/"+city,
+								method : "GET" ,
+								dataType : "json" ,
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(JSONData , status) {
+									
+									var list="";
+									list+="<select  id='centering' name='meetingCenter' class='form-control'>";
+									list+="<option>시/군/구 선택</option>";
+									for(i in JSONData.list){
+										var town = JSONData.list[i].townName;
+										
+										list+="<option id='centerMeeting' name='searchCondition' data-param='$(this).value' value='"+town+"'>"+town+"</option>";
+								}
+									$( "#location" ).empty().append(list);
+								}
+						});
+				});
 			});
-        }); 
+		    
+		    //검색 이벤트 처리 
+		    $(function() {
+		    	 $( "#plzsearch" ).on("click" , function() {
+		    		 var meetingCenter=$("#centering").val();
+		    		 var seconCenter=$("#sconcentering").val();
+		    		 var interest=$("#interest").val();
+		    		 console.log(meetingCenter);
+		    		 console.log(interest);
+		    		 console.log(seconCenter);
+		    		 if(interest=='관심사'){
+		    			 $("#interest").val("");
+		    		 }
+		    		 if(meetingCenter=="" || seconCenter==""){
+		    			 //alert("모임인원을 설정하여 주세요.");
+		    			 meetingCenter="아님";
+		    		 }
+		    		$("form").attr("method" , "POST").attr("action" , "/meeting/listMeeting/"+meetingCenter).submit();
+				 });
+		    });
         
         
     </script>
@@ -234,16 +188,15 @@
 
     <div style="width:98%; margin-left:10px;">
 
-        <form name="detailForm">
-
-            <input type="hidden" id="currentPage" name="currentPage" value="" />
-            
+        <form>
             <!-- 베스트상품 테이블 -->
             <table>
+         <%--    잠깐 스탑 
             <c:set var="i" value="0" />
 				  <c:forEach var="meeting" items="${bestList}">
 				  <c:set var="i" value="${ i+1 }" />
 				  </c:forEach>
+				   --%>
 	            <div id="myCarousel" class="carousel slide" data-ride="carousel">
 			      <!-- Indicators -->
 			      <ol class="carousel-indicators">
@@ -252,36 +205,36 @@
 			        <li data-target="#myCarousel" data-slide-to="2"></li>
 			      </ol>
 			      <div class="carousel-inner" role="listbox">
-			        <div class="item active">
-			          <img class="first-slide" src="/resources/images/meeting/${bestList[0].titleImg}" alt="First slide"><!-- 첫번째 사진 -->
-			          <div class="container">
+			        <div class="item active" align="center">
+			          <img class="first-slide" src="/resources/images/meeting/romance2.jpg" alt="First slide"><!-- 첫번째 사진 -->
+			          <%-- <div class="container">
 			            <div class="carousel-caption">
 			            	무슨설명 달고싶으면 여기에
 			              <h1>Example headline.</h1>
 			              <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
 			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
 			            </div>
-			          </div>
+			          </div> --%>
 			        </div>
-			        <div class="item">
-			          <img class="second-slide" src="/resources/images/meeting/${bestList[1].titleImg}" alt="Second slide"><!-- 두번째 사진 -->
-			          <div class="container">
+			        <div class="item" align="center">
+			          <img class="second-slide" src="/resources/images/meeting/classsicfashion2.jpg" alt="Second slide"><!-- 두번째 사진 -->
+			          <!-- <div class="container">
 			            <div class="carousel-caption">
 			              <h1>Another example headline.</h1>
 			              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
 			            </div>
-			          </div>
+			          </div> -->
 			        </div>
-			        <div class="item">
-			          <img class="third-slide" src="/resources/images/meeting/${bestList[2].titleImg}" alt="Third slide"><!-- 세번째 사진 -->
-			          <div class="container">
+			        <div class="item" align="center">
+			          <img class="third-slide" src="/resources/images/meeting/conan2.jpg" alt="Third slide"><!-- 세번째 사진 -->
+			          <!-- <div class="container">
 			        	<div class="carousel-caption">
 			              <h1>One more for good measure.</h1>
 			              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
 			            </div> 
-			          </div>
+			          </div> -->
 			        </div>
 			      </div> 
 			      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -304,71 +257,53 @@
             	<tr>
             		<td width='250px'>
 	            		&nbsp;&nbsp;<i class="glyphicon glyphicon-search" aria-hidden="true"></i>
-	            		<input type="text" placeholder="검색어를 입력"/>
+	            		<input name="searchKeyword"  
+	            		type="text" placeholder="검색어를 입력"/>
             		</td>
             		<td class='search' width='250px'>
-						&nbsp;&nbsp;지역선택&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span>
+						<select id="centerLocation" class="form-control">
+				 		<option>중심지역-지역</option>
+				 		<option value="서울">서울</option>
+		                <option value="경기">경기</option>
+		                <option value="인천">인천</option>
+		                <option value="부산">부산</option>
+		                <option value="대구">대구</option>
+		                <option value="광주">광주</option>
+		                <option value="대전">대전</option>
+		                <option value="울산">울산</option>
+		                <option value="세종">세종</option>
+		                <option value="강원">강원</option>
+		                <option value="경남">경남</option>
+		                <option value="경북">경북</option>
+		                <option value="전남">전남</option>
+		                <option value="전북">전북</option>
+		                <option value="충남">충남</option>
+		                <option value="충북">충북</option>
+		                <option value="제주">제주</option>
+				 	</select>
+            		</td>
+            		<td id="location" class='search' width='250px'>
+						<input id="sconcentering" type="text" class="form-control"> 
             		</td>
             		<td width='250px'>
-            			&nbsp;&nbsp;<i class="glyphicon glyphicon-star" aria-hidden="true"></i> 
-            			<select name="brand_id" class="ct_input_g" 
-									style="width: 100px; height: 25px" maxLength="20">
-						<option >관심사 선택</option>
-						<%-- <c:forEach var="brand" items="${list}">
-						
-							
-							<option value="${brand.brand_id}">${brand.brandNam }</option>
-						</c:forEach> --%>
-						</select>
+            			<select id="interest" name="searchSortingOption" class="form-control">
+					 		<option >관심사</option>
+					 		<c:forEach var="Meeting" items="${interlist}">
+					 		
+					 			<option value="${Meeting.interestName}">${Meeting.interestName }</option>
+					 		
+					 		</c:forEach>
+				 		</select>
             		</td>
-            		<td width='54px' bgcolor='#326ada'><button type='submit' class='sch_smit'>검색</button></td>
+            		<td width='54px' bgcolor='#326ada'><button type='button' id="plzsearch" class='sch_smit'>찾기</button></td>
             	</tr>
 			</table>
 			
 			 <table class=search2 align="center" height="34px">
-			 	  <tr>
-				    <th></th>
-				    <th></th>
-				    <th></th>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				  </tr>
-				  <tr>
-				  </tr>		
+			 	
+			 	  
 			 </table>
-			 
+		</form>	 
 			 <!-- 검색창 종료 -->
 			 
 			 <!-- 개설하기 버튼 시작 -->
@@ -378,11 +313,11 @@
 			 <!-- 개설하기 버튼 종료 -->
 			 
 			 <!-- 리스트 시작 -->
-			 	
-                <table class="listingTAB" width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+
+                <table class="listingTAB" width="100%" border="0" cellspacing="0" style="margin-top:10px;">
                     <tr>
                         <td colspan="11" align="left">
-                           	 전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage} 페이지
+                           	<%--  전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage} 페이지 --%>
                         </td>
                     </tr>
                   
@@ -395,7 +330,7 @@
 				 	 <c:set var="i" value="${ i+1 }" />
                   
                     <tr>
-                        <td>
+                        <td valign="middle">
                             <img width="100px" src="/resources/images/meeting/${meeting.titleImg}" >
                         </td>
                         <td></td>
@@ -428,7 +363,7 @@
                         </td>
                         <td></td>
                         <td align="left">
-                        	모임날짜:${meeting.meetingDate} 다음모임장소:${meeting.meetingLocation}
+                        	모임날짜:${meeting.meetingDate} 이번모임장소:${meeting.meetingLocation}
                         </td>
                         <td></td>
                         <td align="left"></td>
@@ -440,13 +375,14 @@
                     <tr>
                         <td colspan="15" bgcolor="D6D7D6" height="1"></td>
                     </tr>
-                     
+                    
                    </c:forEach>
+                  
                 </table>
                 <!-- 리스트 종료 -->
                 
                 <!-- PageNavigation Start... -->
-                <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+                <table width="100%" border="0" cellspacing="0" style="margin-top:10px;">
                     <tr>
                         <td align="center">
 
@@ -460,7 +396,7 @@
                 </table>
                 <!-- PageNavigation End... -->
             
-        </form>
+        
     </div>
     
 </body>

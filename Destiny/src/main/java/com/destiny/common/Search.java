@@ -19,7 +19,12 @@ public class Search {
 	//==> 참조
 	private int endRowNum;
 	private int startRowNum;
-	
+	//조회수 정렬
+	private String viewSort;
+	//공감수 정렬
+	private String likeSort;
+	//글번호 정렬
+	private String noSort;
 	
 	
 	///Constructor
@@ -99,13 +104,45 @@ public class Search {
 		this.sortingRegDate = sortingRegDate;
 	}
 
+	
+	
+	public String getViewSort() {
+		return viewSort;
+	}
+
+	public void setViewSort(String viewSort) {
+		this.viewSort = viewSort;
+	}
+
+	public String getLikeSort() {
+		return likeSort;
+	}
+
+	public void setLikeSort(String likeSort) {
+		this.likeSort = likeSort;
+	}
+	
+	
+
+	public String getNoSort() {
+		return noSort;
+	}
+
+	public void setNoSort(String noSort) {
+		this.noSort = noSort;
+	}
+
 	@Override
 	public String toString() {
 		return "Search [currentPage=" + currentPage + ", searchCondition=" + searchCondition + ", searchKeyword="
 				+ searchKeyword + ", pageSize=" + pageSize + ", searchSortingOption=" + searchSortingOption
 				+ ", currentTranCode=" + currentTranCode + ", sortingProdName=" + sortingProdName + ", sortingRegDate="
-				+ sortingRegDate + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum + "]";
+				+ sortingRegDate + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum + ", viewSort="
+				+ viewSort + ", likeSort=" + likeSort + ", noSort=" + noSort + "]";
 	}
 
+	
+
+	
 
 }

@@ -290,6 +290,9 @@
 	</head>
 	
 	<body>
+	<!-- ToolBar Start /////////////////////////////////////-->
+    <jsp:include page="/layout/toolBar.jsp" />
+    <!-- ToolBar End /////////////////////////////////////-->
    	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
    		<h1 class="bg-primary text-center">개설하기</h1>
@@ -298,6 +301,7 @@
 		<form class="form-horizontal" enctype="multipart/form-data">
 		<input type="hidden" name="meetingMasterId" value="${sessionScope.me.userId}">
 		<input type="hidden" name="masterProfileImg" value="${sessionScope.me.profile}">
+		<input type="hidden" name="crewNickName" value="${sessionScope.me.nickName}">
 		 <div  class="form-group col-sm-4 col-md-4">
 		 	<select id="interest" class="form-control">
 		 		<option >관심사</option>

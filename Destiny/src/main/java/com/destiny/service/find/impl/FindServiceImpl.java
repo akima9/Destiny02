@@ -1,14 +1,11 @@
 package com.destiny.service.find.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.destiny.service.community.CommunityDao;
 import com.destiny.service.domain.Find;
 import com.destiny.service.domain.Meeting;
 import com.destiny.service.find.FindDao;
@@ -35,13 +32,13 @@ public class FindServiceImpl implements FindService {
 	}
 
 	@Override
-	public Map<String, Object> getMeetingResult(String town) throws Exception {
+	public List<Meeting> getMeetingResult(String town) throws Exception {
 		List<Meeting> list = findDao.getMeetingResult(town);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list );
+		//Map<String, Object> map = new HashMap<String, Object>();
+		//map.put("list", list );
 		
-		return map;
+		return list;
 	}
 
 }

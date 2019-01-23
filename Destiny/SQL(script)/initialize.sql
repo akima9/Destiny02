@@ -13,6 +13,7 @@ DROP TABLE meeting;
 DROP TABLE chatting;
 DROP TABLE letter;
 DROP TABLE users;
+DROP TABLE age_range;
 DROP TABLE telepathy;
 DROP TABLE location;
 DROP TABLE interest;
@@ -91,7 +92,12 @@ CREATE TABLE telepathy(
     PRIMARY KEY(telepathy_no)
 );
 
-
+CREATE TABLE age_range(
+    age_range_no 	 			NUMBER 			NOT NULL,
+    low_age	 				NUMBER,
+    high_age	 				NUMBER,
+    PRIMARY KEY(age_range_no)
+);
 
 CREATE TABLE users (
     user_id						VARCHAR2(20)		NOT NULL,
@@ -145,24 +151,24 @@ CREATE TABLE chatting(
 
 CREATE TABLE meeting ( 
    meeting_no					NUMBER			NOT NULL,
-   role							CHAR(3)			NOT NULL,
-   meeting_master_id			VARCHAR2(20)	NOT NULL   REFERENCES users(user_id),
-   master_profile_img			VARCHAR2(50)	NOT NULL,   
-   meeting_name					VARCHAR2(20)	NOT NULL,   
-   title_img					VARCHAR2(50)	NOT NULL,   
-   meeting_detail				VARCHAR2(300)	NOT NULL,   
+   role							CHAR(3)				NOT NULL,
+   meeting_master_id				VARCHAR2(20)		NOT NULL   REFERENCES users(user_id),
+   master_profile_img				VARCHAR2(50)		NOT NULL,   
+   meeting_name					VARCHAR2(100)		NOT NULL,   
+   title_img						VARCHAR2(50)		NOT NULL,   
+   meeting_detail					VARCHAR2(300)		NOT NULL,   
    meeting_rule					VARCHAR2(300),
    meeting_interest				NUMBER			NOT NULL,
-   meeting_location				VARCHAR2(200)	NOT NULL,   
+   meeting_location				VARCHAR2(200)		NOT NULL,   
    meeting_date					DATE,   
    meeting_day					VARCHAR2(10),
-   meeting_time					VARCHAR2(30)	NOT NULL,
-   snooze						CHAR(1)			NOT NULL,   
+   meeting_time					VARCHAR2(30)		NOT NULL,
+   snooze						CHAR(1)				NOT NULL,   
    meeting_dues					VARCHAR2(30),      
-   meeting_views				NUMBER,   
-   meeting_condition			CHAR(3)			NOT NULL,   
+   meeting_views					NUMBER,   
+   meeting_condition				CHAR(3)				NOT NULL,   
    shut_down_date				DATE,         
-   meeting_crew_limit			NUMBER			NOT NULL,   
+   meeting_crew_limit				NUMBER			NOT NULL,   
    PRIMARY KEY(meeting_no)
 );
 
@@ -198,15 +204,15 @@ CREATE TABLE meeting_act_crew_list (
 
 
 
-CREATE TABLE COMMUNITY(
+CREATE TABLE community(
     community_no					NUMBER			NOT NULL,
     community_writer_id			VARCHAR2(20)					REFERENCES users(user_id),
-    meeting_no					NUMBER					REFERENCES meeting(meeting_no),
+    meeting_no					NUMBER						REFERENCES meeting(meeting_no),
     category						CHAR(3)				NOT NULL,
     community_user_grade			CHAR(3)				NOT NULL,
     community_title				VARCHAR2(100)		NOT NULL,
     community_writer_nick_name	VARCHAR2(20)		NOT NULL,
-    community_detail				VARCHAR2(50)		NOT NULL,
+    community_detail				CLOB				NOT NULL,
     community_write_date			DATE				NOT NULL,
     community_views				NUMBER			NOT NULL,
     community_like				NUMBER			NOT NULL,
@@ -375,7 +381,7 @@ insert into location values (seq_location_no.nextval,'경기','안양시');
 insert into location values (seq_location_no.nextval,'경기','안양시 동안구');
 insert into location values (seq_location_no.nextval,'경기','안양시 만안구');
 insert into location values (seq_location_no.nextval,'경기','양주시');
-insert into location values (seq_location_no.nextval,'경기','양편군');
+insert into location values (seq_location_no.nextval,'경기','양평군');
 insert into location values (seq_location_no.nextval,'경기','여주시');
 insert into location values (seq_location_no.nextval,'경기','연천구');
 insert into location values (seq_location_no.nextval,'경기','오산시');
@@ -422,7 +428,7 @@ insert into location values (seq_location_no.nextval,'부산','해운대구');
 
 insert into location values (seq_location_no.nextval,'대구','남구');
 insert into location values (seq_location_no.nextval,'대구','달서구');
-insert into location values (seq_location_no.nextval,'대구','달성구');
+insert into location values (seq_location_no.nextval,'대구','달성군');
 insert into location values (seq_location_no.nextval,'대구','동구');
 insert into location values (seq_location_no.nextval,'대구','북구');
 insert into location values (seq_location_no.nextval,'대구','서구');
@@ -539,7 +545,7 @@ insert into location values (seq_location_no.nextval,'전남','장흥군');
 insert into location values (seq_location_no.nextval,'전남','진도군');
 insert into location values (seq_location_no.nextval,'전남','함평군');
 insert into location values (seq_location_no.nextval,'전남','해남군');
-insert into location values (seq_location_no.nextval,'전남','회순군');
+insert into location values (seq_location_no.nextval,'전남','화순군');
 
 insert into location values (seq_location_no.nextval,'전북','고창군');
 insert into location values (seq_location_no.nextval,'전북','군산시');
@@ -717,4 +723,16 @@ INSERT INTO telepathy values (
 
 
 commit;
+
+
+INSERT INTO age_range VALUES (1, 20, 24);
+INSERT INTO age_range VALUES (2, 25, 29);
+INSERT INTO age_range VALUES (3, 30, 34);
+INSERT INTO age_range VALUES (4, 35, 39);
+INSERT INTO age_range VALUES (5, 40, 44);
+INSERT INTO age_range VALUES (6, 45, 49);
+INSERT INTO age_range(age_range_no, low_age) VALUES (7, 50);
+
+COMMIT;
+
 

@@ -1,15 +1,19 @@
 package com.destiny.service.user.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.destiny.common.Search;
 import com.destiny.service.domain.Location;
 import com.destiny.service.domain.User;
 import com.destiny.service.user.UserDao;
+import com.destiny.service.domain.Letter;
 
 @Repository("userDaoImpl")
 public class UserDaoImpl implements UserDao{
@@ -71,12 +75,48 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
+	public List<String> getTypeList() throws Exception {
+		return sqlSession.selectList("UserMapper.getTypeList");
+	}
+
+	@Override
 	public void updateUser(User user) throws Exception {
 		sqlSession.update("UserMapper.updateUser", user);
-		
+	}
+
+	@Override
+	public void updateType(User user) throws Exception {
+		sqlSession.update("UserMapper.updateType", user);
+	}
+
+
+	@Override
+	public void updateGrade(User user) throws Exception {
+		sqlSession.update("UserMapper.updateGrade", user);
 	}
 	
+
+	@Override
+	public void updateState(User user) throws Exception {
+		sqlSession.update("UserMapper.updateState", user);
+	}
 	
+	@Override
+	public void updateWarningCount(User user) throws Exception {
+		sqlSession.update("UserMapper.updateWarningCount", user);
+	}
+
+	@Override
+	public List<User> getUserList(Search search) throws Exception {
+		return sqlSession.selectList("UserMapper.getUserList", search);
+	}
+
+	@Override
+	public int getUserTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("UserMapper.getTotalCount", search);
+	}
+	
+
 	
 	
 	

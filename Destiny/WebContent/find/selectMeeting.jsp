@@ -6,61 +6,63 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 		<title>selectMeeting</title>
 		
+		<meta charset="EUC-KR">
+	
+		<!-- 참조 : http://getbootstrap.com/css/   -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
 		<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 		
+		<!--  ///////////////////////// city&town Ajax ////////////////////////// -->
 		<script type="text/javascript">
-		
-		
-		$(function() {
-			$( "#city" ).on("change" , function() {
-				var idx = $("#city").index(this);
-				var city = $(this).val();
-				
-				alert(city + idx);
-				
-				$.ajax( 
-						{
-							url : "/user/json/getLocationList/"+city ,
-							method : "GET" ,
-							dataType : "json" ,
-							headers : {
-								"Accept" : "application/json",
-								"Content-Type" : "application/json"
-							},
-							success : function(JSONData , status) {
-								alert("성공?");
-								var list="";
-								for(i in JSONData.list){
-									var town = JSONData.list[i].townName;
-									list+="<option value='"+town+"'>"+town+"</option>";
-							}
-								$( "#town:eq("+idx+")" ).empty().append(list);
-							},
-							error : function(what){
-								alert("town ERROR" + what);
-							}
-						});
-				});
-			
-			});
-	
-		
 			$(function() {
-				var town = $(this).val();
-				console.log(town);
-				$( "button:contains('찾기')" ).on("click" , function() {
-					$("form").attr("method", "POST").attr("action", "/find/getMeetingResult/town?="+town).submit();
-					//$("form").attr("method", "POST").attr("action", "/find/getMeetingResult").submit();
-				});
+				$( "#city" ).on("change" , function() {
+					var idx = $("#city").index(this);
+					var city = $(this).val();
+					
+					alert(city + idx);
+					
+					$.ajax( 
+							{
+								url : "/user/json/getLocationList/"+city ,
+								method : "GET" ,
+								dataType : "json" ,
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(JSONData , status) {
+									var list="";
+									for(i in JSONData.list){
+										var town = JSONData.list[i].townName;
+										list+="<option value='"+town+"'>"+town+"</option>";
+								}
+									$( "#town:eq("+idx+")" ).empty().append(list);
+								},
+								error : function(what){
+									/* alert("town ERROR" + what); */
+								}
+							});
+					});
 				
-				$( "button:contains('이전')" ).on("click" , function() {
-					 history.go(-1);
 				});
-			});
+		
+			
+				$(function() {
+					var town = $(this).val();
+					console.log(town);
+					$( "button:contains('찾기')" ).on("click" , function() {
+						$("form").attr("method", "POST").attr("action", "/find/getMeetingResult").submit();
+					});
+					
+					$( "button:contains('이전')" ).on("click" , function() {
+						 history.go(-1);
+					});
+				});
 		</script>
 		
 		<style>
@@ -68,9 +70,21 @@
 	        	border: 3px solid #D6CDB7;
 	            margin-top: 10px;
 	        }
+	        
+	        #map {
+			    height: 1000px; 
+			    min-width: 1000x; 
+			    max-width: 1000px; 
+			    margin: 50 auto; 
+			}
 	    </style>
 	</head>
 <body>
+
+	<!-- ToolBar Start /////////////////////////////////////-->
+	  <jsp:include page="/layout/toolBar.jsp" />
+  	<!-- ToolBar End /////////////////////////////////////-->
+	  	
 	<h1>selectMeeting.jsp</h1>
 
 	<!--  화면구성 div Start /////////////////////////////////////-->

@@ -6,12 +6,11 @@
 
 <!DOCTYPE html>
 
-<html lang="ko">
+<html>
 	
 <head>
-	<meta charset="EUC-KR">
-	
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
+<title>우리들의 연결고리</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -53,7 +52,7 @@
 
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolBar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
+  <!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
@@ -79,7 +78,36 @@
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>회원등급</strong></div>
-			<div class="col-xs-8 col-md-4">${user.userGrade}</div>
+	  		<div class="col-xs-8 col-md-4">
+	  			<c:if test="${user.userGrade=='NEW'}">신규회원</c:if>
+	  		</div>
+	  		<div class="col-xs-8 col-md-4">
+	  			<c:if test="${user.userGrade=='NOR'}">일반회원</c:if>
+	  		</div>
+	  		<div class="col-xs-8 col-md-4">
+	  			<c:if test="${user.userGrade=='VIP'}">우수회원</c:if>
+	  		</div>
+	  		<div class="col-xs-8 col-md-4">
+	  			<c:if test="${user.userGrade=='ADM'}">관리자</c:if>
+	  		</div>
+	  		<div class="col-xs-8 col-md-4">
+	  			<c:if test="${user.userGrade=='BLK'}">블랙리스트</c:if>
+	  		</div>
+			<<%-- div class="col-xs-8 col-md-4">${user.userGrade}</div> --%>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>출석일</strong></div>
+			<div class="col-xs-8 col-md-4">${user.attendCount}</div>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>경고횟수</strong></div>
+			<div class="col-xs-8 col-md-4">${user.warningCount} 회</div>
 		</div>
 		
 		<hr/>
@@ -137,8 +165,7 @@
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>내 성격유형</strong></div>
 			<div class="col-xs-8 col-md-2">${typeMap.myType}</div>
-			<img src="/resources/images/MBTI/${typeFileMap.myTpyeFile}" width="300" height="300"/>
-			
+			<img src="/resources/images/MBTI/${typeFileMap.myTpyeFile}" width="150" height="200"/>
 		</div>
 		
 		<hr/>
@@ -149,9 +176,10 @@
 			<div class="col-xs-8 col-md-2">${typeMap.secondType}</div>
 			<div class="col-xs-8 col-md-2">${typeMap.thirdType}</div>
 			<br/>
-			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[0]}" width="200" height="250"/>
-			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[1]}" width="200" height="250"/>
-			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[2]}" width="200" height="250"/>
+			<div class="col-xs-4 col-md-2"></div>
+			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[0]}" width="150" height="200"/>
+			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[1]}" width="150" height="200"/>
+			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[2]}" width="150" height="200"/>
 		</div>
 		
 		<hr/>

@@ -8,13 +8,13 @@ public class User {
 	private String	password;
 	private String	email;
 	private String	address;
-	private Date	birthday;
+	private Date		birthday;
 	private String	profile;
 	private String	nickName;
-	private char	gender;
+	private String	gender;
 	private String	phone;
 	private int		attendCount;
-	private Date	lastLoginDay;
+	private Date		lastLoginDay;
 	private	int		warningCount;
 	private String	userGrade;
 	private int		myType;
@@ -24,6 +24,7 @@ public class User {
 	private int		firstInterest;
 	private int		secondInterest;
 	private int		thirdInterest;
+	private String	userState;
 	
 	public String getUserId() {
 		return userId;
@@ -67,10 +68,10 @@ public class User {
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
-	public char getGender() {
+	public String getGender() {
 		return gender;
 	}
-	public void setGender(char gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 	public String getPhone() {
@@ -147,15 +148,23 @@ public class User {
 	}
 
 	
+	public String getUserState() {
+		return userState;
+	}
+	public void setUserState(String userState) {
+		this.userState = userState;
+	}
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", password=" + password + ", email=" + email + ", address=" + address
 				+ ", birthday=" + birthday + ", profile=" + profile + ", nickName=" + nickName + ", gender=" + gender
 				+ ", phone=" + phone + ", attendCount=" + attendCount + ", lastLoginDay=" + lastLoginDay
-				+ ", warningCount=" + warningCount + ", firstInterest=" + firstInterest + ", secondInterest="
-				+ secondInterest + ", thirdInterest=" + thirdInterest + ", userGrade=" + userGrade + ", myType="
-				+ myType + ", firstType=" + firstType + ", secondType=" + secondType + ", thirdType=" + thirdType+"]";
+				+ ", warningCount=" + warningCount + ", userGrade=" + userGrade + ", myType=" + myType + ", firstType="
+				+ firstType + ", secondType=" + secondType + ", thirdType=" + thirdType + ", firstInterest="
+				+ firstInterest + ", secondInterest=" + secondInterest + ", thirdInterest=" + thirdInterest
+				+ ", userState=" + userState + "]";
 	}
+	
 	
 	
 	
