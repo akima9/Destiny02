@@ -112,6 +112,11 @@ public class ActDaoImpl implements ActDao{
 	public int getTotalContact(String userId) throws Exception {
 		return sqlSession.selectOne("ActMapper.getTotalContact", userId);
 	}
+
+	@Override
+	public int getCommunityComentCount(int communityNo) throws Exception {
+		return sqlSession.selectOne("ActMapper.getCommunityComentCount", communityNo);
+	}
 	
 	
 	

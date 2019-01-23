@@ -27,4 +27,6 @@ public interface ActDao {
 	
 	public int getTotalContact(String userId) throws Exception;
 	
+	public int getCommunityComentCount(int communityNo) throws Exception;
+	
 }

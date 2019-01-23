@@ -56,11 +56,18 @@ public class ActServiceImpl implements ActService {
 		List<Community> list = actDao.getCommunityListByWriter(search, userId);
 		System.out.println("ServiceImpl 에서의 list : " + list);
 		
+		int[] listCommentCount = new int[list.size()];
+		
+		for(int i = 0; i < list.size(); i++) {
+			listCommentCount[i] = actDao.getCommunityComentCount(list.get(i).getCommunityNo());
+		}
+		
 		int getTotalCountByWriter = actDao.getTotalCountByWriter(userId);
 		System.out.println("ServiceImpl 에서의 getTotalCountByWriter : " + getTotalCountByWriter);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
+		map.put("listCommentCount", listCommentCount);
 		map.put("getTotalCountByWriter", getTotalCountByWriter);
 		
 		return map;
@@ -94,6 +101,11 @@ public class ActServiceImpl implements ActService {
 		map.put("getTotalContact", getTotalContact);
 		
 		return map;
+	}
+
+	@Override
+	public int getCommunityComentCount(int communityNo) throws Exception {
+		return actDao.getCommunityComentCount(communityNo);
 	}
 	
 	

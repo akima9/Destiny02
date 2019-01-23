@@ -100,7 +100,7 @@
 				<c:set var="i" value="0"/>
 				<c:forEach var="file" items="${list}">
 					<c:set var="i" value="${i+1}"/>
-					<div class="col-xs-8 col-md-3">${file}<img src="/resources/images/MBTI/${file}.JPG" width="200" height="200"/></div>
+					<div class="col-xs-8 col-md-3">${file}<img src="/resources/images/MBTI/${file}.JPG" width="270" height="270"/></div>
 				</c:forEach>
 			</div>
 			
@@ -130,6 +130,7 @@
 	
 		<div class="row">
 	  		<div class="col-md-12 text-center ">
+	  			<a class="btn btn-primary btn" href="https://www.16personalities.com/ko/%EB%AC%B4%EB%A3%8C-%EC%84%B1%EA%B2%A9-%EC%9C%A0%ED%98%95-%EA%B2%80%EC%82%AC" role="button">test 해보기</a>
 	  			<button type="button" class="btn btn-primary">성격유형 등록</button>
 	  		</div>
 		</div>

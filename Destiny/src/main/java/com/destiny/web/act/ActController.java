@@ -87,6 +87,7 @@ public class ActController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/user/userAct/writeCommunityList.jsp");
 		modelAndView.addObject("list",  map.get("list"));
+		modelAndView.addObject("listCommentCount", map.get("listCommentCount"));
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
 		return modelAndView;
@@ -150,7 +151,7 @@ public class ActController {
 		}
 		search.setPageSize(pageSize);
 		
-		Map<String , Object> map = actService.getCommentListByWriter(search, userId);
+		Map<String, Object> map = actService.getCommentListByWriter(search, userId);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("getTotalCountByCommentSwiter")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);

@@ -201,6 +201,14 @@
 			</where>
 			) countTable						
 	 </select>
+	 
+	 <select id="getCommunityComentCount" parameterType="int"	 resultType="int">
+	 	SELECT COUNT(*)
+	 	FROM comments
+	 	<where>
+	 		community_no = #{value}
+	 	</where>
+	 </select>
 	
 
 
