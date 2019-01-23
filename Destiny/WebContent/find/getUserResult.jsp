@@ -21,7 +21,8 @@
    <script type="text/javascript">
 		$(function() {
 			$( "button:contains('¿Ã¿¸')" ).on("click" , function() {
-				 history.go(-1);
+				 //history.go(-1);
+				self.location = "/find/mainFind.jsp"
 			});
 				
 			$("a[href='#' ]:contains('YES')").on("click", function() {
