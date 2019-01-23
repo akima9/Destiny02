@@ -133,7 +133,7 @@ public class MeetingController {
 		
 		Meeting meeting = meetingService.getMeeting(meetingNo);
 		meetingService.updateViews(meetingNo);
-		int meetingAct = meetingService.getAct(meetingNo);
+		Meeting meetingAct = meetingService.getAct(meetingNo);
 		int crewCount = meetingService.getCrewCount(meetingNo);
 		Map<String , Object> crewMap=meetingService.getCrew(meetingNo);
 		
@@ -164,6 +164,7 @@ public class MeetingController {
 		}else {
 			//개시물 내용 수정
 			meetingService.updateContentsMeeting(meeting);
+			meetingService.updateContentsAct(meeting);
 		}
 		
 		

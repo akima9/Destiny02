@@ -22,6 +22,12 @@
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+   <!--  ///////////////////////// 데이트픽커 시작////////////////////////// -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="../javascript/calendar.js"></script>
+    <!--  ///////////////////////// 데이트픽커 엔드 ////////////////////////// -->
    
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
@@ -45,7 +51,7 @@
 		#dialog {
 		    display: none;
 		    position: fixed;
-		    left: calc( 50% - 160px ); top: calc( 30% - 70px );
+		    left: calc( 50% - 160px ); top: calc( 20% - 80px );
 		    width: 500px; height: 650px; 
 		    background: gainsboro;
 		    z-index: 11;
@@ -83,8 +89,8 @@
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
-		
-		////////////////* 데이트픽커 데이터 포맷 */////////
+	
+	    ////////////////* 데이트픽커 데이터 포맷 */////////
 		$( function() {
 	
 		    $( "#datepicker" ).datepicker({
@@ -98,7 +104,8 @@
 
 			 
 			var interestName=$("input[name='interestName']").val();
-			var meetingCenter=$("#centerMeeting").data("param");
+			var centerMeeting=$("#centerMeeting").data("param");
+			var meetingCenter=$("select[name='meetingCenter']").val();
 			var titleImg=$("input[name='imgFile']").val();
 			var meetingName=$("input[name='meetingName']").val();
 			var meetingDetail=$("textarea[name='meetingDetail']").val();
@@ -110,6 +117,7 @@
 			var meetingLocation=$("input[name='meetingLocation']").val();
 			
 			console.log("관심사"+interestName);
+			console.log("센터미팅"+centerMeeting);
 			console.log("미팅센터"+meetingCenter);
 			console.log("타이틀이미지"+titleImg);
 			console.log("제목"+meetingName);
@@ -127,7 +135,7 @@
 				return;
 			}
 			
-			if(meetingCenter == null|| meetingCenter.length<1){
+			if(meetingCenter == null && centerMeeting == null){
 				alert("중심지역을 선택해 주세요.");
 				return;
 			}
@@ -173,8 +181,8 @@
 			}
 			
 			if (confirm("내용을 수정하시겠습니까?") == true){    //확인
-				 
-				$("form").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
+				
+				$("#contentsForm").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
 
 			     //document.removefrm.submit();
 
@@ -189,7 +197,7 @@
 		$(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
-			 $( "button.btn.btn-primary" ).on("click" , function() {
+			 $( "button.btn.btn-primary:contains('등 &nbsp;록')" ).on("click" , function() {
 				//Debug..
 				//alert(  $( "td.ct_btn01:contains('등록')" ).html() );
 				fncAddProduct();
@@ -288,7 +296,7 @@
 									for(i in JSONData.list){
 										var town = JSONData.list[i].townName;
 										
-										list+="<option id='centerMeeting' name='meetingCenter'value='"+town+"'>"+town+"</option>";
+										list+="<option value='"+town+"'>"+town+"</option>";
 								}
 									$( "#location" ).empty().append(list);
 								}
@@ -303,7 +311,7 @@
 		////* 모임원 선택부  끝!!!!!!!!!!*////
 		 
 		////* 반복여부가 선택되면  *////
-		 $(function(){
+		/*  $(function(){
 				$( "#snooze" ).on("change" , function() {
 					//var idx = $(".brand_ids").index(this);
 					var snooze=$(this).val();
@@ -324,7 +332,7 @@
 						$( "#dateOrDay" ).empty().append(list);
 					}
 				});
-			});
+			}); */
 		
 		
 		
@@ -364,7 +372,15 @@
 		 
 		 $( function() {
 				$("#btn-delete-dialog").click(function () {
-					$("#detailForm").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
+					if (confirm("삭제하시겠습니까?") == true){    //확인
+						$("#detailForm").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
+						//self.location="/user/login";
+					 }else{   //취소
+
+					     return;
+
+					 }
+					//$("#detailForm").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
 					//document.detailForm.submit();
 				});
 			});
@@ -411,7 +427,8 @@
 								dataType : "json" ,
 								data : JSON.stringify({
 									meetingNo : "${meeting.meetingNo}" ,
-									meetingMasterId : "${sessionScope.me.userId}", 
+									meetingMasterId : "${sessionScope.me.userId}",
+									meetingActCount : "${meetingAct.meetingActCount}",
 									
 								}),
 								headers : {
@@ -429,7 +446,7 @@
 										alert("이미 참여하셨습니다.");
 									}
 									else{
-										alert("${meeting.meetingName} ${meetingAct} 회\n모임에 참여되었습니다.");
+										alert("${meeting.meetingName} ${meetingAct.meetingActCount} 회\n모임에 참여되었습니다.");
 										
 									}
 								}
@@ -470,7 +487,7 @@
 								},
 								success : function(JSONData , status) {
 									if(JSONData.result==0){
-										if (confirm("모임원만 참여가능합니다.\n가입하시겠습니까?") == true){    //확인
+										if (confirm("모임원만 열람가능합니다.\n가입하시겠습니까?") == true){    //확인
 											$("#dialog2").toggle();
 										 }else{   //취소
 										     return;
@@ -494,24 +511,6 @@
 												display+="</h6>";
 												
 										console.log(display);	
-										/* var displayValue = "<h6>"
-											+"<c:forEach var='actCrew' items='${actCrewList}'>"
-											+"<img src='/resources/images/userprofile/actCrewList.masterProfileImg' width='100px' height='100px'>"
-											+"</c:forEach>"
-											+"</h6>"; */
-										//var list = "";
-										//list+="<h6>";
-										//+"<c:forEach var='actCrew' items='${actCrewList}'>"
-										
-										//list+="<img src='/resources/images/userprofile/"+displayValue[0]+" width='100px' height='100px'>"
-										//list+=
-										//list+="캬캬";
-										//list+="<img src='/resources/images/userprofile/${actCrew.masterProfileImg}' width='100px' height='100px'>";
-										//+"</c:forEach>"
-										//list+="</h6>";
-										//$("#dialog2").html(list);
-										
-										//$("h6").remove();
 										$( ".actCrewList" ).html(display);
 										$("#dialog3").toggle();
 										
@@ -530,7 +529,7 @@
 			});
 		/*///////참여자목록에서 확인 눌렀을때 //////////////*/
 		 $( function() {
-				$("#pushCancle3").click(function () {
+				$("button.btn.btn-primary:contains('확&nbsp;인')").click(function () {
 					alert("dd");
 					$("#dialog3").toggle();
 				});
@@ -614,7 +613,7 @@
 	    <!-- 모달창 디자인 부분 -->
         <div id="dialog">
         <!-- //////////////////////////모달창  내용부/////////////////////////////////////////////////// -->
-        	<form class="form-horizontal">
+        	<form id="contentsForm" class="form-horizontal">
         	<input type="hidden" name="meetingNo" value="${meeting.meetingNo}">
 				 <div  class="form-group col-sm-4 col-md-4">
 				 	<select id="interest" class="form-control">
@@ -681,11 +680,11 @@
 				 	name="meetingRule" placeholder="모임에 규칙이 있나요? 있다면 간략히 적어주세요">${meeting.meetingRule}</textarea>
 				 </div>
 				 
-				 <div class="form-group col-sm-10 col-md-10">
+				 <div class="form-group col-sm-8 col-md-8">
 				 	모임인원을 입력하여 주세요
 				 </div>
 				
-				 <div id="crewNo" class="form-group col-sm-2 col-md-2">
+				 <div id="crewNo" class="form-group col-sm-4 col-md-4">
 				 	<select name="meetingCrewLimit" class="form-control">
 				 		<option value="1"  ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==1 ? "selected" : "" }>1</option>
 				 		<option value="2" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==2 ? "selected" : "" }>2</option>
@@ -719,8 +718,8 @@
 				 </div>
 				 
 				 <div  id="dateOrDay" class="form-group col-sm-4 col-md-4">
-				 	<input 	type="text" id="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜or요일" name="meetingDate"/>
-				 	
+		 			<input 	type="text" id="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜or요일" name="meetingDate"/>
+		 	
 				 	<!--  
 				 	<select class="form-control">
 				 		<option value="">모임날짜or요일</option>
@@ -731,17 +730,17 @@
 				 <div class="form-group col-sm-4 col-md-4">
 				 	<select name="meetingTime" class="form-control">
 				 		<option>모임시간</option>
-				 		<option value="12:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='12:00' ? "selected" : "" }>13:00</option>
+				 		<option value="12:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='12:00' ? "selected" : "" }>12:00</option>
 				 		<option value="13:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='13:00' ? "selected" : "" }>13:00</option>
 				 		<option value="14:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='14:00' ? "selected" : "" }>14:00</option>
 				 	</select>
 				 </div>
 				 
-				 <div class="form-group col-sm-10 col-md-10">
+				 <div class="form-group col-sm-8 col-md-8">
 				 	회비가 있다면 입력해주세요
 				 </div>
 				 
-				 <div class="form-group col-sm-2 col-md-2">
+				 <div class="form-group col-sm-4 col-md-4">
 				 	<input name="meetingDues" type="text" class="form-control" value="${meeting.meetingDues}">
 				 </div>
 				 
@@ -793,10 +792,10 @@
 		</div>
 		
 		<hr/>
-		${meetingAct}회차 모임 일정<br/>
-		${meeting.meetingDate} ${meeting.meetingTime }<br/>
-		${meeting.meetingLocation}<br/>
-		${meeting.meetingDues}<br/>
+		${meetingAct.meetingActCount}회차 모임 일정<br/>
+		${meetingAct.meetingDate} ${meetingAct.meetingTime }<br/>
+		${meetingAct.meetingLocation}<br/>
+		${meetingAct.meetingDues}<br/>
 		<button>참여하기</button>
 		<button>참여자목록</button>
 		<hr/>
@@ -849,9 +848,9 @@
 		</div>
 		<div id="dialog3">
 		<div class="actCrewList">
-		<form class="form-horizontal">
-		
-		</form>
+			<form id="dialog3From" class="form-horizontal">
+			
+			</form>
 		</div>
 		</div>
 		<hr/>
