@@ -51,7 +51,7 @@
 				
 				$.ajax({	
 					
-					url : "/chatting/json/addPerfectChatting" ,
+					url : "/chatting/json/addRandomChatting" ,
 					type : "GET" ,
 					dataType : "json" ,
 					headers : {

@@ -327,10 +327,10 @@ public class ChattingRestController {
 		return map;
 	}
 	
-	@RequestMapping(value="json/matching", method=RequestMethod.GET)
+	@RequestMapping(value="json/getRandomMatching", method=RequestMethod.GET)
 	@ResponseBody
-	public Map<String,Object> matching(HttpSession session,HttpServletRequest request) throws Exception{
-		System.out.println("json/addPerfectChatting 들어옴");
+	public Map<String,Object> getRandomMatching(HttpSession session,HttpServletRequest request) throws Exception{
+		System.out.println("json/getRandomMatching 들어옴");
 		
 		//===========================================현제 접속자 구현 로직 part=================================================
 		
@@ -438,4 +438,183 @@ public class ChattingRestController {
 		
 		return map;
 	}
+	
+	@RequestMapping(value="json/getPerfectMatching", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String,Object> getPerfectMatching(HttpSession session,HttpServletRequest request) throws Exception{
+		System.out.println("json/getPerfectMatching 들어옴");
+		
+		//===========================================현제 접속자 구현 로직 part=================================================
+		
+	
+		Chatting chatting=new Chatting();
+		Map<String, Object> map=new HashMap<String, Object>();
+		ServletContext applicationScope = request.getSession().getServletContext();
+		User user=(User)session.getAttribute("me");
+		System.out.println("user"+user);
+		String userId=user.getUserId();
+		ModelAndView modelAndView = new ModelAndView();
+		////user가로그인 한 경우
+	
+			////아이디로 user정보를 가져온다.
+			User dbUser=userService.getUser(user.getUserId());
+			
+			/////여성일 경우
+			if (user.getGender().equals("W")) {
+				if(applicationScope.getAttribute("womanList") != null) {
+					womanList = (List<User>) applicationScope.getAttribute("womanList");
+				}
+			
+				for(User v : womanList) {
+					System.out.println("현재  여성 접속자 목록 : " + v);
+					
+				}
+			}else {
+				//남성일 경우
+				if(applicationScope.getAttribute("manList") != null) {
+					manList = (List<User>) applicationScope.getAttribute("manList");
+				}
+				
+				for(User v : manList) {
+					System.out.println("현재  남성 접속자 목록 : " + v);
+				}
+			}
+			
+			
+			System.out.println("manList.size() : "+manList.size()+"womanList.size() : "+womanList.size());
+			System.out.println("manList : "+manList+"womanList : "+womanList);
+			String man=null;
+			String woman=null;
+			int roomNo=0;
+
+			if (manList.size()>no && womanList.size()>no) {
+				////////매칭된 아이디 2개 넣기
+				
+				System.out.println("manList==womanList");
+				man=manList.get(no).getUserId();
+				woman=womanList.get(no).getUserId();
+				chatting.setManId(man);
+				chatting.setWomanId(woman);
+				chatting.setContactMeeting("N");
+				//addChatting
+				System.out.println("man  : "+man+"  woman : "+woman);
+				
+				
+				chattingService.addPerfectChatting(chatting);
+				
+				no++;
+				//womanList.remove(0);
+				//manList.remove(0);
+				////대기상태//////////////////////////////
+				
+				map.put("manList", manList);
+				map.put("womanList", womanList);
+			
+				
+				
+			}
+			//get
+			System.out.println("getChatting");
+			
+				if (no>0&&(womanList.get(no-1).getUserId().equals(userId)||manList.get(no-1).getUserId().equals(userId))) {
+					Chatting resultChatting=chattingService.getChatting(userId);
+					//roomName은 ChattingNo로 지정
+					roomNo=resultChatting.getChattingNo();
+					System.out.println("resultChatting : "+resultChatting);
+					System.out.println("roomNo : "+roomNo);
+					man=resultChatting.getManId();
+					woman=resultChatting.getWomanId();
+					map.put("womanId", woman);
+					map.put("manId", man);
+					map.put("roomNo", roomNo);
+					map.put("no", no); 
+					session.setAttribute("chatting", resultChatting);
+					chattingList.add(resultChatting);
+					System.out.println("map : "+map);
+				}else {
+					map.put("womanId", woman);
+					map.put("manId", man);
+					map.put("roomNo", roomNo); 
+					Chatting emptyChatting=new Chatting();
+					session.setAttribute("chatting", emptyChatting);
+					System.out.println("map : "+map);
+				}
+				
+		
+			
+			
+		//====================================================================================================
+		
+		// user의 아이디필요 본인의 성격유형, 이상형 유형을 통해 매칭
+		
+		
+		return map;
+	}
+	
+	@RequestMapping(value="json/addRandomChatting", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String,Object> addRandomChatting(HttpSession session,HttpServletRequest request) throws Exception{
+		System.out.println("json/addRandomChatting 들어옴");
+		
+		//===========================================현제 접속자 구현 로직 part=================================================
+		
+	
+		Chatting chatting=new Chatting();
+		ServletContext applicationScope = request.getSession().getServletContext();
+		Map<String, Object> map=new HashMap<String, Object>();
+		User user=(User)session.getAttribute("me");
+		System.out.println("user"+user);
+		ModelAndView modelAndView = new ModelAndView();
+		////user가로그인 한 경우
+	
+			////아이디로 user정보를 가져온다.
+			User dbUser=userService.getUser(user.getUserId());
+			
+			/////여성일 경우
+			if (user.getGender().equals("W")) {
+				if(applicationScope.getAttribute("womanList") != null) {
+					womanList = (List<User>) applicationScope.getAttribute("womanList");
+				}
+				womanList.add(dbUser);
+					
+				applicationScope.setAttribute("womanList", womanList);
+				
+				for(User v : womanList) {
+					System.out.println("현재  여성 접속자 목록 : " + v);
+					
+				}
+			}else {
+				//남성일 경우
+				if(applicationScope.getAttribute("manList") != null) {
+					manList = (List<User>) applicationScope.getAttribute("manList");
+				}
+				manList.add(dbUser);
+					
+				applicationScope.setAttribute("manList", manList);
+				
+				for(User v : manList) {
+					System.out.println("현재  남성 접속자 목록 : " + v);
+				}
+			}
+			
+			
+			System.out.println("manList.size() : "+manList.size()+"womanList.size() : "+womanList.size());
+			System.out.println("manList : "+manList+"womanList : "+womanList);
+
+			map.put("manList", manList);
+			map.put("womanList", womanList);
+			
+							
+		
+		
+		
+		
+		//====================================================================================================
+		
+		// user의 아이디필요 본인의 성격유형, 이상형 유형을 통해 매칭
+		
+		
+		return map;
+	}
+	
 }
