@@ -166,10 +166,20 @@
 	 </delete>
 	 
 	 
-	 <select id="getMeetingAct" parameterType="int">
-	 	SELECT * from meeting_act
+	 <select id="getMeetingAct" parameterType="int" resultMap="meetingSelectMap">
+	 	SELECT act_date as meeting_date, meeting_act_count, act_location as meeting_location, meeting_act_no, act_time as meeting_time
+	 	from meeting_act
 	 	<where>
 	 		meeting_no = #{value}
+	 	</where>
+	 </select>
+	 
+	 
+	 <select id="getActCrew" parameterType="com.destiny.service.domain.Meeting" resultType="String">
+	 	SELECT act_crew_id as meeting_master_id
+	 	FROM meeting_act_crew_list
+	 	<where>
+	 		meeting_act_no = #{meetingActNo} and meeting_act_count = #{meetingActCount}
 	 	</where>
 	 </select>
 	 

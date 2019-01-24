@@ -170,6 +170,41 @@ public class ActController {
 	}
 	
 	
+	@RequestMapping(value="getMeetingAct/{meetingNo}", method=RequestMethod.GET)
+	public ModelAndView getMeetingAct(@PathVariable("meetingNo") int meetingNo) throws Exception{
+		
+		System.out.println("act/getMeetingAct : GET + " + meetingNo);
+		
+		List<Meeting> list = actService.getMeetingAct(meetingNo);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userAct/getMeetingAct.jsp");
+		modelAndView.addObject("list", list);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="getActCrew/{meetingActNo}/{meetingActCount}", method=RequestMethod.GET)
+	public ModelAndView getActCrew(@PathVariable("meetingActNo") int meetingActNo, @PathVariable("meetingActCount") int meetingActCount) throws Exception{
+		
+		System.out.println("act/getActCrew : GET + "+meetingActNo+" + "+meetingActCount);
+		
+		Meeting meeting = new Meeting();
+		meeting.setMeetingActNo(meetingActNo);
+		meeting.setMeetingActCount(meetingActCount);
+		
+		List<String> listString = actService.getActCrew(meeting);
+		List<User> list = new ArrayList<User>();
+		
+		for(String v : listString) {
+			list.add(userService.getUser(v));
+		}
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userAct/getActCrew.jsp");
+		modelAndView.addObject("list", list);
+		return modelAndView;
+	}
+	
 	@RequestMapping(value="getJoinMeetingList/{userId}", method=RequestMethod.GET)
 	public ModelAndView getJoinMeetingList(@PathVariable("userId") String userId, @ModelAttribute("search") Search search) throws Exception {
 		

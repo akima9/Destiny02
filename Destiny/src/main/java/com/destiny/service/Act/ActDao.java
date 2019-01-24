@@ -23,6 +23,8 @@ public interface ActDao {
 	
 	public List<Meeting> getMeetingAct(int meetingNo) throws Exception;
 	
+	public List<String> getActCrew(Meeting meeting) throws Exception;
+	
 	public List<Meeting> getMeetingListByApply(Search search, String userId) throws Exception;
 	
 	public int getTotalCountByApply(String userId) throws Exception;

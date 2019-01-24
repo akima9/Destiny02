@@ -74,6 +74,11 @@ public class ActServiceImpl implements ActService {
 	public List<Meeting> getMeetingAct(int meetingNo) throws Exception {
 		return actDao.getMeetingAct(meetingNo);
 	}
+	
+	@Override
+	public List<String> getActCrew(Meeting meeting) throws Exception {
+		return actDao.getActCrew(meeting);
+	}
 
 	@Override
 	public Map<String, Object> getMeetingListByApply(Search search, String userId) throws Exception {
