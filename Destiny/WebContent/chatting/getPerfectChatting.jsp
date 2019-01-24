@@ -1,5 +1,6 @@
-  <%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+  
  <!DOCTYPE html> <html> 
  <head> 
  
@@ -12,29 +13,142 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
- <style>
-#conversation {
-    width: 400px;
-    min-width: 400px;
-    height: 500px;
-    min-height: 500px;
-    border: 1px solid black;
+<!-- 배경색 -->
+<style class="cp-pen-styles">body {
+  margin: 0;
+  padding: 0;
+  background-color:  #fddbdb ;
 }
 
-#msg {
-    width: 400px;
+* {
+  font-family: Helvetica,sans-serif;
+  color: #888;
 }
 
-#msg_process {
-    width: 90px;
+main.container {
+  width: 90%;
+  margin: 40px auto;
 }
+main.container .list {
+  width: 30%;
+  float: right;
+  background: #ffaaa5;
+  height: 600px;
+  border-radius: 10px 10px 10px 10px;
+  /* border-left: 1px solid #fff; */
+}
+main.container .list ul {
+  list-style-type: none;
+  padding: 0;
+}
+main.container .list ul li a {
+  display: block;
+  border: none;
+  border-left: 5px solid transparent;
+  cursor: pointer;
+  background:  #ffaaa5 ;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 10px 10px;
+  color: #fff;
+}
+main.container .list ul li a:hover {
+  border-left: 5px solid #E57373;
+}
+main.container .list ul li:first-child {
+  color: #fff;
+  text-align: center;
+  /* border: 1px solid #fff; */
+  margin-bottom: 3px;
+  font-size: 20px;
+  background-color: #ff8b94;
+  border-radius: 10px 10px 10px 10px;
+}
+main.container .chat-box {
+  float: left;
+  width: 69%;
+  background: #ffd3b6;
+  height: 550px;
+  border-radius: 10px 10px 10px 10px ;
+}
+main.container .chat-box ul {
+  list-style-type: none;
+  padding: 0;
+  display: none;
+}
+main.container .chat-box ul:target {
+  display: block;
+}
+main.container .chat-box ul li .title {
+  color: #888;
+  text-align: center;
+  border-bottom: 1px solid #88;
+  margin-bottom: 3px;
+}
+main.container .chat-box ul li .me {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+main.container .chat-box ul li .you {
+  display: flex;
+  align-items: center;
+}
+main.container .chat-box ul li > div .img {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  border-radius: 50%;
+  margin-bottom: -25px;
+  border: 2px solid #ffaaa5;
+  z-index: 100;
+  position: relative;
+  background-image: url("/resources/images/chatting/loading.gif");
+  background-size: 45px;
+}
+main.container .chat-box ul li > div .name {
+  display: inline-block;
+  padding: 5px 50px 5px 20px;
+  margin-top: -20px;
+  margin-right: -30px;
+  background-color: #ffaaa5;
+  color: #fff;
+  border-radius: 15px 0 0 0;
+  font-size: 13px;
+  position: relative;
+}
+main.container .chat-box ul li > div .text div {
+  background-color: #fff;
+  display: inline-block;
+  padding: 15px 20px;
+  max-width: 300px;
+  min-width: 150px;
+  margin-left: -55px;
+  border-radius: 10px 0 10px 10px;
+  z-index: 10;
+  position: relative;
+  text-align: right;
+}
+main.container .chat-box ul li .you .name {
+  padding: 5px 25px 5px 50px;
+  margin-left: -30px;
+  border-radius: 0 15px 0 0;
+}
+main.container .chat-box ul li .you .text div {
+  margin-left: 6px;
+  border-radius: 0 10px 10px 10px;
+  text-align: left;
+}
+
 /* gage */
 .bar {
 		float:left;
 		clear:both;
-		width:90%;
-		height:20px;
+		width:100%;
+		height:30px;
 		position:relative;
+		
 		}
 		  
 		.bar .percent {
@@ -48,8 +162,9 @@
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2caedd', endColorstr='#ff0000', GradientType=1);
 		float:left;
 		width:100%;
-		height:40px;
+		height:30px;
 		position:relative;
+		
 		}
 		  
 		.bar .percent span {
@@ -59,8 +174,9 @@
 		right:0;
 		z-index:2;
 		width:100%;
-		height:40px;
+		height:30px;
 		background:rgba(255, 255, 255, .7);
+		
 		}
 		  
 		.bar .circle {
@@ -102,240 +218,287 @@
 		-webkit-border-radius:35px;
 		border-radius:35px;
 		}
-		
+		/* gage끝 */
 </style>
-<!--  <script src="/socket.io/socket.io.js"></script> -->
- <script src="http://192.168.0.28:82/socket.io/socket.io.js"></script>
+<script src="http://192.168.0.28:82/socket.io/socket.io.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+
 <script>
-
-//////////////////////////////////////////
- function noEvent() { // 새로 고침 방지
-            if (event.keyCode == 116) {
-                alert("새로고침을 할 수 없습니다.");
-                event.keyCode = 2;
-                return false;
-            } else if (event.ctrlKey
-                    && (event.keyCode == 78 || event.keyCode == 82)) {
-                return false;
-            }
-        }
-    document.onkeydown = noEvent;
- 
-
 ////////////////////////////////////////////
 
-	var socket = io.connect('http://192.168.0.28:82');
-	var timeout;
-	var chattingNo='${chatting.chattingNo}';
-	var manId="${chatting.manId}";
-	var womanId="${chatting.womanId}";
-	var chatting={"chattingNo":chattingNo,"manId":manId,"womanId":womanId};
-	// on connection to server, ask for user's name with an anonymous callback
-	socket.on('connect', function(){
-		// call the server-side function 'adduser' and send one parameter (value of prompt)
+var socket = io.connect('http://192.168.0.28:82');
+var timeout;
+var chattingNo='${chatting.chattingNo}';
+var manId="${chatting.manId}";
+var womanId="${chatting.womanId}";
+var chatting={"chattingNo":chattingNo,"manId":manId,"womanId":womanId};
+// on connection to server, ask for user's name with an anonymous callback
+socket.on('connect', function(){
+	// call the server-side function 'adduser' and send one parameter (value of prompt)
+	
+	socket.emit('adduser', "${me.userId}");
+	socket.emit('addroom',chatting);
+});
+// listener, whenever the server emits 'updatechat', this updates the chat body
+socket.on('updatechat', function (username, data1) {
+	
+	if (username!='${me.userId}') {
+		////번역//////////////////////////////////////
+		var lang=$('select').val();
+		var data2={"message":data1,"lang":lang};
+		var transText='';
 		
-		socket.emit('adduser', "${me.userId}");
-		socket.emit('addroom',chatting);
-	});
-	// listener, whenever the server emits 'updatechat', this updates the chat body
-	socket.on('updatechat', function (username, data1) {
-		
-		if (username!='${me.userId}') {
-			////번역//////////////////////////////////////
-			var lang=$('select').val();
-			var data2={"message":data1,"lang":lang};
-			var transText='';
-			
-		   /////////////////////
-			//alert(message);
+	   /////////////////////
+		//alert(message);
+		//alert(lang);
+		if (username!="SERVER : ") {
 			//alert(lang);
-			if (username!="SERVER : ") {
-				//alert(lang);
+			
+			var message=data1;
+			//alert(message);
+			var trans=$.ajax({	
 				
-				var message=data1;
-				//alert(message);
-				var trans=$.ajax({	
-					
-					url : "/chatting/json/translate" ,
-					type : "POST" ,
-					dataType : "text" ,
-					headers : {
-						"Accept" : "application/json",
-						"Content-Type" : "application/json"
-					},
-					//data : JSON.stringify(data2),
-					data : JSON.stringify(data2),
-					success : function(Data) {
-											},//success
-				      error: function () {
-				    	  //alert("error");
-				      },
-				      complete: function () {
-				        // Handle the complete event
-				        //alert("complete");
-				      }
-					
-				});//ajax
-				//return false;
-				trans.done(function(Data) {
-				////////////////////////////번역끝////////
-					//Debug...
-					//alert("다른 사람 message");
-					
-					$('#conversation').append('<div>'+username + '<br> ' + message +'<br>'+Data+'</div><br>');
-					
+				url : "/chatting/json/translate" ,
+				type : "POST" ,
+				dataType : "text" ,
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				//data : JSON.stringify(data2),
+				data : JSON.stringify(data2),
+				success : function(Data) {
+										},//success
+			      error: function () {
+			    	  //alert("error");
+			      },
+			      complete: function () {
+			        // Handle the complete event
+			        //alert("complete");
+			      }
+				
+			});//ajax
+			//return false;
+			trans.done(function(Data) {
+			////////////////////////////번역끝////////
+				//Debug...
+				//alert("다른 사람 message");
+				
+				$('#conversation').append('<div>'+username + '<br> ' + message +'<br>'+Data+'</div><br>');
+				
 
-				})
-			}else{
-				//alert("server message");
-				$('#conversation').append('<div>'+username + '<br> ' + data1 +'<br>');
-			
-			}
-			 
-			
-			
-			
-		
-			
-	////////////////////////////ajax끝///////
-			
-			
-			
+			})
 		}else{
-			//alert("내 message");
-			$('#conversation').append('<div style = "text-align:right;">'+username + '<br> ' + data1 + '</div><br>');
-			
+			//alert("server message");
+			$('#conversation').append('<div>'+username + '<br> ' + data1 +'<br>');
+		
 		}
-		
-
-		$('#conversation').scrollTop($('#conversation').height());
-
-		
-		
-	});
-	// listener, whenever the server emits 'updaterooms', this updates the room the client is in
-	socket.on('updaterooms', function(rooms, current_room) {
-		$('#rooms').empty();
-		
-			
-		
-		$.each(rooms, function(key, value) {
-			if(value == current_room){
-				$('#rooms').append('<div>' + value + '</div>');
-				
-			}
-			else {
-				$('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
-				
-			}
-		});
-	});
-	function switchRoom(room){
-		socket.emit('switchRoom', room);
 		 
-		//$('#conversation').remove();
+		
+		
+		
+	
+		
+////////////////////////////ajax끝///////
+		
+		
+		
+	}else{
+		//alert("내 message");
+		$('#conversation').append('<div style = "text-align:right;">'+username + '<br> ' + data1 + '</div><br>');
 		
 	}
 	
+
+	$('#conversation').scrollTop($('#conversation').height());
+
 	
-	// on load of page
-	$(function(){
-		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		// when the client clicks SEND
-		$('#datasend').click( function() {
-			var message = $('#data').val();
-			var userId="${me.userId}";
-			
-			
-	   
 	
-			if (message==""||message==null) {
-									
-			}else{
-				socket.emit('sendchat', message);
-			}
-			$('#data').val('');
-			// tell server to execute 'sendchat' and send along one parameter
-			//보낼 메세지
-			//alert("보낼 메세지 : "+message);
-			
-		});
-	});
-	$(function(){
-		// when the client hits ENTER on their keyboard
-		$('#data').keypress(function(e) {
-			if(e.which == 13) {
-				$(this).blur();
-				$('#datasend').focus().click();
-			}
-		});
+});
+// listener, whenever the server emits 'updaterooms', this updates the room the client is in
+socket.on('updaterooms', function(rooms, current_room) {
+	$('#rooms').empty();
+	
 		
+	
+	$.each(rooms, function(key, value) {
+		if(value == current_room){
+			$('#rooms').append('<div>' + value + '</div>');
+			
+		}
+		else {
+			$('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
+			
+		}
+	});
+});
+function switchRoom(room){
+	socket.emit('switchRoom', room);
+	 
+	//$('#conversation').remove();
+	
+}
+
+
+// on load of page
+$(function(){
+	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	// when the client clicks SEND
+	$('#datasend').click( function() {
+		var message = $('#data').val();
+		var userId="${me.userId}";
+		
+		
+   
+
+		if (message==""||message==null) {
+								
+		}else{
+			socket.emit('sendchat', message);
+		}
+		$('#data').val('');
+		// tell server to execute 'sendchat' and send along one parameter
+		//보낼 메세지
+		//alert("보낼 메세지 : "+message);
+		
+	});
+});
+$(function(){
+	// when the client hits ENTER on their keyboard
+	$('#data').keypress(function(e) {
+		if(e.which == 13) {
+			$(this).blur();
+			$('#datasend').focus().click();
+		}
+	});
+	
 /////////////////////////////////////////////
 ///////////////////////////////////////////////
-	});
-	
-	window.addEventListener('beforeunload', function (e) {
-		location="/chatting/endChatting";
-		
-		});
-  /////////////////////////////////
-  /////////게이지
-		$(function() {
-		    var input = $('.input'),
-		        bar = $('.bar'),
-		        bw =
-		        bar.width(),
-		        percent = bar.find('.percent'),
-		        circle =
-		        bar.find('.circle'),
-		        ps = percent.find('span'),
-		        cs =
-		        circle.find('span'),
-		        name = 'rotate';
-		    var ti = 0;
-		    
-		   $('.input').click( function(e) {
-		    	
-		    	console.log(ti);
-		    	
-		        if (true) {
-		        	
-		        	ti=ti+5; 
-		            var val = ti;
-		            console.log("안쪽"+ti);
-		            if (val >= 0 && val <=
-		                100) {
-		                var w = 100 - val,
-		                    pw = (bw * w) / 100,
-		                    pa = {
-		                        width: w + '%'
-		                    },
-		                    cw =
-		                    (bw - pw) / 2,
-		                    ca = {
-		                        left: cw
-		                    }
-		                ps.animate(pa);
-		                cs.text(val + '%');
-		                circle.animate(ca, function() {
-		                    circle.removeClass(name)
-		                }).addClass(name);
-		            } else {
-		                alert('range: 0 - 100');
-		                ti.val('');
-		            }
-		        }
-		    });
-		});
-	//////////////////////////////////////////
-</script>
- </head> 
- <body> 
- 
+});
 
-<div id='chat_box'></div>
-<div id="conversation" style="overflow: auto;"></div>
+window.addEventListener('beforeunload', function (e) {
+	location="/chatting/endChatting";
+	
+	});
+/////////////////////////////////
+/////////게이지
+	$(function() {
+	    var input = $('.input'),
+	        bar = $('.bar'),
+	        bw =
+	        bar.width(),
+	        percent = bar.find('.percent'),
+	        circle =
+	        bar.find('.circle'),
+	        ps = percent.find('span'),
+	        cs =
+	        circle.find('span'),
+	        name = 'rotate';
+	    var ti = 0;
+	    
+	   $('.input').click( function(e) {
+	    	
+	    	console.log(ti);
+	    	
+	        if (true) {
+	        	
+	        	ti=ti+5; 
+	            var val = ti;
+	            console.log("안쪽"+ti);
+	            if (val >= 0 && val <=
+	                100) {
+	                var w = 100 - val,
+	                    pw = (bw * w) / 100,
+	                    pa = {
+	                        width: w + '%'
+	                    },
+	                    cw =
+	                    (bw - pw) / 2,
+	                    ca = {
+	                        left: cw
+	                    }
+	                ps.animate(pa);
+	                cs.text(val + '%');
+	                circle.animate(ca, function() {
+	                    circle.removeClass(name)
+	                }).addClass(name);
+	            } else {
+	                alert('range: 0 - 100');
+	                ti.val('');
+	            }
+	        }
+	    });
+	});
+//////////////////////////////////////////
+</script>
+</head>
+<body>
+<main class='container'>
+
+	<div class='list'>
+		<ul>
+			<li>이심전심 결과</li>
+			<li><a href='#user_1'>상대방</a></li>
+			<br><br><br><br>
+			<li><a href='#user_2'>나</a></li>
+			<br><br><br><br>
+		</ul>
+		<ul>
+			<li>관심사</li>
+			<li><a href='#fa'>상대방</a></li>
+			<br><br>
+			<div class=" text-center"><a class="btn btn-default" href="#" role="button">확인</a></div>
+			<br><br>
+			
+		</ul>
+		<ul>
+			<li>기타</li>
+			<br><br>&nbsp;
+			<img alt="" src="/resources/images/chatting/voice.png" style="width: 40px; height: 40px;">&nbsp;&nbsp; 
+			<img alt="" src="/resources/images/chatting/image.png" style="width: 40px; height: 40px;">&nbsp; &nbsp;
+			<img alt="" src="/resources/images/chatting/profile.png" style="width: 40px; height: 40px;">&nbsp;
+			<br><br>
+			
+		</ul>
+	</div>
+	
+
+	<!-- User Number 1 -->
+	<div class='chat-box' style="overflow: auto;">
+		<ul id='user_1'>
+			<li><div class='title'>2019.01.11</div></li>
+			<li>
+				<div class='me'>
+					<div>
+						<div class='name'>나</div>
+						<div class='img'><!-- <img alt="" src="/resources/images/chatting/loading.gif"> --></div>
+						<div class='text'>
+							<div>
+								Hello
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class='you'>
+				<div>
+					<div class='img'></div>
+					<div class='name'>상대방</div>
+					<div class='text'>
+						<div>
+							Get lost, Akshay.
+						</div>
+					</div>
+				</div>
+				</div>
+			</li>
+		</ul>
+		
+		
+		
+	</div>
+	
 		<div class="form-group">
 	  		<label for="lang" class="col-sm-offset-1 col-sm-1 col-md-2 control-label">언어</label>
 			
@@ -358,7 +521,7 @@
 			</div>
 		</div>
 		
-		  <div class="bar">
+		 <div class="bar">
 			    <div class="percent">
 			        <span style="width: 100%;"></span>
 			    </div>
@@ -371,11 +534,7 @@
 			        <small>Please change a value and hit the enter key.</small>
 			    </div>
 			</div>
-			
-		
+	
+</main>
 
-
-
- </body> 
- </html>
-
+</body></html>

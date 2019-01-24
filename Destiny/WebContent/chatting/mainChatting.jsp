@@ -232,7 +232,7 @@
 			    <img src="https://storage.googleapis.com/neris/public/images/system/home/home-16personalities.svg" style="width: 200px; height: 200px;" data-image1='${product.prodNo}' data-image2='${product.proTranCode}'>
 			      <div class="caption">
 			        <h3>이상형채팅</h3>
-			        <p class='text-primary'>성격유형검사 결과와 이상형유형을 통해 이성과 랜덤채팅 기능을 제공합니다.</p>
+			        <p class='text-primary'>성격유형을 이용한 랜덤매칭채팅 기능을 제공합니다.</p>
 			        <p  >
 			        	<!-- <a href='getPerfectChatting.jsp' class="btn btn-primary" role="button" id="perfect">참여</a> --> 
 			        	<a href='#' class="btn btn-primary" role="button" id="perfect">참여</a>
