@@ -142,6 +142,14 @@
 	<jsp:include page="/layout/toolBar.jsp" />
   	<!-- ToolBar End /////////////////////////////////////-->
   
+  <!--  화면구성 div Start /////////////////////////////////////-->
+	<div class="container">
+	
+		<h1 class="bg-primary text-center">마이페이지</h1>
+		
+		<!-- form Start /////////////////////////////////////-->
+		<form class="form-horizontal">
+  
 		<!--  <div class="form-group">
 		    <label for="userId" class="col-sm-4 control-label"></label>
 		    <div class="col-sm-4">
@@ -151,30 +159,40 @@
 		</div> -->	
 		
 		<br/>
-		<div class="form-group">
-		    <label  class="col-sm-4 control-label"></label>
-		    <div class="col-sm-4">
-		      <button id="typeButton" type="button">성격유형</button>
+		<div class="form-group" >
+		    <label  class="col-sm-4 control-label">성격유형 선택하기</label><br/>
+		    <div class="col-sm-4"   >
+		      <button id="typeButton"  type="button"><img src="/resources/images/layout/mbti.jpg" width="300" height="300" /></button>
 		    </div>
 		</div>	
 		
-		<br/>
+		
 		<div class="form-group">
-		    <label  class="col-sm-4 control-label"></label>
+		    <label  class="col-sm-4 control-label">회원리스트</label>
 		    <div class="col-sm-4">
-		      <button id="listButton" type="button">회원리스트</button>
+		      <button id="listButton" type="button"><img src="/resources/images/layout/users.png" width="300" height="300" /></button>
 		    </div>
 		</div>	
 		
-		<br/>
+		
 		<div class="form-group">
-		    <label  class="col-sm-4 control-label"></label>
+		    <label  class="col-sm-4 control-label">쪽지</label>
 		    <div class="col-sm-4">
-		      <button id="letterList" type="button">쪽지</button>
+		      <button id="letterList" type="button"><img src="/resources/images/layout/letter.png" width="300" height="300" /></button>
+		    </div>
+		</div>	
+
+		
+		<div class="form-group">
+		    <label  class="col-sm-4 control-label">활동관리</label>
+		    <div class="col-sm-4">
+		      <button id="actMainButton" type="button"><img src="/resources/images/layout/act.jpg" width="300" height="300" /></button>
 		    </div>
 		</div>	
 		
-		<br/>
+		
+		
+		
 		<div class="form-group">
 		    <label  class="col-sm-4 control-label"></label>
 		    <div class="col-sm-4">
@@ -182,22 +200,15 @@
 		    </div>
 		</div>	
 		
-		<br/>
-		<div class="form-group">
-		    <label  class="col-sm-4 control-label"></label>
-		    <div class="col-sm-4">
-		      <button id="actMainButton" type="button">활동관리</button>
-		    </div>
-		</div>	
-		
-		<br/>
-		
 		<div class="form-group">
 		    <label  class="col-sm-4 control-label"></label>
 		    <div class="col-sm-4">
 		      <button id="pushButton" type="button">푸쉬 보넹!</button>
 		    </div>
 		</div>	
+		
+		</form>
+		</div>
 		
 	</body>
 </html>

@@ -71,8 +71,17 @@ public class ActServiceImpl implements ActService {
 	}
 	
 	@Override
-	public List<Meeting> getMeetingAct(int meetingNo) throws Exception {
-		return actDao.getMeetingAct(meetingNo);
+	public Map<String, Object> getMeetingAct(Search search, int meetingNo) throws Exception {
+		List<Meeting> list = actDao.getMeetingAct(search, meetingNo);
+		System.out.println("ServiceImpl ¿¡¼­ÀÇ list : " + list);
+		
+		int getMeetingActCount = actDao.getMeetingActCount(meetingNo);
+		System.out.println("getMeetingActCount : " + getMeetingActCount);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("getMeetingActCount", getMeetingActCount);
+		return map;
 	}
 	
 	@Override

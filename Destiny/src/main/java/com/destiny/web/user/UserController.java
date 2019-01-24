@@ -444,6 +444,55 @@ public class UserController {
 		return modelAndView;
 	}
 	
+	@RequestMapping(value="getUserByNickName/{nickName}", method=RequestMethod.GET)
+	public ModelAndView getUserByNickName(@PathVariable("nickName") String nickName) throws Exception {
+		
+		System.out.println("/user/getUserByNickName");
+		
+		User user = userService.getUserByNickName(nickName);
+		
+		//프로필 사진
+		user.setProfile(user.getProfile().replace("[", ""));
+		user.setProfile(user.getProfile().replace("]", ""));
+		String[] filelist = user.getProfile().split(", ");
+		
+		//관심사 가져오기
+		int[] interestNo = new int[3];
+		interestNo[0] = user.getFirstInterest();
+		interestNo[1] = user.getSecondInterest();
+		interestNo[2] = user.getThirdInterest();
+		
+		List<String> interestList = userService.getInterestByUser(interestNo);
+		
+		//성격유형 및 이미지 파일 가져오기
+		int[] typeNo = new int[4];
+		typeNo[0] = user.getMyType();
+		typeNo[1] = user.getFirstType();
+		typeNo[2] = user.getSecondType();
+		typeNo[3] = user.getThirdType();
+		
+		Map<String, Object> typeMap = userService.getTypeByUser(typeNo);
+		
+		String myTypeFile = (String) typeMap.get("myType") + ".JPG";
+		List<String> typeFileList = new ArrayList<String>();
+		typeFileList.add((String) typeMap.get("firstType") + ".JPG");
+		typeFileList.add((String) typeMap.get("secondType") + ".JPG");
+		typeFileList.add((String) typeMap.get("thirdType") + ".JPG");
+		
+		Map<String, Object> typeFileMap = new HashMap<String, Object>();
+		typeFileMap.put("myTpyeFile", myTypeFile);
+		typeFileMap.put("typeFileList", typeFileList);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userInfo/getUser.jsp");
+		modelAndView.addObject("user", user);
+		modelAndView.addObject("filelist", filelist);
+		modelAndView.addObject("interestList", interestList);
+		modelAndView.addObject("typeMap", typeMap);
+		modelAndView.addObject("typeFileMap", typeFileMap);
+		return modelAndView;
+	}
+	
 	@RequestMapping(value="updateUser/{userId}", method=RequestMethod.GET)
 	public ModelAndView updateUser(@PathVariable String userId) throws Exception{
 		

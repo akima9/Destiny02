@@ -91,10 +91,17 @@
 	<jsp:include page="/layout/toolBar.jsp" />
   	<!-- ToolBar End /////////////////////////////////////-->
   		
+  		<div class="container">
+	
+		<h1 class="bg-primary text-center">활동관리</h1>
+		
+		<!-- form Start /////////////////////////////////////-->
+		<form class="form-horizontal">
+  		
   		<br/>
 		
 		<div class="form-group">
-		    <label for="userId" class="col-sm-4 control-label"></label>
+		    <label for="userId" class="col-sm-4 control-label">작성한 개시글 목록</label>
 		    <div class="col-sm-4">
 		      <button id="CommunityListButton" type="button">작성한 개시글 목록</button>
 		    </div>
@@ -103,7 +110,7 @@
 		<br/>
 		
 		<div class="form-group">
-		    <label for="userId" class="col-sm-4 control-label"></label>
+		    <label for="userId" class="col-sm-4 control-label">개설한 모임 목록</label>
 		    <div class="col-sm-4">
 		      <button id="openMeetingListButton" type="button">개설한 모임 목록</button>
 		    </div>
@@ -112,7 +119,7 @@
 		<br/>
 		
 		<div class="form-group">
-		    <label for="userId" class="col-sm-4 control-label"></label>
+		    <label for="userId" class="col-sm-4 control-label">가입한 모임 목록</label>
 		    <div class="col-sm-4">
 		      <button id="joinMeetingListButton" type="button">가입한 모임 목록</button>
 		    </div>
@@ -121,7 +128,7 @@
 		<br/>
 		
 		<div class="form-group">
-		    <label for="userId" class="col-sm-4 control-label"></label>
+		    <label for="userId" class="col-sm-4 control-label">작성한 댓글 목록</label>
 		    <div class="col-sm-4">
 		      <button id="writeCommentListButton" type="button">작성한 댓글 목록</button>
 		    </div>
@@ -130,7 +137,7 @@
 		<br/>
 		
 		<div class="form-group">
-		    <label for="userId" class="col-sm-4 control-label"></label>
+		    <label for="userId" class="col-sm-4 control-label">성사된 만남 목록</label>
 		    <div class="col-sm-4">
 		      <button id="contactListButton" type="button">성사된 만남 목록</button>
 		    </div>
@@ -138,5 +145,7 @@
 		
 		<br/>
 		
+		</form>
+		</div>
 	</body>
 </html>
