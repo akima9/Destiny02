@@ -166,6 +166,14 @@
 	 </delete>
 	 
 	 
+	 <select id="getMeetingAct" parameterType="int">
+	 	SELECT * from meeting_act
+	 	<where>
+	 		meeting_no = #{value}
+	 	</where>
+	 </select>
+	 
+	 
 	 	 <!-- SQL : SELECT LIST -->
 	<select  id="getMeetingListByApply"  parameterType="map"	resultMap="meetingSelectMap">
 	  	SELECT *

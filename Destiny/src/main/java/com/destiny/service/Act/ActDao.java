@@ -21,6 +21,8 @@ public interface ActDao {
 	
 	public void delectCrew(String userId) throws Exception;
 	
+	public List<Meeting> getMeetingAct(int meetingNo) throws Exception;
+	
 	public List<Meeting> getMeetingListByApply(Search search, String userId) throws Exception;
 	
 	public int getTotalCountByApply(String userId) throws Exception;

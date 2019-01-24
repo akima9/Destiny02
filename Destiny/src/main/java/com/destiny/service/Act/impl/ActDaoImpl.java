@@ -71,6 +71,12 @@ public class ActDaoImpl implements ActDao{
 	public void delectCrew(String userId) throws Exception {
 		sqlSession.delete("ActMapper.delectCrew", userId);
 	}
+	
+
+	@Override
+	public List<Meeting> getMeetingAct(int meetingNo) throws Exception {
+		return sqlSession.selectList("ActMapper.getMeetingAct", meetingNo);
+	}
 
 	@Override
 	public List<Meeting> getMeetingListByApply(Search search, String userId) throws Exception {

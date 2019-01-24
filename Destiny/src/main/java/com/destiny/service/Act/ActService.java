@@ -17,6 +17,8 @@ public interface ActService {
 	
 	public void delectCrew(String userId) throws Exception;
 	
+	public List<Meeting> getMeetingAct(int meetingNo) throws Exception;
+	
 	public Map<String, Object> getMeetingListByApply(Search search, String userId) throws Exception;
 	
 	public Map<String, Object> getCommunityListByWriter(Search search, String userId) throws Exception;

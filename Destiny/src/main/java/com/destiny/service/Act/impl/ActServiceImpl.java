@@ -69,6 +69,11 @@ public class ActServiceImpl implements ActService {
 	public void delectCrew(String userId) throws Exception {
 		actDao.delectCrew(userId);
 	}
+	
+	@Override
+	public List<Meeting> getMeetingAct(int meetingNo) throws Exception {
+		return actDao.getMeetingAct(meetingNo);
+	}
 
 	@Override
 	public Map<String, Object> getMeetingListByApply(Search search, String userId) throws Exception {
