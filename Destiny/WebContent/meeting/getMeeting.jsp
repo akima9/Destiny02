@@ -85,11 +85,12 @@
             margin-top: 10px;
         }
     </style>
-     
+    
+    
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
-	
+
 	    ////////////////* 데이트픽커 데이터 포맷 */////////
 		$( function() {
 	
@@ -439,32 +440,153 @@
 							}); 
 				});
 			});
+//=============강퇴 클릭 시 이벤트 처리==================================//		 
+		$( function() {
+			var meetingnickname = ""; 
+			$("a.thisName").click(function () {
+				var indext = $(".thisName").index(this);
+				meetingnickname = $( ".thisName:eq("+indext+")" ).data("param");
+			});
+				$("a[href='#' ]:contains('강퇴하기')").click(function () {
+						var masterNick = "${crewList['0'].crewNickName}";
+						console.log(meetingnickname);
+						console.log(masterNick);
+						
+					if(meetingnickname==masterNick){
+						alert("자기자신을 선택하셨습니다\n탈퇴하시겠습니까?");
+					}else{
+						$.ajax( 
+								 {
+										url : "/meetingRest/getCrewrole",
+										method : "post" ,
+										dataType : "text" ,
+										data : JSON.stringify({
+											meetingNo : "${meeting.meetingNo}" ,
+											meetingMasterId : "${sessionScope.me.userId}", 
+											
+										}),
+										headers : {
+											"Accept" : "application/json",
+											"Content-Type" : "application/json"
+										},
+										success : function(JSONData , status) {
+											
+											if(JSONData=='MST'){
+												if (confirm(meetingnickname+"님을 강퇴하시겠습니까?") == true){    //확인
+													$.ajax( 
+															 {
+																	url : "/meetingRest/kickOut",
+																	method : "post" ,
+																	dataType : "json" ,
+																	data : JSON.stringify({
+																		meetingNo : "${meeting.meetingNo}" ,
+																		crewNickName : meetingnickname,
+																		crewCondition : "OUT",
+																		meetingActCount : "${meetingAct.meetingActCount}",
+																		
+																	}),
+																	headers : {
+																		"Accept" : "application/json",
+																		"Content-Type" : "application/json"
+																	},
+																	success : function(JSONData , status) {
+																		
+																		if(JSONData==2){
+																			alert(meetingnickname+" 님이 강퇴되었습니다.");
+																		}
+																	}
+															}); 
+												 }else{   //취소
+												     return;
+												 }
+											}else {
+												alert("모임장만 가능합니다.");
+											}
+										}
+								}); 
+					}
+					 
+				});
+			});
+//=============위임 클릭 시 모임장인지 확인==================================//		 
+		$( function() {
+			var meetingnickname = ""; 
+			$("a.thisName").click(function () {
+				var indext = $(".thisName").index(this);
+				meetingnickname = $( ".thisName:eq("+indext+")" ).data("param");
+			});
+				$("a[href='#' ]:contains('위임하기')").click(function () {
+						var masterNick = "${crewList['0'].crewNickName}";
+						console.log(meetingnickname);
+						console.log(masterNick);
+						
+					if(meetingnickname==masterNick){
+						alert("자기자신을 선택하셨습니다\n다른사람을 선택해주세요");
+					}else{
+						$.ajax( 
+								 {
+										url : "/meetingRest/getCrewrole",
+										method : "post" ,
+										dataType : "text" ,
+										data : JSON.stringify({
+											meetingNo : "${meeting.meetingNo}" ,
+											meetingMasterId : "${sessionScope.me.userId}", 
+											
+										}),
+										headers : {
+											"Accept" : "application/json",
+											"Content-Type" : "application/json"
+										},
+										success : function(JSONData , status) {
+											
+											if(JSONData=='MST'){
+												if (confirm(meetingnickname+"님에게 모임장을 위임 하시겠습니까?") == true){    //확인
+													$.ajax( 
+															 {
+																	url : "/meetingRest/passto",
+																	method : "post" ,
+																	dataType : "json" ,
+																	data : JSON.stringify({
+																		meetingNo : "${meeting.meetingNo}" ,
+																		crewNickName : masterNick, /* 모임장 아이디 */
+																		role : "MST",
+																		targetId : meetingnickname, /* 타겟 아이디 */
+																		
+																	}),
+																	headers : {
+																		"Accept" : "application/json",
+																		"Content-Type" : "application/json"
+																	},
+																	success : function(JSONData , status) {
+																		
+																		if(JSONData==2){
+																			alert(meetingnickname+" 님이 모임장이되었습니다.");
+																		}
+																	}
+															}); 
+												 }else{   //취소
+												     return;
+												 }
+											}else {
+												alert("모임장만 가능합니다.");
+											}
+										}
+								}); 
+					}
+					 
+				});
+			});
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////			
 		 $( function() {
 				$("#pushCancle").click(function () {
 					$("#dialog").toggle();
 				});
 			});
-		 //////////////////* 가입하기 눌렀을때 로그인 확인 이벤트 처리  *////////////////
-		 $( function() {
-				$("button:contains('가입하기')").click(function () {
-					if(${empty sessionScope.me}){
-						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
-							$("#my-dialog,#dialog-background").toggle();
-							//self.location="/user/login";
-						 }else{   //취소
 
-						     return;
-
-						 }
-					}else{
-						$("#dialog2").toggle();
-					}
-				});
-			});
-		 /* 참여하기 눌렀을때 이벤트 처리부분 */
+///////////////////////////////* 참여하기 눌렀을때 이벤트 처리부분 *///////////////////
 		 $( function() {
 				$("button:contains('참여하기')").click(function () {
-					if(${empty sessionScope.me}){
+					if('${empty sessionScope.me}'=='true'){
 						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
 							$("#my-dialog,#dialog-background").toggle();
 							//self.location="/user/login";
@@ -511,11 +633,78 @@
 					
 				});
 			});
+///////////////////////////* 가입하기 눌렀을때 로그인 확인 이벤트 처리  *////////////////
+		 $( function() {
+				$("button:contains('가입하기')").click(function () {
+					if('${empty sessionScope.me}'=='true'){
+						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+							$("#my-dialog,#dialog-background").toggle();
+							//self.location="/user/login";
+						 }else{   //취소
+
+						     return;
+
+						 }
+					}else{
+						$("#dialog2").toggle();
+					}
+				});
+			});
+////////////////////* 탈퇴하기 눌렀을때 이벤트 처리부분 *////////////////////////////////////////
+		 $( function() {
+				$("button:contains('탈퇴하기')").click(function () {
+					if('${empty sessionScope.me}'=='true'){
+						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+							$("#my-dialog,#dialog-background").toggle();
+							//self.location="/user/login";
+						 }else{   //취소
+						     return;
+						 }
+					}else{
+						
+						$.ajax( 
+						 {
+								url : "/meetingRest/dropMeeting",
+								method : "post" ,
+								dataType : "json" ,
+								data : JSON.stringify({
+									meetingNo : "${meeting.meetingNo}" ,
+									meetingMasterId : "${sessionScope.me.userId}",
+									meetingActCount : "${meetingAct.meetingActCount}",
+									
+								}),
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(JSONData , status) {
+									if(JSONData==5018){
+										if (confirm("모임원이 아니십니다.") == true){    //확인
+										 }else{   //취소
+										     return;
+										 }
+									}else{
+										if (confirm("${meeting.meetingName} 에서 \n탈퇴하였습니다.") == true){    //확인
+											self.location="/meeting/getMeetingList.jsp";
+										 }else{   //취소
+										     return;
+										 }
+										
+										
+									}
+								}
+						}); 
+						
+					}
+					
+				});
+			});
 		 
-		 /* 참여자목록 눌렀을때 이벤트 처리부분 */
+		 
+/////////////////* 참여자목록 눌렀을때 이벤트 처리부분 */
 		 $( function() {
 				$("button:contains('참여자목록')").click(function () {
-					if('${empty sessionScope.me}'){
+					if('${empty sessionScope.me}'=='true'){
 						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
 							$("#my-dialog,#dialog-background").toggle();
 							//self.location="/user/login";
@@ -576,13 +765,13 @@
 					}	 
 				});
 			});
-		/*  //가입하기에서 취소 눌렀을때 이벤트 처리 //*/
+/////////////////*  //가입하기에서 취소 눌렀을때 이벤트 처리 //*/
 		 $( function() {
 				$("#pushCancle2").click(function () {
 					$("#dialog2").toggle();
 				});
 			});
-		/*///////참여자목록에서 확인 눌렀을때 //////////////*/
+//////////////*///////참여자목록에서 확인 눌렀을때 //////////////*/
 		 $( function() {
 				$("button.btn.btn-primary:contains('확&nbsp;인')").click(function () {
 					alert("dd");
@@ -661,9 +850,11 @@
 	
 		<div class="page-header">
 	       <h3 class=" text-info">getMeeting.jsp</h3>
-	       <a id="update-dialog">수정하기</a>
+	       <button id="update-dialog">수정하기</button>
 	       <button type="button" id="btn-delete-dialog">삭제</button>
-	       <button type="button" id="complain">신고</button>
+	       <button type="button" id="btn-complain">신고</button>
+	       <button type="button" id="btn-takeOver">탈퇴하기</button>
+	       <button type="button" id="btn-takeOver">승계</button>
 	    </div>
 	    <!-- 모달창 디자인 부분 -->
         <div id="dialog">
@@ -821,7 +1012,7 @@
 		</div>
 	</div>
 	
-	<div class="container"> <!-- 가장큰 틀 -->
+	<div class="container" > <!-- 가장큰 틀 -->
 		<div class="row">
 		
 		  <div class="col-md-12">
@@ -853,6 +1044,7 @@
 		${meetingAct.meetingDues}<br/>
 		<button>참여하기</button>
 		<button>참여자목록</button>
+		
 		<hr/>
 		<button>가입하기</button>
 		<!-- 모달창 디자인 부분 -->
@@ -887,16 +1079,44 @@
 		<hr/>
 		<hr/>
 		<div >
-			모임멤버${crewCount}명
-			<input type="checkbox">로그인된 멤버만 보기<br/>
-			<ul>
-			<c:forEach var="crew" items="${crewList}">
-		 		<img class="first-slide" src="/resources/images/userprofile/${crew.masterProfileImg}" width="100px" height="100px"> ${crew.crewNickName}
-			 		<c:if test="${crew.role=='MST' }">모임장</c:if>
-		 		<br/>
-			</c:forEach>
-			
-			</ul>
+			<table>
+				
+				<tr>
+					<td>
+					모임멤버${crewCount}명
+					<input type="checkbox">로그인된 멤버만 보기<br/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+					
+					<c:forEach var="crew" items="${crewList}">
+						
+					 		<li class="dropdown">
+					 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" width="100px" height="100px">
+								<a href="#" class="dropdown-toggle thisName" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+									<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
+									<span class="caret"></span>
+								</a>
+								<c:if test="${crew.role=='MST' }">모임장</c:if>
+								<ul class="dropdown-menu">
+									<c:if test="${sessionScope.me.nickName eq crewList['0'].crewNickName }">
+										<li><a href="#">강퇴하기</a></li>
+										<li><a href="#">위임하기</a></li>
+									</c:if>
+										<li><a href="#">쪽지보내기</a></li>
+								</ul>
+							</li>
+						
+					
+				 		<%-- <a id="masterNick" class="thisName" data-param="${crew.crewNickName}" data-toggle="dropdown-menu">${crew.crewNickName}</a>
+					 		<c:if test="${crew.role=='MST' }">모임장</c:if>
+				 		<br/> --%>
+					</c:forEach>
+					</td>
+				</tr>
+			</table>
 		</div>
 		<div id="dialog3">
 		<div class="actCrewList">
@@ -906,8 +1126,6 @@
 		</div>
 		</div>
 		<hr/>
-		
-		
 		
 		<!-- <div id="map" style="width:800px;height:400px;"></div>
 		<script>
