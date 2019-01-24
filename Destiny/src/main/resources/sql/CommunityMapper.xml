@@ -159,42 +159,41 @@
 											FROM community comu
 											WHERE  category = 'RES' and community_view_condition = 'DEF'
 											
-											<!-- pro.prod_no = tra.prod_no(+)
 											<if test="searchCondition != null">
 												<if test="searchCondition == 0 and searchKeyword !='' ">
-									 				and pro.prod_no = #{searchKeyword}
+									 				and comu.community_title like '%'||#{searchKeyword}||'%' 
 												</if>
 												<if test="searchCondition == 1 and searchKeyword !='' ">
-									 				and pro.prod_name like '%'||#{searchKeyword}||'%'
-												</if>
-												<if test="searchCondition == 2 and searchKeyword !='' ">
-									 				and pro.price = #{searchKeyword}
+									 				and comu.community_writer_nick_name like '%'||#{searchKeyword}||'%' 
 												</if>
 											</if>
-											<if test="tranCondition != null and tranCondition != '' ">
-												<if test="tranCondition == 0">
-													and tra.tran_status_code = 1
-												</if>
-												<if test="tranCondition == 1">
-													and tra.tran_status_code = 2
-												</if>
-											</if>-->
-											<if test="viewSort == 1">
-												ORDER BY comu.community_views desc ) inner_table
+											
+											<choose>
+												<when test="viewSort == 1">
+														ORDER BY comu.community_views desc 
+												</when>
+											</choose>
+											<choose>
+												<when test="likeSort == 1">
+														ORDER BY comu.community_like desc 
+												</when>
+											</choose>
+											<choose>
+												<when test="viewSort != 1 and likeSort != 1 or noSort == 1">
+														ORDER BY comu.community_no desc  
+												</when>
+											</choose>
+											
+											<!-- <if test="viewSort == 1">
+												ORDER BY comu.community_views desc 
 											</if>
 											<if test="likeSort == 1">
-												ORDER BY comu.community_like desc ) inner_table
+												ORDER BY comu.community_like desc 
 											</if>
-											<!--<if test="priceCondition == 3">
-												ORDER BY pro.prod_no desc ) inner_table
-											</if>
-											<if test="priceCondition != 1 and priceCondition != 2 and priceCondition != 3">
-												ORDER BY pro.prod_no desc ) inner_table
-											</if> -->
 											<if test="viewSort != 1 and likeSort != 1 or noSort == 1">
-												ORDER BY comu.community_no desc ) inner_table
-											</if>
-						WHERE ROWNUM &lt;= #{endRowNum} )
+												ORDER BY comu.community_no desc 
+											</if> -->
+						) inner_table WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 	 	<!--  위 두번째 subQuery 의  
@@ -214,31 +213,41 @@
 	  	FROM(	SELECT comu.community_no, comu.community_writer_id, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition
 						FROM community comu
 						WHERE  category = 'RES' and community_view_condition = 'DEF'
-						<!-- <if test="searchCondition != null">
+						<if test="searchCondition != null">
 							<if test="searchCondition == 0 and searchKeyword !='' ">
-					 			and pro.prod_no = #{searchKeyword}
+					 			and comu.community_title like '%'||#{searchKeyword}||'%'
 							</if>
 							<if test="searchCondition == 1 and searchKeyword !='' ">
-					 			and pro.prod_name like '%'||#{searchKeyword}||'%'
-							</if>
-							<if test="searchCondition == 2 and searchKeyword !='' ">
-				 				and pro.price = #{searchKeyword}
+					 			and comu.community_writer_nick_name like '%'||#{searchKeyword}||'%'
 							</if>
 						</if>
-						<if test="tranCondition != null and tranCondition != '' ">
-							<if test="tranCondition == 0">
-								and tra.tran_status_code = 1
-							</if>
-							<if test="tranCondition == 1">
-								and tra.tran_status_code = 2
-							</if>
+						
+						<choose>
+							<when test="viewSort == 1">
+									ORDER BY comu.community_views desc 
+							</when>
+						</choose>
+						<choose>
+							<when test="likeSort == 1">
+									ORDER BY comu.community_like desc 
+							</when>
+						</choose>
+						<choose>
+							<when test="viewSort != 1 and likeSort != 1 or noSort == 1">
+									ORDER BY comu.community_no desc  
+							</when>
+						</choose>
+						)countTable
+						
+						<!-- <if test="viewSort == 1">
+							ORDER BY comu.community_views desc ) countTable
 						</if>
-						<if test="priceCondition == 1">
-							ORDER BY pro.price desc
+						<if test="likeSort == 1">
+							ORDER BY comu.community_like desc ) countTable
 						</if>
-						<if test="priceCondition == 2">
-							ORDER BY pro.price asc
-						</if> --> ) countTable						
+						<if test="viewSort != 1 and likeSort != 1 or noSort == 1">
+							ORDER BY comu.community_no desc ) countTable
+						</if>	 -->					
 	 </select>
 	 
 </mapper>
