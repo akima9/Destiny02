@@ -20,8 +20,7 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
-
-
+<script src="https://unpkg.com/scrollreveal"></script>
 
 <script type="text/javascript">
 
@@ -35,6 +34,79 @@ function fncGetList(currentPage){
 }
 
 $(function() {
+	
+	/* 무한스크롤 : start */
+	var currentPage = 0;
+	
+	function fncNextList(){
+		console.log("funcNextList()실행!")
+		currentPage++;
+		console.log("currentPage : "+currentPage);
+		$.ajax({
+			url : "/info/json/listRestaurantInfo",
+			method : "post",
+			async : false,
+			dataType : "json",
+			data : JSON.stringify({
+				currentPage : currentPage
+			}),
+			headers : {
+				"Accept" : "application/json",
+				"Content-type" : "application/json"
+			},
+			success : function(JSON){
+				console.log("success까지 왔다!")
+				var list = "";
+				for ( var i in JSON.list) {
+					var community = JSON.list[i];
+					list += '<div class="col-sm-6 col-md-4">';
+					list += '<div class="thumbnail headline" data-param='+community.communityNo+'>';
+					list += '<img src="../resources/images/uploadImg/'+community.fileName+'" alt="대표이미지">';
+					list += '<div class="caption">';
+					list += '<h3 class="tumTitle">'+community.title+'</h3>';
+					list += '<p>'+community.writeDate+'</p>';
+					list += '<ul class="infoFirst">';
+					list += '<li>'+community.writerNickName+'</li>';
+					list += '<li><span>조회수</span> : '+community.views+'</li>';
+					list += '</ul>';
+					list += '<ul class="infoSecond">';
+					if(community.userGrade == 'NEW'){
+						list += '<li>신규회원</li>';	
+					}
+					if(community.userGrade == 'NOR'){
+						list += '<li>일반회원</li>';	
+					}
+					if(community.userGrade == 'VIP'){
+						list += '<li>우수회원</li>';	
+					}
+					if(community.userGrade == 'ADM'){
+						list += '<li>관리자</li>';	
+					}
+					list += '<li><span>공감수</span> : '+community.like+'</li>';
+					list += '</ul></div></div></div>';
+				}
+				console.log("list : "+list);
+				$(".rowList").html($(".rowList").html()+list);
+			}
+		});
+	}
+	
+	$(function(){
+		while ($(document).height()==$(window).height() && currentPage < $("input:hidden[name='maxPage']").val()) {
+			fncNextList();
+			ScrollReveal().reveal('.headline');
+		}
+	});
+	
+	$(window).scroll(function(){
+		if (currentPage < $("input:hidden[name='maxPage']").val()) {
+			if ($(window).scrollTop()==$(document).height()-$(window).height()) {
+				fncNextList();
+				ScrollReveal().reveal('.headline');
+			}
+		}
+	});
+	/* 무한스크롤 : end */
 	
 	/* 검색 버튼 : start */
 	$(".btn:contains('검색')").on("click", function(){
@@ -73,23 +145,41 @@ $(function() {
 	});
 	/* 글 제목 클릭 : end */
 	
-	/* 조회수 클릭 : start */
-	$("th:contains('조회')").on("click", function(){
-		self.location="/info/listRestaurantInfo?viewSort=1"
+	/* 썸네일 클릭 : start */
+	$(".thumbnail").on("click", function(){
+		if(userId == ""){
+			alert("로그인 후 이용 가능합니다.");
+			$("#my-dialog,#dialog-background").toggle();
+		}
+		else{
+			var communityNo = $(this).data("param")
+			self.location="/info/getRestaurantInfo?communityNo="+communityNo	
+		}
 	});
+	/* 썸네일 클릭 : end */
+	
+	/* 조회수 클릭 : start */
+	/* $("th:contains('조회')").on("click", function(){
+		self.location="/info/listRestaurantInfo?viewSort=1&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}"
+	}); */
 	/* 조회수 클릭 : end */
 	
 	/* 공감수 클릭 : start */
-	$("th:contains('공감')").on("click", function(){
-		self.location="/info/listRestaurantInfo?likeSort=1"
-	});
+	/* $("th:contains('공감')").on("click", function(){
+		self.location="/info/listRestaurantInfo?likeSort=1&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}"
+	}); */
 	/* 공감수 클릭 : end */
 	
 	/* 글번호 클릭 : start */
-	$("th:contains('글번호')").on("click", function(){
-		self.location="/info/listRestaurantInfo?noSort=1"
-	});
+	/* $("th:contains('글번호')").on("click", function(){
+		self.location="/info/listRestaurantInfo?noSort=1&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}"
+	}); */
 	/* 글번호 클릭 : end */
+	
+	$('.sort-control').change(function(){
+		var state = $('.sort-control option:selected').val();
+		self.location="/info/listRestaurantInfo?searchSortingOption="+state+"&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}"
+	});
 	
 });
 
@@ -170,6 +260,32 @@ $(function() {
 	.noSort{
 		cursor : pointer;
 	}
+	
+	.thumbnail{
+		cursor : pointer;
+		padding : 20px;
+	}
+	
+	.tumTitle{
+		text-align : center;
+	}
+	
+	.infoFirst, .infoSecond{
+		overflow : hidden;
+		padding-left : 0;
+	}
+	
+	.infoFirst li, .infoSecond li{
+		float : left;
+	}
+	
+	.infoFirst li:last-child, .infoSecond li:last-child{
+		float : right;
+	}
+	
+	.caption p{
+		text-align : center;
+	}
 </style>
 </head>
 
@@ -178,6 +294,8 @@ $(function() {
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolBar.jsp" />
   	<!-- ToolBar End /////////////////////////////////////-->
+  	
+  	
     
     <!-- 메인배경이미지 : start -->
 	<div class="topImg">
@@ -188,10 +306,6 @@ $(function() {
 	<div class="container">
 	
 		<div class="wrap">
-		
-		<input type="hidden" name="views" value="${ community.views }">
-		<input type="hidden" name="searchCondition" value="${ search.searchCondition }">
-		<input type="hidden" name="searchKeyword" value="${ search.searchKeyword }">
 		
 		<!-- 페이지 내부 네비게이션 경로 : start -->
 		<ul class="smallNavi">
@@ -219,9 +333,68 @@ $(function() {
 				<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				<input type="hidden" id="currentPage" name="currentPage" value="">
 			</div>
+			
 		</form>
+	
+		<input type="hidden" name="maxPage" value="${resultPage.maxPage }">
 		
-		<table class="table table-hover table-striped">
+		<div class="form-group">
+			<select class="sort-control" name="searchCondition" >
+				<option value="0"
+					${ !empty search.searchSortingOption && search.searchSortingOption=="0" ? "selected" : ""}>최신 게시물 순</option>
+				<option value="1"
+					${ !empty search.searchSortingOption && search.searchSortingOption=="1" ? "selected" : ""}>조회수 순</option>
+				<option value="2"
+					${ !empty search.searchSortingOption && search.searchSortingOption=="2" ? "selected" : ""}>공감수 순</option>
+				<option value="3"
+					${ !empty search.searchSortingOption && search.searchSortingOption=="3" ? "selected" : ""}>이전 게시물 순</option>
+			</select>
+		</div>
+		
+		<div class="form-group text-center">
+			<button type="button" class="btn btn-default btn-lg">글쓰기</button>
+		</div>
+		
+		<!-- 썸네일 리스트 : start -->
+		<%-- <div class="row">
+		<c:set var="i" value="0"/>
+			<c:forEach var="community" items="${list}">
+			<c:set var="i" value="${i+1}"/>
+			<div class="col-sm-6 col-md-4">
+				<div class="thumbnail" data-param="${ community.communityNo }">
+					<img src="../resources/images/uploadImg/${community.fileName}" alt="대표이미지">
+				    <div class="caption">
+				    	<h3 class="tumTitle">${community.title}</h3>
+				    	<p>${community.writeDate}</p>
+				    	<ul class="infoFirst">
+				    		<li>${community.writerNickName }</li>
+				    		<li><span>조회수</span> : ${community.views }</li>
+				    	</ul>
+				    	<ul class="infoSecond">
+				    		<c:if test="${community.userGrade == 'NEW'}">
+				    			<li>신규회원</li>
+				    		</c:if>
+				    		<c:if test="${community.userGrade == 'NOR'}">
+				    			<li>일반회원</li>
+				    		</c:if>
+				    		<c:if test="${community.userGrade == 'VIP'}">
+				    			<li>우수회원</li>
+				    		</c:if>
+				    		<c:if test="${community.userGrade == 'ADM'}">
+				    			<li>관리자</li>
+				    		</c:if>
+				    		<li><span>공감수</span> : ${community.like }</li>
+				    	</ul>
+				    </div>
+				</div>
+			</div>
+		</c:forEach>
+		</div> --%>
+		<div class="rowList"></div>
+		<!-- 썸네일 리스트 : end -->
+		
+		<!-- 테이블 리스트 : start -->
+		<%-- <table class="table table-hover table-striped">
 		
 			<thead>
 				<tr>
@@ -261,21 +434,15 @@ $(function() {
 				</c:forEach>
 			</tbody>
 		
-		</table>
-		
-		<div class="form-group text-center">
-			<button type="button" class="btn btn-default btn-lg">글쓰기</button>
-		</div>
-		
-		
-	
+		</table> --%>
+		<!-- 테이블 리스트 : end -->
 	</div>
 	
 	<!-- PageNavigation : start -->
-	<jsp:include page="../common/pageNavigator_new.jsp"/>
+	<%-- <jsp:include page="../common/pageNavigator_new.jsp"/> --%>
 	<!-- PageNavigation : end -->
 	
 	</div>
-	
+
 </body>
 </html>

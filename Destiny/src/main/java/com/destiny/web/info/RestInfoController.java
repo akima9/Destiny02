@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.destiny.common.Page;
+import com.destiny.common.Search;
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Community;
 import com.destiny.service.domain.LikeCount;
@@ -84,6 +87,27 @@ public class RestInfoController {
 		out.close();
 	}
 	/*profileUpload : end*/
+	
+	/*ListRestaurantInfo : start*/
+	@RequestMapping(value="/json/listRestaurantInfo", method=RequestMethod.POST)
+	public Map<String, Object> listRestaurantInfo(@RequestBody Search search) throws Exception{
+		System.out.println("RestInfoController / listRestaurantInfo : POST ½ÇÇà ===============");
+		
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		
+		search.setPageSize(pageSize);
+		
+		Map<String, Object> map = communityService.getCommunityList(search);
+		
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println("resultPage : "+resultPage);
+		System.out.println("map : "+map);
+		
+		return map;
+	}
+	/*ListRestaurantInfo : end*/
 	
 	/*likeRestaurantInfo : start*/
 	@RequestMapping(value="/json/likeRestaurantInfo/{communityNo}", method=RequestMethod.POST)

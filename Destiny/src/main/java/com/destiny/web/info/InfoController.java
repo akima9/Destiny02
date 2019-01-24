@@ -1,5 +1,8 @@
 package com.destiny.web.info;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.common.Page;
@@ -19,7 +24,9 @@ import com.destiny.common.Search;
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Community;
 import com.destiny.service.domain.LikeCount;
+import com.destiny.service.domain.Upload;
 import com.destiny.service.domain.User;
+import com.destiny.service.upload.UploadService;
 
 @Controller
 @RequestMapping("/info/*")
@@ -29,6 +36,10 @@ public class InfoController {
 	@Autowired
 	@Qualifier("communityServiceImpl")
 	private CommunityService communityService;
+	
+	@Autowired
+	@Qualifier("uploadServiceImpl")
+	private UploadService uploadService;
 	
 	///Constructor
 	public InfoController() {
@@ -57,6 +68,7 @@ public class InfoController {
 		
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("resultPage : "+resultPage);
+		System.out.println("map : "+map);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("list", map.get("list"));
@@ -79,8 +91,17 @@ public class InfoController {
 	
 	/*addRestaurantInfo : start*/
 	@RequestMapping(value="addRestaurantInfo", method=RequestMethod.POST)
-	public ModelAndView addRestaurantInfo(@ModelAttribute("community") Community community, HttpSession session) throws Exception{
+	public ModelAndView addRestaurantInfo(@ModelAttribute("community") Community community, HttpSession session, @RequestParam("uploadFile")MultipartFile fileName, MultipartHttpServletRequest mtfRequest, @ModelAttribute("upload")Upload upload) throws Exception{
 		System.out.println(":: InfoController/addRestaurantInfo/post : 실행");
+		
+		/*대표이미지 업로드 : start*/
+		String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\uploadImg\\";
+		String name = System.currentTimeMillis()+"."+fileName.getOriginalFilename().split("\\.")[1];
+		
+		File file = new File(path + name);
+
+		fileName.transferTo(file);
+		/*대표이미지 업로드 : end*/
 		
 		User user = (User)session.getAttribute("me"); 
 		String userId = user.getUserId();
@@ -103,6 +124,15 @@ public class InfoController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		communityService.addCommunity(community);
+		
+		System.out.println("community : "+community);
+		/*업로드 테이블 : start*/
+		upload.setCommunityNo(community.getCommunityNo());
+		upload.setFileName(name);
+		upload.setFileCode("IMG");
+		uploadService.addUload(upload);
+		System.out.println("upload : "+upload);
+		/*업로드 테이블 : end*/
 		modelAndView.setViewName("/community/addRestaurantInfoConfirm.jsp");
 		return modelAndView;
 	}

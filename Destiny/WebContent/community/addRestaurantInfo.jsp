@@ -187,12 +187,19 @@
 		
 		<div class="row">
 		
-			<form>
+			<form enctype="multipart/form-data">
 			
 				<div class="form-group">
 				
 					<label for="title">제목</label>
 					<input type="text" class="form-control" name="title" placeholder="제목을 입력해주세요.">
+					
+				</div>
+				
+				<div class="form-group">
+				
+					<label for="title">대표이미지</label>
+					<input type="file" name="uploadFile" class="form-control">
 					
 				</div>
 			

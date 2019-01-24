@@ -18,6 +18,7 @@ public class Community {
 	private int like;
 	private String importRank;
 	private String viewCondition;
+	private String fileName;
 	
 	
 	public int getCommunityNo() {
@@ -100,12 +101,20 @@ public class Community {
 	}
 	
 	
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 	@Override
 	public String toString() {
 		return "Community [communityNo=" + communityNo + ", writerId=" + writerId + ", meetingNo=" + meetingNo
 				+ ", category=" + category + ", userGrade=" + userGrade + ", title=" + title + ", writerNickName="
 				+ writerNickName + ", detail=" + detail + ", writeDate=" + writeDate + ", views=" + views + ", like="
-				+ like + ", importRank=" + importRank + ", viewCondition=" + viewCondition + "]";
+				+ like + ", importRank=" + importRank + ", viewCondition=" + viewCondition + ", fileName=" + fileName
+				+ "]";
 	}
+	
 
 }
