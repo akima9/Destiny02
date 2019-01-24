@@ -57,7 +57,7 @@
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "GET").attr("action" , "/act/getOpenMeetingList").submit();
+			$("form").attr("method" , "GET").attr("action" , "/act/getMeetingAct/${meetingNo}").submit();
 		}
 		
 		
@@ -70,22 +70,12 @@
 		 });
 		
 		
-		//============= userId 에 회원정보보기  Event  처리(Click) =============	
-		 $(function() {
 		
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "td:nth-child(2)" ).on("click" , function() {
-				 self.location ="/meeting/getMeeting?meetingNo="+$(this).data("param");
-			});
-						
-			//==> userId LINK Event End User 에게 보일수 있도록 
-			$( "td:nth-child(2)" ).css("color" , "red");
+		
+		
+		//============= userId 에 회원정보보기  Event  처리 (double Click)=============
+		 $(function() {
 			
-		});	
-		
-		
-	
-		 $(function() {
 			//==> userId LINK Event End User 에게 보일수 있도록 
 			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
 			$("h7").css("color" , "red");
@@ -93,6 +83,8 @@
 			//==> 아래와 같이 정의한 이유는 ??
 			$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 		});	
+		
+		 
 	
 	</script>
 	
@@ -108,7 +100,7 @@
 	<div class="container">
 	
 		<div class="page-header text-info">
-	       <h3>개설한 모임 조회</h3>
+	       <h3>모임 회차 목록 조회</h3>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -123,7 +115,7 @@
 		    <div class="col-md-6 text-right">
 			    <form class="form-inline" name="detailForm">
 			    
-				  
+			    
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
@@ -139,13 +131,11 @@
       
         <thead>
           <tr>
-            <th align="center">No</th>
-            <th align="left">모임 제목</th>
-            <th align="left">모임 이미지</th>
-            <th align="left">중심지</th>
-            <th align="left">관심사</th>
-            <th align="left">가입 신청자 관리</th>
-            <th align="left">회차 조회</th>
+            <th align="center">회차 카운트</th>
+            <th align="left">회차 날짜</th>
+            <th align="left">장소</th>
+            <th align="left">리뷰 작성</th>
+            <th align="left">회차 참석자 목록</th>
           </tr>
         </thead>
        
@@ -155,13 +145,11 @@
 		  <c:forEach var="meeting" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
-			  <td align="center">${ i }</td>
-			  <td align="left" data-param="${meeting.meetingNo}" title="Click : 모임 이동">${meeting.meetingName}</td>
-			  <td align="left"><img src="/resources/images/meeting/${meeting.titleImg}" width="170" height="170"/></td>
-			  <td align="left">${meeting.meetingCenter}</td>
-			  <td align="left">${meeting.interestName}</td>
-			  <td align="left"><a class="btn btn-primary btn" href="/act/getCrewList/${meeting.meetingNo}" role="button" id="getCrewList">가입 &nbsp;신청자 &nbsp;조회</a></td>
-			  <td align="left"><a class="btn btn-primary btn" href="/act/getMeetingAct/${meeting.meetingNo}" role="button" id="getMeetingAct">모임 &nbsp;회차&nbsp;조회</a></td>
+			  <td align="center">${meeting.meetingActNo}</td>
+			  <td align="left">${meeting.meetingDate}&nbsp;${meeting.meetingTime}</td>
+			  <td align="left">${meeting.meetingLocation}</td>
+			  <td align="left"><a class="btn btn-primary btn" href="/act/addStoryView/MET" role="button" id="writeStoryButton">리뷰 작성</a></td>
+			  <td align="left"><a class="btn btn-primary btn" href="/act/getActCrew/${meeting.meetingActNo}/${meeting.meetingActCount}" role="button" id="getActCrew">회차 참여인원 조회</a></td>
 			</tr>
           </c:forEach>
         

@@ -51,4 +51,12 @@ public interface MeetingDao {
 	
 	public String getCrewrole(Meeting meeting) throws Exception; /*수정 삭제 시 모임장인지 확인 */
 	
+	public int kickOut(Meeting meeting)throws Exception; /*강퇴진행*/
+	
+	public int kickOutAct(Meeting meeting)throws Exception; /*강퇴된 회원 활동회차에서 삭제*/
+	
+	public int passto(Meeting meeting)throws Exception; /*위임하기*/
+	
+	public int dropMeeting(Meeting meeting)throws Exception; /*탈퇴진행*/
+	
 }

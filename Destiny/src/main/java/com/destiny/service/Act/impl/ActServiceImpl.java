@@ -51,7 +51,43 @@ public class ActServiceImpl implements ActService {
 		return map;
 	}
 	
+
+	@Override
+	public List<Meeting> getCrewAll(int meetingNo) throws Exception {
+		List<Meeting> list = actDao.getCrewAll(meetingNo);
+		System.out.println("ServiceImpl 에서의 list : " + list);
+		
+		return list;
+	}
+
+	@Override
+	public void updateCrewCondition(Meeting meeting) throws Exception {
+		actDao.updateCrewCondition(meeting);
+	}
+
+	@Override
+	public void delectCrew(String userId) throws Exception {
+		actDao.delectCrew(userId);
+	}
 	
+	@Override
+	public Map<String, Object> getMeetingAct(Search search, int meetingNo) throws Exception {
+		List<Meeting> list = actDao.getMeetingAct(search, meetingNo);
+		System.out.println("ServiceImpl 에서의 list : " + list);
+		
+		int getMeetingActCount = actDao.getMeetingActCount(meetingNo);
+		System.out.println("getMeetingActCount : " + getMeetingActCount);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("getMeetingActCount", getMeetingActCount);
+		return map;
+	}
+	
+	@Override
+	public List<String> getActCrew(Meeting meeting) throws Exception {
+		return actDao.getActCrew(meeting);
+	}
 
 	@Override
 	public Map<String, Object> getMeetingListByApply(Search search, String userId) throws Exception {

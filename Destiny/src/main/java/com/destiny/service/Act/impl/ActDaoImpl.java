@@ -52,8 +52,50 @@ public class ActDaoImpl implements ActDao{
 	public int getTotalCountByMaster(String userId) throws Exception {
 		return sqlSession.selectOne("ActMapper.getTotalCountByMaster", userId);
 	}
+
+	@Override
+	public List<Meeting> getCrewAll(int meetingNo) throws Exception {
+		List<Meeting> list = sqlSession.selectList("ActMapper.getCrewAll", meetingNo);
+		
+		return list;
+	}
+
+	@Override
+	public void updateCrewCondition(Meeting meeting) throws Exception {
+		sqlSession.update("ActMapper.updateCrewCondition", meeting);
+	}
 	
 	
+
+	@Override
+	public void delectCrew(String userId) throws Exception {
+		sqlSession.delete("ActMapper.delectCrew", userId);
+	}
+	
+
+	@Override
+	public List<Meeting> getMeetingAct(Search search, int meetingNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("meetingNo", meetingNo);
+		map.put("search", search);
+		
+		List<Meeting> list = sqlSession.selectList("ActMapper.getMeetingAct", map);
+		System.out.println("dao에서 전달된 값들 : " + meetingNo + search);
+		System.out.println("dao에 매핑된 값 : " + map);
+		System.out.println("dao에서 확보한 list : " + list);
+		
+		return list;
+	}
+
+	@Override
+	public int getMeetingActCount(int meetingNo) throws Exception {
+		return sqlSession.selectOne("ActMapper.getMeetingActCount", meetingNo);
+	}
+
+	@Override
+	public List<String> getActCrew(Meeting meeting) throws Exception {
+		return sqlSession.selectList("ActMapper.getActCrew", meeting);
+	}
 
 	@Override
 	public List<Meeting> getMeetingListByApply(Search search, String userId) throws Exception {

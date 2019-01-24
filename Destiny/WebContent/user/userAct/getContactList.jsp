@@ -155,7 +155,7 @@
 			 $( "button[id='writeStoryButton']" ).on("click" , function() {
 			 	//var userId = $("input[name='getUserId']").val();
 			 	var userId = "${me.userId}";
-				self.location = "/act/addStoryView";
+				self.location = "/act/addStoryView/LUV";
 		    });
 		});
 	
@@ -244,10 +244,7 @@
 			<tr>
 			  <td align="center">${ chatting.chattingNo }</td>
 			  <td align="left">
-			  	<c:forEach var="file" items="${fileList}" >
-					<c:set var="i" value="${ i+1 }" />
-						   <img src="/resources/images/userprofile/${file}" width="150" height="150"/>
-				</c:forEach>
+			   <img src="/resources/images/userprofile/${fileList[i-1]}" width="150" height="150"/>
 			  </td>	
 			  
 			  <c:if test="${me.userId eq chatting.manId}">
