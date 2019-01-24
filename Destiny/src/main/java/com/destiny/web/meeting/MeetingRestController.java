@@ -125,5 +125,14 @@ public class MeetingRestController {
 		}
 		
 	}
+	
+	@RequestMapping( value="meetingRest/getCrewrole", method=RequestMethod.POST)
+	public String getCrewrole(@RequestBody Meeting meeting)throws Exception{
+		System.out.println("모인장인지 확인  시작함");
+		String result = meetingService.getCrewrole(meeting);
+		System.out.println("확인끝 결과는 ======"+result);
+		
+		return result;
+	}
 
 }

@@ -25,6 +25,9 @@
 
 <script type="text/javascript">
 
+var userId = "${me.userId}";
+console.log("userId : "+userId);
+
 
 function fncGetList(currentPage){
 	$("#currentPage").val(currentPage)
@@ -33,9 +36,23 @@ function fncGetList(currentPage){
 
 $(function() {
 	
-	$("button:contains('글쓰기')").on("click", function() {
-		self.location = "/info/addRestaurantInfo"
+	/* 검색 버튼 : start */
+	$(".btn:contains('검색')").on("click", function(){
+		fncGetList(1);			
 	});
+	/* 검색 버튼 : end */
+	
+	/* 글쓰기 버튼 : start */
+	$("button:contains('글쓰기')").on("click", function() {
+		if(userId == ""){
+			alert("로그인 후 이용 가능합니다.");
+			$("#my-dialog,#dialog-background").toggle();
+		}
+		else{
+			self.location = "/info/addRestaurantInfo"	
+		}
+	});
+	/* 글쓰기 버튼 : end */
 	
 	/* 글 제목 마우스 오버 : start */
 	$(".getRestaurantLink").on("mouseover",function(){
@@ -45,8 +62,14 @@ $(function() {
 	
 	/* 글 제목 클릭 : start */
 	$(".getRestaurantLink").on("click", function(){
-		var communityNo = $(this).data("param")
-		self.location="/info/getRestaurantInfo?communityNo="+communityNo
+		if(userId == ""){
+			alert("로그인 후 이용 가능합니다.");
+			$("#my-dialog,#dialog-background").toggle();
+		}
+		else{
+			var communityNo = $(this).data("param")
+			self.location="/info/getRestaurantInfo?communityNo="+communityNo	
+		}
 	});
 	/* 글 제목 클릭 : end */
 	
@@ -156,16 +179,21 @@ $(function() {
 	<jsp:include page="/layout/toolBar.jsp" />
   	<!-- ToolBar End /////////////////////////////////////-->
     
+    <!-- 메인배경이미지 : start -->
 	<div class="topImg">
 		<h1>맛집<span class="slim">정보</span></h1>
 	</div>
+	<!-- 메인배경이미지 : end -->
 	
 	<div class="container">
 	
 		<div class="wrap">
 		
 		<input type="hidden" name="views" value="${ community.views }">
+		<input type="hidden" name="searchCondition" value="${ search.searchCondition }">
+		<input type="hidden" name="searchKeyword" value="${ search.searchKeyword }">
 		
+		<!-- 페이지 내부 네비게이션 경로 : start -->
 		<ul class="smallNavi">
 			<li class="homeImg"><img alt="home" src="../resources/images/background/home.jpg"></li>
 			<li>></li>
@@ -173,9 +201,22 @@ $(function() {
 			<li>></li>
 			<li>맛집정보</li>
 		</ul>
+		<!-- 페이지 내부 네비게이션 경로 : end -->
 		
 		<form>
 			<div class="form-group">
+			    <select class="form-control" name="searchCondition" >
+					<option value="0"
+						${ !empty search.searchCondition && search.searchCondition=="0" ? "selected" : ""}>제목으로 검색</option>
+					<option value="1"
+						${ !empty search.searchCondition && search.searchCondition=="1" ? "selected" : ""}>작성자로 검색</option>
+				</select>
+			    <label class="sr-only" for="searchKeyword">검색어</label>
+				<input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어를 입력해주세요."
+			    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
+				<button type="button" class="btn btn-default">검색</button>
+				  
+				<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				<input type="hidden" id="currentPage" name="currentPage" value="">
 			</div>
 		</form>

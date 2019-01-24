@@ -240,7 +240,7 @@
 			  <td align="left"><img src="/resources/images/meeting/${meeting.titleImg}" width="170" height="170"/></td>
 			  <td align="left">${meeting.meetingCenter}</td>
 			  <td align="left">${meeting.interestName}</td>
-			  <td align="left">ㅇㅇ</td>
+			  <td align="left"><a class="btn btn-primary btn" href="/act/getCrewList/${meeting.meetingNo}" role="button" id="getCrewList">가입 &nbsp;신청자 &nbsp;조회</a></td>
 			  <td align="left">ㅇㅇ</td>
 			</tr>
           </c:forEach>

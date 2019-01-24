@@ -241,7 +241,7 @@
 			  <td align="left">${community.category}</td>
 			  <td align="left">${community.writeDate}</td>
 			  <td align="left">${community.like}</td>
-			  <td align="left">0</td>
+			  <td align="left">${listCommentCount[i-1]}</td>
 			</tr>
           </c:forEach>
         

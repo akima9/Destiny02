@@ -43,7 +43,7 @@
         
 		        
     </style>
-    
+    <link rel="manifest" href="/manifest.json">
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
@@ -126,10 +126,6 @@
 			}
 			if(pw_confirm == null || pw_confirm.length <1){
 				alert("패스워드 확인은  반드시 입력하셔야 합니다.");
-				return;
-			}
-			if(name == null || name.length <1){
-				alert("이름은  반드시 입력하셔야 합니다.");
 				return;
 			}
 			if(address == null || address.length <1){
@@ -521,7 +517,7 @@
 		  <div class="form-group">
 		    <label for="password2" class="col-sm-offset-1 col-sm-3 control-label">비밀번호 확인</label>
 		    <div class="col-sm-4">
-		      <input type="password" class="form-control" id="password2"  placeholder="비밀번호 확인">
+		      <input type="password" class="form-control" id="password2" name="password2" placeholder="비밀번호 확인">
 		    </div>
 		  </div>
 		  

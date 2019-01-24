@@ -54,7 +54,7 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 		// Initialize Firebase
-		  var config = {
+		 /* var config = {
 		    apiKey: "AIzaSyBGjyfyeNMYtdnH1CtJOlsbkXtPsm8dxuk",
 		    authDomain: "minipjt-cea92.firebaseapp.com",
 		    databaseURL: "https://minipjt-cea92.firebaseio.com",
@@ -64,9 +64,9 @@
 		  };
 		  firebase.initializeApp(config);
 		  
-		// Retrieve Firebase Messaging object.
+		
 		  const messaging = firebase.messaging();
-		  messaging.usePublicVapidKey("BKmgxoh5xoADg06nwXsMlNs2A5qGaRFul1Oiz1i2U9BUI2ozecUt6t-CGgLRGwMFn6E1KLL4SYrjosnjX2nDGZ0");
+		  messaging.usePublicVapidKey("BKmgxoh5xoADg06nwXsMlNs2A5qGaRFul1Oiz1i2U9BUI2ozecUt6t-CGgLRGwMFn6E1KLL4SYrjosnjX2nDGZ0");*/
 		
 		  
 		  
@@ -75,13 +75,18 @@
 		  
 		  
 		//============= 회원정보수정 Event  처리 =============	
-		 $(function() {
+		/* $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( "button[id='findButton']" ).on("click" , function() {
-				 	var userId = $("input[name='getUserId']").val();
+			 	var userId = $("input[name='findUserId']").val();
+			 	if(userId == null || userId.length < 1){
+			 		alert("아이디를 입력해 주세요");
+			 		return;
+			 	} else {
 					self.location = "/user/getUser/"+userId;
-				});
-		});
+			 	}
+			});
+		});*/
 		
 		$(function(){
 			$("button[id='typeButton']").on("click", function(){
@@ -137,13 +142,13 @@
 	<jsp:include page="/layout/toolBar.jsp" />
   	<!-- ToolBar End /////////////////////////////////////-->
   
-		<div class="form-group">
+		<!--  <div class="form-group">
 		    <label for="userId" class="col-sm-4 control-label"></label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" name="getUserId" id="getUserId"  placeholder="아이디" >
+		      <input type="text" class="form-control" name="findUserId" id="findUserId"  placeholder="아이디" >
 		      <button id="findButton" type="button">회원검색</button>
 		    </div>
-		</div>	
+		</div> -->	
 		
 		<br/>
 		<div class="form-group">

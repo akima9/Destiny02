@@ -100,6 +100,20 @@ Latest compiled and minified JavaScript
 			});
 		});
 		/* 공감 버튼 이벤트 : end */
+		
+		/* 이전글 클릭 : start */
+		$("button:contains('이전글')").on("click", function(){
+			var communityNo = $(this).data("param")
+			self.location="/info/getPreRestaurantInfo?communityNo="+communityNo
+		});
+		/* 이전글 클릭 : end */
+		
+		/* 다음글 클릭 : start */
+		$("button:contains('다음글')").on("click", function(){
+			var communityNo = $(this).data("param")
+			self.location="/info/getNextRestaurantInfo?communityNo="+communityNo
+		});
+		/* 다음글 클릭 : end */
 	});
 		
 	function changeBtn(likeId, likeCount, likeCommunityNo){
@@ -287,8 +301,8 @@ Latest compiled and minified JavaScript
 		</ul>
 		
 		<div class="row button">
-			<button type="button" class="btn btn-default">이전글</button>
-			<button type="button" class="btn btn-default">다음글</button>
+			<button type="button" data-param="${ community.communityNo }" class="btn btn-default">이전글</button>
+			<button type="button" data-param="${ community.communityNo }" class="btn btn-default">다음글</button>
 			
 			<button type="button" class="btn btn-default rightBtn">목록</button>
 			<button type="button" class="btn btn-default rightBtn">글쓰기</button>
@@ -357,32 +371,6 @@ Latest compiled and minified JavaScript
 				<li><span>|</span></li>
 				<li class="delete">삭제</li>
 			</ul>
-		</div>
-		
-		<%-- <div class="row">
-			<div class="col-xs-4 col-md-2">likeCountCheck</div>
-			<div class="col-xs-8 col-md-4">${ likeCount.likeCountCheck }</div>
-		</div> --%>
-		
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<!-- <button type="button" class="btn btn-primary">글쓰기</button> -->
-				<!-- <button type="button" class="btn btn-primary">신고</button> -->
-				<!-- <button type="button" class="btn btn-primary">공감</button> -->
-				
-				<%-- <c:if test= '${likeCount.likeCountCheck=="Y"}'>
-					<button type="button" class="btn-heart on"></button>
-				</c:if>
-				<c:if test= '${likeCount.likeCountCheck=="N" || likeCount.likeCountCheck==null}'>
-					<button type="button" class="btn-heart"></button>
-				</c:if> --%>
-				
-				<!-- 작성자만 수정 삭제 가능하게 수정해야 되는 부분 : start -->
-				<!-- <button type="button" class="btn btn-primary">수정</button>
-				<button type="button" class="btn btn-primary">삭제</button> -->
-				<!-- 작성자만 수정 삭제 가능하게 수정해야 되는 부분 : end -->
-				
-			</div>
 		</div>
 		
 		<!-- 댓글 : start -->

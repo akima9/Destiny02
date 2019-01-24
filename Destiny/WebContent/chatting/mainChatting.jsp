@@ -37,6 +37,7 @@
 	var firstType="${me.firstType}";
 	var secondType="${me.secondType}";
 	var thirdType="${me.thirdType}";
+	var userGrade="${me.userGrade}";
 	var manCount=0;
 	var womanCount=0;
 	
@@ -44,14 +45,14 @@
 	function getTelepathyTest(){
 		if (userId=="") {
 			alert("로그인 후 이용 가능합니다.");
-			location="/user/login";
+			$("#my-dialog,#dialog-background").toggle();
 		}else{
 			//location="/chatting/addRandomChatting";
 			///////////////////////////////////////////////
 				
 				$.ajax({	
 					
-					url : "/chatting/json/addPerfectChatting" ,
+					url : "/chatting/json/addRandomChatting" ,
 					type : "GET" ,
 					dataType : "json" ,
 					headers : {
@@ -60,33 +61,14 @@
 					},
 					success : function(JsonData) {
 						//alert("성공");
-						//alert(JsonData.manList[0].userId);
-						//alert(JsonData.womanList[0].userId);
-						//alert(JsonData.manList.length);
-						
-						//manCount=JsonData.manList.length;
-						//womanCount=JsonData.womanList.length;
 						
 						popWin = window.open("/chatting/getRandomMatching.jsp","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-						
-						
-						
-								/* if (manCount>0 && womanCount>0) {
-									alert("한명만 있는 경우");
-									popWin = window.open("/chatting/addPerfectChatting","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");	
-									condition=false;
-								} */
-						
-							
-						
-						
-						
-											},//success
+									},//success
 				      error: function () {
 				    	  alert("error");
 				      },
 				      complete: function () {
-				        // Handle the complete event
+				        
 				        //alert("complete");
 				      }
 					
@@ -98,73 +80,44 @@
 		//////////////로그인 기능 작동 가능시
 		 if (userId=="") {
 			alert("로그인 후 이용 가능합니다.");
-			location="/user/login";
+			$("#my-dialog,#dialog-background").toggle();
 		}else {
-			if(userType==""||firstType==""){
-				location = "/user/addTypeView";
+			if (userGrade=='NEW') {
+				alert("일반회원 이상부터 이용 가능합니다.");
 			}else{
-				//location = "/chatting/addPerfectChatting";
-				///////////////////////////////////////////////
 				
-				$.ajax({	
+			
+				if(userType==""||firstType==""){
+					location = "/user/addTypeView";
+				}else{
 					
-					url : "/chatting/json/addPerfectChatting" ,
-					type : "GET" ,
-					dataType : "json" ,
-					headers : {
-						"Accept" : "application/json",
-						"Content-Type" : "application/json"
-					},
-					success : function(JsonData) {
-						//alert("성공");
-						//alert(JsonData.manList[0].userId);
-						//alert(JsonData.womanList[0].userId);
-						//alert(JsonData.manList.length);
+					///////////////////////////////////////////////
+					
+					$.ajax({	
 						
-						//manCount=JsonData.manList.length;
-						//womanCount=JsonData.womanList.length;
-						
-						popWin = window.open("/chatting/getPerfectMatching.jsp","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-						
-						
-						
-								/* if (manCount>0 && womanCount>0) {
-									alert("한명만 있는 경우");
-									popWin = window.open("/chatting/addPerfectChatting","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");	
-									condition=false;
-								} */
-						
+						url : "/chatting/json/addPerfectChatting" ,
+						type : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JsonData) {
+							//alert("성공");
 							
+							popWin = window.open("/chatting/getPerfectMatching.jsp","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+							
+												},//success
+					      error: function () {
+					    	  alert("error");
+					      },
+					      complete: function () {				    
+					        //alert("complete");
+					      }
 						
-						
-						
-											},//success
-				      error: function () {
-				    	  alert("error");
-				      },
-				      complete: function () {
-				        // Handle the complete event
-				        //alert("complete");
-				      }
-					
-				});//ajax
-				
-				/* setTimeout(function() {
-					var m='${manList.size()}';
-					var w='${womanList.size()}';
-					var login='${loginList.size()}';
-					alert("manCount1"+m);
-					alert("womanCount1"+w);
-					alert(login);
-					}, 5000); */
-					
-					/* setInterval(function(){
-						alert("manCount1"+m);
-						alert("womanCount1"+w);}, 3000);	 */
-					
-						//popWin = window.open("/chatting/addPerfectChatting","popWin", "left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-				
-			}
+					});//ajax 끝
+				}//type 확인
+			}//grade확인
 			
 		} 
 		

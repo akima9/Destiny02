@@ -43,7 +43,7 @@
 	var chattingNo='${chatting.chattingNo}';
 	(function poll() {
 	    $.ajax({
-	        url: '/chatting/json/matching',
+	        url: '/chatting/json/getRandomMatching',
 	        type: 'GET',
 	        dataType: 'json',
 	        success: function(JsonData) {
@@ -53,10 +53,10 @@
 				//womanCount=JsonData.womanList.length;
 				//alert("manId : "+JsonData.manId+" womanId : "+JsonData.womanId);
 				if (JsonData.roomNo!=0) {
-					alert("manId : "+JsonData.manId+" womanId : "+JsonData.womanId);
+					//alert("manId : "+JsonData.manId+" womanId : "+JsonData.womanId);
 					//location="/chatting/getPerfectChatting/"+JsonData.roomNo;
 					if (JsonData.roomNo==chattingNo&&chattingNo!=0) {
-						 var confirmflag = confirm("채팅중입니다. 새로운 채팅을 하시겠습니까?");
+						/*  var confirmflag = confirm("채팅중입니다. 새로운 채팅을 하시겠습니까?");
 
 				           if(confirmflag){
 
@@ -66,10 +66,10 @@
 
 				             //취소 버튼 클릭 false
 
-				           }
+				           } */
 						
 					}else{
-						popWin = window.open("/chatting/telepathyTest/"+chattingNo,
+						popWin = window.open("/chatting/telepathyTest/"+JsonData.roomNo,
 								"popWin",
 								"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 
@@ -78,12 +78,12 @@
 					}
 					return false;
 				}else{
-					alert("manCount : "+manCount+" womanCount : "+womanCount);
+					//alert("manCount : "+manCount+" womanCount : "+womanCount);
 				}
 	        },
 	        //timeout: 3000,
 	        complete: setTimeout(function() { 
-	        	if (n<2) {
+	        	if (n<5) {
 	        	poll();
 				}else{
 					  var confirmflag = confirm("상대방을 찾을 수 없습니다. 나가시겠습니까?");
@@ -98,14 +98,17 @@
 
 			           }
 			
-				}console.log(n); n++; }, 6000)
+				}console.log(n); n++; }, 3000)
 			
 	    })
 	})();
 	
 	 
 	 
-	 
+	window.addEventListener('beforeunload', function (e) {
+		location="/chatting/json/endRandomMatching";
+		
+		});
 	
 	
 	</script>

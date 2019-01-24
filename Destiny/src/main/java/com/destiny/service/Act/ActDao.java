@@ -15,6 +15,16 @@ public interface ActDao {
 	
 	public int getTotalCountByMaster(String userId) throws Exception;
 	
+	public List<Meeting> getCrewAll(int meetingNo) throws Exception;
+	
+	public void updateCrewCondition(Meeting meeting) throws Exception;
+	
+	public void delectCrew(String userId) throws Exception;
+	
+	public List<Meeting> getMeetingListByApply(Search search, String userId) throws Exception;
+	
+	public int getTotalCountByApply(String userId) throws Exception;
+	
 	public List<Community> getCommunityListByWriter(Search search, String userId) throws Exception;
 	
 	public int getTotalCountByWriter(String userId) throws Exception;
@@ -26,5 +36,7 @@ public interface ActDao {
 	public List<Chatting> getContactList(Search search, String userId) throws Exception;
 	
 	public int getTotalContact(String userId) throws Exception;
+	
+	public int getCommunityComentCount(int communityNo) throws Exception;
 	
 }
