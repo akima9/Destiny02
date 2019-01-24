@@ -31,62 +31,19 @@
         }
     </style>
     
-   
 	
-	 <script src="https://www.gstatic.com/firebasejs/5.8.0/firebase.js"></script>
+
 	
-	<!-- Firebase App is always required and must be first -->
-	<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
-	
-	<!-- Add additional services that you want to use -->
-	<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-firestore.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-messaging.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-functions.js"></script>
-	
-	<!-- Comment out (or don't include) services that you don't want to use -->
-	<!-- <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-storage.js"></script> -->
+
     
 
 	
 	
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
-		// Initialize Firebase
-		 /* var config = {
-		    apiKey: "AIzaSyBGjyfyeNMYtdnH1CtJOlsbkXtPsm8dxuk",
-		    authDomain: "minipjt-cea92.firebaseapp.com",
-		    databaseURL: "https://minipjt-cea92.firebaseio.com",
-		    projectId: "minipjt-cea92",
-		    storageBucket: "minipjt-cea92.appspot.com",
-		    messagingSenderId: "778811965162"
-		  };
-		  firebase.initializeApp(config);
-		  
-		
-		  const messaging = firebase.messaging();
-		  messaging.usePublicVapidKey("BKmgxoh5xoADg06nwXsMlNs2A5qGaRFul1Oiz1i2U9BUI2ozecUt6t-CGgLRGwMFn6E1KLL4SYrjosnjX2nDGZ0");*/
-		
-		  
-		  
-		  
-		  
-		  
-		  
-		//============= 회원정보수정 Event  처리 =============	
-		/* $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button[id='findButton']" ).on("click" , function() {
-			 	var userId = $("input[name='findUserId']").val();
-			 	if(userId == null || userId.length < 1){
-			 		alert("아이디를 입력해 주세요");
-			 		return;
-			 	} else {
-					self.location = "/user/getUser/"+userId;
-			 	}
-			});
-		});*/
+	
+	
+	
 		
 		$(function(){
 			$("button[id='typeButton']").on("click", function(){
@@ -142,6 +99,14 @@
 	<jsp:include page="/layout/toolBar.jsp" />
   	<!-- ToolBar End /////////////////////////////////////-->
   
+  <!--  화면구성 div Start /////////////////////////////////////-->
+	<div class="container">
+	
+		<h1 class="bg-primary text-center">마이페이지</h1>
+		
+		<!-- form Start /////////////////////////////////////-->
+		<form class="form-horizontal">
+  
 		<!--  <div class="form-group">
 		    <label for="userId" class="col-sm-4 control-label"></label>
 		    <div class="col-sm-4">
@@ -151,30 +116,40 @@
 		</div> -->	
 		
 		<br/>
-		<div class="form-group">
-		    <label  class="col-sm-4 control-label"></label>
-		    <div class="col-sm-4">
-		      <button id="typeButton" type="button">성격유형</button>
+		<div class="form-group" >
+		    <label  class="col-sm-4 control-label">성격유형 선택하기</label><br/>
+		    <div class="col-sm-4"   >
+		      <button id="typeButton"  type="button"><img src="/resources/images/layout/mbti.jpg" width="300" height="300" /></button>
 		    </div>
 		</div>	
 		
-		<br/>
+		
 		<div class="form-group">
-		    <label  class="col-sm-4 control-label"></label>
+		    <label  class="col-sm-4 control-label">회원리스트</label>
 		    <div class="col-sm-4">
-		      <button id="listButton" type="button">회원리스트</button>
+		      <button id="listButton" type="button"><img src="/resources/images/layout/users.png" width="300" height="300" /></button>
 		    </div>
 		</div>	
 		
-		<br/>
+		
 		<div class="form-group">
-		    <label  class="col-sm-4 control-label"></label>
+		    <label  class="col-sm-4 control-label">쪽지</label>
 		    <div class="col-sm-4">
-		      <button id="letterList" type="button">쪽지</button>
+		      <button id="letterList" type="button"><img src="/resources/images/layout/letter.png" width="300" height="300" /></button>
+		    </div>
+		</div>	
+
+		
+		<div class="form-group">
+		    <label  class="col-sm-4 control-label">활동관리</label>
+		    <div class="col-sm-4">
+		      <button id="actMainButton" type="button"><img src="/resources/images/layout/act.jpg" width="300" height="300" /></button>
 		    </div>
 		</div>	
 		
-		<br/>
+		
+		
+		
 		<div class="form-group">
 		    <label  class="col-sm-4 control-label"></label>
 		    <div class="col-sm-4">
@@ -182,22 +157,15 @@
 		    </div>
 		</div>	
 		
-		<br/>
-		<div class="form-group">
-		    <label  class="col-sm-4 control-label"></label>
-		    <div class="col-sm-4">
-		      <button id="actMainButton" type="button">활동관리</button>
-		    </div>
-		</div>	
-		
-		<br/>
-		
 		<div class="form-group">
 		    <label  class="col-sm-4 control-label"></label>
 		    <div class="col-sm-4">
 		      <button id="pushButton" type="button">푸쉬 보넹!</button>
 		    </div>
 		</div>	
+		
+		</form>
+		</div>
 		
 	</body>
 </html>

@@ -164,5 +164,25 @@ public class MeetingServiceImpl implements MeetingService {
 		return meetingDao.getCrewrole(meeting);
 	}
 
+	@Override
+	public int kickOut(Meeting meeting) throws Exception {
+		return meetingDao.kickOut(meeting);
+	}
+
+	@Override
+	public int kickOutAct(Meeting meeting) throws Exception {
+		return meetingDao.kickOutAct(meeting);
+	}
+
+	@Override
+	public int passto(Meeting meeting) throws Exception {
+		return meetingDao.passto(meeting);
+	}
+
+	@Override
+	public int dropMeeting(Meeting meeting) throws Exception {
+		return meetingDao.dropMeeting(meeting);
+	}
+
 	
 }

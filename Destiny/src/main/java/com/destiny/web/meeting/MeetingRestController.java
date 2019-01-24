@@ -134,5 +134,78 @@ public class MeetingRestController {
 		
 		return result;
 	}
+	
+	@RequestMapping( value="meetingRest/kickOut", method=RequestMethod.POST)
+	public int kickOut(@RequestBody Meeting meeting)throws Exception{
+		System.out.println("강퇴  시작함");
+		System.out.println(meeting);
+		User userId = userService.getUserByNickName(meeting.getCrewNickName());
+		meeting.setMeetingMasterId(userId.getUserId());
+		
+		int result = meetingService.kickOut(meeting);
+		
+		if(result==1) {
+			int duplicationAct = meetingService.DuplicationAct(meeting);
+			if(duplicationAct > 0) {
+				meeting.setMeetingActNo(meetingService.getActNo(meeting).getMeetingActNo());
+				meeting.setCrewCondition("OUT");
+				int actremovResult = meetingService.kickOutAct(meeting);
+				System.out.println("회차 모임에서 삭제 되었나"+actremovResult);
+				result = 2;
+			}
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping( value="meetingRest/passto", method=RequestMethod.POST)
+	public int passto(@RequestBody Meeting meeting)throws Exception{
+		System.out.println("위임 시작함");
+		System.out.println(meeting);
+		User targetId = userService.getUserByNickName(meeting.getTargetId()); /*모임원을 모임장으로 변경*/
+		meeting.setMeetingMasterId(targetId.getUserId());
+		
+		int result = meetingService.passto(meeting);
+		
+		if(result==1) {
+			User userId = userService.getUserByNickName(meeting.getCrewNickName()); /*모임장을 일반으로 변경*/
+			meeting.setMeetingMasterId(userId.getUserId());
+			meeting.setRole("MEM");
+			
+			int seconResult = meetingService.passto(meeting);
+			
+			if(seconResult==1) result = 2;	
+		}else {
+			return 1;
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping( value="meetingRest/dropMeeting", method=RequestMethod.POST)
+	public int dropMeeting(@RequestBody Meeting meeting)throws Exception{
+		System.out.println("탈퇴  시작함");
+		System.out.println(meeting);
+		
+		int result = meetingService.checkDuplicationCrew(meeting);
+		System.out.println(result);
+		if(result < 1) return 5018;/*모임원 아님*/
+		
+		if(result==1) {
+			
+			int duplicationAct = meetingService.DuplicationAct(meeting);
+			if(duplicationAct>0) {
+				meeting.setMeetingActNo(meetingService.getActNo(meeting).getMeetingActNo());
+				int actremovResult = meetingService.kickOutAct(meeting);
+				System.out.println("회차 모임에서 삭제 되었나"+actremovResult);
+			}
+			
+			meetingService.dropMeeting(meeting);
+			
+			result = 2;
+		}
+		
+		return result;
+	}
 
 }
