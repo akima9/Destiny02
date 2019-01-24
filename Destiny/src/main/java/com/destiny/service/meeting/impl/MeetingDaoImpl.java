@@ -162,6 +162,26 @@ public class MeetingDaoImpl implements MeetingDao {
 	public String getCrewrole(Meeting meeting) throws Exception {
 		return sqlSession.selectOne("MeetingMapper.getCrewrole", meeting);
 	}
+
+	@Override
+	public int kickOut(Meeting meeting) throws Exception {
+		return sqlSession.update("MeetingMapper.kickOut", meeting);
+	}
+
+	@Override
+	public int kickOutAct(Meeting meeting) throws Exception {
+		return sqlSession.delete("MeetingMapper.kickOutAct", meeting);
+	}
+
+	@Override
+	public int passto(Meeting meeting) throws Exception {
+		return sqlSession.update("MeetingMapper.passto", meeting);
+	}
+
+	@Override
+	public int dropMeeting(Meeting meeting) throws Exception {
+		return sqlSession.delete("MeetingMapper.dropMeeting", meeting);
+	}
 	
 
 }

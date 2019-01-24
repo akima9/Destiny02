@@ -166,6 +166,41 @@
 	 </delete>
 	 
 	 
+	 <select id="getMeetingAct" parameterType="map" resultMap="meetingSelectMap">
+		SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  			FROM		(
+						 	SELECT act_date as meeting_date, meeting_act_count, act_location as meeting_location, meeting_act_no, act_time as meeting_time
+						 	from meeting_act
+						 	<where>
+						 		meeting_no = #{meetingNo}
+						 	</where>
+						 	) inner_table
+						WHERE ROWNUM &lt;= #{search.endRowNum} )
+		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 	
+	 </select>
+	 
+	 
+	 <select  id="getMeetingActCount"  parameterType="int"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT act_date as meeting_date, meeting_act_count, act_location as meeting_location, meeting_act_no, act_time as meeting_time
+					 	from meeting_act
+					 	<where>
+					 		meeting_no = #{value}
+					 	</where>
+						 ) countTable						
+	 </select>
+	 
+	 
+	 <select id="getActCrew" parameterType="com.destiny.service.domain.Meeting" resultType="String">
+	 	SELECT act_crew_id as meeting_master_id
+	 	FROM meeting_act_crew_list
+	 	<where>
+	 		meeting_act_no = #{meetingActNo} and meeting_act_count = #{meetingActCount}
+	 	</where>
+	 </select>
+	 
+	 
 	 	 <!-- SQL : SELECT LIST -->
 	<select  id="getMeetingListByApply"  parameterType="map"	resultMap="meetingSelectMap">
 	  	SELECT *

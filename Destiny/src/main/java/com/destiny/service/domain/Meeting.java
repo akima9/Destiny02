@@ -33,6 +33,7 @@ public class Meeting {
 	private String	interviewTitle;
 	private int		meetingActNo;
 	private int		meetingCrewNo;
+	private String	targetId;
 	
 	public int getMeetingNo() {
 		return meetingNo;
@@ -224,7 +225,13 @@ public class Meeting {
 	public void setMeetingCrewNo(int meetingCrewNo) {
 		this.meetingCrewNo = meetingCrewNo;
 	}
+	public String getTargetId() {
+		return targetId;
+	}
 	
+	public void setTargetId(String targetId) {
+		this.targetId = targetId;
+	}
 	@Override
 	public String toString() {
 		return "Meeting [meetingNo=" + meetingNo + ", role=" + role + ", meetingMasterId=" + meetingMasterId
@@ -237,7 +244,9 @@ public class Meeting {
 				+ meetingCrewLimit + ", interestNo=" + interestNo + ", crewNickName=" + crewNickName + ", interview="
 				+ interview + ", imgFile=" + imgFile + ", crewCondition=" + crewCondition + ", meetingActCount="
 				+ meetingActCount + ", interviewTitle=" + interviewTitle + ", meetingActNo=" + meetingActNo
-				+ ", meeintCrewNo=" + meetingCrewNo + "]";
+				+ ", meetingCrewNo=" + meetingCrewNo + ", targetId=" + targetId + "]";
 	}
+	
+	
 	
 }

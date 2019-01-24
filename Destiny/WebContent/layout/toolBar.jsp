@@ -85,7 +85,13 @@
 		
 		//============= 회원 찾기===================
 		
-		
+		$( function() { 
+			$("#findButton").on("click" , function() {
+				var userId = $("input[name='getUserId']").val();
+				alert(userId);
+				self.location = "/user/getUser/"+userId;
+			});
+		});
 		
 	</script>
 	

@@ -170,6 +170,53 @@ public class ActController {
 	}
 	
 	
+	@RequestMapping(value="getMeetingAct/{meetingNo}", method=RequestMethod.GET)
+	public ModelAndView getMeetingAct(@PathVariable("meetingNo") int meetingNo, @ModelAttribute("search") Search search) throws Exception{
+		
+		System.out.println("act/getMeetingAct : GET + " + meetingNo);
+		
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		Map<String , Object> map = actService.getMeetingAct(search, meetingNo);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("getMeetingActCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userAct/getMeetingAct.jsp");
+		modelAndView.addObject("list", map.get("list"));
+		modelAndView.addObject("resultPage", resultPage);
+		modelAndView.addObject("search", search);
+		modelAndView.addObject("meetingNo", meetingNo);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="getActCrew/{meetingActNo}/{meetingActCount}", method=RequestMethod.GET)
+	public ModelAndView getActCrew(@PathVariable("meetingActNo") int meetingActNo, @PathVariable("meetingActCount") int meetingActCount) throws Exception{
+		
+		System.out.println("act/getActCrew : GET + "+meetingActNo+" + "+meetingActCount);
+		
+		Meeting meeting = new Meeting();
+		meeting.setMeetingActNo(meetingActNo);
+		meeting.setMeetingActCount(meetingActCount);
+		
+		List<String> listString = actService.getActCrew(meeting);
+		List<User> list = new ArrayList<User>();
+		
+		for(String v : listString) {
+			list.add(userService.getUser(v));
+		}
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/user/userAct/getActCrew.jsp");
+		modelAndView.addObject("list", list);
+		return modelAndView;
+	}
+	
 	@RequestMapping(value="getJoinMeetingList/{userId}", method=RequestMethod.GET)
 	public ModelAndView getJoinMeetingList(@PathVariable("userId") String userId, @ModelAttribute("search") Search search) throws Exception {
 		
@@ -250,16 +297,17 @@ public class ActController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="addStoryView", method=RequestMethod.GET)
-	public ModelAndView addStoryView() throws Exception{
+	@RequestMapping(value="addStoryView/{Category}", method=RequestMethod.GET)
+	public ModelAndView addStoryView(@PathVariable("Category") String Category) throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/user/userAct/addStory.jsp");
+		modelAndView.addObject("Category", Category);
 		return modelAndView;
 	}
 	
 	/*addRestaurantInfo : start*/
-	@RequestMapping(value="addStory", method=RequestMethod.POST)
-	public ModelAndView addStory(@ModelAttribute("community") Community community, HttpSession session) throws Exception{
+	@RequestMapping(value="addStory/{Category}", method=RequestMethod.POST)
+	public ModelAndView addStory(@ModelAttribute("community") Community community, HttpSession session, @PathVariable("Category") String Category) throws Exception{
 		System.out.println(":: ActController/addStory/post : ½ÇÇà");
 		
 		User user = (User)session.getAttribute("me"); 
@@ -271,7 +319,7 @@ public class ActController {
 		System.out.println("userGrade : "+userGrade);
 		
 		community.setWriterId(userId);
-		community.setCategory("RES");
+		community.setCategory(Category);
 		community.setUserGrade(userGrade);
 		community.setWriterNickName(nickName);
 		community.setViews(0);

@@ -102,7 +102,7 @@
 				return false;
 			}
 			
-			$("form").attr("method","POST").attr("action","/act/addStory").submit();
+			$("form").attr("method","POST").attr("action","/act/addStory/${Category}").submit();
 		}
 		
 	});
