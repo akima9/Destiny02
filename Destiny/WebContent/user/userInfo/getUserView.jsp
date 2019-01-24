@@ -31,62 +31,19 @@
         }
     </style>
     
-   
 	
-	 <script src="https://www.gstatic.com/firebasejs/5.8.0/firebase.js"></script>
+
 	
-	<!-- Firebase App is always required and must be first -->
-	<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
-	
-	<!-- Add additional services that you want to use -->
-	<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-firestore.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-messaging.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-functions.js"></script>
-	
-	<!-- Comment out (or don't include) services that you don't want to use -->
-	<!-- <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-storage.js"></script> -->
+
     
 
 	
 	
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
-		// Initialize Firebase
-		 /* var config = {
-		    apiKey: "AIzaSyBGjyfyeNMYtdnH1CtJOlsbkXtPsm8dxuk",
-		    authDomain: "minipjt-cea92.firebaseapp.com",
-		    databaseURL: "https://minipjt-cea92.firebaseio.com",
-		    projectId: "minipjt-cea92",
-		    storageBucket: "minipjt-cea92.appspot.com",
-		    messagingSenderId: "778811965162"
-		  };
-		  firebase.initializeApp(config);
-		  
-		
-		  const messaging = firebase.messaging();
-		  messaging.usePublicVapidKey("BKmgxoh5xoADg06nwXsMlNs2A5qGaRFul1Oiz1i2U9BUI2ozecUt6t-CGgLRGwMFn6E1KLL4SYrjosnjX2nDGZ0");*/
-		
-		  
-		  
-		  
-		  
-		  
-		  
-		//============= 회원정보수정 Event  처리 =============	
-		/* $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button[id='findButton']" ).on("click" , function() {
-			 	var userId = $("input[name='findUserId']").val();
-			 	if(userId == null || userId.length < 1){
-			 		alert("아이디를 입력해 주세요");
-			 		return;
-			 	} else {
-					self.location = "/user/getUser/"+userId;
-			 	}
-			});
-		});*/
+	
+	
+	
 		
 		$(function(){
 			$("button[id='typeButton']").on("click", function(){
