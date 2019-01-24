@@ -10,14 +10,37 @@
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<!-- <link rel="stylesheet" href="/resources/javascript/malihu-custom-scrollbar-plugin-3.1.5/jquery.mCustomScrollbar.css" /> -->
+	
+		
+	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
+  <!-- Google CDN jQuery with fallback to local -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    	<!-- 스크롤 js -->
+    <!-- 	
+    	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/resources/javascript/malihu-custom-scrollbar-plugin-3.1.1/jquery.mCustomScrollbar.js"></script>
+	<script src="/resources/javascript/malihu-custom-scrollbar-plugin-3.1.1/jquery.mCustomScrollbar.concat.min.js"></script>
+ -->
 <!-- 배경색 -->
-<style class="cp-pen-styles">body {
+<style class="cp-pen-styles">
+
+.chat-box {
+    width: 400px;
+    min-width: 400px;
+    height: 500px;
+    min-height: 500px;
+    overflow: auto;
+    
+}
+
+body {
   margin: 0;
   padding: 0;
   background-color:  #fddbdb ;
+   
 }
 
 * {
@@ -42,10 +65,10 @@ main.container .list ul {
   padding: 0;
 }
 main.container .list ul li a {
-  display: block;
+  display: block; 
   border: none;
   border-left: 5px solid transparent;
-  cursor: pointer;
+  cursor: pointer; 
   background:  #ffaaa5 ;
   font-size: 15px;
   text-decoration: none;
@@ -74,7 +97,7 @@ main.container .chat-box {
 main.container .chat-box ul {
   list-style-type: none;
   padding: 0;
-  display: none;
+/*   display: none; */
 }
 main.container .chat-box ul:target {
   display: block;
@@ -92,9 +115,24 @@ main.container .chat-box ul li .me {
 }
 main.container .chat-box ul li .you {
   display: flex;
+  justify-content: flex-start;
   align-items: center;
 }
-main.container .chat-box ul li > div .img {
+main.container .chat-box ul li .you > div .img {
+  /* margin-left: 0; */
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  border-radius: 50%;
+  margin-bottom: -25px;
+  border: 2px solid #ffaaa5;
+  z-index: 100;
+  position: relative;
+  background-image: url("/resources/images/chatting/loading.gif");
+  background-size: 45px;
+}
+
+main.container .chat-box ul li .me > div .img {
   display: inline-block;
   width: 50px;
   height: 50px;
@@ -125,20 +163,42 @@ main.container .chat-box ul li > div .text div {
   max-width: 300px;
   min-width: 150px;
   margin-left: -55px;
-  border-radius: 10px 0 10px 10px;
+  border-radius: 10px 10px 10px 10px;
   z-index: 10;
   position: relative;
   text-align: right;
 }
 main.container .chat-box ul li .you .name {
-  padding: 5px 25px 5px 50px;
-  margin-left: -30px;
-  border-radius: 0 15px 0 0;
+  padding: 5px 25px 5px 65px;
+  /* margin-left: -30px; */
+  border-radius: 15px 15px 0 15px;
+  margin-left : 1px;
 }
 main.container .chat-box ul li .you .text div {
-  margin-left: 6px;
+  margin-left: 35px;
   border-radius: 0 10px 10px 10px;
   text-align: left;
+}
+
+.you{
+	margin-top : 10px;
+}
+
+.me{
+	margin-bottom : 20px;
+}
+
+.title{
+	margin-bottom : 10px;
+}
+
+.you .img{
+	margin-top : -35px;
+}
+
+.you .text{
+	margin-top : 10px;
+	margin-bottom : 20px;
 }
 
 /* gage */
@@ -224,6 +284,8 @@ main.container .chat-box ul li .you .text div {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 
 <script>
+
+
 ////////////////////////////////////////////
 
 var socket = io.connect('http://192.168.0.28:82');
@@ -284,14 +346,16 @@ socket.on('updatechat', function (username, data1) {
 				//Debug...
 				//alert("다른 사람 message");
 				
-				$('#conversation').append('<div>'+username + '<br> ' + message +'<br>'+Data+'</div><br>');
-				
+				//$('#chat-box').append('<div>'+username + '<br> ' + message +'<br>'+Data+'</div><br>');
+				$('#user_1').append("<li><div class='you'><div><div class='name'>"+username+"</div><div class='img'></div><div class='text'><div>"+data1+"번역 :"+Data+"</div></div></div></div></li>");
+
 
 			})
 		}else{
 			//alert("server message");
-			$('#conversation').append('<div>'+username + '<br> ' + data1 +'<br>');
-		
+			//$('#chat-box').append('<div>'+username + '<br> ' + data1 +'<br>');
+			$('#user_1').append("<li><div class='title'><div>"+username+"<div>"+data1+"<</div></div></div></li>");
+
 		}
 		 
 		
@@ -305,12 +369,13 @@ socket.on('updatechat', function (username, data1) {
 		
 	}else{
 		//alert("내 message");
-		$('#conversation').append('<div style = "text-align:right;">'+username + '<br> ' + data1 + '</div><br>');
-		
+		//$('#chat-box').append('<div style = "text-align:right;">'+username + '<br> ' + data1 + '</div><br>');
+		$('#user_1').append("<li><div class='me'><div><div class='name'>"+username+"</div><div class='img'></div><div class='text'><div>"+data1+"</div></div></div></div></li>");
+
 	}
 	
 
-	$('#conversation').scrollTop($('#conversation').height());
+	$('.chat-box').scrollTop($('.chat-box').height());
 
 	
 	
@@ -430,9 +495,22 @@ window.addEventListener('beforeunload', function (e) {
 	    });
 	});
 //////////////////////////////////////////
+/* $(function(){
+			$(window).on("load",function(){
+				
+				$(".chat-box").mCustomScrollbar({
+					autoHideScrollbar:true,
+					theme:"rounded"
+				});
+				
+			});
+		});
+
+ */
 </script>
 </head>
 <body>
+
 <main class='container'>
 
 	<div class='list'>
@@ -445,7 +523,7 @@ window.addEventListener('beforeunload', function (e) {
 		</ul>
 		<ul>
 			<li>관심사</li>
-			<li><a href='#fa'>상대방</a></li>
+			<li><a href='#user_1'>상대방</a></li>
 			<br><br>
 			<div class=" text-center"><a class="btn btn-default" href="#" role="button">확인</a></div>
 			<br><br>
@@ -453,10 +531,16 @@ window.addEventListener('beforeunload', function (e) {
 		</ul>
 		<ul>
 			<li>기타</li>
-			<br><br>&nbsp;
-			<img alt="" src="/resources/images/chatting/voice.png" style="width: 40px; height: 40px;">&nbsp;&nbsp; 
-			<img alt="" src="/resources/images/chatting/image.png" style="width: 40px; height: 40px;">&nbsp; &nbsp;
-			<img alt="" src="/resources/images/chatting/profile.png" style="width: 40px; height: 40px;">&nbsp;
+			<br><br>
+			<div class="col-sm-4 col-md-4 text-center">
+			<img  src="/resources/images/chatting/voice.png" style="width: 40px; height: 40px;">
+			</div>
+			<div class="col-sm-4 col-md-4 text-center">
+			<img alt="" src="/resources/images/chatting/image.png" style="width: 40px; height: 40px;">
+			</div>
+			<div class="col-sm-4 col-md-4 text-center">
+			<img alt="" src="/resources/images/chatting/profile.png" style="width: 40px; height: 40px;">
+			</div>
 			<br><br>
 			
 		</ul>
@@ -464,36 +548,10 @@ window.addEventListener('beforeunload', function (e) {
 	
 
 	<!-- User Number 1 -->
-	<div class='chat-box' style="overflow: auto;">
-		<ul id='user_1'>
+	<div class='chat-box'  data-mcs-theme="rounded-dots">
+		<ul id='user_1' >
 			<li><div class='title'>2019.01.11</div></li>
-			<li>
-				<div class='me'>
-					<div>
-						<div class='name'>나</div>
-						<div class='img'><!-- <img alt="" src="/resources/images/chatting/loading.gif"> --></div>
-						<div class='text'>
-							<div>
-								Hello
-							</div>
-						</div>
-					</div>
-				</div>
-			</li>
-			<li>
-				<div class='you'>
-				<div>
-					<div class='img'></div>
-					<div class='name'>상대방</div>
-					<div class='text'>
-						<div>
-							Get lost, Akshay.
-						</div>
-					</div>
-				</div>
-				</div>
-			</li>
-		</ul>
+			
 		
 		
 		
