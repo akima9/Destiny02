@@ -43,7 +43,7 @@
         
 		        
     </style>
-    
+    <link rel="manifest" href="/manifest.json">
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
