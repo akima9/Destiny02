@@ -26,7 +26,7 @@ function highMaps() {
 highMaps.prototype.init = function(){
 	var me = this;
 	// 전국단위 지도 로드
-	$.getJSON('./json/0.json', function (geojson) {
+	$.getJSON('../resources/javascript/highmap/json/0.json', function (geojson) {
         var data = Highcharts.geojson(geojson, 'map');
         $.each(data, function () {
         	this.drilldown = this.properties['code'];
@@ -40,7 +40,7 @@ highMaps.prototype.init = function(){
                         if (!e.seriesOptions) {
                         	// 상위레벨에서 선택한 부분의 코드값에 따라 하위레벨이 결정
                             var chart = this, mapKey = e.point.drilldown;
-                            $.getJSON('./json/' + mapKey + '.json', function (geojson2) {
+                            $.getJSON('../resources/javascript/highmap/json/' + mapKey + '.json', function (geojson2) {
                                 data = Highcharts.geojson(geojson2, 'map');
                                 chart.addSeriesAsDrilldown(e.point, {
                                     name: e.point.name,
@@ -62,7 +62,6 @@ highMaps.prototype.init = function(){
                                          *  디폴트 상태입니다. ex)textShadow: '0 0 0px #000000'를 설정하지 않는다면 textShadow 효과가 지속됩니다.
                                          *                                      * 
                                          * */
-                                        
                                         style : {
                                         	color : '#000',
                                             textShadow: '0 0 0px #000000',
@@ -130,7 +129,7 @@ highMaps.prototype.init = function(){
             drilldown: {
             	// 상위 지도 레이블 스타일 설정
                 activeDataLabelStyle: {
-                	color : '#000', //지역이름text색상
+                	color : '#000',
                 	shadow: false,
                     textShadow: '0 0 0px #000000',
                     fontWeight: "none",
