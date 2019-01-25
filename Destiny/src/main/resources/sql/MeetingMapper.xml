@@ -196,12 +196,14 @@
 	 <select  id="checkDuplicationCrew" resultType="int">
 	 		select count(*) CREW_ID from meeting_crew_list where meeting_no=#{meetingNo} 
 	 		and crew_id=#{meetingMasterId}
+	 		and crew_condition = 'YES'
 	 </select>
-<!-- ////////////////참여자인지 확인 ////////////////// -->	 	<!-- !!!!!!!!!!!!이거 아마 회차 확인부 추가해야할듯!!!!!!!!!!!!!!  -->
+<!-- ////////////////참여자인지 확인 ////////////////// -->
 	 <select  id="duplicationAct" resultType="int">
 	 		select count(*) from meeting_act_crew_list 
 	 		where meeting_act_no=#{meetingActNo} 
 	 		and act_crew_id=#{meetingMasterId}
+	 		and meeting_act_count=#{meetingActCount:NUMERIC}
 	 </select>
 <!-- ////////////////참여자할떄 모임의 액트 번호 확인 ////////////////// -->	  
 	 <select  id="getActNo" resultMap="meetingSelectMap">

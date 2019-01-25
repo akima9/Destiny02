@@ -185,17 +185,19 @@ public class MeetingRestController {
 	@RequestMapping( value="meetingRest/dropMeeting", method=RequestMethod.POST)
 	public int dropMeeting(@RequestBody Meeting meeting)throws Exception{
 		System.out.println("탈퇴  시작함");
-		System.out.println(meeting);
+		System.out.println("여기미팅에 미팅회차 있어야함 "+meeting);
 		
 		int result = meetingService.checkDuplicationCrew(meeting);
-		System.out.println(result);
+		System.out.println("모임원인지 확인 "+result);
 		if(result < 1) return 5018;/*모임원 아님*/
 		
 		if(result==1) {
-			
+			System.out.println("왔음???");
+			meeting.setMeetingActNo(meetingService.getActNo(meeting).getMeetingActNo());
 			int duplicationAct = meetingService.DuplicationAct(meeting);
 			if(duplicationAct>0) {
-				meeting.setMeetingActNo(meetingService.getActNo(meeting).getMeetingActNo());
+				System.out.println("여기도??왔음???");
+				
 				int actremovResult = meetingService.kickOutAct(meeting);
 				System.out.println("회차 모임에서 삭제 되었나"+actremovResult);
 			}
