@@ -685,7 +685,7 @@
 										 }
 									}else{
 										if (confirm("${meeting.meetingName} 에서 \n탈퇴하였습니다.") == true){    //확인
-											self.location="/meeting/getMeetingList.jsp";
+											self.location="/meeting/listMeeting";
 										 }else{   //취소
 										     return;
 										 }
@@ -751,7 +751,7 @@
 												display+="<img src='/resources/images/userprofile/"+displayValue[i].masterProfileImg+"' width='100px' height='100px'> <br/>";
 												display+=displayValue[i].crewNickName+"<br/>";
 											}
-												display+="<a class='btn btn-primary btn' id='pushCancle3' role='button'>확&nbsp;인</a>"
+												display+="<a class='btn btn-primary btn' id='pushCancle3' role='button'>확인</a>"
 												display+="</h6>";
 												
 										console.log(display);	
@@ -773,9 +773,9 @@
 			});
 //////////////*///////참여자목록에서 확인 눌렀을때 //////////////*/
 		 $( function() {
-				$("button.btn.btn-primary:contains('확&nbsp;인')").click(function () {
+				$("#pushCancle3").click(function () {
 					alert("dd");
-					$("#dialog3").toggle();
+					$("#dialog-background").toggle();
 				});
 			});
 		
@@ -1044,6 +1044,7 @@
 		${meetingAct.meetingDues}<br/>
 		<button>참여하기</button>
 		<button>참여자목록</button>
+		<button type="button" id="nextMeeting">다음 모임 등록</button>
 		
 		<hr/>
 		<button>가입하기</button>
