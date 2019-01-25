@@ -148,7 +148,7 @@ public class MeetingDaoImpl implements MeetingDao {
 	}
 
 	@Override
-	public List<Meeting> getActCrew(int meetingNo) throws Exception {
+	public List<Meeting> getActCrew(Meeting meetingNo) throws Exception {
 		return sqlSession.selectList("MeetingMapper.getActCrew",meetingNo);
 	}
 
@@ -181,6 +181,11 @@ public class MeetingDaoImpl implements MeetingDao {
 	@Override
 	public int dropMeeting(Meeting meeting) throws Exception {
 		return sqlSession.delete("MeetingMapper.dropMeeting", meeting);
+	}
+
+	@Override
+	public int nextMeeting(Meeting meeting) throws Exception {
+		return sqlSession.update("MeetingMapper.nextMeeting", meeting);
 	}
 	
 

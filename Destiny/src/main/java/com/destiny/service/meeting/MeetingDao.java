@@ -47,7 +47,7 @@ public interface MeetingDao {
 	
 	public int DuplicationAct(Meeting meeting) throws Exception; /*참여할떄 중복체크*/
 	
-	public List<Meeting> getActCrew(int meetingNo) throws Exception;/*참여자 명단 가져오기*/
+	public List<Meeting> getActCrew(Meeting meetingNo) throws Exception;/*참여자 명단 가져오기*/
 	
 	public String getCrewrole(Meeting meeting) throws Exception; /*수정 삭제 시 모임장인지 확인 */
 	
@@ -59,4 +59,5 @@ public interface MeetingDao {
 	
 	public int dropMeeting(Meeting meeting)throws Exception; /*탈퇴진행*/
 	
+	public int nextMeeting(Meeting meeting)throws Exception; /*다음회차 모임 등록*/
 }
