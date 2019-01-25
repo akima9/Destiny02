@@ -40,6 +40,7 @@
 	var manCount=0;
 	var womanCount=0;
 	var n=0;
+	var n2=3000;
 	var chattingNo='${chatting.chattingNo}';
 	(function poll() {
 	    $.ajax({
@@ -73,10 +74,34 @@
 
 			              //확인 버튼 클릭 true 
 			        	   window.close();
+			        	 
+			        			$.ajax({
+			        		        url: '/chatting/json/endPerfectMatching',
+			        		        type: 'GET',
+			        		        dataType: 'text',
+			        		        success: function(JsonData) {
+			        		            console.log('success');
+			        		          alert(JsonData);
+			        					
+			        		        }
+			        				
+			        		    });
+			        			
+			        		
+			        		 
 			           }else{
 
 			             //취소 버튼 클릭 false
+			             setTimeout(function() { 
+			            	 if (n2<10000) {
+			            		 poll();
+							}else{
+								alert("상대방을 찾을 수 없습니다. 다음에 다시 이용해주세요!");
 
+							}
+			            	 
+			            	 console.log(n2); n2+3000; }, n2)
+			        	   
 			           }
 			
 				}console.log(n); n++; }, 3000)
@@ -86,12 +111,19 @@
 	
 	 
 	window.addEventListener('beforeunload', function (e) {
-		location="/chatting/json/endPerfectMatching";
+		$.ajax({
+	        url: '/chatting/json/endPerfectMatching',
+	        type: 'GET',
+	        dataType: 'text',
+	        success: function(JsonData) {
+	            console.log('success');
+	          alert(JsonData);
+				
+	        }
+			
+	    });
 		
-		});
-	 
-	
-	
+	});
 	</script>
 <title>matching</title>
 <style>

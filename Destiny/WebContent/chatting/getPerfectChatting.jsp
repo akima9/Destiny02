@@ -284,7 +284,21 @@ main.container .chat-box ul li .you .text div {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 
 <script>
+//////////////////////////////////////////
+function noEvent() { // 새로 고침 방지
+           if (event.keyCode == 116) {
+               alert("새로고침을 할 수 없습니다.");
+               event.keyCode = 2;
+               return false;
+           } else if (event.ctrlKey
+                   && (event.keyCode == 78 || event.keyCode == 82)) {
+               return false;
+           }
+       }
+   document.onkeydown = noEvent;
 
+
+////////////////////////////////////////////
 
 ////////////////////////////////////////////
 
@@ -513,7 +527,7 @@ window.addEventListener('beforeunload', function (e) {
 
 <main class='container'>
 
-	<div class='list'>
+	<div class='list col-sm-4 col-md-4'>
 		<ul>
 			<li>이심전심 결과</li>
 			<li><a href='#user_1'>상대방</a></li>
@@ -548,7 +562,7 @@ window.addEventListener('beforeunload', function (e) {
 	
 
 	<!-- User Number 1 -->
-	<div class='chat-box'  data-mcs-theme="rounded-dots">
+	<div class='chat-box col-sm-8 col-md-8'  data-mcs-theme="rounded-dots">
 		<ul id='user_1' >
 			<li><div class='title'>2019.01.11</div></li>
 			
@@ -574,7 +588,7 @@ window.addEventListener('beforeunload', function (e) {
 					<option value="ru">러시아어</option>
 				</select>
 				<input id="data" style="width:200px;" />
-				<input type="button" id="datasend" value="전송" />
+				<input type="button" role="button" id="datasend" value="전송" />
 				
 			</div>
 		</div>
@@ -586,10 +600,12 @@ window.addEventListener('beforeunload', function (e) {
 			    <div class="circle">
 			        <span>0%</span>
 			    </div>
+			    <img alt="" src="/resources/images/chatting/gage.gif"style="width:50px; height: 50px">
 			    <div class="text">
-			        <input type="text" class="input" value="0" />
-			        <input type="button" class="input" value="좋아요"/>
-			        <small>Please change a value and hit the enter key.</small>
+			    
+			        <!--  <input type="text" class="input" value="0" /> -->
+			        <input type="button" class="input" src="/resources/images/chatting/gage.gif" value="좋아요"/>
+			        <!-- <small>Please change a value and hit the enter key.</small> -->
 			    </div>
 			</div>
 	
