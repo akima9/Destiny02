@@ -13,6 +13,8 @@
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
+	<link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->
+	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
@@ -82,11 +84,23 @@
      
      <style>
        body > div.container{
-        	border: 3px solid #D6CDB7;
+        	
             margin-top: 10px;
         }
     </style>
-    
+    <style>/* !!!폰트설정!!!!! */
+	@import url(//fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+	 
+	#bigletter{
+	     font-family: 'Nanum Pen Script', cursive;
+	     font-size : 100px;
+	}
+	.imgmen{
+		border-radius: 50%;
+	}
+	
+	hr {    border-top: 1px solid #fff0;}
+	</style>
     
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -1167,7 +1181,7 @@
 				  
 				 <div class="form-group">
 				   <div class="col-sm-offset-4  col-sm-4 text-center">
-				     <button type="button" class="btn btn-primary"  >등 &nbsp;록</button>
+				     <button type="button" class="btn btn-primary"  >등 &nbsp; 록</button>
 					 <a class="btn btn-primary btn" id="pushCancle" role="button">취&nbsp;소</a>
 				   </div>
 				 </div>
@@ -1176,52 +1190,78 @@
 		</div>
 	</div>
 	
-	<div class="container" > <!-- 가장큰 틀 -->
+	<div class="container " > <!-- 가장큰 틀 -->
 		<div class="row">
-		
 		  <div class="col-md-12">
-		  	<img src="/resources/images/meeting/${meeting.titleImg}" width="600px" height="500px"/>
+		  	<img src="/resources/images/meeting/${meeting.titleImg}" class="col-xs-12 col-md-12"/>
+		  </div>
+		  
+		  <div class="col-md-12" align="center" id="bigletter">
+		  	<span>${meeting.meetingName}</span>
 		  </div>
 		  
 		  <div class="col-md-12">
 		  
 		  	<div class="row">
-	  			<div class="col-xs-4 col-md-3"><strong>모임설명</strong></div><hr/>
-				<div class="col-xs-8 col-md-3">${meeting.meetingDetail}</div>
+	  			<div class="col-xs-4 col-md-4"><strong>모임설명</strong></div><hr/>
+				<div class="col-xs-8 col-md-8">${meeting.meetingDetail}</div>
 			</div>
-		
 			<hr/>
-		
 			<div class="row">
-		  		<div class="col-xs-5 col-md-3 "><strong>모임규칙</strong></div><hr/>
-				<div class="col-xs-7 col-md-3">${meeting.meetingRule}</div>
+		  		<div class="col-xs-5 col-md-5 "><strong>모임규칙</strong></div><hr/>
+				<div class="col-xs-7 col-md-7">${meeting.meetingRule}</div>
 			</div>
-			
 			<hr/>
 		  </div>
+		 </div>
+		<div class='row'>
+			<table class="col-sm-12 col-md-12">
+				<tr>
+					<td>
+					<span id="thisCount" data-param="${meetingAct.meetingActCount}"> ${meetingAct.meetingActCount}회차 모임 일정 </span>
+					</td>
+				</tr>
+			</table>
+		</div>		
+		<div id="meetingActCount" >
+			<div class='row'>
+				<div align="center" class="col-xs-2 col-md-2 ">
+					<img src="/resources/images/meeting/calendar.png" height="50px" alt="Pic 01" >
+				</div>
+				
+				<div class="col-xs-6 col-md-6 ">
+				<p> ${meetingAct.meetingDate} ${meetingAct.meetingTime } </p>
+				<p> ${meetingAct.meetingLocation} </p>
+				<p> ${meetingAct.meetingDues} </p>
+				</div>
+			
+				<div class="col-xs-4 col-md-4 ">
+					<div align="center">
+					<button class="button small">참여하기</button>
+					<button class="button small">참여자목록</button><hr/>
+					</div>
+					<c:if test="${meeting.snooze=='Y'}">
+						<div align="center">
+							<button  class="button small" type="button" id="nextMeeting">다음 모임 등록</button>
+						</div>
+					</c:if>
+				</div>	
+			</div>
+		</div>
+	
+		<hr/>
+		<div align="center" class="col-xs-12 col-md-12 ">
+			<button class="button">가입하기</button>
 		</div>
 		
-		<hr/>
-		<div id="meetingActCount">
-			<span id="thisCount" data-param="${meetingAct.meetingActCount}">${meetingAct.meetingActCount}회차 모임 일정</span><br/>
-			<span>${meetingAct.meetingDate} ${meetingAct.meetingTime }</span><br/>
-			<span>${meetingAct.meetingLocation}</span><br/>
-			<span>${meetingAct.meetingDues}</span><br/>
-		</div>
-		<button>참여하기</button>
-		<button>참여자목록</button>
-		<c:if test="${meeting.snooze=='Y'}">
-		<button type="button" id="nextMeeting">다음 모임 등록</button>
-		</c:if>
-			<jsp:include page="/meeting/modal.jsp" />
-		<hr/>
-		<button>가입하기</button>
+		<jsp:include page="/meeting/modal.jsp" />
+		
 		<!-- 모달창 디자인 부분 -->
         <div id="dialog2">
         <form id="dialog2form" class="form-horizontal">
         <div>
         	<div name="meetingMasterId" value="${sessionScope.me.userId}" class="form-group col-sm-12 col-md-12" align="center">
-        		<img src="/resources/images/userprofile/${sessionScope.me.profile}" width="100px" height="100px">
+        		<img src="/resources/images/userprofile/${sessionScope.me.profile}" width="100px" height="100px" class="imgmen">
         	</div>
         	
         	<div class="form-group col-sm-12 col-md-12" align="center">
@@ -1245,8 +1285,7 @@
         </form>
         <!-- 모달창 디자인 부분  끝-->
         </div>
-		<hr/>
-		<hr/>
+
 		<div >
 			<table>
 				
@@ -1263,7 +1302,7 @@
 					<c:forEach var="crew" items="${crewList}">
 						
 					 		<div class="dropdown">
-					 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" width="100px" height="100px">
+					 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" width="100px" height="100px" class="imgmen">
 								<a href="#" class="dropdown-toggle thisName" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
 									<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
 									<span class="caret"></span>
@@ -1294,7 +1333,6 @@
 			</form>
 		</div>
 		</div>
-		<hr/>
 		
 		<!-- <div id="map" style="width:800px;height:400px;"></div>
 		<script>
@@ -1425,8 +1463,6 @@
 		    };
 		}
 	</script> -->
-
-<hr/><hr/><hr/>
 	
 	</div>
  	<!--  화면구성 div Start /////////////////////////////////////-->
