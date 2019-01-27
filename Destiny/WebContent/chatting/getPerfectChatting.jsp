@@ -508,7 +508,22 @@ window.addEventListener('beforeunload', function (e) {
 	        }
 	    });
 	});
-//////////////////////////////////////////
+///////채팅방 나감///////////////////////////////////
+window.addEventListener('beforeunload', function (e) {
+		$.ajax({
+	        url: '/chatting/json/endPerfectChatting',
+	        type: 'GET',
+	        dataType: 'text',
+	        success: function(JsonData) {
+	            console.log('success');
+	          alert(JsonData);
+				
+	        }
+			
+	    });
+		
+	});
+
 /* $(function(){
 			$(window).on("load",function(){
 				
@@ -526,41 +541,6 @@ window.addEventListener('beforeunload', function (e) {
 <body>
 
 <main class='container'>
-
-	<div class='list col-sm-4 col-md-4'>
-		<ul>
-			<li>이심전심 결과</li>
-			<li><a href='#user_1'>상대방</a></li>
-			<br><br><br><br>
-			<li><a href='#user_2'>나</a></li>
-			<br><br><br><br>
-		</ul>
-		<ul>
-			<li>관심사</li>
-			<li><a href='#user_1'>상대방</a></li>
-			<br><br>
-			<div class=" text-center"><a class="btn btn-default" href="#" role="button">확인</a></div>
-			<br><br>
-			
-		</ul>
-		<ul>
-			<li>기타</li>
-			<br><br>
-			<div class="col-sm-4 col-md-4 text-center">
-			<img  src="/resources/images/chatting/voice.png" style="width: 40px; height: 40px;">
-			</div>
-			<div class="col-sm-4 col-md-4 text-center">
-			<img alt="" src="/resources/images/chatting/image.png" style="width: 40px; height: 40px;">
-			</div>
-			<div class="col-sm-4 col-md-4 text-center">
-			<img alt="" src="/resources/images/chatting/profile.png" style="width: 40px; height: 40px;">
-			</div>
-			<br><br>
-			
-		</ul>
-	</div>
-	
-
 	<!-- User Number 1 -->
 	<div class='chat-box col-sm-8 col-md-8'  data-mcs-theme="rounded-dots">
 		<ul id='user_1' >
@@ -570,6 +550,42 @@ window.addEventListener('beforeunload', function (e) {
 		
 		
 	</div>
+
+	<div class='list col-sm-4 col-md-4'>
+		<ul class='col-xs-4 col-sm-12'>
+			<li>MBTI 유형</li>
+			<li><a href='#user_1'>상대방</a></li>
+			<br><br><br><br>
+			<li><a href='#user_2'>나</a></li>
+			<br><br><br><br>
+		</ul>
+		<ul class='col-xs-4 col-sm-12'>
+			<li>관심사</li>
+			<li><a href='#user_1'>상대방</a></li>
+			<br><br>
+			<div class=" text-center"><a class="btn btn-default" href="#" role="button">확인</a></div>
+			<br><br>
+			
+		</ul>
+		<ul class='col-xs-4 col-sm-12'>
+			<li>기타</li>
+			<br><br>
+			<div class="col-xs-4 col-sm-4 text-center">
+			<img  src="/resources/images/chatting/voice.png" style="width: 40px; height: 40px;">
+			</div>
+			<div class="col-xs-4 col-sm-4 text-center">
+			<img alt="" src="/resources/images/chatting/image.png" style="width: 40px; height: 40px;">
+			</div>
+			<div class="col-xs-4 col-sm-4 text-center">
+			<img alt="" src="/resources/images/chatting/profile.png" style="width: 40px; height: 40px;">
+			</div>
+			<br><br>
+			
+		</ul>
+	</div>
+	
+
+	
 	
 		<div class="form-group">
 	  		<label for="lang" class="col-sm-offset-1 col-sm-1 col-md-2 control-label">언어</label>
