@@ -436,7 +436,7 @@
 		 </div>
 		 
 		 <div class="form-group col-sm-10 col-md-10">
-		 <input name="meetingLocation" type="text" class="form-control" id="sample5_address" placeholder="주소">
+		 <input name="meetingLocation" type="text" class="form-control" id="sample5_address" placeholder="주소" readonly="readonly">
 		 	<!-- <input type="text" class="form-control" placeholder="모임장소를 입력하여주세요."> -->
 		 </div>
 		 

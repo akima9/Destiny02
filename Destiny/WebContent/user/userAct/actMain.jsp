@@ -1,151 +1,98 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>우연</title>
+<!-- All CSS Insert -->
+<link rel="stylesheet" href="/resources/css/main.css" > 
+
+<!-- //All CSS Insert -->
+
+<!-- All js -->
+	<!--  템플릿 사용하기 위해 필요한 js -->
+	<script src="/resources/javascript/jquery.min.js"></script>
+	<script src="/resources/javascript/skel.min.js"></script>
+	<script src="/resources/javascript/util.js"></script>
+	<script src="/resources/javascript/main.js"></script>
 	
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
 	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-   
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
- 		body {
-            padding-top : 50px;
-        }
-    </style>
-    
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	<script type="text/javascript">
-		
-		//============= 회원정보수정 Event  처리 =============	
-		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button[id='CommunityListButton']" ).on("click" , function() {
-			 	//var userId = $("input[name='getUserId']").val();
-			 	var userId = "${me.userId}";
-				self.location = "/act/getWriteCommunityList/"+userId;
-		    });
-		});
-		
-		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button[id='openMeetingListButton']" ).on("click" , function() {
-			 	//var userId = $("input[name='getUserId']").val();
-			 	var userId = "${me.userId}";
-				self.location = "/act/getOpenMeetingList/"+userId;
-		    });
-		});
-		 
-		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button[id='joinMeetingListButton']" ).on("click" , function() {
-			 	//var userId = $("input[name='getUserId']").val();
-			 	var userId = "${me.userId}";
-				self.location = "/act/getJoinMeetingList/"+userId;
-		    });
-		});
-		 
-		 
-		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button[id='writeCommentListButton']" ).on("click" , function() {
-			 	//var userId = $("input[name='getUserId']").val();
-			 	var userId = "${me.userId}";
-				self.location = "/act/getCommentListByWriter/"+userId;
-		    });
-		});
-		 
-		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button[id='contactListButton']" ).on("click" , function() {
-			 	//var userId = $("input[name='getUserId']").val();
-			 	var userId = "${me.userId}";
-				self.location = "/act/getContactList/"+userId;
-		    });
-		});
-		 
-		 
-		
-		
+	<script>
+	
 	</script>
-	<title>act main</title>
-	</head>
-	<body>
+<!-- //All js -->
 	
-	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolBar.jsp" />
-  	<!-- ToolBar End /////////////////////////////////////-->
-  		
-  		<div class="container">
 	
-		<h1 class="bg-primary text-center">활동관리</h1>
+	<style>
 		
-		<!-- form Start /////////////////////////////////////-->
-		<form class="form-horizontal">
-  		
-  		<br/>
+	</style>
+
+</head>
+
+<body class="subpage">	
+	<!-- header -->
+	<jsp:include page="/layout/header.jsp" />
+	<!-- //header -->
+
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- contents -->
+	<section id="main" class="wrapper">
+		<div class="inner">
 		
-		<div class="form-group">
-		    <label for="userId" class="col-sm-4 control-label">작성한 개시글 목록</label>
-		    <div class="col-sm-4">
-		      <button id="CommunityListButton" type="button">작성한 개시글 목록</button>
-		    </div>
-		</div>	
-		
+		<h3>활동관리</h3>
 		<br/>
-		
-		<div class="form-group">
-		    <label for="userId" class="col-sm-4 control-label">개설한 모임 목록</label>
-		    <div class="col-sm-4">
-		      <button id="openMeetingListButton" type="button">개설한 모임 목록</button>
-		    </div>
-		</div>	
-		
-		<br/>
-		
-		<div class="form-group">
-		    <label for="userId" class="col-sm-4 control-label">가입한 모임 목록</label>
-		    <div class="col-sm-4">
-		      <button id="joinMeetingListButton" type="button">가입한 모임 목록</button>
-		    </div>
-		</div>	
-		
-		<br/>
-		
-		<div class="form-group">
-		    <label for="userId" class="col-sm-4 control-label">작성한 댓글 목록</label>
-		    <div class="col-sm-4">
-		      <button id="writeCommentListButton" type="button">작성한 댓글 목록</button>
-		    </div>
-		</div>	
-		
-		<br/>
-		
-		<div class="form-group">
-		    <label for="userId" class="col-sm-4 control-label">성사된 만남 목록</label>
-		    <div class="col-sm-4">
-		      <button id="contactListButton" type="button">성사된 만남 목록</button>
-		    </div>
-		</div>	
-		
-		<br/>
-		
-		</form>
+			<div class="box alt">
+				<div class="row 50% uniform">
+					
+					<div class="4u">
+					<p style="font-size:120%; color:black;">
+					<a href="/act/getWriteCommunityList/${me.userId}">작성한 개시글 목록</a>
+					<br/>당신이 작성한 개시글 목록을 관리하세요.</p>
+					</div>
+
+					<div class="4u">
+					<p style="font-size:120%; color:black;">
+					<a href="/act/getCommentListByWriter/${me.userId}">작성한 댓글 목록</a>
+					<br/>당신이 작성한 댓글을 모아보세요.
+					</div>
+
+					<div class="4u">
+					<p style="font-size:120%; color:black;">
+					<a href="/act/getOpenMeetingList/${me.userId}">개설한 모임 목록</a>
+					<br/>당신이 개설한 모임의 목록을 관리하세요.
+					</div>
+
+					<div class="4u">
+					<p style="font-size:120%; color:black;">
+					<a href="/act/getJoinMeetingList/${me.userId}">가입한 모임 목록</a>
+					<br/>당신이 가입한 모임의 목록을 관리하세요.
+					</div>
+
+					<div class="4u">
+					<p style="font-size:120%; color:black;">
+					<a href="/act/getContactList/${me.userId}">성사된 만남 목록</a>
+					<br/>당신이 맞이해온 만남의 기록을 살펴보세요.
+					</div>
+
+				</div>
+			</div>
+			
 		</div>
-	</body>
+	</section>
+	<!-- //contents -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+	<!-- footer -->
+	<jsp:include page="/layout/footer.jsp" />
+	<!-- //footer -->
+	
+	
+	
+</body>
 </html>

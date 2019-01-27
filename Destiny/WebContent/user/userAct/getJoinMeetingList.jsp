@@ -146,7 +146,7 @@
             <th align="left">개설자 닉네임</th>
             <th align="left">관심사</th>
             <th align="left">회차 조회</th>
-            <th align="left">탈퇴</th>
+
           </tr>
         </thead>
        
@@ -162,7 +162,7 @@
 			  <td align="left">${meeting.meetingMasterId}</td>
 			  <td align="left">${meeting.interestName}</td>
 			  <td align="left"><a class="btn btn-primary btn" href="/act/getMeetingAct/${meeting.meetingNo}" role="button" id="getMeetingAct">모임 &nbsp;회차&nbsp;조회</a></td>
-			  <td align="left">ㅇㅇ</td>
+
 			</tr>
           </c:forEach>
         

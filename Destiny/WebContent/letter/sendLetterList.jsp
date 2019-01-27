@@ -60,7 +60,7 @@
 <body>
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
-   		<h1 class="bg-primary text-center">쪽지함</h1>
+   		<h1 class="bg-primary text-center">보낸 쪽지함</h1>
    	
    		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
