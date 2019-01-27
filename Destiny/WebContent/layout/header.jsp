@@ -45,7 +45,14 @@
 		
 	});
 </script>
-
+<style>
+	strong{
+		font-family: 'Nanum Myeongjo', serif;
+	}
+	#nav{
+		font-family: 'Source Serif Pro', serif;
+	}
+</style>
 <header id="header">
 	<div class="inner">
 		<a href="#" class="logo"><strong>¿ì¿¬</strong></a>

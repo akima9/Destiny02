@@ -22,13 +22,13 @@ Latest compiled and minified JavaScript
  -->
  
  <!-- 참조 : http://getbootstrap.com/css/   -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
  
 <script type="text/javascript">
@@ -168,113 +168,53 @@ Latest compiled and minified JavaScript
 		font-size : 60px;
 		font-weight : bold;
 	}
-	h1 .slim{
-		font-weight : lighter;
-	}
+	h1 .slim{font-weight : lighter;}
 	
-	.wrap{
-		margin-top : 400px;
-	}
+	.wrap{margin-top : 400px;}
+	.wrap .button{padding : 40px 30px 10px 30px;}
+	.wrap .button .rightBtn{float : right;margin-left : 3px;}
 	
-	.wrap .button{
-		padding : 40px 30px 10px 30px;
-	}
-	
-	.wrap .button .rightBtn{
-		float : right;
-		margin-left : 3px;
-	}
-	
-	.wrapContents{
-		margin-bottom : 100px;
-		border : 1px solid #E3E4E6;
-		padding : 30px;
-	}
-
+	.wrapContents{margin-bottom : 100px;border : 1px solid #E3E4E6;padding : 30px;}
 
 	.btn-heart{width:16px; height:16px; border:none; background:url(../resources/images/img_heart.png) no-repeat 0 0; cursor:pointer;background-size : contain;margin-top:3px;}
 	.btn-heart.on{background:url(../resources/images/img_heart_on.png) no-repeat 0 0;background-size : contain;}
 	
 	
-	.righttSort{
-		text-align : right;
-	}
+	.righttSort{text-align : right;}
 	
-	.firstRow{
-		padding-bottom : 10px;
-		border-bottom : 1px dashed #E3E4E6;
-	}
+	.firstRow{padding-bottom : 10px;border-bottom : 1px dashed #E3E4E6;}
 	
-	.secondRow{
-		padding-top : 10px;
-	}
+	.secondRow{padding-top : 10px;}
 	
-	.thirdRow{
-		overflow : hidden;
-	}
+	.thirdRow{overflow : hidden;}
 	
-	ul{
-		float : left;
-	}
+	ul{float : left;}
 	
-	.contentsDetail{
-		padding : 50px 10px;
-	}
+	.contentsDetail{padding : 50px 10px;}
 	
-	.firstColumn {
-		font-weight : bold;
-	}
+	.firstColumn {font-weight : bold;}
 	
-	.count{
-		overflow : hidden;
-		padding : 10px;
-	}
+	.count{overflow : hidden;padding : 10px;}
 	
-	.count li{
-		float : left;
-		list-style-type : none;
-		margin-right : 10px;
-	}
+	.count li{float : left;list-style-type : none;margin-right : 10px;}
 	
-	.service{
-		float : right;
-		overflow : hidden;
-		padding : 10px;
-	}
+	.service{float : right;overflow : hidden;padding : 10px;}
 	
-	.service li{
-		float : left;
-		list-style-type : none;
-		margin-left : 10px;
-		cursor : pointer;
-	}
+	.service li{float : left;list-style-type : none;margin-left : 10px;cursor : pointer;}
 	
-	.service li:hover{
-		font-weight : bold;
-	}
+	.service li:hover{font-weight : bold;}
 	
-	li{
-		list-style-type : none;
-	}
+	li{list-style-type : none;}
 	
 	/* .container{
 		overflow : hidden;
 	} */
 	
-	.smallNavi{
-		overflow : hidden;
-		float : right;
-		margin-top : -30px;
-	}
+	.smallNavi{overflow : hidden;float : right;margin-top : -30px;}
 	
-	.smallNavi li{
-		float : left;
-		margin-right : 20px;
-	}
+	.smallNavi li{float : left;margin-right : 20px;}
 	
-	.homeImg{
-		margin-top : -2px;
-	}
+	.homeImg{margin-top : -2px;}
 </style>
 
 </head>
@@ -365,11 +305,17 @@ Latest compiled and minified JavaScript
 				</li>
 			</ul>
 			<ul class="service">
-				<li class="modify">수정</li>
-				<li><span>|</span></li>
+				<c:set var="userId" value="${me.userId }"/>
+				<c:set var="writerId" value="${community.writerId }"/>
+				<c:if test="${userId == writerId}">
+					<li class="modify">수정</li>
+					<li><span>|</span></li>
+				</c:if>
 				<li class="complain">신고</li>
-				<li><span>|</span></li>
-				<li class="delete">삭제</li>
+				<c:if test="${userId == writerId}">
+					<li><span>|</span></li>
+					<li class="delete">삭제</li>
+				</c:if>
 			</ul>
 		</div>
 		
