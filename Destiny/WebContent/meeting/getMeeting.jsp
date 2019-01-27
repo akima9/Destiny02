@@ -68,7 +68,7 @@
 		    padding: 10px;
 		}
 		
-		#dialog3 {
+		#dialog3, #nextDialog {
 		    display: none;
 		    position: fixed;
 		    left: calc( 50% - 160px ); top: calc( 30% - 70px );
@@ -77,6 +77,7 @@
 		    z-index: 11;
 		    padding: 10px;
 		}
+		
      </style>
      
      <style>
@@ -94,11 +95,20 @@
 	    ////////////////* 데이트픽커 데이터 포맷 */////////
 		$( function() {
 	
-		    $( "#datepicker" ).datepicker({
-		    	dateFormat:"yy-mm-dd"
+		    $( ".datepicker" ).datepicker({
+		    	dateFormat:"yy/mm/dd"
 		    });
 	    		
 		} );
+		$(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
+			 $( "button.btn.btn-primary:contains('등 &nbsp;록')" ).on("click" , function() {
+				//Debug..
+				//alert(  $( "td.ct_btn01:contains('등록')" ).html() );
+				//formdata = "수정";
+				fncAddProduct();
+		});
 		
 		function fncAddProduct(){
 			//Form 유효성 검증
@@ -116,7 +126,7 @@
 			var meetingDay=$("#weekday").val();
 			var meetingTime=$("select[name='meetingTime']").val();
 			var meetingLocation=$("input[name='meetingLocation']").val();
-			
+		
 			console.log("관심사"+interestName);
 			console.log("센터미팅"+centerMeeting);
 			console.log("미팅센터"+meetingCenter);
@@ -129,8 +139,7 @@
 			console.log("요일"+meetingDay);
 			console.log("시간"+meetingTime);
 			console.log("장소"+meetingLocation);
-			
-			
+
 			if(interestName == null || interestName.length<1){
 				alert("관심사를 선택해 주세요.");
 				return;
@@ -194,15 +203,129 @@
 			 }
 			//alert("모임이 등록되었습니다.");
 		}
-		///////////* 수정하기에서 확인누르면 이벤트 처리 *//////////////
-		$(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
-			 $( "button.btn.btn-primary:contains('등 &nbsp;록')" ).on("click" , function() {
-				//Debug..
-				//alert(  $( "td.ct_btn01:contains('등록')" ).html() );
-				fncAddProduct();
-			});
+		
+////////////////////* 다음 모임 등록 눌렀을때 이벤트 처리부분 *////////////////////////////////////////
+		 $( function() {
+			 var meetingnickname = "${crewList['0'].crewNickName}"; 
+			 var dt = new Date();
+			 var month = dt.getMonth()+1;
+			 var day = dt.getDate();
+			 var year = dt.getFullYear();
+			 var hours = dt.getHours();
+			 var minute = dt.getMinutes();
+			 var time = (hours + ':' +minute);
+			 var today = "2019-02-14-14:00";/* (year+'-0' +month + '-' + day+'-'+time); */
+			 var mitingTime = ('${meetingAct.meetingDate}'+'-'+'${meetingAct.meetingTime }');
+			 /* ${meetingAct.meetingDate} ${meetingAct.meetingTime } */
+			 console.log(today);
+			 console.log(mitingTime);
+			 console.log(mitingTime<today);
+				
+				$("button:contains('다음 모임 등록')").click(function () {
+					if('${empty sessionScope.me}'=='true'){
+						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+							$("#my-dialog,#dialog-background").toggle();
+							//self.location="/user/login";
+						 }else{   //취소
+						     return;
+						 }
+					}else if('${sessionScope.me.nickName ne meetingnickname}'=='false'){
+						alert("모임장이 아니시네요");
+					}else if(mitingTime<today==false){
+						alert("아직진행중인 모임이 있습니다.\n완료후 등록해 주세요");
+					}else{
+						$("#nextDialog").toggle();
+					}
+					
+				});
+				 $( "button.btn.btn-primary:contains('등 &nbsp;록')" ).on("click" , function() {
+					//Debug..
+					//alert(  $( "td.ct_btn01:contains('등록')" ).html() );
+					fncAddProduct();
+				});
+			});		 
+		///////////* 다음 모임 이벤트 처리 *//////////////
+			
+			 $( "#nextSchedul" ).on("click" , function() {
+					alert("왓음")
+					var meetingDate=$("#nextDay").val();
+					var meetingTime=$("#nextTime").val();
+					var meetingLocation=$(".nextLocation").val();
+					var meetingDues=$("#nextDues").val();
+					console.log(meetingDate);
+					console.log(meetingTime);
+					console.log(meetingLocation);
+					console.log(meetingDues);
+					
+					if(meetingDate == null && meetingDay == null){
+						alert("날짜or요일을 설정하요 주세요.");
+						return;
+					}
+					
+					if(meetingTime == null || meetingTime=='모임시간'){
+						alert("모임시간을 입력하여 주세요.");
+						return;
+					}
+					
+					if(meetingLocation == null || meetingLocation.length<1){
+						alert("모임장소를 입력하여 주세요.");
+						return;
+					}
+					
+					if (confirm("내용을 수정하시겠습니까?") == true){    //확인
+						
+						//$("#nextDialogForm").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
+						$.ajax( 
+							 {
+									url : "/meetingRest/nextMeeting",
+									method : "post" ,
+									dataType : "json" ,
+									data : JSON.stringify({
+										meetingNo : "${meeting.meetingNo}" ,
+										meetingActCount : "${meetingAct.meetingActCount}",
+										meetingDate :	meetingDate, 
+										meetingLocation :	meetingLocation,
+										meetingTime :	meetingTime,
+										meetingDues :	meetingDues,
+										
+									}),
+									headers : {
+										"Accept" : "application/json",
+										"Content-Type" : "application/json"
+									},
+									success : function(JSONData , status) {
+										if(JSONData.result=="5018"){
+											alert("someting wrong");
+										}else{
+											alert(JSONData.changeList.role);
+											//alert(JSONData.Meeting.role);
+											//alert(JSONData.Meeting);
+											if (confirm(JSONData.changeList.meetingActCount+"회 모임이 등록되었습니다.") == true){    //확인
+												//alert(JSONData.changeList);
+												//alert(JSONData.changeAct);
+												var changeList = "";
+												changeList+="<span id='thisCount' data-param='${meetingAct.meetingActCount}'>"+JSONData.changeList.meetingActCount+"회차 모임 일정</span><br/>";
+												changeList+="<span>"+JSONData.changeList.meetingDate+" "+JSONData.changeList.meetingTime+"</span><br/>";
+												changeList+="<span>"+JSONData.changeList.meetingLocation+"</span><br/>";
+												changeList+="<span>"+JSONData.changeList.meetingDues+"</span><br/>";
+												
+												$("#meetingActCount").empty().html(changeList);
+											 }else{   //취소
+											     return;
+											 } 
+											
+											
+										}
+									}
+							}); 
+					     //document.removefrm.submit();
+
+					 }else{   //취소
+
+						 $("#nextDialog").toggle();
+
+					 }
+				});
 		});
 		
 		///////////* 가입하기에서 확인누르면 이벤트 처리 *//////////////
@@ -356,7 +479,7 @@
 				 self.location = "/product/listProduct?menu=${param.menu}"
 				}); */
 			  	$( "button:contains('신고')" ).on("click" , function() {
-			  		if(${empty sessionScope.me}){
+			  		if('${empty sessionScope.me}'=='true'){
 						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
 							$("#my-dialog,#dialog-background").toggle();
 							//self.location="/user/login";
@@ -443,15 +566,24 @@
 //=============강퇴 클릭 시 이벤트 처리==================================//		 
 		$( function() {
 			var meetingnickname = ""; 
+			var index111= "";
 			$("a.thisName").click(function () {
 				var indext = $(".thisName").index(this);
 				meetingnickname = $( ".thisName:eq("+indext+")" ).data("param");
+				index111 = $(".thisName").index(this);
+				console.log("안쪽 인덱스"+indext);
 			});
+			
+			
 				$("a[href='#' ]:contains('강퇴하기')").click(function () {
+					console.log("밖같쪽 인덱스"+index111);
+					
 						var masterNick = "${crewList['0'].crewNickName}";
-						console.log(meetingnickname);
-						console.log(masterNick);
+						//console.log(meetingnickname);
+						//console.log(masterNick);
+						console.log($(".thisName:eq("+index111+")").parent().remove());
 						
+					 	
 					if(meetingnickname==masterNick){
 						alert("자기자신을 선택하셨습니다\n탈퇴하시겠습니까?");
 					}else{
@@ -473,6 +605,7 @@
 											
 											if(JSONData=='MST'){
 												if (confirm(meetingnickname+"님을 강퇴하시겠습니까?") == true){    //확인
+													
 													$.ajax( 
 															 {
 																	url : "/meetingRest/kickOut",
@@ -492,10 +625,19 @@
 																	success : function(JSONData , status) {
 																		
 																		if(JSONData==2){
-																			alert(meetingnickname+" 님이 강퇴되었습니다.");
+																			if (confirm(meetingnickname+" 님이 강퇴되었습니다.") == true){    //확인
+																				//console.log("썩세스 인덱스"+index111);
+																				//$(".thisName:eq("+index111+")").parent().remove();
+																			 }else{   //취소
+
+																			     return;
+
+																			 }
+																			
 																		}
 																	}
-															}); 
+															});
+												
 												 }else{   //취소
 												     return;
 												 }
@@ -506,7 +648,8 @@
 								}); 
 					}
 					 
-				});
+				}); 
+				
 			});
 //=============위임 클릭 시 모임장인지 확인==================================//		 
 		$( function() {
@@ -586,6 +729,7 @@
 ///////////////////////////////* 참여하기 눌렀을때 이벤트 처리부분 *///////////////////
 		 $( function() {
 				$("button:contains('참여하기')").click(function () {
+					var count = $("#thisCount").data("param");
 					if('${empty sessionScope.me}'=='true'){
 						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
 							$("#my-dialog,#dialog-background").toggle();
@@ -605,7 +749,7 @@
 								data : JSON.stringify({
 									meetingNo : "${meeting.meetingNo}" ,
 									meetingMasterId : "${sessionScope.me.userId}",
-									meetingActCount : "${meetingAct.meetingActCount}",
+									meetingActCount : count,
 									
 								}),
 								headers : {
@@ -699,11 +843,15 @@
 					
 				});
 			});
-		 
+
+			
 		 
 /////////////////* 참여자목록 눌렀을때 이벤트 처리부분 */
 		 $( function() {
 				$("button:contains('참여자목록')").click(function () {
+					var count = $("#thisCount").data("param");
+					console.log(count);
+					
 					if('${empty sessionScope.me}'=='true'){
 						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
 							$("#my-dialog,#dialog-background").toggle();
@@ -723,7 +871,7 @@
 								data : JSON.stringify({
 									meetingNo : "${meeting.meetingNo}" ,
 									meetingMasterId : "${sessionScope.me.userId}", 
-									
+									meetingActCount : count,
 								}),
 								headers : {
 									"Accept" : "application/json",
@@ -762,7 +910,8 @@
 								}
 						}); 
 						
-					}	 
+					}
+					 
 				});
 			});
 /////////////////*  //가입하기에서 취소 눌렀을때 이벤트 처리 //*/
@@ -782,25 +931,9 @@
 	</script>
 	
 	<!-- 다음 우편 -->
-<!-- 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54cfa5aea3e5609fcbb420ef8cd6ed4c"></script>
 	<script>
-	    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-	        mapOption = {
-	            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-	            level: 5 // 지도의 확대 레벨
-	        };
-	
-	    //지도를 미리 생성
-	    var map = new daum.maps.Map(mapContainer, mapOption);
-	    //주소-좌표 변환 객체를 생성
-	    var geocoder = new daum.maps.services.Geocoder();
-	    //마커를 미리 생성
-	    var marker = new daum.maps.Marker({
-	        position: new daum.maps.LatLng(37.537187, 127.005476),
-	        map: map
-	    });
-	
 	
 	    function sample5_execDaumPostcode() {
 	        new daum.Postcode({
@@ -830,7 +963,37 @@
 	            }
 	        }).open();
 	    }
-	</script> -->
+	    
+	    function sample6_execDaumPostcode() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                var addr = data.address; // 최종 주소 변수
+	
+	                // 주소 정보를 해당 필드에 넣는다.
+	                document.getElementById("sample6_address").value = addr;
+	                // 주소로 상세 정보를 검색
+	                geocoder.addressSearch(data.address, function(results, status) {
+	                    // 정상적으로 검색이 완료됐으면
+	                    if (status === daum.maps.services.Status.OK) {
+	
+	                        var result = results[0]; //첫번째 결과의 값을 활용
+	
+	                        // 해당 주소에 대한 좌표를 받아서
+	                        var coords = new daum.maps.LatLng(result.y, result.x);
+	                        // 지도를 보여준다.
+	                        mapContainer.style.display = "block";
+	                        map.relayout();
+	                        // 지도 중심을 변경한다.
+	                        map.setCenter(coords);
+	                        // 마커를 결과값으로 받은 위치로 옮긴다.
+	                        marker.setPosition(coords)
+	                    }
+	                });
+	            }
+	        }).open();
+	    }
+	   
+	</script>
 	<!-- 다음우편 끝 -->
 	
 </head>
@@ -860,6 +1023,7 @@
         <div id="dialog">
         <!-- //////////////////////////모달창  내용부/////////////////////////////////////////////////// -->
         	<form id="contentsForm" class="form-horizontal">
+        	<div id="nextdelete">
         	<input type="hidden" name="meetingNo" value="${meeting.meetingNo}">
 				 <div  class="form-group col-sm-4 col-md-4">
 				 	<select id="interest" class="form-control">
@@ -962,9 +1126,9 @@
 				 		<option value="N" ${ ! empty meeting.snooze && meeting.snooze=='N' ? "selected" : "" }>한번</option>
 				 	</select>
 				 </div>
-				 
+			</div>	 
 				 <div  id="dateOrDay" class="form-group col-sm-4 col-md-4">
-		 			<input 	type="text" id="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜or요일" name="meetingDate"/>
+		 			<input 	type="text" class="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜or요일" name="meetingDate"/>
 		 	
 				 	<!--  
 				 	<select class="form-control">
@@ -991,7 +1155,7 @@
 				 </div>
 				 
 				 <div class="form-group col-sm-10 col-md-10">
-				 <input name="meetingLocation" type="text" class="form-control" id="sample5_address" value="${meeting.meetingLocation}">
+				 <input name="meetingLocation" type="text" class="form-control" id="sample5_address" value="${meeting.meetingLocation}" readonly="readonly">
 				 	<!-- <input type="text" class="form-control" placeholder="모임장소를 입력하여주세요."> -->
 				 </div>
 				 
@@ -1038,14 +1202,18 @@
 		</div>
 		
 		<hr/>
-		${meetingAct.meetingActCount}회차 모임 일정<br/>
-		${meetingAct.meetingDate} ${meetingAct.meetingTime }<br/>
-		${meetingAct.meetingLocation}<br/>
-		${meetingAct.meetingDues}<br/>
+		<div id="meetingActCount">
+			<span id="thisCount" data-param="${meetingAct.meetingActCount}">${meetingAct.meetingActCount}회차 모임 일정</span><br/>
+			<span>${meetingAct.meetingDate} ${meetingAct.meetingTime }</span><br/>
+			<span>${meetingAct.meetingLocation}</span><br/>
+			<span>${meetingAct.meetingDues}</span><br/>
+		</div>
 		<button>참여하기</button>
 		<button>참여자목록</button>
+		<c:if test="${meeting.snooze=='Y'}">
 		<button type="button" id="nextMeeting">다음 모임 등록</button>
-		
+		</c:if>
+			<jsp:include page="/meeting/modal.jsp" />
 		<hr/>
 		<button>가입하기</button>
 		<!-- 모달창 디자인 부분 -->
@@ -1094,7 +1262,7 @@
 					
 					<c:forEach var="crew" items="${crewList}">
 						
-					 		<li class="dropdown">
+					 		<div class="dropdown">
 					 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" width="100px" height="100px">
 								<a href="#" class="dropdown-toggle thisName" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
 									<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
@@ -1108,7 +1276,7 @@
 									</c:if>
 										<li><a href="#">쪽지보내기</a></li>
 								</ul>
-							</li>
+							</div>
 						
 					
 				 		<%-- <a id="masterNick" class="thisName" data-param="${crew.crewNickName}" data-toggle="dropdown-menu">${crew.crewNickName}</a>

@@ -11,7 +11,7 @@
 	</footer>
 	
 	
-	<div id="navPanel">
+	<%-- <div id="navPanel">
 		<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Home</a>
 		<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Meeting</a>
 		<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Chatting</a>
@@ -32,5 +32,5 @@
 			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">logout</a>
 		</c:if>
 		<a href="#navPanel" class="close" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></a>
-	</div>
+	</div> --%>
 	<div class="nav_bg"></div>

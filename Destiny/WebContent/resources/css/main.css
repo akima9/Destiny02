@@ -1650,15 +1650,15 @@
 		font-style: italic;
 	}
 
-	p {
+	/* p {
 		margin: 0 0 2em 0;
-	}
+	} */
 
 	h1, h2, h3, h4, h5, h6 {
 		color: #555;
 		font-weight: 400;
 		line-height: 1.5;
-		margin: 0 0 1em 0;
+		margin: 1em 0 1em 0;
 	}
 
 		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -1667,8 +1667,9 @@
 		}
 
 	h2 {
-		font-size: 1.85em;
-		font-weight: 300;
+		font-size: 60px;
+		font-weight: 900;
+		color : #ff8498;
 	}
 
 	h3 {
@@ -2537,8 +2538,10 @@
 		-ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 		transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 		background-color: transparent;
-		box-shadow: inset 0 0 0 3px #6cc091;
-		color: #6cc091 !important;
+		box-shadow: inset 0 0 0 3px #ff264a;
+		/* box-shadow: inset 0 0 0 3px #6cc091; */
+		color: #ff264a !important;
+		/* color: #6cc091 !important; */
 		border-radius: 30px;
 		border: 0;
 		cursor: pointer;
@@ -2723,7 +2726,9 @@
 		line-height: 3.25em;
 		position: absolute;
 		text-align: right;
-		top: 2em;
+		/* background : #1c1c1c; */
+		background : rgba(164, 87, 100, 0.7);
+		/* top: 2em; */
 		width: 100%;
 		z-index: 10001;
 	}
@@ -2931,19 +2936,21 @@
 /* Banner */
 
 	#banner {
-		padding: 8em 0 9em 0;
-		background-image: url(../images/banner.jpg);
+		/* height : 800px; */
+		padding: 32em 0 6em 0;
+		/* background-image: url(../images/banner.jpg);
 		background-size: cover;
 		background-position: bottom;
 		background-attachment: fixed;
-		background-repeat: no-repeat;
+		background-repeat: no-repeat; */
 		text-align: center;
 		position: relative;
+		overflow : hidden;
 	}
 
 		#banner:before {
 			content: '';
-			background: rgba(75, 75, 93, 0.85);
+			background: rgba(255, 164, 179, 0.18);
 			position: absolute;
 			width: 100%;
 			height: 100%;
@@ -2980,9 +2987,10 @@
 		}
 
 		#banner p {
-			font-size: 1em;
-			color: rgba(255, 255, 255, 0.55);
-			margin-bottom: 1.75em;
+			font-family: 'Nanum Myeongjo', serif;
+			font-size: 1.5em;
+			color: rgba(255, 255, 255, 1);
+			/* margin-bottom: 1.75em; */
 		}
 
 		#banner .flex {
@@ -3126,7 +3134,8 @@
 
 	#footer {
 		padding: 6em 0;
-		background: #6cc091;
+		background: #1c1c1c;
+		/* background: #6cc091; */
 		color: #fff;
 		text-align: center;
 	}

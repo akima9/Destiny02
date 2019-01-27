@@ -28,7 +28,7 @@
 	<insert id="addCommunity" parameterType="com.destiny.service.domain.Community" >
 	 	INSERT
 		INTO community( community_no, community_writer_id, category, community_user_grade, community_title, community_writer_nick_name, community_detail, community_write_date,  community_views, community_like, import_rank, community_view_condition) 
-		VALUES( seq_community_no.nextval, #{writerId}, #{category}, #{userGrade}, #{title}, #{writerNickName}, #{detail}, SYSDATE, #{views}, #{like}, #{importRank}, #{viewCondition})
+		VALUES( seq_community_no.nextval, #{writerId}, #{category}, #{userGrade}, #{title}, #{writerNickName}, #{detail}, TO_DATE(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), #{views}, #{like}, #{importRank}, #{viewCondition})
 		<selectKey resultType="int" keyProperty="communityNo" order="AFTER">
 			SELECT seq_community_no.currval FROM dual
 		</selectKey>
@@ -173,7 +173,11 @@
 									 				and comu.community_writer_nick_name like '%'||#{searchKeyword}||'%' 
 												</if>
 											</if>
-											
+											<choose>
+												<when test="searchSortingOption == null">
+														ORDER BY comu.community_no desc 
+												</when>
+											</choose>
 											<choose>
 												<when test="searchSortingOption == 0">
 														ORDER BY comu.community_no desc 

@@ -1,18 +1,15 @@
 package com.destiny.web.meeting;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.destiny.service.domain.Meeting;
@@ -118,7 +115,7 @@ public class MeetingRestController {
 		}else {
 			System.out.println("여기나옴");
 			Map<String, Object> actmap = new HashMap<String, Object>();
-			actmap = meetingService.getActCrew(meeting.getMeetingNo());
+			actmap = meetingService.getActCrew(meeting);
 			
 			actmap.put("actCrewList", actmap.get("list"));
 			return actmap;
@@ -208,6 +205,31 @@ public class MeetingRestController {
 		}
 		
 		return result;
+	}
+	
+	@RequestMapping( value="meetingRest/nextMeeting", method=RequestMethod.POST)
+	public Map<String , Object> nextMeeting(@RequestBody Meeting meeting)throws Exception{
+		System.out.println("다음 모임 등록  시작함");
+		int meetingActCount = meeting.getMeetingActCount()+1;
+		meeting.setMeetingActCount(meetingActCount);
+		//String date =(meeting.getMeetingDate()).substring(2);
+		//meeting.setMeetingDate(date);
+		
+		int result = meetingService.nextMeeting(meeting);
+		if(result==1) {
+			System.out.println("어디서 에러냐");
+			Meeting actMeeting = meetingService.getAct(meeting.getMeetingNo());
+			Map<String, Object> changeAct = new HashMap<String, Object>();
+			changeAct.put("changeList", actMeeting);
+			System.out.println(changeAct);
+			return changeAct;
+		}else {
+			System.out.println("여기서 에러냐");
+			Map<String, Object> notcollect = new HashMap<String, Object>();
+			notcollect.put("result", "5018");
+			return notcollect;/*실패*/
+		}
+			
 	}
 
 }

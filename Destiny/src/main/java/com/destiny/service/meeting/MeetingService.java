@@ -47,7 +47,7 @@ public interface MeetingService {
 	
 	public int DuplicationAct(Meeting meeting) throws Exception; /*참여할떄 중복체크*/
 	
-	public Map<String , Object> getActCrew(int meetingNo) throws Exception;/*참여자 명단 가져오기*/
+	public Map<String , Object> getActCrew(Meeting meetingNo) throws Exception;/*참여자 명단 가져오기*/
 	
 	public String getCrewrole(Meeting meeting) throws Exception; /*수정 삭제 시 모임장인지 확인 */
 	
@@ -58,4 +58,6 @@ public interface MeetingService {
 	public int passto(Meeting meeting)throws Exception; /*위임하기*/
 	
 	public int dropMeeting(Meeting meeting)throws Exception; /*탈퇴진행*/
+	
+	public int nextMeeting(Meeting meeting)throws Exception; /*다음회차 모임 등록*/
 }

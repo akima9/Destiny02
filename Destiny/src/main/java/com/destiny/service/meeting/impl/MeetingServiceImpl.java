@@ -145,7 +145,7 @@ public class MeetingServiceImpl implements MeetingService {
 	}
 
 	@Override
-	public Map<String, Object> getActCrew(int meetingNo) throws Exception {
+	public Map<String, Object> getActCrew(Meeting meetingNo) throws Exception {
 		List<Meeting> list= meetingDao.getActCrew(meetingNo);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -182,6 +182,11 @@ public class MeetingServiceImpl implements MeetingService {
 	@Override
 	public int dropMeeting(Meeting meeting) throws Exception {
 		return meetingDao.dropMeeting(meeting);
+	}
+
+	@Override
+	public int nextMeeting(Meeting meeting) throws Exception {
+		return meetingDao.nextMeeting(meeting);
 	}
 
 	

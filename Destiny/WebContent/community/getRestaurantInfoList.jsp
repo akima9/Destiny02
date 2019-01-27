@@ -12,21 +12,28 @@
 
 
 <!-- 참조 : http://getbootstrap.com/css/   -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
-<script src="https://unpkg.com/scrollreveal"></script>
+
+<script src="/resources/javascript/skel.min.js"></script>
+<script src="/resources/javascript/util.js"></script>
+<script src="/resources/javascript/main.js"></script>
+
+<link rel="stylesheet" href="/resources/css/main.css" >
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">
+
 
 <script type="text/javascript">
 
 var userId = "${me.userId}";
 console.log("userId : "+userId);
-
 
 function fncGetList(currentPage){
 	$("#currentPage").val(currentPage)
@@ -38,29 +45,29 @@ $(function() {
 	/* 무한스크롤 : start */
 	var currentPage = 0;
 	
-	function fncNextList(){
-		console.log("funcNextList()실행!")
+	function fncNextList(searchCondition, searchKeyword){
 		currentPage++;
-		console.log("currentPage : "+currentPage);
 		$.ajax({
 			url : "/info/json/listRestaurantInfo",
 			method : "post",
 			async : false,
 			dataType : "json",
 			data : JSON.stringify({
-				currentPage : currentPage
+				currentPage : currentPage,
+				searchCondition : searchCondition,
+				searchKeyword : searchKeyword
 			}),
 			headers : {
 				"Accept" : "application/json",
 				"Content-type" : "application/json"
 			},
 			success : function(JSON){
-				console.log("success까지 왔다!")
 				var list = "";
 				for ( var i in JSON.list) {
 					var community = JSON.list[i];
+					console.log("writeDate : "+community.writeDate);
 					list += '<div class="col-sm-6 col-md-4">';
-					list += '<div class="thumbnail headline" data-param='+community.communityNo+'>';
+					list += '<div class="thumbnail headline" data-param="'+community.communityNo+'">';
 					list += '<img src="../resources/images/uploadImg/'+community.fileName+'" alt="대표이미지">';
 					list += '<div class="caption">';
 					list += '<h3 class="tumTitle">'+community.title+'</h3>';
@@ -85,32 +92,60 @@ $(function() {
 					list += '<li><span>공감수</span> : '+community.like+'</li>';
 					list += '</ul></div></div></div>';
 				}
-				console.log("list : "+list);
+				
 				$(".rowList").html($(".rowList").html()+list);
+				
+				init();
 			}
 		});
 	}
 	
+	/* 썸네일 클릭 : start */
+	function init(){
+		$(".thumbnail").on("click", function(){
+			if(userId == ""){
+				alert("로그인 후 이용 가능합니다.");
+				$("#my-dialog,#dialog-background").toggle();
+			}
+			else{
+				var communityNo = $(this).data("param")
+				self.location="/info/getRestaurantInfo?communityNo="+communityNo	
+			}
+		});
+	};
+	/* 썸네일 클릭 : end */
+	
 	$(function(){
 		while ($(document).height()==$(window).height() && currentPage < $("input:hidden[name='maxPage']").val()) {
 			fncNextList();
-			ScrollReveal().reveal('.headline');
+			/* ScrollReveal().reveal('.headline'); */
 		}
 	});
 	
 	$(window).scroll(function(){
 		if (currentPage < $("input:hidden[name='maxPage']").val()) {
 			if ($(window).scrollTop()==$(document).height()-$(window).height()) {
-				fncNextList();
-				ScrollReveal().reveal('.headline');
+				var state = $('.sort-control option:selected').val();
+				var searchCondition = $('select[name=searchCondition]').val();
+				var searchKeyword = $('#searchKeyword').val();
+				fncNextList(searchCondition, searchKeyword);
+				/* ScrollReveal().reveal('.headline'); */
 			}
 		}
 	});
 	/* 무한스크롤 : end */
 	
 	/* 검색 버튼 : start */
-	$(".btn:contains('검색')").on("click", function(){
-		fncGetList(1);			
+	$(".button:contains('검색')").on("click", function(){
+		alert("검색버튼 클릭");
+		var state = $('.sort-control option:selected').val();
+		var searchCondition = $('select[name=searchCondition]').val();
+		var searchKeyword = $('#searchKeyword').val();
+		alert("searchCondition : "+searchCondition);
+		alert("searchKeyword : "+searchKeyword);
+		currentPage = 0;
+		$(".rowList").empty();
+		fncNextList(searchCondition, searchKeyword);
 	});
 	/* 검색 버튼 : end */
 	
@@ -126,14 +161,24 @@ $(function() {
 	});
 	/* 글쓰기 버튼 : end */
 	
+	/////////////아래는 리스트형////////////////////////////아래는 리스트형////////////////////////////아래는 리스트형///////////////
+	
+	/* 정렬 선택 : start*/
+	/* $('.sort-control').change(function(){
+		alert("정렬 선택!");
+		var state = $('.sort-control option:selected').val();
+		self.location="/info/listRestaurantInfo?searchSortingOption="+state+"&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}"					
+	}); */
+	/* 정렬 선택 : end */
+		
 	/* 글 제목 마우스 오버 : start */
-	$(".getRestaurantLink").on("mouseover",function(){
+	/* $(".getRestaurantLink").on("mouseover",function(){
 		$(".getRestaurantLink").css("cursor","pointer")
-	});
+	}); */
 	/* 글 제목 마우스 오버 : end */
 	
 	/* 글 제목 클릭 : start */
-	$(".getRestaurantLink").on("click", function(){
+	/* $(".getRestaurantLink").on("click", function(){
 		if(userId == ""){
 			alert("로그인 후 이용 가능합니다.");
 			$("#my-dialog,#dialog-background").toggle();
@@ -142,22 +187,9 @@ $(function() {
 			var communityNo = $(this).data("param")
 			self.location="/info/getRestaurantInfo?communityNo="+communityNo	
 		}
-	});
+	}); */
 	/* 글 제목 클릭 : end */
-	
-	/* 썸네일 클릭 : start */
-	$(".thumbnail").on("click", function(){
-		if(userId == ""){
-			alert("로그인 후 이용 가능합니다.");
-			$("#my-dialog,#dialog-background").toggle();
-		}
-		else{
-			var communityNo = $(this).data("param")
-			self.location="/info/getRestaurantInfo?communityNo="+communityNo	
-		}
-	});
-	/* 썸네일 클릭 : end */
-	
+		
 	/* 조회수 클릭 : start */
 	/* $("th:contains('조회')").on("click", function(){
 		self.location="/info/listRestaurantInfo?viewSort=1&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}"
@@ -175,11 +207,6 @@ $(function() {
 		self.location="/info/listRestaurantInfo?noSort=1&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}"
 	}); */
 	/* 글번호 클릭 : end */
-	
-	$('.sort-control').change(function(){
-		var state = $('.sort-control option:selected').val();
-		self.location="/info/listRestaurantInfo?searchSortingOption="+state+"&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}"
-	});
 	
 });
 
@@ -208,7 +235,7 @@ $(function() {
 		width : 100%;
 		height : 400px;
 	}
-	.topImg h1{
+	/* .topImg h1{
 		position : absolute;
 		line-height : 450px;
 		width : 100%;
@@ -217,7 +244,7 @@ $(function() {
 		z-index : 99;
 		font-size : 60px;
 		font-weight : bold;
-	}
+	} */
 	h1 .slim{
 		font-weight : lighter;
 	}
@@ -292,7 +319,7 @@ $(function() {
 <body>
 	
 	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolBar.jsp" />
+	<jsp:include page="/layout/header.jsp" />
   	<!-- ToolBar End /////////////////////////////////////-->
   	
   	
@@ -319,26 +346,27 @@ $(function() {
 		
 		<form>
 			<div class="form-group">
-			    <select class="form-control" name="searchCondition" >
+			    <select name="searchCondition" >
 					<option value="0"
 						${ !empty search.searchCondition && search.searchCondition=="0" ? "selected" : ""}>제목으로 검색</option>
 					<option value="1"
 						${ !empty search.searchCondition && search.searchCondition=="1" ? "selected" : ""}>작성자로 검색</option>
 				</select>
 			    <label class="sr-only" for="searchKeyword">검색어</label>
-				<input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어를 입력해주세요."
-			    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-				<button type="button" class="btn btn-default">검색</button>
+				<input type="text" id="searchKeyword" name="searchKeyword"  placeholder="검색어를 입력해주세요."
+			    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }">
+				<button type="button" class="button">검색</button>
 				  
 				<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				<input type="hidden" id="currentPage" name="currentPage" value="">
+				
 			</div>
 			
 		</form>
 	
 		<input type="hidden" name="maxPage" value="${resultPage.maxPage }">
 		
-		<div class="form-group">
+		<%-- <div class="form-group">
 			<select class="sort-control" name="searchCondition" >
 				<option value="0"
 					${ !empty search.searchSortingOption && search.searchSortingOption=="0" ? "selected" : ""}>최신 게시물 순</option>
@@ -349,10 +377,10 @@ $(function() {
 				<option value="3"
 					${ !empty search.searchSortingOption && search.searchSortingOption=="3" ? "selected" : ""}>이전 게시물 순</option>
 			</select>
-		</div>
+		</div> --%>
 		
 		<div class="form-group text-center">
-			<button type="button" class="btn btn-default btn-lg">글쓰기</button>
+			<button type="button" class="button">글쓰기</button>
 		</div>
 		
 		<!-- 썸네일 리스트 : start -->
@@ -390,7 +418,9 @@ $(function() {
 			</div>
 		</c:forEach>
 		</div> --%>
+		
 		<div class="rowList"></div>
+		
 		<!-- 썸네일 리스트 : end -->
 		
 		<!-- 테이블 리스트 : start -->
