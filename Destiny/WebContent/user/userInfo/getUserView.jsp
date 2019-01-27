@@ -19,7 +19,7 @@
 	<script src="/resources/javascript/skel.min.js"></script>
 	<script src="/resources/javascript/util.js"></script>
 	<script src="/resources/javascript/main.js"></script>
-	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 	
 	
 
@@ -58,11 +58,29 @@
 		});
 		
 		$(function(){
-			$("button[id='pushButton']").on("click", function(){
+			$("button[id='questionButton']").on("click", function(){
+				var question = $("input[name='questionButton']").val();
+				
+				//alert(question);
+				
+				$.ajax({
+					
+					//url : "http://api.adams.ai/datamixiApi/deepqa?key=3758962826504551960&answerType=0&question="+question,
+					url : "/user/json/getAnswer/"+question,
+					method : "GET",
+					datatype : "json",
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(JSONData, status){
+						alert(JSONData.answer.return_object.answer);
+					}
+					
+				});
 				
 			});
 		});
-		
 		
 		
 		
@@ -88,17 +106,22 @@
 			  background-color: #000000; /* For browsers that do not support gradients */
 			  background-image: linear-gradient(to right, #000000 , #FFFFFF); /* Standard syntax (must be last) */
 			}
-			
-			
+
+		
+		
 	</style>
 
 </head>
 
-<body class="subpage">	
+<body class="subpage" >	
+	
+
 	<!-- header -->
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
 
+	
+	
 	
 
 
@@ -118,7 +141,9 @@
 			      data-user="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
 			      data-init-key="value"
 			      ></div>
-			
+		
+		
+		
 		
 		<div class="box alt">
 			<div class="row 50% uniform">
@@ -164,7 +189,8 @@
 			</div>	
 			
 			<div class="6u">
-			      <button id="pushButton" type="button"><p>Çª½¬ º¸³ß!</p></button>
+				<input type="text" name="questionButton" id="question" >
+			      <button  id="questionButton" type="button"><p>¹¹µçÁö Áú¹®ÇØºÁ!</p></button>
 			</div>	
 			
 			
