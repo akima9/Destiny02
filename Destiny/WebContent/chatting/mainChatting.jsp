@@ -171,8 +171,8 @@
                </ol>
                
                <div class="carousel-inner" role="listbox">
-                 <div class="item active" >
-                   <img class="first-slide center-block" src="/resources/images/chatting/main01.jpg" style="width: 960px; height: 600px;" alt="First slide"><!-- 첫번째 사진 -->
+                 <div class="item active col-xs-12 col-sm-12" >
+                   <img class="first-slide center-block" src="/resources/images/chatting/main01.jpg"  alt="First slide"><!-- 첫번째 사진 -->
                  <div class="container">
                    <div class="carousel-caption">
                       당신의 성격유형을 등록하세요!
@@ -182,8 +182,8 @@
                    </div>
                  </div>
                </div>
-               <div class="item">
-                 <img class="second-slide center-block" src="/resources/images/chatting/main02.jpg" style="width: 960px; height: 600px;" alt="Second slide"><!-- 두번째 사진 -->
+               <div class="item col-xs-12 col-sm-12">
+                 <img class="second-slide center-block" src="/resources/images/chatting/main02.jpg" alt="Second slide"><!-- 두번째 사진 -->
                  <div class="container">
                    <div class="carousel-caption">
                      <h1>다양한 후기를 확인해 보세요!</h1>
@@ -192,8 +192,8 @@
                    </div>
                  </div>
                </div>
-               <div class="item">
-                 <img class="third-slide center-block" src="/resources/images/chatting/main03.jpg" style="width: 960px; height: 600px;" alt="Third slide"><!-- 세번째 사진 -->
+               <div class="item col-xs-12 col-sm-12">
+                 <img class="third-slide center-block" src="/resources/images/chatting/main03.jpg"  alt="Third slide"><!-- 세번째 사진 -->
                      <div class="container">
                       <div class="carousel-caption">
                          <h1>연애조언</h1>

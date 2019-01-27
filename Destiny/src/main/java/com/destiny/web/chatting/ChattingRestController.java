@@ -797,5 +797,26 @@ public class ChattingRestController {
 		return result;
 	}
 
+	@RequestMapping(value="json/getUserTypeInterest/{partnerId}", method=RequestMethod.GET)
+	public Map<String, Object> getUserTypeInterest(HttpSession session,HttpServletRequest request,@PathVariable String partnerId) throws Exception{
+		System.out.println("endPerfectChatting 들어옴");
+		//채팅 방을 나갈경우
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user=(User)session.getAttribute("me");
+		String myId=user.getUserId();
+		int myType=user.getMyType();
+		User user02=(User)userService.getUser(partnerId);
+		int partnerType=user02.getMyType();
+		
+		int[] type= {myType, partnerType,0,0};
+		int[] interest= {user02.getFirstInterest(), user02.getSecondInterest(),user02.getThirdInterest()};
+		map.put("type", userService.getTypeByUser(type));
+		map.put("interest", userService.getInterestByUser(interest));
+		
+		System.out.println("map : "+map);
+		
+	
+		return map;
+	}
 
 }
