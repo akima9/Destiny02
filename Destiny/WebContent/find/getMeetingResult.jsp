@@ -59,8 +59,9 @@
 			self.location = "/find/mainFind.jsp"
 		});
 		
-		$(  "td:nth-child(3)" ).on("click" , function() {
+		$(  "a[name='goMeeting']" ).on("click" , function() {
 			var meetingNo = $(this).data("param");
+			console.log(meetingNo);
 			self.location="/meeting/getMeeting?meetingNo="+meetingNo;
 		});
 	});
@@ -191,7 +192,7 @@
 body ul, body ol, body li{margin:0; padding:0; list-style:none;}
 .list-wrap{max-width:1400px; margin:0 auto;}
 .list-wrap:after{content:''; display:block; clear:both;}
-.list-item{box-sizing:border-box; float:left; width:calc(33.333% - 30px); margin:0 15px; padding: 15px; border:1px solid red; border-radius:10px;}
+.list-item{box-sizing:border-box; float:left; width:calc(33.333% - 30px); margin:0 15px; margin-top:20px; padding: 15px; border:1px solid red; border-radius:10px;}
 .list-img{max-width:200px; width:100%;}
 .list-tit{
 	font-size: 1.75em;
@@ -230,37 +231,24 @@ body ul, body ol, body li{margin:0; padding:0; list-style:none;}
 			<section class="wrapper align-center border">
 				<div class="inner">
 					<ul class="list-wrap">
-						<li class="list-item">
-							<img src="../resources/css/images/pic01.jpg" alt="Pic 01" class="list-img">
-							<h3 class="list-tit">모임명</h3>
-							<p class="list-desc">모임날짜</p>
-							<p class="list-desc">중심지</p>
-							<p class="list-desc">모임장소</p>
-							<a href="#" class="button">Learn More</a>
+					
+						<c:set var="i" value="0" />
+					  	<c:forEach var="meeting" items="${list}">
+						<c:set var="i" value="${ i+1 }" />						  
+						  <li class="list-item">
+							<img src="/resources/images/meeting/${meeting.titleImg}" class="list-img" width="50px" height="150px">
+							<h3 class="list-tit">${meeting.meetingName}</h3>
+							<p class="list-desc">${meeting.meetingDate}</p>
+							<p class="list-desc">${meeting.meetingCenter}</p>
+							<p class="list-desc">${meeting.meetingLocation}</p>
+							<a href="#" class="button" name="goMeeting" data-param="${meeting.meetingNo}">보러가기</a>
 						</li>
-						
-						<li class="list-item">
-							<img src="../resources/css/images/pic01.jpg" alt="Pic 01" class="list-img">
-							<h3 class="list-tit">모임명</h3>
-							<p class="list-desc">모임날짜</p>
-							<p class="list-desc">중심지</p>
-							<p class="list-desc">모임장소</p>
-							<a href="#" class="button">Learn More</a>
-						</li>
-						
-						<li class="list-item">
-							<img src="../resources/css/images/pic01.jpg" alt="Pic 01" class="list-img">
-							<h3 class="list-tit">모임명</h3>
-							<p class="list-desc">모임날짜</p>
-							<p class="list-desc">중심지</p>
-							<p class="list-desc">모임장소</p>
-							<a href="#" class="button">Learn More</a>
-						</li>
+					  </c:forEach>
 					</ul>
 				</div>
 			</section>
 			
-			<div>
+			<%-- <div>
 				<table class="table table-hover table-striped">
 			        <thead>
 			          <tr>
@@ -288,7 +276,7 @@ body ul, body ol, body li{margin:0; padding:0; list-style:none;}
 					  </c:forEach>
 			        </tbody>
 				</table>
-			</div>
+			</div> --%>
 		</div>
 	</section>
 	<!-- //contents -->

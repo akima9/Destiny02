@@ -21,6 +21,8 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
+	
+	
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
@@ -946,7 +948,7 @@
 	
 	<!-- 다음 우편 -->
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54cfa5aea3e5609fcbb420ef8cd6ed4c"></script>
+	
 	<script>
 	
 	    function sample5_execDaumPostcode() {
@@ -1016,13 +1018,13 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
     <jsp:include page="/layout/toolBar.jsp" />
     <!-- ToolBar End /////////////////////////////////////-->
-
-
+    
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<form id="detailForm">
 	<input type="hidden" name="meetingNo" value="${meeting.meetingNo}">
 	<input type="hidden" name="meetingCondition" value="DEL">
 	</form>
+	
 	<div class="container" >
 	
 		<div class="page-header">
@@ -1033,161 +1035,6 @@
 	       <button type="button" id="btn-takeOver">탈퇴하기</button>
 	       <button type="button" id="btn-takeOver">승계</button>
 	    </div>
-	    <!-- 모달창 디자인 부분 -->
-        <div id="dialog">
-        <!-- //////////////////////////모달창  내용부/////////////////////////////////////////////////// -->
-        	<form id="contentsForm" class="form-horizontal">
-        	<div id="nextdelete">
-        	<input type="hidden" name="meetingNo" value="${meeting.meetingNo}">
-				 <div  class="form-group col-sm-4 col-md-4">
-				 	<select id="interest" class="form-control">
-				 		<option >관심사</option>
-				 		<c:forEach var="Meeting" items="${list}">
-				 		
-				 			<option value="${Meeting.interestName}">${Meeting.interestName }</option>
-				 		
-				 		</c:forEach>
-				 	</select>
-				 </div>
-				
-				 <div class="form-group col-sm-8 col-md-8">
-				 	<input  name="interestName" id="selectedInterest" type="text" class="form-control" value="${meeting.interestName}">
-				 </div>
-				 
-				 <div class="form-group col-sm-6 col-md-6">
-				 	<select id="centerLocation" class="form-control">
-				 		<option>중심지역-지역</option>
-				 		<option value="서울">서울</option>
-		                <option value="경기">경기</option>
-		                <option value="인천">인천</option>
-		                <option value="부산">부산</option>
-		                <option value="대구">대구</option>
-		                <option value="광주">광주</option>
-		                <option value="대전">대전</option>
-		                <option value="울산">울산</option>
-		                <option value="세종">세종</option>
-		                <option value="강원">강원</option>
-		                <option value="경남">경남</option>
-		                <option value="경북">경북</option>
-		                <option value="전남">전남</option>
-		                <option value="전북">전북</option>
-		                <option value="충남">충남</option>
-		                <option value="충북">충북</option>
-		                <option value="제주">제주</option>
-				 	</select>
-				 </div>
-				 
-				 <div id="location" class="form-group col-sm-6 col-md-6">
-				 	<input type="text" class="form-control" id="centerMeeting" name="meetingCenter" data-param="${meeting.meetingCenter}" value="${meeting.meetingCenter}">
-				 	
-				 </div>
-				 
-				 <div class="form-group col-sm-10 col-md-10">
-				 	<input type="file" class="form-control" name="imgFile" id="imgFile" value="${meeting.titleImg}">
-				 </div>
-				 
-				 <div class="form-group col-sm-2 col-md-2">
-				 	<button type="button" class="btn btn-warning" >첨부파일</button>
-				 </div>
-				 
-				 <div class="form-group col-sm-12 col-md-12">
-				 	<input type="text" class="form-control" name="meetingName" value="${meeting.meetingName}">
-				 </div>
-				 
-				 <div class="form-group col-sm-12 col-md-12">
-				 	<textarea class="form-control" cols="100" rows="3" 
-				 	name="meetingDetail" placeholder="어떤 모임인지 설명해주세요" >${meeting.meetingDetail}</textarea>
-				 </div>
-				 
-				 <div class="form-group col-sm-12 col-md-12">
-				 	<textarea class="form-control" cols="100" rows="3" 
-				 	name="meetingRule" placeholder="모임에 규칙이 있나요? 있다면 간략히 적어주세요">${meeting.meetingRule}</textarea>
-				 </div>
-				 
-				 <div class="form-group col-sm-8 col-md-8">
-				 	모임인원을 입력하여 주세요
-				 </div>
-				
-				 <div id="crewNo" class="form-group col-sm-4 col-md-4">
-				 	<select name="meetingCrewLimit" class="form-control">
-				 		<option value="1"  ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==1 ? "selected" : "" }>1</option>
-				 		<option value="2" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==2 ? "selected" : "" }>2</option>
-				 		<option value="3" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==3 ? "selected" : "" }>3</option>
-				 		<option value="4" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==4 ? "selected" : "" }>4</option>
-				 		<option value="5" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==5 ? "selected" : "" }>5</option>
-				 		<option value="6" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==6 ? "selected" : "" }>6</option>
-				 		<option value="7" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==7 ? "selected" : "" }>7</option>
-				 		<option value="8" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==8 ? "selected" : "" }>8</option>
-				 		<option value="9" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==9 ? "selected" : "" }>9</option>
-				 		<option value="10" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==10 ? "selected" : "" }>10</option>
-				 		<option value="11" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==11 ? "selected" : "" }>11</option>
-				 		<option value="12" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==12 ? "selected" : "" }>12</option>
-				 		<option value="13" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==13 ? "selected" : "" }>13</option>
-				 		<option value="14" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==14 ? "selected" : "" }>14</option>
-				 		<option value="15" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==15 ? "selected" : "" }>15</option>
-				 		<option value="16" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==16 ? "selected" : "" }>16</option>
-				 		<option value="17" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==17 ? "selected" : "" }>17</option>
-				 		<option value="18" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==18 ? "selected" : "" }>18</option>
-				 		<option value="19" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==19 ? "selected" : "" }>19</option>
-				 		<option value="20" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==20 ? "selected" : "" }>20</option>
-				 	</select>
-				 </div>
-				 
-				 <div class="form-group col-sm-4 col-md-4">
-				 	<select name="snooze" id="snooze" class="form-control">
-				 		<option>반복여부</option>
-				 		<option value="Y" ${ ! empty meeting.snooze && meeting.snooze=='Y' ? "selected" : "" }>반복</option>
-				 		<option value="N" ${ ! empty meeting.snooze && meeting.snooze=='N' ? "selected" : "" }>한번</option>
-				 	</select>
-				 </div>
-			</div>	 
-				 <div  id="dateOrDay" class="form-group col-sm-4 col-md-4">
-		 			<input 	type="text" class="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜or요일" name="meetingDate"/>
-		 	
-				 	<!--  
-				 	<select class="form-control">
-				 		<option value="">모임날짜or요일</option>
-				 	</select>
-				 	-->
-				 </div>
-				 
-				 <div class="form-group col-sm-4 col-md-4">
-				 	<select name="meetingTime" class="form-control">
-				 		<option>모임시간</option>
-				 		<option value="12:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='12:00' ? "selected" : "" }>12:00</option>
-				 		<option value="13:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='13:00' ? "selected" : "" }>13:00</option>
-				 		<option value="14:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='14:00' ? "selected" : "" }>14:00</option>
-				 	</select>
-				 </div>
-				 
-				 <div class="form-group col-sm-8 col-md-8">
-				 	회비가 있다면 입력해주세요
-				 </div>
-				 
-				 <div class="form-group col-sm-4 col-md-4">
-				 	<input name="meetingDues" type="text" class="form-control" value="${meeting.meetingDues}">
-				 </div>
-				 
-				 <div class="form-group col-sm-10 col-md-10">
-				 <input name="meetingLocation" type="text" class="form-control" id="sample5_address" value="${meeting.meetingLocation}" readonly="readonly">
-				 	<!-- <input type="text" class="form-control" placeholder="모임장소를 입력하여주세요."> -->
-				 </div>
-				 
-				 <div class="form-group col-sm-2 col-md-2">
-					<input type="button" class="btn btn-warning" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
-					<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
-				 	<!-- <button type="button" class="btn btn-warning">우편검색</button> -->
-				 </div>
-				  
-				 <div class="form-group">
-				   <div class="col-sm-offset-4  col-sm-4 text-center">
-				     <button type="button" class="btn btn-primary"  >등 &nbsp; 록</button>
-					 <a class="btn btn-primary btn" id="pushCancle" role="button">취&nbsp;소</a>
-				   </div>
-				 </div>
-		</form>
-		<!-- //////////////////////////모달창  내용부 끝/////////////////////////////////////////////////// -->
-		</div>
 	</div>
 	
 	<div class="container " > <!-- 가장큰 틀 -->
@@ -1214,6 +1061,7 @@
 			<hr/>
 		  </div>
 		 </div>
+		 
 		<div class='row'>
 			<table class="col-sm-12 col-md-12">
 				<tr>
@@ -1222,7 +1070,8 @@
 					</td>
 				</tr>
 			</table>
-		</div>		
+		</div>
+				
 		<div id="meetingActCount" >
 			<div class='row'>
 				<div align="center" class="col-xs-2 col-md-2 ">
@@ -1247,9 +1096,58 @@
 					</c:if>
 				</div>	
 			</div>
+			
+			<div class='row'>
+				<!-- ///////////////////////////////////////////////////////////////////////////// -->
+		
+		<div id="map" style="width:100%;height:350px;"></div>
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=238c3f6eaacc311151fd24574cf5b8e9&libraries=services"></script>
+		<script>
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		        level: 3 // 지도의 확대 레벨
+		    };  
+		
+		// 지도를 생성합니다    
+		var map = new daum.maps.Map(mapContainer, mapOption); 
+		
+		// 주소-좌표 변환 객체를 생성합니다
+		var geocoder = new daum.maps.services.Geocoder();
+		
+		// 주소로 좌표를 검색합니다
+		geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
+		
+		    // 정상적으로 검색이 완료됐으면 
+		     if (status === daum.maps.services.Status.OK) {
+		
+		        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+		
+		        // 결과값으로 받은 위치를 마커로 표시합니다
+		        var marker = new daum.maps.Marker({
+		            map: map,
+		            position: coords
+		        });
+		
+		        // 인포윈도우로 장소에 대한 설명을 표시합니다
+		        var infowindow = new daum.maps.InfoWindow({
+		            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+		        });
+		        infowindow.open(map, marker);
+		
+		        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+		        map.setCenter(coords);
+		    } 
+		});    
+		</script>
+		
+		<!-- ///////////////////////////////////////////////////////////////////////////// -->
+			</div>
+			
 		</div>
 	
 		<hr/>
+		
 		<div align="center" class="col-xs-12 col-md-12 ">
 			<button class="button">가입하기</button>
 		</div>
@@ -1285,6 +1183,8 @@
         </form>
         <!-- 모달창 디자인 부분  끝-->
         </div>
+        
+        
 
 		<div >
 			<table>
@@ -1334,135 +1234,6 @@
 		</div>
 		</div>
 		
-		<!-- <div id="map" style="width:800px;height:400px;"></div>
-		<script>
-			var infowindow = new daum.maps.InfoWindow({zIndex:1});
-		
-			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-			    mapOption = {
-			        center: new daum.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-			        level: 3 // 지도의 확대 레벨
-			    };  
-		
-			// 지도를 생성합니다    
-			var map = new daum.maps.Map(mapContainer, mapOption); 
-		
-			// 장소 검색 객체를 생성합니다
-			var ps = new daum.maps.services.Places();
-			
-			// 키워드로 장소를 검색합니다
-			ps.keywordSearch('${meeting.meetingLocation} ', placesSearchCB); 
-		
-			// 키워드 검색 완료 시 호출되는 콜백함수 입니다
-			function placesSearchCB (data, status, pagination) {
-				console.log("data : " + data);
-				console.log("pagination : " + pagination);
-				console.log("prodName : " + '${product.prodName}');
-				
-			    if (status === daum.maps.services.Status.OK) {
-		
-			        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-			        // LatLngBounds 객체에 좌표를 추가합니다
-			        var bounds = new daum.maps.LatLngBounds();
-		
-			        for (var i=0; i<data.length; i++) {
-			            displayMarker(data[i]); 
-			            bounds.extend(new daum.maps.LatLng(data[i].y, data[i].x));
-			        }       
-		
-			        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-			        map.setBounds(bounds);
-			    } 
-			}
-		
-			// 지도에 마커를 표시하는 함수입니다
-			function displayMarker(place) {
-			    
-			    // 마커를 생성하고 지도에 표시합니다
-			    var marker = new daum.maps.Marker({
-			        map: map,
-			        position: new daum.maps.LatLng(place.y, place.x) 
-			    });
-		
-			    // 마커에 클릭이벤트를 등록합니다
-			    daum.maps.event.addListener(marker, 'click', function() {
-			        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-			        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-			        infowindow.open(map, marker);
-			    });
-			}
-
-	</script>
-	
-	<hr/><hr/><hr/>
-	
-	<div id="map" style="width:100%;height:350px;"></div>
-	<script>
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
-		    mapOption = { 
-		        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-		        level: 3 // 지도의 확대 레벨
-		    };
-		
-		var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-		 
-		// 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다 
-		var positions = [
-			for(){
-				content: '<div>${product.prodName}</div>',
-		        latlng: new daum.maps.LatLng(33.451393, 126.570738)
-			}
-		    {
-		        content: '<div>카카오</div>', 
-		        latlng: new daum.maps.LatLng(33.450705, 126.570677)
-		    },
-		    {
-		        content: '<div>생태연못</div>', 
-		        latlng: new daum.maps.LatLng(33.450936, 126.569477)
-		    },
-		    {
-		        content: '<div>텃밭</div>', 
-		        latlng: new daum.maps.LatLng(33.450879, 126.569940)
-		    },
-		    {
-		        content: '<div>${product.prodName}</div>',
-		        latlng: new daum.maps.LatLng(33.451393, 126.570738)
-		    }
-		];
-		
-		for (var i = 0; i < positions.length; i ++) {
-		    // 마커를 생성합니다
-		    var marker = new daum.maps.Marker({
-		        map: map, // 마커를 표시할 지도
-		        position: positions[i].latlng // 마커의 위치
-		    });
-		
-		    // 마커에 표시할 인포윈도우를 생성합니다 
-		    var infowindow = new daum.maps.InfoWindow({
-		        content: positions[i].content // 인포윈도우에 표시할 내용
-		    });
-		
-		    // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
-		    // 이벤트 리스너로는 클로저를 만들어 등록합니다 
-		    // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-		    daum.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-		    daum.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-		}
-		
-		// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-		function makeOverListener(map, marker, infowindow) {
-		    return function() {
-		        infowindow.open(map, marker);
-		    };
-		}
-		
-		// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
-		function makeOutListener(infowindow) {
-		    return function() {
-		        infowindow.close();
-		    };
-		}
-	</script> -->
 	
 	</div>
  	<!--  화면구성 div Start /////////////////////////////////////-->

@@ -92,4 +92,30 @@
 	 </select>
 	 <!--  //////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	 
+	 <!-- SQL : SELECT List(Rest) //////////////////////////////////////////////////////////////////////////////////////////// -->
+	 <select 	id="getMeetingResultList"	parameterType="com.destiny.common.Search" resultMap="meetingSelectMap">			
+		SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT
+											  m.meeting_no, m.meeting_master_id, m.meeting_name, m.title_img, m.meeting_center, ma.act_location as meeting_location, ma.act_date as meeting_date 
+											 FROM meeting m, meeting_act ma 
+											 WHERE m.meeting_no = ma.meeting_no 
+											 AND ma.act_location LIKE '%'||#{find.town}||'%'
+											 AND m.meeting_condition = 'DEF'
+						) inner_table WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 <!--  //////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	 
+	 <!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCount"  parameterType="com.destiny.common.Search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT
+				  m.meeting_no, m.meeting_master_id, m.meeting_name, m.title_img, m.meeting_center, ma.act_location as meeting_location, ma.act_date as meeting_date 
+				 FROM meeting m, meeting_act ma 
+				 WHERE m.meeting_no = ma.meeting_no 
+				 AND ma.act_location LIKE '%'||#{find.town}||'%'
+				 AND m.meeting_condition = 'DEF' )countTable					
+	 </select>
+	 	 
 </mapper>
