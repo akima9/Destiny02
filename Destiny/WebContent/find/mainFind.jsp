@@ -9,11 +9,34 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>우연</title>
 <!-- All CSS Insert -->
-<link rel="stylesheet" href="/resources/css/main.css" > 
+<link rel="stylesheet" href="/resources/css/main.css" >
 <!-- //All CSS Insert -->
+
+<!-- All js -->
+<script src="/resources/javascript/jquery.min.js"></script>
+<script src="/resources/javascript/skel.min.js"></script>
+<script src="/resources/javascript/util.js"></script>
+<script src="/resources/javascript/main.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+$(function(){
+	// 내부에 스크립트 코드 추가
+	
+	$("a[name='findUser']").on("click", function() {
+		self.location = "/find/selectUser"
+	});
+	$("a[name='findMeeting']").on("click", function() {
+		self.location = "/find/selectMeeting"
+	});
+	
+})
+	
+</script>
+<!-- //All js -->
 </head>
 
-<body class="subpage">
+<body>
 	<!-- header -->
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
@@ -32,7 +55,7 @@
 			</div>
 			<div class="box alt">
 				<div class="row 50% uniform align-center">
-					<div class="6u"><a href="#" class="button special" name="findUser">이상형찾기</a></div>
+					<div class="6u"><a href="#" class="button" name="findUser">이상형찾기</a></div>
 					<div class="6u$"><a href="#" class="button" name="findMeeting">모임찾기</a></div>
 				</div>
 			</div>
@@ -45,28 +68,7 @@
 	<jsp:include page="/layout/footer.jsp" />
 	<!-- //footer -->
 	
-	<!-- All js -->
-	<script src="/resources/javascript/jquery.min.js"></script>
-	<script src="/resources/javascript/skel.min.js"></script>
-	<script src="/resources/javascript/util.js"></script>
-	<script src="/resources/javascript/main.js"></script>
 	
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script>
-	$(function(){
-		// 내부에 스크립트 코드 추가
-		
-		$("a[name='findUser']").on("click", function() {
-			self.location = "/find/selectUser"
-		});
-		$("a[name='findMeeting']").on("click", function() {
-			self.location = "/find/selectMeeting"
-		});
-		
-	})
-		
-	</script>
-	<!-- //All js -->
 	
 </body>
 </html>

@@ -1,203 +1,177 @@
-<%@ page contentType="text/html; charset=euc-kr" %>
-<%@ page pageEncoding="EUC-KR"%>
-
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
-
-
 
 <!DOCTYPE html>
-
 <html lang="ko">
-
 <head>
-    <meta charset="EUC-KR">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>우연</title>
+<!-- All CSS Insert -->
+<link rel="stylesheet" href="/resources/css/rest.css" /> <!-- 리스트 참조용 -->
+<link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>상품 목록조회</title>
-    
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	
+   
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-    <!-- 참조 : http://getbootstrap.com/css/   참조 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
-    <!-- Bootstrap Dropdown Hover CSS -->
-    <link href="/css/animate.min.css" rel="stylesheet">
-    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <!-- Bootstrap Dropdown Hover JS -->
-    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-
-
-    <!-- jQuery UI toolTip 사용 CSS-->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <!-- jQuery UI toolTip 사용 JS-->
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-    <!--  ///////////////////////// CSS ////////////////////////// -->
-    <style>
-        body {
-            padding-top : 50px;
-        }
-    </style>
+	
+	
+	
+	
+	<!-- Bootstrap core CSS -->
     
-    <style>
-		.green_window {
-			display: inline-block;
-			width: 366px; height: 34px;
-			border: 3px solid #326ada;
-			background: white;
-		}
-		.input_text {
-			width: 348px; height: 21px;
-			margin: 6px 0 0 9px;
-			border: 0;
-			line-height: 21px;
-			font-weight: bold;
-			font-size: 16px;
-			outline: none;
-		}
-		.sch_smit {
-			width: 54px; height: 34px;
-			margin: 0; border: 0;
-			background: #326ada;
-			color: white;
-			font-weight: bold;
-			border-radius: 3px;
-			cursor: pointer;
-		}
-		.sch_smit:hover {
-			background: 	#433e90;
-		}
-		
+    <link href="carousel.css" rel="stylesheet">
+    
+   <!-- 케러셀 완료 -->
+
+<!-- //All CSS Insert -->
+
+<!-- All js -->
+	<!--  템플릿 사용하기 위해 필요한 js -->
+	<script src="/resources/javascript/jquery.min.js"></script>
+	<script src="/resources/javascript/skel.min.js"></script>
+	<script src="/resources/javascript/util.js"></script>
+	<script src="/resources/javascript/main.js"></script>
+	
+	 <style>
 		#meetingNo {
 			font-size: 30px;
 		}
+		
+		
+	</style>
+	
+	
+	<script>
+	$(function(){
+		// 개설하기 누르면 이벤트 처리
+		$( "#addMeeting" ).on("click", function() {
+			console.log("${empty sessionScope.me}");
+			
+			if('${sessionScope.me.userGrade }' !='NEW' && '${!empty sessionScope.me.userId}'){
+				//alert("성공");
+				self.location="/meeting/addMeeting"
+			}else if('${empty sessionScope.me}'=='true'){
+				if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+					$("#my-dialog,#dialog-background").toggle();
+					//self.location="/user/login";
+				 }else{   //취소
+
+				     return;
+
+				 }
+			}else if('${sessionScope.me.userGrade }'=='NEW'){
+				alert("${sessionScope.me.nickName}님은 우연등급입니다.\n인연이상 회원부터 개설 하능합니다.");
+			}else{
+				alert("이용 불가합니다.");
+			}
+		});
+		
+		//제목눌렸을때 이벤트 처리
+		/* $( ".list_pop td:nth-child(3)" ).on("click", function() {
+			var meetingNo = $(this).data("param");
+			console.log(meetingNo);
+			self.location="/meeting/getMeeting?meetingNo="+meetingNo;
+		}); */
+		$("a[href='#' ]:contains('More')").on("click", function() {
+			var meetingNo = $(this).data("param");
+			//console.log(meetingNo);
+			self.location="/meeting/getMeeting?meetingNo="+meetingNo;
+		});
+		
+		//시군구 가져다 주는 애 
+		$( "#centerLocation" ).on("change" , function() {
+			//var idx = $(".brand_ids").index(this);
+			var city=$(this).val();
+			console.log(city);
+			
+			$.ajax( 
+					{
+						url : "/user/json/getLocationList/"+city,
+						method : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData , status) {
+							
+							var list="";
+							list+="<select  id='centering' name='meetingCenter' class='form-control'>";
+							list+="<option>시/군/구 선택</option>";
+							for(i in JSONData.list){
+								var town = JSONData.list[i].townName;
+								
+								list+="<option id='centerMeeting' name='searchCondition' data-param='$(this).value' value='"+town+"'>"+town+"</option>";
+						}
+							$( "#location" ).empty().append(list);
+						}
+				});
+		});
+		
+		//검색어 이벤트 처리
+		$( "#plzsearch" ).on("click" , function() {
+   		 var meetingCenter=$("#centering").val();
+   		 var seconCenter=$("#sconcentering").val();
+   		 var interest=$("#interest").val();
+   		 console.log(meetingCenter);
+   		 console.log(interest);
+   		 console.log(seconCenter);
+   		 if(interest=='관심사'){
+   			 $("#interest").val("");
+   		 }
+   		 if(meetingCenter=="" || seconCenter==""){
+   			 //alert("모임인원을 설정하여 주세요.");
+   			 meetingCenter="아님";
+   		 }
+   		$("form").attr("method" , "POST").attr("action" , "/meeting/listMeeting/"+meetingCenter).submit();
+		 });
+		
+	})
+		
+	</script>
+<!-- //All js -->
+	
+	
+	<style>
+		
 	</style>
 
-    <script type="text/javascript">
-		    $(function() {
-				$( "#addMeeting" ).on("click", function() {
-					console.log("${empty sessionScope.me}");
-					
-					if('${sessionScope.me.userGrade }' !='NEW' && ${!empty sessionScope.me.userId}){
-						//alert("성공");
-						self.location="/meeting/addMeeting"
-					}else if(${empty sessionScope.me}){
-						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
-							$("#my-dialog,#dialog-background").toggle();
-							//self.location="/user/login";
-						 }else{   //취소
-
-						     return;
-
-						 }
-					}else if('${sessionScope.me.userGrade }'=='NEW'){
-						alert("${sessionScope.me.nickName}님은 우연등급입니다.\n인연이상 회원부터 개설 하능합니다.");
-					}else{
-						alert("이용 불가합니다.");
-					}
-				});
-		    });
-		    
-		    $(function() {
-				$( ".list_pop td:nth-child(3)" ).on("click", function() {
-					var meetingNo = $(this).data("param");
-					console.log(meetingNo);
-					self.location="/meeting/getMeeting?meetingNo="+meetingNo;
-				});
-		    });
-
-        
-		    $(function(){
-				$( "#centerLocation" ).on("change" , function() {
-					//var idx = $(".brand_ids").index(this);
-					var city=$(this).val();
-					console.log(city);
-					
-					$.ajax( 
-							{
-								url : "/user/json/getLocationList/"+city,
-								method : "GET" ,
-								dataType : "json" ,
-								headers : {
-									"Accept" : "application/json",
-									"Content-Type" : "application/json"
-								},
-								success : function(JSONData , status) {
-									
-									var list="";
-									list+="<select  id='centering' name='meetingCenter' class='form-control'>";
-									list+="<option>시/군/구 선택</option>";
-									for(i in JSONData.list){
-										var town = JSONData.list[i].townName;
-										
-										list+="<option id='centerMeeting' name='searchCondition' data-param='$(this).value' value='"+town+"'>"+town+"</option>";
-								}
-									$( "#location" ).empty().append(list);
-								}
-						});
-				});
-			});
-		    
-		    //검색 이벤트 처리 
-		    $(function() {
-		    	 $( "#plzsearch" ).on("click" , function() {
-		    		 var meetingCenter=$("#centering").val();
-		    		 var seconCenter=$("#sconcentering").val();
-		    		 var interest=$("#interest").val();
-		    		 console.log(meetingCenter);
-		    		 console.log(interest);
-		    		 console.log(seconCenter);
-		    		 if(interest=='관심사'){
-		    			 $("#interest").val("");
-		    		 }
-		    		 if(meetingCenter=="" || seconCenter==""){
-		    			 //alert("모임인원을 설정하여 주세요.");
-		    			 meetingCenter="아님";
-		    		 }
-		    		$("form").attr("method" , "POST").attr("action" , "/meeting/listMeeting/"+meetingCenter).submit();
-				 });
-		    });
-        
-        
-    </script>
-   <!--  케러셀 필요 -->
-   
-   <!-- Bootstrap core CSS -->
-    
-    <!-- <link href="carousel.css" rel="stylesheet"> -->
-    
-   <!-- 케러셀 완료 -->
 </head>
 
-<body>
-    <!-- ToolBar Start /////////////////////////////////////-->
-    <jsp:include page="/layout/toolBar.jsp" />
-    <!-- ToolBar End /////////////////////////////////////-->
+<body class="subpage">	
+	<!-- header -->
+	<jsp:include page="/layout/header.jsp" />
+	<!-- //header -->
 
-    <div style="width:98%; margin-left:10px;">
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- contents -->
+	<section id="main" class="wrapper">
+		<div class="inner">
+		<div style="width:98%; margin-left:10px;">
 
         <form>
             <!-- 베스트상품 테이블 -->
             <table>
-         <%--    잠깐 스탑 
+             <%--    잠깐 스탑 
             <c:set var="i" value="0" />
 				  <c:forEach var="meeting" items="${bestList}">
 				  <c:set var="i" value="${ i+1 }" />
 				  </c:forEach>
 				   --%>
-	            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+		<%-- <div id="myCarousel" class="carousel slide" data-ride="carousel">
 			      <!-- Indicators -->
 			      <ol class="carousel-indicators">
 			        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -207,14 +181,14 @@
 			      <div class="carousel-inner" role="listbox">
 			        <div class="item active" align="center">
 			          <img class="first-slide" src="/resources/images/meeting/romance2.jpg" alt="First slide"><!-- 첫번째 사진 -->
-			          <%-- <div class="container">
+			          <div class="container">
 			            <div class="carousel-caption">
 			            	무슨설명 달고싶으면 여기에
 			              <h1>Example headline.</h1>
 			              <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
 			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
 			            </div>
-			          </div> --%>
+			          </div>
 			        </div>
 			        <div class="item" align="center">
 			          <img class="second-slide" src="/resources/images/meeting/classsicfashion2.jpg" alt="Second slide"><!-- 두번째 사진 -->
@@ -247,7 +221,7 @@
 			      </a>
 			    </div>
             </table>
-            
+             --%>
             <!-- /.carousel -->
             <!-- 베스트상품 테이블 종료 -->
             
@@ -256,7 +230,6 @@
             <table align="center" border="7" height="34px" bordercolor="#326ada">
             	<tr>
             		<td width='250px'>
-	            		&nbsp;&nbsp;<i class="glyphicon glyphicon-search" aria-hidden="true"></i>
 	            		<input name="searchKeyword"  
 	            		type="text" placeholder="검색어를 입력"/>
             		</td>
@@ -283,7 +256,7 @@
 				 	</select>
             		</td>
             		<td id="location" class='search' width='250px'>
-						<input id="sconcentering" type="text" class="form-control"> 
+						<input readonly="readonly" id="sconcentering" type="text" class="form-control"> 
             		</td>
             		<td width='250px'>
             			<select id="interest" name="searchSortingOption" class="form-control">
@@ -295,7 +268,7 @@
 					 		</c:forEach>
 				 		</select>
             		</td>
-            		<td width='54px' bgcolor='#326ada'><button type='button' id="plzsearch" class='sch_smit'>찾기</button></td>
+            		<td width='54px'><button type='button' id="plzsearch" class='sch_smit'>찾기</button></td>
             	</tr>
 			</table>
 			
@@ -308,16 +281,16 @@
 			 
 			 <!-- 개설하기 버튼 시작 -->
 			 <div align="right" class="addMeeting">
-			 <button type="button" class="btn btn-warning" id="addMeeting">개설하기</button>
+			 <button type="button" id="addMeeting">개설하기</button>
 			 </div>
 			 <!-- 개설하기 버튼 종료 -->
 			 
 			 <!-- 리스트 시작 -->
-
+<%-- 
                 <table class="listingTAB" width="100%" border="0" cellspacing="0" style="margin-top:10px;">
                     <tr>
                         <td colspan="11" align="left">
-                           	<%--  전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage} 페이지 --%>
+                           	 전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage} 페이지
                         </td>
                     </tr>
                   
@@ -379,8 +352,54 @@
                    </c:forEach>
                   
                 </table>
+                 --%>
+                
                 <!-- 리스트 종료 -->
                 
+                
+                <div class="landing">
+              	<section id="one" class="wrapper style1">
+				<div class="inner">
+					<c:set var="i" value="0" />
+				 	<c:forEach var="meeting" items="${list}">
+				 	<c:set var="i" value="${ i+1 }" />
+				 	<c:if test="${i%2==0}">
+						<article class="feature left">
+					</c:if>
+					<c:if test="${i%2!=0}">
+						<article class="feature right">
+					</c:if>
+					
+						<span class="image"><img src="/resources/images/meeting/${meeting.titleImg}" alt="" /></span>
+						<div class="content">
+							<p>${meeting.meetingCenter}<p>
+							<h2>${meeting.meetingName}</h2>
+							<p>모임정원 /${meeting.meetingCrewLimit}명      조회수 ${meeting.meetingViews}회</p>
+							<p>모임날짜:${meeting.meetingDate} 이번모임장소:${meeting.meetingLocation}</p>
+							<ul class="actions">
+								<li>
+									<a href="#" data-param="${meeting.meetingNo}" class="button alt">More</a>
+								</li>
+							</ul>
+						</div>
+					</article>
+					<!-- 
+					<article class="feature right">
+						<span class="image"><img src="/resources/images/meeting/pic01.jpg" alt="" /></span>
+						<div class="content">
+							<h2>Integer vitae libero acrisus egestas placerat  sollicitudin</h2>
+							<p>Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est.</p>
+							<ul class="actions">
+								<li>
+									<a href="#" class="button alt">More</a>
+								</li>
+							</ul>
+						</div>
+					</article> -->
+					</c:forEach>
+				</div>
+			</section>
+            </div>   
                 <!-- PageNavigation Start... -->
                 <table width="100%" border="0" cellspacing="0" style="margin-top:10px;">
                     <tr>
@@ -398,7 +417,18 @@
             
         
     </div>
-    
-</body>
+	
+		
+			
+		</div>
+	</section>
+	<!-- //contents -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
 
+	<!-- footer -->
+	<jsp:include page="/layout/footer.jsp" />
+	<!-- //footer -->
+	            
+	
+</body>
 </html>

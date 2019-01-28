@@ -114,7 +114,8 @@
 	  					                    snooze, meeting_views, meeting_condition, shut_down_date, meeting_crew_limit
 											FROM meeting
 											<where>
-												meeting_master_id = #{userId}
+												meeting_master_id = #{userId} AND
+												meeting_condition != 'DEL'
 											</where>
 											 ) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum} )
@@ -130,7 +131,8 @@
 	                    snooze, meeting_views, meeting_condition, shut_down_date, meeting_crew_limit
 						FROM meeting
 						<where>
-							meeting_master_id = #{value}
+							meeting_master_id = #{value} AND
+							meeting_condition != 'DEL'
 						</where>
 						 ) countTable						
 	 </select>
@@ -211,7 +213,8 @@
 											FROM meeting m, meeting_crew_list mcl
 											<where>
 												m.meeting_no = mcl.meeting_no AND
-												mcl.crew_id IN (#{userId})
+												mcl.crew_id IN (#{userId}) AND
+												meeting_condition != 'DEL'
 											</where>
 											 ) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum} )
@@ -229,7 +232,8 @@
 						FROM meeting m, meeting_crew_list mcl
 						<where>
 							m.meeting_no = mcl.meeting_no AND
-							mcl.crew_id IN (#{userId})
+							mcl.crew_id IN (#{userId}) AND
+							meeting_condition != 'DEL'
 						</where>
 						 ) countTable						
 	 </select>

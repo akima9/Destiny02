@@ -1,66 +1,80 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>우연</title>
+<!-- All CSS Insert -->
+<link rel="stylesheet" href="/resources/css/main.css" > 
+
+<!-- //All CSS Insert -->
+
+<!-- All js -->
+	<!--  템플릿 사용하기 위해 필요한 js -->
+	<script src="/resources/javascript/jquery.min.js"></script>
+	<script src="/resources/javascript/skel.min.js"></script>
+	<script src="/resources/javascript/util.js"></script>
+	<script src="/resources/javascript/main.js"></script>
 	
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-   
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
- 		body {
-            padding-top : 50px;
-        }
-    </style>
-    
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	<script type="text/javascript">
-	
-	$(function(){
-		$("button[id='getletterList']").on("click", function(){
-			self.location = "/letter/getLetterList";
+	<script>
+	$(function() {
+		 $( "button.btn.btn-primary" ).on("click" , function() {
+			 //$("form").attr("method" , "POST").attr("action" , "/user/sendLetter").submit();
+			 var sender = $("input[id='sender']").val();
+			 
+			 self.location = "/letter/sendLetterView/"+sender;
 		});
 	});
-	
-	$(function(){
-		$("button[id='sendletterList']").on("click", function(){
-			self.location = "/letter/sendLetterList";
-		});
-	});
-	
 	
 	</script>
+<!-- //All js -->
 	
-</head>
-<body>
+	
+	<style>
+		
+	</style>
 
-	<div class="form-group">
-	    <label  class="col-sm-4 control-label"></label>
-	    <div class="col-sm-4">
-	      <button id="sendletterList" type="button">보낸 쪽지함</button>
-	    </div>
-	</div>	
-	<br/>
-	<div class="form-group">
-	    <label  class="col-sm-4 control-label"></label>
-	    <div class="col-sm-4">
-	      <button id="getletterList" type="button">받은 쪽지함</button>
-	    </div>
-	</div>	
+</head>
+
+<body class="subpage">	
+	
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- contents -->
+	<section id="main" class="wrapper">
+		<div class="inner">
+		
+		<h3>쪽지 main</h3>
+		<br/>
+			<div class="box alt">
+				<div class="row 50% uniform">
+				
+					<div class="4u">
+					<p style="font-size:120%; color:black;">
+					<a href="/letter/getLetterList">받은 쪽지함</a>
+					<br/></div>
+
+					<div class="4u">
+					<p style="font-size:120%; color:black;">
+					<a href="/letter/sendLetterList">보낸 쪽지함</a>
+					<br/></div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- //contents -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+	
+	
+	
+	
 </body>
 </html>

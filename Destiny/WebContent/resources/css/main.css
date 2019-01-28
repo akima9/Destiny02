@@ -48,6 +48,7 @@
 	body {
 		-webkit-text-size-adjust: none;
 	}
+	#navPanel{display:none;}
 
 /* Box Model */
 
@@ -1583,9 +1584,15 @@
 		}
 
 /* Type */
+	body{
+		font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+		font-size: 14pt;
+		font-weight: 400;
+		line-height: 1.65;
+	}
 
-	body, input, select, textarea {
-		color: #9a9a9a;
+	input, select, textarea {
+		color: #FFF;
 		font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
 		font-size: 14pt;
 		font-weight: 400;
@@ -1650,15 +1657,15 @@
 		font-style: italic;
 	}
 
-	p {
+	/* p {
 		margin: 0 0 2em 0;
-	}
+	} */
 
 	h1, h2, h3, h4, h5, h6 {
 		color: #555;
 		font-weight: 400;
 		line-height: 1.5;
-		margin: 0 0 1em 0;
+		margin: 1em 0 1em 0;
 	}
 
 		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -1667,8 +1674,9 @@
 		}
 
 	h2 {
-		font-size: 1.85em;
-		font-weight: 300;
+		font-size: 60px;
+		font-weight: 900;
+		color : #ff8498;
 	}
 
 	h3 {
@@ -1902,6 +1910,12 @@
 			.flex.flex-2 article {
 				width: 50%;
 			}
+			.flex.flex-3 article {
+				width: 33.333%;
+			}
+			.flex.flex-4 article {
+				width: 25%;
+			}
 
 		@media screen and (max-width: 980px) {
 
@@ -1909,10 +1923,22 @@
 				width: 100%;
 				margin-bottom: 3em;
 			}
+			.flex.flex-3 article {
+				width: 100%;
+				margin-bottom: 3em;
+			}
+			.flex.flex-4 article {
+				width: 50%;
+				margin-bottom: 3em;
+			}
 
-				.flex.flex-2 article:last-child {
-					margin-bottom: 0;
-				}
+			.flex.flex-2 article:last-child {
+				margin-bottom: 0;
+			}
+			.flex.flex-3 article:last-child {
+				margin-bottom: 0;
+			}
+			
 
 		}
 
@@ -1974,10 +2000,10 @@
 		-webkit-appearance: none;
 		-ms-appearance: none;
 		appearance: none;
-		background: #acdec2;
+		background: #ff8498;
 		border-radius: 10px;
 		border: none;
-		border: solid 2px #8dcca9;
+		border: solid 2px #ff264a;
 		color: #fff;
 		display: block;
 		outline: 0;
@@ -2012,8 +2038,8 @@
 		input[type="tel"]:focus,
 		select:focus,
 		textarea:focus {
-			border-color: #4bae77;
-			box-shadow: 0 0 0 1px #4bae77;
+			border-color: #ff264a;
+			box-shadow: 0 0 0 1px #ff264a;
 		}
 
 	.select-wrapper {
@@ -2101,7 +2127,7 @@
 			input[type="radio"] + label:before {
 				background: rgba(144, 144, 144, 0.075);
 				border-radius: 0;
-				border: solid 1px #8dcca9;
+				border: solid 1px #ff264a;
 				content: '';
 				display: inline-block;
 				height: 1.65em;
@@ -2115,16 +2141,16 @@
 
 		input[type="checkbox"]:checked + label:before,
 		input[type="radio"]:checked + label:before {
-			background: #6cc091;
-			border-color: #6cc091;
+			background: #ff264a;
+			border-color: #ff264a;
 			color: #ffffff;
 			content: '\f00c';
 		}
 
 		input[type="checkbox"]:focus + label:before,
 		input[type="radio"]:focus + label:before {
-			border-color: #6cc091;
-			box-shadow: 0 0 0 1px #6cc091;
+			border-color: #ff264a;
+			box-shadow: 0 0 0 1px #ff264a;
 		}
 
 	input[type="checkbox"] + label:before {
@@ -2136,27 +2162,27 @@
 	}
 
 	::-webkit-input-placeholder {
-		color: #c4e5d3 !important;
+		color: #FFF !important;
 		opacity: 1.0;
 	}
 
 	:-moz-placeholder {
-		color: #c4e5d3 !important;
+		color: #FFF !important;
 		opacity: 1.0;
 	}
 
 	::-moz-placeholder {
-		color: #c4e5d3 !important;
+		color: #FFF !important;
 		opacity: 1.0;
 	}
 
 	:-ms-input-placeholder {
-		color: #c4e5d3 !important;
+		color: #FFF !important;
 		opacity: 1.0;
 	}
 
 	.formerize-placeholder {
-		color: #c4e5d3 !important;
+		color: #FFF !important;
 		opacity: 1.0;
 	}
 
@@ -2537,8 +2563,10 @@
 		-ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 		transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 		background-color: transparent;
-		box-shadow: inset 0 0 0 3px #6cc091;
-		color: #6cc091 !important;
+		box-shadow: inset 0 0 0 3px #ff264a;
+		/* box-shadow: inset 0 0 0 3px #6cc091; */
+		color: #ff264a !important;
+		/* color: #6cc091 !important; */
 		border-radius: 30px;
 		border: 0;
 		cursor: pointer;
@@ -2560,7 +2588,8 @@
 		input[type="button"]:hover,
 		button:hover,
 		.button:hover {
-			background-color: rgba(108, 192, 145, 0.15);
+			background-color: #ff264a;
+			color:#FFF !important;
 		}
 
 		input[type="submit"]:active,
@@ -2568,7 +2597,8 @@
 		input[type="button"]:active,
 		button:active,
 		.button:active {
-			background-color: rgba(108, 192, 145, 0.15);
+			background-color: #ff264a;
+			color:#FFF !important;
 		}
 
 		input[type="submit"].icon,
@@ -2652,7 +2682,7 @@
 		input[type="button"].special,
 		button.special,
 		.button.special {
-			background-color: #6cc091;
+			background-color: #ff264a;
 			color: #ffffff !important;
 		}
 
@@ -2661,7 +2691,8 @@
 			input[type="button"].special:hover,
 			button.special:hover,
 			.button.special:hover {
-				background-color: #7ec89e;
+				background-color: #FFF;
+				color:#ff264a !important;
 			}
 
 			input[type="submit"].special:active,
@@ -2723,7 +2754,9 @@
 		line-height: 3.25em;
 		position: absolute;
 		text-align: right;
-		top: 2em;
+		/* background : #1c1c1c; */
+		background : rgba(164, 87, 100, 0.7);
+		/* top: 2em; */
 		width: 100%;
 		z-index: 10001;
 	}
@@ -2834,6 +2867,7 @@
 		.nav_bg{display:none; position:fixed; z-index:10002; top:0; left:0; width:100%; height:100%; background:rgba(0, 0, 0, 0.7);}
 		
 		#navPanel {
+			display:block;
 			-moz-transform: translatex(0);
 			-webkit-transform: translatex(0);
 			-ms-transform: translatex(0);
@@ -2931,19 +2965,21 @@
 /* Banner */
 
 	#banner {
-		padding: 8em 0 9em 0;
-		background-image: url(../images/banner.jpg);
+		/* height : 800px; */
+		padding: 32em 0 6em 0;
+		/* background-image: url(../images/banner.jpg);
 		background-size: cover;
 		background-position: bottom;
 		background-attachment: fixed;
-		background-repeat: no-repeat;
+		background-repeat: no-repeat; */
 		text-align: center;
 		position: relative;
+		overflow : hidden;
 	}
 
 		#banner:before {
 			content: '';
-			background: rgba(75, 75, 93, 0.85);
+			background: rgba(255, 164, 179, 0.18);
 			position: absolute;
 			width: 100%;
 			height: 100%;
@@ -2980,9 +3016,10 @@
 		}
 
 		#banner p {
-			font-size: 1em;
-			color: rgba(255, 255, 255, 0.55);
-			margin-bottom: 1.75em;
+			font-family: 'Nanum Myeongjo', serif;
+			font-size: 1.5em;
+			color: rgba(255, 255, 255, 1);
+			/* margin-bottom: 1.75em; */
 		}
 
 		#banner .flex {
@@ -3126,7 +3163,8 @@
 
 	#footer {
 		padding: 6em 0;
-		background: #6cc091;
+		background: #1c1c1c;
+		/* background: #6cc091; */
 		color: #fff;
 		text-align: center;
 	}

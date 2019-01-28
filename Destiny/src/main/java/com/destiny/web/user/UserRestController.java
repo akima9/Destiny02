@@ -1,5 +1,10 @@
 package com.destiny.web.user;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +20,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -108,6 +114,51 @@ public class UserRestController {
 		
 		
 		System.out.println("끝");
+		return map;
+	}
+	
+	
+	@RequestMapping(value="json/getAnswer/{question}", method=RequestMethod.GET)
+	public Map getAnswer(@PathVariable("question") String question) throws Exception{
+		System.out.println("json/getAnswer/ + " + question);
+		String requestURL = "http://api.adams.ai/datamixiApi/deepqa?key=3758962826504551960&answerType=0&question=";
+		
+		String text = URLEncoder.encode(question, "UTF-8");
+		requestURL += text;
+		URL url = new URL(requestURL);
+		HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		con.setRequestMethod("GET");
+		
+		int responseCode = con.getResponseCode();
+		BufferedReader br = null;
+		
+		if(responseCode==200) { 
+            br = new BufferedReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
+        } else {  // 에러 발생
+            br = new BufferedReader(new InputStreamReader(con.getErrorStream(),"UTF-8"));
+        }
+		
+		//JSON Data 읽기
+        String jsonData = "";
+        StringBuffer response = new StringBuffer();
+        
+        while ((jsonData = br.readLine()) != null) {
+            response.append(jsonData);
+        }
+        
+        br.close();
+        
+        // Console 확인
+        System.out.println(response.toString());
+        
+        String returnString = response.toString();
+        JSONObject answer = (JSONObject)JSONValue.parse(returnString);
+        System.out.println("json으로 달린 answer : "  + answer);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("answer", answer);
+		
 		return map;
 	}
 	

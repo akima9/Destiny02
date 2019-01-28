@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		$("a[href='#' ]:contains('우연')").on("click", function() {
@@ -45,7 +46,14 @@
 		
 	});
 </script>
-
+<style>
+	strong{
+		font-family: 'Nanum Myeongjo', serif;
+	}
+	#nav{
+		font-family: 'Source Serif Pro', serif;
+	}
+</style>
 <header id="header">
 	<div class="inner">
 		<a href="#" class="logo"><strong>우연</strong></a>

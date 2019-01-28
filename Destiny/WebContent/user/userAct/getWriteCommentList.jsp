@@ -86,62 +86,7 @@
 		
 		//============= userId 에 회원정보보기  Event  처리 (double Click)=============
 		 $(function() {
-			/* 
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(  "td:nth-child(5)" ).on("click" , function() {
-
-				//var userId = $(this).next().val();
-				var userId = $(this).data("param");
-				$.ajax( 
-						{
-							url : "/user/json/getUser/"+userId ,
-							method : "GET" ,
-							dataType : "json" ,
-							headers : {
-								"Accept" : "application/json",
-								"Content-Type" : "application/json"
-							},
-							success : function(JSONData , status) {
-
-								if($( "#"+userId+" h3" ).html() != null){
-									$("h3").remove();
-									$("h2").remove();
-									return;
-								}
-								
-								var displayValue = "<h3>"
-									+"아이디 : "+JSONData.user.userId+"<br/>"
-									+"이  름 : "+JSONData.user.nickName+"<br/>"
-									+"이메일 : "+JSONData.user.email+"<br/>"
-									+"등  급 : "+JSONData.user.userGrade+"<br/>"
-									+"생 일  : "+JSONData.user.birthday+"<br/>"
-									+"누르면 해당 회원정보로 넘어갑니다.</h3>";
-								
-								var images = "<h2>";
-								$.each( JSONData.filelist, function(i, v){
-									//alert(v);
-									//images += "<img src='/images/uploadFiles/"+v+"' width='170' height='170'/>"
-									//images += "<img src='/mtdata/product/imgfiles/"+v+"' width='170' height='170'/>"
-									images += "<img src='/resources/images/userprofile/"+v+"' width='170' height='170'/>"
-								});
-								
-								images += "</h2>";
-								displayValue += images;
-								
-								
-								$("h3").remove();
-								$("h2").remove();
-								$( "#"+userId+"" ).html(displayValue);
-								
-								$('td[id="'+userId+'"] h3').on("click", function(){
-									self.location = "/user/getUser/"+userId;
-								});
-							}
-					});
-					////////////////////////////////////////////////////////////////////////////////////////////
-				
-			});
-			*/
+			
 			//==> userId LINK Event End User 에게 보일수 있도록 
 			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
 			$("h7").css("color" , "red");

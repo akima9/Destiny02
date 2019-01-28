@@ -1,57 +1,33 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>우연</title>
+<!-- All CSS Insert -->
+<link rel="stylesheet" href="/resources/css/main.css" > 
+
+<!-- //All CSS Insert -->
+
+<!-- All js -->
+	<!--  템플릿 사용하기 위해 필요한 js -->
+	<script src="/resources/javascript/jquery.min.js"></script>
+	<script src="/resources/javascript/skel.min.js"></script>
+	<script src="/resources/javascript/util.js"></script>
+	<script src="/resources/javascript/main.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 	
 	
 
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-   
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
- 		body {
-            padding-top : 50px;
-        }
-    </style>
-    
-	
 
 	
-
-    
-
-	
-	
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	<script type="text/javascript">
-	
-	
+	<script>
 	
 		
-		$(function(){
-			$("button[id='typeButton']").on("click", function(){
-				//var userId = $("input[name='getUserId']").val();
-				var userId = "${me.userId}";
-				self.location = "/user/addTypeView/"+userId;
-			});
-		});
 		
 		$(function(){
 			$("button[id='listButton']").on("click", function(){
@@ -73,7 +49,7 @@
 		
 		
 		$(function(){
-			$("button[id='letterList']").on("click", function(){
+			$("a[id='letterList']").on("click", function(){
 				popWin = window.open("/letter/letterMain.jsp",
 					   	 "popWin",
 						 "left=300, top=200, width=700, height=700, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
@@ -82,7 +58,26 @@
 		});
 		
 		$(function(){
-			$("button[id='pushButton']").on("click", function(){
+			$("button[id='questionButton']").on("click", function(){
+				var question = $("input[name='questionButton']").val();
+				
+				//alert(question);
+				
+				$.ajax({
+					
+					//url : "http://api.adams.ai/datamixiApi/deepqa?key=3758962826504551960&answerType=0&question="+question,
+					url : "/user/json/getAnswer/"+question,
+					method : "GET",
+					datatype : "json",
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(JSONData, status){
+						alert(JSONData.answer.return_object.answer);
+					}
+					
+				});
 				
 			});
 		});
@@ -90,82 +85,128 @@
 		
 		
 	</script>
-	<title>Insert title here</title>
-	</head>
-	<body>
+	<script>
+	(function(d, s, id){
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) {return;}
+	    js = d.createElement(s); js.id = id;
+	    js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
+	    fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'frogue-embed'));
+	</script>
 	
 	
-	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolBar.jsp" />
-  	<!-- ToolBar End /////////////////////////////////////-->
-  
-  <!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
+<!-- //All js -->
 	
-		<h1 class="bg-primary text-center">마이페이지</h1>
-		
-		<!-- form Start /////////////////////////////////////-->
-		<form class="form-horizontal">
-  
-		<!--  <div class="form-group">
-		    <label for="userId" class="col-sm-4 control-label"></label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" name="findUserId" id="findUserId"  placeholder="아이디" >
-		      <button id="findButton" type="button">회원검색</button>
-		    </div>
-		</div> -->	
-		
-		<br/>
-		<div class="form-group" >
-		    <label  class="col-sm-4 control-label">성격유형 선택하기</label><br/>
-		    <div class="col-sm-4"   >
-		      <button id="typeButton"  type="button"><img src="/resources/images/layout/mbti.jpg" width="300" height="300" /></button>
-		    </div>
-		</div>	
-		
-		
-		<div class="form-group">
-		    <label  class="col-sm-4 control-label">회원리스트</label>
-		    <div class="col-sm-4">
-		      <button id="listButton" type="button"><img src="/resources/images/layout/users.png" width="300" height="300" /></button>
-		    </div>
-		</div>	
-		
-		
-		<div class="form-group">
-		    <label  class="col-sm-4 control-label">쪽지</label>
-		    <div class="col-sm-4">
-		      <button id="letterList" type="button"><img src="/resources/images/layout/letter.png" width="300" height="300" /></button>
-		    </div>
-		</div>	
+	
+	<style>
+	
+		#grad1 {
+			  height: 300px;
+			  background-color: #000000; /* For browsers that do not support gradients */
+			  background-image: linear-gradient(to right, #000000 , #FFFFFF); /* Standard syntax (must be last) */
+			}
 
 		
-		<div class="form-group">
-		    <label  class="col-sm-4 control-label">활동관리</label>
-		    <div class="col-sm-4">
-		      <button id="actMainButton" type="button"><img src="/resources/images/layout/act.jpg" width="300" height="300" /></button>
-		    </div>
-		</div>	
+		
+	</style>
+
+</head>
+
+<body class="subpage" >	
+	
+
+	<!-- header -->
+	<jsp:include page="/layout/header.jsp" />
+	<!-- //header -->
+
+	
+	
+	
+
+
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- contents -->
+	<section id="main" class="wrapper">
+		
+		<div class="inner">
+		
+		<h3>마이페이지</h3>
+				
+		<br/>
+		
+		<div id="frogue-container" class="position-right-bottom"
+			      data-color="#555a9c"
+			      data-chatbot="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
+			      data-user="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
+			      data-init-key="value"
+			      ></div>
 		
 		
 		
 		
-		<div class="form-group">
-		    <label  class="col-sm-4 control-label"></label>
-		    <div class="col-sm-4">
-		      <button id="leaveSite" type="button">사이트 탈퇴</button>
-		    </div>
-		</div>	
-		
-		<div class="form-group">
-		    <label  class="col-sm-4 control-label"></label>
-		    <div class="col-sm-4">
-		      <button id="pushButton" type="button">푸쉬 보넹!</button>
-		    </div>
-		</div>	
-		
-		</form>
+		<div class="box alt">
+			<div class="row 50% uniform">
+				
+				
+				
+				
+				<div class="4u">
+			    <h4>성격 &amp; 유형</h4><p>
+			      <a href="/user/addTypeView/${me.userId}"><span class="image"><img src="/resources/images/layout/mbti.jpg" width="300" height="300" /></span></a>
+			    	당신의 MBTI성격유형을 알아보고 선택하세요. 그리고 원하는 상대방 성격유형을 선택하세요.</p>
+			    </div>
+				    
+				
+			
+			
+				<div class="4u">
+			    <h4>회원리스트</h4>
+			      <a href="/user/listUser"><span class="image"><img src="/resources/images/layout/users.png" width="300" height="300" /></span></a>
+			   	  어떤 회원들이 이 사이트를 이용하고 있는지 확인해보세요
+				</div>	
+			
+			 
+			
+			
+				<div class="4u">
+			    <h4>쪽지</h4>
+			    <a href="#" id="letterList"><span class="image"><img src="/resources/images/layout/letter.png" width="300" height="300" /></span></a>
+				    유저에게 쪽지를 보내고 받으세요. 
+				</div>	
+	
+				<h4>활동관리</h4>
+				<div class="12u" id="grad1">
+			    <p  style="font-size:120%; color:black;"><a href="/user/userAct/actMain.jsp" id="actMainButton"><span class="image left"><img alt="" src="/resources/images/layout/act.jpg" style="width: 250px; height:250px;"  /></span></a>
+			   	 당신의 활동내역을 확인하고 관리하세요. 당신이 가입한 모임, 개설한 모임과 회차, 회원 목록을 조회하고 가입신청을 관리하세요. 당신이 작성한 개시글, 댓글을 확인하고 이루어진 만남을 돌이켜보고 리뷰를 작성하세요.</p>
+				</div>	
+			
+			
+			
+			
+			<div class="6u">
+			      <button id="leaveSite" type="button"><p>사이트 탈퇴</p></button>
+			</div>	
+			
+			<div class="6u">
+				<input type="text" name="questionButton" id="question" >
+			      <button  id="questionButton" type="button"><p>뭐든지 질문해봐!</p></button>
+			</div>	
+			
+			
 		</div>
-		
-	</body>
+		</div>
+			
+		</div>
+	</section>
+	<!-- //contents -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+	<!-- footer -->
+	<jsp:include page="/layout/footer.jsp" />
+	<!-- //footer -->
+	
+	
+	
+</body>
 </html>

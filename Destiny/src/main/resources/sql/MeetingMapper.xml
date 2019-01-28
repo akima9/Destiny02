@@ -89,7 +89,7 @@
 	 <select 	id	="getAct"	resultMap="meetingSelectMap">
 		SELECT ma.meeting_act_count, u.profile_img as master_profile_img, 
 		ma.act_location as meeting_location, ma.act_date as meeting_date, 
-		ma.act_time as meeting_time, ma.act_dues as meeting_duse,mcl.role
+		ma.act_time as meeting_time, ma.act_dues as meeting_dues,mcl.role
 		FROM meeting_act ma, users u, meeting_crew_list mcl
 		Where ma.meeting_no = mcl.meeting_no
 		and mcl.crew_id = u.user_id
@@ -196,12 +196,14 @@
 	 <select  id="checkDuplicationCrew" resultType="int">
 	 		select count(*) CREW_ID from meeting_crew_list where meeting_no=#{meetingNo} 
 	 		and crew_id=#{meetingMasterId}
+	 		and crew_condition = 'YES'
 	 </select>
-<!-- ////////////////참여자인지 확인 ////////////////// -->	 	<!-- !!!!!!!!!!!!이거 아마 회차 확인부 추가해야할듯!!!!!!!!!!!!!!  -->
+<!-- ////////////////참여자인지 확인 ////////////////// -->
 	 <select  id="duplicationAct" resultType="int">
 	 		select count(*) from meeting_act_crew_list 
 	 		where meeting_act_no=#{meetingActNo} 
 	 		and act_crew_id=#{meetingMasterId}
+	 		and meeting_act_count=#{meetingActCount:NUMERIC}
 	 </select>
 <!-- ////////////////참여자할떄 모임의 액트 번호 확인 ////////////////// -->	  
 	 <select  id="getActNo" resultMap="meetingSelectMap">
@@ -219,6 +221,7 @@
 		where u.user_id = macl.act_crew_id
 		and cl.meeting_crew_no = macl.meeting_crew_no
 		and cl.meeting_no = #{meetingNo}
+		and macl.meeting_act_count = #{meetingActCount}
 	 </select>
 <!-- ////////////////수정 & 삭제 할 때 모임장인지 확인용 용 ////////////////// -->	
 	 <select 	id="getCrewrole" resultType="string">
@@ -262,7 +265,17 @@
 			and meeting_no = #{meetingNo} 
 	   	</where>
 	 </delete>	 
-
-	 
+<!-- /////////////////강퇴 하기 실행시 ////////////////// -->
+	<update	id="nextMeeting"	parameterType="com.destiny.service.domain.Meeting">
+	   	UPDATE meeting_act
+	   	<set>
+			meeting_act_count = #{meetingActCount},
+			act_date = #{meetingDate:DATE},
+			act_location = #{meetingLocation},
+			act_time = #{meetingTime},
+			act_dues = #{meetingDues:VARCHAR}
+	   	</set>
+	   	WHERE meeting_no = #{meetingNo}
+	 </update>	 
 	 
 </mapper>
