@@ -28,13 +28,14 @@
 <style class="cp-pen-styles">
 
 .chat-box {
-    width: 400px;
+    /* width: 400px;
     min-width: 400px;
     height: 500px;
-    min-height: 500px;
+    min-height: 500px; */
     overflow: auto;
     
 }
+
 
 body {
   margin: 0;
@@ -53,11 +54,12 @@ main.container {
   margin: 40px auto;
 }
 main.container .list {
-  width: 30%;
-  float: right;
-  background: #ffaaa5;
-  height: 600px;
+  /* width: 30%; */
+  /* float: right; */
+ /*  background: #ffaaa5; */
+  /*  height: 300px;  */
   border-radius: 10px 10px 10px 10px;
+ /*  margin-top: 100px; */
   /* border-left: 1px solid #fff; */
 }
 main.container .list ul {
@@ -69,7 +71,7 @@ main.container .list ul li a {
   border: none;
   border-left: 5px solid transparent;
   cursor: pointer; 
-  background:  #ffaaa5 ;
+  background:  #ada09f57 ;
   font-size: 15px;
   text-decoration: none;
   padding: 10px 10px;
@@ -88,8 +90,8 @@ main.container .list ul li:first-child {
   border-radius: 10px 10px 10px 10px;
 }
 main.container .chat-box {
-  float: left;
-  width: 69%;
+  /* float: left; */
+ /*  width: 69%; */
   background: #ffd3b6;
   height: 550px;
   border-radius: 10px 10px 10px 10px ;
@@ -160,13 +162,14 @@ main.container .chat-box ul li > div .text div {
   background-color: #fff;
   display: inline-block;
   padding: 15px 20px;
-  max-width: 300px;
+  max-width: 150px;
   min-width: 150px;
   margin-left: -55px;
   border-radius: 10px 10px 10px 10px;
   z-index: 10;
   position: relative;
   text-align: right;
+  word-break:break-all;
 }
 main.container .chat-box ul li .you .name {
   padding: 5px 25px 5px 65px;
@@ -201,11 +204,39 @@ main.container .chat-box ul li .you .text div {
 	margin-bottom : 20px;
 }
 
+#data{
+	height: 50px;
+	border-radius : 10px;
+	/* overflow:auto;
+	resize: auto;
+    cursor: text;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;   */
+    /* word-break: break-all */
+    white-space: normal;
+   word-wrap: break-word;
+}
+
+#mbti{
+background-color: #ffaaa5;
+border-radius: 10px 10px 10px 10px;
+}
+
+#interest{
+background-color: #ffaaa5;
+border-radius: 10px 10px 10px 10px;
+}
+
+#favorability{
+background-color: #ffaaa5;
+border-radius: 10px 10px 10px 10px;
+}
+
 /* gage */
 .bar {
 		float:left;
 		clear:both;
-		width:100%;
+		width:90%;
 		height:30px;
 		position:relative;
 		
@@ -284,7 +315,21 @@ main.container .chat-box ul li .you .text div {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 
 <script>
+//////////////////////////////////////////
+function noEvent() { // 새로 고침 방지
+           if (event.keyCode == 116) {
+               alert("새로고침을 할 수 없습니다.");
+               event.keyCode = 2;
+               return false;
+           } else if (event.ctrlKey
+                   && (event.keyCode == 78 || event.keyCode == 82)) {
+               return false;
+           }
+       }
+   document.onkeydown = noEvent;
 
+
+////////////////////////////////////////////
 
 ////////////////////////////////////////////
 
@@ -294,12 +339,74 @@ var chattingNo='${chatting.chattingNo}';
 var manId="${chatting.manId}";
 var womanId="${chatting.womanId}";
 var chatting={"chattingNo":chattingNo,"manId":manId,"womanId":womanId};
+var partnerType="";
+var myType="";
+var interest="";
 // on connection to server, ask for user's name with an anonymous callback
 socket.on('connect', function(){
 	// call the server-side function 'adduser' and send one parameter (value of prompt)
 	
 	socket.emit('adduser', "${me.userId}");
 	socket.emit('addroom',chatting);
+	//상대방의 타입 확인	//나와 상대방의 타입과 관심사를 가져오기
+	if (womanId=="${me.userId}") {
+		$.ajax({
+	        url: '/chatting/json/getUserTypeInterest/'+manId,
+	        type: 'GET',
+	        dataType: 'json',
+	        success: function(JsonData) {
+	            console.log('woman');
+	           // console.log(JsonData.user.myType);
+	            console.log(JsonData.interest[0]);
+	            console.log(JsonData.interest[1]);
+	            console.log(JsonData.interest[2]);
+	            console.log(JsonData.type.firstType);
+	            console.log(JsonData.type.myType);
+	            /* myType=JsonData.type.myType;
+	            partnerType=JsonData.type.firstType; */
+	            //partnerType=JsonData.user.myType;
+	            interest=[JsonData.interest[0],JsonData.interest[1],JsonData.interest[2]];
+	        
+	            $('#you').append("<div class='text-center'><img src='/resources/images/chatting/mbti/"+JsonData.type.firstType+".JPG' class='img-circle' width='50%' height='50%'><br>"+JsonData.type.firstType+"</div>");
+	            $('#me').append("<div class='text-center'><img src='/resources/images/chatting/mbti/"+JsonData.type.myType+".JPG' class='img-circle' width='50%' height='50%'><br>"+JsonData.type.myType+"</div>");
+	            //$('#interest').append('<div>' +interest+ '</div>');
+				
+	        }
+			
+	    });
+	}else{
+		$.ajax({
+	        url: '/chatting/json/getUserTypeInterest/'+womanId,
+	        type: 'GET',
+	        dataType: 'json',
+	        success: function(JsonData) {
+	           // console.log('success');
+	            console.log('man');
+	           // console.log(JsonData.user.myType);
+	            console.log(JsonData.interest[0]);
+	            console.log(JsonData.interest[1]);
+	            console.log(JsonData.interest[2]);
+	            console.log(JsonData.type.firstType);
+	            console.log(JsonData.type.myType);
+	       		//partnerType=JsonData.user.myType;
+	            myType=JsonData.type.myType;
+	            partnerType=JsonData.type.firstType;
+	            interest=[JsonData.interest[0],JsonData.interest[1],JsonData.interest[2]];
+		        
+
+	            $('#you').append("<div class='text-center'><img src='/resources/images/chatting/mbti/"+JsonData.type.firstType+".JPG' class='img-circle' width='50%' height='50%'><br>"+JsonData.type.firstType+"</div>");
+	            $('#me').append("<div class='text-center'><img src='/resources/images/chatting/mbti/"+JsonData.type.myType+".JPG' class='img-circle' width='50%' height='50%'><br>"+JsonData.type.myType+"</div>");
+	            
+				
+	        }
+			
+	    });
+		
+	}
+
+
+	
+	
 });
 // listener, whenever the server emits 'updatechat', this updates the chat body
 socket.on('updatechat', function (username, data1) {
@@ -347,14 +454,20 @@ socket.on('updatechat', function (username, data1) {
 				//alert("다른 사람 message");
 				
 				//$('#chat-box').append('<div>'+username + '<br> ' + message +'<br>'+Data+'</div><br>');
-				$('#user_1').append("<li><div class='you'><div><div class='name'>"+username+"</div><div class='img'></div><div class='text'><div>"+data1+"번역 :"+Data+"</div></div></div></div></li>");
+				if (lang=="") {
+					$('#user_1').append("<li><div class='you'><div><div class='name'>"+username+"</div><div class='img'></div><div class='text'><div>"+data1+"</div></div></div></div></li>");
+
+				}else{
+					$('#user_1').append("<li><div class='you'><div><div class='name'>"+username+"</div><div class='img'></div><div class='text'><div>"+data1+"<br>"+Data+"</div></div></div></div></li>");	
+				}
+				
 
 
 			})
 		}else{
 			//alert("server message");
 			//$('#chat-box').append('<div>'+username + '<br> ' + data1 +'<br>');
-			$('#user_1').append("<li><div class='title'><div>"+username+"<div>"+data1+"<</div></div></div></li>");
+			$('#user_1').append("<li><div class='title'><div>"+username+"<div>"+data1+"</div></div></div></li>");
 
 		}
 		 
@@ -437,7 +550,11 @@ $(function(){
 		}
 	});
 	
-/////////////////////////////////////////////
+//관심사///////////////////////////////////////////
+$('.btn-default').click(function () {
+	$('.btn-default').remove();
+	$('#interest').append('<div class="text-center">' +interest+ '</div>');
+})
 ///////////////////////////////////////////////
 });
 
@@ -494,7 +611,22 @@ window.addEventListener('beforeunload', function (e) {
 	        }
 	    });
 	});
-//////////////////////////////////////////
+///////채팅방 나감///////////////////////////////////
+window.addEventListener('beforeunload', function (e) {
+		$.ajax({
+	        url: '/chatting/json/endPerfectChatting',
+	        type: 'GET',
+	        dataType: 'text',
+	        success: function(JsonData) {
+	            console.log('success');
+	          alert(JsonData);
+				
+	        }
+			
+	    });
+		
+	});
+
 /* $(function(){
 			$(window).on("load",function(){
 				
@@ -512,33 +644,68 @@ window.addEventListener('beforeunload', function (e) {
 <body>
 
 <main class='container'>
+	<div class='col-sm-8 col-md-8'>
+		<!-- 채팅창안 -->
+		<div class='chat-box col-sm-12 col-md-12'  data-mcs-theme="rounded-dots">
+			<ul id='user_1' >
+				<li><div class='title'>2019.01.11</div></li>
+		</div>
+		<!-- 채팅창안 -->
+		<div class="form-group col-xs-12 col-sm-12 col-md-12">
+		  		
+				<div class="col-xs-4 col-sm-4 col-md-4">
+					<select id="lang"	name="lnag" class="form-control"  >
+						<option value="" selected="selected">language</option>
+						<option value="ko">한국어</option>
+						<option value="en">영어</option>
+						<option value="ja">일본어</option>
+						<option value="zh-cn">중국어 간체</option>
+						<option value="zh-tw">중국어 번체</option>
+						<option value="hi">힌디어</option>
+						<option value="es">스페인어</option>
+						<option value="fr">프랑스어</option>
+						<option value="de">독일어</option>
+						<option value="ru">러시아어</option>
+						
+					</select>
+					 
+				    
+					
+				</div>
+				<textarea id="data"  class="col-xs-4 col-sm-4 col-md-4"></textarea>
+				<input type="button" class="btn col-xs-4 col-sm-4 col-md-4" role="button" id="datasend" value="전송" />
+					
+				
+			</div>
+		</div>
 
-	<div class='list'>
-		<ul>
-			<li>이심전심 결과</li>
-			<li><a href='#user_1'>상대방</a></li>
-			<br><br><br><br>
+	<div class='list col-sm-4 col-md-4'>
+		<ul class='col-xs-4 col-sm-12' id='mbti'>
+			<li>MBTI 유형</li>
+			<li><a href='#user_1' >상대방</a></li>
+			<br ><li id="you"></li>
 			<li><a href='#user_2'>나</a></li>
-			<br><br><br><br>
+			
+			<br><li id="me"></li>
 		</ul>
-		<ul>
+		<ul class='col-xs-4 col-sm-12' id='interest'>
 			<li>관심사</li>
 			<li><a href='#user_1'>상대방</a></li>
-			<br><br>
+			<br>
 			<div class=" text-center"><a class="btn btn-default" href="#" role="button">확인</a></div>
-			<br><br>
+			<br>
 			
 		</ul>
-		<ul>
+		<ul class='col-xs-4 col-sm-12' id='favorability'>
 			<li>기타</li>
 			<br><br>
-			<div class="col-sm-4 col-md-4 text-center">
+			<div class="col-xs-4 col-sm-4 text-center">
 			<img  src="/resources/images/chatting/voice.png" style="width: 40px; height: 40px;">
 			</div>
-			<div class="col-sm-4 col-md-4 text-center">
+			<div class="col-xs-4 col-sm-4 text-center">
 			<img alt="" src="/resources/images/chatting/image.png" style="width: 40px; height: 40px;">
 			</div>
-			<div class="col-sm-4 col-md-4 text-center">
+			<div class="col-xs-4 col-sm-4 text-center">
 			<img alt="" src="/resources/images/chatting/profile.png" style="width: 40px; height: 40px;">
 			</div>
 			<br><br>
@@ -547,49 +714,24 @@ window.addEventListener('beforeunload', function (e) {
 	</div>
 	
 
-	<!-- User Number 1 -->
-	<div class='chat-box'  data-mcs-theme="rounded-dots">
-		<ul id='user_1' >
-			<li><div class='title'>2019.01.11</div></li>
-			
-		
-		
-		
-	</div>
 	
-		<div class="form-group">
-	  		<label for="lang" class="col-sm-offset-1 col-sm-1 col-md-2 control-label">언어</label>
-			
-			<div class="col-md-6">
-				<select id="lang"	name="lnag">
-					<option value="ko" selected="selected">한국어</option>
-					<option value="en">영어</option>
-					<option value="ja">일본어</option>
-					<option value="zh-cn">중국어 간체</option>
-					<option value="zh-tw">중국어 번체</option>
-					<option value="hi">힌디어</option>
-					<option value="es">스페인어</option>
-					<option value="fr">프랑스어</option>
-					<option value="de">독일어</option>
-					<option value="ru">러시아어</option>
-				</select>
-				<input id="data" style="width:200px;" />
-				<input type="button" id="datasend" value="전송" />
-				
-			</div>
-		</div>
+	
+		
 		
 		 <div class="bar">
-			    <div class="percent">
-			        <span style="width: 100%;"></span>
-			    </div>
-			    <div class="circle">
-			        <span>0%</span>
-			    </div>
-			    <div class="text">
-			        <input type="text" class="input" value="0" />
-			        <input type="button" class="input" value="좋아요"/>
-			        <small>Please change a value and hit the enter key.</small>
+		 		<div class="col-xs-11 col-sm-11">
+				    <div class="percent">
+				        <span style="width: 100%;"></span>
+				    </div>
+				    <div class="circle">
+				        <span>0%</span>
+				    </div>
+			   </div>
+			    <div class="text col-xs-1 col-sm-1">
+			    
+			        <!--  <input type="text" class="input" value="0" /> -->
+			        <input type="image" class="input" src="/resources/images/chatting/send.png" style="width:50px; height: 50px"value="좋아요"/>
+			        <!-- <small>Please change a value and hit the enter key.</small> -->
 			    </div>
 			</div>
 	

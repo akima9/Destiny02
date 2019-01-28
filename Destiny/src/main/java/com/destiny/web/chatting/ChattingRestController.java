@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -16,6 +17,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.map.ext.JodaDeserializers.PeriodDeserializer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -57,6 +59,7 @@ public class ChattingRestController {
 	private List<User> perfectWomanList = new ArrayList<User>();
 	private List<User> perfectManList = new ArrayList<User>();
 	private List<Chatting> chattingList = new ArrayList<Chatting>();
+	private List<Chatting> perfectMatchingResult= new ArrayList<Chatting>();
 	private int no;
 	private int perfectNo;
 
@@ -201,100 +204,289 @@ public class ChattingRestController {
 	public Map<String, Object> getPerfectMatching(HttpSession session, HttpServletRequest request) throws Exception {
 		System.out.println("json/getPerfectMatching 들어옴");
 
-		// ===========================================현재 접속자 구현 로직
-		// part=================================================
-
+		
 		Chatting chatting = new Chatting();
+		Chatting resultChatting = new Chatting();
 		Map<String, Object> map = new HashMap<String, Object>();
 		ServletContext applicationScope = request.getSession().getServletContext();
 		User user = (User) session.getAttribute("me");
 		System.out.println("user" + user);
 		String userId = user.getUserId();
-		ModelAndView modelAndView = new ModelAndView();
-		//// user가로그인 한 경우
-
-		//// 아이디로 user정보를 가져온다.
-		User dbUser = userService.getUser(user.getUserId());
-
-		///// 여성일 경우
-		if (user.getGender().equals("W")) {
-			if (applicationScope.getAttribute("perfectWomanList") != null) {
-				perfectWomanList = (List<User>) applicationScope.getAttribute("perfectWomanList");
-			}
-
-			for (User v : perfectWomanList) {
-				System.out.println("현재  여성 접속자 목록 : " + v);
-
-			}
-		} else {
-			// 남성일 경우
-			if (applicationScope.getAttribute("perfectManList") != null) {
-				perfectManList = (List<User>) applicationScope.getAttribute("perfectManList");
-			}
-
-			for (User v : perfectManList) {
-				System.out.println("현재  남성 접속자 목록 : " + v);
-			}
-		}
-
-		System.out.println("perfectManList.size() : " + perfectManList.size() + "perfectWomanList.size() : " + perfectWomanList.size());
-		System.out.println("perfectManList : " + perfectManList + "perfectWomanList : " + perfectWomanList);
+		int myType=user.getMyType();//나의 성격유형
+		int myFirstType=user.getFirstType();//나의 이상형 유형1
+		int mySecondType=user.getSecondType();//나의 이상형 유형2
+		int myThirdType=user.getThirdType();////나의 이상형 유형3
+		String partnerId="";
 		String man = null;
 		String woman = null;
 		int roomNo = 0;
+		//// user가로그인 한 경우
 
-		if (perfectManList.size() > perfectNo && perfectWomanList.size() > perfectNo) {
-			//////// 매칭된 아이디 2개 넣기
-
-			System.out.println("perfectManList==perfectWomanList");
-			man = perfectManList.get(perfectNo).getUserId();
-			woman = perfectWomanList.get(perfectNo).getUserId();
-			chatting.setManId(man);
-			chatting.setWomanId(woman);
-			chatting.setContactMeeting("N");
-			// addChatting
-			System.out.println("man  : " + man + "  woman : " + woman);
-
-			chattingService.addPerfectChatting(chatting);
-
-			perfectNo++;
-
-			map.put("perfectManList", perfectManList);
-			map.put("perfectWomanList", perfectWomanList);
-
+		//// 아이디로 user정보를 가져온다.
+		
+		if (applicationScope.getAttribute("perfectMatchingResult") != null) {
+			perfectMatchingResult = (List<Chatting>) applicationScope.getAttribute("perfectMatchingResult");
+			
 		}
-		// get
-		System.out.println("getChatting");
+		
+		int j=0;
+		boolean result=perfectMatchingResult.size()>j;
+		
+		
+		System.out.println("perfectManList.size() : " + perfectManList.size() + "perfectWomanList.size() : " + perfectWomanList.size());
+		System.out.println("perfectManList : " + perfectManList + "perfectWomanList : " + perfectWomanList);
+		
+		
+		////매칭은 남녀 1명 이상일 경우만 시행///////////////////////////////////////////////////////////////////
+			if(perfectWomanList.size()>0&&perfectManList.size()>0) {
+				boolean partnerResult=false;
+		        boolean myResult=false;
+				
+				System.out.println("매칭된 내역 없는 경우");
+				// 매칭 전인 경우	매칭시작
+					System.out.println("매칭시작 남 여 1명 이상");
+				///// 여성일 경우
+					if (user.getGender().equals("W")) {
+						if(applicationScope.getAttribute("perfectWomanList") != null) {
+							perfectWomanList = (List<User>) applicationScope.getAttribute("perfectWomanList");
+						}
+						if(applicationScope.getAttribute("perfectManList") != null) {
+							perfectManList = (List<User>) applicationScope.getAttribute("perfectManList");
+						}
+						
+						System.out.println("여자일 경우");
+						//이상형 매칭 시작
+						 partnerResult=false;
+					     myResult=false;
+						int i=0;
+					    while (!myResult&&perfectManList.size()>i) {
+							
+					    	System.out.println("while문 안");
+							///상대방///////////////////////////
+							 int partnerType = perfectManList.get(i).getMyType(); //상대방의 유형
+							 int partnerFirstType=perfectManList.get(i).getFirstType();//상대방의 이상형 유형1
+							 int partnerSecondType=perfectManList.get(i).getSecondType();//상대방의 이상형 유형2
+							 int partnerThirdType=perfectManList.get(i).getThirdType();//상대방의 이상형 유형3
+						       
+						        
+						        //파트너가 내 이상형인지 판단//////////////////////////////////////////
+						        partnerResult =(partnerType==myFirstType); //상대방의 유형이 내 첫번째 이상형유형일 경우
+						        
+						        if (!partnerResult) {
+						        	partnerResult =(partnerType==mySecondType);//두번째 이상형일경우
+								}else if (!partnerResult) {
+									partnerResult =(partnerType==myThirdType);//세번째 이상형일경우
+								}
+						        System.out.println("나의 이상형에 부합하는가 ? " + partnerResult);//true면 이상형 false면 이상형아님
+						        //////////////////////////////////////////////////
+						        //파트너의 이상형이 내가 맞는지 판단/////////////////////////////////////////////////
+						        if (partnerResult) {
+						        	int[] partnerWantType = {partnerFirstType,partnerSecondType,partnerThirdType}; //상대방 이상형 유형3개
+						           
+						            myResult = Arrays.stream(partnerWantType)
+						                    .anyMatch(b -> b==myType); //나의 유형
+						            System.out.println("상대방의 이상형에 부합하는가 ? " + myResult);//내가 상대방의 이상형에 포함되는지 여부
+						            
+								}
+						        System.out.println("partnerResult : "+partnerResult+"  myResult : "+myResult); //둘다 true여야함 
+						       //매칭완료시 상대방 아이디를 리턴
+						        if (myResult) {
+						        	
+									//return userId;
+						        	partnerId=perfectManList.get(i).getUserId();//매칭된 남자 아이디
+						        	man =partnerId;
+									woman = userId;
+									chatting.setManId(man);
+									chatting.setWomanId(woman);
+									chatting.setContactMeeting("N");
+									// addChatting
+									System.out.println(" 매칭 완료 man  : " + man + "  woman : " + woman);
 
-		if (perfectNo > 0 && (perfectWomanList.get(perfectNo - 1).getUserId().equals(userId)
-				|| perfectManList.get(perfectNo - 1).getUserId().equals(userId))) {
-			Chatting resultChatting = chattingService.getChatting(userId);
-			// roomName은 ChattingNo로 지정
-			roomNo = resultChatting.getChattingNo();
-			System.out.println("resultChatting : " + resultChatting);
-			System.out.println("roomNo : " + roomNo);
-			man = resultChatting.getManId();
-			woman = resultChatting.getWomanId();
-			map.put("womanId", woman);
-			map.put("manId", man);
-			map.put("roomNo", roomNo);
-			map.put("perfectNo", perfectNo);
-			session.setAttribute("chatting", resultChatting);
-			chattingList.add(resultChatting);
-			System.out.println("map : " + map);
-		} else {
-			map.put("womanId", woman);
-			map.put("manId", man);
-			map.put("roomNo", roomNo);
-			Chatting emptyChatting = new Chatting();
-			session.setAttribute("chatting", emptyChatting);
-			System.out.println("map : " + map);
-		}
+									chattingService.addPerfectChatting(chatting);
+									
+									//대기자 리스트에서 삭제
+									for (int k = 0; k < perfectWomanList.size(); k++) {
+										if (perfectWomanList.get(k).getUserId().equals(woman)) {
+											perfectWomanList.remove(k);
+										}
+									}
+									System.out.println("remove 현재 이상형매칭 여성 접속자 목록 : " + perfectWomanList);
+									for (int l = 0; l < perfectManList.size(); l++) {
+										if (perfectManList.get(l).getUserId().equals(man)) {
+											perfectManList.remove(l);
+										}								
+									}
+									System.out.println("remove 현재 이상형매칭 남성 접속자 목록 : " + perfectManList);
 
-		// ====================================================================================================
+									perfectNo++;
+						        	
+								}
+						        
+						        i++;	
+							/////////////////////////////////////////////
+						
+						}
+						
+						
 
-		// user의 아이디필요 본인의 성격유형, 이상형 유형을 통해 매칭
+						
+						
+						//여성매칭끝///////////////////////////////////////
+					} else {
+						// 남성일 경우
+						System.out.println("남성 매칭 시작");
+						if(applicationScope.getAttribute("perfectWomanList") != null) {
+							perfectWomanList = (List<User>) applicationScope.getAttribute("perfectWomanList");
+						}
+						if(applicationScope.getAttribute("perfectManList") != null) {
+							perfectManList = (List<User>) applicationScope.getAttribute("perfectManList");
+						}
+						
+						
+						//이상형 매칭 시작
+						  partnerResult=false;
+					      myResult=false;
+						int i=0;
+					    while (!myResult&&perfectWomanList.size()>i) {
+					    	System.out.println("while문 안");
+							
+							///상대방///////////////////////////
+							 int partnerType = perfectWomanList.get(i).getMyType(); //상대방의 유형
+							 int partnerFirstType=perfectWomanList.get(i).getFirstType();//상대방의 이상형 유형1
+							 int partnerSecondType=perfectWomanList.get(i).getSecondType();//상대방의 이상형 유형2
+							 int partnerThirdType=perfectWomanList.get(i).getThirdType();//상대방의 이상형 유형3
+						       
+						        
+						        //파트너가 내 이상형인지 판단//////////////////////////////////////////
+						        partnerResult =(partnerType==myFirstType); //상대방의 유형이 내 첫번째 이상형유형일 경우
+						        
+						        if (!partnerResult) {
+						        	partnerResult =(partnerType==mySecondType);//두번째 이상형일경우
+								}else if (!partnerResult) {
+									partnerResult =(partnerType==myThirdType);//세번째 이상형일경우
+								}
+						        System.out.println("나의 이상형에 부합하는가 ? " + partnerResult);//true면 이상형 false면 이상형아님
+						        //////////////////////////////////////////////////
+						        //파트너의 이상형이 내가 맞는지 판단/////////////////////////////////////////////////
+						        if (partnerResult) {
+						        	int[] partnerWantType = {partnerFirstType,partnerSecondType,partnerThirdType}; //상대방 이상형 유형3개
+						           
+						            myResult = Arrays.stream(partnerWantType)
+						                    .anyMatch(b -> b==myType); //나의 유형
+						            System.out.println("상대방의 이상형에 부합하는가 ? " + myResult);//내가 상대방의 이상형에 포함되는지 여부
+						            
+								}
+						        System.out.println("partnerResult : "+partnerResult+"  myResult : "+myResult); //둘다 true여야함 
+						       //매칭완료시 상대방 아이디를 리턴
+						        if (myResult) {
+									//return userId;
+						        	partnerId=perfectWomanList.get(i).getUserId();//매칭된 여자 아이디
+						        	man =userId;
+									woman = partnerId;
+									chatting.setManId(man);
+									chatting.setWomanId(woman);
+									chatting.setContactMeeting("N");
+									// addChatting
+									System.out.println("매칭 완료  man  : " + man + "  woman : " + woman);
 
+									chattingService.addPerfectChatting(chatting);
+									//대기자 리스트에서 삭제
+									for (int k = 0; k < perfectWomanList.size(); k++) {
+										if (perfectWomanList.get(k).getUserId().equals(woman)) {
+											perfectWomanList.remove(k);
+										}
+									}
+									System.out.println("remove 현재 이상형매칭 여성 접속자 목록 : " + perfectWomanList);
+									for (int l = 0; l < perfectManList.size(); l++) {
+										if (perfectManList.get(l).getUserId().equals(man)) {
+											perfectManList.remove(l);
+										}								
+									}
+									System.out.println("remove 현재 이상형매칭 남성 접속자 목록 : " + perfectManList);
+									perfectNo++;
+						        
+						        }
+							/////////////////////////////////////////////
+							i++;
+						}
+						
+
+					   
+					}
+					////남성매칭끝/////////////////////////////////////////////
+					//매칭 성공
+					if (myResult&&partnerResult) {
+						System.out.println("이상형매칭 완료 getChatting");
+						//매칭 완료시에만 get 완료 안된 경우는 
+						resultChatting = chattingService.getChatting(userId);
+						// roomName은 ChattingNo로 지정
+						roomNo = resultChatting.getChattingNo();
+						System.out.println("resultChatting : " + resultChatting);
+						System.out.println("roomNo : " + roomNo);
+						man = resultChatting.getManId();
+						woman = resultChatting.getWomanId();
+						map.put("womanId", woman);
+						map.put("manId", man);
+						map.put("roomNo", roomNo);
+						map.put("perfectNo", perfectNo);
+						session.setAttribute("chatting", resultChatting);
+						chattingList.add(resultChatting);
+						System.out.println("map : " + map);
+						perfectMatchingResult.add(resultChatting);//getChatting 넣어줌
+						applicationScope.setAttribute("perfectMatchingResult", perfectMatchingResult);
+						//매칭끝
+					}else {
+						//매칭 실패
+						map.put("roomNo", "re");
+					}
+					
+				}else{
+					//1,0 or 0,0 인경우
+					while (result) {
+						//매칭 완료된 경우
+						if (perfectMatchingResult.get(j).getManId().equals(userId)||perfectMatchingResult.get(j). getWomanId().equals(userId)) {
+							//getChatting
+							System.out.println("매칭 완료된 경우 이상형매칭 getChatting");
+
+							resultChatting = chattingService.getChatting(userId);
+							// roomName은 ChattingNo로 지정
+							roomNo = resultChatting.getChattingNo();
+							System.out.println("resultChatting : " + resultChatting);
+							System.out.println("roomNo : " + roomNo);
+							man = resultChatting.getManId();
+							woman = resultChatting.getWomanId();
+							map.put("womanId", woman);
+							map.put("manId", man);
+							map.put("roomNo", roomNo);
+							map.put("perfectNo", perfectNo);
+							session.setAttribute("chatting", resultChatting);
+							chattingList.add(resultChatting);
+							System.out.println("저장된 값이 있는 map : " + map);
+							perfectMatchingResult.add(resultChatting);//getChatting 넣어줌
+							result=false;
+						}
+							j++;
+							
+						
+						
+					}//for문 끝
+					if (!result&&roomNo==0) {
+						map.put("roomNo", "re");
+						System.out.println("저장된 것도 없고 매칭도 안됨 map : "+map);
+					}
+					
+					
+				}
+			/////////////////////////////////////////////////////////////////////////////
+
+		
+		
+		System.out.println("map : "+map);
+		System.out.println("perfectMatchingResult.size() : " + perfectMatchingResult.size() );
+		System.out.println("perfectMatchingResult : " + perfectMatchingResult );
+		
+
+		
 		return map;
 	}
 
@@ -327,7 +519,7 @@ public class ChattingRestController {
 			applicationScope.setAttribute("womanList", womanList);
 
 			for (User v : womanList) {
-				System.out.println("현재  여성 접속자 목록 : " + v);
+				System.out.println("현재 랜덤채팅 여성 접속자 목록 : " + v);
 
 			}
 		} else {
@@ -340,7 +532,7 @@ public class ChattingRestController {
 			applicationScope.setAttribute("manList", manList);
 
 			for (User v : manList) {
-				System.out.println("현재  남성 접속자 목록 : " + v);
+				System.out.println("현재 랜덤채팅 남성 접속자 목록 : " + v);
 			}
 		}
 
@@ -384,7 +576,7 @@ public class ChattingRestController {
 			}
 
 			for (User v : womanList) {
-				System.out.println("현재  여성 접속자 목록 : " + v);
+				System.out.println("현재 랜덤매칭 여성 접속자 목록 : " + v);
 
 			}
 		} else {
@@ -394,7 +586,7 @@ public class ChattingRestController {
 			}
 
 			for (User v : manList) {
-				System.out.println("현재  남성 접속자 목록 : " + v);
+				System.out.println("현재 랜덤매칭 남성 접속자 목록 : " + v);
 			}
 		}
 
@@ -426,7 +618,7 @@ public class ChattingRestController {
 
 		}
 		// get
-		System.out.println("getChatting");
+		System.out.println("랜덤매칭 getChatting");
 
 		if (no > 0 && (womanList.get(no - 1).getUserId().equals(userId)
 				|| manList.get(no - 1).getUserId().equals(userId))) {
@@ -462,33 +654,42 @@ public class ChattingRestController {
 
 	
 	@RequestMapping(value="json/endRandomMatching", method=RequestMethod.GET)
-	public String endRandomMatching(@PathVariable int roomNo,HttpSession session,HttpServletRequest request) throws Exception{
+	public String endRandomMatching(HttpSession session,HttpServletRequest request) throws Exception{
 		System.out.println("endRandomMatching 들어옴");
 		//매칭 완료 전 나갈 경우
+		String result="";
 		User user=(User)session.getAttribute("me");
 		String userId=user.getUserId();
 		ServletContext applicationScope = request.getSession().getServletContext();
-		womanList=(List<User>) applicationScope.getAttribute("womanList");
-		manList=(List<User>) applicationScope.getAttribute("manList");
-		String result="";
-		if (user.getGender().equals("W")) {
-			for (int i = no; i < womanList.size(); i++) {
-				if (womanList.get(i).getUserId().equals(userId)) {
-					womanList.remove(i);
-					result="random 여성 대기자 지워짐";
+		
+		//여성일 경우
+				if (user.getGender().equals("W")) {
+					if (applicationScope.getAttribute("womanList")!=null) {
+						womanList=(List<User>) applicationScope.getAttribute("womanList");
+						for (int i = no; i < womanList.size(); i++) {
+							if (womanList.get(i).getUserId().equals(userId)) {
+								womanList.remove(i);
+								result="Random 여성 랜덤 대기자 지워짐";
+							}
+						}
+					}
+					
+				//남성일 경우
+				}else {
+					if (applicationScope.getAttribute("manList")!=null) {
+						manList=(List<User>) applicationScope.getAttribute("manList");
+						for (int j = no; j < manList.size(); j++) {
+							if (manList.get(j).getUserId().equals(userId)) {
+								manList.remove(j);
+								result="Random 남성 랜덤 대기자 지워짐";
+							}
+						}
+					}					
 				}
-			}
-		}else {
-			for (int j = no; j < manList.size(); j++) {
-				if (manList.get(j).getUserId().equals(userId)) {
-					manList.remove(j);
-					result="random 남성 대기자 지워짐";
-				}
-			}
-		}
+		
 		System.out.println("remove=manList.size() : " + manList.size() + "womanList.size() : " + womanList.size());
 		System.out.println("remove=manList : " + manList + "womanList : " + womanList);
-		
+		System.out.println(result);
 		
 		
 		
@@ -496,35 +697,126 @@ public class ChattingRestController {
 	}
 	
 	@RequestMapping(value="json/endPerfectMatching", method=RequestMethod.GET)
-	public String endPerfectMatching(@PathVariable int roomNo,HttpSession session,HttpServletRequest request) throws Exception{
+	public String endPerfectMatching(HttpSession session,HttpServletRequest request) throws Exception{
 		System.out.println("endPerfectMatching 들어옴");
-		//매칭 완료 전 나갈 경우
 		
-		User user=(User)session.getAttribute("me");
-		String userId=user.getUserId();
-		ServletContext applicationScope = request.getSession().getServletContext();
-		perfectWomanList=(List<User>) applicationScope.getAttribute("perfectWomanList");
-		perfectManList=(List<User>) applicationScope.getAttribute("perfectManList");
-		String result="";
-		if (user.getGender().equals("W")) {
-			for (int i = no; i < perfectWomanList.size(); i++) {
-				if (perfectWomanList.get(i).getUserId().equals(userId)) {
-					perfectWomanList.remove(i);
-					result="Perfect 여성 대기자 지워짐";
+		
+			//매칭 완료 전 나갈 경우//////////////////////////////////////////////////////////
+			String result="";
+			User user=(User)session.getAttribute("me");
+			String userId=user.getUserId();
+			ServletContext applicationScope = request.getSession().getServletContext();
+		
+			//여성일 경우
+			if (user.getGender().equals("W")) {
+				if (applicationScope.getAttribute("perfectWomanList")!=null) {
+					perfectWomanList=(List<User>) applicationScope.getAttribute("perfectWomanList");
+					for (int i = perfectNo; i < perfectWomanList.size(); i++) {
+						if (perfectWomanList.get(i).getUserId().equals(userId)) {
+							perfectWomanList.remove(i);
+							result="Perfect 여성 이상형 대기자 지워짐";
+						}
+					}
+				}
+				
+			//남성일 경우
+			}else {
+				if (applicationScope.getAttribute("perfectManList")!=null) {
+					perfectManList=(List<User>) applicationScope.getAttribute("perfectManList");
+					for (int j = perfectNo; j < perfectManList.size(); j++) {
+						if (perfectManList.get(j).getUserId().equals(userId)) {
+							perfectManList.remove(j);
+							result="Perfect 남성 이상형 대기자 지워짐";
+						}
+					}
 				}
 			}
-		}else {
-			for (int j = no; j < perfectManList.size(); j++) {
-				if (perfectManList.get(j).getUserId().equals(userId)) {
-					perfectManList.remove(j);
-					result="Perfect 남성 대기자 지워짐";
-				}
-			}
-		}
-		System.out.println("remove=perfectManList.size() : " + perfectManList.size() + "perfectWomanList.size() : " + perfectWomanList.size());
+			//////////////////////////////////////////////////////////////////////////////////////////////
+		
+		
 		System.out.println("remove=perfectManList : " + perfectManList + "perfectWomanList : " + perfectWomanList);
-		
+		System.out.println("remove=perfectManList.size() : " + perfectManList.size() + "perfectWomanList.size() : " + perfectWomanList.size());
+		System.out.println(result);
 		
 		return result;
 	}
+	
+	@RequestMapping(value="json/endPerfectChatting", method=RequestMethod.GET)
+	public String endPerfectChatting(HttpSession session,HttpServletRequest request) throws Exception{
+		System.out.println("endPerfectChatting 들어옴");
+		//채팅 방을 나갈경우
+		Chatting outUserChatting=(Chatting)session.getAttribute("chatting");
+		User user=(User)session.getAttribute("me");
+		String userId=user.getUserId();
+		String result="";
+		int chattingNo=outUserChatting.getChattingNo();
+		ServletContext applicationScope = request.getSession().getServletContext();
+		if (applicationScope.getAttribute("perfectMatchingResult") != null) {
+			perfectMatchingResult = (List<Chatting>) applicationScope.getAttribute("perfectMatchingResult");
+			
+		}
+		if (chattingNo!=0) {
+			Chatting emptyChatting = new Chatting();
+			session.setAttribute("chatting", emptyChatting);
+			for (int i = 0; i < perfectMatchingResult.size(); i++) {
+				if (perfectMatchingResult.get(i).getManId().equals(userId)||perfectMatchingResult.get(i).getWomanId().equals(userId)) {
+					perfectMatchingResult.remove(i);
+					result="이상형 채팅 나감 리스트에서 지워짐";
+				}
+				
+			}
+			
+		}else {
+			
+		}
+		System.out.println("perfectMatchingResult : "+perfectMatchingResult);//저장된 매칭 리스트
+		System.out.println("Result : "+result);//결과
+		return result;
+	}
+
+	@RequestMapping(value="json/endRandomChatting", method=RequestMethod.GET)
+	public String endRandomChatting(HttpSession session,HttpServletRequest request) throws Exception{
+		System.out.println("endPerfectChatting 들어옴");
+		//채팅 방을 나갈경우
+		Chatting outUserChatting=(Chatting)session.getAttribute("chatting");
+		User user=(User)session.getAttribute("me");
+		String userId=user.getUserId();
+		String result="";
+		int chattingNo=outUserChatting.getChattingNo();
+	
+		if (chattingNo!=0) {
+			Chatting emptyChatting = new Chatting();
+			session.setAttribute("chatting", emptyChatting);
+			result="랜덤 채팅 나감 리스트에서 지워짐";
+			
+		}else {
+			
+		}
+		System.out.println("perfectMatchingResult : "+perfectMatchingResult);
+		System.out.println("Result : "+result);
+		return result;
+	}
+
+	@RequestMapping(value="json/getUserTypeInterest/{partnerId}", method=RequestMethod.GET)
+	public Map<String, Object> getUserTypeInterest(HttpSession session,HttpServletRequest request,@PathVariable String partnerId) throws Exception{
+		System.out.println("endPerfectChatting 들어옴");
+		//채팅 방을 나갈경우
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user=(User)session.getAttribute("me");
+		String myId=user.getUserId();
+		int myType=user.getMyType();
+		User user02=(User)userService.getUser(partnerId);
+		int partnerType=user02.getMyType();
+		
+		int[] type= {myType, partnerType,0,0};
+		int[] interest= {user02.getFirstInterest(), user02.getSecondInterest(),user02.getThirdInterest()};
+		map.put("type", userService.getTypeByUser(type));
+		map.put("interest", userService.getInterestByUser(interest));
+		
+		System.out.println("map : "+map);
+		
+	
+		return map;
+	}
+
 }

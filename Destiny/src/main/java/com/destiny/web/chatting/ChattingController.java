@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -135,6 +138,74 @@ public class ChattingController {
 		
 		
 		
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="telepathyResult", method=RequestMethod.POST)
+	public ModelAndView telepathyResult(HttpSession session, HttpServletRequest request) throws Exception{
+			System.out.println("telepathyResult들어옴");
+			ServletContext applicationScope = request.getSession().getServletContext();
+			ModelAndView modelAndView = new ModelAndView();
+			User user=(User)session.getAttribute("me");
+			String userId=user.getUserId();
+			String roomNo=(String)request.getParameter("roomNo");
+			telepathyList=(List<Telepathy>)applicationScope.getAttribute(roomNo);
+			System.out.println("one 이전");
+			String one=(String)request.getParameter("1");
+			String two=(String)request.getParameter("2");
+			String three=(String)request.getParameter("3");
+			List<String[]> tResult=new ArrayList<String[]>();
+			System.out.println("one 이후"+one+"two"+two+"three"+three);
+			if (one.equals("1")||one==null||one=="") {
+				one=telepathyList.get(0).getExOne();
+			}else {
+				one=telepathyList.get(0).getExTwo();
+			}
+			if (two.equals("1")||two==null||two=="") {
+				two=telepathyList.get(1).getExOne();
+			}else {
+				two=telepathyList.get(1).getExTwo();
+			}
+			if (three.equals("1")||three==null||three=="") {
+				three=telepathyList.get(2).getExOne();
+			}else {
+				three=telepathyList.get(2).getExTwo();
+			}
+			 Map<String, Object> result= new HashMap<String, Object>();
+			 
+			 System.out.println(result);
+			if (user.getGender().equals("W")) {
+				
+				result.put("womanId", userId);
+				result.put("one", one);
+				result.put("two", two);
+				result.put("three", three);
+				
+				applicationScope.setAttribute("wResult", result);
+				
+			}else {
+				
+				
+				result.put("manId", userId);
+				result.put("one", one);
+				result.put("two", two);
+				result.put("three", three);
+				applicationScope.setAttribute("mResult", result);
+			}
+			
+			System.out.println("roomNo : "+roomNo);
+			System.out.println("telepathyList : "+telepathyList);
+			System.out.println("one : "+one);
+			System.out.println("two : "+two);
+			System.out.println("three : "+three);
+			System.out.println("tResult : "+tResult.toString());
+
+			modelAndView.setViewName("/chatting/getRandomChatting.jsp");
+			modelAndView.addObject("result", "Success");
+			modelAndView.addObject("one", one);
+			modelAndView.addObject("two", two);
+			modelAndView.addObject("three", three);
+			modelAndView.addObject("telepathyList", telepathyList);
 		return modelAndView;
 	}
 	

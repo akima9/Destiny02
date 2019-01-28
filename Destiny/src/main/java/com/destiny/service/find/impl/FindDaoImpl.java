@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.destiny.common.Search;
 import com.destiny.service.domain.Find;
 import com.destiny.service.domain.Meeting;
 import com.destiny.service.find.FindDao;
@@ -37,9 +38,19 @@ public class FindDaoImpl implements FindDao{
 		return sqlSession.selectList("FindMapper.getMeetingResult", town);
 	}
 
-	@Override
+	/*@Override
 	public int getTotalCount(Find find) throws Exception {
 		return sqlSession.selectOne("FindMapper.getTotalCount", find);
+	}*/
+
+	/*@Override
+	public List<Meeting> getMeetingResultList(Search search) throws Exception {
+		return sqlSession.selectList("FindMapper.getMeetingResultList", search);
 	}
+
+	@Override
+	public int getTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("FindMapper.getTotalCount", search);
+	}*/
 
 }
