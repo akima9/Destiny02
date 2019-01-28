@@ -8,10 +8,66 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>우연</title>
+
+<!-- All js -->
+<script src="/resources/javascript/jquery.min.js"></script>
+<script src="/resources/javascript/skel.min.js"></script>
+<script src="/resources/javascript/util.js"></script>
+<script src="/resources/javascript/main.js"></script>
+<!-- //All js -->
+
 <!-- All CSS Insert -->
-<link rel="stylesheet" href="/resources/css/main.css" > 
+<link rel="stylesheet" href="/resources/css/main.css" >
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet"> 
 <!-- //All CSS Insert -->
 </head>
+
+<style>
+video{
+	position : absolute;
+	top : 0;
+	left : 0;
+	min-width : 100%;
+	z-index : -1;
+}
+
+#linkmove{
+	padding : 0 0 8em 0;
+}
+
+	#linkmove .flex div{
+		padding : 3em;
+		border : 2px solid #ffbcc7;
+		border-radius : 25px;
+	}
+	#linkmove .flex h3{
+		font-family: 'Nanum Myeongjo', serif;
+	}
+	#linkmove h2{
+		font-family: 'Source Serif Pro', serif;
+	}
+	#linkmove .special{
+		font-size : 0.2em;
+	}
+
+#communitymove{
+	/* background : #ff8a2c; */
+	background : #ffbcc7;
+}
+	#communitymove h3{
+		color : #ff264a;
+		font-weight : bold;
+	}
+	#communitymove p{
+		color : #3e3e3e;
+	}
+
+.ment{
+	text-align : center;
+}
+	
+</style>
 
 <body>
 	<!-- header -->
@@ -22,13 +78,24 @@
 	
 	<!-- 메인 이미지부분 start -->
 	<section id="banner">
-		<div class="inner"></div>
+		<video autoplay loop>
+			<source src="/resources/images/background/spring.mp4" type="video/mp4">
+		</video>
+		
+		<div class="ment">
+			<p>첫번째 만남은 우연일지라도<br> 두번째 만남은 흘러갈지도 남을지도 모르는 인연이다.</p>
+		</div>
+				
 	</section>
 	<!-- 메인 이미지부분 end -->
 	
 	<!-- 링크이동 start -->
-	<section id="three" class="wrapper align-center">
+	<section id="linkmove" class="wrapper align-center">
+		
+		<h2>BEST<span class="special">●</span></h2>
+		
 		<div class="inner">
+			
 			<div class="flex ">
 			
 				<div>
@@ -58,7 +125,7 @@
 	<!-- 링크이동 end -->
 	
 	<!-- Community start -->
-	<section id="three" class="wrapper align-center">
+	<section id="communitymove" class="wrapper align-center">
 		<div class="inner">
 			<div class="flex flex-3">
 				<article>
@@ -107,13 +174,6 @@
 	<!-- footer -->
 	<jsp:include page="/layout/footer.jsp" />
 	<!-- //footer -->
-	
-	<!-- All js -->
-	<script src="/resources/javascript/jquery.min.js"></script>
-	<script src="/resources/javascript/skel.min.js"></script>
-	<script src="/resources/javascript/util.js"></script>
-	<script src="/resources/javascript/main.js"></script>
-	<!-- //All js -->
 	
 </body>
 </html>

@@ -99,7 +99,11 @@ public class RestInfoController {
 		
 		search.setPageSize(pageSize);
 		
+		System.out.println(":: search : "+search);
+		
 		Map<String, Object> map = communityService.getCommunityList(search);
+		
+		System.out.println("MAP : "+map);
 		
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("resultPage : "+resultPage);
