@@ -12,6 +12,31 @@
 <link rel="stylesheet" href="/resources/css/main.css" > 
 <!-- //All CSS Insert -->
 
+	<!-- All js -->
+	<script src="/resources/javascript/jquery.min.js"></script>
+	<script src="/resources/javascript/skel.min.js"></script>
+	<script src="/resources/javascript/util.js"></script>
+	<script src="/resources/javascript/main.js"></script>
+	
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script>
+	$(function(){
+		// 내부에 스크립트 코드 추가
+		
+		$( "button:contains('이전')" ).on("click" , function() {
+			 //history.go(-1);
+			self.location = "/find/mainFind.jsp"
+		});
+			
+		$("a[href='#' ]:contains('YES')").on("click", function() {
+			self.location = "../chatting/mainChatting.jsp"
+		});
+		
+	})
+		
+	</script>
+	<!-- //All js -->
+
 <style>
 	.box > p{text-align:center;}
 	.resultCount{font-size: 25px; font-weight: bold; color: #FA5858;}
@@ -19,7 +44,7 @@
 
 </head>
 
-<body class="subpage">
+<body>
 	<!-- header -->
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
@@ -52,31 +77,6 @@
 	<!-- footer -->
 	<jsp:include page="/layout/footer.jsp" />
 	<!-- //footer -->
-	
-	<!-- All js -->
-	<script src="/resources/javascript/jquery.min.js"></script>
-	<script src="/resources/javascript/skel.min.js"></script>
-	<script src="/resources/javascript/util.js"></script>
-	<script src="/resources/javascript/main.js"></script>
-	
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script>
-	$(function(){
-		// 내부에 스크립트 코드 추가
-		
-		$( "button:contains('이전')" ).on("click" , function() {
-			 //history.go(-1);
-			self.location = "/find/mainFind.jsp"
-		});
-			
-		$("a[href='#' ]:contains('YES')").on("click", function() {
-			self.location = "../chatting/mainChatting.jsp"
-		});
-		
-	})
-		
-	</script>
-	<!-- //All js -->
 	
 </body>
 </html>
