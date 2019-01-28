@@ -11,9 +11,89 @@
 <!-- All CSS Insert -->
 <link rel="stylesheet" href="/resources/css/main.css" > 
 <!-- //All CSS Insert -->
+
+<!-- All js -->
+	<script src="/resources/javascript/jquery.min.js"></script>
+	<script src="/resources/javascript/skel.min.js"></script>
+	<script src="/resources/javascript/util.js"></script>
+	<script src="/resources/javascript/main.js"></script>
+	
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script>
+	$(function(){
+		// 내부에 스크립트 코드 추가
+		
+		// checkbox controll
+		var $chkbox = $('[name="selectInterest"]'); 
+		
+		$chkbox.on('change', function() {
+			if( $('[name="selectInterest"]:checked').length <= 2 ) {
+				$chkbox.attr('disabled', false);
+			} else {
+				$chkbox.attr('disabled', true);
+				$('[name="selectInterest"]:checked').attr('disabled', false);
+			}
+		});
+		
+		// city & town
+		$( "#city" ).on("change" , function() {
+			var idx = $("#city").index(this);
+			var city = $(this).val();
+			
+			alert(city + idx);
+			
+			$.ajax( 
+					{
+						url : "/user/json/getLocationList/"+city ,
+						method : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData , status) {
+							var list="";
+							for(i in JSONData.list){
+								var town = JSONData.list[i].townName;
+								list+="<option value='"+town+"'>"+town+"</option>";
+						}
+							$( "#town:eq("+idx+")" ).empty().append(list);
+						},
+						error : function(what){
+							alert("town ERROR" + what);
+						}
+					});
+			});
+		
+		
+		// select 조건
+		$("a[name='find']").on("click", function() {
+			if( $('[name="selectGender"]:checked').length != 1 ){
+				alert('성별을 선택해 주세요.');
+			} else if( $('select[name="selectAge"]').val() == 0 ) {
+				alert('나이를 선택해 주세요');
+			} else if($('select[name="city"]').val() == 0 || $('select[name="town"]').val() == 0){
+				alert('지역을 선택해 주세요.');
+			} else if( $('[name="selectInterest"]:checked').length != 3 ) {
+				alert('3개의 관심사를 선택해 주세요.');
+			} else {
+				$("form").attr("method", "POST").attr("action", "/find/getUserResult").submit();	
+			}
+		});		
+		
+		$( "a[name='back']" ).on("click" , function() {
+			 history.go(-1);
+		});
+		
+		
+	})
+		
+	</script>
+	<!-- //All js -->
+	
 </head>
 
-<body class="subpage">
+<body>
 	<!-- header -->
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
@@ -208,8 +288,8 @@
 					</table>
 					
 					<ul class="actions align-center">
-						<li><a href="#" class="button special" name="find">찾기</a></li>
 						<li><a href="#" class="button" name="back">이전</a></li>
+						<li><a href="#" class="button special" name="find">찾기</a></li>
 					</ul>
 				</div>
 			</form>
@@ -220,85 +300,6 @@
 	<!-- footer -->
 	<jsp:include page="/layout/footer.jsp" />
 	<!-- //footer -->
-	
-	<!-- All js -->
-	<script src="/resources/javascript/jquery.min.js"></script>
-	<script src="/resources/javascript/skel.min.js"></script>
-	<script src="/resources/javascript/util.js"></script>
-	<script src="/resources/javascript/main.js"></script>
-	
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script>
-	$(function(){
-		// 내부에 스크립트 코드 추가
-		
-		// checkbox controll
-		var $chkbox = $('[name="selectInterest"]'); 
-		
-		$chkbox.on('change', function() {
-			if( $('[name="selectInterest"]:checked').length <= 2 ) {
-				$chkbox.attr('disabled', false);
-			} else {
-				$chkbox.attr('disabled', true);
-				$('[name="selectInterest"]:checked').attr('disabled', false);
-			}
-		});
-		
-		// city & town
-		$( "#city" ).on("change" , function() {
-			var idx = $("#city").index(this);
-			var city = $(this).val();
-			
-			alert(city + idx);
-			
-			$.ajax( 
-					{
-						url : "/user/json/getLocationList/"+city ,
-						method : "GET" ,
-						dataType : "json" ,
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						success : function(JSONData , status) {
-							var list="";
-							for(i in JSONData.list){
-								var town = JSONData.list[i].townName;
-								list+="<option value='"+town+"'>"+town+"</option>";
-						}
-							$( "#town:eq("+idx+")" ).empty().append(list);
-						},
-						error : function(what){
-							alert("town ERROR" + what);
-						}
-					});
-			});
-		
-		
-		// select 조건
-		$("a[name='find']").on("click", function() {
-			if( $('[name="selectGender"]:checked').length != 1 ){
-				alert('성별을 선택해 주세요.');
-			} else if( $('select[name="selectAge"]').val() == 0 ) {
-				alert('나이를 선택해 주세요');
-			} else if($('select[name="city"]').val() == 0 || $('select[name="town"]').val() == 0){
-				alert('지역을 선택해 주세요.');
-			} else if( $('[name="selectInterest"]:checked').length != 3 ) {
-				alert('3개의 관심사를 선택해 주세요.');
-			} else {
-				$("form").attr("method", "POST").attr("action", "/find/getUserResult").submit();	
-			}
-		});		
-		
-		$( "a[name='back']" ).on("click" , function() {
-			 history.go(-1);
-		});
-		
-		
-	})
-		
-	</script>
-	<!-- //All js -->
 	
 </body>
 </html>

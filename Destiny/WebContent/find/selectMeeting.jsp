@@ -77,7 +77,7 @@
 
 </head>
 
-<body class="subpage">	
+<body>	
 	<!-- header -->
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
@@ -114,7 +114,7 @@
 								<td>
 									<div class="row uniform">
 										<div class="12u">
-											<jsp:include page="map.jsp" />
+											<%-- <jsp:include page="map.jsp" /> --%>
 										</div>
 									</div>
 								</td>
