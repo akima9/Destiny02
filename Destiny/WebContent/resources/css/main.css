@@ -48,6 +48,7 @@
 	body {
 		-webkit-text-size-adjust: none;
 	}
+	#navPanel{display:none;}
 
 /* Box Model */
 
@@ -1583,9 +1584,15 @@
 		}
 
 /* Type */
+	body{
+		font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+		font-size: 14pt;
+		font-weight: 400;
+		line-height: 1.65;
+	}
 
-	body, input, select, textarea {
-		color: #9a9a9a;
+	input, select, textarea {
+		color: #FFF;
 		font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
 		font-size: 14pt;
 		font-weight: 400;
@@ -1903,6 +1910,12 @@
 			.flex.flex-2 article {
 				width: 50%;
 			}
+			.flex.flex-3 article {
+				width: 33.333%;
+			}
+			.flex.flex-4 article {
+				width: 25%;
+			}
 
 		@media screen and (max-width: 980px) {
 
@@ -1910,10 +1923,22 @@
 				width: 100%;
 				margin-bottom: 3em;
 			}
+			.flex.flex-3 article {
+				width: 100%;
+				margin-bottom: 3em;
+			}
+			.flex.flex-4 article {
+				width: 50%;
+				margin-bottom: 3em;
+			}
 
-				.flex.flex-2 article:last-child {
-					margin-bottom: 0;
-				}
+			.flex.flex-2 article:last-child {
+				margin-bottom: 0;
+			}
+			.flex.flex-3 article:last-child {
+				margin-bottom: 0;
+			}
+			
 
 		}
 
@@ -1975,10 +2000,10 @@
 		-webkit-appearance: none;
 		-ms-appearance: none;
 		appearance: none;
-		background: #acdec2;
+		background: #ff8498;
 		border-radius: 10px;
 		border: none;
-		border: solid 2px #8dcca9;
+		border: solid 2px #ff264a;
 		color: #fff;
 		display: block;
 		outline: 0;
@@ -2013,8 +2038,8 @@
 		input[type="tel"]:focus,
 		select:focus,
 		textarea:focus {
-			border-color: #4bae77;
-			box-shadow: 0 0 0 1px #4bae77;
+			border-color: #ff264a;
+			box-shadow: 0 0 0 1px #ff264a;
 		}
 
 	.select-wrapper {
@@ -2102,7 +2127,7 @@
 			input[type="radio"] + label:before {
 				background: rgba(144, 144, 144, 0.075);
 				border-radius: 0;
-				border: solid 1px #8dcca9;
+				border: solid 1px #ff264a;
 				content: '';
 				display: inline-block;
 				height: 1.65em;
@@ -2116,16 +2141,16 @@
 
 		input[type="checkbox"]:checked + label:before,
 		input[type="radio"]:checked + label:before {
-			background: #6cc091;
-			border-color: #6cc091;
+			background: #ff264a;
+			border-color: #ff264a;
 			color: #ffffff;
 			content: '\f00c';
 		}
 
 		input[type="checkbox"]:focus + label:before,
 		input[type="radio"]:focus + label:before {
-			border-color: #6cc091;
-			box-shadow: 0 0 0 1px #6cc091;
+			border-color: #ff264a;
+			box-shadow: 0 0 0 1px #ff264a;
 		}
 
 	input[type="checkbox"] + label:before {
@@ -2137,27 +2162,27 @@
 	}
 
 	::-webkit-input-placeholder {
-		color: #c4e5d3 !important;
+		color: #FFF !important;
 		opacity: 1.0;
 	}
 
 	:-moz-placeholder {
-		color: #c4e5d3 !important;
+		color: #FFF !important;
 		opacity: 1.0;
 	}
 
 	::-moz-placeholder {
-		color: #c4e5d3 !important;
+		color: #FFF !important;
 		opacity: 1.0;
 	}
 
 	:-ms-input-placeholder {
-		color: #c4e5d3 !important;
+		color: #FFF !important;
 		opacity: 1.0;
 	}
 
 	.formerize-placeholder {
-		color: #c4e5d3 !important;
+		color: #FFF !important;
 		opacity: 1.0;
 	}
 
@@ -2563,7 +2588,8 @@
 		input[type="button"]:hover,
 		button:hover,
 		.button:hover {
-			background-color: rgba(108, 192, 145, 0.15);
+			background-color: #ff264a;
+			color:#FFF !important;
 		}
 
 		input[type="submit"]:active,
@@ -2571,7 +2597,8 @@
 		input[type="button"]:active,
 		button:active,
 		.button:active {
-			background-color: rgba(108, 192, 145, 0.15);
+			background-color: #ff264a;
+			color:#FFF !important;
 		}
 
 		input[type="submit"].icon,
@@ -2655,7 +2682,7 @@
 		input[type="button"].special,
 		button.special,
 		.button.special {
-			background-color: #6cc091;
+			background-color: #ff264a;
 			color: #ffffff !important;
 		}
 
@@ -2664,7 +2691,8 @@
 			input[type="button"].special:hover,
 			button.special:hover,
 			.button.special:hover {
-				background-color: #7ec89e;
+				background-color: #FFF;
+				color:#ff264a !important;
 			}
 
 			input[type="submit"].special:active,
@@ -2839,6 +2867,7 @@
 		.nav_bg{display:none; position:fixed; z-index:10002; top:0; left:0; width:100%; height:100%; background:rgba(0, 0, 0, 0.7);}
 		
 		#navPanel {
+			display:block;
 			-moz-transform: translatex(0);
 			-webkit-transform: translatex(0);
 			-ms-transform: translatex(0);

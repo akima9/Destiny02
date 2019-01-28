@@ -9,8 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>우연</title>
 <!-- All CSS Insert -->
-<link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->
 <link rel="stylesheet" href="/resources/css/rest.css" /> <!-- 리스트 참조용 -->
+<link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->
+
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
@@ -79,9 +80,14 @@
 		});
 		
 		//제목눌렸을때 이벤트 처리
-		$( ".list_pop td:nth-child(3)" ).on("click", function() {
+		/* $( ".list_pop td:nth-child(3)" ).on("click", function() {
 			var meetingNo = $(this).data("param");
 			console.log(meetingNo);
+			self.location="/meeting/getMeeting?meetingNo="+meetingNo;
+		}); */
+		$("a[href='#' ]:contains('More')").on("click", function() {
+			var meetingNo = $(this).data("param");
+			//console.log(meetingNo);
 			self.location="/meeting/getMeeting?meetingNo="+meetingNo;
 		});
 		
@@ -250,7 +256,7 @@
 				 	</select>
             		</td>
             		<td id="location" class='search' width='250px'>
-						<input id="sconcentering" type="text" class="form-control"> 
+						<input readonly="readonly" id="sconcentering" type="text" class="form-control"> 
             		</td>
             		<td width='250px'>
             			<select id="interest" name="searchSortingOption" class="form-control">
@@ -280,11 +286,11 @@
 			 <!-- 개설하기 버튼 종료 -->
 			 
 			 <!-- 리스트 시작 -->
-
+<%-- 
                 <table class="listingTAB" width="100%" border="0" cellspacing="0" style="margin-top:10px;">
                     <tr>
                         <td colspan="11" align="left">
-                           	<%--  전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage} 페이지 --%>
+                           	 전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage} 페이지
                         </td>
                     </tr>
                   
@@ -346,22 +352,38 @@
                    </c:forEach>
                   
                 </table>
+                 --%>
+                
                 <!-- 리스트 종료 -->
+                
+                
                 <div class="landing">
               	<section id="one" class="wrapper style1">
 				<div class="inner">
-					<article class="feature left">
-						<span class="image"><img src="/resources/images/meeting/pic01.jpg" alt="" /></span>
+					<c:set var="i" value="0" />
+				 	<c:forEach var="meeting" items="${list}">
+				 	<c:set var="i" value="${ i+1 }" />
+				 	<c:if test="${i%2==0}">
+						<article class="feature left">
+					</c:if>
+					<c:if test="${i%2!=0}">
+						<article class="feature right">
+					</c:if>
+					
+						<span class="image"><img src="/resources/images/meeting/${meeting.titleImg}" alt="" /></span>
 						<div class="content">
-							<h2>Integer vitae libero acrisus egestas placerat  sollicitudin</h2>
-							<p>Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est.</p>
+							<p>${meeting.meetingCenter}<p>
+							<h2>${meeting.meetingName}</h2>
+							<p>모임정원 /${meeting.meetingCrewLimit}명      조회수 ${meeting.meetingViews}회</p>
+							<p>모임날짜:${meeting.meetingDate} 이번모임장소:${meeting.meetingLocation}</p>
 							<ul class="actions">
 								<li>
-									<a href="#" class="button alt">More</a>
+									<a href="#" data-param="${meeting.meetingNo}" class="button alt">More</a>
 								</li>
 							</ul>
 						</div>
 					</article>
+					<!-- 
 					<article class="feature right">
 						<span class="image"><img src="/resources/images/meeting/pic01.jpg" alt="" /></span>
 						<div class="content">
@@ -373,7 +395,8 @@
 								</li>
 							</ul>
 						</div>
-					</article>
+					</article> -->
+					</c:forEach>
 				</div>
 			</section>
             </div>   

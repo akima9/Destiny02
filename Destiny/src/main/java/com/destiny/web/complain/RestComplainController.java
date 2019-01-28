@@ -85,11 +85,6 @@ public class RestComplainController {
 					user.setUserGrade("BLK");
 					userService.updateGrade(user);
 					
-					/*System.out.println("블랙리스트가 된 게시물은 블라인드 처리함");
-					community = communityService.getCommunity(complain.getCommunityNo());
-					System.out.println("community : " + community + "================================");
-					community.setViewCondition("BLD");
-					communityService.updateViewsCondition(community);*/
 					if(meetingNo == 0) {
 						System.out.println("블랙리스트가된 회원의 모든 게시물이 블라인드 처리됨");
 						community = communityService.getCommunity(complain.getCommunityNo());
@@ -112,11 +107,6 @@ public class RestComplainController {
 				userService.updateGrade(user);
 				
 				if(meetingNo == 0) {
-					/*System.out.println("블랙리스트가 된 게시물은 블라인드 처리");
-					community = communityService.getCommunity(complain.getCommunityNo());
-					System.out.println("community : " + community + "================================");
-					community.setViewCondition("BLD");
-					communityService.updateViewsCondition(community);*/
 					System.out.println("블랙리스트가된 회원의 모든 게시물이 블라인드 처리됨");
 					community.setViewCondition("BLD");
 					communityService.updateViewsConditionAdmin(community);

@@ -200,36 +200,6 @@
 					});
 			});
 		});
-	////* 지역구 선택부 끝!!!!!  *////
-	
-	////* 모임원 선택부  *////
-
-	
-	////* 모임원 선택부  끝!!!!!!!!!!*////
-	 
-	////* 반복여부가 선택되면  *////
-	 $(function(){
-			$( "#snooze" ).on("change" , function() {
-				//var idx = $(".brand_ids").index(this);
-				var snooze=$(this).val();
-				console.log(snooze);
-				
-				if(snooze=='Y'){
-					console.log("반복선택됨")
-					var list = "";
-					list+="<select id='weekday' class='form-control'>";
-					list+="<option value='월요일'>월요일</option>";
-					list+="<option value='화요일'>화요일</option>";
-					list+="<option value='수요일'>수요일</option>";
-					list+="<option value='목요일'>목요일</option>";
-					list+="<option value='금요일'>금요일</option>";
-					list+="<option value='토요일'>토요일</option>";
-					list+="<option value='일요일'>일요일</option>";
-					list+="</select>";
-					$( "#dateOrDay" ).empty().append(list);
-				}
-			});
-		});
 	
 	
 	</script>
@@ -314,7 +284,7 @@
 		 </div>
 		
 		 <div class="form-group col-sm-8 col-md-8">
-		 	<input  name="interestName" id="selectedInterest" type="text" class="form-control" placeholder="관심사를 선택해 주세요">
+		 	<input  name="interestName" id="selectedInterest" type="text" class="form-control" readonly="readonly" placeholder="관심사를 선택해 주세요">
 		 </div>
 		 
 		 <div class="form-group col-sm-6 col-md-6">
