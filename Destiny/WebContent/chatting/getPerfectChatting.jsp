@@ -355,7 +355,7 @@ socket.on('connect', function(){
 	        type: 'GET',
 	        dataType: 'json',
 	        success: function(JsonData) {
-	            //console.log('success');
+	            console.log('woman');
 	           // console.log(JsonData.user.myType);
 	            console.log(JsonData.interest[0]);
 	            console.log(JsonData.interest[1]);
@@ -367,9 +367,9 @@ socket.on('connect', function(){
 	            //partnerType=JsonData.user.myType;
 	            interest=[JsonData.interest[0],JsonData.interest[1],JsonData.interest[2]];
 	        
-	            $('#mbti').append('<div>' +JsonData.type.firstType+ '</div>');
-	            $('#mbti').append('<div>' +JsonData.type.myType+ '</div>');
-	            $('#interest').append('<div>' +interest+ '</div>');
+	            $('#you').append("<div class='text-center'><img src='/resources/images/chatting/mbti/"+JsonData.type.firstType+".JPG' class='img-circle' width='50%' height='50%'><br>"+JsonData.type.firstType+"</div>");
+	            $('#me').append("<div class='text-center'><img src='/resources/images/chatting/mbti/"+JsonData.type.myType+".JPG' class='img-circle' width='50%' height='50%'><br>"+JsonData.type.myType+"</div>");
+	            //$('#interest').append('<div>' +interest+ '</div>');
 				
 	        }
 			
@@ -381,6 +381,7 @@ socket.on('connect', function(){
 	        dataType: 'json',
 	        success: function(JsonData) {
 	           // console.log('success');
+	            console.log('man');
 	           // console.log(JsonData.user.myType);
 	            console.log(JsonData.interest[0]);
 	            console.log(JsonData.interest[1]);
@@ -390,14 +391,17 @@ socket.on('connect', function(){
 	       		//partnerType=JsonData.user.myType;
 	            myType=JsonData.type.myType;
 	            partnerType=JsonData.type.firstType;
+	            interest=[JsonData.interest[0],JsonData.interest[1],JsonData.interest[2]];
+		        
 
-	            $('#mbti').append('<div>' +JsonData.type.firstType+ '</div>');
-	            $('#mbti').append('<div>' +JsonData.type.myType+ '</div>');
-	            $('#interest').append('<div>' +interest+ '</div>');
+	            $('#you').append("<div class='text-center'><img src='/resources/images/chatting/mbti/"+JsonData.type.firstType+".JPG' class='img-circle' width='50%' height='50%'><br>"+JsonData.type.firstType+"</div>");
+	            $('#me').append("<div class='text-center'><img src='/resources/images/chatting/mbti/"+JsonData.type.myType+".JPG' class='img-circle' width='50%' height='50%'><br>"+JsonData.type.myType+"</div>");
+	            
 				
 	        }
 			
 	    });
+		
 	}
 
 
@@ -546,7 +550,11 @@ $(function(){
 		}
 	});
 	
-/////////////////////////////////////////////
+//관심사///////////////////////////////////////////
+$('.btn-default').click(function () {
+	$('.btn-default').remove();
+	$('#interest').append('<div class="text-center">' +interest+ '</div>');
+})
 ///////////////////////////////////////////////
 });
 
@@ -674,18 +682,18 @@ window.addEventListener('beforeunload', function (e) {
 	<div class='list col-sm-4 col-md-4'>
 		<ul class='col-xs-4 col-sm-12' id='mbti'>
 			<li>MBTI 유형</li>
-			<li><a href='#user_1'>상대방</a></li>
-			myType<br> ${myType}<br><br><br>
+			<li><a href='#user_1' >상대방</a></li>
+			<br ><li id="you"></li>
 			<li><a href='#user_2'>나</a></li>
 			
-			<br><br><br><br>
+			<br><li id="me"></li>
 		</ul>
 		<ul class='col-xs-4 col-sm-12' id='interest'>
 			<li>관심사</li>
 			<li><a href='#user_1'>상대방</a></li>
-			<br><br>
+			<br>
 			<div class=" text-center"><a class="btn btn-default" href="#" role="button">확인</a></div>
-			<br><br>
+			<br>
 			
 		</ul>
 		<ul class='col-xs-4 col-sm-12' id='favorability'>

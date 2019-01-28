@@ -26,10 +26,8 @@
 
 
 function getRandomChatting(){
-	popWin = window.open("/chatting/getRandomChatting.jsp",
-												"popWin",
-												"left=500, top=600, width=500, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-}
+	$("form").attr("method" , "POST").attr("action" , "/chatting/telepathyResult").submit();
+  	}
 
 $(function() {
 	$( "#random" ).on("click" , function() {
@@ -39,39 +37,77 @@ $(function() {
 	
 });
 
+var n=0;
+	setTimeout(function() { 
+   
+   		alert("TimeOut! chatting을 시작합니다!");
+   		getRandomChatting(); }, 10000);
+	
+	(function poll() {
+		setTimeout(function() { 
+			if (n<10) {
+				$($('.title').val()).remove();
+				poll();
+				$('.title').last().append(10-n);
+	            
+			}
+			
+	   		 n++; }, 1000);
+		
+	})();
+
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 </head>
 <body>
-TelepathyTest<br>
-${roomNo}<br>
-<div>
-<c:set var="i" value="0" />
+	<div class="text-center">TelepathyTest</div>
+	<br>
 	
-
-<c:forEach var="telepathy" items="${telepathyList}">
-<c:set var="i" value="${ i+1 }" />	
-	<div class="row">
-	  		<div class="col-xs-1 col-md-1"><strong>${i}</strong></div>
-			<div class="col-xs-6 col-md-6">${telepathy.telepathyQuestion}</div>
+	${roomNo}<br>
+	<div class='title'>
 	</div>
+	<form class="form-horizontal">
 	
-	<div class="row">
-	  		<div class="col-xs-6 col-md-6"><strong>ONE</strong> ${telepathy.exOne}</div>
-			<div class="col-xs-6 col-md-6"><strong>TWO</strong>${telepathy.exTwo}</div>
-	</div>
-	<div class="row">
-	  		<div class="col-xs-6 col-md-6"><img src="/resources/images/telepathy/${telepathy.exOneImg}" width='100' height='100' ></div>
-			<div class="col-xs-6 col-md-6"><img src="/resources/images/telepathy/${telepathy.exTwoImg}" width='100' height='100' ></div>
-	</div>
-	
+		<div>
+		<c:set var="i" value="0" />
+		<c:forEach var="telepathy" items="${telepathyList}">
+		<c:set var="i" value="${ i+1 }" />	
+			<div class="row">
+					<div class="col-xs-2 col-md-2"><strong></strong></div>
+			  		<div class="col-xs-1 col-md-1"><strong>${i}</strong></div>
+					<div class="col-xs-6 col-md-6">${telepathy.telepathyQuestion}</div>
+			</div>
+			
+			<div class="row text-center">
+			  		<div class="col-xs-6 col-md-6"><strong>ONE</strong></div>
+					<div class="col-xs-6 col-md-6"><strong>TWO</strong></div>
+			</div>
 		
-		<br>
-</c:forEach>
-</div>
-<div class='text-center'>
-<a href='#' class="btn btn-primary" role="button" id="random">참여</a>
-</div>
+			<div class="row text-center">
+			 
+			  		<div class="col-xs-6 col-md-6"><img src="/resources/images/telepathy/${telepathy.exOneImg}" width='100' height='100' class="img-circle" ></div>
+					<div class="col-xs-6 col-md-6"><img src="/resources/images/telepathy/${telepathy.exTwoImg}" width='100' height='100' class="img-circle"></div>
+			</div>
+			<div class="row text-center form-group">
+			  		<div class="col-xs-6 col-md-6"><label><input type="radio" name="${i}" value="1" style=" position:absolute; "/><br><strong>${telepathy.exOne}</strong></label></div>
+					<div class="col-xs-6 col-md-6"><label><input type="radio" name="${i}" value="2" style=" position:absolute; "/><br><strong>${telepathy.exTwo}</strong></label></div>
+					
+			</div>
+				
+				<br>
+				
+		</c:forEach>
+		</div>
+		<div class='text-center form-group'>
+			<input type="hidden" name="roomNo" value="${roomNo}">
+			<input type="hidden" name="telepathyNo1" value="${telepathyList[0].telepathyNo}">
+			<input type="hidden" name="telepathyNo2" value="${telepathyList[1].telepathyNo}">
+			<input type="hidden" name="telepathyNo3" value="${telepathyList[2].telepathyNo}">
+			
+			<a href='#' class="btn btn-primary" role="button" id="random">참여</a>
+		</div>
+	
+	</form>
 </body>
 </html>

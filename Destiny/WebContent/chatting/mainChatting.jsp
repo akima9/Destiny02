@@ -153,7 +153,7 @@
 
 </head>
 
-<body class="subpage">   
+<body>   
    <!-- header -->
    <jsp:include page="/layout/header.jsp" />
    <!-- //header -->
