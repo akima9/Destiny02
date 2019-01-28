@@ -96,7 +96,7 @@
 								<th>½Å°íÀÚ</th>
 								<td>
 									<c:if test="${community.communityNo != 0}">
-										<div class="6u$ 12u$(small)" name="complainType"> ${community.communityNo} </div>
+										<div class="6u$ 12u$(small)" name="complainType"> ${me.userId} </div>
 									</c:if>
 									<c:if test="${meeting.meetingNo != 0}">
 										<div class="6u$ 12u$(small)" name="complainType"> ${meeting.meetingNo} </div>

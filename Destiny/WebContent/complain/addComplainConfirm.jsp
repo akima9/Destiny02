@@ -81,7 +81,7 @@
 							<tr>
 								<th>신고자</th>
 								<td>
-									<div class="6u$ 12u$(small)"  name="complainType"> ${complain.complainerId} ( 경고 ${user.warningCount}회 )</div>
+									<div class="6u$ 12u$(small)"  name="complainType"> ${me.userId}</div>
 								</td>
 								
 								<th>작성자</th>
