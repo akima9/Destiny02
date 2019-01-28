@@ -119,4 +119,16 @@ public class CommunityServiceImpl implements CommunityService {
 		return communityDao.getNextCommunity(communityNo);
 	}
 
+	@Override
+	public Map<String, Object> getLoveAdviceList(Search search) throws Exception {
+		List<Community> list = communityDao.getLoveAdviceList(search);
+		int totalCount = communityDao.getTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+
 }

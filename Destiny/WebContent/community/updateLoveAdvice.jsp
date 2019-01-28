@@ -98,7 +98,7 @@
 				return false;
 			}
 			
-			$("form").attr("method","POST").attr("action","/info/updateRestaurantInfo?communityNo=${community.communityNo}").submit();
+			$("form").attr("method","POST").attr("action","/love/updateLoveAdvice?communityNo=${community.communityNo}").submit();
 		}
 		
 	});
@@ -147,7 +147,7 @@
 	<div class="container">
 	
 		<div class="row text-center">
-			<h1>맛집정보 수정</h1>
+			<h1>연애조언 수정</h1>
 		</div>
 		
 		<div class="row">
@@ -207,27 +207,3 @@
 	
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

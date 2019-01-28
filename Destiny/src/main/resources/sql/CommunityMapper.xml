@@ -28,7 +28,7 @@
 	<insert id="addCommunity" parameterType="com.destiny.service.domain.Community" >
 	 	INSERT
 		INTO community( community_no, community_writer_id, category, community_user_grade, community_title, community_writer_nick_name, community_detail, community_write_date,  community_views, community_like, import_rank, community_view_condition) 
-		VALUES( seq_community_no.nextval, #{writerId}, #{category}, #{userGrade}, #{title}, #{writerNickName}, #{detail}, TO_DATE(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), #{views}, #{like}, #{importRank}, #{viewCondition})
+		VALUES( seq_community_no.nextval, #{writerId}, #{category}, #{userGrade}, #{title}, #{writerNickName}, #{detail}, SYSDATE, #{views}, #{like}, #{importRank}, #{viewCondition})
 		<selectKey resultType="int" keyProperty="communityNo" order="AFTER">
 			SELECT seq_community_no.currval FROM dual
 		</selectKey>
@@ -37,9 +37,9 @@
 	 <!-- SQL : SELECT ONE -->
 	 <select id="getCommunity" parameterType="int" resultMap="communitySelectMap">
 		SELECT
-		community_no, community_writer_id, category, community_user_grade, community_title, community_writer_nick_name, community_detail, community_write_date,  community_views, community_like, import_rank, community_view_condition
-		FROM community
-		WHERE community_no = #{value} and community_view_condition = 'DEF'
+		comu.community_no, comu.community_writer_id, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition, up.file_name
+		FROM community comu, upload up
+		WHERE comu.community_no = up.community_no and comu.community_no = #{value} and comu.community_view_condition = 'DEF'
 	 </select>
 	 
 	 <!-- SQL : SELECT ONE -->
@@ -121,17 +121,11 @@
 	 <update id="updateCommunity"	parameterType="com.destiny.service.domain.Community" >
 	   	UPDATE community
 	   	<set>
-	   		<!-- community_writer_id			= #{writerId},
-	   		category					= #{category}, -->
 	   		community_user_grade		= #{userGrade},
 	   		community_title 			= #{title},
 	   		community_writer_nick_name	= #{writerNickName},
 			community_detail			= #{detail},
 			community_write_date		= SYSDATE
-			<!-- community_views				= #{views},
-			community_like				= #{like},
-			import_rank					= #{importRank},
-			community_view_condition	= #{viewCondition} -->
 	   	</set>
 	   	WHERE community_no = #{communityNo}
 	 </update>
@@ -163,6 +157,73 @@
 											FROM community comu, upload up
 											WHERE comu.community_no = up.community_no
 													and category = 'RES' 
+													and community_view_condition = 'DEF'
+											
+											<if test="searchCondition != null">
+												<if test="searchCondition == 0 and searchKeyword !='' ">
+									 				and comu.community_title like '%'||#{searchKeyword}||'%' 
+												</if>
+												<if test="searchCondition == 1 and searchKeyword !='' ">
+									 				and comu.community_writer_nick_name like '%'||#{searchKeyword}||'%' 
+												</if>
+											</if>
+											<choose>
+												<when test="searchSortingOption == null">
+														ORDER BY comu.community_no desc 
+												</when>
+											</choose>
+											<choose>
+												<when test="searchSortingOption == 0">
+														ORDER BY comu.community_no desc 
+												</when>
+											</choose>
+											<choose>
+												<when test="searchSortingOption == 1">
+														ORDER BY comu.community_views desc 
+												</when>
+											</choose>
+											<choose>
+												<when test="searchSortingOption == 2">
+														ORDER BY comu.community_like desc  
+												</when>
+											</choose>
+											<choose>
+												<when test="searchSortingOption == 3">
+														ORDER BY comu.community_no  
+												</when>
+											</choose>
+											
+											<!-- <if test="viewSort == 1">
+												ORDER BY comu.community_views desc 
+											</if>
+											<if test="likeSort == 1">
+												ORDER BY comu.community_like desc 
+											</if>
+											<if test="viewSort != 1 and likeSort != 1 or noSort == 1">
+												ORDER BY comu.community_no desc 
+											</if> -->
+						) inner_table WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 	<!--  위 두번째 subQuery 의  
+	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
+	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
+	 			< 는 keyword 로 &lt; 를	사용.
+	 			
+	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
+	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
+
+				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
+		-->
+		
+	<!-- SQL : SELECT LIST -->
+	<select id="getLoveAdviceList" parameterType="com.destiny.common.Search" resultMap="communitySelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT  comu.community_no, comu.community_writer_id, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition, up.file_name
+											FROM community comu, upload up
+											WHERE comu.community_no = up.community_no
+													and category = 'LUV' 
 													and community_view_condition = 'DEF'
 											
 											<if test="searchCondition != null">

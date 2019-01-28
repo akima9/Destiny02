@@ -35,15 +35,7 @@
 var userId = "${me.userId}";
 console.log("userId : "+userId);
 
-/* function fncGetList(currentPage){
-	$("#currentPage").val(currentPage)
-	$("form").attr("method","POST").attr("action","/info/listRestaurantInfo").submit();
-} */
-
-
 $(function() {
-	
-	
 	
 	/* 무한스크롤 : start */
 	var currentPage = 0;
@@ -52,7 +44,7 @@ $(function() {
 		console.log("fncNextList메소드로는 가나?")
 		currentPage++;
 		$.ajax({
-			url : "/info/json/listRestaurantInfo",
+			url : "/love/json/listLoveAdvice",
 			method : "post",
 			async : false,
 			dataType : "json",
@@ -110,11 +102,10 @@ $(function() {
 			if(userId == ""){
 				alert("로그인 후 이용 가능합니다.");
 				self.location = "/user/userInfo/login.jsp"
-				/* $("#my-dialog,#dialog-background").toggle(); */
 			}
 			else{
 				var communityNo = $(this).data("param")
-				self.location="/info/getRestaurantInfo?communityNo="+communityNo	
+				self.location="/love/getLoveAdvice?communityNo="+communityNo	
 			}
 		});
 	};
@@ -123,7 +114,6 @@ $(function() {
 	$(function(){
 		while ($(document).height()==$(window).height() && currentPage < $("input:hidden[name='maxPage']").val()) {
 			fncNextList();
-			/* ScrollReveal().reveal('.headline'); */
 		}
 	});
 	
@@ -134,7 +124,6 @@ $(function() {
 				var searchCondition = $('select[name=searchCondition]').val();
 				var searchKeyword = $('#searchKeyword').val();
 				fncNextList(searchCondition, searchKeyword);
-				/* ScrollReveal().reveal('.headline'); */
 			}
 		}
 	});
@@ -168,57 +157,10 @@ $(function() {
 			/* $("#my-dialog,#dialog-background").toggle(); */
 		}
 		else{
-			self.location = "/info/addRestaurantInfo"	
+			self.location = "/love/addLoveAdvice"	
 		}
 	});
 	/* 글쓰기 버튼 : end */
-	
-	/////////////아래는 리스트형////////////////////////////아래는 리스트형////////////////////////////아래는 리스트형///////////////
-	
-	/* 정렬 선택 : start*/
-	/* $('.sort-control').change(function(){
-		alert("정렬 선택!");
-		var state = $('.sort-control option:selected').val();
-		self.location="/info/listRestaurantInfo?searchSortingOption="+state+"&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}"					
-	}); */
-	/* 정렬 선택 : end */
-		
-	/* 글 제목 마우스 오버 : start */
-	/* $(".getRestaurantLink").on("mouseover",function(){
-		$(".getRestaurantLink").css("cursor","pointer")
-	}); */
-	/* 글 제목 마우스 오버 : end */
-	
-	/* 글 제목 클릭 : start */
-	/* $(".getRestaurantLink").on("click", function(){
-		if(userId == ""){
-			alert("로그인 후 이용 가능합니다.");
-			$("#my-dialog,#dialog-background").toggle();
-		}
-		else{
-			var communityNo = $(this).data("param")
-			self.location="/info/getRestaurantInfo?communityNo="+communityNo	
-		}
-	}); */
-	/* 글 제목 클릭 : end */
-		
-	/* 조회수 클릭 : start */
-	/* $("th:contains('조회')").on("click", function(){
-		self.location="/info/listRestaurantInfo?viewSort=1&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}"
-	}); */
-	/* 조회수 클릭 : end */
-	
-	/* 공감수 클릭 : start */
-	/* $("th:contains('공감')").on("click", function(){
-		self.location="/info/listRestaurantInfo?likeSort=1&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}"
-	}); */
-	/* 공감수 클릭 : end */
-	
-	/* 글번호 클릭 : start */
-	/* $("th:contains('글번호')").on("click", function(){
-		self.location="/info/listRestaurantInfo?noSort=1&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}"
-	}); */
-	/* 글번호 클릭 : end */
 	
 });
 
@@ -278,10 +220,6 @@ $(function() {
 	li{
 		list-style-type : none;
 	}
-	
-	/*  .container{
-		overflow : hidden;
-	} */
 	
 	.smallNavi{
 		overflow : hidden;
@@ -375,7 +313,7 @@ $(function() {
     
     <!-- 메인배경이미지 : start -->
 	<div class="topImg">
-		<h1>맛집<span class="slim">정보</span></h1>
+		<h1>연애<span class="slim">조언</span></h1>
 	</div>
 	<!-- 메인배경이미지 : end -->
 	
@@ -389,7 +327,7 @@ $(function() {
 			<li>></li>
 			<li>스토리</li>
 			<li>></li>
-			<li>맛집정보</li>
+			<li>연애조언</li>
 		</ul>
 		<!-- 페이지 내부 네비게이션 경로 : end -->
 		
@@ -419,111 +357,10 @@ $(function() {
 	
 		<input type="hidden" name="maxPage" value="${resultPage.maxPage }">
 		
-		<%-- <div class="form-group">
-			<select class="sort-control" name="searchCondition" >
-				<option value="0"
-					${ !empty search.searchSortingOption && search.searchSortingOption=="0" ? "selected" : ""}>최신 게시물 순</option>
-				<option value="1"
-					${ !empty search.searchSortingOption && search.searchSortingOption=="1" ? "selected" : ""}>조회수 순</option>
-				<option value="2"
-					${ !empty search.searchSortingOption && search.searchSortingOption=="2" ? "selected" : ""}>공감수 순</option>
-				<option value="3"
-					${ !empty search.searchSortingOption && search.searchSortingOption=="3" ? "selected" : ""}>이전 게시물 순</option>
-			</select>
-		</div> --%>
-		
-		<!-- <div class="form-group text-left">
-			<button type="button" class="button">글쓰기</button>
-		</div> -->
-		
-		<!-- 썸네일 리스트 : start -->
-		<%-- <div class="row">
-		<c:set var="i" value="0"/>
-			<c:forEach var="community" items="${list}">
-			<c:set var="i" value="${i+1}"/>
-			<div class="col-sm-6 col-md-4">
-				<div class="thumbnail" data-param="${ community.communityNo }">
-					<img src="../resources/images/uploadImg/${community.fileName}" alt="대표이미지">
-				    <div class="caption">
-				    	<h3 class="tumTitle">${community.title}</h3>
-				    	<p>${community.writeDate}</p>
-				    	<ul class="infoFirst">
-				    		<li>${community.writerNickName }</li>
-				    		<li><span>조회수</span> : ${community.views }</li>
-				    	</ul>
-				    	<ul class="infoSecond">
-				    		<c:if test="${community.userGrade == 'NEW'}">
-				    			<li>신규회원</li>
-				    		</c:if>
-				    		<c:if test="${community.userGrade == 'NOR'}">
-				    			<li>일반회원</li>
-				    		</c:if>
-				    		<c:if test="${community.userGrade == 'VIP'}">
-				    			<li>우수회원</li>
-				    		</c:if>
-				    		<c:if test="${community.userGrade == 'ADM'}">
-				    			<li>관리자</li>
-				    		</c:if>
-				    		<li><span>공감수</span> : ${community.like }</li>
-				    	</ul>
-				    </div>
-				</div>
-			</div>
-		</c:forEach>
-		</div> --%>
-		
 		<div class="rowList"></div>
 		
 		<!-- 썸네일 리스트 : end -->
-		
-		<!-- 테이블 리스트 : start -->
-		<%-- <table class="table table-hover table-striped">
-		
-			<thead>
-				<tr>
-					<th aligin="center" class="noSort">글번호▼</th>
-					<th aligin="center">제목</th>
-					<th aligin="center">작성자</th>
-					<th aligin="center">작성일</th>
-					<th aligin="center" class="viewSort">조회▼</th>
-					<th aligin="center" class="likeSort">공감▼</th>
-				</tr>
-			</thead>
-			
-			<tbody>
-				<c:set var="i" value="0"/>
-				<c:forEach var="community" items="${list}">
-					<c:set var="i" value="${i+1}"/>
-					<tr>
-						<td>
-							<span>${community.communityNo }</span>
-						</td>
-						<td>
-							<span class="getRestaurantLink" data-param="${ community.communityNo }">${community.title }</span>
-						</td>
-						<td>
-							<span>${community.writerNickName }</span>
-						</td>
-						<td>
-							<span>${community.writeDate }</span>
-						</td>
-						<td>
-							<span>${community.views }</span>
-						</td>
-						<td>
-							<span>${community.like }</span>
-						</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		
-		</table> --%>
-		<!-- 테이블 리스트 : end -->
 	</div>
-	
-	<!-- PageNavigation : start -->
-	
-	<!-- PageNavigation : end -->
 	
 	</div>
 

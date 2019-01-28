@@ -34,6 +34,16 @@ public class UploadDaoImpl implements UploadDao{
 	public void addUload(Upload upload) throws Exception {
 		sqlSession.insert("UploadMapper.addUpload", upload);
 	}
+
+	@Override
+	public void updateUpload(Upload upload) throws Exception {
+		sqlSession.update("UploadMapper.updateUpload", upload);
+	}
+
+	@Override
+	public Upload getUpload(int communityNo) throws Exception {
+		return sqlSession.selectOne("UploadMapper.getUpload", communityNo);
+	}
 	
 	
 

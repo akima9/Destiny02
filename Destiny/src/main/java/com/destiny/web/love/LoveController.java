@@ -1,4 +1,4 @@
-package com.destiny.web.info;
+package com.destiny.web.love;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,8 +29,8 @@ import com.destiny.service.domain.User;
 import com.destiny.service.upload.UploadService;
 
 @Controller
-@RequestMapping("/info/*")
-public class InfoController {
+@RequestMapping("/love/*")
+public class LoveController {
 	
 	///Field
 	@Autowired
@@ -42,7 +42,7 @@ public class InfoController {
 	private UploadService uploadService;
 	
 	///Constructor
-	public InfoController() {
+	public LoveController() {
 		System.out.println(this.getClass());
 	}
 	
@@ -54,17 +54,17 @@ public class InfoController {
 	
 	///Method
 	
-	/*getRestaurantInfoList.jsp로 단순 Navigation : start*/
-	@RequestMapping(value="listRestaurantInfo")
-	public ModelAndView listRestaurantInfo(@ModelAttribute("search") Search search) throws Exception{
-		System.out.println("::InfoController/listRestaurantInfo/get : 실행");
+	/*getLoveAdviceList.jsp로 단순 Navigation : start*/
+	@RequestMapping(value="listLoveAdvice")
+	public ModelAndView listLoveAdvice(@ModelAttribute("search") Search search) throws Exception{
+		System.out.println("::LoveController/LoveAdvice/get : 실행");
 		
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
 		
-		Map<String, Object> map = communityService.getCommunityList(search);
+		Map<String, Object> map = communityService.getLoveAdviceList(search);
 		
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("resultPage : "+resultPage);
@@ -74,25 +74,25 @@ public class InfoController {
 		modelAndView.addObject("list", map.get("list"));
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
-		modelAndView.setViewName("/community/getRestaurantInfoList.jsp");
+		modelAndView.setViewName("/community/getLoveAdviceList.jsp");
 		return modelAndView;
 	}
-	/*getRestaurantInfoList.jsp로 단순 Navigation : end*/
+	/*getLoveAdviceList.jsp로 단순 Navigation : end*/
 	
 	
-	/*addRestaurantInfo.jsp로 단순 Navigation : start*/
-	@RequestMapping(value="addRestaurantInfo", method=RequestMethod.GET)
-	public ModelAndView addRestaurantInfo() throws Exception{
+	/*addLoveAdvice.jsp로 단순 Navigation : start*/
+	@RequestMapping(value="addLoveAdvice", method=RequestMethod.GET)
+	public ModelAndView addLoveAdvice() throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/community/addRestaurantInfo.jsp");
+		modelAndView.setViewName("redirect:/community/addLoveAdvice.jsp");
 		return modelAndView;
 	}
-	/*addRestaurantInfo.jsp로 단순 Navigation : end*/
+	/*addLoveAdvice.jsp로 단순 Navigation : end*/
 	
-	/*addRestaurantInfo : start*/
-	@RequestMapping(value="addRestaurantInfo", method=RequestMethod.POST)
-	public ModelAndView addRestaurantInfo(@ModelAttribute("community") Community community, HttpSession session, @RequestParam("uploadFile")MultipartFile fileName, MultipartHttpServletRequest mtfRequest, @ModelAttribute("upload")Upload upload) throws Exception{
-		System.out.println(":: InfoController/addRestaurantInfo/post : 실행");
+	/*addLoveAdvice : start*/
+	@RequestMapping(value="addLoveAdvice", method=RequestMethod.POST)
+	public ModelAndView addLoveAdvice(@ModelAttribute("community") Community community, HttpSession session, @RequestParam("uploadFile")MultipartFile fileName, MultipartHttpServletRequest mtfRequest, @ModelAttribute("upload")Upload upload) throws Exception{
+		System.out.println(":: LoveController/addLoveAdvice/post : 실행");
 		
 		/*대표이미지 업로드 : start*/
 		String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\uploadImg\\";
@@ -112,7 +112,7 @@ public class InfoController {
 		System.out.println("userGrade : "+userGrade);
 		
 		community.setWriterId(userId);
-		community.setCategory("RES");
+		community.setCategory("LUV");
 		community.setUserGrade(userGrade);
 		community.setWriterNickName(nickName);
 		community.setViews(0);
@@ -120,7 +120,7 @@ public class InfoController {
 		community.setImportRank("N");
 		community.setViewCondition("DEF");
 		
-		System.out.println(":: InfoController/addRestaurantInfo/post의 community : "+community);
+		System.out.println(":: LoveController/addLoveAdvice/post의 community : "+community);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		communityService.addCommunity(community);
@@ -133,16 +133,16 @@ public class InfoController {
 		uploadService.addUload(upload);
 		System.out.println("upload : "+upload);
 		/*업로드 테이블 : end*/
-		modelAndView.setViewName("/community/addRestaurantInfoConfirm.jsp");
+		modelAndView.setViewName("/community/addLoveAdviceConfirm.jsp");
 		return modelAndView;
 	}
-	/*addRestaurantInfo : end*/
+	/*addLoveAdvice : end*/
 	
-	/*getRestaurantInfo : start*/
-	@RequestMapping(value="getRestaurantInfo", method=RequestMethod.GET)
-	public ModelAndView getRestaurantInfo(@RequestParam("communityNo") int communityNo, @ModelAttribute("likeCount") LikeCount likeCount,  HttpSession session) throws Exception{
+	/*getLoveAdvice : start*/
+	@RequestMapping(value="getLoveAdvice", method=RequestMethod.GET)
+	public ModelAndView getLoveAdvice(@RequestParam("communityNo") int communityNo, @ModelAttribute("likeCount") LikeCount likeCount,  HttpSession session) throws Exception{
 		
-		System.out.println(":: info/getRestaurantInfo : GET 실행 ========================");
+		System.out.println(":: love/getLoveAdvice : GET 실행 ========================");
 		
 		User user = (User)session.getAttribute("me"); 
 		String userId = user.getUserId();
@@ -160,26 +160,26 @@ public class InfoController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("community", community);
 		modelAndView.addObject("likeCount", likeCount);
-		modelAndView.setViewName("/community/getRestaurantInfo.jsp");
+		modelAndView.setViewName("/community/getLoveAdvice.jsp");
 		return modelAndView;
 	}
-	/*getRestaurantInfo : end*/
+	/*getLoveAdvice : end*/
 	
-	/*updateRestaurantInfo/GET : start*/
-	@RequestMapping(value="updateRestaurantInfo", method=RequestMethod.GET)
-	public ModelAndView updateRestaurantInfo(@RequestParam("communityNo") int communityNo) throws Exception{
+	/*updateLoveAdvice/GET : start*/
+	@RequestMapping(value="updateLoveAdvice", method=RequestMethod.GET)
+	public ModelAndView updateLoveAdvice(@RequestParam("communityNo") int communityNo) throws Exception{
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("community", communityService.getCommunity(communityNo));
-		modelAndView.setViewName("/community/updateRestaurantInfo.jsp");
+		modelAndView.setViewName("/community/updateLoveAdvice.jsp");
 		
 		return modelAndView;
 	}
-	/*updateRestaurantInfo/GET : end*/
+	/*updateLoveAdvice/GET : end*/
 	
-	/*updateRestaurantInfo/POST : start*/
-	@RequestMapping(value="updateRestaurantInfo", method=RequestMethod.POST)
-	public ModelAndView updateRestaurantInfo(@ModelAttribute("community") Community community, @RequestParam("communityNo") int communityNo, @RequestParam("uploadFile")MultipartFile fileName, MultipartHttpServletRequest mtfRequest, @ModelAttribute("upload")Upload upload) throws Exception{
+	/*updateLoveAdvice/POST : start*/
+	@RequestMapping(value="updateLoveAdvice", method=RequestMethod.POST)
+	public ModelAndView updateLoveAdvice(@ModelAttribute("community") Community community, @RequestParam("communityNo") int communityNo, @RequestParam("uploadFile")MultipartFile fileName, MultipartHttpServletRequest mtfRequest, @ModelAttribute("upload")Upload upload) throws Exception{
 		
 		/*대표이미지 업로드 : start*/
 		String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\uploadImg\\";
@@ -200,30 +200,30 @@ public class InfoController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("community", community);
-		modelAndView.setViewName("redirect:/info/getRestaurantInfo?communityNo="+community.getCommunityNo());
+		modelAndView.setViewName("redirect:/love/getLoveAdvice?communityNo="+community.getCommunityNo());
 		return modelAndView;
 	}
-	/*updateRestaurantInfo/POST : end*/
+	/*updateLoveAdvice/POST : end*/
 	
-	/*deleteRestaurantInfo : start*/
-	@RequestMapping(value="deleteRestaurantInfo", method=RequestMethod.GET)
-	public ModelAndView deleteRestaurantInfo(@ModelAttribute("community") Community community, @RequestParam("communityNo") int communityNo) throws Exception{
+	/*deleteLoveAdvice : start*/
+	@RequestMapping(value="deleteLoveAdvice", method=RequestMethod.GET)
+	public ModelAndView deleteLoveAdvice(@ModelAttribute("community") Community community, @RequestParam("communityNo") int communityNo) throws Exception{
 		
 		communityService.deleteCommunity(community);
 		System.out.println(community);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("community", community);
-		modelAndView.setViewName("/info/listRestaurantInfo");
+		modelAndView.setViewName("/love/listLoveAdvice");
 		return modelAndView;
 	}
-	/*deleteRestaurantInfo : end*/
+	/*deleteLoveAdvice : end*/
 	
-	/*getPreRestaurantInfo : start*/
-	@RequestMapping(value="getPreRestaurantInfo", method=RequestMethod.GET)
-	public ModelAndView getPreRestaurantInfo(@RequestParam("communityNo") int communityNo, @ModelAttribute("likeCount") LikeCount likeCount,  HttpSession session) throws Exception{
+	/*getPreLoveAdvice : start*/
+	@RequestMapping(value="getPreLoveAdvice", method=RequestMethod.GET)
+	public ModelAndView getPreLoveAdvice(@RequestParam("communityNo") int communityNo, @ModelAttribute("likeCount") LikeCount likeCount,  HttpSession session) throws Exception{
 		
-		System.out.println(":: info/getRestaurantInfo : GET 실행 ========================");
+		System.out.println(":: love/getLoveAdvice : GET 실행 ========================");
 		
 		User user = (User)session.getAttribute("me"); 
 		String userId = user.getUserId();
@@ -246,16 +246,16 @@ public class InfoController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("community", community);
 		modelAndView.addObject("likeCount", likeCount);
-		modelAndView.setViewName("/community/getRestaurantInfo.jsp");
+		modelAndView.setViewName("/community/getLoveAdvice.jsp");
 		return modelAndView;
 	}
-	/*getPreRestaurantInfo : end*/
+	/*getPreLoveAdvice : end*/
 	
-	/*getNextRestaurantInfo : start*/
-	@RequestMapping(value="getNextRestaurantInfo", method=RequestMethod.GET)
-	public ModelAndView getNextRestaurantInfo(@RequestParam("communityNo") int communityNo, @ModelAttribute("likeCount") LikeCount likeCount,  HttpSession session) throws Exception{
+	/*getNextLoveAdvice : start*/
+	@RequestMapping(value="getNextLoveAdvice", method=RequestMethod.GET)
+	public ModelAndView getNextLoveAdvice(@RequestParam("communityNo") int communityNo, @ModelAttribute("likeCount") LikeCount likeCount,  HttpSession session) throws Exception{
 		
-		System.out.println(":: info/getRestaurantInfo : GET 실행 ========================");
+		System.out.println(":: love/getLoveAdvice : GET 실행 ========================");
 		
 		User user = (User)session.getAttribute("me"); 
 		String userId = user.getUserId();
@@ -278,41 +278,9 @@ public class InfoController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("community", community);
 		modelAndView.addObject("likeCount", likeCount);
-		modelAndView.setViewName("/community/getRestaurantInfo.jsp");
+		modelAndView.setViewName("/community/getLoveAdvice.jsp");
 		return modelAndView;
 	}
-	/*getNextRestaurantInfo : end*/
+	/*getNextLoveAdvice : end*/
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

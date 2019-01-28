@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
+<title>우리들의 연결고리</title>
 
 <!-- include libraries(jQuery, bootstrap) -->
 <!-- <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet"> -->
@@ -23,6 +23,9 @@
 <!-- include summernote css/js -->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
+
+
+	
 
 <script type="text/javascript">
 	$(function(){
@@ -58,7 +61,7 @@
 									console.log("re : "+re)
 									if(re){
 										$note.summernote('insertImage', url);
-										break;
+										break;	
 									}
 								}
 							}
@@ -80,14 +83,16 @@
 			}
 		}
 		
+		
 		$("#save").on("click",function(){
-			fncUpdatecommunity();
+			fncAddcommunity();
 		});
 		
-		function fncUpdatecommunity() {
+		function fncAddcommunity() {
 					
 			var name = $("input[name=title]").val();
 			var detail = $("textarea[name=detail]").val();
+			var file = $("input[name=uploadFile]").val();
 	
 			if (name == null || name.length < 1) {
 				alert("제목을 입력해주세요.");
@@ -97,8 +102,12 @@
 				alert("내용을 입력해주세요.");
 				return false;
 			}
+			if (file == null || file.length < 1) {
+				alert("대표이미지를 등록해주세요.");
+				return false;
+			}
 			
-			$("form").attr("method","POST").attr("action","/info/updateRestaurantInfo?communityNo=${community.communityNo}").submit();
+			$("form").attr("method","POST").attr("action","/love/addLoveAdvice").submit();
 		}
 		
 	});
@@ -123,52 +132,72 @@
 		 left: 50%; 
 		 z-index: 100; 
 	}
-	.representImg{
-		margin-top : 1em;
-		width : 50%;
-		height : 40em;
-		padding : 1em;
-		text-align : center;
-		border : 1px solid #a9a9a9;
-		border-radius : 5px;
+	
+	body{
+		position : relative;
 	}
-	.representImg img{
-		width : 80%;
+	.topImg{
+		display : block;
+		position : absolute;
+		top : 0;
+		background-image : url("/resources/images/background/getRestaurantInfo_background.jpg");
+		background-repeat : no-repeat;
+		background-position : center center;
+		background-size : cover;
+		width : 100%;
+		height : 400px;
+	}
+	.topImg::after{
+		content : "";
+		background : rgba(0, 0, 0, 0.2);
+		position : absolute;
+		top : 0;
+		left : 0;
+		width : 100%;
+		height : 400px;
+		z-index : 1;
+	}
+	.topImg h1{
+		position : absolute;
+		line-height : 450px;
+		width : 100%;
+		text-align : center;
+		color : white;
+		z-index : 2;
+		font-size : 60px;
+		font-weight : bold;
+	}
+	
+	
+	form{
+		margin-top : 400px;
+	}
+	
+	.container{
+		padding-bottom : 100px;
 	}
 </style>
-
 </head>
 <body>
 
-	<!-- ToolBar Start /////////////////////////////////////-->
+<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolBar.jsp" />
-	<!-- ToolBar End /////////////////////////////////////-->
+  <!-- ToolBar End /////////////////////////////////////-->
+	
+	<div class="topImg">
+		<h1>연애<span class="slim">조언</span></h1>
+	</div>
 	
 	<div class="container">
-	
-		<div class="row text-center">
-			<h1>맛집정보 수정</h1>
-		</div>
 		
 		<div class="row">
 		
 			<form enctype="multipart/form-data">
-				
-				<!-- 수정페이지에서 업데이트 컨트롤러로 보내는 데이터 : start -->
-				<input type="hidden" name="writerId" value="${ community.writerId }">
-				<input type="hidden" name="category" value="${ community.category }">
-				<input type="hidden" name="userGrade" value="${ community.userGrade }">
-				<input type="hidden" name="writerNickName" value="${ community.writerNickName }">
-				<input type="hidden" name="views" value="${ community.views }">
-				<input type="hidden" name="like" value="${ community.like }">
-				<input type="hidden" name="importRank" value="${ community.importRank }">
-				<input type="hidden" name="viewCondition" value="${ community.viewCondition }">
-				<!-- 수정페이지에서 업데이트 컨트롤러로 보내는 데이터 : end -->
-				
+			
 				<div class="form-group">
 				
 					<label for="title">제목</label>
-					<input type="text" class="form-control" name="title" value="${ community.title }">
+					<input type="text" class="form-control" name="title" placeholder="제목을 입력해주세요." autofocus autocomplete=off>
 					
 				</div>
 				
@@ -176,15 +205,12 @@
 				
 					<label for="title">대표이미지</label>
 					<input type="file" name="uploadFile" class="form-control">
-					<div class="representImg">
-						<img src="/resources/images/uploadImg/${community.fileName }">
-					</div>
 					
 				</div>
 			
 				<div class="form-group">
 				
-					<textarea id="summernote" name="detail">${ community.detail }</textarea>
+					<textarea id="summernote" name="detail"></textarea>
 					
 				</div>
 				
@@ -207,27 +233,3 @@
 	
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

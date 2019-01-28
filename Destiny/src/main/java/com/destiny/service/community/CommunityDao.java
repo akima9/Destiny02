@@ -1,6 +1,7 @@
 package com.destiny.service.community;
 
 import java.util.List;
+import java.util.Map;
 
 import com.destiny.common.Search;
 import com.destiny.service.domain.Community;
@@ -20,8 +21,11 @@ public interface CommunityDao {
 	//다음글 상세보기
 	public Community getNextCommunity(int communityNo) throws Exception;
 	
-	//select list
+	//맛집정보 list
 	public List<Community> getCommunityList(Search search) throws Exception;
+	
+	//연애조언 게시글 리스트
+	public List<Community> getLoveAdviceList(Search search) throws Exception;
 	
 	//update
 	public void updateCommunity(Community community) throws Exception;
