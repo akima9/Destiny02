@@ -36,6 +36,85 @@
 		
 	</script>
 	<!-- //All js -->
+	
+	
+	<style>
+
+	body{
+		position : relative;
+		font-family: 'Nanum Myeongjo', serif;
+	}
+	.container{
+		font-weight : 700;
+	}
+	.tumTitle{
+		font-weight : 700;
+	}
+
+	.topImg{
+		display : block;
+		position : absolute;
+		top : 0;
+		background-image : url("/resources/images/background/userbg.jpg");
+		background-repeat : no-repeat;
+		background-size : cover;
+		width : 100%;
+		height : 400px;
+	}
+	
+	.topImg::after{
+		content : "";
+		background : rgba(0, 0, 0, 0.2);
+		position : absolute;
+		top : 0;
+		left : 0;
+		width : 100%;
+		height : 400px;
+	}
+	
+	.topImg h1{
+		position : absolute;
+		line-height : 450px;
+		width : 100%;
+		text-align : center;
+		color : white;
+		z-index : 99;
+		font-size : 60px;
+	}
+	
+	h1 .slim{
+		font-weight : lighter;
+	}
+	.wrap{
+		margin-top : 400px;
+	}
+	
+	li{
+		list-style-type : none;
+	}
+	
+	.smallNavi{
+		overflow : hidden;
+		float : right;
+		margin-top : -30px;
+		margin-bottom : 60px;
+	}
+	
+	.smallNavi li{
+		float : left;
+		margin-right : 20px;
+		margin-top : 8em;
+	}
+	
+	.homeImg{
+		margin-top : -2px;
+	}
+	
+	section.wrapper, article.wrapper {
+    	padding: 500px 0;
+	}
+
+</style>
 
 <style>
 	.box > p{text-align:center;}
@@ -48,13 +127,18 @@
 	<!-- header -->
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
+	
+	<!-- 메인배경이미지 : start -->
+	<div class="topImg">
+		<h1>이상형<span class="slim">검색</span></h1>
+	</div>
+	<!-- 메인배경이미지 : end -->
 
 	<!-- contents -->
 	<section id="main" class="wrapper">
 		<div class="inner">
 			
 			<!-- Box -->
-			<h3>이상형 찾기 결과</h3>
 			<div class="box">
 				<p>회원님이 찾는 조건의 회원 수는</p>
 				<p><span class="resultCount">${totalCount}명</span> 입니다.</p>

@@ -1,6 +1,6 @@
 package com.destiny.service.domain;
 
-import java.util.List;
+import java.util.Map;
 
 public class Telepathy {
 	
@@ -12,8 +12,8 @@ public class Telepathy {
 	private String exTwo;
 	private String exOneImg;
 	private String exTwoImg;
-	private List	womanTelepathyResult;
-	private List	manTelepathyResult;
+	private String womanTelepathyResult;
+	private String manTelepathyResult;
 	public int getChattingNo() {
 		return chattingNo;
 	}
@@ -38,10 +38,10 @@ public class Telepathy {
 	public String getExTwoImg() {
 		return exTwoImg;
 	}
-	public List getWomanTelepathyResult() {
+	public String getWomanTelepathyResult() {
 		return womanTelepathyResult;
 	}
-	public List getManTelepathyResult() {
+	public String getManTelepathyResult() {
 		return manTelepathyResult;
 	}
 	public void setChattingNo(int chattingNo) {
@@ -68,10 +68,10 @@ public class Telepathy {
 	public void setExTwoImg(String exTwoImg) {
 		this.exTwoImg = exTwoImg;
 	}
-	public void setWomanTelepathyResult(List womanTelepathyResult) {
+	public void setWomanTelepathyResult(String womanTelepathyResult) {
 		this.womanTelepathyResult = womanTelepathyResult;
 	}
-	public void setManTelepathyResult(List manTelepathyResult) {
+	public void setManTelepathyResult(String manTelepathyResult) {
 		this.manTelepathyResult = manTelepathyResult;
 	}
 	@Override

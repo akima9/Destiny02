@@ -259,7 +259,7 @@
 
 			<ul class="nav navbar-nav navbar-right">
 				<c:if test="${me == null}">
-					<li><a href="#" id="btn-open-dialog">login</a></li>
+					<li><a href="#" id="btn-open-dialog" id="btn-open-dialog">login</a></li>
 					<li><a href="#">join</a></li>
 				 
 					

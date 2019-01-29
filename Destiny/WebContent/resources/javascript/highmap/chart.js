@@ -146,7 +146,8 @@ highMaps.prototype.init = function(){
                     	events: {
                             select: function () {
                             	// this.properties에 지정한 코드나 이름 값이 저장
-                            	me.selected = this.properties.code;
+                            	//me.selected = this.properties.code;
+                            	me.selected = this.properties.name;
                             	try {
                             		me.event.select();
                             	} catch(err){} 

@@ -62,7 +62,9 @@ public class ChattingRestController {
 	private List<Chatting> perfectMatchingResult= new ArrayList<Chatting>();
 	private int no;
 	private int perfectNo;
-
+	private List<Telepathy> telepathyList=new  ArrayList<Telepathy>();
+	
+	
 	@ResponseBody
 	@RequestMapping(value = "json/translate", method = RequestMethod.POST)
 
@@ -621,7 +623,7 @@ public class ChattingRestController {
 		System.out.println("랜덤매칭 getChatting");
 
 		if (no > 0 && (womanList.get(no - 1).getUserId().equals(userId)
-				|| manList.get(no - 1).getUserId().equals(userId))) {
+				|| manList.get(no - 1).getUserId().equals(userId))&&(manList.size()==womanList.size())) {
 			Chatting resultChatting = chattingService.getChatting(userId);
 			// roomName은 ChattingNo로 지정
 			roomNo = resultChatting.getChattingNo();
@@ -776,14 +778,20 @@ public class ChattingRestController {
 
 	@RequestMapping(value="json/endRandomChatting", method=RequestMethod.GET)
 	public String endRandomChatting(HttpSession session,HttpServletRequest request) throws Exception{
-		System.out.println("endPerfectChatting 들어옴");
+		System.out.println("endRandomChatting 들어옴");
 		//채팅 방을 나갈경우
 		Chatting outUserChatting=(Chatting)session.getAttribute("chatting");
 		User user=(User)session.getAttribute("me");
 		String userId=user.getUserId();
 		String result="";
 		int chattingNo=outUserChatting.getChattingNo();
-	
+		String roomNo=""+chattingNo;
+		List<Telepathy> telepathyList=new  ArrayList<Telepathy>();
+		ServletContext applicationScope = request.getSession().getServletContext();
+		if (applicationScope.getAttribute(roomNo) != null) {
+			telepathyList =(List<Telepathy>)applicationScope.getAttribute(roomNo);
+			telepathyList.removeAll(telepathyList);
+		}
 		if (chattingNo!=0) {
 			Chatting emptyChatting = new Chatting();
 			session.setAttribute("chatting", emptyChatting);
@@ -792,11 +800,12 @@ public class ChattingRestController {
 		}else {
 			
 		}
-		System.out.println("perfectMatchingResult : "+perfectMatchingResult);
+		System.out.println("telepathyList : "+telepathyList);
 		System.out.println("Result : "+result);
 		return result;
 	}
 
+	
 	@RequestMapping(value="json/getUserTypeInterest/{partnerId}", method=RequestMethod.GET)
 	public Map<String, Object> getUserTypeInterest(HttpSession session,HttpServletRequest request,@PathVariable String partnerId) throws Exception{
 		System.out.println("endPerfectChatting 들어옴");
@@ -819,4 +828,27 @@ public class ChattingRestController {
 		return map;
 	}
 
+
+	@RequestMapping(value = "json/getTelepathyResult", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getTelepathyResult(HttpSession session, HttpServletRequest request) throws Exception {
+		System.out.println("json/getTelepathyResult 들어옴");
+
+		// ===========================================현재 접속자 구현 로직
+		// part=================================================
+		
+
+		ServletContext applicationScope = request.getSession().getServletContext();
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user = (User) session.getAttribute("me");
+		Chatting chatting=(Chatting)session.getAttribute("chatting");
+		int chattingNo =chatting.getChattingNo();
+		String roomNo=""+chattingNo;
+		System.out.println("user" + user);
+		telepathyList=(List<Telepathy>)applicationScope.getAttribute(roomNo);
+		map.put("telepathyListRe", telepathyList);
+		System.out.println("telepathyList : "+telepathyList);
+		return map;
+	}
+	
 }
