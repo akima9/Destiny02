@@ -11,10 +11,10 @@
 <style media="screen">
 		#content {  
 		  position:absolute;
-		  height:10px;   /* 퀵메뉴, 배너 이미지의 높이 */
-		  width:10px;    /* 퀵메뉴, 배너 이미지의 너비*/
-		  margin:0px 0px 0px 88%;   /* 가장 오른쪽의 수치가 화면 가운데에서 얼마만큼 오른쪽으로 레이어를 붙일 것인지 설정  */ 
-		  top: 10em;  /* 배너 상단에서 얼마나 떨어뜨릴지 설정*/
+		  height:10%;   /* 퀵메뉴, 배너 이미지의 높이 */
+		  width:10%;    /* 퀵메뉴, 배너 이미지의 너비*/
+		  margin:0px 0px 10% 88%;   /* 가장 오른쪽의 수치가 화면 가운데에서 얼마만큼 오른쪽으로 레이어를 붙일 것인지 설정  */ 
+		  top: 10%;  /* 배너 상단에서 얼마나 떨어뜨릴지 설정*/
 		  text-align: left;
 		  background: #fff0;
 		}
@@ -39,6 +39,7 @@
 		  font-size: 24px;
 		  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgba(0, 0, 0, 0.22);
 		  cursor: pointer;
+		  z-index: 100;
 		}
 		.menu-button2 {
 		  -webkit-transition: 0.4s;
@@ -57,6 +58,7 @@
 		  font-size: 24px;
 		  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgba(0, 0, 0, 0.22);
 		  cursor: pointer;
+		  z-index: 100;
 		}
 		.menu-button:hover {
 		  background: #d81557;
@@ -206,8 +208,9 @@
 		
 		<script type="text/javascript">
 		 	$(function() {
+		 		
 		        var offset = $("#content").offset();
-		        var topPadding = 90;
+		        var topPadding =15;
 		        $(window).scroll(function() {
 		
 		            if ($(window).scrollTop() > offset.top) {
@@ -220,6 +223,8 @@
 		                });
 		            };
 		         });
+		         
+		         
 		    }); 
 		 	
 		 	$(function() {

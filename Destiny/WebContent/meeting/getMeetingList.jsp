@@ -31,8 +31,7 @@
 	
 	
 	<!-- Bootstrap core CSS -->
-    
-    <link href="carousel.css" rel="stylesheet">
+
     
    <!-- 케러셀 완료 -->
 
@@ -46,10 +45,23 @@
 	<script src="/resources/javascript/main.js"></script>
 	
 	 <style>
-		#meetingNo {
+	 body {
+	 	background-color: #f5f5f5;
+	 }
+		/* #meetingNo {
 			font-size: 30px;
 		}
+		#myCarousel {
+			width: 100%;
+   			height: 680px;
+		}
 		
+		
+		#myCarousel img{
+			width : 100%;
+			height : 680px;
+			align : left;
+		} */
 		
 	</style>
 	
@@ -158,57 +170,28 @@
 
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- contents -->
-	<section id="main" class="wrapper">
-		<div class="inner">
-		<div style="width:98%; margin-left:10px;">
-
-        <form>
-            <!-- 베스트상품 테이블 -->
+	<section id="main" class="wrapper">	
+	 <!-- 베스트상품 테이블 -->
             <table>
-             <%--    잠깐 스탑 
+
             <c:set var="i" value="0" />
 				  <c:forEach var="meeting" items="${bestList}">
 				  <c:set var="i" value="${ i+1 }" />
 				  </c:forEach>
-				   --%>
-		<%-- <div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+			<div id="myCarousel" class="carousel slide " data-ride="carousel">
 			      <!-- Indicators -->
-			      <ol class="carousel-indicators">
-			        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-			        <li data-target="#myCarousel" data-slide-to="1"></li>
-			        <li data-target="#myCarousel" data-slide-to="2"></li>
-			      </ol>
 			      <div class="carousel-inner" role="listbox">
-			        <div class="item active" align="center">
-			          <img class="first-slide" src="/resources/images/meeting/romance2.jpg" alt="First slide"><!-- 첫번째 사진 -->
-			          <div class="container">
-			            <div class="carousel-caption">
-			            	무슨설명 달고싶으면 여기에
-			              <h1>Example headline.</h1>
-			              <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
-			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
-			            </div>
-			          </div>
+			        <div class="item active col-xs-12 col-sm-12" align="center">
+			          <img  class="first-slide" src="/resources/images/meeting/${bestList[0].titleImg}" style="width:auto; height: 400px;" alt="First slide"><!-- 첫번째 사진 -->
+					
 			        </div>
-			        <div class="item" align="center">
-			          <img class="second-slide" src="/resources/images/meeting/classsicfashion2.jpg" alt="Second slide"><!-- 두번째 사진 -->
-			          <!-- <div class="container">
-			            <div class="carousel-caption">
-			              <h1>Another example headline.</h1>
-			              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
-			            </div>
-			          </div> -->
+			        <div class="item col-xs-12 col-sm-12" align="center">
+			          <img class="second-slide" src="/resources/images/meeting/${bestList[1].titleImg}" style="width:auto; height: 400px;" alt="Second slide"><!-- 두번째 사진 -->
+
 			        </div>
-			        <div class="item" align="center">
-			          <img class="third-slide" src="/resources/images/meeting/conan2.jpg" alt="Third slide"><!-- 세번째 사진 -->
-			          <!-- <div class="container">
-			        	<div class="carousel-caption">
-			              <h1>One more for good measure.</h1>
-			              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-			              <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
-			            </div> 
-			          </div> -->
+			        <div class="item col-xs-12 col-sm-12" align="center">
+			          <img class="third-slide" src="/resources/images/meeting/${bestList[2].titleImg}" style="width:auto; height: 400px;" alt="Third slide"><!-- 세번째 사진 -->
 			        </div>
 			      </div> 
 			      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -219,12 +202,16 @@
 			        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 			        <span class="sr-only">Next</span>
 			      </a>
-			    </div>
+			   </div>
             </table>
-             --%>
             <!-- /.carousel -->
             <!-- 베스트상품 테이블 종료 -->
             
+
+		<div class="inner">
+		<div style="width:98%; margin-left:10px;">
+
+        <form>
             <br/>
             <!-- 검색창 시작 -->
             <table align="center" border="7" height="34px" bordercolor="#326ada">
@@ -292,6 +279,7 @@
 							<c:set var="i" value="0" />
 						 	<c:forEach var="meeting" items="${list}">
 						 	<c:set var="i" value="${ i+1 }" />
+						 	<hr/>
 						 	<c:if test="${i%2==0}">
 								<article class="feature left">
 							</c:if>
@@ -304,7 +292,8 @@
 									<p>${meeting.meetingCenter}<p>
 									<h2>${meeting.meetingName}</h2>
 									<p>모임정원 /${meeting.meetingCrewLimit}명      조회수 ${meeting.meetingViews}회</p>
-									<p>모임날짜:${meeting.meetingDate} 이번모임장소:${meeting.meetingLocation}</p>
+									<p>모임날짜:${meeting.meetingDate}</p>
+									<p>이번모임장소:${meeting.meetingLocation}</p>
 									<ul class="actions">
 										<li>
 											<a href="#" data-param="${meeting.meetingNo}" class="button alt">More</a>
@@ -312,7 +301,9 @@
 									</ul>
 								</div>
 							</article>
+							
 							</c:forEach>
+							 
 						</div>
 					</section>
             	</div>   
