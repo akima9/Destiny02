@@ -59,6 +59,30 @@ var n=0;
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
+<style type="text/css">
+body {
+	
+	 
+}
+
+body:after{
+background-image: url("/resources/images/chatting/back.jpg");
+  background-repeat: no-repeat;
+   background-color: rgba( 255, 255, 255, 0.5 );
+   
+   background-size: cover;
+    top:0;
+    left:0;
+    position:absolute;
+    background-size:100%;
+    opacity:0.5!important;
+    filter:alpha(opacity=50);
+    z-index:-1;
+    content:"";
+    width:100%;
+    height:100%;
+}
+</style>
 </head>
 <body>
 	<div class="text-center">TelepathyTest</div>

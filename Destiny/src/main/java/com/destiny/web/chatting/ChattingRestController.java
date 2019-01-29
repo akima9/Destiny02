@@ -62,7 +62,9 @@ public class ChattingRestController {
 	private List<Chatting> perfectMatchingResult= new ArrayList<Chatting>();
 	private int no;
 	private int perfectNo;
-
+	private List<Telepathy> telepathyList=new  ArrayList<Telepathy>();
+	
+	
 	@ResponseBody
 	@RequestMapping(value = "json/translate", method = RequestMethod.POST)
 
@@ -803,6 +805,7 @@ public class ChattingRestController {
 		return result;
 	}
 
+	
 	@RequestMapping(value="json/getUserTypeInterest/{partnerId}", method=RequestMethod.GET)
 	public Map<String, Object> getUserTypeInterest(HttpSession session,HttpServletRequest request,@PathVariable String partnerId) throws Exception{
 		System.out.println("endPerfectChatting 들어옴");
@@ -825,4 +828,27 @@ public class ChattingRestController {
 		return map;
 	}
 
+
+	@RequestMapping(value = "json/getTelepathyResult", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getTelepathyResult(HttpSession session, HttpServletRequest request) throws Exception {
+		System.out.println("json/getTelepathyResult 들어옴");
+
+		// ===========================================현재 접속자 구현 로직
+		// part=================================================
+		
+
+		ServletContext applicationScope = request.getSession().getServletContext();
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user = (User) session.getAttribute("me");
+		Chatting chatting=(Chatting)session.getAttribute("chatting");
+		int chattingNo =chatting.getChattingNo();
+		String roomNo=""+chattingNo;
+		System.out.println("user" + user);
+		telepathyList=(List<Telepathy>)applicationScope.getAttribute(roomNo);
+		map.put("telepathyListRe", telepathyList);
+		System.out.println("telepathyList : "+telepathyList);
+		return map;
+	}
+	
 }

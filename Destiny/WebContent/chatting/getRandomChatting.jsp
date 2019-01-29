@@ -40,13 +40,36 @@
 body {
   margin: 0;
   padding: 0;
-  background-color:  #fddbdb ;
+ /*  background-color:  #fddbdb ; */
+  
+   opacity:0.9!important;
    
+}
+body:after{
+background-image: url("/resources/images/chatting/t2.gif");
+  background-repeat: no-repeat;
+   background-color: rgba( 255, 255, 255, 0.5 );
+   
+   background-size: cover;
+    top:0;
+    left:0;
+    position:absolute;
+    background-size:100%;
+    opacity:0.5!important;
+    filter:alpha(opacity=50);
+    z-index:-1;
+    content:"";
+    width:100%;
+    height:100%;
 }
 
 * {
   font-family: Helvetica,sans-serif;
-  color: #888;
+  color: #841616;
+}
+
+.background{
+
 }
 
 main.container {
@@ -71,7 +94,7 @@ main.container .list ul li a {
   border: none;
   border-left: 5px solid transparent;
   cursor: pointer; 
-  background:  #ada09f57 ;
+  background:  rgba(162, 158, 158, 0.5) ;
   font-size: 15px;
   text-decoration: none;
   padding: 10px 10px;
@@ -92,7 +115,8 @@ main.container .list ul li:first-child {
 main.container .chat-box {
   /* float: left; */
  /*  width: 69%; */
-  background: #ffd3b6;
+  background:  rgba(162, 158, 158, 0.5);
+ 
   height: 550px;
   border-radius: 10px 10px 10px 10px ;
 }
@@ -215,20 +239,21 @@ main.container .chat-box ul li .you .text div {
     /* word-break: break-all */
     white-space: normal;
    word-wrap: break-word;
+   background-color: rgba(225, 210, 212, 0.59);
 }
 
-#mbti{
-background-color: #ffaaa5;
+#telepathy{
+background-color: rgba(241, 188, 193, 0.6);
 border-radius: 10px 10px 10px 10px;
 }
 
 #interest{
-background-color: #ffaaa5;
+background-color: rgba(241, 188, 193, 0.6);
 border-radius: 10px 10px 10px 10px;
 }
 
 #favorability{
-background-color: #ffaaa5;
+background-color: rgba(241, 188, 193, 0.6);
 border-radius: 10px 10px 10px 10px;
 }
 
@@ -255,7 +280,7 @@ border-radius: 10px 10px 10px 10px;
 		width:100%;
 		height:30px;
 		position:relative;
-		
+		border-radius: 10px 10px 10px 10px;
 		}
 		  
 		.bar .percent span {
@@ -267,6 +292,7 @@ border-radius: 10px 10px 10px 10px;
 		width:100%;
 		height:30px;
 		background:rgba(255, 255, 255, .7);
+		border-radius: 0 10px 10px 0;
 		
 		}
 		  
@@ -304,7 +330,7 @@ border-radius: 10px 10px 10px 10px;
 		width:70px;
 		height:70px;
 		line-height:70px;
-		background:rgba(0, 0, 0, .3);
+		background:rgba(243, 178, 178, 0.86);
 		-moz-border-radius:35px;
 		-webkit-border-radius:35px;
 		border-radius:35px;
@@ -348,6 +374,7 @@ var wResult03="${telepathyList[2].womanTelepathyResult}";
 var mResult01="${telepathyList[0].manTelepathyResult}";
 var mResult02="${telepathyList[1].manTelepathyResult}";
 var mResult03="${telepathyList[2].manTelepathyResult}";	
+var otherGage=0;
 
 // on connection to server, ask for user's name with an anonymous callback
 socket.on('connect', function(){
@@ -379,7 +406,6 @@ socket.on('connect', function(){
 		console.log("${telepathyList[0].womanTelepathyResult}");
 		console.log("${telepathyList[1].womanTelepathyResult}");
 		console.log("${telepathyList[2].womanTelepathyResult}");
-		$('#you').append('<div>' + mResult01+" "+mResult02+" "+mResult03+ '</div>');
 		$('#me').append('<div>' + wResult01+" "+wResult02+" "+wResult03+ '</div>');
 		
 	}else if(manId=="${me.userId}"){
@@ -402,7 +428,6 @@ socket.on('connect', function(){
 	        }
 			
 	    });
-		$('#you').append('<div>' + wResult01+" "+wResult02+" "+wResult03+ '</div>');
 		$('#me').append('<div>' + mResult01+" "+mResult02+" "+mResult03+ '</div>');
 		
 		
@@ -471,7 +496,7 @@ socket.on('updatechat', function (username, data1) {
 			//alert("server message");
 			//$('#chat-box').append('<div>'+username + '<br> ' + data1 +'<br>');
 			$('#user_1').append("<li><div class='title'><div>"+username+"<div>"+data1+"</div></div></div></li>");
-
+			
 		}
 		 
 		
@@ -520,6 +545,30 @@ function switchRoom(room){
 	
 }
 
+//서버로 gage보내기
+var myGage=0;
+socket.on('updategage', function (username, data) {
+	   if (username=="${me.userId}") {
+		   myGage=ti;
+	}else{
+		otherGage=data;
+	}
+	   console.log("1 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
+		//10%이하 이면서 10분이 지났을 때 : 10분 timeout 안에 내 gage가 10 이하인 경우 나갈지 여부 확인한다.
+	   /*  if (data==10) {
+			console.log("1 상대방 gage : "+data+" 나의 gage : "+otherGage)
+		} */
+		if (data==30) {
+			console.log("1 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
+		}else if (data==60) {
+			console.log("2 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
+		}else if (data==90) {
+			console.log("3 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
+		} 
+	   
+});
+///////////////////////////////////////////////////////////
+
 
 // on load of page
 $(function(){
@@ -559,15 +608,36 @@ $(function(){
 		$('#interest').append('<div class="text-center">' +interest+ '</div>');
 	})
 	///////////////////////////////////////////////
-	$('#you').click(function () {
+	$('a:contains("상대방")').click(function () {
+		$.ajax({
+	        url: '/chatting/json/getTelepathyResult/',
+	        type: 'GET',
+	        dataType: 'json',
+	        success: function(JsonData) {
+	        	//alert("성공");
+	        	console.log(JsonData);
+	        	//alert(JsonData.telepathyListRe[0].womanTelepathyResult);
+	        	 wResult01=JsonData.telepathyListRe[0].womanTelepathyResult;
+	        	 wResult02=JsonData.telepathyListRe[1].womanTelepathyResult;
+	        	 wResult03=JsonData.telepathyListRe[2].womanTelepathyResult;
+	        	 mResult01=JsonData.telepathyListRe[0].manTelepathyResult;
+	        	 mResult02=JsonData.telepathyListRe[1].manTelepathyResult;
+	        	 mResult03=JsonData.telepathyListRe[2].manTelepathyResult;	
+	        	 $('#result').remove();
+	        	if (womanId=="${me.userId}") {
+	        		
+	    			$('#you').append('<div id="result">' + mResult01+" "+mResult02+" "+mResult03+ '</div>');
+	    			
+	    		}else{
+	    			
+	    			$('#you').append('<div id="result">' + wResult01+" "+wResult02+" "+wResult03+ '</div>');
+	    			
+	    		}
+	         	
+	        }
+			
+	    });
 		
-		if (womanId=="${me.userId}") {
-			$('#you').append('<div>' + mResult01+" "+mResult02+" "+mResult03+ '</div>');
-			
-		}else{
-			$('#you').append('<div>' + wResult01+" "+wResult02+" "+wResult03+ '</div>');
-			
-		}
 		
 	})
 });
@@ -578,6 +648,7 @@ $(function(){
 	}); */
 /////////////////////////////////
 /////////게이지
+var ti = 0;
 	$(function() {
 	    var input = $('.input'),
 	        bar = $('.bar'),
@@ -590,15 +661,17 @@ $(function(){
 	        cs =
 	        circle.find('span'),
 	        name = 'rotate';
-	    var ti = 0;
-	    
-	   $('.input').click( function(e) {
 	    	
+	    	
+	   $('.input').click( function(e) {
+		   
 	    	console.log(ti);
 	    	
 	        if (true) {
 	        	
 	        	ti=ti+5; 
+	        	
+	        	socket.emit('sendgage', ti);
 	            var val = ti;
 	            console.log("안쪽"+ti);
 	            if (val >= 0 && val <=
@@ -624,6 +697,7 @@ $(function(){
 	            }
 	        }
 	    });
+	  
 	});
 ///////채팅방 나감///////////////////////////////////
 window.addEventListener('beforeunload', function (e) {
@@ -656,7 +730,7 @@ window.addEventListener('beforeunload', function (e) {
 </script>
 </head>
 <body>
-
+<div class='background'>
 <main class='container'>
 	<div class='col-sm-8 col-md-8'>
 		<!-- 채팅창안 -->
@@ -665,9 +739,9 @@ window.addEventListener('beforeunload', function (e) {
 				<li><div class='title'>2019.01.11</div></li>
 		</div>
 		<!-- 채팅창안 -->
-		<div class="form-group col-xs-12 col-sm-12 col-md-12">
+		<div class="form-group">
 		  		
-				<div class="col-xs-4 col-sm-4 col-md-4">
+				<div class="col-xs-2 col-sm-2 col-md-2">
 					<select id="lang"	name="lnag" class="form-control"  >
 						<option value="" selected="selected">language</option>
 						<option value="ko">한국어</option>
@@ -686,9 +760,10 @@ window.addEventListener('beforeunload', function (e) {
 				    
 					
 				</div>
-				<textarea id="data"  class="col-xs-4 col-sm-4 col-md-4"></textarea>
-				<input type="button" class="btn col-xs-4 col-sm-4 col-md-4" role="button" id="datasend" value="전송" />
-					
+				<textarea id="data"  class="col-xs-8 col-sm-8 col-md-8"></textarea>
+				<img alt="" class="btn col-xs-2 col-sm-2 col-md-2" src="/resources/images/chatting/send.png" id="datasend" >
+				<!-- <input type="button" class="btn col-xs-4 col-sm-4 col-md-4" role="button" id="datasend" value="전송" />
+				 -->	
 				
 			</div>
 		</div>
@@ -713,17 +788,17 @@ window.addEventListener('beforeunload', function (e) {
 		</ul>
 		<ul class='col-xs-4 col-sm-12' id='favorability'>
 			<li>기타</li>
-			<br><br>
-			<div class="col-xs-4 col-sm-4 text-center">
+			
+			<div class="col-sm-4 text-center">
 			<img  src="/resources/images/chatting/voice.png" style="width: 40px; height: 40px;">
 			</div>
-			<div class="col-xs-4 col-sm-4 text-center">
+			<div class="col-sm-4 text-center">
 			<img alt="" src="/resources/images/chatting/image.png" style="width: 40px; height: 40px;">
 			</div>
-			<div class="col-xs-4 col-sm-4 text-center">
+			<div class="col-sm-4 text-center">
 			<img alt="" src="/resources/images/chatting/profile.png" style="width: 40px; height: 40px;">
 			</div>
-			<br><br>
+			
 			
 		</ul>
 	</div>
@@ -745,11 +820,11 @@ window.addEventListener('beforeunload', function (e) {
 			    <div class="text col-xs-1 col-sm-1">
 			    
 			        <!--  <input type="text" class="input" value="0" /> -->
-			        <input type="image" class="input" src="/resources/images/chatting/send.png" style="width:50px; height: 50px"value="좋아요"/>
+			        <input type="image" class="input" src="/resources/images/chatting/heart.png" style="width:50px; height: 50px"value="좋아요"/>
 			        <!-- <small>Please change a value and hit the enter key.</small> -->
 			    </div>
 			</div>
 	
 </main>
-
+</div>
 </body></html>
