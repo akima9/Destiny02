@@ -54,7 +54,7 @@
 	<style>
 		body {
             padding-top : 50px;
-            background-color: #CDFED1;
+            background-color: #FDD9EC;
         }
 	</style>
 

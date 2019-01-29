@@ -27,22 +27,7 @@
 	<script>
 		
 		
-		$(function() {
-			 $( "#sendNow" ).on("click" , function() {
-				 var receiverId = $("input[name='receiverId']").val();
-				 var letterTitle = $("input[name='letterTitle']").val();
-				 var letterDetail = $("textarea[name='letterDetail']").val();
-				 
-				 if(receiverId == "" || letterTitle == "" || letterDetail == ""){
-					alert("필수값이 입력되지 않았습니다.")
-					 
-					return; 
-				 }
-				 
-				 $("form").attr("method" , "POST").attr("action" , "/letter/sendLetter").submit();
-			});
-		});
-	
+		
 	</script>
 <!-- //All js -->
 	
@@ -63,37 +48,19 @@
 	<section id="main" class="wrapper">
 		<div class="inner">
 		
-			<h3>쪽지작성</h3>
+			<h3>가입 거절 사유</h3>
 			<form class="form-horizontal">
 				<div class="row uniform">
-					
-				<div class="12u">
-					<label for="senderId" >발신자ID : ${me.userId}</label>
-					<span id="senderId"></span>
-				</div>
-				
-				<div class="12u">
-					<label for="senderId" >수신자ID</label>
-					<input type="text" id="receiverId" name="receiverId" value="${!(empty senderId) ? senderId : ''}">
-					<span id="senderId"></span>
-				</div>
-
-				<div class="12u">
-					<label for="letterTitle">쪽지 제목</label>
-				    <input type="text" id="letterTitle" name="letterTitle">
-				    <span id="letterTitle"></span>
-				</div>
 				 
 				 <div class="12u">
-					<label for="prodDetail">쪽지내용</label>
-					  <textarea name="letterDetail"  cols="25" rows="25" >
+					<label for="prodDetail">거절 사유를 입력해주세요</label>
+					  <textarea name="reasonNo"  cols="25" rows="25" >
 					  </textarea>
 				 </div>
 				  
 
 					<ul class="actions small">	
-					  <li><a id="sendNow" class="button special small" href="#" >전 &nbsp;송</a></li>
-					  <li><a class="button special small" href="/letter/letterMain.jsp">취&nbsp;소</a></li>
+					  <li><a class="btn btn-primary btn" href="/act/judgmentApply/no/${meetingNo}/${meeting.meetingMasterId}" role="button" id="applyNO">가입 &nbsp;거절</a></li>
 					</ul>
 
 

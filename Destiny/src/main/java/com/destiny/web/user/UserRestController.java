@@ -253,16 +253,7 @@ public class UserRestController {
 			
 			System.out.println("sendEmail try 진입. email : " + email);
 			Properties props = new Properties();
-			/*
-			props.put("mail.smtp.starttls.enable", "true");
-			props.put("mail.transport.protocol", "smtp");
-			props.put("mail.smtp.host", host);
-			props.setProperty("mail.smtp.socketFactory.class", 
-					"javax.net.ssl.SSLSocketFactory");
-			props.put("mail.smtp.port", "587");
-			props.put("mail.smtp.user", from);
-			props.put("mail.smtp.auth", "true");*/
-			//props.put("mail.smtp.socketFactory.fallback", "true");
+			
 			props.put("mail.smtp.starttls.enable", "true");
 			props.put("mail.smtp.host", host);
 			props.put("mail.smtp.user", 587);
@@ -279,14 +270,7 @@ public class UserRestController {
 			System.out.println("session 선언 " + session.toString());
 			
 			Message msg = new MimeMessage(session);
-			/*msg.setFrom(new InternetAddress(from, MimeUtility.encodeText(
-					fromName, "UTF-8", "B")));
 			
-			InternetAddress[] address1 = { new InternetAddress(to1) };
-			msg.setRecipients(Message.RecipientType.TO, address1);
-			msg.setSubject(subject);
-			msg.setSentDate(new java.util.Date());
-			msg.setContent(content, "text/html;charset=euc-kr");*/
 			
 			msg.setFrom(new InternetAddress(to1));
 			

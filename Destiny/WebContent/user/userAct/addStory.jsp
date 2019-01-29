@@ -92,6 +92,7 @@
 					
 			var name = $("input[name=title]").val();
 			var detail = $("textarea[name=detail]").val();
+			var file = $("input[name=uploadFile]").val();
 	
 			if (name == null || name.length < 1) {
 				alert("제목을 입력해주세요.");
@@ -99,6 +100,10 @@
 			}
 			if (detail == null || detail.length < 1) {
 				alert("내용을 입력해주세요.");
+				return false;
+			}
+			if (file == null || file.length < 1) {
+				alert("대표이미지를 등록해주세요.");
 				return false;
 			}
 			
@@ -127,6 +132,50 @@
 		 left: 50%; 
 		 z-index: 100; 
 	}
+	
+	body{
+		position : relative;
+	}
+	.topImg{
+		display : block;
+		position : absolute;
+		top : 0;
+		background-image : url("/resources/images/background/getRestaurantInfo_background.jpg");
+		background-repeat : no-repeat;
+		background-position : center center;
+		background-size : cover;
+		width : 100%;
+		height : 400px;
+	}
+	.topImg::after{
+		content : "";
+		background : rgba(0, 0, 0, 0.2);
+		position : absolute;
+		top : 0;
+		left : 0;
+		width : 100%;
+		height : 400px;
+		z-index : 1;
+	}
+	.topImg h1{
+		position : absolute;
+		line-height : 450px;
+		width : 100%;
+		text-align : center;
+		color : white;
+		z-index : 2;
+		font-size : 60px;
+		font-weight : bold;
+	}
+	
+	
+	form{
+		margin-top : 400px;
+	}
+	
+	.container{
+		padding-bottom : 100px;
+	}
 </style>
 </head>
 <body>
@@ -134,21 +183,28 @@
 <!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolBar.jsp" />
   <!-- ToolBar End /////////////////////////////////////-->
+  
+  	<div class="topImg">
+		<h1>리뷰<span class="slim">등록</span></h1>
+	</div>
 
 	<div class="container">
-	
-		<div class="row text-center">
-			<h1>리뷰 등록</h1>
-		</div>
 		
 		<div class="row">
 		
-			<form>
+			<form enctype="multipart/form-data">
 			
 				<div class="form-group">
 				
 					<label for="title">제목</label>
-					<input type="text" class="form-control" name="title" placeholder="제목을 입력해주세요.">
+					<input type="text" class="form-control" name="title" placeholder="제목을 입력해주세요." autofocus autocomplete=off>
+					
+				</div>
+			
+				<div class="form-group">
+				
+					<label for="title">대표이미지</label>
+					<input type="file" name="uploadFile" class="form-control">
 					
 				</div>
 			

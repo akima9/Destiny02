@@ -89,6 +89,11 @@ public class UserController {
 				modelAndView.addObject("result", "Fail");
 				modelAndView.addObject("reason", "탈퇴한 회원입니다. 다시 이용하고 싶으시면 계정을 복구해 주십시요.");
 				modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+			//만일 블랙리스트라면
+			} else if(dbUser.getUserGrade().equals("BLK")) {
+				modelAndView.addObject("result", "Fail");
+				modelAndView.addObject("reason", "블랙 리스트입니다. 다시 이용하고 싶으시면 새로운 이메일로 입력해 주십시요.");
+				modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 			} else {
 				//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
 				System.out.println("로그인 + 현제 접속자 구현 로직 part");
@@ -714,22 +719,37 @@ public class UserController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="getBackSite/{userId}", method=RequestMethod.GET)
-	public ModelAndView getBackSite(@PathVariable String userId) throws Exception{
-		System.out.println("getBackSite : GET : " + userId);
-		User user = userService.getUser(userId);
-		user.setUserState("I");
-		userService.updateState(user);
-		user.setUserGrade("NEW");
-		userService.updateGrade(user);
-		
-		user.setAttendCount(1);
-		user.setLastLoginDay(new java.sql.Date(new java.util.Date().getTime()));
-		userService.attendLogin(user);
-		
+	@RequestMapping(value="getBackSite/{userId}/{email}", method=RequestMethod.GET)
+	public ModelAndView getBackSite(@PathVariable("userId") String userId, 
+									@PathVariable("email") String email) throws Exception{
+		System.out.println("getBackSite : GET : " + userId + " + " + email);
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("reason", "계정이 복구되었습니다. 다시 로그인해주세요.");
-		modelAndView.setViewName("redirect:/index.jsp");
+		email += ".com";
+		if(userService.getUser(userId) != null) {
+			User user = userService.getUser(userId);
+			
+			if(user.getEmail().equals(email)) {
+		
+				user.setUserState("I");
+				userService.updateState(user);
+				user.setUserGrade("NEW");
+				userService.updateGrade(user);
+				
+				user.setAttendCount(1);
+				user.setLastLoginDay(new java.sql.Date(new java.util.Date().getTime()));
+				userService.attendLogin(user);
+				
+				
+				modelAndView.addObject("reason", "계정이 복구되었습니다. 다시 로그인해주세요.");
+				modelAndView.setViewName("redirect:/index.jsp");
+			} else {
+				modelAndView.addObject("reason", "이메일이 올바르지 않습니다.");
+				modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+			}
+		} else {
+			modelAndView.addObject("reason", "아이디가 올바르지 않습니다.");
+			modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+		}
 		return modelAndView;
 	}
 

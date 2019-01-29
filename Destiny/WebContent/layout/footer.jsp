@@ -1,9 +1,42 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+	
+	
+	
 	<footer id="footer">
+	
+		<script>
+			$(function(){
+				$("#proposeButton").on("click", function(){
+					
+					var propose = $("input[name='propose']").val();
+					alert(propose);
+					
+					$.ajax({
+						url : "/act/json/inquiry/"+propose,
+						method : "GET",
+						datatype : "json",
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData, status){
+							
+						}
+					});
+				});
+			});
+		</script>
+		
 		<div class="inner">
 			<h3>FOOTER</h3>
-
+			
+			<label for="propose" style="font-size:120%; color:white;">for Admin, inquiry and proposal</label>
+				<input style="font-size:80%; color:black;" type="text" id="propose" name="propose"></input><br/>
+				
+				<ul class="actions small">
+					<li><a id="proposeButton" class="button special small" href="#" >send for Admin</a></li>	
+				</ul>
+				
 			<div class="copyright">
 				© Untitled. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Unsplash</a>.
 			</div>
