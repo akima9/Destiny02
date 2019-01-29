@@ -11,8 +11,15 @@
 <!-- All CSS Insert -->
 <link rel="stylesheet" href="/resources/css/main.css" > 
 <!-- //All CSS Insert -->
+<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+<!-- //All CSS Insert -->
 
 <!-- All js -->
+
+		
+	
 	<script src="/resources/javascript/jquery.min.js"></script>
 	<script src="/resources/javascript/skel.min.js"></script>
 	<script src="/resources/javascript/util.js"></script>
@@ -138,6 +145,81 @@
 	
 	<style>
 		.userInfo {vertical-align: middle; background-color: #F8E6E0; }
+		body{
+			position : relative;
+		}
+		.container{
+			font-weight : 700;
+		}
+		.tumTitle{
+			font-weight : 700;
+		}
+	
+		.topImg{
+			display : block;
+			position : absolute;
+			top : 0;
+			background-image : url("/resources/images/background/userlistbg.png");
+			background-repeat : no-repeat;
+			background-position : center -280px;
+			background-size : cover;
+			width : 100%;
+			height : 400px;
+		}
+		
+		.topImg::after{
+			content : "";
+			background : rgba(0, 0, 0, 0.2);
+			position : absolute;
+			top : 0;
+			left : 0;
+			width : 100%;
+			height : 400px;
+		}
+		
+		.topImg h1{
+			font-family: 'Nanum Myeongjo', serif;
+			position : absolute;
+			line-height : 450px;
+			width : 100%;
+			text-align : center;
+			color : white;
+			z-index : 99;
+			font-size : 60px;
+		}
+		
+		h1 .slim{
+			font-family: 'Nanum Myeongjo', serif;
+			font-weight : lighter;
+		}
+		.wrap{
+			margin-top : 400px;
+		}
+		
+		li{
+			list-style-type : none;
+		}
+		
+		.smallNavi{
+			overflow : hidden;
+			float : right;
+			margin-top : -30px;
+			margin-bottom : 60px;
+		}
+		
+		.smallNavi li{
+			float : left;
+			margin-right : 20px;
+			margin-top : 8em;
+		}
+		
+		.homeImg{
+			margin-top : -2px;
+		}
+		
+		section.wrapper, article.wrapper {
+	    	padding: 500px 0;
+		}
 	</style>
 	
 </head>
@@ -146,15 +228,16 @@
 	<!-- header -->
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
+	
+		<!-- 메인배경이미지 : start -->
+		<div class="topImg">
+			<h1>회원<span class="slim">리스트</span></h1>
+		</div>
+		<!-- 메인배경이미지 : end -->
 
 	<!-- contents -->
 	<section id="main" class="wrapper">
-		<div class="inner">
-			<header class="align-center">
-				<h2>회원목록조회</h2>
-			</header>
-			
-			<form class="form-horizontal">
+		<div class="inner">	
 			
 			<div class="col-md-5">
 		    	<p class="text-primary">
@@ -167,11 +250,13 @@
 			<form class="form-horizontal">
 			
 				<!-- 검색 Start /////////////////////////////////////-->
-				<div class="row uniform">
-					<div class="3u$ 12u$(small)">
+				
+				
+				<div class="row uniform" >
+					<div class="2u 12u$(small)">
 						<div class="select-wrapper">
 							<select  name="searchSortingOption">
-								<option value="">검색종류를 선택해 주세요</option>
+								<option value="">검색종류</option>
 								<option value="0" ${! empty search.searchSortingOption && search.searchSortingOption==0 ? "selected" : ""}>기본</option>
 								<option value="1" ${! empty search.searchSortingOption && search.searchSortingOption==1 ? "selected" : ""}>출석일수 낮은순(이 페이지)</option>
 								<option value="2" ${! empty search.searchSortingOption && search.searchSortingOption==2 ? "selected" : ""}>출석일수 높은순(이 페이지)</option>
@@ -181,7 +266,7 @@
 						</div>
 					</div>
 					
-					<div class="3u$ 12u$(small)">
+					<div class="2u 12u$(small)">
 						<div class="select-wrapper">
 							<select  name="searchCondition" >
 								<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
@@ -190,24 +275,22 @@
 						</div>
 					</div>
 					
-					<div class="3u$ 12u$(small)">
-						<div class="select-wrapper">
+					<div class="4u 12u$(small)">
 							<label class="sr-only" for="searchKeyword">검색어</label>
 				    		<input type="text"  id="searchKeyword" name="searchKeyword"  placeholder="검색어"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-						</div>
 					</div>
 					
-					<div class="3u$ 12u$(small)">
-						<div class="select-wrapper">
-							<button type="button" class="btn btn-default">검색</button>
-						</div>
+					<div class="2u 12u$(small)">
+						<button type="button" class="btn btn-default">검색</button>
 					</div>
 					
 					<input type="hidden" id="currentPage" name="currentPage" value=""/>
+					
 				</div>
 				<!-- 검색 End /////////////////////////////////////-->
 				
+				<br/><br/>
 				
 				<!-- List Start /////////////////////////////////////-->
 				<div>

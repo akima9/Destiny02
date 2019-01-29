@@ -10,6 +10,9 @@
 <title>우연</title>
 <!-- All CSS Insert -->
 <link rel="stylesheet" href="/resources/css/main.css" > 
+
+
+
 <!-- //All CSS Insert -->
 
 <!-- All js -->
@@ -90,9 +93,86 @@
 	});
 	//일반 & 지도 선택 end
 	</script>
-	
-	
 	<!-- //All js -->
+	
+<style>
+
+	body{
+		position : relative;
+		font-family: 'Nanum Myeongjo', serif;
+	}
+	.container{
+		font-weight : 700;
+	}
+	.tumTitle{
+		font-weight : 700;
+	}
+
+	.topImg{
+		display : block;
+		position : absolute;
+		top : 0;
+		background-image : url("/resources/images/background/meetingbg.jpg");
+		background-repeat : no-repeat;
+		background-position : center center;
+		background-size : cover;
+		width : 100%;
+		height : 400px;
+	}
+	
+	.topImg::after{
+		content : "";
+		background : rgba(0, 0, 0, 0.2);
+		position : absolute;
+		top : 0;
+		left : 0;
+		width : 100%;
+		height : 400px;
+	}
+	
+	.topImg h1{
+		position : absolute;
+		line-height : 450px;
+		width : 100%;
+		text-align : center;
+		color : white;
+		z-index : 99;
+		font-size : 60px;
+	}
+	
+	h1 .slim{
+		font-weight : lighter;
+	}
+	.wrap{
+		margin-top : 400px;
+	}
+	
+	li{
+		list-style-type : none;
+	}
+	
+	.smallNavi{
+		overflow : hidden;
+		float : right;
+		margin-top : -30px;
+		margin-bottom : 60px;
+	}
+	
+	.smallNavi li{
+		float : left;
+		margin-right : 20px;
+		margin-top : 8em;
+	}
+	
+	.homeImg{
+		margin-top : -2px;
+	}
+	
+	section.wrapper, article.wrapper {
+    	padding: 500px 0;
+	}
+
+</style>
 	
 
 </head>
@@ -101,14 +181,16 @@
 	<!-- header -->
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
+	
+	<!-- 메인배경이미지 : start -->
+	<div class="topImg">
+		<h1>모임<span class="slim">검색</span></h1>
+	</div>
+	<!-- 메인배경이미지 : end -->
 
 	<!-- contents -->
 	<section id="main" class="wrapper">
-		<div class="inner">
-			<header class="align-center">
-				<h2>이상형 검색</h2>
-			</header>
-			
+		<div class="inner">			
 			<div class="row uniform">
 				<div class="3u 6u$(small)">
 					<input type="radio" name="selectRadio" id="ex1" value="1" checked="checked">
@@ -188,6 +270,7 @@
 		</div>
 	</section>
 	<!-- //contents -->
+
 	
 	<!-- footer -->
 	<jsp:include page="/layout/footer.jsp" />

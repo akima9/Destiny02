@@ -48,6 +48,85 @@
 	</script>
 	<!-- //All js -->
 	
+			<style>
+
+		body{
+			position : relative;
+			font-family: 'Nanum Myeongjo', serif;
+		}
+		.container{
+			font-weight : 700;
+		}
+		.tumTitle{
+			font-weight : 700;
+		}
+	
+		.topImg{
+			display : block;
+			position : absolute;
+			top : 0;
+			background-image : url("/resources/images/background/complainbg.jpg");
+			background-repeat : no-repeat;
+			background-position : center -280px;
+			background-size : cover;
+			width : 100%;
+			height : 400px;
+		}
+		
+		.topImg::after{
+			content : "";
+			background : rgba(0, 0, 0, 0.2);
+			position : absolute;
+			top : 0;
+			left : 0;
+			width : 100%;
+			height : 400px;
+		}
+		
+		.topImg h1{
+			position : absolute;
+			line-height : 450px;
+			width : 100%;
+			text-align : center;
+			color : white;
+			z-index : 99;
+			font-size : 60px;
+		}
+		
+		h1 .slim{
+			font-weight : lighter;
+		}
+		.wrap{
+			margin-top : 400px;
+		}
+		
+		li{
+			list-style-type : none;
+		}
+		
+		.smallNavi{
+			overflow : hidden;
+			float : right;
+			margin-top : -30px;
+			margin-bottom : 60px;
+		}
+		
+		.smallNavi li{
+			float : left;
+			margin-right : 20px;
+			margin-top : 8em;
+		}
+		
+		.homeImg{
+			margin-top : -2px;
+		}
+		
+		section.wrapper, article.wrapper {
+	    	padding: 500px 0;
+		}
+	
+	</style>
+	
 
 </head>
 
@@ -55,13 +134,16 @@
 	<!-- header -->
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
+	
+	<!-- 메인배경이미지 : start -->
+	<div class="topImg">
+		<h1>신고<span class="slim">하기</span></h1>
+	</div>
+	<!-- 메인배경이미지 : end -->
 
 	<!-- contents -->
 	<section id="main" class="wrapper">
 		<div class="inner">
-			<header class="align-center">
-				<h2>신고하기</h2>
-			</header>
 			
 			<!-- form Start /////////////////////////////////////-->
 			<form class="form-horizontal">
