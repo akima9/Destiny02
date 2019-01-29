@@ -151,7 +151,7 @@
 
 </head>
 
-<body class="subpage">	
+<body>	
 	<!-- header -->
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
@@ -286,136 +286,37 @@
 			 <!-- 개설하기 버튼 종료 -->
 			 
 			 <!-- 리스트 시작 -->
-<%-- 
-                <table class="listingTAB" width="100%" border="0" cellspacing="0" style="margin-top:10px;">
-                    <tr>
-                        <td colspan="11" align="left">
-                           	 전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage} 페이지
-                        </td>
-                    </tr>
-                  
-                    <tr>
-                        <td colspan="15" bgcolor="808285" height="1"></td>
-                    </tr>
-                    
-                    <c:set var="i" value="0" />
-				 	 <c:forEach var="meeting" items="${list}">
-				 	 <c:set var="i" value="${ i+1 }" />
-                  
-                    <tr>
-                        <td valign="middle">
-                            <img width="100px" src="/resources/images/meeting/${meeting.titleImg}" >
-                        </td>
-                        <td></td>
-                        <td align="left" data-param="${meeting.meetingCenter}" data-param2="${meeting.meetingCenter}">
-                        ${meeting.meetingCenter}
-                        </td>
-                        <td></td>
-                        <td align="left">모임인원</td>
-                        <td></td>
-                        <td align="left">${meeting.meetingCrewLimit}명</td>
-                        <td></td>
-                    </tr>
-                    
-                    <tr class="list_pop">
-                    	<td>
-                        </td>
-                        <td></td>
-                        <td id="meetingNo" align="left" data-param="${meeting.meetingNo}">
-                        	${meeting.meetingName}
-                        </td>
-                        <td></td>
-                        <td align="left">조회수</td>
-                        <td></td>
-                        <td align="left">${meeting.meetingViews}회</td>
-                        <td></td>
-                    </tr>
-                    
-                    <tr>
-                    	<td>
-                        </td>
-                        <td></td>
-                        <td align="left">
-                        	모임날짜:${meeting.meetingDate} 이번모임장소:${meeting.meetingLocation}
-                        </td>
-                        <td></td>
-                        <td align="left"></td>
-                        <td></td>
-                        <td align="left"></td>
-                        <td></td>
-                    </tr>
-                    
-                    <tr>
-                        <td colspan="15" bgcolor="D6D7D6" height="1"></td>
-                    </tr>
-                    
-                   </c:forEach>
-                  
-                </table>
-                 --%>
-                
-                <!-- 리스트 종료 -->
-                
-                
                 <div class="landing">
-              	<section id="one" class="wrapper style1">
-				<div class="inner">
-					<c:set var="i" value="0" />
-				 	<c:forEach var="meeting" items="${list}">
-				 	<c:set var="i" value="${ i+1 }" />
-				 	<c:if test="${i%2==0}">
-						<article class="feature left">
-					</c:if>
-					<c:if test="${i%2!=0}">
-						<article class="feature right">
-					</c:if>
-					
-						<span class="image"><img src="/resources/images/meeting/${meeting.titleImg}" alt="" /></span>
-						<div class="content">
-							<p>${meeting.meetingCenter}<p>
-							<h2>${meeting.meetingName}</h2>
-							<p>모임정원 /${meeting.meetingCrewLimit}명      조회수 ${meeting.meetingViews}회</p>
-							<p>모임날짜:${meeting.meetingDate} 이번모임장소:${meeting.meetingLocation}</p>
-							<ul class="actions">
-								<li>
-									<a href="#" data-param="${meeting.meetingNo}" class="button alt">More</a>
-								</li>
-							</ul>
+	              	<section id="one" class="wrapper style1">
+						<div class="inner">
+							<c:set var="i" value="0" />
+						 	<c:forEach var="meeting" items="${list}">
+						 	<c:set var="i" value="${ i+1 }" />
+						 	<c:if test="${i%2==0}">
+								<article class="feature left">
+							</c:if>
+							<c:if test="${i%2!=0}">
+								<article class="feature right">
+							</c:if>
+							
+								<span class="image"><img src="/resources/images/meeting/${meeting.titleImg}" alt="" /></span>
+								<div class="content">
+									<p>${meeting.meetingCenter}<p>
+									<h2>${meeting.meetingName}</h2>
+									<p>모임정원 /${meeting.meetingCrewLimit}명      조회수 ${meeting.meetingViews}회</p>
+									<p>모임날짜:${meeting.meetingDate} 이번모임장소:${meeting.meetingLocation}</p>
+									<ul class="actions">
+										<li>
+											<a href="#" data-param="${meeting.meetingNo}" class="button alt">More</a>
+										</li>
+									</ul>
+								</div>
+							</article>
+							</c:forEach>
 						</div>
-					</article>
-					<!-- 
-					<article class="feature right">
-						<span class="image"><img src="/resources/images/meeting/pic01.jpg" alt="" /></span>
-						<div class="content">
-							<h2>Integer vitae libero acrisus egestas placerat  sollicitudin</h2>
-							<p>Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est.</p>
-							<ul class="actions">
-								<li>
-									<a href="#" class="button alt">More</a>
-								</li>
-							</ul>
-						</div>
-					</article> -->
-					</c:forEach>
-				</div>
-			</section>
-            </div>   
-                <!-- PageNavigation Start... -->
-                <table width="100%" border="0" cellspacing="0" style="margin-top:10px;">
-                    <tr>
-                        <td align="center">
-
-                            <jsp:include page="../common/pageNavigator.jsp">
-                                <jsp:param value="Product" name="type" />
-                            </jsp:include>
-
-                        </td>
-                    </tr>
-
-                </table>
-                <!-- PageNavigation End... -->
-            
-        
+					</section>
+            	</div>   
+       		<!-- 리스트 종료 -->
     </div>
 	
 		
