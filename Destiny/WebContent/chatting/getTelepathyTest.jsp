@@ -59,6 +59,30 @@ var n=0;
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
+<style type="text/css">
+body {
+	
+	 
+}
+
+body:after{
+background-image: url("/resources/images/chatting/back.jpg");
+  background-repeat: no-repeat;
+   background-color: rgba( 255, 255, 255, 0.5 );
+   
+   background-size: cover;
+    top:0;
+    left:0;
+    position:absolute;
+    background-size:100%;
+    opacity:0.5!important;
+    filter:alpha(opacity=50);
+    z-index:-1;
+    content:"";
+    width:100%;
+    height:100%;
+}
+</style>
 </head>
 <body>
 	<div class="text-center">TelepathyTest</div>
@@ -90,7 +114,7 @@ var n=0;
 					<div class="col-xs-6 col-md-6"><img src="/resources/images/telepathy/${telepathy.exTwoImg}" width='100' height='100' class="img-circle"></div>
 			</div>
 			<div class="row text-center form-group">
-			  		<div class="col-xs-6 col-md-6"><label><input type="radio" name="${i}" value="1" style=" position:absolute; "/><br><strong>${telepathy.exOne}</strong></label></div>
+			  		<div class="col-xs-6 col-md-6"><label><input type="radio" name="${i}" value="1" checked="checked" style=" position:absolute; "/><br><strong>${telepathy.exOne}</strong></label></div>
 					<div class="col-xs-6 col-md-6"><label><input type="radio" name="${i}" value="2" style=" position:absolute; "/><br><strong>${telepathy.exTwo}</strong></label></div>
 					
 			</div>
