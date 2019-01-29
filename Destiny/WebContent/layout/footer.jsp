@@ -24,7 +24,7 @@
 			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">UserList</a>
 		</c:if>
 		<c:if test="${me == null}">
-			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">login</a>
+			<a href="#" id="btn-open-dialog" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">login</a>
 			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">join</a>
 		</c:if>
 		<c:if test="${me != null}">
