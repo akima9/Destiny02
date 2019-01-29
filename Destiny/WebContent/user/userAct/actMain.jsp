@@ -30,12 +30,17 @@
 	
 	
 	<style>
+		body{
+			background-image : url("/resources/images/layout/12345.jpg");
+			background-size : contain;
+		}
+		
 		
 	</style>
 
 </head>
 
-<body class="subpage">	
+<body>	
 	<!-- header -->
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
@@ -48,35 +53,30 @@
 		<h3>활동관리</h3>
 		<br/>
 			<div class="box alt">
-				<div class="row 50% uniform">
-					
-					<div class="4u">
-					<p style="font-size:120%; color:black;">
-					<a href="/act/getWriteCommunityList/${me.userId}">작성한 개시글 목록</a>
-					<br/>당신이 작성한 개시글 목록을 관리하세요.</p>
+				<div class="row 200% uniform ">
+					 
+					<div class="4u" style="font-size:100%; color:white;">
+					<a href="/act/getWriteCommunityList/${me.userId}" class="button special">작성한 개시글 목록</a>
+					<br/>당신이 작성한 개시글 목록을 관리하세요.
 					</div>
 
-					<div class="4u">
-					<p style="font-size:120%; color:black;">
-					<a href="/act/getCommentListByWriter/${me.userId}">작성한 댓글 목록</a>
+					<div class="4u" style="font-size:100%; color:white;">
+					<a href="/act/getCommentListByWriter/${me.userId}" class="button special">작성한 댓글 목록</a>
 					<br/>당신이 작성한 댓글을 모아보세요.
 					</div>
 
-					<div class="4u">
-					<p style="font-size:120%; color:black;">
-					<a href="/act/getOpenMeetingList/${me.userId}">개설한 모임 목록</a>
+					<div class="4u" style="font-size:100%; color:white;">
+					<a href="/act/getOpenMeetingList/${me.userId}" class="button special">개설한 모임 목록</a>
 					<br/>당신이 개설한 모임의 목록을 관리하세요.
 					</div>
 
-					<div class="4u">
-					<p style="font-size:120%; color:black;">
-					<a href="/act/getJoinMeetingList/${me.userId}">가입한 모임 목록</a>
+					<div class="4u" style="font-size:100%; color:white;">
+					<a href="/act/getJoinMeetingList/${me.userId}" class="button special">가입한 모임 목록</a>
 					<br/>당신이 가입한 모임의 목록을 관리하세요.
 					</div>
 
-					<div class="4u">
-					<p style="font-size:120%; color:black;">
-					<a href="/act/getContactList/${me.userId}">성사된 만남 목록</a>
+					<div class="4u" style="font-size:100%; color:white;">
+					<a href="/act/getContactList/${me.userId}" class="button special">성사된 만남 목록</a>
 					<br/>당신이 맞이해온 만남의 기록을 살펴보세요.
 					</div>
 
@@ -87,7 +87,8 @@
 	</section>
 	<!-- //contents -->
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
-
+	배경사진 출처 <a href="https://kor.pngtree.com/freebackground/envelope-container-paper-frame_760243.html">pngtree.com</a>
+	<a href=https://kor.pngtree.com>pngtree.com의 그래픽</a>
 	<!-- footer -->
 	<jsp:include page="/layout/footer.jsp" />
 	<!-- //footer -->

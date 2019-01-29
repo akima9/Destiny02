@@ -20,12 +20,19 @@
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <!--  ///////////////////////// 데이트픽커 시작////////////////////////// -->
+    
+    <!--  ///////////////////////// 데이트픽커 ////////////////////////// -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script type="text/javascript" src="../javascript/calendar.js"></script>
-    <!--  ///////////////////////// 데이트픽커 엔드 ////////////////////////// -->
+	
+	<!--  ///////////////////////// 타임픽커 ////////////////////////// -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/jquery.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.css">
+	<script src='//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.js'></script>
     
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
@@ -33,10 +40,19 @@
         	border: 3px solid #D6CDB7;
             margin-top: 10px;
         }
+        
+    	.ui-timepicker { font-size: 10px; width: 100px;}
+    	.ui-timepicker-table td a {
+    		width: 2em;
+    	}
     </style>
 
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
+	////////////////* 타임피커 */////////
+	$(function() {
+	    $('.timepicker').timepicker();
+	});
 	
 	////////////////* 데이트픽커 데이터 포맷 */////////
 	$( function() {
@@ -55,14 +71,14 @@
 		 
 		var interestName=$("input[name='interestName']").val();
 		var meetingCenter=$("#meetingCenter").val();
-		var titleImg=$("input[name='titleImg']").val();
+		var titleImg=$("input[name='imgFile']").val();
 		var meetingName=$("input[name='meetingName']").val();
 		var meetingDetail=$("textarea[name='meetingDetail']").val();
 		var meetingCrewLimit=$("select[name='meetingCrewLimit']").val();
 		var snooze=$("select[name='snooze']").val();
 		var meetingDate=$("input[name='meetingDate']").val();
 		var meetingDay=$("#weekday").val();
-		var meetingTime=$("select[name='meetingTime']").val();
+		var meetingTime=$("input[name='meetingTime']").val();
 		var meetingLocation=$("input[name='meetingLocation']").val();
 		
 		console.log("관심사"+interestName);
@@ -87,12 +103,12 @@
 			alert("중심지역을 선택해 주세요.");
 			return;
 		}
-		/*
+		
 		if(titleImg == null || titleImg.length<1){
 			alert("대표이미지를 설정하여 주세요.");
 			return;
 		}
-		*/
+		
 		if(meetingName == null || meetingName.length<1){
 			alert("모임이름을 작성하여 주세요.");
 			return;
@@ -150,6 +166,7 @@
 			//alert(  $( "td.ct_btn01:contains('등록')" ).html() );
 			fncAddProduct();
 		});
+
 	});
 	
 	 $( function() {
@@ -261,7 +278,7 @@
 	
 	<body>
 	<!-- ToolBar Start /////////////////////////////////////-->
-    <jsp:include page="/layout/toolBar.jsp" />
+    <jsp:include page="/layout/header.jsp" />
     <!-- ToolBar End /////////////////////////////////////-->
    	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
@@ -311,7 +328,7 @@
 		 </div>
 		 
 		 <div id="location" class="form-group col-sm-6 col-md-6">
-		 	<input type="text" class="form-control" placeholder="시/군/구를 설정해주세요">
+		 	<input type="text" readonly="readonly" class="form-control" placeholder="시/군/구를 설정해주세요">
 		 </div>
 		 	
 		 
@@ -320,12 +337,8 @@
 		 	<input type="text" class="form-control" placeholder="모임지역을 입력해주세요">
 		 </div>
 		 -->
-		 <div class="form-group col-sm-10 col-md-10">
+		 <div class="form-group col-sm-12 col-md-12">
 		 	<input type="file" class="form-control" name="imgFile" placeholder="대표이미지를 설정하여 주세요">
-		 </div>
-		 
-		 <div class="form-group col-sm-2 col-md-2">
-		 	<button type="button" class="btn btn-warning" >첨부파일</button>
 		 </div>
 		 
 		 <div class="form-group col-sm-12 col-md-12">
@@ -348,26 +361,9 @@
 		
 		 <div id="crewNo" class="form-group col-sm-2 col-md-2">
 		 	<select name="meetingCrewLimit" class="form-control">
-		 		<option value="1">1</option>
-		 		<option value="2">2</option>
-		 		<option value="3">3</option>
-		 		<option value="4">4</option>
-		 		<option value="5">5</option>
-		 		<option value="6">6</option>
-		 		<option value="7">7</option>
-		 		<option value="8">8</option>
-		 		<option value="9">9</option>
-		 		<option value="10">10</option>
-		 		<option value="11">11</option>
-		 		<option value="12">12</option>
-		 		<option value="13">13</option>
-		 		<option value="14">14</option>
-		 		<option value="15">15</option>
-		 		<option value="16">16</option>
-		 		<option value="17">17</option>
-		 		<option value="18">18</option>
-		 		<option value="19">19</option>
-		 		<option value="20">20</option>
+		 		<c:forEach var="i" begin="2" end="20" step="1">
+		 		<option value="${i}">${i}</option>
+		 		</c:forEach>
 		 	</select>
 		 </div>
 		 
@@ -380,21 +376,11 @@
 		 </div>
 		 
 		 <div  id="dateOrDay" class="form-group col-sm-4 col-md-4">
-		 	<input 	type="text" id="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜or요일" name="meetingDate"/>
-		 	
-		 	<!--  
-		 	<select class="form-control">
-		 		<option value="">모임날짜or요일</option>
-		 	</select>
-		 	-->
+		 	<input 	type="text" id="datepicker" readonly="readonly" class="form-control" placeholder="날짜를 선택해주세요." name="meetingDate"/>
 		 </div>
 		 
 		 <div class="form-group col-sm-4 col-md-4">
-		 	<select name="meetingTime" class="form-control">
-		 		<option>모임시간</option>
-		 		<option value="13:00">13:00</option>
-		 		<option value="14:00">14:00</option>
-		 	</select>
+			<input type="text" readonly="readonly" class='form-control timepicker' name="meetingTime" placeholder="시간을 선택해 주세요.">
 		 </div>
 		 
 		 <div class="form-group col-sm-10 col-md-10">
@@ -406,14 +392,12 @@
 		 </div>
 		 
 		 <div class="form-group col-sm-10 col-md-10">
-		 <input name="meetingLocation" type="text" class="form-control" id="sample5_address" placeholder="주소" readonly="readonly">
-		 	<!-- <input type="text" class="form-control" placeholder="모임장소를 입력하여주세요."> -->
+		 <input name="meetingLocation" type="text" class="form-control" id="sample5_address" placeholder="주소를 검색해주세요." readonly="readonly">
 		 </div>
 		 
 		 <div class="form-group col-sm-2 col-md-2">
 			<input type="button" class="btn btn-warning" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
 			<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
-		 	<!-- <button type="button" class="btn btn-warning">우편검색</button> -->
 		 </div>
 		  
 		 <div class="form-group">

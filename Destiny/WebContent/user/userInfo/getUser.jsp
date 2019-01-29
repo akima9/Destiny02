@@ -46,6 +46,103 @@
 		
 	</script>
 	
+	<style>
+		.userInfo {vertical-align: middle; background-color: #F8E6E0; }
+		body{
+			position : relative;
+		}
+		.container{
+			font-weight : 700;
+		}
+		.tumTitle{
+			font-weight : 700;
+		}
+	
+		.topImg{
+			display : block;
+			position : absolute;
+			top : 0;
+			background-image : url("/resources/images/background/userlistbg.png");
+			background-repeat : no-repeat;
+			background-position : center -280px;
+			background-size : cover;
+			width : 100%;
+			height : 400px;
+		}
+		
+		.topImg::after{
+			content : "";
+			background : rgba(0, 0, 0, 0.2);
+			position : absolute;
+			top : 0;
+			left : 0;
+			width : 100%;
+			height : 400px;
+		}
+		
+		.topImg h1{
+			font-family: 'Nanum Myeongjo', serif;
+			position : absolute;
+			line-height : 450px;
+			width : 100%;
+			text-align : center;
+			color : white;
+			z-index : 99;
+			font-size : 60px;
+		}
+		
+		h1 .slim{
+			font-family: 'Nanum Myeongjo', serif;
+			font-weight : lighter;
+		}
+		.wrap{
+			margin-top : 400px;
+		}
+		
+		li{
+			list-style-type : none;
+		}
+		
+		.smallNavi{
+			overflow : hidden;
+			float : right;
+			margin-top : -30px;
+			margin-bottom : 60px;
+		}
+		
+		.smallNavi li{
+			float : left;
+			margin-right : 20px;
+			margin-top : 8em;
+		}
+		
+		.homeImg{
+			margin-top : -2px;
+		}
+		
+		section.wrapper, article.wrapper {
+	    	padding: 500px 0;
+		}
+		
+		.box {
+		    border: solid 1px #dbdbdb;
+		    padding: 1.5em;
+		    width: 70%;
+		    margin: 0 auto;
+		}
+		.profileImg{text-align: center;}
+		.profileImg img{border: 3px solid;
+						border-radius: 7px;
+						-moz-border-radius: 7px;
+						-khtml-border-radius: 7px;
+						-webkit-border-radius: 150px;
+						}
+		.subTitle {
+		    font-size: 15px;
+		    font-weight: 1000;
+		}
+	</style>
+	
 </head>
 
 <body>
@@ -54,146 +151,135 @@
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
 	
+	<!-- 메인배경이미지 : start -->
+	<div class="topImg">
+		<h1>회원<span class="slim">리스트</span></h1>
+	</div>
+	<!-- 메인배경이미지 : end -->
+	
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
-		<br/>
-		<div class="page-header">
-	       <h3>회원정보조회</h3>
-	    </div>
-	
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>아 이 디</strong></div>
-			<div class="col-xs-8 col-md-4">${user.userId}</div>
-		</div>
+	<section id="main" class="wrapper">
+		<div class="inner">
 		
-		<hr/>
+		<div class="box">
 		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>닉네임</strong></div>
-			<div class="col-xs-8 col-md-4">${user.nickName}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>회원등급</strong></div>
-	  		<div class="col-xs-8 col-md-4">
-	  			<c:if test="${user.userGrade=='NEW'}">신규회원</c:if>
-	  		</div>
-	  		<div class="col-xs-8 col-md-4">
-	  			<c:if test="${user.userGrade=='NOR'}">일반회원</c:if>
-	  		</div>
-	  		<div class="col-xs-8 col-md-4">
-	  			<c:if test="${user.userGrade=='VIP'}">우수회원</c:if>
-	  		</div>
-	  		<div class="col-xs-8 col-md-4">
-	  			<c:if test="${user.userGrade=='ADM'}">관리자</c:if>
-	  		</div>
-	  		<div class="col-xs-8 col-md-4">
-	  			<c:if test="${user.userGrade=='BLK'}">블랙리스트</c:if>
-	  		</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>출석일</strong></div>
-			<div class="col-xs-8 col-md-4">${user.attendCount}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>경고횟수</strong></div>
-			<div class="col-xs-8 col-md-4">${user.warningCount} 회</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>주소</strong></div>
-			<div class="col-xs-8 col-md-4">${user.address}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>휴대전화번호</strong></div>
-			<div class="col-xs-8 col-md-4">${user.phone}	</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>이 메 일</strong></div>
-			<div class="col-xs-8 col-md-4">${user.email}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>생년월일</strong></div>
-			<div class="col-xs-8 col-md-4">${user.birthday}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-		  	<div class="col-xs-4 col-md-2"><strong>프로필사진</strong></div>
-			<div class="col-xs-8 col-md-4">
-				<c:set var="i" value="0" />
-				<c:forEach var="file" items="${filelist}" >
-					<c:set var="i" value="${ i+1 }" />
-						   <img src="/resources/images/userprofile/${file}" width="500" height="500"/>
-				</c:forEach>
+			<div class="row uniform">
+				<div class="12u 12u$(small) profileImg">
+					<c:set var="i" value="0" />
+					<c:forEach var="file" items="${filelist}" >
+						<c:set var="i" value="${ i+1 }" />
+						<img src="/resources/images/userprofile/${file}" width="250" height="250"/>
+					</c:forEach>
+				</div>
 			</div>
+			<hr/>
+			<div class="row uniform">
+				<div class="3u 12u$(small) subTitle" >아이디</div>
+				<div class="3u 12u$(small)">${user.userId} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (경고 ${user.warningCount}회)</div>
+				<div class="3u 12u$(small) subTitle">닉네임</div>
+				<div class="3u 12u$(small)">${user.nickName}</div>
+			</div>
+			<hr/>
+			<%-- <div class="row uniform">
+				<div class="3u 12u$(small)">닉네임</div>
+				<div class="9u$ 12u$(small)">${user.nickName}</div>
+			</div> --%>
+			<div class="row uniform">
+				<div class="3u 12u$(small) subTitle">회원등급</div>
+				<c:if test="${user.userGrade=='NEW'}">
+					<div class="3u 12u$(small)">신규회원</div>
+				</c:if>
+				<c:if test="${user.userGrade=='NOR'}">
+					<div class="3u 12u$(small)">일반회원</div>
+				</c:if>
+				<c:if test="${user.userGrade=='VIP'}">
+					<div class="3u 12u$(small)">우수회원</div>
+				</c:if>
+				<c:if test="${user.userGrade=='ADM'}">
+					<div class="3u 12u$(small)">관리자</div>
+				</c:if>
+				<c:if test="${user.userGrade=='BLK'}">
+					<div class="3u 12u$(small)">블랙리스트</div>
+				</c:if>
+				<div class="3u 12u$(small) subTitle">출석일</div>
+				<div class="3u 12u$(small)">${user.attendCount}일</div>
+			</div>
+			<hr/>
+			<%-- <div class="row uniform">
+				<div class="3u 12u$(small)">출석일</div>
+				<div class="9u$ 12u$(small)">${user.attendCount}</div>
+			</div> --%>
+			<%-- <div class="row uniform">
+				<div class="3u 12u$(small)">경고횟수</div>
+				<div class="9u$ 12u$(small)">${user.warningCount} 회</div>
+			</div> --%>
+			<div class="row uniform">
+				<div class="3u 12u$(small) subTitle">거주지역</div>
+				<div class="3u 12u$(small)">${user.address}</div>
+				<div class="3u 12u$(small) subTitle">생년월일</div>
+				<div class="3u 12u$(small)">${user.birthday}</div>
+			</div>
+			<hr/>
+			<div class="row uniform">
+				<div class="3u 12u$(small) subTitle">연락처</div>
+				<div class="3u 12u$(small)">${user.phone}</div>
+				<div class="3u 12u$(small) subTitle">이메일</div>
+				<div class="3u 12u$(small)">${user.email}</div>
+			</div>
+			<hr/>
+			<%-- <div class="row uniform">
+				<div class="3u 12u$(small)">이메일</div>
+				<div class="9u$ 12u$(small)">${user.email}</div>
+			</div> --%>
+			<%-- <div class="row uniform">
+				<div class="3u 12u$(small)">생년월일</div>
+				<div class="9u$ 12u$(small)">${user.birthday}</div>
+			</div> --%>
+			<div class="row uniform">
+				<div class="3u 12u$(small) subTitle">관심사</div>
+				<div class="3u 12u$(small)">${interestList[0]}</div>
+				<div class="3u 12u$(small)">${interestList[1]}</div>
+				<div class="3u 12u$(small)">${interestList[2]}</div>
+			</div>
+			<hr/>
+			<div class="row uniform">
+				<div class="3u 12u$(small) subTitle">내 성격유형</div>
+				<div class="4u 12u$(small)">${typeMap.myType}</div>
+				<div class="5u 12u$(small)">
+					<img src="/resources/images/MBTI/${typeFileMap.myTpyeFile}" width="150" height="200"/>
+				</div>
+			</div>
+			<hr/>
+			<div class="row uniform">
+				<div class="3u 12u$(small) subTitle">상대방 성격유형</div>
+				<div class="3u 12u$(small)">${typeMap.firstType}</div>
+				<div class="3u 12u$(small)">${typeMap.secondType}</div>
+				<div class="3u 12u$(small)">${typeMap.thirdType}</div>
+			</div>
+			<div class="row uniform">
+				<div class="3u 12u$(small)"></div>
+				<div class="3u 12u$(small)">
+					<img src="/resources/images/MBTI/${typeFileMap.typeFileList[0]}" width="150" height="200"/>
+				</div>
+				<div class="3u 12u$(small)">
+					<img src="/resources/images/MBTI/${typeFileMap.typeFileList[1]}" width="150" height="200"/>
+				</div>
+				<div class="3u 12u$(small)">
+					<img src="/resources/images/MBTI/${typeFileMap.typeFileList[2]}" width="150" height="200"/>
+				</div>
+			</div>
+		
+		
 		</div>
-	
-		<hr/>
 		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>관심사</strong></div>
-			<div class="col-xs-8 col-md-2">${interestList[0]}</div>
-			<div class="col-xs-8 col-md-2">${interestList[1]}</div>
-			<div class="col-xs-8 col-md-2">${interestList[2]}</div>
-		</div>
 		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>내 성격유형</strong></div>
-			<div class="col-xs-8 col-md-2">${typeMap.myType}</div>
-			<img src="/resources/images/MBTI/${typeFileMap.myTpyeFile}" width="150" height="200"/>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>상대방 성격유형</strong></div>
-			<div class="col-xs-8 col-md-2">${typeMap.firstType}</div>
-			<div class="col-xs-8 col-md-2">${typeMap.secondType}</div>
-			<div class="col-xs-8 col-md-2">${typeMap.thirdType}</div>
-			<br/>
-			<div class="col-xs-4 col-md-2"></div>
-			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[0]}" width="150" height="200"/>
-			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[1]}" width="150" height="200"/>
-			<img src="/resources/images/MBTI/${typeFileMap.typeFileList[2]}" width="150" height="200"/>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-md-12 text-center ">
-	  			<ul class="actions small">	
-	  				<li><a id="updateButton" href="#" class="button special small">회원정보수정</a></li>
-	  			</ul>
-	  		</div>
-		</div>
-		
-		<br/>
-		
- 	</div>
+ 		</div>
+ 	</section>
  	<!--  화면구성 div Start /////////////////////////////////////-->
+ 	
+ 	<!-- footer -->
+	<jsp:include page="/layout/footer.jsp" />
+	<!-- //footer -->
 
 </body>
 

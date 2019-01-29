@@ -107,7 +107,9 @@
 	 
 <!-- ////////////////모임원수 조회////////////////// -->
 	 <select  id="getCrewCount" resultType="int">
-	 		select count(*)from meeting_crew_list where meeting_no= #{meetingNo}
+	 		select count(*)from meeting_crew_list 
+	 		where meeting_no= #{meetingNo}
+	 		and crew_condition = 'YES'
 	 </select>
 	 
 <!-- ////////////////가입된 모임원 리스트 표현용////////////////// -->	 

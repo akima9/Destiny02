@@ -1,20 +1,32 @@
 package com.destiny.web.act;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.common.Page;
@@ -25,10 +37,12 @@ import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Chatting;
 import com.destiny.service.domain.Community;
 import com.destiny.service.domain.Meeting;
+import com.destiny.service.domain.Upload;
 import com.destiny.service.domain.User;
 import com.destiny.service.info.InfoService;
 import com.destiny.service.meeting.MeetingService;
 import com.destiny.service.review.ReviewService;
+import com.destiny.service.upload.UploadService;
 import com.destiny.service.user.UserService;
 
 @Controller
@@ -63,6 +77,10 @@ public class ActController {
 	@Autowired
 	@Qualifier("meetingServiceImpl")
 	private MeetingService meetingService;
+	
+	@Autowired
+	@Qualifier("uploadServiceImpl")
+	private UploadService uploadService;
 	
 	public ActController() {
 		System.out.println(this.getClass());
@@ -124,18 +142,24 @@ public class ActController {
 	public ModelAndView getCrewList(@PathVariable("meetingNo") int meetingNo) throws Exception {
 		System.out.println("act/getCrewList : GET + " + meetingNo);
 		
+		
+		
 		List<Meeting> list = actService.getCrewAll(meetingNo);
 		
 		List<Meeting> listAPL = new ArrayList<Meeting>();
+		List<User> listAPLUser = new ArrayList<User>();
 		List<Meeting> listYES = new ArrayList<Meeting>();
+		List<User> listYESUser = new ArrayList<User>();
 		
 		for(Meeting v : list) {
 			if(!v.getRole().equals("MST"))
 			{
 				if(v.getCrewCondition().equals("APL")) {
 					listAPL.add(v);
+					listAPLUser.add(userService.getUser(v.getMeetingMasterId()));
 				} else if (v.getCrewCondition().equals("YES")) {
 					listYES.add(v);
+					listYESUser.add(userService.getUser(v.getMeetingMasterId()));
 				}
 			}
 		}
@@ -143,8 +167,11 @@ public class ActController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/user/userAct/getCrewList.jsp");
 		modelAndView.addObject("listAPL", listAPL);
+		modelAndView.addObject("listAPLUser", listAPLUser);
 		modelAndView.addObject("listYES", listYES);
+		modelAndView.addObject("listYESUser", listYESUser);
 		modelAndView.addObject("meetingNo", meetingNo);
+		modelAndView.addObject("contextMeeting", meetingService.getMeeting(meetingNo));
 		return modelAndView;
 	}
 	
@@ -181,6 +208,8 @@ public class ActController {
 		}
 		search.setPageSize(pageSize);
 		
+		Meeting contextMeeting = meetingService.getMeeting(meetingNo);
+		
 		Map<String , Object> map = actService.getMeetingAct(search, meetingNo);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("getMeetingActCount")).intValue(), pageUnit, pageSize);
@@ -191,14 +220,16 @@ public class ActController {
 		modelAndView.addObject("list", map.get("list"));
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
-		modelAndView.addObject("meetingNo", meetingNo);
+		modelAndView.addObject("contextMeeting", contextMeeting);
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="getActCrew/{meetingActNo}/{meetingActCount}", method=RequestMethod.GET)
-	public ModelAndView getActCrew(@PathVariable("meetingActNo") int meetingActNo, @PathVariable("meetingActCount") int meetingActCount) throws Exception{
+	@RequestMapping(value="getActCrew/{meetingActNo}/{meetingActCount}/{meetingNo}", method=RequestMethod.GET)
+	public ModelAndView getActCrew(@PathVariable("meetingActNo") int meetingActNo,
+									@PathVariable("meetingActCount") int meetingActCount,
+									@PathVariable("meetingNo") int meetingNo) throws Exception{
 		
-		System.out.println("act/getActCrew : GET + "+meetingActNo+" + "+meetingActCount);
+		System.out.println("act/getActCrew : GET + "+meetingActNo+" + "+meetingActCount +" + "+ meetingNo);
 		
 		Meeting meeting = new Meeting();
 		meeting.setMeetingActNo(meetingActNo);
@@ -211,9 +242,13 @@ public class ActController {
 			list.add(userService.getUser(v));
 		}
 		
+		Meeting contextMeeting = meetingService.getMeeting(meetingNo);
+
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/user/userAct/getActCrew.jsp");
 		modelAndView.addObject("list", list);
+		modelAndView.addObject("contextMeeting", contextMeeting);
 		return modelAndView;
 	}
 	
@@ -307,8 +342,17 @@ public class ActController {
 	
 	/*addRestaurantInfo : start*/
 	@RequestMapping(value="addStory/{Category}", method=RequestMethod.POST)
-	public ModelAndView addStory(@ModelAttribute("community") Community community, HttpSession session, @PathVariable("Category") String Category) throws Exception{
+	public ModelAndView addStory(@ModelAttribute("community") Community community, HttpSession session, @PathVariable("Category") String Category, @RequestParam("uploadFile")MultipartFile fileName, MultipartHttpServletRequest mtfRequest, @ModelAttribute("upload")Upload upload) throws Exception{
 		System.out.println(":: ActController/addStory/post : 실행");
+		
+		/*대표이미지 업로드 : start*/
+		String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\uploadImg\\";
+		String name = System.currentTimeMillis()+"."+fileName.getOriginalFilename().split("\\.")[1];
+		
+		File file = new File(path + name);
+
+		fileName.transferTo(file);
+		/*대표이미지 업로드 : end*/
 		
 		User user = (User)session.getAttribute("me"); 
 		String userId = user.getUserId();
@@ -331,9 +375,20 @@ public class ActController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		communityService.addCommunity(community);
+		
+		System.out.println("community : "+community);
+		/*업로드 테이블 : start*/
+		upload.setCommunityNo(community.getCommunityNo());
+		upload.setFileName(name);
+		upload.setFileCode("IMG");
+		uploadService.addUload(upload);
+		System.out.println("upload : "+upload);
+		/*업로드 테이블 : end*/
 		modelAndView.setViewName("/user/userAct/addStoryConfirm.jsp");
 		return modelAndView;
 	}
 	/*addRestaurantInfo : end*/
+	
+	
 	
 }

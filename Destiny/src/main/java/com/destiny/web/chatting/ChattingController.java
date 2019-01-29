@@ -50,7 +50,7 @@ public class ChattingController {
 	private List<User> womanList = new ArrayList<User>();
 	private List<User> manList = new ArrayList<User>();
 	private List<Telepathy> telepathyList=new  ArrayList<Telepathy>();
-	
+
 	///Constructor
 	public ChattingController() {
 		System.out.println(this.getClass());
@@ -150,23 +150,26 @@ public class ChattingController {
 			String userId=user.getUserId();
 			String roomNo=(String)request.getParameter("roomNo");
 			telepathyList=(List<Telepathy>)applicationScope.getAttribute(roomNo);
+			
+			System.out.println(telepathyList);
+			
 			System.out.println("one 이전");
 			String one=(String)request.getParameter("1");
 			String two=(String)request.getParameter("2");
 			String three=(String)request.getParameter("3");
 			List<String[]> tResult=new ArrayList<String[]>();
 			System.out.println("one 이후"+one+"two"+two+"three"+three);
-			if (one.equals("1")||one==null||one=="") {
+			if (one.equals("1")||one.equals(null)||one=="") {
 				one=telepathyList.get(0).getExOne();
 			}else {
 				one=telepathyList.get(0).getExTwo();
 			}
-			if (two.equals("1")||two==null||two=="") {
+			if (two.equals("1")||two.equals(null)||two=="") {
 				two=telepathyList.get(1).getExOne();
 			}else {
 				two=telepathyList.get(1).getExTwo();
 			}
-			if (three.equals("1")||three==null||three=="") {
+			if (three.equals("1")||three.equals(null)||three=="") {
 				three=telepathyList.get(2).getExOne();
 			}else {
 				three=telepathyList.get(2).getExTwo();
@@ -176,21 +179,19 @@ public class ChattingController {
 			 System.out.println(result);
 			if (user.getGender().equals("W")) {
 				
-				result.put("womanId", userId);
-				result.put("one", one);
-				result.put("two", two);
-				result.put("three", three);
 				
-				applicationScope.setAttribute("wResult", result);
+				telepathyList.get(0).setWomanTelepathyResult(one);
+				telepathyList.get(1).setWomanTelepathyResult(two);
+				telepathyList.get(2).setWomanTelepathyResult(three);
+				
 				
 			}else {
 				
+			
+				telepathyList.get(0).setManTelepathyResult(one);
+				telepathyList.get(1).setManTelepathyResult(two);
+				telepathyList.get(2).setManTelepathyResult(three);
 				
-				result.put("manId", userId);
-				result.put("one", one);
-				result.put("two", two);
-				result.put("three", three);
-				applicationScope.setAttribute("mResult", result);
 			}
 			
 			System.out.println("roomNo : "+roomNo);
