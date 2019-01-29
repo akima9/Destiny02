@@ -90,7 +90,7 @@ var n=0;
 					<div class="col-xs-6 col-md-6"><img src="/resources/images/telepathy/${telepathy.exTwoImg}" width='100' height='100' class="img-circle"></div>
 			</div>
 			<div class="row text-center form-group">
-			  		<div class="col-xs-6 col-md-6"><label><input type="radio" name="${i}" value="1" style=" position:absolute; "/><br><strong>${telepathy.exOne}</strong></label></div>
+			  		<div class="col-xs-6 col-md-6"><label><input type="radio" name="${i}" value="1" checked="checked" style=" position:absolute; "/><br><strong>${telepathy.exOne}</strong></label></div>
 					<div class="col-xs-6 col-md-6"><label><input type="radio" name="${i}" value="2" style=" position:absolute; "/><br><strong>${telepathy.exTwo}</strong></label></div>
 					
 			</div>

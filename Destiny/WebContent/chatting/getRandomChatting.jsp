@@ -311,7 +311,7 @@ border-radius: 10px 10px 10px 10px;
 		}
 		/* gage끝 */
 </style>
-<script src="http://192.168.0.28:83/socket.io/socket.io.js"></script>
+<script src="http://192.168.0.47:83/socket.io/socket.io.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 
 <script>
@@ -333,7 +333,7 @@ function noEvent() { // 새로 고침 방지
 
 ////////////////////////////////////////////
 
-var socket = io.connect('http://192.168.0.28:83');
+var socket = io.connect('http://192.168.0.47:83');
 var timeout;
 var chattingNo='${chatting.chattingNo}';
 var manId="${chatting.manId}";
@@ -342,10 +342,17 @@ var chatting={"chattingNo":chattingNo,"manId":manId,"womanId":womanId};
 var partnerType="";
 var myType="";
 var interest="";
+var wResult01="${telepathyList[0].womanTelepathyResult}";
+var wResult02="${telepathyList[1].womanTelepathyResult}";
+var wResult03="${telepathyList[2].womanTelepathyResult}";
+var mResult01="${telepathyList[0].manTelepathyResult}";
+var mResult02="${telepathyList[1].manTelepathyResult}";
+var mResult03="${telepathyList[2].manTelepathyResult}";	
 
 // on connection to server, ask for user's name with an anonymous callback
 socket.on('connect', function(){
 	// call the server-side function 'adduser' and send one parameter (value of prompt)
+	//이심전심 결과
 	
 	socket.emit('adduser', "${me.userId}");
 	socket.emit('addroom',chatting);
@@ -369,15 +376,12 @@ socket.on('connect', function(){
 			
 	    });
 		
-		//console.log("${wResult}");
-		//wOne="${chatting.telepathyResult[0]}";
-		//wTwo="${chatting.telepathyResult[1]}";
-		//wThree="${chatting.telepathyResult[2]}";
-		//$("#telepathy").append(wResult.get(0).one);
-		//console.log(wResult.get(0));
-		//console.log(wResult.get(0).one);
-		$("#telepathy").append("${wResult.one}  "+"${wResult.two}  "+"${wResult.three}");
-		console.log("${wResult}");
+		console.log("${telepathyList[0].womanTelepathyResult}");
+		console.log("${telepathyList[1].womanTelepathyResult}");
+		console.log("${telepathyList[2].womanTelepathyResult}");
+		$('#you').append('<div>' + mResult01+" "+mResult02+" "+mResult03+ '</div>');
+		$('#me').append('<div>' + wResult01+" "+wResult02+" "+wResult03+ '</div>');
+		
 	}else if(manId=="${me.userId}"){
 		$.ajax({
 	        url: '/chatting/json/getUserTypeInterest/'+womanId,
@@ -398,17 +402,13 @@ socket.on('connect', function(){
 	        }
 			
 	    });
-		//mOne="${chatting.telepathyResult[3]}";
-		//mTwo="${chatting.telepathyResult[4]}";
-		//mThree="${chatting.telepathyResult[5]}";
-		//$("#telepathy").append(mResult.get(0).one);
-		//console.log(mResult.get(0));
-		$("#telepathy").append("${wResult.one}  "+"${wResult.two}  "+"${wResult.three}");
-		console.log("${mResult}");
+		$('#you').append('<div>' + wResult01+" "+wResult02+" "+wResult03+ '</div>');
+		$('#me').append('<div>' + mResult01+" "+mResult02+" "+mResult03+ '</div>');
+		
+		
 	}
 
 
-	
 	
 });
 // listener, whenever the server emits 'updatechat', this updates the chat body
@@ -553,18 +553,29 @@ $(function(){
 		}
 	});
 	
-//관심사///////////////////////////////////////////
-$('.btn-default').click(function () {
-	$('.btn-default').remove();
-	$('#interest').append('<div class="text-center">' +interest+ '</div>');
-})
-///////////////////////////////////////////////
+	//관심사///////////////////////////////////////////
+	$('.btn-default').click(function () {
+		$('.btn-default').remove();
+		$('#interest').append('<div class="text-center">' +interest+ '</div>');
+	})
+	///////////////////////////////////////////////
+	$('#you').click(function () {
+		
+		if (womanId=="${me.userId}") {
+			$('#you').append('<div>' + mResult01+" "+mResult02+" "+mResult03+ '</div>');
+			
+		}else{
+			$('#you').append('<div>' + wResult01+" "+wResult02+" "+wResult03+ '</div>');
+			
+		}
+		
+	})
 });
 
-window.addEventListener('beforeunload', function (e) {
+/* window.addEventListener('beforeunload', function (e) {
 	location="/chatting/endChatting";
 	
-	});
+	}); */
 /////////////////////////////////
 /////////게이지
 	$(function() {
