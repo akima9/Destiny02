@@ -12,7 +12,7 @@
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=baad7faa4b3ad6290f086e2b755b061f&libraries=services"></script>
 	<link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -21,20 +21,11 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-   <!--  ///////////////////////// 데이트픽커 시작////////////////////////// -->
+    <!--  ///////////////////////// 데이트픽커 시작////////////////////////// -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<!-- <script type="text/javascript" src="../javascript/calendar.js"></script> -->
     <!--  ///////////////////////// 데이트픽커 엔드 ////////////////////////// -->
-   
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-  <!--  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=238c3f6eaacc311151fd24574cf5b8e9&libraries=services"></script>
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=238c3f6eaacc311151fd24574cf5b8e9"></script> -->
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
@@ -50,27 +41,7 @@
 		    z-index: 10;
 		}
 		
-		#dialog {
-		    display: none;
-		    position: fixed;
-		    left: calc( 50% - 160px ); top: calc( 20% - 80px );
-		    width: 500px; height: 650px; 
-		    background: gainsboro;
-		    z-index: 11;
-		    padding: 10px;
-		}
-		
-		#dialog2 {
-		    display: none;
-		    position: fixed;
-		    left: calc( 50% - 160px ); top: calc( 30% - 70px );
-		    width: 350px; height: 350px; 
-		    background: gainsboro;
-		    z-index: 11;
-		    padding: 10px;
-		}
-		
-		#dialog3, #nextDialog {
+		#dialog, #dialog2, #dialog3, #nextDialog {
 		    display: none;
 		    position: fixed;
 		    left: calc( 50% - 160px ); top: calc( 30% - 70px );
@@ -88,6 +59,7 @@
             margin-top: 10px;
         }
     </style>
+    
     <style>/* !!!폰트설정!!!!! */
 	@import url(//fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 	 
@@ -105,29 +77,23 @@
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
-
-	    ////////////////* 데이트픽커 데이터 포맷 */////////
+ ////////////////* 데이트픽커 데이터 포맷 */////////
 		$( function() {
-	
 		    $( ".datepicker" ).datepicker({
 		    	dateFormat:"yy/mm/dd"
 		    });
-	    		
 		} );
+////////////////* 수정하기에서 등록 */////////	    
 		$(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
-			 $( "button.btn.btn-primary:contains('등 &nbsp;록')" ).on("click" , function() {
-				//Debug..
+			 $( "#dialogConfrim" ).on("click" , function() {
 				//alert(  $( "td.ct_btn01:contains('등록')" ).html() );
-				//formdata = "수정";
 				fncAddProduct();
 		});
 		
 		function fncAddProduct(){
 			//Form 유효성 검증
-
-			 
 			var interestName=$("input[name='interestName']").val();
 			var centerMeeting=$("#centerMeeting").data("param");
 			var meetingCenter=$("select[name='meetingCenter']").val();
@@ -252,11 +218,11 @@
 					}
 					
 				});
-				 $( "button.btn.btn-primary:contains('등 &nbsp;록')" ).on("click" , function() {
+		 		 $( "button.btn.btn-primary:contains('등 &nbsp;록')" ).on("click" , function() {
 					//Debug..
 					//alert(  $( "td.ct_btn01:contains('등록')" ).html() );
 					fncAddProduct();
-				});
+				}); 
 			});		 
 		///////////* 다음 모임 이벤트 처리 *//////////////
 			
@@ -457,7 +423,6 @@
 		////* 모임원 선택부  *////
 
 		
-		////* 모임원 선택부  끝!!!!!!!!!!*////
 		 
 		////* 반복여부가 선택되면  *////
 		/*  $(function(){
@@ -492,7 +457,7 @@
 			/*  $( "button:contains('확인')" ).on("click" , function() {
 				 self.location = "/product/listProduct?menu=${param.menu}"
 				}); */
-			  	$( "button:contains('신고')" ).on("click" , function() {
+			  	$( "a[href='#' ]:contains('신고')" ).on("click" , function() {
 			  		if('${empty sessionScope.me}'=='true'){
 						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
 							$("#my-dialog,#dialog-background").toggle();
@@ -514,7 +479,7 @@
 		});
 		//=============수정 시 모임장인지 확인==================================//
 		 $( function() {
-				$("#update-dialog").click(function () {
+				$("a[href='#' ]:contains('수정')").click(function () {
 					
 						$.ajax( 
 						 {
@@ -543,9 +508,9 @@
 						}); 
 				});
 			});
-//=============삭제 시 모임장인지 확인==================================//		 
+//=================삭제 시 모임장인지 확인==================================//		 
 		 $( function() {
-				$("#btn-delete-dialog").click(function () {
+				$("a[href='#' ]:contains('삭제')").click(function () {
 					
 					$.ajax( 
 							 {
@@ -665,7 +630,7 @@
 				}); 
 				
 			});
-//=============위임 클릭 시 모임장인지 확인==================================//		 
+//==================위임 클릭 시 모임장인지 확인==================================//		 
 		$( function() {
 			var meetingnickname = ""; 
 			$("a.thisName").click(function () {
@@ -810,7 +775,7 @@
 			});
 ////////////////////* 탈퇴하기 눌렀을때 이벤트 처리부분 *////////////////////////////////////////
 		 $( function() {
-				$("button:contains('탈퇴하기')").click(function () {
+				$("a[href='#' ]:contains('탈퇴')").click(function () {
 					if('${empty sessionScope.me}'=='true'){
 						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
 							$("#my-dialog,#dialog-background").toggle();
@@ -819,40 +784,42 @@
 						     return;
 						 }
 					}else{
-						
-						$.ajax( 
-						 {
-								url : "/meetingRest/dropMeeting",
-								method : "post" ,
-								dataType : "json" ,
-								data : JSON.stringify({
-									meetingNo : "${meeting.meetingNo}" ,
-									meetingMasterId : "${sessionScope.me.userId}",
-									meetingActCount : "${meetingAct.meetingActCount}",
-									
-								}),
-								headers : {
-									"Accept" : "application/json",
-									"Content-Type" : "application/json"
-								},
-								success : function(JSONData , status) {
-									if(JSONData==5018){
-										if (confirm("모임원이 아니십니다.") == true){    //확인
-										 }else{   //취소
-										     return;
-										 }
-									}else{
-										if (confirm("${meeting.meetingName} 에서 \n탈퇴하였습니다.") == true){    //확인
-											self.location="/meeting/listMeeting";
-										 }else{   //취소
-										     return;
-										 }
+						if(confirm("${meeting.meetingName} 에서 \n탈퇴 하시겠습니까?") == true){
+							$.ajax( 
+							 {
+									url : "/meetingRest/dropMeeting",
+									method : "post" ,
+									dataType : "json" ,
+									data : JSON.stringify({
+										meetingNo : "${meeting.meetingNo}" ,
+										meetingMasterId : "${sessionScope.me.userId}",
+										meetingActCount : "${meetingAct.meetingActCount}",
 										
-										
+									}),
+									headers : {
+										"Accept" : "application/json",
+										"Content-Type" : "application/json"
+									},
+									success : function(JSONData , status) {
+										if(JSONData==5018){
+											if (confirm("모임원이 아니십니다.") == true){    //확인
+											 }else{   //취소
+											     return;
+											 }
+										}else{
+											if (confirm("${meeting.meetingName} 에서 \n탈퇴하였습니다.") == true){    //확인
+												self.location="/meeting/listMeeting";
+											 }else{   //취소
+											     return;
+											 }
+											
+											
+										}
 									}
-								}
-						}); 
-						
+							}); 
+						}else{
+							return;
+						}
 					}
 					
 				});
@@ -945,7 +912,7 @@
 	</script>
 	
 	<!-- 다음 우편 -->
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54cfa5aea3e5609fcbb420ef8cd6ed4c"></script>
 	<script>
 	
@@ -1024,8 +991,10 @@
 	<input type="hidden" name="meetingCondition" value="DEL">
 	</form>
 	<div class="container" >
-	
-		<div class="page-header">
+		<div class="col-md-12" align="center" id="bigletter">
+		  	<span>${meeting.meetingName}</span>
+		</div>
+		<!-- <div class="page-header">
 	       <h3 class=" text-info">getMeeting.jsp</h3>
 	       <button id="update-dialog">수정하기</button>
 	       <button type="button" id="btn-delete-dialog">삭제</button>
@@ -1033,7 +1002,202 @@
 	       <button type="button" id="btn-takeOver">탈퇴하기</button>
 	       <button type="button" id="btn-takeOver">승계</button>
 	    </div>
-	    <!-- 모달창 디자인 부분 -->
+ -->
+
+		<div class="row">
+		  <div class="col-md-12">
+		  	<img src="/resources/images/meeting/${meeting.titleImg}" class="col-xs-12 col-md-12"/>
+		  </div>
+		  
+		  <div class="col-md-12">
+		  
+		  	<div class="row">
+	  			<div class="col-xs-4 col-md-4"><strong>모임설명</strong></div><hr/>
+				<div style="white-space:pre;" class="col-xs-8 col-md-8">${meeting.meetingDetail}</div>
+			</div>
+			<hr/>
+			<div class="row">
+		  		<div class="col-xs-5 col-md-5 "><strong>모임규칙</strong></div><hr/>
+				<div style="white-space:pre;" class="col-xs-7 col-md-7">${meeting.meetingRule}</div>
+			</div>
+			<hr/>
+		  </div>
+		 </div>
+		<div class='row'>
+			<table class="col-sm-12 col-md-12">
+				<tr>
+					<td>
+					<span id="thisCount" data-param="${meetingAct.meetingActCount}"> ${meetingAct.meetingActCount}회차 모임 일정 </span>
+					</td>
+				</tr>
+			</table>
+		</div>		
+		<div id="meetingActCount" >
+			<div class='row'>
+				<div align="center" class="col-xs-2 col-md-2 ">
+					<img src="/resources/images/meeting/calendar.png" height="50px" alt="Pic 01" >
+				</div>
+				
+				<div class="col-xs-6 col-md-6 ">
+				<p> 날짜 : ${meetingAct.meetingDate} ${meetingAct.meetingTime } </p>
+				<p> 장소 : ${meetingAct.meetingLocation} </p>
+				<p> 회비${meetingAct.meetingDues} </p>
+				</div>
+			
+				<div class="col-xs-4 col-md-4 ">
+					<div align="center">
+					<button class="button small">참여하기</button>
+					<button class="button small">참여자목록</button><hr/>
+					</div>
+					<c:if test="${meeting.snooze=='Y'}">
+						<div align="center">
+							<button  class="button small" type="button" id="nextMeeting">다음 모임 등록</button>
+						</div>
+					</c:if>
+				</div>	
+			</div>
+			<div class='row'>
+			<!-- 다음지도 -->
+			<div id="map" style="width:100%;height:350px;"></div>
+
+			
+			<script>
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			    mapOption = {
+			        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+			        level: 3 // 지도의 확대 레벨
+			    };  
+			
+			// 지도를 생성합니다    
+			var map = new daum.maps.Map(mapContainer, mapOption); 
+			
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new daum.maps.services.Geocoder();
+			
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
+			
+			    // 정상적으로 검색이 완료됐으면 
+			     if (status === daum.maps.services.Status.OK) {
+			
+			        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+			
+			        // 결과값으로 받은 위치를 마커로 표시합니다
+			        var marker = new daum.maps.Marker({
+			            map: map,
+			            position: coords
+			        });
+			
+			        // 인포윈도우로 장소에 대한 설명을 표시합니다
+			        var infowindow = new daum.maps.InfoWindow({
+			            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+			        });
+			        infowindow.open(map, marker);
+			
+			        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+			        map.setCenter(coords);
+			    } 
+			}); 
+			</script>
+			<!-- 다음지도 끝 -->
+			</div>
+			
+		</div>
+	
+		<hr/>
+		<div align="center" class="col-xs-12 col-md-12 ">
+			<button class="button">가입하기</button>
+		</div>
+		
+		<jsp:include page="/meeting/modal.jsp" />
+		<!-- 모달창 디자인 부분 -->
+        <div id="dialog2">
+        <form id="dialog2form" class="form-horizontal">
+        <div>
+        	<div name="meetingMasterId" value="${sessionScope.me.userId}" class="form-group col-sm-12 col-md-12" align="center">
+        		<img src="/resources/images/userprofile/${sessionScope.me.profile}" width="100px" height="100px" class="imgmen">
+        	</div>
+        	
+        	<div class="form-group col-sm-12 col-md-12" align="center">
+        		${sessionScope.me.nickName}
+        	</div>
+        	
+        	<div class="form-group col-sm-12 col-md-12" align="center">
+        		<textarea id="interviewTitle" class="form-control" cols="100" rows="1" 
+		 	 placeholder="제목을 입력해주세요" ></textarea>
+        	</div>
+        	
+        	<div class="form-group col-sm-12 col-md-12" align="center">
+		 	<textarea id="interview" class="form-control" cols="100" rows="3" 
+		 	 placeholder="내용을 입력해주세요" ></textarea>
+		 	</div>
+	        <div class="form-group col-sm-12 col-md-12" align="center">
+	         <button type="button" class="btn btn-success"  >확 &nbsp;인</button>
+	         <a class="btn btn-primary btn" id="pushCancle2" role="button">취&nbsp;소</a>
+	         </div>
+	    </div>
+        </form>
+        <!-- 모달창 디자인 부분  끝-->
+        </div>
+
+		<div >
+			<table>
+				
+				<tr>
+					<td>
+					모임멤버${crewCount}명
+					<input type="checkbox">로그인된 멤버만 보기<br/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+					
+					<c:forEach var="crew" items="${crewList}">
+						
+					 		<div class="dropdown">
+					 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" width="100px" height="100px" class="imgmen">
+								<a href="#" class="dropdown-toggle thisName" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+									<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
+									<span class="caret"></span>
+								</a>
+								<c:if test="${crew.role=='MST' }">모임장</c:if>
+								<ul class="dropdown-menu">
+									<c:if test="${sessionScope.me.nickName eq crewList['0'].crewNickName }">
+										<li><a href="#">강퇴하기</a></li>
+										<li><a href="#">위임하기</a></li>
+									</c:if>
+										<li><a href="#">쪽지보내기</a></li>
+								</ul>
+							</div>
+						
+					
+				 		<%-- <a id="masterNick" class="thisName" data-param="${crew.crewNickName}" data-toggle="dropdown-menu">${crew.crewNickName}</a>
+					 		<c:if test="${crew.role=='MST' }">모임장</c:if>
+				 		<br/> --%>
+					</c:forEach>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<!-- footer -->
+		<jsp:include page="/layout/footer.jsp" />
+		<!-- //footer -->
+		<div id="dialog3">
+			<div class="actCrewList">
+				<form id="dialog3From" class="form-horizontal">
+				
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- ////////////////      탭하면 나오는 메뉴 시작             ////////////////////// -->
+
+		    <jsp:include page="/meeting/tapMeun.jsp" />
+
+	<!-- ////////////////      탭하면 나오는 메뉴 끝ㅇ             ////////////////////// -->
+		    <!-- 모달창 디자인 부분 -->
         <div id="dialog">
         <!-- //////////////////////////모달창  내용부/////////////////////////////////////////////////// -->
         	<form id="contentsForm" class="form-horizontal">
@@ -1181,292 +1345,13 @@
 				  
 				 <div class="form-group">
 				   <div class="col-sm-offset-4  col-sm-4 text-center">
-				     <button type="button" class="btn btn-primary"  >등 &nbsp; 록</button>
+				     <button type="button" class="btn btn-primary"  id="dialogConfrim">확 &nbsp;인</button>
 					 <a class="btn btn-primary btn" id="pushCancle" role="button">취&nbsp;소</a>
 				   </div>
 				 </div>
 		</form>
 		<!-- //////////////////////////모달창  내용부 끝/////////////////////////////////////////////////// -->
 		</div>
-	</div>
-	
-	<div class="container " > <!-- 가장큰 틀 -->
-		<div class="row">
-		  <div class="col-md-12">
-		  	<img src="/resources/images/meeting/${meeting.titleImg}" class="col-xs-12 col-md-12"/>
-		  </div>
-		  
-		  <div class="col-md-12" align="center" id="bigletter">
-		  	<span>${meeting.meetingName}</span>
-		  </div>
-		  
-		  <div class="col-md-12">
-		  
-		  	<div class="row">
-	  			<div class="col-xs-4 col-md-4"><strong>모임설명</strong></div><hr/>
-				<div class="col-xs-8 col-md-8">${meeting.meetingDetail}</div>
-			</div>
-			<hr/>
-			<div class="row">
-		  		<div class="col-xs-5 col-md-5 "><strong>모임규칙</strong></div><hr/>
-				<div class="col-xs-7 col-md-7">${meeting.meetingRule}</div>
-			</div>
-			<hr/>
-		  </div>
-		 </div>
-		<div class='row'>
-			<table class="col-sm-12 col-md-12">
-				<tr>
-					<td>
-					<span id="thisCount" data-param="${meetingAct.meetingActCount}"> ${meetingAct.meetingActCount}회차 모임 일정 </span>
-					</td>
-				</tr>
-			</table>
-		</div>		
-		<div id="meetingActCount" >
-			<div class='row'>
-				<div align="center" class="col-xs-2 col-md-2 ">
-					<img src="/resources/images/meeting/calendar.png" height="50px" alt="Pic 01" >
-				</div>
-				
-				<div class="col-xs-6 col-md-6 ">
-				<p> ${meetingAct.meetingDate} ${meetingAct.meetingTime } </p>
-				<p> ${meetingAct.meetingLocation} </p>
-				<p> ${meetingAct.meetingDues} </p>
-				</div>
-			
-				<div class="col-xs-4 col-md-4 ">
-					<div align="center">
-					<button class="button small">참여하기</button>
-					<button class="button small">참여자목록</button><hr/>
-					</div>
-					<c:if test="${meeting.snooze=='Y'}">
-						<div align="center">
-							<button  class="button small" type="button" id="nextMeeting">다음 모임 등록</button>
-						</div>
-					</c:if>
-				</div>	
-			</div>
-		</div>
-	
-		<hr/>
-		<div align="center" class="col-xs-12 col-md-12 ">
-			<button class="button">가입하기</button>
-		</div>
-		
-		<jsp:include page="/meeting/modal.jsp" />
-		
-		<!-- 모달창 디자인 부분 -->
-        <div id="dialog2">
-        <form id="dialog2form" class="form-horizontal">
-        <div>
-        	<div name="meetingMasterId" value="${sessionScope.me.userId}" class="form-group col-sm-12 col-md-12" align="center">
-        		<img src="/resources/images/userprofile/${sessionScope.me.profile}" width="100px" height="100px" class="imgmen">
-        	</div>
-        	
-        	<div class="form-group col-sm-12 col-md-12" align="center">
-        		${sessionScope.me.nickName}
-        	</div>
-        	
-        	<div class="form-group col-sm-12 col-md-12" align="center">
-        		<textarea id="interviewTitle" class="form-control" cols="100" rows="1" 
-		 	 placeholder="제목을 입력해주세요" ></textarea>
-        	</div>
-        	
-        	<div class="form-group col-sm-12 col-md-12" align="center">
-		 	<textarea id="interview" class="form-control" cols="100" rows="3" 
-		 	 placeholder="내용을 입력해주세요" ></textarea>
-		 	</div>
-	        <div class="form-group col-sm-12 col-md-12" align="center">
-	         <button type="button" class="btn btn-success"  >확 &nbsp;인</button>
-	         <a class="btn btn-primary btn" id="pushCancle2" role="button">취&nbsp;소</a>
-	         </div>
-	    </div>
-        </form>
-        <!-- 모달창 디자인 부분  끝-->
-        </div>
-
-		<div >
-			<table>
-				
-				<tr>
-					<td>
-					모임멤버${crewCount}명
-					<input type="checkbox">로그인된 멤버만 보기<br/>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					
-					<c:forEach var="crew" items="${crewList}">
-						
-					 		<div class="dropdown">
-					 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" width="100px" height="100px" class="imgmen">
-								<a href="#" class="dropdown-toggle thisName" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
-									<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
-									<span class="caret"></span>
-								</a>
-								<c:if test="${crew.role=='MST' }">모임장</c:if>
-								<ul class="dropdown-menu">
-									<c:if test="${sessionScope.me.nickName eq crewList['0'].crewNickName }">
-										<li><a href="#">강퇴하기</a></li>
-										<li><a href="#">위임하기</a></li>
-									</c:if>
-										<li><a href="#">쪽지보내기</a></li>
-								</ul>
-							</div>
-						
-					
-				 		<%-- <a id="masterNick" class="thisName" data-param="${crew.crewNickName}" data-toggle="dropdown-menu">${crew.crewNickName}</a>
-					 		<c:if test="${crew.role=='MST' }">모임장</c:if>
-				 		<br/> --%>
-					</c:forEach>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<div id="dialog3">
-		<div class="actCrewList">
-			<form id="dialog3From" class="form-horizontal">
-			
-			</form>
-		</div>
-		</div>
-		
-		<!-- <div id="map" style="width:800px;height:400px;"></div>
-		<script>
-			var infowindow = new daum.maps.InfoWindow({zIndex:1});
-		
-			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-			    mapOption = {
-			        center: new daum.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-			        level: 3 // 지도의 확대 레벨
-			    };  
-		
-			// 지도를 생성합니다    
-			var map = new daum.maps.Map(mapContainer, mapOption); 
-		
-			// 장소 검색 객체를 생성합니다
-			var ps = new daum.maps.services.Places();
-			
-			// 키워드로 장소를 검색합니다
-			ps.keywordSearch('${meeting.meetingLocation} ', placesSearchCB); 
-		
-			// 키워드 검색 완료 시 호출되는 콜백함수 입니다
-			function placesSearchCB (data, status, pagination) {
-				console.log("data : " + data);
-				console.log("pagination : " + pagination);
-				console.log("prodName : " + '${product.prodName}');
-				
-			    if (status === daum.maps.services.Status.OK) {
-		
-			        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-			        // LatLngBounds 객체에 좌표를 추가합니다
-			        var bounds = new daum.maps.LatLngBounds();
-		
-			        for (var i=0; i<data.length; i++) {
-			            displayMarker(data[i]); 
-			            bounds.extend(new daum.maps.LatLng(data[i].y, data[i].x));
-			        }       
-		
-			        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-			        map.setBounds(bounds);
-			    } 
-			}
-		
-			// 지도에 마커를 표시하는 함수입니다
-			function displayMarker(place) {
-			    
-			    // 마커를 생성하고 지도에 표시합니다
-			    var marker = new daum.maps.Marker({
-			        map: map,
-			        position: new daum.maps.LatLng(place.y, place.x) 
-			    });
-		
-			    // 마커에 클릭이벤트를 등록합니다
-			    daum.maps.event.addListener(marker, 'click', function() {
-			        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-			        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-			        infowindow.open(map, marker);
-			    });
-			}
-
-	</script>
-	
-	<hr/><hr/><hr/>
-	
-	<div id="map" style="width:100%;height:350px;"></div>
-	<script>
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
-		    mapOption = { 
-		        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-		        level: 3 // 지도의 확대 레벨
-		    };
-		
-		var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-		 
-		// 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다 
-		var positions = [
-			for(){
-				content: '<div>${product.prodName}</div>',
-		        latlng: new daum.maps.LatLng(33.451393, 126.570738)
-			}
-		    {
-		        content: '<div>카카오</div>', 
-		        latlng: new daum.maps.LatLng(33.450705, 126.570677)
-		    },
-		    {
-		        content: '<div>생태연못</div>', 
-		        latlng: new daum.maps.LatLng(33.450936, 126.569477)
-		    },
-		    {
-		        content: '<div>텃밭</div>', 
-		        latlng: new daum.maps.LatLng(33.450879, 126.569940)
-		    },
-		    {
-		        content: '<div>${product.prodName}</div>',
-		        latlng: new daum.maps.LatLng(33.451393, 126.570738)
-		    }
-		];
-		
-		for (var i = 0; i < positions.length; i ++) {
-		    // 마커를 생성합니다
-		    var marker = new daum.maps.Marker({
-		        map: map, // 마커를 표시할 지도
-		        position: positions[i].latlng // 마커의 위치
-		    });
-		
-		    // 마커에 표시할 인포윈도우를 생성합니다 
-		    var infowindow = new daum.maps.InfoWindow({
-		        content: positions[i].content // 인포윈도우에 표시할 내용
-		    });
-		
-		    // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
-		    // 이벤트 리스너로는 클로저를 만들어 등록합니다 
-		    // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-		    daum.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-		    daum.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-		}
-		
-		// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-		function makeOverListener(map, marker, infowindow) {
-		    return function() {
-		        infowindow.open(map, marker);
-		    };
-		}
-		
-		// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
-		function makeOutListener(infowindow) {
-		    return function() {
-		        infowindow.close();
-		    };
-		}
-	</script> -->
-	
-	</div>
- 	<!--  화면구성 div Start /////////////////////////////////////-->
-
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 package com.destiny.service.community.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +114,11 @@ public class CommunityDaoImpl implements CommunityDao{
 	@Override
 	public Community getNextCommunity(int communityNo) throws Exception {
 		return sqlSession.selectOne("CommunityMapper.getNextCommunity", communityNo);
+	}
+
+	@Override
+	public List<Community> getLoveAdviceList(Search search) throws Exception {
+		return sqlSession.selectList("CommunityMapper.getLoveAdviceList", search);
 	}
 
 }

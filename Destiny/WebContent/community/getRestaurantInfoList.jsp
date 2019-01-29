@@ -35,17 +35,21 @@
 var userId = "${me.userId}";
 console.log("userId : "+userId);
 
-function fncGetList(currentPage){
+/* function fncGetList(currentPage){
 	$("#currentPage").val(currentPage)
 	$("form").attr("method","POST").attr("action","/info/listRestaurantInfo").submit();
-}
+} */
+
 
 $(function() {
+	
+	
 	
 	/* 무한스크롤 : start */
 	var currentPage = 0;
 	
 	function fncNextList(searchCondition, searchKeyword){
+		console.log("fncNextList메소드로는 가나?")
 		currentPage++;
 		$.ajax({
 			url : "/info/json/listRestaurantInfo",
@@ -66,7 +70,7 @@ $(function() {
 				for ( var i in JSON.list) {
 					var community = JSON.list[i];
 					console.log("writeDate : "+community.writeDate);
-					list += '<div class="col-sm-6 col-md-4">';
+					list += '<div class="col-sm-6 col-md-4 giyong">';
 					list += '<div class="thumbnail headline" data-param="'+community.communityNo+'">';
 					list += '<img src="../resources/images/uploadImg/'+community.fileName+'" alt="대표이미지">';
 					list += '<div class="caption">';
@@ -105,7 +109,8 @@ $(function() {
 		$(".thumbnail").on("click", function(){
 			if(userId == ""){
 				alert("로그인 후 이용 가능합니다.");
-				$("#my-dialog,#dialog-background").toggle();
+				self.location = "/user/userInfo/login.jsp"
+				/* $("#my-dialog,#dialog-background").toggle(); */
 			}
 			else{
 				var communityNo = $(this).data("param")
@@ -135,16 +140,22 @@ $(function() {
 	});
 	/* 무한스크롤 : end */
 	
+	$("#searchKeyword").keypress(function(e) {
+		if(e.which == 13) {
+			$(this).blur();
+			$(".button:contains('검색')").focus().trigger('click');
+			return false;
+		}
+	});
+	
 	/* 검색 버튼 : start */
 	$(".button:contains('검색')").on("click", function(){
-		alert("검색버튼 클릭");
 		var state = $('.sort-control option:selected').val();
 		var searchCondition = $('select[name=searchCondition]').val();
 		var searchKeyword = $('#searchKeyword').val();
-		alert("searchCondition : "+searchCondition);
-		alert("searchKeyword : "+searchKeyword);
 		currentPage = 0;
 		$(".rowList").empty();
+		$('#searchKeyword').val('');
 		fncNextList(searchCondition, searchKeyword);
 	});
 	/* 검색 버튼 : end */
@@ -153,7 +164,8 @@ $(function() {
 	$("button:contains('글쓰기')").on("click", function() {
 		if(userId == ""){
 			alert("로그인 후 이용 가능합니다.");
-			$("#my-dialog,#dialog-background").toggle();
+			self.location = "/user/userInfo/login.jsp"
+			/* $("#my-dialog,#dialog-background").toggle(); */
 		}
 		else{
 			self.location = "/info/addRestaurantInfo"	
@@ -214,6 +226,17 @@ $(function() {
 <style>
 	body{
 		position : relative;
+		font-family: 'Nanum Myeongjo', serif;
+	}
+	.container{
+		font-weight : 700;
+	}
+	.tumTitle{
+		font-weight : 700;
+	}
+	.button{
+		font-size : 16px;
+		font-weight : 700;
 	}
 	.topImg{
 		display : block;
@@ -270,6 +293,7 @@ $(function() {
 	.smallNavi li{
 		float : left;
 		margin-right : 20px;
+		margin-top : 8em;
 	}
 	
 	.homeImg{
@@ -313,6 +337,31 @@ $(function() {
 	.caption p{
 		text-align : center;
 	}
+	form{
+		padding-top : 5em;
+		content:"";
+		display:block;
+		clear:both;
+	}
+	.search-group{
+		text-align : right;
+		width : 800px;
+		float : right;
+	}
+	select{
+		width : 20%;
+		font-family: 'Nanum Myeongjo', serif;
+		font-weight : 700;
+		float:left;
+		margin-right : 1em;
+		margin-top : 5px;
+	}
+	
+	#searchKeyword{
+		width : 55%;
+		float:left;
+		margin-top : 5px;
+	}
 </style>
 </head>
 
@@ -345,7 +394,7 @@ $(function() {
 		<!-- 페이지 내부 네비게이션 경로 : end -->
 		
 		<form>
-			<div class="form-group">
+			<div class="form-group search-group">
 			    <select name="searchCondition" >
 					<option value="0"
 						${ !empty search.searchCondition && search.searchCondition=="0" ? "selected" : ""}>제목으로 검색</option>
@@ -354,12 +403,16 @@ $(function() {
 				</select>
 			    <label class="sr-only" for="searchKeyword">검색어</label>
 				<input type="text" id="searchKeyword" name="searchKeyword"  placeholder="검색어를 입력해주세요."
-			    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }">
+			    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" autocomplete=off>
 				<button type="button" class="button">검색</button>
 				  
 				<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				<input type="hidden" id="currentPage" name="currentPage" value="">
 				
+			</div>
+			
+			<div class="form-group text-left">
+				<button type="button" class="button">글쓰기</button>
 			</div>
 			
 		</form>
@@ -379,9 +432,9 @@ $(function() {
 			</select>
 		</div> --%>
 		
-		<div class="form-group text-center">
+		<!-- <div class="form-group text-left">
 			<button type="button" class="button">글쓰기</button>
-		</div>
+		</div> -->
 		
 		<!-- 썸네일 리스트 : start -->
 		<%-- <div class="row">
@@ -469,7 +522,7 @@ $(function() {
 	</div>
 	
 	<!-- PageNavigation : start -->
-	<%-- <jsp:include page="../common/pageNavigator_new.jsp"/> --%>
+	
 	<!-- PageNavigation : end -->
 	
 	</div>

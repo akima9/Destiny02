@@ -1,48 +1,32 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
-
-<!--  ///////////////////////// JSTL  ////////////////////////// -->
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <!DOCTYPE html>
-
 <html lang="ko">
-	
 <head>
-	<meta charset="EUC-KR">
-	
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>우연</title>
+<!-- All CSS Insert -->
+<link rel="stylesheet" href="/resources/css/main.css" > 
+
+<!-- //All CSS Insert -->
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+<!-- All js -->
+	<!--  템플릿 사용하기 위해 필요한 js -->
+	<script src="/resources/javascript/jquery.min.js"></script>
+	<script src="/resources/javascript/skel.min.js"></script>
+	<script src="/resources/javascript/util.js"></script>
+	<script src="/resources/javascript/main.js"></script>
 	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
-   
-   <!-- jQuery UI toolTip 사용 CSS-->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip 사용 JS-->
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
-	  body {
-            padding-top : 50px;
-        }
-    </style>
-    
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	<script type="text/javascript">
 	
+	
+	<script>
+		
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
@@ -146,37 +130,50 @@
 			$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 		});	
 	
-	</script>
 	
+	</script>
+<!-- //All js -->
+	
+	
+	<style>
+		body {
+            padding-top : 50px;
+        }
+	</style>
+
 </head>
 
-<body>
-	
-	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolBar.jsp" />
-  <!-- ToolBar End /////////////////////////////////////-->
-	
-	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
-	
-		<div class="page-header text-info">
-	       <h3>회원목록조회</h3>
-	    </div>
-	    
-	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
-	    <div class="row">
-	    
-		    <div class="col-md-6 text-left">
-		    	<p class="text-primary">
-		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
-		    	</p>
-		    </div>
-		    
-		    <div class="col-md-6 text-right">
-			    <form class="form-inline" name="detailForm">
+<body>	
+	<!-- header -->
+	<jsp:include page="/layout/header.jsp" />
+	<!-- //header -->
+
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- contents -->
+	<section id="main" class="wrapper">
+		<div class="inner">
+		
+		<h3>회원목록조회</h3>
+		
+		<!-- form Start /////////////////////////////////////-->
+		<form class="form-horizontal">
+		
+		<div class="col-md-6 text-left">
+			<p class="text-primary">
+				전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
+			</p>
+		</div>
+
+		<br/>
+		
+			<div class="box alt">
+				<div class="row 50% uniform">
+
+				
+				
 			    
-			     <div class="form-group">
-				  	<select  class="form-control" name="searchSortingOption">
+			     <div class="3u">
+				  	<select  name="searchSortingOption">
 						<option value="0" ${! empty search.searchSortingOption && search.searchSortingOption==0 ? "selected" : ""}>기본</option>
 						<option value="1" ${! empty search.searchSortingOption && search.searchSortingOption==1 ? "selected" : ""}>출석일수 낮은순(이 페이지)</option>
 						<option value="2" ${! empty search.searchSortingOption && search.searchSortingOption==2 ? "selected" : ""}>출석일수 높은순(이 페이지)</option>
@@ -184,33 +181,31 @@
 						<option value="4" ${! empty search.searchSortingOption && search.searchSortingOption==2 ? "selected" : ""}>출석일수 높은순(전체)</option>
 					</select>
 				  </div>
+				  
+				
 			    
-				  <div class="form-group">
-				    <select class="form-control" name="searchCondition" >
+				  <div class="3u">
+				    <select  name="searchCondition" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
 						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원닉네임</option>
 					</select>
 				  </div>
 				  
-				  <div class="form-group">
+				  <div class="3u">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
+				    <input type="text"  id="searchKeyword" name="searchKeyword"  placeholder="검색어"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
 				  </div>
-				  
-				  <button type="button" class="btn btn-default">검색</button>
-				  
+				  <div class="3u">
+					  <button type="button" class="btn btn-default">검색</button>
+				  </div>
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
-				</form>
-	    	</div>
-	    	
-		</div>
-		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
-		
-		
-      <!--  table Start /////////////////////////////////////-->
+				
+
+				
+				 <!--  table Start /////////////////////////////////////-->
       <table class="table table-hover table-striped" >
       
         <thead>
@@ -265,16 +260,23 @@
       
       </table>
 	  <!--  table End /////////////////////////////////////-->
-	  
- 	</div>
- 	<!--  화면구성 div End /////////////////////////////////////-->
- 	
- 	
- 	<!-- PageNavigation Start... -->
-	<jsp:include page="/common/pageNavigator_new.jsp"/>
 		
-	<!-- PageNavigation End... -->
+			</div>
+			
+		</div>
+		</form>
+		</div>
+	<jsp:include page="/common/pageNavigator_new.jsp"/>	
+	</section>
+	<!-- //contents -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
+	
+	<!-- footer -->
+	<jsp:include page="/layout/footer.jsp" />
+	<!-- //footer -->
+	
+	
+	
 	
 </body>
-
 </html>

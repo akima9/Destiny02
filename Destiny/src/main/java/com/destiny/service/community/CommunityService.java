@@ -20,8 +20,11 @@ public interface CommunityService {
 	//다음글 상세보기
 	public Community getNextCommunity(int communityNo) throws Exception;
 	
-	//게시글 리스트
+	//맛집정보 게시글 리스트
 	public Map<String, Object> getCommunityList(Search search) throws Exception;
+	
+	//연애조언 게시글 리스트
+	public Map<String, Object> getLoveAdviceList(Search search) throws Exception;
 	
 	//게시글 수정
 	public void updateCommunity(Community community) throws Exception;

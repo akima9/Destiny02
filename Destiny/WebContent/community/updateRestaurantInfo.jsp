@@ -123,6 +123,18 @@
 		 left: 50%; 
 		 z-index: 100; 
 	}
+	.representImg{
+		margin-top : 1em;
+		width : 50%;
+		height : 40em;
+		padding : 1em;
+		text-align : center;
+		border : 1px solid #a9a9a9;
+		border-radius : 5px;
+	}
+	.representImg img{
+		width : 80%;
+	}
 </style>
 
 </head>
@@ -140,7 +152,7 @@
 		
 		<div class="row">
 		
-			<form>
+			<form enctype="multipart/form-data">
 				
 				<!-- 수정페이지에서 업데이트 컨트롤러로 보내는 데이터 : start -->
 				<input type="hidden" name="writerId" value="${ community.writerId }">
@@ -157,6 +169,16 @@
 				
 					<label for="title">제목</label>
 					<input type="text" class="form-control" name="title" value="${ community.title }">
+					
+				</div>
+				
+				<div class="form-group">
+				
+					<label for="title">대표이미지</label>
+					<input type="file" name="uploadFile" class="form-control">
+					<div class="representImg">
+						<img src="/resources/images/uploadImg/${community.fileName }">
+					</div>
 					
 				</div>
 			

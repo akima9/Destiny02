@@ -30,7 +30,7 @@
 		VALUES(seq_complain_no.nextval, #{complainerId}, #{defendantId}, #{meetingNo}, #{communityNo}, #{complainDetail}, #{complainType}, #{complainKind}, SYSDATE, 'N') -->
 		<if test="meetingNo == 0">
 			INSERT INTO complain (complain_no, complainer_id, defendant_id, community_no, complain_detail, complain_text, complain_type, complain_kind, complain_date, complain_state) 
-			VALUES(seq_complain_no.nextval, #{complainerId}, #{defendantId}, #{communityNo}, #{complainDetail}, #{complainText}, #{complainType}, 'BD', TO_DATE(SYSDATE,'YYYY/MM/DD'), 'N')
+			VALUES(seq_complain_no.nextval, #{complainerId}, #{defendantId}, #{communityNo}, #{complainDetail}, #{complainText}, #{complainType}, 'BD', SYSDATE, 'N')
 		</if>
 		<if test="communityNo == 0">
 			INSERT INTO complain (complain_no, complainer_id, defendant_id, meeting_no, complain_detail, complain_text, complain_type, complain_kind, complain_date, complain_state) 
