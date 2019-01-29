@@ -168,18 +168,35 @@ public class InfoController {
 	/*updateRestaurantInfo/GET : start*/
 	@RequestMapping(value="updateRestaurantInfo", method=RequestMethod.GET)
 	public ModelAndView updateRestaurantInfo(@RequestParam("communityNo") int communityNo) throws Exception{
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("community", communityService.getCommunity(communityNo));
 		modelAndView.setViewName("/community/updateRestaurantInfo.jsp");
+		
 		return modelAndView;
 	}
 	/*updateRestaurantInfo/GET : end*/
 	
 	/*updateRestaurantInfo/POST : start*/
 	@RequestMapping(value="updateRestaurantInfo", method=RequestMethod.POST)
-	public ModelAndView updateRestaurantInfo(@ModelAttribute("community") Community community, @RequestParam("communityNo") int communityNo) throws Exception{
+	public ModelAndView updateRestaurantInfo(@ModelAttribute("community") Community community, @RequestParam("communityNo") int communityNo, @RequestParam("uploadFile")MultipartFile fileName, MultipartHttpServletRequest mtfRequest, @ModelAttribute("upload")Upload upload) throws Exception{
+		
+		/*대표이미지 업로드 : start*/
+		String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\uploadImg\\";
+		String name = System.currentTimeMillis()+"."+fileName.getOriginalFilename().split("\\.")[1];
+		
+		File file = new File(path + name);
+
+		fileName.transferTo(file);
+		/*대표이미지 업로드 : end*/
 		
 		communityService.updateCommunity(community);
+		upload = uploadService.getUpload(communityNo);
+		/*업로드 테이블 : start*/
+		upload.setFileName(name);
+		upload.setUploadNo(upload.getUploadNo());
+		uploadService.updateUpload(upload);
+		/*업로드 테이블 : end*/
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("community", community);

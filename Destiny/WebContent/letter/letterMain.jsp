@@ -38,36 +38,41 @@
 	
 	
 	<style>
-		
+		body{
+			background-image : url("/resources/images/layout/500.jpg");
+			background-size : cover;
+		}
 	</style>
 
 </head>
 
-<body class="subpage">	
+<body >	
 	
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- contents -->
 	<section id="main" class="wrapper">
 		<div class="inner">
 		
-		<h3>쪽지 main</h3>
+		<h3 style="color:white;">쪽지 main</h3>
 		<br/>
 			<div class="box alt">
 				<div class="row 50% uniform">
 				
 					<div class="4u">
-					<p style="font-size:120%; color:black;">
-					<a href="/letter/getLetterList">받은 쪽지함</a>
+					<p>
+					<a style="font-size:120%; color:white;" href="/letter/getLetterList">받은 쪽지함</a>
 					<br/></div>
 
 					<div class="4u">
-					<p style="font-size:120%; color:black;">
-					<a href="/letter/sendLetterList">보낸 쪽지함</a>
+					<p >
+					<a style="font-size:120%; color:white;" href="/letter/sendLetterList">보낸 쪽지함</a>
 					<br/></div>
+					
 
 				</div>
 			</div>
 		</div>
+		
 	</section>
 	<!-- //contents -->
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
@@ -77,4 +82,7 @@
 	
 	
 </body>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+	<a href="https://www.freepik.com/free-photos-vectors/background">Background photo created by tirachard - www.freepik.com</a>
+
 </html>

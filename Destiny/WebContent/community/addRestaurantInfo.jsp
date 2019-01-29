@@ -92,6 +92,7 @@
 					
 			var name = $("input[name=title]").val();
 			var detail = $("textarea[name=detail]").val();
+			var file = $("input[name=uploadFile]").val();
 	
 			if (name == null || name.length < 1) {
 				alert("제목을 입력해주세요.");
@@ -99,6 +100,10 @@
 			}
 			if (detail == null || detail.length < 1) {
 				alert("내용을 입력해주세요.");
+				return false;
+			}
+			if (file == null || file.length < 1) {
+				alert("대표이미지를 등록해주세요.");
 				return false;
 			}
 			
@@ -192,7 +197,7 @@
 				<div class="form-group">
 				
 					<label for="title">제목</label>
-					<input type="text" class="form-control" name="title" placeholder="제목을 입력해주세요.">
+					<input type="text" class="form-control" name="title" placeholder="제목을 입력해주세요." autofocus autocomplete=off>
 					
 				</div>
 				

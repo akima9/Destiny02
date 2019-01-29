@@ -29,6 +29,16 @@ public class UploadServiceImpl implements UploadService{
 	public void addUload(Upload upload) throws Exception {
 		uploadDao.addUload(upload);
 	}
+
+	@Override
+	public void updateUpload(Upload upload) throws Exception {
+		uploadDao.updateUpload(upload);
+	}
+
+	@Override
+	public Upload getUpload(int communityNo) throws Exception {
+		return uploadDao.getUpload(communityNo);
+	}
 	
 	
 }

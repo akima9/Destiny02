@@ -20,14 +20,24 @@
 		INTO upload( upload_no, community_no, file_name, file_code ) 
 		VALUES( seq_upload_no.nextval, #{communityNo}, #{fileName}, #{fileCode} )
 	</insert>
+	
+	<!-- SQL : UPDATE -->
+	<update id="updateUpload"	parameterType="com.destiny.service.domain.Upload" >
+		UPDATE upload
+	   	<set>
+	   		file_name = #{fileName}
+	   	</set>
+	   	WHERE upload_no = #{uploadNo}
+	</update>
 	 
-	 <!-- SQL : SELECT ONE -->
-	 <!-- <select id="getCommunity" parameterType="int" resultMap="communitySelectMap">
+	<!-- SQL : SELECT ONE -->
+	<select id="getUpload" parameterType="int" resultMap="UploadSelectMap">
 		SELECT
-		community_no, community_writer_id, category, community_user_grade, community_title, community_writer_nick_name, community_detail, community_write_date,  community_views, community_like, import_rank, community_view_condition
-		FROM community
-		WHERE community_no = #{value} and community_view_condition = 'DEF'
-	 </select> -->
+		up.upload_no, up.community_no, up.file_name, up.file_code
+		FROM community comu, upload up
+		WHERE comu.community_no = up.community_no 
+				and comu.community_no = #{value}
+	</select>
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <!-- <select id="getPreCommunity" parameterType="int" resultMap="communitySelectMap">
