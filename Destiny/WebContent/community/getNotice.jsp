@@ -30,8 +30,6 @@ Latest compiled and minified JavaScript
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
-
-<link rel="stylesheet" href="/resources/css/main.css" >
  
 <script type="text/javascript">
 	
@@ -39,13 +37,13 @@ Latest compiled and minified JavaScript
 		
 		/* 목록 버튼 이벤트 : start */
 		$("button:contains('목록')").on("click", function() {
-			self.location = "/info/listRestaurantInfo"
+			self.location = "/notice/listNotice"
 		});
 		/* 목록 버튼 이벤트 : end */
 		
 		/* 글쓰기 버튼 이벤트 : start */
 		$("button:contains('글쓰기')").on("click", function() {
-			self.location = "/info/addRestaurantInfo"
+			self.location = "/notice/addNotice"
 		});
 		/* 글쓰기 버튼 이벤트 : end */
 		
@@ -58,14 +56,14 @@ Latest compiled and minified JavaScript
 		/* 수정 버튼 이벤트 : start */
 		$(".modify").on("click", function() {
 			//self.location = "/info/updateRestaurantInfo?communityNo="+${community.communityNo}
-			self.location = "/info/updateRestaurantInfo?communityNo=${community.communityNo}"
+			self.location = "/notice/updateNotice?communityNo=${community.communityNo}"
 		});
 		/* 수정 버튼 이벤트 : end */
 		
 		/* 수정 버튼 이벤트 : start */
 		$(".delete").on("click", function() {
 			//self.location = "/info/updateRestaurantInfo?communityNo="+${community.communityNo}
-			self.location = "/info/deleteRestaurantInfo?communityNo=${community.communityNo}"
+			self.location = "/notice/deleteNotice?communityNo=${community.communityNo}"
 		});
 		/* 수정 버튼 이벤트 : end */
 		
@@ -76,7 +74,7 @@ Latest compiled and minified JavaScript
 			
 			$.ajax({
 				method : "POST",
-				url : '/info/json/likeRestaurantInfo/'+communityNo,
+				url : '/notice/json/likeNotice/'+communityNo,
 				headers : {
 					"Accept" : "application/json",
 					"Content-Type" : "application/json"
@@ -106,14 +104,14 @@ Latest compiled and minified JavaScript
 		/* 이전글 클릭 : start */
 		$("button:contains('이전글')").on("click", function(){
 			var communityNo = $(this).data("param")
-			self.location="/info/getPreRestaurantInfo?communityNo="+communityNo
+			self.location="/notice/getPreNotice?communityNo="+communityNo
 		});
 		/* 이전글 클릭 : end */
 		
 		/* 다음글 클릭 : start */
 		$("button:contains('다음글')").on("click", function(){
 			var communityNo = $(this).data("param")
-			self.location="/info/getNextRestaurantInfo?communityNo="+communityNo
+			self.location="/notice/getNextNotice?communityNo="+communityNo
 		});
 		/* 다음글 클릭 : end */
 	});
@@ -136,20 +134,16 @@ Latest compiled and minified JavaScript
 
 	body{
 		position : relative;
-		font-family: 'Nanum Myeongjo', serif;
 	}
-	.button{
-		font-size : 16px;
-		font-weight : 700;
-	}
+	
 	
 	.topImg{
 		display : block;
 		position : absolute;
 		top : 0;
-		background-image : url("/resources/images/background/getRestaurantInfo07_background.jpg");
+		background-image : url("/resources/images/background/getRestaurantInfo_background.jpg");
 		background-repeat : no-repeat;
-		background-position : center -400px;
+		background-position : center center;
 		background-size : cover;
 		width : 100%;
 		height : 400px;
@@ -162,21 +156,23 @@ Latest compiled and minified JavaScript
 		left : 0;
 		width : 100%;
 		height : 400px;
+		z-index : 1;
 	}
 	.topImg h1{
 		position : absolute;
-		line-height : 330px;
+		line-height : 450px;
 		width : 100%;
 		text-align : center;
 		color : white;
-		z-index : 99;
+		z-index : 2;
 		font-size : 60px;
+		font-weight : bold;
 	}
 	h1 .slim{font-weight : lighter;}
 	
 	.wrap{margin-top : 400px;}
-	
-	.rightBtn{float : right; margin-left : 6px;}
+	.wrap .button{padding : 40px 30px 10px 30px;}
+	.wrap .button .rightBtn{float : right;margin-left : 3px;}
 	
 	.wrapContents{margin-bottom : 100px;border : 1px solid #E3E4E6;padding : 30px;}
 
@@ -198,12 +194,7 @@ Latest compiled and minified JavaScript
 	
 	.firstColumn {font-weight : bold;}
 	
-	.count{
-		padding : 10px;
-		content : '';
-		display : block;
-		clear : both;	
-	}
+	.count{overflow : hidden;padding : 10px;}
 	
 	.count li{float : left;list-style-type : none;margin-right : 10px;}
 	
@@ -219,60 +210,22 @@ Latest compiled and minified JavaScript
 		overflow : hidden;
 	} */
 	
-	.smallNavi{
-		overflow : hidden;
-		float : right;
-		margin-top : -80px;
-		margin-bottom : 60px;
-	}
+	.smallNavi{overflow : hidden;float : right;margin-top : -30px;}
 	
-	.smallNavi li{
-		float : left;
-		margin-right : 20px;
-		margin-top : 8em;
-	}
+	.smallNavi li{float : left;margin-right : 20px;}
 	
 	.homeImg{margin-top : -2px;}
-	
-	.topBtn{
-		padding : 10em 0 1em 0;
-	}
-	.informationWrap{
-		padding : 0 0 1em 0;
-	}
-	.informationWrap .title{
-		display : inline-block;
-		width : 15em;
-	}
-	.informationWrap .category{
-		display : inline-block;
-		width : 10em;
-	}
-	.informationWrap .date{
-		display : inline-block;
-		float : right;
-	}
-	.detail{
-		padding : 2em 0 2em 0;
-	}
-	.control{
-		content : '';
-		display : block;
-		clear : both;
-		background : red;
-		
-	}
 </style>
 
 </head>
 <body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/header.jsp" />
+	<jsp:include page="/layout/toolBar.jsp" />
 	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<div class="topImg">
-		<h1>맛집<span class="slim">정보</span></h1>
+		<h1>공지<span class="slim">사항</span></h1>
 	</div>
 
 	<div class="container">
@@ -282,74 +235,62 @@ Latest compiled and minified JavaScript
 		<ul class="smallNavi">
 			<li class="homeImg"><img alt="home" src="../resources/images/background/home.jpg"></li>
 			<li>></li>
-			<li>스토리</li>
-			<li>></li>
-			<li>맛집정보</li>
+			<li>공지사항</li>
 		</ul>
 		
-		<div class="topBtn">
-			<button type="button" data-param="${ community.communityNo }" class="button">이전글</button>
-			<button type="button" data-param="${ community.communityNo }" class="button">다음글</button>
+		<div class="row button">
+			<button type="button" data-param="${ community.communityNo }" class="btn btn-default">이전글</button>
+			<button type="button" data-param="${ community.communityNo }" class="btn btn-default">다음글</button>
 			
-			<button type="button" class="button rightBtn">목록</button>
-			<button type="button" class="button rightBtn">글쓰기</button>
+			<button type="button" class="btn btn-default rightBtn">목록</button>
+			<button type="button" class="btn btn-default rightBtn">글쓰기</button>
 		</div>
 		
 		<div class="wrapContents">
 
-		<div class="informationWrap">
-			<div class="title">${ community.title }</div>
+		<div class="row firstRow">
+			<div class="col-xs-4 col-md-2 firstColumn">${ community.title }</div>
 			<c:if test="${community.category == 'RES'}">
-				<div class="category">맛집정보</div>
+				<div class="col-xs-8 col-md-8">맛집정보</div>
 			</c:if>
 			<c:if test="${community.category == 'MET'}">
-				<div class="category">모임후기</div>
+				<div class="col-xs-8 col-md-8">모임후기</div>
 			</c:if>
 			<c:if test="${community.category == 'DAT'}">
-				<div class="category">만남후기</div>
+				<div class="col-xs-8 col-md-8">만남후기</div>
 			</c:if>
 			<c:if test="${community.category == 'LUV'}">
-				<div class="category">연애조언</div>
+				<div class="col-xs-8 col-md-8">연애조언</div>
 			</c:if>
 			<c:if test="${community.category == 'NTC'}">
-				<div class="category">공지사항</div>
+				<div class="col-xs-8 col-md-8">공지사항</div>
 			</c:if>
-			<div class="date">${ community.writeDate }</div>
+			<div class="col-xs-4 col-md-2 righttSort">${ community.writeDate }</div>
 		</div>
 
-		<div class="informationWrap">
-			<div class="title">${ community.writerNickName }</div>
+		<div class="row secondRow">
+			<div class="col-xs-4 col-md-2 firstColumn">${ community.writerNickName }</div>
 			<c:if test="${community.userGrade == 'NEW'}">
-				<div class="category">신규회원</div>
+				<div class="col-xs-8 col-md-4">신규회원</div>
 			</c:if>
 			<c:if test="${community.userGrade == 'NOR'}">
-				<div class="category">일반회원</div>
+				<div class="col-xs-8 col-md-4">일반회원</div>
 			</c:if>
 			<c:if test="${community.userGrade == 'VIP'}">
-				<div class="category">우수회원</div>
+				<div class="col-xs-8 col-md-4">우수회원</div>
 			</c:if>
 			<c:if test="${community.userGrade == 'ADM'}">
-				<div class="category">관리자</div>
+				<div class="col-xs-8 col-md-4">관리자</div>
 			</c:if>
 		</div>
 		
-		<div class="detail">
-			<div class="">${ community.detail }</div>
+		<div class="row">
+			<div class="contentsDetail">${ community.detail }</div>
 		</div>
 		
-		<div class="control">
+		<div class="row thirdRow">
 			<ul class="count">
 				<li>조회수 ${ community.views }</li>
-				<li><span>|</span></li>
-				<li>공감수 <span id="likeCount">${ community.like }</span></li>
-				<li>
-					<c:if test= '${likeCount.likeCountCheck=="Y"}'>
-						<button type="button" class="btn-heart on"></button>
-					</c:if>
-					<c:if test= '${likeCount.likeCountCheck=="N" || likeCount.likeCountCheck==null}'>
-						<button type="button" class="btn-heart"></button>
-					</c:if>
-				</li>
 			</ul>
 			<ul class="service">
 				<c:set var="userId" value="${me.userId }"/>
@@ -358,17 +299,11 @@ Latest compiled and minified JavaScript
 					<li class="modify">수정</li>
 					<li><span>|</span></li>
 				</c:if>
-				<li class="complain">신고</li>
 				<c:if test="${userId == writerId}">
-					<li><span>|</span></li>
 					<li class="delete">삭제</li>
 				</c:if>
 			</ul>
 		</div>
-		
-		<!-- 댓글 : start -->
-		<jsp:include page="/comment/addComment.jsp" />
-		<!-- 댓글 : end -->
 		
 		</div>
 		
@@ -378,19 +313,3 @@ Latest compiled and minified JavaScript
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

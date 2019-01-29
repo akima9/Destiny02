@@ -6,19 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 
-<!-- include libraries(jQuery, bootstrap) -->
-<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> -->
-
-<!-- Latest compiled and minified CSS -->
-<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous"> -->
-
-<!-- Optional theme -->
-<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css" integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous"> -->
-
-<!-- Latest compiled and minified JavaScript -->
-<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw" crossorigin="anonymous"></script> -->
-
-
 <style type="text/css">
 	.replyAreaCoComment{
 		margin-left : 50px;
@@ -29,7 +16,7 @@
 	
 </style>
 <script type="text/javascript">
-	
+
 	var communityNo = ${community.communityNo}; //게시글 번호 
 	
 	$(function() {
@@ -60,6 +47,7 @@
 	             $.each(JSONData, function(i){
 	            	var list = JSONData[i];
 	            	console.log("list : "+list);
+	            	console.log("ID : "+list.commentWriterId);
 	            	if(list.commentNo != list.targetNo){
 	            		a += '<div class="replyAreaCoComment" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
 	            	}else{
@@ -88,6 +76,7 @@
 	 
 	//댓글 등록 : start
 	function replyInsert(){
+		
 	    $.ajax({
 	        url : '/comment/rest/addComment/'+communityNo,
 	        type : 'post',

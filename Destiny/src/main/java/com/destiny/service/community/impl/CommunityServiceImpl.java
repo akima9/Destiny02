@@ -131,4 +131,41 @@ public class CommunityServiceImpl implements CommunityService {
 		return map;
 	}
 
+	@Override
+	public Map<String, Object> getNoticeList(Search search) throws Exception {
+		List<Community> list = communityDao.getNoticeList(search);
+		int totalCount = communityDao.getNoitceTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+
+	@Override
+	public Community getNotice(int communityNo) throws Exception {
+		return communityDao.getNotice(communityNo);
+	}
+
+	@Override
+	public Community getPreLoveAdvice(int communityNo) throws Exception {
+		return communityDao.getPreLoveAdvice(communityNo);
+	}
+
+	@Override
+	public Community getNextLoveAdvice(int communityNo) throws Exception {
+		return communityDao.getNextLoveAdvice(communityNo);
+	}
+
+	@Override
+	public Community getPreNotice(int communityNo) throws Exception {
+		return communityDao.getPreNotice(communityNo);
+	}
+
+	@Override
+	public Community getNextNotice(int communityNo) throws Exception {
+		return communityDao.getNextNotice(communityNo);
+	}
+
 }

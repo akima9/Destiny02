@@ -110,7 +110,6 @@ $(function() {
 			if(userId == ""){
 				alert("로그인 후 이용 가능합니다.");
 				self.location = "/user/userInfo/login.jsp"
-				/* $("#my-dialog,#dialog-background").toggle(); */
 			}
 			else{
 				var communityNo = $(this).data("param")
@@ -123,18 +122,15 @@ $(function() {
 	$(function(){
 		while ($(document).height()==$(window).height() && currentPage < $("input:hidden[name='maxPage']").val()) {
 			fncNextList();
-			/* ScrollReveal().reveal('.headline'); */
 		}
 	});
 	
 	$(window).scroll(function(){
 		if (currentPage < $("input:hidden[name='maxPage']").val()) {
 			if ($(window).scrollTop()==$(document).height()-$(window).height()) {
-				var state = $('.sort-control option:selected').val();
 				var searchCondition = $('select[name=searchCondition]').val();
 				var searchKeyword = $('#searchKeyword').val();
 				fncNextList(searchCondition, searchKeyword);
-				/* ScrollReveal().reveal('.headline'); */
 			}
 		}
 	});
@@ -150,12 +146,12 @@ $(function() {
 	
 	/* 검색 버튼 : start */
 	$(".button:contains('검색')").on("click", function(){
-		var state = $('.sort-control option:selected').val();
 		var searchCondition = $('select[name=searchCondition]').val();
 		var searchKeyword = $('#searchKeyword').val();
+		alert("searchCondition : "+searchCondition);
+		alert("searchKeyword : "+searchKeyword);
 		currentPage = 0;
 		$(".rowList").empty();
-		$('#searchKeyword').val('');
 		fncNextList(searchCondition, searchKeyword);
 	});
 	/* 검색 버튼 : end */
@@ -165,7 +161,6 @@ $(function() {
 		if(userId == ""){
 			alert("로그인 후 이용 가능합니다.");
 			self.location = "/user/userInfo/login.jsp"
-			/* $("#my-dialog,#dialog-background").toggle(); */
 		}
 		else{
 			self.location = "/info/addRestaurantInfo"	
@@ -242,9 +237,9 @@ $(function() {
 		display : block;
 		position : absolute;
 		top : 0;
-		background-image : url("/resources/images/background/getRestaurantInfo_background.jpg");
+		background-image : url("/resources/images/background/getRestaurantInfo07_background.jpg");
 		background-repeat : no-repeat;
-		background-position : center center;
+		background-position : center -400px;
 		background-size : cover;
 		width : 100%;
 		height : 400px;
@@ -258,16 +253,15 @@ $(function() {
 		width : 100%;
 		height : 400px;
 	}
-	/* .topImg h1{
+	.topImg h1{
 		position : absolute;
-		line-height : 450px;
+		line-height : 330px;
 		width : 100%;
 		text-align : center;
 		color : white;
 		z-index : 99;
 		font-size : 60px;
-		font-weight : bold;
-	} */
+	}
 	h1 .slim{
 		font-weight : lighter;
 	}
@@ -286,7 +280,7 @@ $(function() {
 	.smallNavi{
 		overflow : hidden;
 		float : right;
-		margin-top : -30px;
+		margin-top : -80px;
 		margin-bottom : 60px;
 	}
 	
@@ -338,7 +332,7 @@ $(function() {
 		text-align : center;
 	}
 	form{
-		padding-top : 5em;
+		/* padding-top : 5em; */
 		content:"";
 		display:block;
 		clear:both;

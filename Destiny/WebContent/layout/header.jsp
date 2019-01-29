@@ -24,6 +24,9 @@
 		$("a[href='#' ]:contains('LoveAdvice')").on("click", function() {
 			self.location = "/love/listLoveAdvice"
 		});
+		$("a[href='#' ]:contains('Notice')").on("click", function() {
+			self.location = "/notice/listNotice"
+		});
 		$("a[href='#' ]:contains('Complain')").on("click", function() {
 			self.location = "/complain/listComplain"
 		});

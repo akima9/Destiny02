@@ -29,105 +29,21 @@
 <link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">
 
-
 <script type="text/javascript">
 
 var userId = "${me.userId}";
 console.log("userId : "+userId);
 
+var userGrade = "${me.userGrade}";
+console.log("grade : "+userGrade);
+
+function fncGetList(currentPage){
+	$("#currentPage").val(currentPage)
+	$("form").attr("method","POST").attr("action","/notice/listNotice").submit();
+}
+
+
 $(function() {
-	
-	/* 무한스크롤 : start */
-	var currentPage = 0;
-	
-	function fncNextList(searchCondition, searchKeyword){
-		console.log("fncNextList메소드로는 가나?")
-		currentPage++;
-		$.ajax({
-			url : "/love/json/listLoveAdvice",
-			method : "post",
-			async : false,
-			dataType : "json",
-			data : JSON.stringify({
-				currentPage : currentPage,
-				searchCondition : searchCondition,
-				searchKeyword : searchKeyword
-			}),
-			headers : {
-				"Accept" : "application/json",
-				"Content-type" : "application/json"
-			},
-			success : function(JSON){
-				var list = "";
-				for ( var i in JSON.list) {
-					var community = JSON.list[i];
-					console.log("writeDate : "+community.writeDate);
-					list += '<div class="col-sm-6 col-md-4 giyong">';
-					list += '<div class="thumbnail headline" data-param="'+community.communityNo+'">';
-					list += '<img src="../resources/images/uploadImg/'+community.fileName+'" alt="대표이미지">';
-					list += '<div class="caption">';
-					list += '<h3 class="tumTitle">'+community.title+'</h3>';
-					list += '<p>'+community.writeDate+'</p>';
-					list += '<ul class="infoFirst">';
-					list += '<li>'+community.writerNickName+'</li>';
-					list += '<li><span>조회수</span> : '+community.views+'</li>';
-					list += '</ul>';
-					list += '<ul class="infoSecond">';
-					if(community.userGrade == 'NEW'){
-						list += '<li>신규회원</li>';	
-					}
-					if(community.userGrade == 'NOR'){
-						list += '<li>일반회원</li>';	
-					}
-					if(community.userGrade == 'VIP'){
-						list += '<li>우수회원</li>';	
-					}
-					if(community.userGrade == 'ADM'){
-						list += '<li>관리자</li>';	
-					}
-					list += '<li><span>공감수</span> : '+community.like+'</li>';
-					list += '</ul></div></div></div>';
-				}
-				
-				$(".rowList").html($(".rowList").html()+list);
-				
-				init();
-			}
-		});
-	}
-	
-	/* 썸네일 클릭 : start */
-	function init(){
-		$(".thumbnail").on("click", function(){
-			if(userId == ""){
-				alert("로그인 후 이용 가능합니다.");
-				self.location = "/user/userInfo/login.jsp"
-			}
-			else{
-				var communityNo = $(this).data("param")
-				self.location="/love/getLoveAdvice?communityNo="+communityNo	
-			}
-		});
-	};
-	/* 썸네일 클릭 : end */
-	
-	$(function(){
-		while ($(document).height()==$(window).height() && currentPage < $("input:hidden[name='maxPage']").val()) {
-			fncNextList();
-		}
-	});
-	
-	$(window).scroll(function(){
-		if (currentPage < $("input:hidden[name='maxPage']").val()) {
-			if ($(window).scrollTop()==$(document).height()-$(window).height()) {
-				var state = $('.sort-control option:selected').val();
-				var searchCondition = $('select[name=searchCondition]').val();
-				var searchKeyword = $('#searchKeyword').val();
-				fncNextList(searchCondition, searchKeyword);
-			}
-		}
-	});
-	/* 무한스크롤 : end */
 	
 	$("#searchKeyword").keypress(function(e) {
 		if(e.which == 13) {
@@ -139,27 +55,58 @@ $(function() {
 	
 	/* 검색 버튼 : start */
 	$(".button:contains('검색')").on("click", function(){
-		var state = $('.sort-control option:selected').val();
-		var searchCondition = $('select[name=searchCondition]').val();
-		var searchKeyword = $('#searchKeyword').val();
-		currentPage = 0;
-		$(".rowList").empty();
-		fncNextList(searchCondition, searchKeyword);
+		fncGetList(1);
 	});
 	/* 검색 버튼 : end */
 	
-	/* 글쓰기 버튼 : start */
-	$("button:contains('글쓰기')").on("click", function() {
+	if (userGrade == "ADM") {
+		$("button:contains('글쓰기')").show();
+		/* 글쓰기 버튼 : start */
+		$("button:contains('글쓰기')").on("click", function() {
+			if(userId == ""){
+				alert("로그인 후 이용 가능합니다.");
+				self.location = "/user/userInfo/login.jsp"
+			}
+			else{
+				self.location = "/notice/addNotice"	
+			}
+		});
+		/* 글쓰기 버튼 : end */
+	}else{
+		$("button:contains('글쓰기')").hide();
+	}
+	
+	
+	
+	/////////////아래는 리스트형////////////////////////////아래는 리스트형////////////////////////////아래는 리스트형///////////////
+	
+	/* 정렬 선택 : start*/
+	$('.sort-control').on('change',function(){
+		alert("정렬 선택!");
+		var searchSortingOption = $('.sort-control option:selected').val();
+		alert("searchSortingOption : "+searchSortingOption);
+		fncGetList(1);					
+	});
+	/* 정렬 선택 : end */
+		
+	/* 글 제목 마우스 오버 : start */
+	$(".getRestaurantLink").on("mouseover",function(){
+		$(".getRestaurantLink").css("cursor","pointer")
+	});
+	/* 글 제목 마우스 오버 : end */
+	
+	/* 글 제목 클릭 : start */
+	$(".getRestaurantLink").on("click", function(){
 		if(userId == ""){
 			alert("로그인 후 이용 가능합니다.");
 			self.location = "/user/userInfo/login.jsp"
-			/* $("#my-dialog,#dialog-background").toggle(); */
 		}
 		else{
-			self.location = "/love/addLoveAdvice"	
+			var communityNo = $(this).data("param")
+			self.location="/notice/getNotice?communityNo="+communityNo	
 		}
 	});
-	/* 글쓰기 버튼 : end */
+	/* 글 제목 클릭 : end */
 	
 });
 
@@ -183,9 +130,9 @@ $(function() {
 		display : block;
 		position : absolute;
 		top : 0;
-		background-image : url("/resources/images/background/loveAdvice_background.jpg");
+		background-image : url("/resources/images/background/notice02_background.jpg");
 		background-repeat : no-repeat;
-		background-position : center -140px;
+		background-position : center -500px;
 		background-size : cover;
 		width : 100%;
 		height : 400px;
@@ -207,7 +154,6 @@ $(function() {
 		color : white;
 		z-index : 99;
 		font-size : 60px;
-		/* font-weight : bold; */
 	}
 	h1 .slim{
 		font-weight : lighter;
@@ -219,6 +165,10 @@ $(function() {
 	li{
 		list-style-type : none;
 	}
+	
+	/*  .container{
+		overflow : hidden;
+	} */
 	
 	.smallNavi{
 		overflow : hidden;
@@ -281,23 +231,26 @@ $(function() {
 		clear:both;
 	}
 	.search-group{
+		width : 63%;
 		text-align : right;
-		width : 800px;
+		content:"";
+		display:block;
+		clear:both;
 		float : right;
 	}
 	select{
-		width : 20%;
+		width : 9em;
 		font-family: 'Nanum Myeongjo', serif;
 		font-weight : 700;
-		float:left;
 		margin-right : 1em;
 		margin-top : 5px;
+		float : left;
 	}
 	
 	#searchKeyword{
-		width : 55%;
-		float:left;
+		width : 20em;
 		margin-top : 5px;
+		float : left;
 	}
 </style>
 </head>
@@ -312,7 +265,7 @@ $(function() {
     
     <!-- 메인배경이미지 : start -->
 	<div class="topImg">
-		<h1>연애<span class="slim">조언</span></h1>
+		<h1>공지<span class="slim">사항</span></h1>
 	</div>
 	<!-- 메인배경이미지 : end -->
 	
@@ -324,27 +277,37 @@ $(function() {
 		<ul class="smallNavi">
 			<li class="homeImg"><img alt="home" src="../resources/images/background/home.jpg"></li>
 			<li>></li>
-			<li>스토리</li>
-			<li>></li>
-			<li>연애조언</li>
+			<li>공지사항</li>
 		</ul>
 		<!-- 페이지 내부 네비게이션 경로 : end -->
 		
 		<form>
 			<div class="form-group search-group">
+			
+				<select class="sort-control" name="searchSortingOption" >
+					<option value="0"
+						${ !empty search.searchSortingOption && search.searchSortingOption=="0" ? "selected" : ""}>최신 게시물 순</option>
+					<option value="1"
+						${ !empty search.searchSortingOption && search.searchSortingOption=="1" ? "selected" : ""}>조회수 순</option>
+					<option value="2"
+						${ !empty search.searchSortingOption && search.searchSortingOption=="2" ? "selected" : ""}>중요도 순</option>
+					<option value="3"
+						${ !empty search.searchSortingOption && search.searchSortingOption=="3" ? "selected" : ""}>이전 게시물 순</option>
+				</select>
+				
 			    <select name="searchCondition" >
 					<option value="0"
 						${ !empty search.searchCondition && search.searchCondition=="0" ? "selected" : ""}>제목으로 검색</option>
 					<option value="1"
 						${ !empty search.searchCondition && search.searchCondition=="1" ? "selected" : ""}>작성자로 검색</option>
 				</select>
+				
 			    <label class="sr-only" for="searchKeyword">검색어</label>
+			    
 				<input type="text" id="searchKeyword" name="searchKeyword"  placeholder="검색어를 입력해주세요."
 			    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" autocomplete=off>
+			    			 
 				<button type="button" class="button">검색</button>
-				  
-				<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-				<input type="hidden" id="currentPage" name="currentPage" value="">
 				
 			</div>
 			
@@ -352,14 +315,65 @@ $(function() {
 				<button type="button" class="button">글쓰기</button>
 			</div>
 			
+			<input type="hidden" id="currentPage" name="currentPage" value="">
+				
 		</form>
-	
-		<input type="hidden" name="maxPage" value="${resultPage.maxPage }">
 		
-		<div class="rowList"></div>
+		<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 		
-		<!-- 썸네일 리스트 : end -->
+		
+		<%-- <input type="hidden" name="maxPage" value="${resultPage.maxPage }"> --%>
+		
+		<!-- 테이블 리스트 : start -->
+		<table class="table table-hover table-striped">
+		
+			<thead>
+				<tr>
+					<th aligin="center">글번호</th>
+					<th aligin="center">제목</th>
+					<th aligin="center">작성자</th>
+					<th aligin="center">작성일</th>
+					<th aligin="center">조회</th>
+					<th aligin="center">중요도</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<c:set var="i" value="0"/>
+				<c:forEach var="community" items="${list}">
+					<c:set var="i" value="${i+1}"/>
+					<tr>
+						<td>
+							<span>${community.communityNo }</span>
+						</td>
+						<td>
+							<span class="getRestaurantLink" data-param="${ community.communityNo }">${community.title }</span>
+						</td>
+						<td>
+							<span>${community.writerNickName }</span>
+						</td>
+						<td>
+							<span>${community.writeDate }</span>
+						</td>
+						<td>
+							<span>${community.views }</span>
+						</td>
+						<td>
+							<c:if test="${community.importRank == 'Y'}">
+								<span>필독</span>
+							</c:if>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		
+		</table>
+		<!-- 테이블 리스트 : end -->
 	</div>
+	
+	<!-- PageNavigation : start -->
+	<jsp:include page="/common/pageNavigator_new.jsp" />
+	<!-- PageNavigation : end -->
 	
 	</div>
 
