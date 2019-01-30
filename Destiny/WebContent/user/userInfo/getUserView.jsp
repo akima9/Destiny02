@@ -177,7 +177,7 @@
 
 </head>
 
-<body >	
+<body>	
 	
 
 	<!-- header -->
@@ -186,7 +186,7 @@
 
 	<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- contents -->
-	<section id="communitymove" class="wrapper align-center">
+	<section id="communitymove" class="wrapper align-center" style="background-image : linear-gradient(135deg, #FAB7D9 , #FFFFFF);">
 		
 		<div class="inner">
 		
@@ -224,23 +224,28 @@
 			    	<div class="image">
 			    		<img class="col-sm-4 col-md-4" src="/resources/images/layout/KakaoTalk_20190129_213128976.jpg" alt="Pic 01" width="250" height="250" >
 			    	</div>
-			      <br/>당신의 MBTI성격유형을 알아보고 선택하세요. <br/>그리고 원하는 상대방 성격유형을 선택하세요.
-			    	</p>
-			    	<a class="button" href="/user/addTypeView/${me.userId}">move</a>
+			      <br/>당신의 MBTI성격유형을 알아보고 선택하세요. <br/>그리고 원하는 상대방 성격유형을 선택하세요.<br/>
+			    	<a class="button" href="/user/addTypeView/${me.userId}">select</a>
 			    </div>
 			   
 			   
 			
 				<div class="col-sm-4 col-md-4">
-			    <h4 style="font-family: 'Jua', sans-serif;">쪽지</h4>
-			    <a href="#" id="letterList"><span class="image"><img  class="col-sm-4 col-md-4" src="/resources/images/layout/letter.png" width="300" height="300" /></span></a>
-				   <br/> 유저에게 쪽지를 보내고 받으세요. 
+			    <h4 style="font-family: 'Jua', sans-serif;">쪽지</h4> 
+			    	<div class="image">
+					    <img  class="col-sm-4 col-md-4" src="/resources/images/layout/letterother.jpg" alt="Pic 01"  width="250" height="250" />
+			    	</div>
+			      <br/> 유저에게 쪽지를 보내고 받으세요.<br/><br/>
+			    	<a href="#" class="button" id="letterList">open</a>
 				</div>	
 	
 				<div class="col-sm-4 col-md-4" >
 				<h4 style="font-family: 'Jua', sans-serif;">활동관리</h4>
-			    <p  style="font-size:100%; color:black;"><a href="/user/userAct/actMain.jsp" id="actMainButton"><span class="image"><img alt="" src="/resources/images/layout/act.jpg" style="width: 300px; height:300px; border-radius:25px;"  /></span></a>
-			   	 <br/>당신의 활동내역을 확인하고 관리하세요. </p>
+					<div class="image">
+			   		    <img class="col-sm-4 col-md-4" alt="Pic 01" src="/resources/images/layout/act.jpg" width="250" height="250"/>
+			   	 	</div>
+			   	 <br/>당신의 활동내역을 확인하고 관리하세요. <br/><br/>
+					<a href="/user/userAct/actMain.jsp" class="button" id="actMainButton">move</a>
 				</div>	
 			
 			</div>
@@ -259,10 +264,11 @@
 		</div>
 			
 		</div>
+	
 	</section>
 	<!-- //contents -->
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
-
+	Label vector created by macrovector - www.freepik.com
 	<!-- footer -->
 	<jsp:include page="/layout/footer.jsp" />
 	<!-- //footer -->

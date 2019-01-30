@@ -19,7 +19,7 @@
 	<script src="/resources/javascript/skel.min.js"></script>
 	<script src="/resources/javascript/util.js"></script>
 	<script src="/resources/javascript/main.js"></script>
-	
+	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
 	
 	
 	
@@ -50,8 +50,8 @@
 	<section id="main" class="wrapper">
 		<div class="inner">
 		
-		<h3>활동관리</h3>
-		<br/>
+		<h3 style="font-family: 'Do Hyeon', sans-serif; font-size: 50px">활동관리</h3>
+		
 			<div class="box alt">
 				<div class="row 200% uniform ">
 					 
@@ -87,8 +87,7 @@
 	</section>
 	<!-- //contents -->
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
-	배경사진 출처 <a href="https://kor.pngtree.com/freebackground/envelope-container-paper-frame_760243.html">pngtree.com</a>
-	<a href=https://kor.pngtree.com>pngtree.com의 그래픽</a>
+	<a href="https://kor.pngtree.com/freebackground/city-lights-neon-background_109270.html" style="color:gray">배경사진 출처 pngtree.com</a>
 	<!-- footer -->
 	<jsp:include page="/layout/footer.jsp" />
 	<!-- //footer -->
