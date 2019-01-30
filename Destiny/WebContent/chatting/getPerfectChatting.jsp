@@ -28,10 +28,7 @@
 <style class="cp-pen-styles">
 
 .chat-box {
-    /* width: 400px;
-    min-width: 400px;
-    height: 500px;
-    min-height: 500px; */
+   
     overflow: auto;
     
 }
@@ -40,13 +37,30 @@
 body {
   margin: 0;
   padding: 0;
-  background-color:  #fddbdb ;
+  opacity:0.9!important; 
+}
+
+body:after{
+background-image: url("/resources/images/chatting/t2.gif");
+  background-repeat: no-repeat;
+   background-color: rgba( 255, 255, 255, 0.5 );
    
+   background-size: cover;
+    top:0;
+    left:0;
+    position:absolute;
+    background-size:100%;
+    opacity:0.5!important;
+    filter:alpha(opacity=50);
+    z-index:-1;
+    content:"";
+    width:100%;
+    height:100%;
 }
 
 * {
   font-family: Helvetica,sans-serif;
-  color: #888;
+  color: #841616;
 }
 
 main.container {
@@ -54,13 +68,9 @@ main.container {
   margin: 40px auto;
 }
 main.container .list {
-  /* width: 30%; */
-  /* float: right; */
- /*  background: #ffaaa5; */
-  /*  height: 300px;  */
+
   border-radius: 10px 10px 10px 10px;
- /*  margin-top: 100px; */
-  /* border-left: 1px solid #fff; */
+
 }
 main.container .list ul {
   list-style-type: none;
@@ -71,7 +81,6 @@ main.container .list ul li a {
   border: none;
   border-left: 5px solid transparent;
   cursor: pointer; 
-  background:  #ada09f57 ;
   font-size: 15px;
   text-decoration: none;
   padding: 10px 10px;
@@ -90,9 +99,8 @@ main.container .list ul li:first-child {
   border-radius: 10px 10px 10px 10px;
 }
 main.container .chat-box {
-  /* float: left; */
- /*  width: 69%; */
-  background: #ffd3b6;
+ 
+  background:  rgba(162, 158, 158, 0.5);
   height: 550px;
   border-radius: 10px 10px 10px 10px ;
 }
@@ -207,28 +215,24 @@ main.container .chat-box ul li .you .text div {
 #data{
 	height: 50px;
 	border-radius : 10px;
-	/* overflow:auto;
-	resize: auto;
-    cursor: text;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;   */
-    /* word-break: break-all */
     white-space: normal;
-   word-wrap: break-word;
+    word-wrap: break-word;
+    background-color: rgba(225, 210, 212, 0.59);
+   
 }
 
 #mbti{
-background-color: #ffaaa5;
+background-color: rgba(241, 188, 193, 0.6);
 border-radius: 10px 10px 10px 10px;
 }
 
 #interest{
-background-color: #ffaaa5;
+background-color: rgba(241, 188, 193, 0.6);
 border-radius: 10px 10px 10px 10px;
 }
 
 #favorability{
-background-color: #ffaaa5;
+background-color: rgba(241, 188, 193, 0.6);
 border-radius: 10px 10px 10px 10px;
 }
 
@@ -255,6 +259,7 @@ border-radius: 10px 10px 10px 10px;
 		width:100%;
 		height:30px;
 		position:relative;
+		border-radius: 10px 10px 10px 10px;
 		
 		}
 		  
@@ -267,7 +272,7 @@ border-radius: 10px 10px 10px 10px;
 		width:100%;
 		height:30px;
 		background:rgba(255, 255, 255, .7);
-		
+		border-radius: 0 10px 10px 0;
 		}
 		  
 		.bar .circle {
@@ -304,7 +309,7 @@ border-radius: 10px 10px 10px 10px;
 		width:70px;
 		height:70px;
 		line-height:70px;
-		background:rgba(0, 0, 0, .3);
+		background:rgba(243, 178, 178, 0.86);
 		-moz-border-radius:35px;
 		-webkit-border-radius:35px;
 		border-radius:35px;
@@ -342,6 +347,7 @@ var chatting={"chattingNo":chattingNo,"manId":manId,"womanId":womanId};
 var partnerType="";
 var myType="";
 var interest="";
+var otherGage=0;
 // on connection to server, ask for user's name with an anonymous callback
 socket.on('connect', function(){
 	// call the server-side function 'adduser' and send one parameter (value of prompt)
@@ -517,6 +523,34 @@ function switchRoom(room){
 	
 }
 
+//서버로 gage보내기
+var myGage=0;
+socket.on('updategage', function (username, data) {
+	   if (username=="${me.userId}") {
+		   myGage=ti;
+	}else{
+		otherGage=data;
+	}
+	   console.log("1 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
+		//10%이하 이면서 10분이 지났을 때 : 10분 timeout 안에 내 gage가 10 이하인 경우 나갈지 여부 확인한다.
+	   /*  if (data==10) {
+			console.log("1 상대방 gage : "+data+" 나의 gage : "+otherGage)
+		} */
+		if (otherGage==30&&myGage==30) {
+			alert("호감도 30% 달성!");
+			console.log("1 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
+		}else if (otherGage==60&&myGage==60) {
+			alert("호감도 60% 달성!");
+			console.log("2 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
+		}else if (otherGage==90&&myGage==90) {
+			alert("호감도 90% 달성!");
+			console.log("3 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
+		} 
+	   
+});
+///////////////////////////////////////////////////////////
+
+
 
 // on load of page
 $(function(){
@@ -564,6 +598,7 @@ window.addEventListener('beforeunload', function (e) {
 	});
 /////////////////////////////////
 /////////게이지
+var ti = 0;
 	$(function() {
 	    var input = $('.input'),
 	        bar = $('.bar'),
@@ -576,7 +611,7 @@ window.addEventListener('beforeunload', function (e) {
 	        cs =
 	        circle.find('span'),
 	        name = 'rotate';
-	    var ti = 0;
+	    
 	    
 	   $('.input').click( function(e) {
 	    	
@@ -651,29 +686,29 @@ window.addEventListener('beforeunload', function (e) {
 				<li><div class='title'>2019.01.11</div></li>
 		</div>
 		<!-- 채팅창안 -->
-		<div class="form-group col-xs-12 col-sm-12 col-md-12">
+		<div class="form-group">
 		  		
-				<div class="col-xs-4 col-sm-4 col-md-4">
+				<div class="col-xs-2 col-sm-2 col-md-2">
 					<select id="lang"	name="lnag" class="form-control"  >
 						<option value="" selected="selected">language</option>
-						<option value="ko">한국어</option>
-						<option value="en">영어</option>
-						<option value="ja">일본어</option>
-						<option value="zh-cn">중국어 간체</option>
-						<option value="zh-tw">중국어 번체</option>
-						<option value="hi">힌디어</option>
-						<option value="es">스페인어</option>
-						<option value="fr">프랑스어</option>
-						<option value="de">독일어</option>
-						<option value="ru">러시아어</option>
+						<option value="ko">Korean</option>
+						<option value="en">English</option>
+						<option value="ja">Japanese</option>
+						<option value="zh-cn">Simplified Chinese</option>
+						<option value="zh-tw">Traditional Chinese</option>
+						<option value="hi">Hindi</option>
+						<option value="es">Spanish</option>
+						<option value="fr">French</option>
+						<option value="de">German</option>
+						<option value="ru">Russian</option>
 						
 					</select>
 					 
 				    
 					
 				</div>
-				<textarea id="data"  class="col-xs-4 col-sm-4 col-md-4"></textarea>
-				<input type="button" class="btn col-xs-4 col-sm-4 col-md-4" role="button" id="datasend" value="전송" />
+				<textarea id="data"  class="col-xs-8 col-sm-8 col-md-8"></textarea>
+				<img  class="btn col-xs-2 col-sm-2 col-md-2" src="/resources/images/chatting/send.png" id="datasend" />
 					
 				
 			</div>
@@ -699,13 +734,13 @@ window.addEventListener('beforeunload', function (e) {
 		<ul class='col-xs-4 col-sm-12' id='favorability'>
 			<li>기타</li>
 			<br><br>
-			<div class="col-xs-4 col-sm-4 text-center">
+			<div class="col-sm-4 text-center">
 			<img  src="/resources/images/chatting/voice.png" style="width: 40px; height: 40px;">
 			</div>
-			<div class="col-xs-4 col-sm-4 text-center">
+			<div class="col-sm-4 text-center">
 			<img alt="" src="/resources/images/chatting/image.png" style="width: 40px; height: 40px;">
 			</div>
-			<div class="col-xs-4 col-sm-4 text-center">
+			<div class="col-sm-4 text-center">
 			<img alt="" src="/resources/images/chatting/profile.png" style="width: 40px; height: 40px;">
 			</div>
 			<br><br>
@@ -730,7 +765,7 @@ window.addEventListener('beforeunload', function (e) {
 			    <div class="text col-xs-1 col-sm-1">
 			    
 			        <!--  <input type="text" class="input" value="0" /> -->
-			        <input type="image" class="input" src="/resources/images/chatting/send.png" style="width:50px; height: 50px"value="좋아요"/>
+			        <input type="image" class="input" src="/resources/images/chatting/heart.png" style="width:50px; height: 50px"value="좋아요"/>
 			        <!-- <small>Please change a value and hit the enter key.</small> -->
 			    </div>
 			</div>
