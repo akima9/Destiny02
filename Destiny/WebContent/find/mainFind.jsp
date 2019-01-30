@@ -34,19 +34,24 @@ $(function(){
 	
 </script>
 <!-- //All js -->
+
+<style>
+	section.wrapper, article.wrapper {
+	    padding: 15em 0;
+	    background: #ff000014;
+	}
+</style>
 </head>
 
 <body>
 	<!-- header -->
-	<jsp:include page="/layout/header.jsp" />
+	<jsp:include page="/layout/header.jsp" />	
 	<!-- //header -->
-
 	<!-- contents -->
+	
 	<section id="main" class="wrapper">
 		<div class="inner">
-			
 			<!-- Image -->
-			<h3>Image</h3>
 			<div class="box alt">
 				<div class="row 50% uniform">
 					<div class="6u"><span class="image fit"><img src="/resources/images/find/findUser.jpg" alt="" /></span></div>

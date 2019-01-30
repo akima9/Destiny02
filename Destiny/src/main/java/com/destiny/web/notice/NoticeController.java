@@ -173,7 +173,7 @@ public class NoticeController {
 
 		fileName.transferTo(file);*/
 		/*대표이미지 업로드 : end*/
-		
+		System.out.println(":::community : "+community);
 		communityService.updateCommunity(community);
 		/*upload = uploadService.getUpload(communityNo);*/
 		/*업로드 테이블 : start*/

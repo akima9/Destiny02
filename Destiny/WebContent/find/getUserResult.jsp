@@ -113,12 +113,10 @@
 	section.wrapper, article.wrapper {
     	padding: 500px 0;
 	}
-
-</style>
-
-<style>
+	
 	.box > p{text-align:center;}
 	.resultCount{font-size: 25px; font-weight: bold; color: #FA5858;}
+
 </style>
 
 </head>
