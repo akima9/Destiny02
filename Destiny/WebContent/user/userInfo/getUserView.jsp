@@ -268,7 +268,7 @@
 	</section>
 	<!-- //contents -->
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
-	Label vector created by macrovector - www.freepik.com
+
 	<!-- footer -->
 	<jsp:include page="/layout/footer.jsp" />
 	<!-- //footer -->
