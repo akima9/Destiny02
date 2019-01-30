@@ -55,7 +55,7 @@
 	            	}
 	                
 	                a += '<div class="replyInfo'+list.commentNo+'">'+'댓글번호 : '+list.commentNo+' / 작성자 : '+list.commentWriterId;
-	                if($('#userId').val() == list.commentWriterId){
+	                if($('#loginUserId').val() == list.commentWriterId){
 	                	a += '<a onclick="replyUpdate('+list.commentNo+',\''+list.commentDetail+'\', \''+list.commentWriterId+'\','+list.targetNo+')"> 수정 </a>';
 	                	a += '<a onclick="replyDelete('+list.commentNo+')"> 삭제 </a>';
 	                }
@@ -81,7 +81,7 @@
 	        url : '/comment/rest/addComment/'+communityNo,
 	        type : 'post',
 	        data : JSON.stringify({
-	        			commentWriterId : $('#userId').val(), //하드코딩 수정
+	        			commentWriterId : $('#loginUserId').val(), //하드코딩 수정
 	        			commentComuNo : communityNo,
 	        			commentDetail : $('[name=commentDetail]').val()
 	        			}),
@@ -106,7 +106,7 @@
 	        type : 'post',
 	        data : JSON.stringify({
 	        			targetNo : targetNo,
-	        			commentWriterId : $('#userId').val(), //하드코딩 수정
+	        			commentWriterId : $('#loginUserId').val(), //하드코딩 수정
 	        			commentComuNo : communityNo,
 	        			commentDetail : $('#commentDetail').val()
 	        			}),
@@ -165,7 +165,7 @@
 	function reReplyUpdateCancel(commentNo, commentDetail, commentWriterId){
 		var a = '';
 	   	a += '<div class="replyInfo'+commentNo+'">'+'댓글번호 : '+commentNo+' / 작성자 : '+commentWriterId;
-	   	if($('#userId').val() == commentWriterId){
+	   	if($('#loginUserId').val() == commentWriterId){
         	a += '<a onclick="replyUpdate('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\')"> 수정 </a>';
         	a += '<a onclick="replyDelete('+commentNo+')"> 삭제 </a>';
         }
@@ -235,21 +235,23 @@
 	.commentWrap{
 		margin-top : 40px;
 		padding : 20px;
-		background-color : #EEEEEE;
+		background-color : #fffced;
 	}
 	
 	.commentForm{
 		overflow : hidden;
+		width : 100%;
+		padding-bottom : 1em;
 	}
 	
-	.commentInput{
-		width : 93%;
-		float : left;
-	}
+		.commentForm .commentInput{
+			width : 88%;
+			float : left;
+		}
 	
-	.commentSave{
-		float : right;
-	}
+		.commentForm .commentSave{
+			float : right;
+		}
 </style>
 
 </head>
@@ -259,10 +261,10 @@
 		
 	<form>
 		
-		<div class="form-group commentForm">
-			<input type="text" class="form-control commentInput" name="commentDetail" placeholder="댓글을 입력해주세요" autocomplete=off>
-			<button type="button" class="btn btn-default btn-md commentSave" id="save">등록</button>
-			<input type="hidden" id="userId" name="userId" value="${ me.userId }">
+		<div class="commentForm">
+			<input type="text" class="commentInput" name="commentDetail" placeholder="댓글을 입력해주세요" autocomplete=off>
+			<button type="button" class="commentSave" id="save">등록</button>
+			<input type="hidden" id="loginUserId" name="userId" value="${ me.userId }">
 			<input type="hidden" id="nickName" name="nickName" value="${ me.nickName }">
 		</div>
 		

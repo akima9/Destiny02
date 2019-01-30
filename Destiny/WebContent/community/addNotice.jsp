@@ -24,7 +24,7 @@
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
 
-
+<link rel="stylesheet" href="/resources/css/main.css" >
 	
 
 <script type="text/javascript">
@@ -132,17 +132,25 @@
 		 left: 50%; 
 		 z-index: 100; 
 	}
-	
-	body{
-		position : relative;
+	.representImg{
+		margin-top : 1em;
+		width : 25%;
+		height : 20em;
+		padding : 1em;
+		text-align : center;
+		border : 1px solid #a9a9a9;
+		border-radius : 5px;
+	}
+	.representImg img{
+		width : 80%;
 	}
 	.topImg{
 		display : block;
 		position : absolute;
 		top : 0;
-		background-image : url("/resources/images/background/getRestaurantInfo_background.jpg");
+		background-image : url("/resources/images/background/notice02_background.jpg");
 		background-repeat : no-repeat;
-		background-position : center center;
+		background-position : center -500px;
 		background-size : cover;
 		width : 100%;
 		height : 400px;
@@ -155,33 +163,35 @@
 		left : 0;
 		width : 100%;
 		height : 400px;
-		z-index : 1;
 	}
 	.topImg h1{
 		position : absolute;
-		line-height : 450px;
+		line-height : 330px;
 		width : 100%;
 		text-align : center;
 		color : white;
-		z-index : 2;
+		z-index : 99;
 		font-size : 60px;
-		font-weight : bold;
+	}
+	h1 .slim{font-weight : lighter;}
+	
+	.smallNavi{
+		overflow : hidden;
+		float : right;
 	}
 	
-	
-	form{
-		margin-top : 400px;
+	.smallNavi li{
+		float : left;
 	}
-	
-	.container{
-		padding-bottom : 100px;
+	.updateForm{
+		padding : 25em 0 10em 0;
 	}
 </style>
 </head>
 <body>
 
 <!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolBar.jsp" />
+	<jsp:include page="/layout/header.jsp" />
   <!-- ToolBar End /////////////////////////////////////-->
 	
 	<div class="topImg">
@@ -190,7 +200,16 @@
 	
 	<div class="container">
 		
-		<div class="row">
+		
+		<ul class="smallNavi">
+			<li class="homeImg"><img alt="home" src="../resources/images/background/home.jpg"></li>
+			<li>></li>
+			<li>스토리</li>
+			<li>></li>
+			<li>맛집정보</li>
+		</ul>
+		
+		<div class="updateForm">
 		
 			<form>
 			
@@ -204,8 +223,8 @@
 				<div class="form-group">
 				
 					<label for="title">중요도</label>
-					<input type="radio" name="importRank" value="Y">중요
-					<input type="radio" name="importRank" value="N">보통
+					<input type="radio" id="ex1" name="importRank" value="Y"><label for="ex1">중요</label>
+					<input type="radio" id="ex2" name="importRank" value="N"><label for="ex2">보통</label>
 					
 				</div>
 			
@@ -217,7 +236,7 @@
 				
 				<div class="form-group text-center">
 				
-					<button type="button" class="btn btn-default btn-lg" id="save">확인</button>
+					<button type="button" class="" id="save">확인</button>
 					
 				</div>
 				
