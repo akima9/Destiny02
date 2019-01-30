@@ -54,7 +54,8 @@
 			<img src="/resources/images/meeting/${contextMeeting.titleImg}" width="1050" height="300"/><br/><br/>
 			
 			<br/><br/>
-
+			${reason}
+			<h4>회원 리미트 : ${limit}</h4>
 			<!--  table Start /////////////////////////////////////-->
 			  <table class="table table-hover table-striped" >
 			  

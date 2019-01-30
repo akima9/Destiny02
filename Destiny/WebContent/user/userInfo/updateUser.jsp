@@ -379,7 +379,7 @@
 				<div class="6u">
 					<label for="address1">주소  도/시</label>
 						 <select id="address1" name="address1">
-						 <option value="서울" ${ ! empty location[0] && location[0] == "서울" ? "selected" : ""  }>서울</option>
+						<option value="서울" ${ ! empty location[0] && location[0] == "서울" ? "selected" : ""  }>서울</option>
 						<option value="경기" ${ ! empty location[0] && location[0] == "경기" ? "selected" : ""  }>경기</option>
 						<option value="인천" ${ ! empty location[0] && location[0] == "인천" ? "selected" : ""  }>인천</option>
 						<option value="부산" ${ ! empty location[0] && location[0] == "부산" ? "selected" : ""  }>부산</option>

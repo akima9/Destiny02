@@ -2,6 +2,7 @@ package com.destiny.web.act;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +14,13 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpRequest;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -139,10 +142,11 @@ public class ActController {
 	}
 	
 	@RequestMapping(value="getCrewList/{meetingNo}", method=RequestMethod.GET)
-	public ModelAndView getCrewList(@PathVariable("meetingNo") int meetingNo) throws Exception {
+	public ModelAndView getCrewList(@PathVariable("meetingNo") int meetingNo, HttpServletRequest request) throws Exception {
 		System.out.println("act/getCrewList : GET + " + meetingNo);
 		
-		
+		Meeting meeting = meetingService.getMeeting(meetingNo);
+		int limit = meeting.getMeetingCrewLimit();
 		
 		List<Meeting> list = actService.getCrewAll(meetingNo);
 		
@@ -163,6 +167,11 @@ public class ActController {
 				}
 			}
 		}
+		String reason = "";
+		if(request.getAttribute("judgmentApplyReason") != null) {
+			reason = (String) request.getAttribute("judgmentApplyReason");
+			request.removeAttribute("judgmentApplyReason");
+		}
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/user/userAct/getCrewList.jsp");
@@ -171,28 +180,41 @@ public class ActController {
 		modelAndView.addObject("listYES", listYES);
 		modelAndView.addObject("listYESUser", listYESUser);
 		modelAndView.addObject("meetingNo", meetingNo);
+		modelAndView.addObject("limit", limit);
+		modelAndView.addObject("reason", reason);
 		modelAndView.addObject("contextMeeting", meetingService.getMeeting(meetingNo));
 		return modelAndView;
 	}
 	
 	@RequestMapping(value="judgmentApply/{judgment}/{meetingNo}/{userId}", method=RequestMethod.GET)
-	public ModelAndView judgmentApply(@PathVariable("judgment") String judgment, @PathVariable("meetingNo") int meetingNo, @PathVariable("userId") String userId) throws Exception{
+	public ModelAndView judgmentApply(@PathVariable("judgment") String judgment, @PathVariable("meetingNo") int meetingNo, @PathVariable("userId") String userId, HttpServletRequest request) throws Exception{
 		
 		System.out.println("act/judgmentApply : GET + " + judgment + " + " + meetingNo);
 		
 		Meeting meeting = new Meeting();
+		Meeting contextMeeting = meetingService.getMeeting(meetingNo);
 		
-		if(judgment.equals("yes")) {
-			meeting.setCrewCondition("YES");
-			meeting.setMeetingMasterId(userId);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/act/getCrewList/"+meetingNo);
+		
+		
+		
 			
-			actService.updateCrewCondition(meeting);
+		if(judgment.equals("yes")) {
+			if(contextMeeting.getMeetingCrewLimit() == meetingService.getCrewCount(meetingNo)) {
+				request.setAttribute("judgmentApplyReason", "가입 한도를 초과하셨습니다.");
+			} else {
+				meeting.setCrewCondition("YES");
+				meeting.setMeetingMasterId(userId);
+				
+				actService.updateCrewCondition(meeting);
+			}
 		} else if(judgment.equals("no")) {
 			actService.delectCrew(userId);
 		}
 		
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/act/getCrewList/"+meetingNo);
+		
+		
 		return modelAndView;
 	}
 	
@@ -389,6 +411,93 @@ public class ActController {
 	}
 	/*addRestaurantInfo : end*/
 	
-	
+	@RequestMapping(value="meetingChart/{meetingNo}", method=RequestMethod.GET)
+	public ModelAndView meetingChart(@PathVariable("meetingNo") int meetingNo) throws Exception{
+		
+		System.out.println("act/meetingChart/+"+meetingNo);
+		
+		Meeting meeting = meetingService.getMeeting(meetingNo);
+		
+		//============================================가입한 회원들의 주요 관심사=============================================
+		Map<String, Object> meetingCrewMap = meetingService.getCrew(meetingNo);
+		List<Meeting> meetingCrew = (List<Meeting>) meetingCrewMap.get("crewList");
+		List<User> meetingCrewUser = new ArrayList<User>();
+		
+		int[] personalInterestArray = new int[3];
+		User user = new User();
+		List<String> personalInterestList = new ArrayList<String>();
+		List<String> globalInterestList = new ArrayList<String>();
+		
+		for(Meeting m : meetingCrew) {
+			System.out.println("여기는?");
+			user = userService.getUser(m.getMeetingMasterId());
+			//meetingCrewUser.add(user);
+			
+			System.out.println("여긴 오나?");
+			
+			personalInterestArray[0] = user.getFirstInterest();
+			personalInterestArray[1] = user.getSecondInterest();
+			personalInterestArray[2] = user.getThirdInterest();
+			
+			personalInterestList = userService.getInterestByUser(personalInterestArray);
+			for(String s : personalInterestList) {
+				globalInterestList.add(s);
+			}
+		}
+		
+		List<String> interestList = userService.getInterestList();
+		
+		int[] numOfInterest = new int[19];
+		int i = 0;
+		
+		for(String s : interestList) {
+			for(String ss: globalInterestList) {
+				if(s.equals(ss)) {
+					numOfInterest[i]++;
+				}
+			}
+			i++;
+		}
+		
+		for(int j = 0; j<=18; j++) {
+			System.out.println(interestList.get(j) + " : " + numOfInterest[j]);
+		}
+		
+		int[] fiveTOP = new int[5];
+		String[] fiveTOPInerest = new String[5];
+		
+		int max = 0;
+		String maxInterest = "";
+		
+		int temporarily = 0;
+		
+		for(int k = 0; k<=4; k++){
+			
+			for(int j = 0; j<=18; j++) {
+				if(numOfInterest[j] > max) {
+					max = numOfInterest[j];
+					maxInterest = interestList.get(j);
+					
+					temporarily = j;
+				}
+			}
+			numOfInterest[temporarily] = 0;
+			temporarily = 0;
+			
+			fiveTOP[k] = max;
+			fiveTOPInerest[k] = maxInterest;
+			
+			max= 0;
+			maxInterest = "";
+		}
+		//===================================================================================================
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("/user/userAct/meetingchart.jsp");
+		modelAndView.addObject("Meeting", meeting);
+		modelAndView.addObject("fiveTOP", fiveTOP);
+		modelAndView.addObject("fiveTOPInerest", fiveTOPInerest);
+		return modelAndView;
+	}
 	
 }

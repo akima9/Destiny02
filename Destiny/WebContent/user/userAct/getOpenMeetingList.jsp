@@ -21,7 +21,9 @@
 	<script src="/resources/javascript/skel.min.js"></script>
 	<script src="/resources/javascript/util.js"></script>
 	<script src="/resources/javascript/main.js"></script>
-	
+	<!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
 	
 	
 	
@@ -119,6 +121,7 @@
 							<th align="left">관심사</th>
 							<th align="left">가입 신청자 관리</th>
 							<th align="left">회차 조회</th>
+							<th align="left">모임 근황 관리</th>
 						  </tr>
 						</thead>
 					   
@@ -135,6 +138,7 @@
 							  <td align="left">${meeting.interestName}</td>
 							  <td align="left"><a class="btn btn-primary btn" href="/act/getCrewList/${meeting.meetingNo}" role="button" id="getCrewList">가입 &nbsp;신청자 &nbsp;조회</a></td>
 							  <td align="left"><a class="btn btn-primary btn" href="/act/getMeetingAct/${meeting.meetingNo}" role="button" id="getMeetingAct">모임 &nbsp;회차&nbsp;조회</a></td>
+							  <td align="left"><a class="btn btn-primary btn" href="/act/meetingChart/${meeting.meetingNo}" role="button" id="getMeetingChart">모임 &nbsp;차트&nbsp;조회</a></td>
 							</tr>
 						  </c:forEach>
 						
