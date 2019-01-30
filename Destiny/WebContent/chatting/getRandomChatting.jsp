@@ -28,10 +28,7 @@
 <style class="cp-pen-styles">
 
 .chat-box {
-    /* width: 400px;
-    min-width: 400px;
-    height: 500px;
-    min-height: 500px; */
+    
     overflow: auto;
     
 }
@@ -40,11 +37,9 @@
 body {
   margin: 0;
   padding: 0;
- /*  background-color:  #fddbdb ; */
-  
-   opacity:0.9!important;
-   
+  opacity:0.9!important;
 }
+
 body:after{
 background-image: url("/resources/images/chatting/t2.gif");
   background-repeat: no-repeat;
@@ -68,22 +63,15 @@ background-image: url("/resources/images/chatting/t2.gif");
   color: #841616;
 }
 
-.background{
-
-}
 
 main.container {
   width: 90%;
   margin: 40px auto;
 }
 main.container .list {
-  /* width: 30%; */
-  /* float: right; */
- /*  background: #ffaaa5; */
-  /*  height: 300px;  */
+
   border-radius: 10px 10px 10px 10px;
- /*  margin-top: 100px; */
-  /* border-left: 1px solid #fff; */
+
 }
 main.container .list ul {
   list-style-type: none;
@@ -94,7 +82,6 @@ main.container .list ul li a {
   border: none;
   border-left: 5px solid transparent;
   cursor: pointer; 
-  background:  rgba(162, 158, 158, 0.5) ;
   font-size: 15px;
   text-decoration: none;
   padding: 10px 10px;
@@ -113,10 +100,8 @@ main.container .list ul li:first-child {
   border-radius: 10px 10px 10px 10px;
 }
 main.container .chat-box {
-  /* float: left; */
- /*  width: 69%; */
-  background:  rgba(162, 158, 158, 0.5);
  
+  background:  rgba(162, 158, 158, 0.5);
   height: 550px;
   border-radius: 10px 10px 10px 10px ;
 }
@@ -231,15 +216,9 @@ main.container .chat-box ul li .you .text div {
 #data{
 	height: 50px;
 	border-radius : 10px;
-	/* overflow:auto;
-	resize: auto;
-    cursor: text;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;   */
-    /* word-break: break-all */
     white-space: normal;
-   word-wrap: break-word;
-   background-color: rgba(225, 210, 212, 0.59);
+    word-wrap: break-word;
+    background-color: rgba(225, 210, 212, 0.59);
 }
 
 #telepathy{
@@ -558,11 +537,14 @@ socket.on('updategage', function (username, data) {
 	   /*  if (data==10) {
 			console.log("1 상대방 gage : "+data+" 나의 gage : "+otherGage)
 		} */
-		if (data==30) {
+		if (otherGage==30&&myGage==30) {
+			alert("호감도 30% 달성!");
 			console.log("1 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
-		}else if (data==60) {
+		}else if (otherGage==60&&myGage==60) {
+			alert("호감도 60% 달성!");
 			console.log("2 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
-		}else if (data==90) {
+		}else if (otherGage==90&&myGage==90) {
+			alert("호감도 90% 달성!");
 			console.log("3 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
 		} 
 	   
@@ -642,10 +624,7 @@ $(function(){
 	})
 });
 
-/* window.addEventListener('beforeunload', function (e) {
-	location="/chatting/endChatting";
-	
-	}); */
+
 /////////////////////////////////
 /////////게이지
 var ti = 0;
@@ -715,22 +694,11 @@ window.addEventListener('beforeunload', function (e) {
 		
 	});
 
-/* $(function(){
-			$(window).on("load",function(){
-				
-				$(".chat-box").mCustomScrollbar({
-					autoHideScrollbar:true,
-					theme:"rounded"
-				});
-				
-			});
-		});
-
- */
 </script>
 </head>
 <body>
 <div class='background'>
+<br><br><br>
 <main class='container'>
 	<div class='col-sm-8 col-md-8'>
 		<!-- 채팅창안 -->
@@ -744,16 +712,16 @@ window.addEventListener('beforeunload', function (e) {
 				<div class="col-xs-2 col-sm-2 col-md-2">
 					<select id="lang"	name="lnag" class="form-control"  >
 						<option value="" selected="selected">language</option>
-						<option value="ko">한국어</option>
-						<option value="en">영어</option>
-						<option value="ja">일본어</option>
-						<option value="zh-cn">중국어 간체</option>
-						<option value="zh-tw">중국어 번체</option>
-						<option value="hi">힌디어</option>
-						<option value="es">스페인어</option>
-						<option value="fr">프랑스어</option>
-						<option value="de">독일어</option>
-						<option value="ru">러시아어</option>
+						<option value="ko">Korean</option>
+						<option value="en">English</option>
+						<option value="ja">Japanese</option>
+						<option value="zh-cn">Simplified Chinese</option>
+						<option value="zh-tw">Traditional Chinese</option>
+						<option value="hi">Hindi</option>
+						<option value="es">Spanish</option>
+						<option value="fr">French</option>
+						<option value="de">German</option>
+						<option value="ru">Russian</option>
 						
 					</select>
 					 
@@ -786,6 +754,7 @@ window.addEventListener('beforeunload', function (e) {
 			<br>
 			
 		</ul>
+		
 		<ul class='col-xs-4 col-sm-12' id='favorability'>
 			<li>기타</li>
 			
@@ -805,10 +774,11 @@ window.addEventListener('beforeunload', function (e) {
 	
 
 	
-	
+
 		
 		
 		 <div class="bar">
+		 	<br><br>
 		 		<div class="col-xs-11 col-sm-11">
 				    <div class="percent">
 				        <span style="width: 100%;"></span>
