@@ -37,7 +37,7 @@ $(function() {
 	
 });
 
-var n=0;
+var n=1;
 	setTimeout(function() { 
    
    		alert("TimeOut! chatting을 시작합니다!");
@@ -45,10 +45,11 @@ var n=0;
 	
 	(function poll() {
 		setTimeout(function() { 
-			if (n<10) {
-				$($('.title').val()).remove();
+			if (n<11) {
+				//$($('h2').val()).remove();
 				poll();
-				$('.title').last().append(10-n);
+				//$('h2').last().append(10-n);
+				$('h2').text(11-n);
 	            
 			}
 			
@@ -75,8 +76,8 @@ background-image: url("/resources/images/chatting/back.jpg");
     left:0;
     position:absolute;
     background-size:100%;
-    opacity:0.5!important;
-    filter:alpha(opacity=50);
+    opacity:0.3!important;
+    filter:alpha(opacity=30);
     z-index:-1;
     content:"";
     width:100%;
@@ -85,11 +86,11 @@ background-image: url("/resources/images/chatting/back.jpg");
 </style>
 </head>
 <body>
-	<div class="text-center">TelepathyTest</div>
-	<br>
+	<!-- <div class="text-center">TelepathyTest</div> -->
 	
-	${roomNo}<br>
-	<div class='title'>
+	<div class='title text-center'>
+	<img alt="" src="/resources/images/chatting/clock.gif" class="img-circle" width='100' height='100'>
+	<h2>count</h2>
 	</div>
 	<form class="form-horizontal">
 	
@@ -104,22 +105,26 @@ background-image: url("/resources/images/chatting/back.jpg");
 			</div>
 			
 			<div class="row text-center">
-			  		<div class="col-xs-6 col-md-6"><strong>ONE</strong></div>
-					<div class="col-xs-6 col-md-6"><strong>TWO</strong></div>
+					<div class="col-xs-2 col-md-2"></div>
+			  		<div class="col-xs-4 col-md-4"><strong>ONE</strong></div>
+					<div class="col-xs-4 col-md-4"><strong>TWO</strong></div>
+					<div class="col-xs-2 col-md-2"></div>
 			</div>
 		
 			<div class="row text-center">
-			 
-			  		<div class="col-xs-6 col-md-6"><img src="/resources/images/telepathy/${telepathy.exOneImg}" width='100' height='100' class="img-circle" ></div>
-					<div class="col-xs-6 col-md-6"><img src="/resources/images/telepathy/${telepathy.exTwoImg}" width='100' height='100' class="img-circle"></div>
+			 		<div class="col-xs-2 col-md-2"></div>
+			  		<div class="col-xs-4 col-md-4"><img src="/resources/images/telepathy/${telepathy.exOneImg}" width='120' height='120' class="img-rounded" ></div>
+					<div class="col-xs-4 col-md-4"><img src="/resources/images/telepathy/${telepathy.exTwoImg}" width='120' height='120' class="img-rounded"></div>
+					<div class="col-xs-2 col-md-2"></div>
 			</div>
 			<div class="row text-center form-group">
-			  		<div class="col-xs-6 col-md-6"><label><input type="radio" name="${i}" value="1" checked="checked" style=" position:absolute; "/><br><strong>${telepathy.exOne}</strong></label></div>
-					<div class="col-xs-6 col-md-6"><label><input type="radio" name="${i}" value="2" style=" position:absolute; "/><br><strong>${telepathy.exTwo}</strong></label></div>
-					
+					<div class="col-xs-2 col-md-2"></div>
+			  		<div class="col-xs-4 col-md-4"><label><input type="radio" class="text-center" name="${i}" value="1" checked="checked" style=" position:absolute; "/><br><strong>${telepathy.exOne}</strong></label></div>
+					<div class="col-xs-4 col-md-4"><label><input type="radio" class="text-center" name="${i}" value="2" style=" position:absolute; "/><br><strong>${telepathy.exTwo}</strong></label></div>
+					<div class="col-xs-2 col-md-2"></div>
 			</div>
 				
-				<br>
+				
 				
 		</c:forEach>
 		</div>
@@ -129,7 +134,7 @@ background-image: url("/resources/images/chatting/back.jpg");
 			<input type="hidden" name="telepathyNo2" value="${telepathyList[1].telepathyNo}">
 			<input type="hidden" name="telepathyNo3" value="${telepathyList[2].telepathyNo}">
 			
-			<a href='#' class="btn btn-primary" role="button" id="random">참여</a>
+			<a href='#' class="btn btn-default" role="button" id="random">확인</a>
 		</div>
 	
 	</form>

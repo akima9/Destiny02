@@ -24,6 +24,8 @@
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
 
+<link rel="stylesheet" href="/resources/css/main.css" >
+
 <script type="text/javascript">
 	$(function(){
 		
@@ -125,8 +127,8 @@
 	}
 	.representImg{
 		margin-top : 1em;
-		width : 50%;
-		height : 40em;
+		width : 25%;
+		height : 20em;
 		padding : 1em;
 		text-align : center;
 		border : 1px solid #a9a9a9;
@@ -135,22 +137,72 @@
 	.representImg img{
 		width : 80%;
 	}
+	.topImg{
+		display : block;
+		position : absolute;
+		top : 0;
+		background-image : url("/resources/images/background/loveAdvice_background.jpg");
+		background-repeat : no-repeat;
+		background-position : center -140px;
+		background-size : cover;
+		width : 100%;
+		height : 400px;
+	}
+	.topImg::after{
+		content : "";
+		background : rgba(0, 0, 0, 0.2);
+		position : absolute;
+		top : 0;
+		left : 0;
+		width : 100%;
+		height : 400px;
+	}
+	.topImg h1{
+		position : absolute;
+		line-height : 330px;
+		width : 100%;
+		text-align : center;
+		color : white;
+		z-index : 99;
+		font-size : 60px;
+	}
+	h1 .slim{font-weight : lighter;}
+	
+	.smallNavi{
+		overflow : hidden;
+		float : right;
+	}
+	
+	.smallNavi li{
+		float : left;
+	}
+	.updateForm{
+		padding : 25em 0 10em 0;
+	}
 </style>
 
 </head>
 <body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolBar.jsp" />
+	<jsp:include page="/layout/header.jsp" />
 	<!-- ToolBar End /////////////////////////////////////-->
+	
+	<div class="topImg">
+		<h1>연애<span class="slim">조언</span></h1>
+	</div>
 	
 	<div class="container">
 	
-		<div class="row text-center">
-			<h1>연애조언 수정</h1>
-		</div>
+		<ul class="smallNavi">
+			<li class="homeImg"><img alt="home" src="../resources/images/background/home.jpg"></li>
+			<li>></li>
+			<li>스토리</li>
+			<li>></li>
+			<li>맛집정보</li>
+		</ul>
 		
-		<div class="row">
+		<div class="updateForm">
 		
 			<form enctype="multipart/form-data">
 				
@@ -190,7 +242,7 @@
 				
 				<div class="form-group text-center">
 				
-					<button type="button" class="btn btn-default btn-lg" id="save">확인</button>
+					<button type="button" class="" id="save">확인</button>
 					
 				</div>
 				
