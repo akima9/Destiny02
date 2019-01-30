@@ -41,10 +41,11 @@
 		// 클릭 시, 정보 가져오기
 		$("#map").click(function(){
 			//console.log(highMap);
-			//console.log(highMap.selected);
+			console.log(highMap.selected);
 			
 			town = highMap.selected;
 			$('#town-data').val(town)
+			console.log(town);
 			gu = encodeURI(town);
 		});
 		
@@ -60,24 +61,134 @@
 			 history.go(-1);
 		});
 	});
+	
+	//일반 & 지도 선택 start
+	$(function(){
+		 
+		$('input[name="selectRadio"]').on("click", function(){
+			 var state = $(":input:radio[name=selectRadio]:checked").val()
+			
+			if(state == '1'){
+				self.location="/find/selectMeeting.jsp"
+			}else if(state == '2'){
+				self.location="/find/selectMeeting(map).jsp"
+			}
+			
+		}); 
+	});
+	//일반 & 지도 선택 end
 		
 	</script>
 	
 	<!-- //All js -->	
+	
+	<style>
+
+	body{
+		position : relative;
+		font-family: 'Nanum Myeongjo', serif;
+	}
+	.container{
+		font-weight : 700;
+	}
+	.tumTitle{
+		font-weight : 700;
+	}
+
+	.topImg{
+		display : block;
+		position : absolute;
+		top : 0;
+		background-image : url("/resources/images/background/meetingbg.jpg");
+		background-repeat : no-repeat;
+		background-position : center center;
+		background-size : cover;
+		width : 100%;
+		height : 400px;
+	}
+	
+	.topImg::after{
+		content : "";
+		background : rgba(0, 0, 0, 0.2);
+		position : absolute;
+		top : 0;
+		left : 0;
+		width : 100%;
+		height : 400px;
+	}
+	
+	.topImg h1{
+		position : absolute;
+		line-height : 450px;
+		width : 100%;
+		text-align : center;
+		color : white;
+		z-index : 99;
+		font-size : 60px;
+	}
+	
+	h1 .slim{
+		font-weight : lighter;
+	}
+	.wrap{
+		margin-top : 400px;
+	}
+	
+	li{
+		list-style-type : none;
+	}
+	
+	.smallNavi{
+		overflow : hidden;
+		float : right;
+		margin-top : -30px;
+		margin-bottom : 60px;
+	}
+	
+	.smallNavi li{
+		float : left;
+		margin-right : 20px;
+		margin-top : 8em;
+	}
+	
+	.homeImg{
+		margin-top : -2px;
+	}
+	
+	section.wrapper, article.wrapper {
+    	padding: 500px 0;
+	}
+
+</style>
+	
 
 </head>
 
-<body class="subpage">	
+</head>
+
+<body>	
 	<!-- header -->
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
+	
+	<!-- 메인배경이미지 : start -->
+	<div class="topImg">
+		<h1>모임<span class="slim">검색</span></h1>
+	</div>
+	<!-- 메인배경이미지 : end -->
 
 	<!-- contents -->
 	<section id="main" class="wrapper">
 		<div class="inner">
-			<header class="align-center">
-				<h2>이상형 검색</h2>
-			</header>
+			
+			<div class="row uniform">
+				<div class="3u 6u$(small)">
+					<input type="radio" name="selectRadio" id="ex1" value="1" >
+					<label for="ex1">일반</label>
+					<input type="radio" name="selectRadio" id="ex2" value="2" checked="checked">
+					<label for="ex2">지도로 보기</label>
+				</div>
+			</div>
 			
 			<!-- form Start /////////////////////////////////////-->
 			<form class="form-horizontal">
@@ -100,7 +211,7 @@
 						<tbody>
 						
 							<tr>
-								<th>지역 Map</th>
+								<th>Map</th>
 								<td>
 									<div class="row uniform">
 										<div class="12u">

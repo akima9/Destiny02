@@ -230,7 +230,7 @@ public class LoveController {
 		System.out.println("userId :: " + userId);
 		
 		
-		Community community = communityService.getPreCommunity(communityNo);
+		Community community = communityService.getPreLoveAdvice(communityNo);
 		
 		if (community == null) {
 			community = communityService.getCommunity(communityNo);
@@ -262,7 +262,7 @@ public class LoveController {
 		System.out.println("userId :: " + userId);
 		
 		
-		Community community = communityService.getNextCommunity(communityNo);
+		Community community = communityService.getNextLoveAdvice(communityNo);
 		
 		if (community == null) {
 			community = communityService.getCommunity(communityNo);

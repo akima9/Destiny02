@@ -104,8 +104,20 @@
 				var value = $("select[id='phone1']").val() + "-" 
 									+ $("input[id='phone2']").val() + "-" 
 									+ $("input[id='phone3']").val();
+			} else {
+				alert("핸드폰 번호가 입력되지 않았습니다.");
+				return;
 			}
 
+			if($("input:text[id='email']").val() == "" || $("input:text[id='email']").val() == null){
+				alert("이메일이 입력되지 않았습니다.");
+				return;
+			}
+			
+			if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1) ){
+		    	alert("이메일 형식이 아닙니다.");
+		    	return;
+		     }
 			
 			$("input:hidden[name='phone']").val( value );
 			$("input:hidden[name='address']").val( address );
@@ -115,19 +127,7 @@
 		}
 		
 
-		//==>"이메일" 유효성Check  Event 처리 및 연결
-		 $(function() {
-			 
-			 $("input[name='email']").on("change" , function() {
-				
-				 var email=$("input[name='email']").val();
-			    
-				 if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1) ){
-			    	alert("이메일 형식이 아닙니다.");
-			     }
-			});
-			 
-		});	
+		
 		
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		   //==> 주민번호 유효성 check 는 이해정도로....
@@ -180,39 +180,44 @@
 				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 				 $("#emailConfirm").on("click" , function() {
 					 
-					 var email = $("input[name='email']").val();
-					 alert("입력된 이메일"+email);
-					 email = email.substr(0, email.length - 3);
-						
-					 $.ajax({
-						url : "/user/json/emailAuth/"+email,
-						method : "POST",
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						datatype : "json",
-						success : function(JSONData, status){
-							alert("메일이 발송되었습니다. 메일을 확인해 주세요.");
+					 if($("#authnumWirte").text() != "아직 인증되지 않았습니다."){
+						 alert("정확한 이메일을 입력해주세요.");
+					 } else {
+					 
+						 var email = $("input[name='email']").val();
+						 alert("입력된 이메일"+email);
+						 email = email.substr(0, email.length - 3);
 							
-							$('input[name="authnum"]').on("keyup", function(){
-								 //alert("좀 돼바 슈밤");
-								 if(JSONData.authNum == $("#authnum").val()){
-									 //alert("맞음");
-									 $('input[name="authnum"]').css('background-color','rgb(207, 253, 170)');
-									 $("#authnumWirte").text("");
-								 } else {
-									 //alert("아님");
-									 $('input[name="authnum"]').css('background-color','pink');
-									 $("#authnumWirte").text("잘못된 인증번호입니다.");
-								 }
-							 });							
-								
+						 $.ajax({
+							url : "/user/json/emailAuth/"+email,
+							method : "POST",
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
 							},
-							error : function(what){
-								alert("이메일이 전송되지 않았습니다. 유효한 이메일을 입력하여 주십시요.");
-							}
-						 });
+							datatype : "json",
+							success : function(JSONData, status){
+								alert("메일이 발송되었습니다. 메일을 확인해 주세요.");
+								
+								$('input[name="authnum"]').on("keyup", function(){
+									 //alert("좀 돼바 슈밤");
+									 if(JSONData.authNum == $("#authnum").val()){
+										 //alert("맞음");
+										 $('input[name="authnum"]').css('background-color','rgb(207, 253, 170)');
+										 $("#authnumWirte").text("");
+									 } else {
+										 //alert("아님");
+										 $('input[name="authnum"]').css('background-color','pink');
+										 $("#authnumWirte").text("잘못된 인증번호입니다.");
+									 }
+								 });							
+									
+								},
+								error : function(what){
+									alert("이메일이 전송되지 않았습니다. 유효한 이메일을 입력하여 주십시요.");
+								}
+							 });
+						 }
 					});
 				});	
 			 
@@ -359,29 +364,34 @@
 				 $('input[name="email"]').on("keyup", function(){
 					 
 					 var email = $('input[name="email"]').val();
+					 if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1) ){
+						$('input[name="email"]').css('background-color','pink');
+						$('#authnumWirte').text("이메일 형식이 아닙니다.");
+					 }else {
 					 
-					 $.ajax({
-						 url : "/user/json/getUserByEmail/"+email,
-						 method : "GET",
-						 datatype : "json",
-						 headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						 },
-						 success : function(JSONData, status){
-							 //alert(JSONData.user);
-							 if(JSONData.user != null){
-								$('input[name="email"]').css('background-color','pink');
-								$('#authnumWirte').text("이미 존재하는 이메일입니다.");
-							 } else {
-								$('input[name="email"]').css('background-color','white');
-								$('#authnumWirte').text("");
+						 $.ajax({
+							 url : "/user/json/getUserByEmail/"+email,
+							 method : "GET",
+							 datatype : "json",
+							 headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							 },
+							 success : function(JSONData, status){
+								 //alert(JSONData.user);
+								 if(JSONData.user != null){
+									$('input[name="email"]').css('background-color','pink');
+									$('#authnumWirte').text("이미 존재하는 이메일입니다.");
+								 } else {
+									$('input[name="email"]').css('background-color','white');
+									$('#authnumWirte').text("아직 인증되지 않았습니다.");
+								 }
+							 },
+							error : function(what){
+								
 							 }
-						 },
-						error : function(what){
-							
-						 }
-					 });
+						 });
+					 }
 				 });
 			 });
 			 
@@ -415,7 +425,7 @@
 									$('#authnumPhoneWirte').text("전화번호 형식이 아닙니다.");
 								 } else {
 									$('input[name="phoneBe"]').css('background-color','rgb(207, 253, 170)');
-									$('#authnumPhoneWirte').text("");
+									$('#authnumPhoneWirte').text("아직 인증되지 않았습니다.");
 								 }
 							 }
 						 }, error : function(what){
@@ -553,7 +563,7 @@
 							 <div class="8u">
 								<input style="font-size:120%; color:black;" type='text' class="form-control" id='authnumPhone' name='authnumPhone' placeholder='인증번호 7자리를 입력하세요'>
 								<input type="hidden" name="phone"/>
-								<span id="authnumPhoneWirte"></span>
+								<span id="authnumPhoneWirte">아직 인증되지 않았습니다.</span>
 							 </div>
 							 
 							
@@ -563,12 +573,12 @@
 							
 							<div class="4u">
 								<label for="email" >이메일</label>
-							  	<input type="text"  id="email" name="email" placeholder="이메일">
+							  	<input style="font-size:120%; color:black;" type="text"  id="email" name="email" placeholder="이메일">
 							</div>
 							<div class="4u">
 								<label for="authnum">&nbsp;</label>
 							 	<input type='text' id='authnum' name='authnum' placeholder='인증번호 7자리를 입력하세요'>
-								<span id="authnumWirte"></span>
+								<span id="authnumWirte">아직 인증되지 않았습니다.</span>
 							</div>
 							<div class="4u">
 								<label for="emailConfirm">&nbsp;</label>

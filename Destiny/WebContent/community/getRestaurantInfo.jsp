@@ -30,6 +30,8 @@ Latest compiled and minified JavaScript
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
+
+<link rel="stylesheet" href="/resources/css/main.css" >
  
 <script type="text/javascript">
 	
@@ -134,16 +136,20 @@ Latest compiled and minified JavaScript
 
 	body{
 		position : relative;
+		font-family: 'Nanum Myeongjo', serif;
 	}
-	
+	.button{
+		font-size : 16px;
+		font-weight : 700;
+	}
 	
 	.topImg{
 		display : block;
 		position : absolute;
 		top : 0;
-		background-image : url("/resources/images/background/getRestaurantInfo_background.jpg");
+		background-image : url("/resources/images/background/getRestaurantInfo07_background.jpg");
 		background-repeat : no-repeat;
-		background-position : center center;
+		background-position : center -400px;
 		background-size : cover;
 		width : 100%;
 		height : 400px;
@@ -156,23 +162,21 @@ Latest compiled and minified JavaScript
 		left : 0;
 		width : 100%;
 		height : 400px;
-		z-index : 1;
 	}
 	.topImg h1{
 		position : absolute;
-		line-height : 450px;
+		line-height : 330px;
 		width : 100%;
 		text-align : center;
 		color : white;
-		z-index : 2;
+		z-index : 99;
 		font-size : 60px;
-		font-weight : bold;
 	}
 	h1 .slim{font-weight : lighter;}
 	
 	.wrap{margin-top : 400px;}
-	.wrap .button{padding : 40px 30px 10px 30px;}
-	.wrap .button .rightBtn{float : right;margin-left : 3px;}
+	
+	.rightBtn{float : right; margin-left : 6px;}
 	
 	.wrapContents{margin-bottom : 100px;border : 1px solid #E3E4E6;padding : 30px;}
 
@@ -194,7 +198,12 @@ Latest compiled and minified JavaScript
 	
 	.firstColumn {font-weight : bold;}
 	
-	.count{overflow : hidden;padding : 10px;}
+	.count{
+		padding : 10px;
+		content : '';
+		display : block;
+		clear : both;	
+	}
 	
 	.count li{float : left;list-style-type : none;margin-right : 10px;}
 	
@@ -210,18 +219,56 @@ Latest compiled and minified JavaScript
 		overflow : hidden;
 	} */
 	
-	.smallNavi{overflow : hidden;float : right;margin-top : -30px;}
+	.smallNavi{
+		overflow : hidden;
+		float : right;
+		margin-top : -80px;
+		margin-bottom : 60px;
+	}
 	
-	.smallNavi li{float : left;margin-right : 20px;}
+	.smallNavi li{
+		float : left;
+		margin-right : 20px;
+		margin-top : 8em;
+	}
 	
 	.homeImg{margin-top : -2px;}
+	
+	.topBtn{
+		padding : 10em 0 1em 0;
+	}
+	.informationWrap{
+		padding : 0 0 1em 0;
+	}
+	.informationWrap .title{
+		display : inline-block;
+		width : 15em;
+	}
+	.informationWrap .category{
+		display : inline-block;
+		width : 10em;
+	}
+	.informationWrap .date{
+		display : inline-block;
+		float : right;
+	}
+	.detail{
+		padding : 2em 0 2em 0;
+	}
+	.control{
+		content : '';
+		display : block;
+		clear : both;
+		background : red;
+		
+	}
 </style>
 
 </head>
 <body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolBar.jsp" />
+	<jsp:include page="/layout/header.jsp" />
 	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<div class="topImg">
@@ -240,57 +287,57 @@ Latest compiled and minified JavaScript
 			<li>맛집정보</li>
 		</ul>
 		
-		<div class="row button">
-			<button type="button" data-param="${ community.communityNo }" class="btn btn-default">이전글</button>
-			<button type="button" data-param="${ community.communityNo }" class="btn btn-default">다음글</button>
+		<div class="topBtn">
+			<button type="button" data-param="${ community.communityNo }" class="button">이전글</button>
+			<button type="button" data-param="${ community.communityNo }" class="button">다음글</button>
 			
-			<button type="button" class="btn btn-default rightBtn">목록</button>
-			<button type="button" class="btn btn-default rightBtn">글쓰기</button>
+			<button type="button" class="button rightBtn">목록</button>
+			<button type="button" class="button rightBtn">글쓰기</button>
 		</div>
 		
 		<div class="wrapContents">
 
-		<div class="row firstRow">
-			<div class="col-xs-4 col-md-2 firstColumn">${ community.title }</div>
+		<div class="informationWrap">
+			<div class="title">${ community.title }</div>
 			<c:if test="${community.category == 'RES'}">
-				<div class="col-xs-8 col-md-8">맛집정보</div>
+				<div class="category">맛집정보</div>
 			</c:if>
 			<c:if test="${community.category == 'MET'}">
-				<div class="col-xs-8 col-md-8">모임후기</div>
+				<div class="category">모임후기</div>
 			</c:if>
 			<c:if test="${community.category == 'DAT'}">
-				<div class="col-xs-8 col-md-8">만남후기</div>
+				<div class="category">만남후기</div>
 			</c:if>
 			<c:if test="${community.category == 'LUV'}">
-				<div class="col-xs-8 col-md-8">연애조언</div>
+				<div class="category">연애조언</div>
 			</c:if>
 			<c:if test="${community.category == 'NTC'}">
-				<div class="col-xs-8 col-md-8">공지사항</div>
+				<div class="category">공지사항</div>
 			</c:if>
-			<div class="col-xs-4 col-md-2 righttSort">${ community.writeDate }</div>
+			<div class="date">${ community.writeDate }</div>
 		</div>
 
-		<div class="row secondRow">
-			<div class="col-xs-4 col-md-2 firstColumn">${ community.writerNickName }</div>
+		<div class="informationWrap">
+			<div class="title">${ community.writerNickName }</div>
 			<c:if test="${community.userGrade == 'NEW'}">
-				<div class="col-xs-8 col-md-4">신규회원</div>
+				<div class="category">신규회원</div>
 			</c:if>
 			<c:if test="${community.userGrade == 'NOR'}">
-				<div class="col-xs-8 col-md-4">일반회원</div>
+				<div class="category">일반회원</div>
 			</c:if>
 			<c:if test="${community.userGrade == 'VIP'}">
-				<div class="col-xs-8 col-md-4">우수회원</div>
+				<div class="category">우수회원</div>
 			</c:if>
 			<c:if test="${community.userGrade == 'ADM'}">
-				<div class="col-xs-8 col-md-4">관리자</div>
+				<div class="category">관리자</div>
 			</c:if>
 		</div>
 		
-		<div class="row">
-			<div class="contentsDetail">${ community.detail }</div>
+		<div class="detail">
+			<div class="">${ community.detail }</div>
 		</div>
 		
-		<div class="row thirdRow">
+		<div class="control">
 			<ul class="count">
 				<li>조회수 ${ community.views }</li>
 				<li><span>|</span></li>

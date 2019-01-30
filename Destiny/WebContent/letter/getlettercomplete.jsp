@@ -45,7 +45,8 @@
 	<section id="main" class="wrapper">
 		<div class="inner">
    		<br/>
-   		<h3>쪽지전송완료</h3>
+   		<h3>쪽지전송결과</h3>
+   		<h4>${reason}</h4>
    	
    		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">

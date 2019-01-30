@@ -15,17 +15,35 @@ public interface CommunityDao {
 	//select one
 	public Community getCommunity(int communityNo) throws Exception;
 	
+	//공지사항 상세보기
+	public Community getNotice(int communityNo) throws Exception;
+	
 	//이전글 상세보기
 	public Community getPreCommunity(int communityNo) throws Exception;
 	
 	//다음글 상세보기
 	public Community getNextCommunity(int communityNo) throws Exception;
 	
+	//연애조언 이전글 상세보기
+	public Community getPreLoveAdvice(int communityNo) throws Exception;
+		
+	//연애조언 다음글 상세보기
+	public Community getNextLoveAdvice(int communityNo) throws Exception;
+	
+	//공지사항 이전글 상세보기
+	public Community getPreNotice(int communityNo) throws Exception;
+		
+	//공지사항 다음글 상세보기
+	public Community getNextNotice(int communityNo) throws Exception;
+	
 	//맛집정보 list
 	public List<Community> getCommunityList(Search search) throws Exception;
 	
 	//연애조언 게시글 리스트
 	public List<Community> getLoveAdviceList(Search search) throws Exception;
+	
+	//공지사항 게시글 리스트
+	public List<Community> getNoticeList(Search search) throws Exception;
 	
 	//update
 	public void updateCommunity(Community community) throws Exception;
@@ -35,6 +53,9 @@ public interface CommunityDao {
 	
 	//게시판 page 처리를 위한 전체 row(totalCount) return
 	public int getTotalCount(Search search) throws Exception;
+	
+	//공지사항게시판 page 처리를 위한 전체 row(totalCount) return
+	public int getNoitceTotalCount(Search search) throws Exception;
 	
 	//조회수
 	public void updateViews(int communityNo)throws Exception;

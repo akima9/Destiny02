@@ -2,6 +2,8 @@ package com.destiny.web.complain;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -76,13 +78,18 @@ public class ComplainController {
 		
 		/*addComplain : start*/
 		@RequestMapping(value="addComplain", method=RequestMethod.POST)
-		public ModelAndView addComplain(@ModelAttribute("complain") Complain complain, @ModelAttribute("community") Community community, @ModelAttribute("meeting") Meeting meeting) throws Exception{
+		public ModelAndView addComplain(@ModelAttribute("complain") Complain complain, @ModelAttribute("community") Community community, @ModelAttribute("meeting") Meeting meeting, HttpSession session) throws Exception{
 			System.out.println(":: ComplainController/addComplain/post : ½ÇÇà");
 			int communityNo = community.getCommunityNo();
 			int meetingNo = meeting.getMeetingNo();
+			
+			User user = (User)session.getAttribute("me"); 
+			String complainerId = user.getUserId();
+			System.out.println("complainerId : " + complainerId);
+			
 			System.out.println("adfadf : " + community.getTitle());
 			if(communityNo != 0) {
-				complain.setComplainerId(community.getWriterId());
+				complain.setComplainerId(complainerId);
 				complain.setDefendantId(community.getWriterId());
 				complain.setCommunityNo(communityNo);
 				complain.setComplainDetail(community.getTitle());

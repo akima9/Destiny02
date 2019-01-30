@@ -144,7 +144,6 @@ $(function() {
 		var searchKeyword = $('#searchKeyword').val();
 		currentPage = 0;
 		$(".rowList").empty();
-		$('#searchKeyword').val('');
 		fncNextList(searchCondition, searchKeyword);
 	});
 	/* 검색 버튼 : end */
@@ -184,9 +183,9 @@ $(function() {
 		display : block;
 		position : absolute;
 		top : 0;
-		background-image : url("/resources/images/background/getRestaurantInfo_background.jpg");
+		background-image : url("/resources/images/background/loveAdvice_background.jpg");
 		background-repeat : no-repeat;
-		background-position : center center;
+		background-position : center -140px;
 		background-size : cover;
 		width : 100%;
 		height : 400px;
@@ -200,16 +199,16 @@ $(function() {
 		width : 100%;
 		height : 400px;
 	}
-	/* .topImg h1{
+	.topImg h1{
 		position : absolute;
-		line-height : 450px;
+		line-height : 330px;
 		width : 100%;
 		text-align : center;
 		color : white;
 		z-index : 99;
 		font-size : 60px;
-		font-weight : bold;
-	} */
+		/* font-weight : bold; */
+	}
 	h1 .slim{
 		font-weight : lighter;
 	}
@@ -224,7 +223,7 @@ $(function() {
 	.smallNavi{
 		overflow : hidden;
 		float : right;
-		margin-top : -30px;
+		margin-top : -80px;
 		margin-bottom : 60px;
 	}
 	
@@ -276,7 +275,7 @@ $(function() {
 		text-align : center;
 	}
 	form{
-		padding-top : 5em;
+		/* padding-top : 5em; */
 		content:"";
 		display:block;
 		clear:both;

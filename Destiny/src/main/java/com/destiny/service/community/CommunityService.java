@@ -14,17 +14,35 @@ public interface CommunityService {
 	//게시글 상세보기
 	public Community getCommunity(int communityNo) throws Exception;
 	
+	//공지사항 상세보기
+	public Community getNotice(int communityNo) throws Exception;
+	
 	//이전글 상세보기
 	public Community getPreCommunity(int communityNo) throws Exception;
 	
 	//다음글 상세보기
 	public Community getNextCommunity(int communityNo) throws Exception;
 	
+	//연애조언 이전글 상세보기
+	public Community getPreLoveAdvice(int communityNo) throws Exception;
+		
+	//연애조언 다음글 상세보기
+	public Community getNextLoveAdvice(int communityNo) throws Exception;
+	
+	//공지사항 이전글 상세보기
+	public Community getPreNotice(int communityNo) throws Exception;
+		
+	//공지사항 다음글 상세보기
+	public Community getNextNotice(int communityNo) throws Exception;
+	
 	//맛집정보 게시글 리스트
 	public Map<String, Object> getCommunityList(Search search) throws Exception;
 	
 	//연애조언 게시글 리스트
 	public Map<String, Object> getLoveAdviceList(Search search) throws Exception;
+	
+	//공지사항 게시글 리스트
+	public Map<String, Object> getNoticeList(Search search) throws Exception;
 	
 	//게시글 수정
 	public void updateCommunity(Community community) throws Exception;

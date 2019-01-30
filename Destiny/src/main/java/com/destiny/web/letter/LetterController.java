@@ -25,6 +25,7 @@ import com.destiny.common.Search;
 import com.destiny.service.domain.Letter;
 import com.destiny.service.domain.User;
 import com.destiny.service.letter.LetterService;
+import com.destiny.service.user.UserService;
 
 @Controller
 @RequestMapping("/letter/*")
@@ -34,6 +35,10 @@ public class LetterController {
 	@Autowired
 	@Qualifier("letterServiceImpl")
 	private LetterService letterService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
 	
 	public LetterController() {
 		System.out.println(this.getClass());
@@ -87,34 +92,39 @@ public class LetterController {
 	}
 	
 	@RequestMapping( value="sendLetter", method=RequestMethod.POST)
-	public String sendLetter(@ModelAttribute("letter") Letter letter, HttpSession session) throws Exception{
+	public String sendLetter(@ModelAttribute("letter") Letter letter, HttpSession session, Model model) throws Exception{
 		System.out.println("/user/sendLetter : POST");
 		
-		User senderUser = (User) session.getAttribute("me");
+		if(userService.getUser(letter.getReceiverId()) == null) {
+			model.addAttribute("reason", "입력한 수신자 아이디가 존재하지 않습니다.");
+		} else {
 		
-		letter.setSenderId(senderUser.getUserId());
-		
-		//=================================user별 letter meta-data생성============================================
-		String letterMetaDataTitle = letter.getLetterTitle()+System.currentTimeMillis();
-		
-		String temDirText = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\letterDetail\\"+letterMetaDataTitle+".txt";
-		File sendLetter = new File(temDirText);
-		
-		//FileWriter fw = new FileWriter(detailProduct, true);
-		BufferedWriter fw = new BufferedWriter(new FileWriter(sendLetter, true));
-		fw.write(letter.getLetterDetail());
-		fw.flush();
-		fw.close();
-		
-		letter.setLetterDetail(letterMetaDataTitle);
-		//===================================================================================================
-		
-		System.out.println(letter);
-		
-		//==============================================DB 운용===============================================
-		letterService.sendLetter(letter);
-		//===================================================================================================
-		
+			User senderUser = (User) session.getAttribute("me");
+			
+			letter.setSenderId(senderUser.getUserId());
+			
+			//=================================user별 letter meta-data생성============================================
+			String letterMetaDataTitle = letter.getLetterTitle()+System.currentTimeMillis();
+			
+			String temDirText = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\letterDetail\\"+letterMetaDataTitle+".txt";
+			File sendLetter = new File(temDirText);
+			
+			//FileWriter fw = new FileWriter(detailProduct, true);
+			BufferedWriter fw = new BufferedWriter(new FileWriter(sendLetter, true));
+			fw.write(letter.getLetterDetail());
+			fw.flush();
+			fw.close();
+			
+			letter.setLetterDetail(letterMetaDataTitle);
+			//===================================================================================================
+			
+			System.out.println(letter);
+			
+			//==============================================DB 운용===============================================
+			letterService.sendLetter(letter);
+			//===================================================================================================
+			model.addAttribute("reason", "쪽지가 정상적으로 전송되었습니다.");
+		}
 		return "forward:/letter/getlettercomplete.jsp";
 	}
 	

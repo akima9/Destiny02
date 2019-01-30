@@ -121,4 +121,39 @@ public class CommunityDaoImpl implements CommunityDao{
 		return sqlSession.selectList("CommunityMapper.getLoveAdviceList", search);
 	}
 
+	@Override
+	public List<Community> getNoticeList(Search search) throws Exception {
+		return sqlSession.selectList("CommunityMapper.getNoticeList", search);
+	}
+
+	@Override
+	public Community getNotice(int communityNo) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getNotice", communityNo);
+	}
+
+	@Override
+	public int getNoitceTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getNoticeTotalCount", search);
+	}
+
+	@Override
+	public Community getPreLoveAdvice(int communityNo) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getPreLoveAdvice", communityNo);
+	}
+
+	@Override
+	public Community getNextLoveAdvice(int communityNo) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getNextLoveAdvice", communityNo);
+	}
+
+	@Override
+	public Community getPreNotice(int communityNo) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getPreNotice", communityNo);
+	}
+
+	@Override
+	public Community getNextNotice(int communityNo) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getNextNotice", communityNo);
+	}
+
 }

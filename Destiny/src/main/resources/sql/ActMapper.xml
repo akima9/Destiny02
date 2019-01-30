@@ -82,6 +82,7 @@
 		<result property="like"					column="community_like" 						jdbcType="INTEGER" />
 		<result property="importRank"			column="import_rank" 							jdbcType="CHAR" />
 		<result property="viewCondition"		column="community_view_condition" 				jdbcType="CHAR" />
+		<result property="fileName"				column="file_name" 								jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<resultMap id="commentSelectMap" type="com.destiny.service.domain.Comment">
@@ -241,14 +242,14 @@
 	 
 	 
 	<!-- SQL : SELECT LIST -->
-	<select id="getCommunityListByWriter" parameterType="com.destiny.common.Search" resultMap="communitySelectMap">
+	<select id="getCommunityListByWriter" parameterType="map" resultMap="communitySelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT  comu.community_no, comu.community_writer_id, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition
-											FROM community comu
-											<where>
-												comu.community_writer_id = #{userId}
-											</where>
+	  					FROM		(	SELECT  comu.community_no, comu.community_writer_id, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition,
+	  											up.file_name
+											FROM community comu, upload up
+											WHERE	comu.community_writer_id = #{userId}
+													and comu.community_no = up.community_no 
 											ORDER BY comu.community_no desc ) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum} )
 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 
@@ -258,10 +259,11 @@
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalCountByWriter"  parameterType="String"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT comu.community_no, comu.community_writer_id, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition
-						FROM community comu
+	  	FROM(	SELECT comu.community_no, comu.community_writer_id, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition, up.file_name
+						FROM community comu, upload up
 						<where>
 							comu.community_writer_id = #{userId}
+							and comu.community_no = up.community_no 
 						</where>
 						 ) countTable						
 	 </select>

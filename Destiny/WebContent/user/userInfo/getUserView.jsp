@@ -19,21 +19,19 @@
 	<script src="/resources/javascript/skel.min.js"></script>
 	<script src="/resources/javascript/util.js"></script>
 	<script src="/resources/javascript/main.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css?family=Jua" rel="stylesheet">
 	
 	
 
 
 	
 	<script>
-	
-		
-		
-		$(function(){
+		/*$(function(){
 			$("button[id='listButton']").on("click", function(){
 				self.location = "/user/listUser";
 			});
-		});
+		});*/
 		
 		$(function(){
 			$("button[id='leaveSite']").on("click", function(){
@@ -101,6 +99,7 @@
         });
 		
 	</script>
+	<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script> -->
 	<script>
 	(function(d, s, id){
 	    var js, fjs = d.getElementsByTagName(s)[0];
@@ -122,7 +121,29 @@
 			  background-color: #000000; /* For browsers that do not support gradients */
 			  background-image: linear-gradient(to right, #000000 , #FFFFFF); /* Standard syntax (must be last) */
 			}
-
+		
+		
+		
+		
+		#communitymove{
+			/* background : #ff8a2c; */
+			background : #ffbcc7;
+		}
+			#communitymove h3{
+				color : #ff264a;
+				font-weight : bold;
+			}
+			#communitymove p{
+				color : #3e3e3e;
+			}
+		
+		.ment{
+			text-align : center;
+		}
+			
+		
+		
+				
 		
 	</style>
 	
@@ -141,6 +162,15 @@
 		  border : 1px solid #ff879b;
 		  border-radius : 15px;
 		}
+		
+		body{
+			background-image : linear-gradient(135deg, #FAB7D9 , #FFFFFF);
+		}
+		
+		
+		
+		
+		
 	</style> 
 		
 	
@@ -154,18 +184,13 @@
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
 
-	
-	
-	
-
-
-<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- contents -->
-	<section id="main" class="wrapper">
+	<section id="communitymove" class="wrapper align-center">
 		
 		<div class="inner">
 		
-		<h3>마이페이지</h3>
+		<h2 style="font-family: 'Jua', sans-serif;">마이페이지</h2>
 				
 		<br/>
 		
@@ -191,42 +216,39 @@
 				
 				
 				
+			<div class="flex flex-3">
+			
 				
 				<div class="col-sm-4 col-md-4">
-			    <h4>성격 &amp; 유형</h4><p>
-			      <a href="/user/addTypeView/${me.userId}"><span class="image"><img class="col-sm-4 col-md-4" src="/resources/images/layout/mbti.jpg" width="300" height="300" /></span></a>
-			    	<br/>당신의 MBTI성격유형을 알아보고 선택하세요. <br/>그리고 원하는 상대방 성격유형을 선택하세요.</p>
+			    <h4 style="font-family: 'Jua', sans-serif;">성격 &amp; 유형</h4><p>
+			    	<div class="image">
+			    		<img class="col-sm-4 col-md-4" src="/resources/images/layout/KakaoTalk_20190129_213128976.jpg" alt="Pic 01" width="250" height="250" >
+			    	</div>
+			      <br/>당신의 MBTI성격유형을 알아보고 선택하세요. <br/>그리고 원하는 상대방 성격유형을 선택하세요.
+			    	</p>
+			    	<a class="button" href="/user/addTypeView/${me.userId}">move</a>
 			    </div>
-				    
-				
-			
-			
-				<div class="col-sm-4 col-md-4">
-			    <h4>회원리스트</h4>
-			      <a href="/user/listUser"><span class="image"><img class="col-sm-4 col-md-4" src="/resources/images/layout/users.png" width="300" height="300" /></span></a>
-			   	 <br/> 어떤 회원들이 이 사이트를 이용하고 <br/>있는지 확인해보세요
-				</div>	
-			
-			 
-			
+			   
+			   
 			
 				<div class="col-sm-4 col-md-4">
-			    <h4>쪽지</h4>
+			    <h4 style="font-family: 'Jua', sans-serif;">쪽지</h4>
 			    <a href="#" id="letterList"><span class="image"><img  class="col-sm-4 col-md-4" src="/resources/images/layout/letter.png" width="300" height="300" /></span></a>
 				   <br/> 유저에게 쪽지를 보내고 받으세요. 
 				</div>	
 	
-				
+				<div class="col-sm-4 col-md-4" >
+				<h4 style="font-family: 'Jua', sans-serif;">활동관리</h4>
+			    <p  style="font-size:100%; color:black;"><a href="/user/userAct/actMain.jsp" id="actMainButton"><span class="image"><img alt="" src="/resources/images/layout/act.jpg" style="width: 300px; height:300px; border-radius:25px;"  /></span></a>
+			   	 <br/>당신의 활동내역을 확인하고 관리하세요. </p>
+				</div>	
 			
-			
+			</div>
 			
 			
 		</div>
-		<h4>활동관리</h4>
-				<div class="col-sm-12 col-md-12" >
-			    <p  style="font-size:120%; color:black;"><a href="/user/userAct/actMain.jsp" id="actMainButton"><span class="image"><img alt="" src="/resources/images/layout/act.jpg" style="width: 300px; height:300px;"  /></span></a>
-			   	 <br/>당신의 활동내역을 확인하고 관리하세요. 당신이 가입한 모임, 개설한 모임과 회차, 회원 목록을 조회하고 <br/>가입신청을 관리하세요. 당신이 작성한 개시글, 댓글을 확인하고 이루어진 만남을 돌이켜보고 리뷰를 작성하세요.</p>
-				</div>	
+				
+				
 			
 			
 			

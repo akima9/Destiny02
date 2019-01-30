@@ -29,6 +29,16 @@
 		
 		$(function() {
 			 $( "#sendNow" ).on("click" , function() {
+				 var receiverId = $("input[name='receiverId']").val();
+				 var letterTitle = $("input[name='letterTitle']").val();
+				 var letterDetail = $("textarea[name='letterDetail']").val();
+				 
+				 if(receiverId == "" || letterTitle == "" || letterDetail == ""){
+					alert("필수값이 입력되지 않았습니다.")
+					 
+					return; 
+				 }
+				 
 				 $("form").attr("method" , "POST").attr("action" , "/letter/sendLetter").submit();
 			});
 		});
@@ -69,7 +79,7 @@
 				</div>
 
 				<div class="12u">
-					<label for="letterTitle">쪽지 재목</label>
+					<label for="letterTitle">쪽지 제목</label>
 				    <input type="text" id="letterTitle" name="letterTitle">
 				    <span id="letterTitle"></span>
 				</div>

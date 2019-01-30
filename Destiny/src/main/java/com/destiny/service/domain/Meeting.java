@@ -23,7 +23,7 @@ public class Meeting {
 	private	int		meetingViews;
 	private	String	meetingCondition;
 	private	String	shutDownDate;
-	private	String	meetingCrewLimit;
+	private	int		meetingCrewLimit;
 	private int		interestNo;
 	private	String	crewNickName;
 	private	String	interview;
@@ -153,10 +153,10 @@ public class Meeting {
 	public void setShutDownDate(String shutDownDate) {
 		this.shutDownDate = shutDownDate;
 	}
-	public String getMeetingCrewLimit() {
+	public int getMeetingCrewLimit() {
 		return meetingCrewLimit;
 	}
-	public void setMeetingCrewLimit(String meetingCrewLimit) {
+	public void setMeetingCrewLimit(int meetingCrewLimit) {
 		this.meetingCrewLimit = meetingCrewLimit;
 	}
 	public int getInterestNo() {
