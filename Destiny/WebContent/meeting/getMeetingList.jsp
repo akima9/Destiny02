@@ -47,22 +47,27 @@
 	 <style>
 	 body {
 	 	background-color: #f5f5f5;
+	 	
 	 }
-		/* #meetingNo {
-			font-size: 30px;
-		}
-		#myCarousel {
-			width: 100%;
-   			height: 680px;
-		}
-		
-		
-		#myCarousel img{
-			width : 100%;
-			height : 680px;
-			align : left;
-		} */
-		
+
+	#myCarousel :after {
+         background-image : url("/resources/images/meeting/back3.jpg");
+         background-repeat: no-repeat;
+  		 background-color: rgba( 255, 255, 255, 0.5 );
+   
+		 background-size: cover;
+		 top:0;
+		 left:0;
+		 position:absolute;
+		 background-size:100%;
+		 opacity:0.6!important;
+		 z-index:-1;
+		 content:"";
+		 width:100%;
+		 height:100%;
+         
+	}
+	
 	</style>
 	
 	
@@ -72,7 +77,7 @@
 		$( "#addMeeting" ).on("click", function() {
 			console.log("${empty sessionScope.me}");
 			
-			if('${sessionScope.me.userGrade }' !='NEW' && '${!empty sessionScope.me.userId}'){
+			if('${sessionScope.me.userGrade }' !='NEW' && ${!empty sessionScope.me.userId}){
 				//alert("¼º°ø");
 				self.location="/meeting/addMeeting"
 			}else if('${empty sessionScope.me}'=='true'){
@@ -151,7 +156,7 @@
    		$("form").attr("method" , "POST").attr("action" , "/meeting/listMeeting/"+meetingCenter).submit();
 		 });
 		
-	})
+	});
 		
 	</script>
 <!-- //All js -->
