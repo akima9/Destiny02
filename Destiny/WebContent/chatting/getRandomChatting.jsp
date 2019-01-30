@@ -41,7 +41,7 @@ body {
 }
 
 body:after{
-background-image: url("/resources/images/chatting/t2.gif");
+background-image: url("/resources/images/chatting/t4.jpg");
   background-repeat: no-repeat;
    background-color: rgba( 255, 255, 255, 0.5 );
    

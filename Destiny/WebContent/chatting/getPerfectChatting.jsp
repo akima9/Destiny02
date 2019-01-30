@@ -41,7 +41,7 @@ body {
 }
 
 body:after{
-background-image: url("/resources/images/chatting/t2.gif");
+background-image: url("/resources/images/chatting/t4.jpg");
   background-repeat: no-repeat;
    background-color: rgba( 255, 255, 255, 0.5 );
    
@@ -536,7 +536,7 @@ socket.on('updategage', function (username, data) {
 	   /*  if (data==10) {
 			console.log("1 상대방 gage : "+data+" 나의 gage : "+otherGage)
 		} */
-		if (60>otherGage&&otherGage>=30&&60>myGage&&myGage>=30) {
+	   if (60>otherGage&&otherGage>=30&&60>myGage&&myGage>=30) {
 			alert("호감도 30% 달성!");
 			console.log("1 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
 		}else if (90>otherGage&&otherGage>=60&&90>myGage&&myGage>=60) {
@@ -546,6 +546,8 @@ socket.on('updategage', function (username, data) {
 			alert("호감도 90% 달성!");
 			console.log("3 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
 		} 
+	   
+});
 ///////////////////////////////////////////////////////////
 
 
@@ -618,6 +620,7 @@ var ti = 0;
 	        if (true) {
 	        	
 	        	ti=ti+5; 
+	        	socket.emit('sendgage', ti);
 	            var val = ti;
 	            console.log("안쪽"+ti);
 	            if (val >= 0 && val <=
@@ -769,6 +772,5 @@ window.addEventListener('beforeunload', function (e) {
 			</div>
 	
 </main>
-
 
 </body></html>
