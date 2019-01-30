@@ -54,44 +54,44 @@
 	 <select id="getPreCommunity" parameterType="int" resultMap="communitySelectMap">
 		SELECT community_no, community_writer_id, category, community_user_grade, community_title, community_writer_nick_name, community_detail, community_write_date,  community_views, community_like, import_rank, community_view_condition
 		FROM community
-		WHERE category = 'RES' 
-				and community_no = ( SELECT max(community_no)
+		WHERE community_no = ( SELECT max(community_no)
 									FROM community
 									WHERE <![CDATA[#{value} > community_no]]> 
-											and community_view_condition = 'DEF')
+											and community_view_condition = 'DEF'
+											and category = 'RES')
 	 </select>
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select id="getNextCommunity" parameterType="int" resultMap="communitySelectMap">
 		SELECT community_no, community_writer_id, category, community_user_grade, community_title, community_writer_nick_name, community_detail, community_write_date,  community_views, community_like, import_rank, community_view_condition
 		FROM community
-		WHERE category = 'RES'
-				and community_no = ( SELECT min(community_no)
+		WHERE community_no = ( SELECT min(community_no)
 									FROM community
 									WHERE <![CDATA[#{value} < community_no]]> 
-											and community_view_condition = 'DEF')
+											and community_view_condition = 'DEF'
+											and category = 'RES')
 	 </select>
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select id="getPreLoveAdvice" parameterType="int" resultMap="communitySelectMap">
 		SELECT community_no, community_writer_id, category, community_user_grade, community_title, community_writer_nick_name, community_detail, community_write_date,  community_views, community_like, import_rank, community_view_condition
 		FROM community
-		WHERE category = 'LUV' 
-				and community_no = ( SELECT max(community_no)
+		WHERE community_no = ( SELECT max(community_no)
 									FROM community
 									WHERE <![CDATA[#{value} > community_no]]> 
-											and community_view_condition = 'DEF')
+											and community_view_condition = 'DEF'
+											and category = 'LUV')
 	 </select>
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select id="getNextLoveAdvice" parameterType="int" resultMap="communitySelectMap">
 		SELECT community_no, community_writer_id, category, community_user_grade, community_title, community_writer_nick_name, community_detail, community_write_date,  community_views, community_like, import_rank, community_view_condition
 		FROM community
-		WHERE category = 'LUV'
-				and community_no = ( SELECT min(community_no)
+		WHERE community_no = ( SELECT min(community_no)
 									FROM community
 									WHERE <![CDATA[#{value} < community_no]]> 
-											and community_view_condition = 'DEF')
+											and community_view_condition = 'DEF'
+											and category = 'LUV')
 	 </select>
 	 
 	 <!-- SQL : SELECT ONE -->
@@ -179,6 +179,7 @@
 	   		community_title 			= #{title},
 	   		community_writer_nick_name	= #{writerNickName},
 			community_detail			= #{detail},
+			import_rank					= #{importRank},
 			community_write_date		= SYSDATE
 	   	</set>
 	   	WHERE community_no = #{communityNo}

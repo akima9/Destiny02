@@ -178,7 +178,7 @@ Latest compiled and minified JavaScript
 	
 	.rightBtn{float : right; margin-left : 6px;}
 	
-	.wrapContents{margin-bottom : 100px;border : 1px solid #E3E4E6;padding : 30px;}
+	.wrapContents{margin-bottom : 100px;border : 1px solid #ffc6cf;padding : 30px;border-radius:10px;}
 
 	.btn-heart{width:16px; height:16px; border:none; background:url(../resources/images/img_heart.png) no-repeat 0 0; cursor:pointer;background-size : contain;margin-top:3px;}
 	.btn-heart.on{background:url(../resources/images/img_heart_on.png) no-repeat 0 0;background-size : contain;}
@@ -204,6 +204,13 @@ Latest compiled and minified JavaScript
 		display : block;
 		clear : both;	
 	}
+		.count button{
+			box-shadow : none;
+			border-radius : 0;
+		}
+		.count button:hover{
+			background-color : transparent;
+		}
 	
 	.count li{float : left;list-style-type : none;margin-right : 10px;}
 	
@@ -260,6 +267,7 @@ Latest compiled and minified JavaScript
 		display : block;
 		clear : both;
 		background : red;
+		margin-bottom : 10em;
 		
 	}
 </style>
