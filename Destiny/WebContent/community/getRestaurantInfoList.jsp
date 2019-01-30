@@ -108,8 +108,7 @@ $(function() {
 	function init(){
 		$(".thumbnail").on("click", function(){
 			if(userId == ""){
-				alert("로그인 후 이용 가능합니다.");
-				self.location = "/user/userInfo/login.jsp"
+				$("#my-dialog,#dialog-background").toggle();
 			}
 			else{
 				var communityNo = $(this).data("param")
@@ -159,8 +158,7 @@ $(function() {
 	/* 글쓰기 버튼 : start */
 	$("button:contains('글쓰기')").on("click", function() {
 		if(userId == ""){
-			alert("로그인 후 이용 가능합니다.");
-			self.location = "/user/userInfo/login.jsp"
+			$("#my-dialog,#dialog-background").toggle();
 		}
 		else{
 			self.location = "/info/addRestaurantInfo"	

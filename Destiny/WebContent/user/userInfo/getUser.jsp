@@ -27,11 +27,6 @@
 	<script src="/resources/javascript/main.js"></script>
    
 	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
- 		body {
-            padding-top : 50px;
-        }
-     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
@@ -39,8 +34,11 @@
 		//============= 회원정보수정 Event  처리 =============	
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "#updateButton" ).on("click" , function() {
+			 $( "a[name='update']" ).on("click" , function() {
 					self.location = "/user/updateUser/${user.userId}";
+				});
+			 $( "a[name='back']" ).on("click" , function() {
+					history.go(-1);
 				});
 		});
 		
@@ -128,7 +126,7 @@
 		    border: solid 1px #dbdbdb;
 		    padding: 1.5em;
 		    width: 70%;
-		    margin: 0 auto;
+		    margin: 40px auto;
 		}
 		.profileImg{text-align: center;}
 		.profileImg img{border: 3px solid;
@@ -269,8 +267,12 @@
 				</div>
 			</div>
 		
-		
 		</div>
+		
+		<ul class="actions align-center">
+			<li><a href="#" class="button" name="back">이전</a></li>
+			<li><a href="#" class="button special" name="update">수정하기</a></li>
+		</ul>
 		
 		
  		</div>

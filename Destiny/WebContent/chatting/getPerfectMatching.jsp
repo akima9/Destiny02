@@ -79,7 +79,7 @@
 			        		        dataType: 'text',
 			        		        success: function(JsonData) {
 			        		            console.log('success');
-			        		          alert(JsonData);
+			        		          //alert(JsonData);
 			        					
 			        		        }
 			        				
@@ -115,7 +115,7 @@
 	        dataType: 'text',
 	        success: function(JsonData) {
 	            console.log('success');
-	          alert(JsonData);
+	         // alert(JsonData);
 				
 	        }
 			
@@ -128,7 +128,7 @@
 #load {
 	width: 100%;
 	height: 100%;
-	top: 0;
+	top: 30%;
 	left: 0;
 	position: fixed;
 	display: block;

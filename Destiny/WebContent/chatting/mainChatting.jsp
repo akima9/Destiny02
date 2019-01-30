@@ -63,7 +63,7 @@
                success : function(JsonData) {
                   //alert("성공");
                   
-                  popWin = window.open("/chatting/getRandomMatching.jsp","popWin", "left=500, top=600, width=800, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+                  popWin = window.open("/chatting/getRandomMatching.jsp","popWin", "left=500, top=600, width=800, height=900, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
                            },//success
                   error: function () {
                      alert("error");
@@ -106,7 +106,7 @@
                   success : function(JsonData) {
                      //alert("성공");
                      
-                     popWin = window.open("/chatting/getPerfectMatching.jsp","popWin", "left=500, top=600, width=800, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+                     popWin = window.open("/chatting/getPerfectMatching.jsp","popWin", "left=500, top=600, width=800, height=900, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
                      
                                     },//success
                      error: function () {
@@ -124,10 +124,7 @@
       
    }
    
-    function getNode(){
-      location = "/chatting/json/getPerfectChatting";
-       
-   } 
+   
    $(function() {
       $( "#telepathy" ).on("click" , function() {
           //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -140,6 +137,26 @@
          getPerfectChatting();
       });
       
+      
+      $("a[href='#' ]:contains('MyPage')").on("click", function() {
+    	  if (userId=="") {
+ 	         alert("로그인 후 이용 가능합니다.");
+ 	         $("#my-dialog,#dialog-background").toggle();
+ 	      }else {
+ 	    	  self.location = "/user/getUserView"
+ 	      }
+		});
+      $( "a[href='#' ]:contains('Story')" ).on("click" , function() {
+          //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+    	  
+    	  		//self.location = "/user/getUserView"
+			
+          
+      });
+      $( "a[href='#' ]:contains('Advice')" ).on("click" , function() {
+          //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+    	 	 self.location = "/love/listLoveAdvice"
+      });
       
    });
       
@@ -172,10 +189,10 @@
                
                <div class="carousel-inner" role="listbox">
                  <div class="item active col-xs-12 col-sm-12 " >
-                   <img class="first-slide center-block" src="/resources/images/chatting/main01.jpg" style="width:100%; height: 30%;" alt="First slide"><!-- 첫번째 사진 -->
+                   <img class="first-slide center-block" src="/resources/images/chatting/main01.jpg" style="width:700px; height: 30%;" alt="First slide"><!-- 첫번째 사진 -->
                  <div class="container">
                    <div class="carousel-caption">
-                      당신의 성격유형을 등록하세요!
+                     	당신의 성격유형을 등록하세요!
                      <h1>MBTI</h1>
                      <p>MyPage에서 성격유형을 선택하세요.<code></code> 유형 등록 후 이상형 채팅이 가능합니다.</p>
                      <p><a class="button special" href="#" role="button">MyPage</a></p>
@@ -183,7 +200,7 @@
                  </div>
                </div>
                <div class="item col-xs-12 col-sm-12">
-                 <img class="second-slide center-block" src="/resources/images/chatting/main02.jpg" style="width: 100%;  height: 30%;" alt="Second slide"><!-- 두번째 사진 -->
+                 <img class="second-slide center-block" src="/resources/images/chatting/main02.jpg" style="width: 700px;  height: 30%;" alt="Second slide"><!-- 두번째 사진 -->
                  <div class="container">
                    <div class="carousel-caption">
                      <h1>다양한 후기를 확인해 보세요!</h1>
@@ -193,7 +210,7 @@
                  </div>
                </div>
                <div class="item col-xs-12 col-sm-12">
-                 <img class="third-slide center-block" src="/resources/images/chatting/main03.jpg" style="width: 100%; height: 30%;" alt="Third slide"><!-- 세번째 사진 -->
+                 <img class="third-slide center-block" src="/resources/images/chatting/main03.jpg" style="width: 700px; height: 30%;" alt="Third slide"><!-- 세번째 사진 -->
                      <div class="container">
                       <div class="carousel-caption">
                          <h1>연애조언</h1>

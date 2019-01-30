@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,6 +25,7 @@
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
 
+<link rel="stylesheet" href="/resources/css/main.css" >
 <script type="text/javascript">
 	$(function(){
 		
@@ -88,6 +90,7 @@
 					
 			var name = $("input[name=title]").val();
 			var detail = $("textarea[name=detail]").val();
+			var importRank = $("input[name='importRank']").val();
 	
 			if (name == null || name.length < 1) {
 				alert("제목을 입력해주세요.");
@@ -125,8 +128,8 @@
 	}
 	.representImg{
 		margin-top : 1em;
-		width : 50%;
-		height : 40em;
+		width : 25%;
+		height : 20em;
 		padding : 1em;
 		text-align : center;
 		border : 1px solid #a9a9a9;
@@ -135,22 +138,72 @@
 	.representImg img{
 		width : 80%;
 	}
+	.topImg{
+		display : block;
+		position : absolute;
+		top : 0;
+		background-image : url("/resources/images/background/notice02_background.jpg");
+		background-repeat : no-repeat;
+		background-position : center -500px;
+		background-size : cover;
+		width : 100%;
+		height : 400px;
+	}
+	.topImg::after{
+		content : "";
+		background : rgba(0, 0, 0, 0.2);
+		position : absolute;
+		top : 0;
+		left : 0;
+		width : 100%;
+		height : 400px;
+	}
+	.topImg h1{
+		position : absolute;
+		line-height : 330px;
+		width : 100%;
+		text-align : center;
+		color : white;
+		z-index : 99;
+		font-size : 60px;
+	}
+	h1 .slim{font-weight : lighter;}
+	
+	.smallNavi{
+		overflow : hidden;
+		float : right;
+	}
+	
+	.smallNavi li{
+		float : left;
+	}
+	.updateForm{
+		padding : 25em 0 10em 0;
+	}
 </style>
 
 </head>
 <body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolBar.jsp" />
+	<jsp:include page="/layout/header.jsp" />
 	<!-- ToolBar End /////////////////////////////////////-->
+	
+	<div class="topImg">
+		<h1>공지<span class="slim">사항</span></h1>
+	</div>
 	
 	<div class="container">
 	
-		<div class="row text-center">
-			<h1>공지사항 수정</h1>
-		</div>
+		<ul class="smallNavi">
+			<li class="homeImg"><img alt="home" src="../resources/images/background/home.jpg"></li>
+			<li>></li>
+			<li>스토리</li>
+			<li>></li>
+			<li>맛집정보</li>
+		</ul>
 		
-		<div class="row">
+		<div class="updateForm">
 		
 			<form>
 				
@@ -161,7 +214,6 @@
 				<input type="hidden" name="writerNickName" value="${ community.writerNickName }">
 				<input type="hidden" name="views" value="${ community.views }">
 				<input type="hidden" name="like" value="${ community.like }">
-				<input type="hidden" name="importRank" value="${ community.importRank }">
 				<input type="hidden" name="viewCondition" value="${ community.viewCondition }">
 				<!-- 수정페이지에서 업데이트 컨트롤러로 보내는 데이터 : end -->
 				
@@ -169,6 +221,24 @@
 				
 					<label for="title">제목</label>
 					<input type="text" class="form-control" name="title" value="${ community.title }">
+					
+				</div>
+				
+				<div class="form-group">
+				
+					<!-- <label for="title">중요도</label>
+					<input type="radio" id="ex1" name="importRank" value="Y"><label for="ex1">중요</label>
+					<input type="radio" id="ex2" name="importRank" value="N"><label for="ex2">보통</label> -->
+					<c:if test="${community.importRank == 'Y'}">
+						<label for="title">중요도</label>
+						<input type="radio" id="ex1" name="importRank" value="Y" checked><label for="ex1">중요</label>
+						<input type="radio" id="ex2" name="importRank" value="N"><label for="ex2">보통</label>
+					</c:if>
+					<c:if test="${community.importRank == 'N'}">
+						<label for="title">중요도</label>
+						<input type="radio" id="ex1" name="importRank" value="Y" ><label for="ex1">중요</label>
+						<input type="radio" id="ex2" name="importRank" value="N" checked><label for="ex2">보통</label>
+					</c:if>
 					
 				</div>
 				
@@ -190,7 +260,7 @@
 				
 				<div class="form-group text-center">
 				
-					<button type="button" class="btn btn-default btn-lg" id="save">확인</button>
+					<button type="button" class="" id="save">확인</button>
 					
 				</div>
 				
