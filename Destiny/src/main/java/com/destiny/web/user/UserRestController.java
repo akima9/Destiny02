@@ -246,6 +246,7 @@ public class UserRestController {
 		
 		//String user = "pischa@naver.com";
 		String password = "";
+
 		
 		String content = "인증번호를 입력하여 주세요. 인증번호 ["+authNum+"]";
 		
