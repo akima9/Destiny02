@@ -57,4 +57,11 @@ public class LetterServiceImpl implements LetterService{
 		public void updateReceiveDate(int no) throws Exception {
 			letterDao.updateReceiveDate(no);
 		}
+
+		@Override
+		public int getCountNetReadReceive(String Id) throws Exception {
+			return letterDao.getCountNetReadReceive(Id);
+		}
+		
+		
 }

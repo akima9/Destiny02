@@ -28,6 +28,8 @@ public interface UserService {
 	public Map<String, Object> getLocationList(String city) throws Exception;
 	
 	public List<String> getInterestByUser(int[] interestNo) throws Exception;
+	
+	public List<String> getInterestList() throws Exception;
 		
 	public Map<String, Object> getTypeByUser(int[] typeNo) throws Exception;
 	

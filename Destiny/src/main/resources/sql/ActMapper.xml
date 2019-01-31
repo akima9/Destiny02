@@ -183,6 +183,14 @@
 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 	
 	 </select>
 	 
+	 <select id="getMeetingActAll" parameterType="int" resultMap="meetingSelectMap">
+	 	SELECT act_date as meeting_date, meeting_act_count, act_location as meeting_location, meeting_act_no, act_time as meeting_time
+	 	from meeting_act
+	 	<where>
+	 		meeting_no = #{meetingNo}
+	 	</where>
+	 </select>
+	 
 	 
 	 <select  id="getMeetingActCount"  parameterType="int"	 resultType="int">
 	  	SELECT COUNT(*)

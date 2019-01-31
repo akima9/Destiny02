@@ -37,7 +37,7 @@
 				  
 				 <div class="form-group">
 				   <div class="col-sm-offset-4  col-sm-4 text-center">
-				     <button type="button" class="btn btn-susses"  id="nextSchedul" value="nextSchedul">등록</button>
+				     <a type="button" class="btn btn-susses"  id="nextSchedul" value="nextSchedul">등록</a>
 					 <a class="btn btn-susses btn" id="pushCancle" role="button">취소</a>
 				   </div>
 				 </div>
