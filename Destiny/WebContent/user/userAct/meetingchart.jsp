@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="/resources/css/main.css" > 
 
 <!-- //All CSS Insert -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 <!-- All js -->
 	<!--  템플릿 사용하기 위해 필요한 js -->
@@ -20,45 +20,14 @@
 	<script src="/resources/javascript/skel.min.js"></script>
 	<script src="/resources/javascript/util.js"></script>
 	<script src="/resources/javascript/main.js"></script>
-	<!--Load the AJAX API-->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-
-      // Load the Visualization API and the corechart package.
-      google.charts.load('current', {'packages':['corechart']});
-
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawChart);
-
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawChart() {
-
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ["${fiveTOPInerest[0]}", ${fiveTOP[0]}],
-          ["${fiveTOPInerest[1]}", ${fiveTOP[1]}],
-          ["${fiveTOPInerest[2]}", ${fiveTOP[2]}],
-          ["${fiveTOPInerest[3]}", ${fiveTOP[3]}],
-          ["${fiveTOPInerest[4]}", ${fiveTOP[4]}]
-        ]);
-
-        // Set chart options
-        var options = {'title':'해당 모임에 가입한 회원들의 주된 관심사',
-                       'width':1200,
-                       'height':1200};
-
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
-
-<!-- //All js -->
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+	
+	
+	
 	
 	
 	<style>
@@ -81,8 +50,130 @@
 			<form class="form-horizontal">
 				<div class="row uniform">
 					<div class="flex ">
-				 		<div>
-				 			<div id="chart_div"></div>
+				 		<div class="4u">
+				 			
+				 			<h4>모임 회원들의 상위 관심사 top5</h4>
+				 			<canvas id="myChart" width="400" height="400"></canvas>
+							<script>
+							var ctx = document.getElementById("myChart").getContext('2d');
+							var myChart = new Chart(ctx, {
+							    type: 'pie',
+							    data: {
+							        labels: ["${fiveTOPInerest[0]}", "${fiveTOPInerest[1]}", "${fiveTOPInerest[2]}", "${fiveTOPInerest[3]}", "${fiveTOPInerest[4]}"],
+							        datasets: [{
+							            label: '# of Votes',
+							            data: [${fiveTOP[0]}, ${fiveTOP[1]}, ${fiveTOP[2]}, ${fiveTOP[3]}, ${fiveTOP[4]}],
+							            backgroundColor: [
+							                'rgba(255, 99, 132, 0.2)',
+							                'rgba(54, 162, 235, 0.2)',
+							                'rgba(255, 206, 86, 0.2)',
+							                'rgba(75, 192, 192, 0.2)',
+							                'rgba(153, 102, 255, 0.2)'
+							            ],
+							            borderColor: [
+							                'rgba(255,99,132,1)',
+							                'rgba(54, 162, 235, 1)',
+							                'rgba(255, 206, 86, 1)',
+							                'rgba(75, 192, 192, 1)',
+							                'rgba(153, 102, 255, 1)'
+							            ],
+							            borderWidth: 1
+							        }]
+							    },
+							    options: {
+							        scales: {
+							            yAxes: [{
+							                ticks: {
+							                    beginAtZero:true
+							                }
+							            }]
+							        }
+							    }
+							});
+							</script>
+						</div>
+						
+						<div class="4u">	
+							<h4>모임 회원들의 성비</h4>
+				 			<canvas id="myChart2" width="400" height="400"></canvas>
+							<script>
+							var ctx = document.getElementById("myChart2").getContext('2d');
+							var myChart = new Chart(ctx, {
+							    type: 'doughnut',
+							    data: {
+							        labels: ["남성", "여성"],
+							        datasets: [{
+							            label: '# of Votes',
+							            data: [${maleNum}, ${femaleNum}],
+							            backgroundColor: [
+							                'rgba(255, 99, 132, 0.2)',
+							                'rgba(54, 162, 235, 0.2)'
+							            ],
+							            borderColor: [
+							                'rgba(255,99,132,1)',
+							                'rgba(54, 162, 235, 1)'
+							            ],
+							            borderWidth: 1
+							        }]
+							    },
+							    options: {
+							        scales: {
+							            yAxes: [{
+							                ticks: {
+							                    beginAtZero:true
+							                }
+							            }]
+							        }
+							    }
+							});
+							</script>
+						</div>
+							
+						<div class="4u">
+							<h4>모임 회원들의 연령대</h4>
+				 			<canvas id="myChart3" width="400" height="400"></canvas>
+							<script>
+							var ctx = document.getElementById("myChart3").getContext('2d');
+							var myChart = new Chart(ctx, {
+							    type: 'bar',
+							    data: {
+							        labels: ["0~19", "20~39", "40~59", "60~79", "80~99"],
+							        datasets: [{
+							            label: '# of Votes',
+							            data: [${firstGeneration}, ${secondGeneration}, ${thirdGeneration}, ${fourthGeneration}, ${fifthGeneration}],
+							            backgroundColor: [
+							                'rgba(255, 99, 132, 0.2)',
+							                'rgba(54, 162, 235, 0.2)',
+							                'rgba(255, 206, 86, 0.2)',
+							                'rgba(75, 192, 192, 0.2)',
+							                'rgba(153, 102, 255, 0.2)'
+							            ],
+							            borderColor: [
+							                'rgba(255,99,132,1)',
+							                'rgba(54, 162, 235, 1)',
+							                'rgba(255, 206, 86, 1)',
+							                'rgba(75, 192, 192, 1)',
+							                'rgba(153, 102, 255, 1)'
+							            ],
+							            borderWidth: 1
+							        }]
+							    },
+							    options: {
+							        scales: {
+							            yAxes: [{
+							                ticks: {
+							                    beginAtZero:false
+							                }
+							            }]
+							        }
+							    }
+							});
+							</script>
+						
+							
+							
+							
+				 			
 						</div>
 					</div>
 				</div>
@@ -93,7 +184,9 @@
 	<!-- //contents -->
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
 
-
+	<!-- footer -->
+	<jsp:include page="/layout/footer.jsp" />
+	<!-- //footer -->
 	
 	
 </body>

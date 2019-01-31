@@ -1,6 +1,9 @@
 package com.destiny.web.act;
 
 import java.io.File;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -421,7 +424,6 @@ public class ActController {
 		//============================================가입한 회원들의 주요 관심사=============================================
 		Map<String, Object> meetingCrewMap = meetingService.getCrew(meetingNo);
 		List<Meeting> meetingCrew = (List<Meeting>) meetingCrewMap.get("crewList");
-		List<User> meetingCrewUser = new ArrayList<User>();
 		
 		int[] personalInterestArray = new int[3];
 		User user = new User();
@@ -492,11 +494,71 @@ public class ActController {
 		}
 		//===================================================================================================
 		
+		//==========================================모임 성비, 연령대=============================================
+		List<User> meetingCrewUser = new ArrayList<User>();
+		int femaleNum = 0;
+		int maleNum = 0;
+		
+		int firstGeneration = 0;	//0~19
+		int secondGeneration = 0;	//20~39
+		int thirdGeneration = 0;	//40~59
+		int fourthGeneration = 0;	//60~79
+		int fifthGeneration = 0;	//80~99
+		
+		int age = 0;
+		
+		java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
+		
+		for(Meeting m : meetingCrew) {
+			user = userService.getUser(m.getMeetingMasterId());
+			
+			if(user.getGender().equals("M")) {
+				maleNum++;
+			} else {
+				femaleNum++;
+			}
+			
+			LocalDate generation = new Date((user.getBirthday()).getTime()).toLocalDate();
+			LocalDate sqlDateLocal = new Date(sqlDate.getTime()).toLocalDate();
+			
+			Period period = Period.between(generation, sqlDateLocal);
+			age = period.getYears() + 2;
+			System.out.println("이사람은 몇짤???" + age);
+			
+			if(0 < age && age <= 19) {
+				firstGeneration++;
+			} else if(19 < age && age <= 39) {
+				secondGeneration++;
+			} else if(39 < age && age <= 59) {
+				thirdGeneration++;
+			} else if(59 < age && age <= 79) {
+				fourthGeneration++;
+			} else if(79 < age && age <= 99) {
+				fifthGeneration++;
+			}
+		}
+		
+		
+		//===================================================================================================
+		
+		
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/user/userAct/meetingchart.jsp");
 		modelAndView.addObject("Meeting", meeting);
+		
 		modelAndView.addObject("fiveTOP", fiveTOP);
 		modelAndView.addObject("fiveTOPInerest", fiveTOPInerest);
+		
+		modelAndView.addObject("maleNum", maleNum);
+		modelAndView.addObject("femaleNum", femaleNum);
+		
+		modelAndView.addObject("firstGeneration", firstGeneration);
+		modelAndView.addObject("secondGeneration", secondGeneration);
+		modelAndView.addObject("thirdGeneration", thirdGeneration);
+		modelAndView.addObject("fourthGeneration", fourthGeneration);
+		modelAndView.addObject("fifthGeneration", fifthGeneration);
+		
 		return modelAndView;
 	}
 	
