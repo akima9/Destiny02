@@ -81,6 +81,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public List<String> getInterestList() throws Exception {
+		return userDao.getInterestList();
+	}
+
+	@Override
 	public Map<String, Object> getTypeByUser(int[] typeNo) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -96,6 +101,8 @@ public class UserServiceImpl implements UserService {
 	public List<String> getTypeList() throws Exception {
 		return userDao.getTypeList();
 	}
+	
+	
 
 	@Override
 	public void updateUser(User user) throws Exception {

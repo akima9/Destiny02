@@ -12,4 +12,6 @@ public interface LetterService {
 	public Map<String, Object> getLetterList(Search search, String Id) throws Exception;
 	
 	public void updateReceiveDate(int no) throws Exception;
+	
+	public int getCountNetReadReceive(String Id) throws Exception;
 }
