@@ -41,7 +41,7 @@ body {
 }
 
 body:after{
-background-image: url("/resources/images/chatting/t4.jpg");
+background-image: url("/resources/images/chatting/t2.gif");
   background-repeat: no-repeat;
    background-color: rgba( 255, 255, 255, 0.5 );
    
@@ -622,6 +622,67 @@ $(function(){
 		
 		
 	})
+	var imageFile="";
+	$("#img").change(function(e){
+		//imageFile=document.getElementById("#img")[0].files[0].name ;
+
+		imageFile=$("input[name='imgFile']").val();
+		//imageFile=$('input[type=file]')[0].files[0];
+		//imageFile=$('input[type=file]')[0].files[0].name;
+		// var formData = new FormData($("#img").files[0]);
+		// formData.append('uploadfile', $('input[type=file]')[0].files[0]);
+		
+	    /* alert($('input[type=file]')[0].files[0].name); //파일이름
+	       alert($("#img")[0].files[0].type); // 파일 타임
+	       alert($("#img")[0].files[0].size); // 파일 크기 
+	 */
+	 //alert("imageFile"+imageFile); //파일이름
+	 //alert("formData"+formData); //파일
+	// console.log(formData); 
+	 //console.log(imageFile); 
+	 //console.log($("#img")[0].files[0]); 
+	 
+	 var form={ chattingNo:chattingNo, 
+			 beforeTranslationText:"no", 
+			 afterTranslationText:"no", 
+			 chattingDate:"", 
+			 chattingTime:"",  
+			 manId:manId,
+			 womanId:womanId ,
+			 language:"ko",
+			 favorability:10,
+			 telepathyResult:"",
+			 contactMeeting:"N",
+			 imgFile:imageFile,
+			 voiceFile:""};
+	 console.log(form); 
+
+	       $.ajax({
+		        url: '/chatting/json/imageUpload',
+		        type: 'POST',
+		        dataType: 'json',
+		        data : JSON.stringify({
+		        	chattingNo:chattingNo ,
+		        	 imgFile:imageFile,
+                 }),
+                 headers: {
+                	 "Accept" : "application/json",
+                     "Content-Type" : "application/json"
+                 },
+		        success: function(JsonData) {
+		           // console.log('success');
+		            console.log('man');
+		           // console.log(JsonData.user.myType);
+		          
+		            
+					
+		        }
+				
+		    });
+	  
+	    });
+	
+	
 });
 
 
@@ -697,7 +758,7 @@ window.addEventListener('beforeunload', function (e) {
 </script>
 </head>
 <body>
-<div class='background'>
+<form class='background' id="form123"  enctype="multipart/form-data">
 <br><br><br>
 <main class='container'>
 	<div class='col-sm-8 col-md-8'>
@@ -750,19 +811,23 @@ window.addEventListener('beforeunload', function (e) {
 			<li>관심사</li>
 			<li><a href='#user_1'>상대방</a></li>
 			<br>
-			<div class=" text-center"><a class="btn btn-default" href="#" role="button">확인</a></div>
-			<br>
+			<!-- <div class=" text-center"><a class="btn btn-default" href="#" role="button">확인</a></div>
+			 --><br>
 			
 		</ul>
 		
-		<ul class='col-xs-4 col-sm-12' id='favorability'>
+		<ul class='col-xs-4 col-sm-12 form-group' id='favorability'>
 			<li>기타</li>
 			
 			<div class="col-sm-4 text-center">
 			<img  src="/resources/images/chatting/voice.png" style="width: 40px; height: 40px;">
 			</div>
 			<div class="col-sm-4 text-center">
-			<img alt="" src="/resources/images/chatting/image.png" style="width: 40px; height: 40px;">
+			
+			<input class="form-control" type="file" id="img" name='imgFile' accept="image/*" style='display: none;'> 
+			<input type="hidden" name='file2' id='file2'>
+			<img alt="" src="/resources/images/chatting/image.png" id="imgClick" border='0'  onclick='document.all.imgFile.click(); document.all.file2.value=document.all.imgFile.value' style='width: 40px; height: 40px;'>
+			
 			</div>
 			<div class="col-sm-4 text-center">
 			<img alt="" src="/resources/images/chatting/profile.png" style="width: 40px; height: 40px;">
@@ -796,5 +861,5 @@ window.addEventListener('beforeunload', function (e) {
 			</div>
 	
 </main>
-</div>
+</form>
 </body></html>

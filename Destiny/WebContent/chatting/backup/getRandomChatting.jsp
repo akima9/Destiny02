@@ -28,7 +28,7 @@
 <style class="cp-pen-styles">
 
 .chat-box {
-   
+    
     overflow: auto;
     
 }
@@ -37,7 +37,7 @@
 body {
   margin: 0;
   padding: 0;
-  opacity:0.9!important; 
+  opacity:0.9!important;
 }
 
 body:after{
@@ -62,6 +62,7 @@ background-image: url("/resources/images/chatting/t2.gif");
   font-family: Helvetica,sans-serif;
   color: #841616;
 }
+
 
 main.container {
   width: 90%;
@@ -218,10 +219,9 @@ main.container .chat-box ul li .you .text div {
     white-space: normal;
     word-wrap: break-word;
     background-color: rgba(225, 210, 212, 0.59);
-   
 }
 
-#mbti{
+#telepathy{
 background-color: rgba(241, 188, 193, 0.6);
 border-radius: 10px 10px 10px 10px;
 }
@@ -260,7 +260,6 @@ border-radius: 10px 10px 10px 10px;
 		height:30px;
 		position:relative;
 		border-radius: 10px 10px 10px 10px;
-		
 		}
 		  
 		.bar .percent span {
@@ -273,6 +272,7 @@ border-radius: 10px 10px 10px 10px;
 		height:30px;
 		background:rgba(255, 255, 255, .7);
 		border-radius: 0 10px 10px 0;
+		
 		}
 		  
 		.bar .circle {
@@ -316,7 +316,7 @@ border-radius: 10px 10px 10px 10px;
 		}
 		/* gage끝 */
 </style>
-<script src="http://192.168.0.47:82/socket.io/socket.io.js"></script>
+<script src="http://192.168.0.47:83/socket.io/socket.io.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 
 <script>
@@ -338,7 +338,7 @@ function noEvent() { // 새로 고침 방지
 
 ////////////////////////////////////////////
 
-var socket = io.connect('http://192.168.0.47:82');
+var socket = io.connect('http://192.168.0.47:83');
 var timeout;
 var chattingNo='${chatting.chattingNo}';
 var manId="${chatting.manId}";
@@ -347,10 +347,18 @@ var chatting={"chattingNo":chattingNo,"manId":manId,"womanId":womanId};
 var partnerType="";
 var myType="";
 var interest="";
+var wResult01="${telepathyList[0].womanTelepathyResult}";
+var wResult02="${telepathyList[1].womanTelepathyResult}";
+var wResult03="${telepathyList[2].womanTelepathyResult}";
+var mResult01="${telepathyList[0].manTelepathyResult}";
+var mResult02="${telepathyList[1].manTelepathyResult}";
+var mResult03="${telepathyList[2].manTelepathyResult}";	
 var otherGage=0;
+
 // on connection to server, ask for user's name with an anonymous callback
 socket.on('connect', function(){
 	// call the server-side function 'adduser' and send one parameter (value of prompt)
+	//이심전심 결과
 	
 	socket.emit('adduser', "${me.userId}");
 	socket.emit('addroom',chatting);
@@ -366,21 +374,20 @@ socket.on('connect', function(){
 	            console.log(JsonData.interest[0]);
 	            console.log(JsonData.interest[1]);
 	            console.log(JsonData.interest[2]);
-	            console.log(JsonData.type.firstType);
-	            console.log(JsonData.type.myType);
-	            /* myType=JsonData.type.myType;
-	            partnerType=JsonData.type.firstType; */
-	            //partnerType=JsonData.user.myType;
+	    
 	            interest=[JsonData.interest[0],JsonData.interest[1],JsonData.interest[2]];
-	        
-	            $('#you').append("<div class='text-center'><img src='/resources/images/chatting/mbti/"+JsonData.type.firstType+".JPG' class='img-circle' width='100px' height='100px'><br>"+JsonData.type.firstType+"</div>");
-	            $('#me').append("<div class='text-center'><img src='/resources/images/chatting/mbti/"+JsonData.type.myType+".JPG' class='img-circle' width='100px' height='100px'><br>"+JsonData.type.myType+"</div>");
-	            //$('#interest').append('<div>' +interest+ '</div>');
-				
+	        	
+	         	
 	        }
 			
 	    });
-	}else{
+		
+		console.log("${telepathyList[0].womanTelepathyResult}");
+		console.log("${telepathyList[1].womanTelepathyResult}");
+		console.log("${telepathyList[2].womanTelepathyResult}");
+		$('#me').append('<div>' + wResult01+" "+wResult02+" "+wResult03+ '</div>');
+		
+	}else if(manId=="${me.userId}"){
 		$.ajax({
 	        url: '/chatting/json/getUserTypeInterest/'+womanId,
 	        type: 'GET',
@@ -392,26 +399,20 @@ socket.on('connect', function(){
 	            console.log(JsonData.interest[0]);
 	            console.log(JsonData.interest[1]);
 	            console.log(JsonData.interest[2]);
-	            console.log(JsonData.type.firstType);
-	            console.log(JsonData.type.myType);
-	       		//partnerType=JsonData.user.myType;
-	            myType=JsonData.type.myType;
-	            partnerType=JsonData.type.firstType;
+	            
 	            interest=[JsonData.interest[0],JsonData.interest[1],JsonData.interest[2]];
 		        
-
-	            $('#you').append("<div class='text-center'><img src='/resources/images/chatting/mbti/"+JsonData.type.firstType+".JPG' class='img-circle' width='100px' height='100px'><br>"+JsonData.type.firstType+"</div>");
-	            $('#me').append("<div class='text-center'><img src='/resources/images/chatting/mbti/"+JsonData.type.myType+".JPG' class='img-circle' width='100px' height='100px'><br>"+JsonData.type.myType+"</div>");
 	            
 				
 	        }
 			
 	    });
+		$('#me').append('<div>' + mResult01+" "+mResult02+" "+mResult03+ '</div>');
+		
 		
 	}
 
 
-	
 	
 });
 // listener, whenever the server emits 'updatechat', this updates the chat body
@@ -474,7 +475,7 @@ socket.on('updatechat', function (username, data1) {
 			//alert("server message");
 			//$('#chat-box').append('<div>'+username + '<br> ' + data1 +'<br>');
 			$('#user_1').append("<li><div class='title'><div>"+username+"<div>"+data1+"</div></div></div></li>");
-
+			
 		}
 		 
 		
@@ -551,7 +552,6 @@ socket.on('updategage', function (username, data) {
 ///////////////////////////////////////////////////////////
 
 
-
 // on load of page
 $(function(){
 	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -584,18 +584,47 @@ $(function(){
 		}
 	});
 	
-//관심사///////////////////////////////////////////
-$('.btn-default').click(function () {
-	$('.btn-default').remove();
-	$('#interest').append('<div class="text-center">' +interest+ '</div>');
-})
-///////////////////////////////////////////////
+	//관심사///////////////////////////////////////////
+	$('.btn-default').click(function () {
+		$('.btn-default').remove();
+		$('#interest').append('<div class="text-center">' +interest+ '</div>');
+	})
+	///////////////////////////////////////////////
+	$('a:contains("상대방")').click(function () {
+		$.ajax({
+	        url: '/chatting/json/getTelepathyResult/',
+	        type: 'GET',
+	        dataType: 'json',
+	        success: function(JsonData) {
+	        	//alert("성공");
+	        	console.log(JsonData);
+	        	//alert(JsonData.telepathyListRe[0].womanTelepathyResult);
+	        	 wResult01=JsonData.telepathyListRe[0].womanTelepathyResult;
+	        	 wResult02=JsonData.telepathyListRe[1].womanTelepathyResult;
+	        	 wResult03=JsonData.telepathyListRe[2].womanTelepathyResult;
+	        	 mResult01=JsonData.telepathyListRe[0].manTelepathyResult;
+	        	 mResult02=JsonData.telepathyListRe[1].manTelepathyResult;
+	        	 mResult03=JsonData.telepathyListRe[2].manTelepathyResult;	
+	        	 $('#result').remove();
+	        	if (womanId=="${me.userId}") {
+	        		
+	    			$('#you').append('<div id="result">' + mResult01+" "+mResult02+" "+mResult03+ '</div>');
+	    			
+	    		}else{
+	    			
+	    			$('#you').append('<div id="result">' + wResult01+" "+wResult02+" "+wResult03+ '</div>');
+	    			
+	    		}
+	         	
+	        }
+			
+	    });
+		
+		
+	})
 });
 
-window.addEventListener('beforeunload', function (e) {
-	location="/chatting/endChatting";
-	
-	});
+
 /////////////////////////////////
 /////////게이지
 var ti = 0;
@@ -611,15 +640,16 @@ var ti = 0;
 	        cs =
 	        circle.find('span'),
 	        name = 'rotate';
-	    
-	    
-	   $('.input').click( function(e) {
 	    	
+	    	
+	   $('.input').click( function(e) {
+		   
 	    	console.log(ti);
 	    	
 	        if (true) {
 	        	
 	        	ti=ti+5; 
+	        	
 	        	socket.emit('sendgage', ti);
 	            var val = ti;
 	            console.log("안쪽"+ti);
@@ -646,11 +676,12 @@ var ti = 0;
 	            }
 	        }
 	    });
+	  
 	});
 ///////채팅방 나감///////////////////////////////////
 window.addEventListener('beforeunload', function (e) {
 		$.ajax({
-	        url: '/chatting/json/endPerfectChatting',
+	        url: '/chatting/json/endRandomChatting',
 	        type: 'GET',
 	        dataType: 'text',
 	        success: function(JsonData) {
@@ -663,22 +694,11 @@ window.addEventListener('beforeunload', function (e) {
 		
 	});
 
-/* $(function(){
-			$(window).on("load",function(){
-				
-				$(".chat-box").mCustomScrollbar({
-					autoHideScrollbar:true,
-					theme:"rounded"
-				});
-				
-			});
-		});
-
- */
 </script>
 </head>
 <body>
-
+<div class='background'>
+<br><br><br>
 <main class='container'>
 	<div class='col-sm-8 col-md-8'>
 		<!-- 채팅창안 -->
@@ -709,18 +729,20 @@ window.addEventListener('beforeunload', function (e) {
 					
 				</div>
 				<textarea id="data"  class="col-xs-8 col-sm-8 col-md-8"></textarea>
-				<img  class="btn col-xs-2 col-sm-2 col-md-2" src="/resources/images/chatting/send.png" id="datasend" />
-					
+				<img alt="" class="btn col-xs-2 col-sm-2 col-md-2" src="/resources/images/chatting/send.png" id="datasend" >
+				<!-- <input type="button" class="btn col-xs-4 col-sm-4 col-md-4" role="button" id="datasend" value="전송" />
+				 -->	
 				
 			</div>
 		</div>
 
 	<div class='list col-sm-4 col-md-4'>
-		<ul class='col-xs-4 col-sm-12' id='mbti'>
-			<li>MBTI 유형</li>
+		<ul class='col-xs-4 col-sm-12' id='telepathy'>
+			<li>이심전심</li>
 			<li><a href='#user_1' >상대방</a></li>
 			<br ><li id="you"></li>
 			<li><a href='#user_2'>나</a></li>
+			
 			
 			<br><li id="me"></li>
 		</ul>
@@ -732,9 +754,10 @@ window.addEventListener('beforeunload', function (e) {
 			<br>
 			
 		</ul>
+		
 		<ul class='col-xs-4 col-sm-12' id='favorability'>
 			<li>기타</li>
-			<br><br>
+			
 			<div class="col-sm-4 text-center">
 			<img  src="/resources/images/chatting/voice.png" style="width: 40px; height: 40px;">
 			</div>
@@ -744,17 +767,18 @@ window.addEventListener('beforeunload', function (e) {
 			<div class="col-sm-4 text-center">
 			<img alt="" src="/resources/images/chatting/profile.png" style="width: 40px; height: 40px;">
 			</div>
-			<br><br>
+			
 			
 		</ul>
 	</div>
 	
 
 	
-	
+
 		
 		
 		 <div class="bar">
+		 	<br><br>
 		 		<div class="col-xs-11 col-sm-11">
 				    <div class="percent">
 				        <span style="width: 100%;"></span>
@@ -772,5 +796,5 @@ window.addEventListener('beforeunload', function (e) {
 			</div>
 	
 </main>
-
+</div>
 </body></html>

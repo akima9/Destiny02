@@ -3,6 +3,8 @@ package com.destiny.service.domain;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Chatting {
 	
 	private int 				chattingNo;
@@ -16,6 +18,10 @@ public class Chatting {
 	private int				favorability;
 	private List<String>	telepathyResult;
 	private String		contactMeeting;
+	private MultipartFile  imgFile;
+	private MultipartFile  voiceFile;
+	
+	
 	public int getChattingNo() {
 		return chattingNo;
 	}
@@ -48,6 +54,12 @@ public class Chatting {
 	}
 	public String getContactMeeting() {
 		return contactMeeting;
+	}
+	public MultipartFile getImgFile() {
+		return imgFile;
+	}
+	public MultipartFile getVoiceFile() {
+		return voiceFile;
 	}
 	public void setChattingNo(int chattingNo) {
 		this.chattingNo = chattingNo;
@@ -82,15 +94,22 @@ public class Chatting {
 	public void setContactMeeting(String contactMeeting) {
 		this.contactMeeting = contactMeeting;
 	}
+	public void setImgFile(MultipartFile imgFile) {
+		this.imgFile = imgFile;
+	}
+	public void setVoiceFile(MultipartFile voiceFile) {
+		this.voiceFile = voiceFile;
+	}
 	@Override
 	public String toString() {
 		return "Chatting [chattingNo=" + chattingNo + ", beforeTranslationText=" + beforeTranslationText
 				+ ", afterTranslationText=" + afterTranslationText + ", chattingDate=" + chattingDate
 				+ ", chattingTime=" + chattingTime + ", manId=" + manId + ", womanId=" + womanId + ", language="
 				+ language + ", favorability=" + favorability + ", telepathyResult=" + telepathyResult
-				+ ", contactMeeting=" + contactMeeting + "]";
+				+ ", contactMeeting=" + contactMeeting + ", imgFile=" + imgFile + ", voiceFile=" + voiceFile + "]";
 	}
 	
+
 	
 	
 
