@@ -45,7 +45,7 @@
 	 		SELECT *
 			FROM ( SELECT inner_table. * ,  ROWNUM AS row_seq 
 				FROM (
-				select*from meeting where meeting_views is not null order by meeting_views desc
+				select*from meeting where meeting_views is not null and meeting_condition='DEF' order by meeting_views desc
 				) inner_table 
 			WHERE ROWNUM &lt;= 3)
 			WHERE row_seq BETWEEN 1 AND 3 
@@ -68,7 +68,7 @@
 		SELECT m.*, ma.act_date as meeting_date, ma.act_location as meeting_location, ma.act_date as meeting_date
 		FROM meeting m, meeting_act ma
 		WHERE m.meeting_no = ma.meeting_no 
-		and m.meeting_condition ='DEF'
+		and m.meeting_condition in ('DEF','EMP')
 			<if test="searchKeyword != null">
 				and m.meeting_name LIKE '%'||#{searchKeyword}||'%'
 			</if>
@@ -279,5 +279,12 @@
 	   	</set>
 	   	WHERE meeting_no = #{meetingNo}
 	 </update>	 
-	 
+<!-- /////////////////모임장탈퇴 셧다운 발동////////////////// -->
+	<update	id="shutdown"	parameterType="com.destiny.service.domain.Meeting">
+	   	UPDATE meeting
+	   	<set>
+			shut_down_date = SYSDATE
+	   	</set>
+	   	WHERE meeting_no = #{meetingNo}
+	 </update>	 
 </mapper>

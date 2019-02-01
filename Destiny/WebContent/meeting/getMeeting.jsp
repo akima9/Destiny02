@@ -1,6 +1,9 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- 현재날짜구하기 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 
@@ -28,6 +31,9 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
+	.botton{
+	 
+	}
         #backround {
 		    display: none;
 		    position: fixed;
@@ -675,6 +681,49 @@
 					$("#backround,#dialog2,#dialog,#dialog3,#nextDialog").hide();
 				});
 				//////////////////빽그라운드 끝!!!!!!!/////////////////
+				//=============승계
+				$("button:contains('승계')").click(function () { 	
+					if('${empty sessionScope.me}'=='true'){
+						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+							$("#my-dialog,#dialog-background").toggle();
+							//self.location="/user/login";
+						 }else{   //취소
+
+						     return;
+
+						 }
+					}else{
+						
+				
+						$.ajax( 
+							 {
+									url : "/meetingRest/takeOver",
+									method : "post" ,
+									dataType : "json" ,
+									data : JSON.stringify({
+										meetingNo : "${meeting.meetingNo}" ,
+										meetingMasterId : "${sessionScope.me.userId}", 
+										role : "MST",
+									}),
+									headers : {
+										"Accept" : "application/json",
+										"Content-Type" : "application/json"
+									},
+									success : function(JSONData , status) {
+										if(JSONData.result==0){
+											alert("모임원이 아니시네요");
+											
+										}else {
+											alert("모임장 가자~~");
+											self.location="/meeting/getMeeting?meetingNo="+${meeting.meetingNo};
+											
+										}
+									}
+							}); 
+						
+					}//else 끝!!
+					
+				});
 			});
 
 
@@ -768,16 +817,21 @@
 		  	${meeting.interestName}
 		  	
 		</div>
-		<!-- 
+
+		<c:if test="${crewList['0'].role != 'MST'}">	
+
 		 <div class="page-header">
-	       <h3 class=" text-info">getMeeting.jsp</h3>
-	       <button id="update-dialog">수정하기</button>
-	       <button type="button" id="btn-delete-dialog">삭제</button>
-	       <button type="button" id="btn-complain">신고</button>
-	       <button type="button" id="btn-takeOver">탈퇴하기</button>
+		<c:set var="now" value="<%=new java.util.Date()%>" />
+		<c:set var="sysYear"><fmt:formatDate value="${now}" pattern="yyyy-mm-dd" /></c:set> 
+	       <h3 class=" text-info">
+	       	<p>모임장이 떠낫어요ㅠㅠ</p> 
+	       	<p>모임장을 승계하지 않으면 </p> 
+	       	<p>모임이 삭제 될 예정입니다.</p> 
+	       </h3>
 	       <button type="button" id="btn-takeOver">승계</button>
+	      <!-- <img src="/resources/images/meeting/master2.png" width="50px" height="50px"/> be a master -->
 	    </div>
- -->
+		</c:if>
 
 		<div class="row">
 		  <div class="col-md-12">
@@ -798,6 +852,7 @@
 			<hr/>
 		  </div>
 		 </div>
+		<c:if test="${crewList['0'].role=='MST'}">	
 		<div class='row'>
 			<table class="col-sm-12 col-md-12">
 				<tr>
@@ -806,7 +861,9 @@
 					</td>
 				</tr>
 			</table>
-		</div>		
+		</div>	
+		
+
 		<div>
 			<div class='row'>
 				<div id="meetingActCount" align="center" class="col-xs-2 col-md-2 ">
@@ -878,6 +935,7 @@
 			</div>
 			
 		</div>
+		</c:if>
 	
 		<hr/>
 		<div align="center" class="col-xs-12 col-md-12 ">
@@ -890,7 +948,7 @@
         <form id="dialog2form" class="form-horizontal">
         <div>
         	<div name="meetingMasterId" value="${sessionScope.me.userId}" class="form-group col-sm-12 col-md-12" align="center">
-        		<img src="/resources/images/userprofile/${sessionScope.me.profile}" width="100px" height="100px" class="imgmen">
+        		<img src="/resources/images/userprofile/${sessionScope.me.profile}" width="100px" height="100px" class="imgmen"/>
         	</div>
         	
         	<div class="form-group col-sm-12 col-md-12" align="center">
@@ -931,12 +989,15 @@
 					<c:forEach var="crew" items="${crewList}">
 						
 					 		<div class="dropdown">
-					 			<img  src="/resources/images/userprofile/${crew.masterProfileImg}" width="100px" height="100px" class="imgmen">
-								<a class="dropdown-toggle thisName" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
-									<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
-									<span class="caret"></span>
-								</a>
-								<c:if test="${crew.role=='MST' }"><strong>모임장</strong></c:if>
+					 			<div>
+						 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" width="100%" height="100%" class="col-xs-1 col-sm-1 col-md-1 imgmen">
+									<a class="col-xs-3 col-sm-3 col-md-3 dropdown-toggle thisName" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+										<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
+										<span class="caret"></span>
+									</a>
+									<a class="col-xs-6 col-sm-6 col-md-6"></a>
+									<c:if test="${crew.role=='MST' }"><span><strong class="col-xs-2 col-sm-2 col-md-2">모임장</strong></span></c:if>
+								</div>
 								<ul class="dropdown-menu">
 									<c:if test="${sessionScope.me.nickName eq crewList['0'].crewNickName }">
 										<li><a href="#">강퇴하기</a></li>

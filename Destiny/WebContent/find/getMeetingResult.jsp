@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -274,7 +275,7 @@
 body ul, body ol, body li{margin:0; padding:0; list-style:none;}
 .list-wrap{max-width:1400px; margin:0 auto;}
 .list-wrap:after{content:''; display:block; clear:both;}
-.list-item{box-sizing:border-box; float:left; width:calc(33.333% - 30px); margin:0 15px; margin-top:20px; padding: 15px; border:1px solid red; border-radius:10px;}
+.list-item{box-sizing:border-box; float:left; width:calc(33.333% - 30px); margin:0 15px; margin-top:20px; padding: 15px; border:1px solid #7d7b7b; border-radius:10px;}
 .list-img{max-width:200px; width:100%;}
 .list-tit{
 	font-size: 1.75em;

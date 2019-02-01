@@ -235,7 +235,16 @@
 		    }); 
 //===============메뉴얼==========
 			$(function() {
-				
+				var masterNick = "${crewList['0'].crewNickName}";
+				var condition = "";
+				if(masterNick=='${sessionScope.me.nickName}'){
+					condition = "MST";
+				}else{
+					condition = "MEM";
+				}
+				var thisRole = "${ crewList['0'].crewNickName==sessionScope.me.nickName ? '모임장님' : '' }";
+				console.log(masterNick);
+				console.log(condition);
 				///신고하기 
 				  	$( "a[href='#' ]:contains('신고')" ).on("click" , function() {
 				  		if('${empty sessionScope.me}'=='true'){
@@ -323,8 +332,16 @@
 							 }else{   //취소
 							     return;
 							 }
+						}else if('${sessionScop.me.nickName==masterNick}'=='${crewCount==1}'){
+							if (confirm("모집된 모임원이 없으시네요.\n모임을삭제하시겠습니까?") == true){    //확인
+								$("#detailForm").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
+							 }else{   //취소
+							     return;
+							 }
 						}else{
-							if(confirm("${meeting.meetingName} 에서 \n탈퇴 하시겠습니까?") == true){
+							if(confirm("'"+thisRole+"'  "+" ${meeting.meetingName} 에서 \n탈퇴 하시겠습니까?") == true){
+								alert("탈퇴 컨디션이닷!"+condition);
+						
 								$.ajax( 
 								 {
 										url : "/meetingRest/dropMeeting",
@@ -334,7 +351,8 @@
 											meetingNo : "${meeting.meetingNo}" ,
 											meetingMasterId : "${sessionScope.me.userId}",
 											meetingActCount : "${meetingAct.meetingActCount}",
-											
+											meetingCondition : condition,  /* 모임장인지 아닌지 전달 */
+												
 										}),
 										headers : {
 											"Accept" : "application/json",
@@ -356,7 +374,8 @@
 												
 											}
 										}
-								}); 
+								});  
+								
 							}else{
 								return;
 							}

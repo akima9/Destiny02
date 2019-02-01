@@ -13,21 +13,22 @@
 
 <!-- 참조 : http://getbootstrap.com/css/   -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
+
+<link rel="stylesheet" href="/resources/css/main.css" >
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">
+
 <!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>	
 
 <script src="/resources/javascript/skel.min.js"></script>
 <script src="/resources/javascript/util.js"></script>
 <script src="/resources/javascript/main.js"></script>
 
-<link rel="stylesheet" href="/resources/css/main.css" >
-<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">
+
 
 
 <script type="text/javascript">
@@ -355,6 +356,7 @@ $(function() {
 		margin-top : 5px;
 	}
 </style>
+	
 </head>
 
 <body>
@@ -362,9 +364,7 @@ $(function() {
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/header.jsp" />
   	<!-- ToolBar End /////////////////////////////////////-->
-  	
-  	
-    
+
     <!-- 메인배경이미지 : start -->
 	<div class="topImg">
 		<h1>맛집<span class="slim">정보</span></h1>
@@ -520,4 +520,6 @@ $(function() {
 	</div>
 
 </body>
+
+
 </html>
