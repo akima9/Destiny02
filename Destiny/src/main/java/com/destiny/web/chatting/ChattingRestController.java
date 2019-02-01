@@ -2,6 +2,7 @@ package com.destiny.web.chatting;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.service.chatting.ChattingService;
@@ -849,6 +851,35 @@ public class ChattingRestController {
 		map.put("telepathyListRe", telepathyList);
 		System.out.println("telepathyList : "+telepathyList);
 		return map;
+	}
+	
+	@RequestMapping(value = "json/imageUpload", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> imageUpload(HttpSession session, HttpServletRequest request,@RequestBody Chatting chatting) throws Exception {
+		System.out.println("json/imageUpload 들어옴");
+
+		// ===========================================현재 접속자 구현 로직
+		// part=================================================
+	System.out.println(chatting);
+		//String imageFile=(String)request.getAttribute("imageFile");
+	/*	System.out.println("imgFile : "+imgFile);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String picpath = "";
+		if(imgFile!=null && !imgFile.isEmpty()) {
+			MultipartFile file =imgFile;
+			
+					
+			byte fileData[] = file.getBytes();
+			picpath = file.getOriginalFilename();
+			System.out.println("pic"+picpath);
+			FileOutputStream fos = new FileOutputStream("C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\chatting\\image\\" + picpath);
+			fos.write(fileData);
+			fos.close();
+		}
+		map.put("fileName",imgFile);
+		System.out.println("imgFile : "+imgFile);*/
+		return null;
 	}
 	
 }

@@ -181,14 +181,21 @@ public class LoveController {
 	@RequestMapping(value="updateLoveAdvice", method=RequestMethod.POST)
 	public ModelAndView updateLoveAdvice(@ModelAttribute("community") Community community, @RequestParam("communityNo") int communityNo, @RequestParam("uploadFile")MultipartFile fileName, MultipartHttpServletRequest mtfRequest, @ModelAttribute("upload")Upload upload) throws Exception{
 		
-		/*대표이미지 업로드 : start*/
-		String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\uploadImg\\";
-		String name = System.currentTimeMillis()+"."+fileName.getOriginalFilename().split("\\.")[1];
+		String name = "";
 		
-		File file = new File(path + name);
+		if (fileName.getOriginalFilename() == "") {
+			name = communityService.getCommunity(communityNo).getFileName();
+		}else {
+			/*대표이미지 업로드 : start*/
+			String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\uploadImg\\";
+			name = System.currentTimeMillis()+"."+fileName.getOriginalFilename().split("\\.")[1];
+			
+			File file = new File(path + name);
 
-		fileName.transferTo(file);
-		/*대표이미지 업로드 : end*/
+			fileName.transferTo(file);
+			/*대표이미지 업로드 : end*/
+		}
+		
 		
 		communityService.updateCommunity(community);
 		upload = uploadService.getUpload(communityNo);

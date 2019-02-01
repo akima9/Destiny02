@@ -520,6 +520,4 @@ $(function() {
 	</div>
 
 </body>
-
-
 </html>

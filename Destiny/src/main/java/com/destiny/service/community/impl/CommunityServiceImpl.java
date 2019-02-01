@@ -132,6 +132,30 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
+	public Map<String, Object> getMeetingStoryList(Search search) throws Exception {
+		List<Community> list = communityDao.getMeetingStoryList(search);
+		int totalCount = communityDao.getTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> getDateStoryList(Search search) throws Exception {
+		List<Community> list = communityDao.getDateStoryList(search);
+		int totalCount = communityDao.getTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}	
+
+	@Override
 	public Map<String, Object> getNoticeList(Search search) throws Exception {
 		List<Community> list = communityDao.getNoticeList(search);
 		int totalCount = communityDao.getNoitceTotalCount(search);
@@ -166,6 +190,26 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public Community getNextNotice(int communityNo) throws Exception {
 		return communityDao.getNextNotice(communityNo);
+	}
+
+	@Override
+	public Community getPreMeetingStory(int communityNo) throws Exception {
+		return communityDao.getPreMeetingStory(communityNo);
+	}
+
+	@Override
+	public Community getNextMeetingStory(int communityNo) throws Exception {
+		return communityDao.getNextMeetingStory(communityNo);
+	}
+
+	@Override
+	public Community getPreDateStory(int communityNo) throws Exception {
+		return communityDao.getPreDateStory(communityNo);
+	}
+
+	@Override
+	public Community getNextDateStory(int communityNo) throws Exception {
+		return communityDao.getNextDateStory(communityNo);
 	}
 
 }
