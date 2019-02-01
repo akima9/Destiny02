@@ -86,6 +86,11 @@ public class ActDaoImpl implements ActDao{
 		
 		return list;
 	}
+	
+	@Override
+	public List<Meeting> getMeetingActAll(int meetingNo) throws Exception {
+		return sqlSession.selectList("ActMapper.getMeetingActAll", meetingNo);
+	}
 
 	@Override
 	public int getMeetingActCount(int meetingNo) throws Exception {

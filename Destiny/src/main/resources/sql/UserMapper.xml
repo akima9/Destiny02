@@ -102,6 +102,11 @@
 	 	</where>
 	 </select>
 	 
+	 <select id="getInterestList" resultType="String">
+	 	SELECT INTEREST_NAME
+	 	from interest
+	 </select>
+	 
 	 <select id="getType" parameterType="int" resultType="String">
 	 	SELECT type_name
 	 	from type

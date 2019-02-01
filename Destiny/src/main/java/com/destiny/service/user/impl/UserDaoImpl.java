@@ -68,6 +68,11 @@ public class UserDaoImpl implements UserDao{
 	public String getInterest(int interestNo) throws Exception {
 		return sqlSession.selectOne("UserMapper.getInterest", interestNo);
 	}
+	
+	@Override
+	public List<String> getInterestList() throws Exception {
+		return sqlSession.selectList("UserMapper.getInterestList");
+	}
 
 	@Override
 	public String getType(int typeNo) throws Exception {

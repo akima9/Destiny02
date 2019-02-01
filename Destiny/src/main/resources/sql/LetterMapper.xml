@@ -84,4 +84,15 @@
 			) countTable						
 	 </select>
 	 
+	 <select id="getCountNetReadReceive" parameterType="String" resultType="int">
+	 	SELECT COUNT(*)
+	 	FROM(	SELECT sender_id, receiver_id, send_date, receive_date, letter_title, letter_detail, letter_no
+	 					FROM letter
+	 					<where>
+	 					receiver_id = #{Id} AND
+	 					receive_date = to_date('2019/01/01 10:48:43', 'YYYY/MM/DD HH24:MI:SS')
+	 					</where>
+	 	) countTable
+	 </select>
+	 
 </mapper>	 

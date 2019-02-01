@@ -65,4 +65,11 @@ public class LetterDaoImpl implements LetterDao{
 	public int getSendLetterTotalCount(String Id) throws Exception{
 		return sqlSession.selectOne("LetterMapper.getSendLetterTotalCount", Id);
 	}
+
+	@Override
+	public int getCountNetReadReceive(String Id) throws Exception {
+		return sqlSession.selectOne("LetterMapper.getCountNetReadReceive", Id);
+	}
+	
+	
 }
