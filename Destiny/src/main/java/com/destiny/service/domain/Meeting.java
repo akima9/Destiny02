@@ -148,9 +148,14 @@ public class Meeting {
 	}
 	
 	public String getShutDownDate() {
-		return shutDownDate;
+		if(shutDownDate != null) {
+			return shutDownDate.substring(0,10);
+		}else {
+			return shutDownDate;
+		}
 	}
 	public void setShutDownDate(String shutDownDate) {
+		
 		this.shutDownDate = shutDownDate;
 	}
 	public int getMeetingCrewLimit() {

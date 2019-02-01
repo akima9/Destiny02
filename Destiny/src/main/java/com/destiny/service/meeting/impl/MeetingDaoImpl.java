@@ -187,6 +187,12 @@ public class MeetingDaoImpl implements MeetingDao {
 	public int nextMeeting(Meeting meeting) throws Exception {
 		return sqlSession.update("MeetingMapper.nextMeeting", meeting);
 	}
+
+	@Override
+	public void shutdown(Meeting meeting) throws Exception {
+		sqlSession.update("MeetingMapper.shutdown", meeting);
+		
+	}
 	
 
 }

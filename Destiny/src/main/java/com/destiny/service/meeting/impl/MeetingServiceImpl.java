@@ -189,5 +189,11 @@ public class MeetingServiceImpl implements MeetingService {
 		return meetingDao.nextMeeting(meeting);
 	}
 
+	@Override
+	public void shutdown(Meeting meeting) throws Exception {
+		meetingDao.shutdown(meeting);
+		
+	}
+
 	
 }

@@ -180,7 +180,7 @@ public class MeetingRestController {
 	}
 	
 	@RequestMapping( value="meetingRest/dropMeeting", method=RequestMethod.POST)
-	public int dropMeeting(@RequestBody Meeting meeting)throws Exception{
+	public int dropMeeting(@RequestBody Meeting meeting)throws Exception{ 
 		System.out.println("탈퇴  시작함");
 		System.out.println("여기미팅에 미팅회차 있어야함 "+meeting);
 		
@@ -188,22 +188,33 @@ public class MeetingRestController {
 		System.out.println("모임원인지 확인 "+result);
 		if(result < 1) return 5018;/*모임원 아님*/
 		
+		System.out.println("모임장인가요?"+meeting.getMeetingCondition());
+		if(meeting.getMeetingCondition().equals("MST")) {
+			System.out.println("모임장 탈퇴중입니다.");
+			meeting.setMeetingCondition("EMP");
+			meetingService.updateMeeting(meeting);
+			meetingService.shutdown(meeting);
+		}
+
 		if(result==1) {
+			
 			System.out.println("왔음???");
 			meeting.setMeetingActNo(meetingService.getActNo(meeting).getMeetingActNo());
-			int duplicationAct = meetingService.DuplicationAct(meeting);
-			if(duplicationAct>0) {
-				System.out.println("여기도??왔음???");
+				int duplicationAct = meetingService.DuplicationAct(meeting);
 				
-				int actremovResult = meetingService.kickOutAct(meeting);
-				System.out.println("회차 모임에서 삭제 되었나"+actremovResult);
-			}
+				if(duplicationAct>0) {
+					System.out.println("여기도??왔음???");
+					
+					int actremovResult = meetingService.kickOutAct(meeting);
+					System.out.println("회차 모임에서 삭제 되었나"+actremovResult);
+					
+				}
 			
 			meetingService.dropMeeting(meeting);
 			
 			result = 2;
 		}
-		
+
 		return result;
 	}
 	
@@ -230,6 +241,30 @@ public class MeetingRestController {
 			return notcollect;/*실패*/
 		}
 			
+	}
+
+	@RequestMapping( value="meetingRest/takeOver", method=RequestMethod.POST)
+	public Map<String , Object> takeOver(@RequestBody Meeting meeting)throws Exception{
+		System.out.println("승계 시작함");
+		
+		int result = meetingService.checkDuplicationCrew(meeting);
+		
+		if(result < 1) {
+			Map<String, Object> notCrewMap = new HashMap<String, Object>();
+			notCrewMap.put("result", result);
+			return notCrewMap; /*모임원아님*/
+		}
+
+			
+			meetingService.passto(meeting); /*모임장으로 변경*/
+			
+			int crewCount = meetingService.getCrewCount(meeting.getMeetingNo());
+			Map<String , Object> crewMap2=meetingService.getCrew(meeting.getMeetingNo());
+			
+			crewMap2.put("crewCount", crewCount);
+			crewMap2.put("crewList", crewMap2.get("crewList"));
+			
+			return crewMap2;
 	}
 
 }
