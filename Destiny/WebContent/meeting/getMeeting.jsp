@@ -989,7 +989,7 @@
 					<c:forEach var="crew" items="${crewList}">
 						
 					 		<div class="dropdown">
-					 			<div>
+					 			<div class="col-xs-12 col-sm-12 col-md-12">
 						 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" width="100%" height="100%" class="col-xs-1 col-sm-1 col-md-1 imgmen">
 									<a class="col-xs-3 col-sm-3 col-md-3 dropdown-toggle thisName" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
 										<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
@@ -997,6 +997,7 @@
 									</a>
 									<a class="col-xs-6 col-sm-6 col-md-6"></a>
 									<c:if test="${crew.role=='MST' }"><span><strong class="col-xs-2 col-sm-2 col-md-2">∏¿”¿Â</strong></span></c:if>
+									
 								</div>
 								<ul class="dropdown-menu">
 									<c:if test="${sessionScope.me.nickName eq crewList['0'].crewNickName }">

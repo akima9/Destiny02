@@ -9,10 +9,8 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>우연</title>
 <!-- All CSS Insert -->
-<link rel="stylesheet" href="/resources/css/cal.css" /> <!-- 케러셀-->
 <link rel="stylesheet" href="/resources/css/rest.css" /> <!-- 리스트 참조용 -->
 <link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->
-
 
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,7 +49,6 @@
 	 	background-color: #f5f5f5;
 	 	
 	 }
-
 	#myCarousel :after {
          background-image : url("/resources/images/meeting/back3.jpg");
          background-repeat: no-repeat;
@@ -68,13 +65,6 @@
 		 width:100%;
 		 height:100%;
          
-	}
-	
-	.carousel {
-	    position: relative;
-	    overflow: hidden;
-	    padding: 2em 0 2em 0;
-	    margin-bottom: 0;
 	}
 	
 	</style>
@@ -94,9 +84,7 @@
 					$("#my-dialog,#dialog-background").toggle();
 					//self.location="/user/login";
 				 }else{   //취소
-
 				     return;
-
 				 }
 			}else if('${sessionScope.me.userGrade }'=='NEW'){
 				alert("${sessionScope.me.nickName}님은 우연등급입니다.\n인연이상 회원부터 개설 하능합니다.");
@@ -185,8 +173,6 @@
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- contents -->
 	<section id="main" class="wrapper">	
-	
-
 	 <!-- 베스트상품 테이블 -->
             <table>
 
@@ -281,74 +267,6 @@
 			 </table>
 		</form>	 
 			 <!-- 검색창 종료 -->
-			 
-			 <section id="myCarousel2" class="carousel">
-					<div class="reel">
-
-						<article>
-							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
-							<header>
-								<h3><a href="#">Pulvinar sagittis congue</a></h3>
-							</header>
-							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
-						</article>
-						<article>
-							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
-							<header>
-								<h3><a href="#">Pulvinar sagittis congue</a></h3>
-							</header>
-							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
-						</article>
-						<article>
-							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
-							<header>
-								<h3><a href="#">Pulvinar sagittis congue</a></h3>
-							</header>
-							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
-						</article>
-						<article>
-							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
-							<header>
-								<h3><a href="#">Pulvinar sagittis congue</a></h3>
-							</header>
-							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
-						</article>
-						<article>
-							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
-							<header>
-								<h3><a href="#">Pulvinar sagittis congue</a></h3>
-							</header>
-							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
-						</article>
-						<article>
-							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
-							<header>
-								<h3><a href="#">Pulvinar sagittis congue</a></h3>
-							</header>
-							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
-						</article>
-						<article>
-							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
-							<header>
-								<h3><a href="#">Pulvinar sagittis congue</a></h3>
-							</header>
-							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
-						</article>
-						<article>
-							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
-							<header>
-								<h3><a href="#">Pulvinar sagittis congue</a></h3>
-							</header>
-							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
-						</article>
-						<span class="forward" style></span>
-						<span class="backward" style></span>
-						
-						  
-					</div>
-				</section>
-			 
-			 
 			 
 			 <!-- 개설하기 버튼 시작 -->
 			 <div align="right" class="addMeeting">
