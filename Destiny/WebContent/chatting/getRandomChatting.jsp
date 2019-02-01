@@ -658,12 +658,12 @@ $(function(){
 	 console.log(form); 
 
 	       $.ajax({
-		        url: '/chatting/json/imageUpload',
-		        type: 'POST',
-		        dataType: 'json',
+		        url: "/meetingRest/getActCrew",
+		        type: "post",
+		        dataType:  "json",
 		        data : JSON.stringify({
-		        	chattingNo:chattingNo ,
-		        	 imgFile:imageFile,
+		        	meetingNo : chattingNo ,
+		        	imgFile :imageFile,
                  }),
                  headers: {
                 	 "Accept" : "application/json",
