@@ -825,9 +825,9 @@ window.addEventListener('beforeunload', function (e) {
 			<div class="col-sm-4 text-center">
 			
 			<input class="form-control" type="file" id="img" name='imgFile' accept="image/*" style='display: none;'> 
-			<input type="text" name='file2' id='file2'>
+			<input type="hidden" name='file2' id='file2'>
 			<img alt="" src="/resources/images/chatting/image.png" id="imgClick" border='0'  onclick='document.all.imgFile.click(); document.all.file2.value=document.all.imgFile.value' style='width: 40px; height: 40px;'>
-			<input type="submit">
+			
 			</div>
 			<div class="col-sm-4 text-center">
 			<img alt="" src="/resources/images/chatting/profile.png" style="width: 40px; height: 40px;">
