@@ -354,7 +354,7 @@ var mResult01="${telepathyList[0].manTelepathyResult}";
 var mResult02="${telepathyList[1].manTelepathyResult}";
 var mResult03="${telepathyList[2].manTelepathyResult}";	
 var otherGage=0;
-
+var chatId="";
 // on connection to server, ask for user's name with an anonymous callback
 socket.on('connect', function(){
 	// call the server-side function 'adduser' and send one parameter (value of prompt)
@@ -411,6 +411,63 @@ socket.on('connect', function(){
 		
 		
 	}
+	
+	//이미지 파일 업로드=================================================================
+	var imageFile="";
+	$("#img").change(function(e){
+	
+
+	
+		
+		var formData = new FormData($("#form123")[0]);
+		
+	 
+
+
+	       $.ajax({
+		        url: '/chatting/json/imageUpload',
+		        type: 'POST',
+		        //dataType: 'json',
+		        data : formData,
+		        processData : false,
+                contentType : false,
+		        success: function(JsonData) {
+		           // console.log('success');
+		            console.log('이미지 업로드 성공!');
+		           // console.log(JsonData);
+		          // setTimeout(function() {
+		            socket.emit('sendfile', JsonData);
+		         //  }, 4000);
+		            socket.on('updatefile', function (file) {
+		            	//console.log(file);
+		            
+						
+		            	
+            		
+            			if ("${me.userId}"==file.userId) {
+
+				        	console.log("내 파일 추가");
+            					$('#user_1').append("<li><div class='me'><div><div class='name'>"+file.userId+"</div><div class='img'></div><div class='text'><div><img src='/resources/images/chatting/image/"+file.fileName+"' style='width: 100px; height: 100px;'></div></div></div></div></li>");
+            			
+				        }else{
+				        	console.log("다른사람 파일 추가");
+				        	
+				        		$('#user_1').append("<li><div class='you'><div><div class='name'>"+file.userId+"</div><div class='img'></div><div class='text'><div><img src='/resources/images/chatting/image/"+file.fileName+"' style='width: 100px; height: 100px;'></div></div></div></div></li>");
+				        	
+				        }
+		            	
+		            	
+		            	  
+		            
+			       
+		            });
+		            
+		        }
+				
+		    });
+	  
+	    });
+	//=================================================================
 
 
 	
@@ -622,65 +679,6 @@ $(function(){
 		
 		
 	})
-	var imageFile="";
-	$("#img").change(function(e){
-		//imageFile=document.getElementById("#img")[0].files[0].name ;
-
-		imageFile=$("input[name='imgFile']").val();
-		//imageFile=$('input[type=file]')[0].files[0];
-		//imageFile=$('input[type=file]')[0].files[0].name;
-		// var formData = new FormData($("#img").files[0]);
-		// formData.append('uploadfile', $('input[type=file]')[0].files[0]);
-		
-	    /* alert($('input[type=file]')[0].files[0].name); //파일이름
-	       alert($("#img")[0].files[0].type); // 파일 타임
-	       alert($("#img")[0].files[0].size); // 파일 크기 
-	 */
-	 //alert("imageFile"+imageFile); //파일이름
-	 //alert("formData"+formData); //파일
-	// console.log(formData); 
-	 //console.log(imageFile); 
-	 //console.log($("#img")[0].files[0]); 
-	 
-	 var form={ chattingNo:chattingNo, 
-			 beforeTranslationText:"no", 
-			 afterTranslationText:"no", 
-			 chattingDate:"", 
-			 chattingTime:"",  
-			 manId:manId,
-			 womanId:womanId ,
-			 language:"ko",
-			 favorability:10,
-			 telepathyResult:"",
-			 contactMeeting:"N",
-			 imgFile:imageFile,
-			 voiceFile:""};
-	 console.log(form); 
-
-	       $.ajax({
-		        url: '/chatting/json/imageUpload',
-		        type: 'POST',
-		        dataType: 'json',
-		        data : JSON.stringify({
-		        	chattingNo:chattingNo ,
-		        	 imgFile:imageFile,
-                 }),
-                 headers: {
-                	 "Accept" : "application/json",
-                     "Content-Type" : "application/json"
-                 },
-		        success: function(JsonData) {
-		           // console.log('success');
-		            console.log('man');
-		           // console.log(JsonData.user.myType);
-		          
-		            
-					
-		        }
-				
-		    });
-	  
-	    });
 	
 	
 });
@@ -758,7 +756,7 @@ window.addEventListener('beforeunload', function (e) {
 </script>
 </head>
 <body>
-<form class='background' id="form123"  enctype="multipart/form-data">
+
 <br><br><br>
 <main class='container'>
 	<div class='col-sm-8 col-md-8'>
@@ -817,15 +815,17 @@ window.addEventListener('beforeunload', function (e) {
 		</ul>
 		
 		<ul class='col-xs-4 col-sm-12 form-group' id='favorability'>
+			
 			<li>기타</li>
 			
 			<div class="col-sm-4 text-center">
 			<img  src="/resources/images/chatting/voice.png" style="width: 40px; height: 40px;">
 			</div>
 			<div class="col-sm-4 text-center">
-			
+			<form class='background' id="form123"  enctype="multipart/form-data">
 			<input class="form-control" type="file" id="img" name='imgFile' accept="image/*" style='display: none;'> 
-			<input type="hidden" name='file2' id='file2'>
+			</form>
+			<input type="text" name='file2' id='file2' style='display: none;'>
 			<img alt="" src="/resources/images/chatting/image.png" id="imgClick" border='0'  onclick='document.all.imgFile.click(); document.all.file2.value=document.all.imgFile.value' style='width: 40px; height: 40px;'>
 			
 			</div>
@@ -861,5 +861,5 @@ window.addEventListener('beforeunload', function (e) {
 			</div>
 	
 </main>
-</form>
+
 </body></html>
