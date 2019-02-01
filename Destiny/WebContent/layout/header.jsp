@@ -71,18 +71,18 @@
       
       //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
       $("#loginButton").on("click" , function() {
-         var id=$("#toto").val();
-         var pw=$("#titi").val();
+         var id=$("#headerId").val();
+         var pw=$("#headerPw").val();
          
          if(id == null || id.length <1) {
             alert('ID 를 입력하지 않으셨습니다.');
-            $("#userIdHeader").focus();
+            $("#headerId").focus();
             return;
          }
          
          if(pw == null || pw.length <1) {
             alert('패스워드를 입력하지 않으셨습니다.');
-            $("#password").focus();
+            $("#headerPw").focus();
             return;
          }
          
@@ -98,27 +98,23 @@
    #nav{
       font-family: 'Source Serif Pro', serif;
    }
-
-.modal-login .avatar img {
-    width: 100%;
-    margin-top: 5px;
-}
-
-.modal-login .avatar {
-    background: #fd5d7c;
-}
-</style>
-   <style>
-        #dialog-background {
+	.modal-login .avatar img {
+	    width: 100%;
+	    margin-top: 5px;
+	}
+	
+	.modal-login .avatar {
+	    background: #fd5d7c;
+	}
+	#dialog-background {
           display: none;
           position: fixed;
           top: 0; left: 0;
           width: 100%; height: 100%;
           background: rgba(0,0,0,.3);
           z-index: 10;
-      }
-      
-      #my-dialog {
+     }
+     #my-dialog {
           display: none;
           position: fixed;
           left: calc( 50% - 160px ); top: calc( 30% - 70px );
@@ -126,108 +122,105 @@
           z-index: 11;
           padding: 10px;
       }
-      </style>
       
-      <style type="text/css">
-         body {
-      font-family: 'Varela Round', sans-serif;
-   }
-   .modal-login {      
-      color: #636363;
-      width: 350px;
-   }
-   .modal-login .modal-content {
-      padding: 20px;
-      border-radius: 5px;
-      border: none;
-      background-color: #fff;
-   }
-   .modal-login .modal-header2 {
-      border-bottom: none;   
-        position: relative;
-        justify-content: center;
-   }
+      body {
+	      font-family: 'Varela Round', sans-serif;
+	  }
+	  .modal-login {      
+	      color: #636363;
+	      width: 350px;
+	   }
+	   .modal-login .modal-content {
+	      padding: 20px;
+	      border-radius: 5px;
+	      border: none;
+	      background-color: #fff;
+	   }
+	   .modal-login .modal-header2 {
+	      border-bottom: none;   
+	        position: relative;
+	        justify-content: center;
+	   }
    
-   .modal-login h4 {
-      text-align: center;
-      font-size: 26px;
-      margin: 30px 0 ;
-   }
-   .modal-login .form-control:focus {
-      /* border-color: #70c5c0; */
-   }
-   .modal-login .form-control, .modal-login .btn2 {
-      min-height: 40px;
-      border-radius: 3px; 
-   }
-   .modal-login .close {
-        position: absolute;
-      top: -5px;
-      right: -5px;
-   }   
-   .modal-login .modal-footer {
-      background: #ecf0f1; /* #ecf0f1; */
-      border-color: #dee4e7; /* #dee4e7 */
-      text-align: center;
-        justify-content: center;
-      margin: 0 -20px -20px;
-      border-radius: 5px;
-      font-size: 13px;
-   }
-   .modal-login .modal-footer a {
-      color: #999;
-   }      
-   .modal-login .avatar {
-      position: absolute;
-      margin: 0 auto;
-      left: 0;
-      right: 0;
-      top: -100px;
-      width: 95px;
-      height: 95px;
-      border-radius: 50%;
-      z-index: 9;
-      /* background: #60c7c1; */
-      padding: 15px;
-      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-   }
-   .modal-login .avatar img {
-      width: 100%;
-   }
-   .modal-login.modal-dialog {
-      margin-top: 80px;
-   }
-    .modal-login .btn2 {
-        color: #fff;
-        border-radius: 4px;
-      /* background: #60c7c1; */
-      text-decoration: none;
-      transition: all 0.4s;
-        line-height: normal;
-        border: none;
-    }
-   .modal-login .btn2:hover, .modal-login .btn2:focus {
-      /* background: #45aba6; */
-      outline: none;
-   }
-   .trigger-btn {
-      display: inline-block;
-      margin: 100px auto;
-   }
-   #userIdHeader, #password{
-      margin-bottom : 20px;
-   }
+	   .modal-login h4 {
+	      text-align: center;
+	      font-size: 26px;
+	      margin: 30px 0 ;
+	   }
+	   .modal-login .form-control:focus {
+	      /* border-color: #70c5c0; */
+	   }
+	   .modal-login .form-control, .modal-login .btn2 {
+	      min-height: 40px;
+	      border-radius: 3px; 
+	   }
+	   .modal-login .close {
+	        position: absolute;
+	      top: -5px;
+	      right: -5px;
+	   }   
+	   .modal-login .modal-footer {
+	      background: #ecf0f1; /* #ecf0f1; */
+	      border-color: #dee4e7; /* #dee4e7 */
+	      text-align: center;
+	        justify-content: center;
+	      margin: 0 -20px -20px;
+	      border-radius: 5px;
+	      font-size: 13px;
+	   }
+	   .modal-login .modal-footer a {
+	      color: #999;
+	   }      
+	   .modal-login .avatar {
+	      position: absolute;
+	      margin: 0 auto;
+	      left: 0;
+	      right: 0;
+	      top: -100px;
+	      width: 95px;
+	      height: 95px;
+	      border-radius: 50%;
+	      z-index: 9;
+	      /* background: #60c7c1; */
+	      padding: 15px;
+	      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+	   }
+	   .modal-login .avatar img {
+	      width: 100%;
+	   }
+	   .modal-login.modal-dialog {
+	      margin-top: 80px;
+	   }
+	    .modal-login .btn2 {
+	        color: #fff;
+	        border-radius: 4px;
+	      /* background: #60c7c1; */
+	      text-decoration: none;
+	      transition: all 0.4s;
+	        line-height: normal;
+	        border: none;
+	    }
+	   .modal-login .btn2:hover, .modal-login .btn2:focus {
+	      /* background: #45aba6; */
+	      outline: none;
+	   }
+	   /* .trigger-btn {
+	      display: inline-block;
+	      margin: 100px auto;
+	   } */
+	   #headerId, #headerPw{
+	      margin-bottom : 20px;
+	   }
    
-   input[type="text"], input[type="password"], select, textarea {
-       background: #ffe7e7;
-       border: none;
-       color: #555;
-       border-radius: 2px;
-       width:90%;
-   }
-   
-   
-   </style>
+	   input[type="text"], input[type="password"], select, textarea {
+	       background: #ffe7e7;
+	       border: none;
+	       color: #555;
+	       border-radius: 2px;
+	       width:90%;
+	   }
+</style>
+
 <header id="header">
    <div class="inner">
       <a href="#" class="logo"><strong>우연</strong></a>
@@ -259,36 +252,37 @@
       <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
    </div>
    
-   <div id="myModal" >
-      <div id="my-dialog">
-         <div class="modal-dialog modal-login">
-            <div class="modal-content">
-               <div class="modal-header2 " style="height:50px">
-                  <div class="avatar">
-                     <img src="/resources/images/meeting/logo.png"  alt="Avatar">
-                  </div>            
-                  <h4>Login</h4>
-               </div>
-               <div class="modal-body">
-                  <form id="loginForm">
-                     <div class="form-group" class="form-horizontal">
-                        <input id="toto" type="text" class="" name="userId" placeholder="userId" required="required">      
-                     </div>
-                     <div class="form-group">
-                        <input id="titi" type="password" class="" name="password" placeholder="Password" required="required">   
-                     </div>        
-                     <div class="form-group" align="center">
-                        <button id="loginButton" type="submit" class="btn2">Login</button>
-                     </div>
-                  </form>
-               </div>
-               <div class="modal-footer">
-                  <a href="#">Forgot Password?</a>
-               </div>
-            </div>
-         </div>
-      </div>      
-      </div>   
-      
-      <div id="dialog-background"></div>
+
+	<div id="myModal" >
+		<div id="my-dialog">
+			<div class="modal-dialog modal-login">
+				<div class="modal-content">
+					<div class="modal-header2 " style="height:50px">
+						<div class="avatar">
+							<img src="/resources/images/meeting/logo.png"  alt="Avatar">
+						</div> 
+						<h4>Login</h4>
+					</div>
+					<div class="modal-body">
+						<form id="loginForm">
+							<div class="form-group" class="form-horizontal">
+								<input id="headerId" type="text" class="" name="userId" placeholder="userId" required="required">
+							</div>
+							<div class="form-group">
+								<input id="headerPw" type="password" class="" name="password" placeholder="Password" required="required">
+							</div>
+							<div class="form-group" align="center">
+								<button id="loginButton" type="submit" class="btn2">Login</button>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<a href="#">Forgot Password?</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="dialog-background"></div>
 </header>
