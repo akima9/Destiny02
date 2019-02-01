@@ -81,7 +81,7 @@
 			        		        dataType: 'text',
 			        		        success: function(JsonData) {
 			        		            console.log('success');
-			        		          alert(JsonData);
+			        		          //alert(JsonData);
 			        					
 			        		        }
 			        				
@@ -117,7 +117,7 @@
 	        dataType: 'text',
 	        success: function(JsonData) {
 	            console.log('success');
-	          alert(JsonData);
+	          //alert(JsonData);
 				
 	        }
 			

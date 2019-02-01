@@ -15,4 +15,6 @@ public interface LetterDao {
 	public int getSendLetterTotalCount(String Id) throws Exception;
 	
 	public void updateReceiveDate(int no) throws Exception;
+	
+	public int getCountNetReadReceive(String Id) throws Exception;
 }

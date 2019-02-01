@@ -1,7 +1,9 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<!-- 현재날짜구하기 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 
@@ -29,9 +31,9 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
- 		body {
-            padding-top : 50px;
-        }
+	.botton{
+	 
+	}
         #backround {
 		    display: none;
 		    position: fixed;
@@ -45,7 +47,7 @@
 		    display: none;
 		    position: fixed;
 		    left: calc( 35%); top: calc( 30% ); 
-		    background: gainsboro;
+		    background: #fff;
 		    z-index: 11;
 		    padding: 10px;
 		    max-height: 700px;
@@ -69,7 +71,7 @@
 	 
 	#bigletter span{
 	     font-family: 'Nanum Pen Script', cursive;
-	     font-size : 200px;
+	     font-size : 90px;
 	}
 	.imgmen{
 		border-radius: 50%;
@@ -223,7 +225,7 @@
 					}else if(mitingTime<today==false){
 						alert("아직진행중인 모임이 있습니다.\n완료후 등록해 주세요");
 					}else{
-						$("#nextDialog").toggle();
+						$("#nextDialog, #backround").toggle();
 					}
 					
 				});
@@ -292,13 +294,19 @@
 											if (confirm(JSONData.changeList.meetingActCount+"회 모임이 등록되었습니다.") == true){    //확인
 												//alert(JSONData.changeList);
 												//alert(JSONData.changeAct);
-												var changeList = "";
-												changeList+="<span id='thisCount' data-param='${meetingAct.meetingActCount}'>"+JSONData.changeList.meetingActCount+"회차 모임 일정</span><br/>";
-												changeList+="<span>"+JSONData.changeList.meetingDate+" "+JSONData.changeList.meetingTime+"</span><br/>";
-												changeList+="<span>"+JSONData.changeList.meetingLocation+"</span><br/>";
-												changeList+="<span>"+JSONData.changeList.meetingDues+"</span><br/>";
+												var change = "";
+												change+="<span id='thisCount' data-param='${meetingAct.meetingActCount}'>"+JSONData.changeList.meetingActCount+"회차 모임 일정 </span>";
 												
+												var changeList = "";
+												changeList+="<img src='/resources/images/meeting/calendar.png' height='50px' alt='Pic 01' >";
+												var changeList2 = "";
+												changeList2+="<p>날짜 : "+JSONData.changeList.meetingDate+" "+JSONData.changeList.meetingTime+"</p><br/>";
+												changeList2+="<p>장소 : "+JSONData.changeList.meetingLocation+"</p><br/>";
+												changeList2+="<p>회비 :"+JSONData.changeList.meetingDues+"</p><br/>";
+												
+												$("#thisP").empty().html(change);
 												$("#meetingActCount").empty().html(changeList);
+												$("#meetingActCount2").empty().html(changeList2);
 											 }else{   //취소
 											     return;
 											 } 
@@ -311,63 +319,13 @@
 
 					 }else{   //취소
 
-						 $("#nextDialog").toggle();
+						 $("#nextDialog, #backround").toggle();
 
 					 }
 				});
 		});
 		
-		///////////* 가입하기에서 확인누르면 이벤트 처리 *//////////////
-		$(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
-			 $( "button.btn.btn-success" ).on("click" , function() {
-				 
-				 var interviewTitle = $("#interviewTitle").val();
-				 var interview = $("#interview").val();
-				 
-				 if(interviewTitle == null || interviewTitle.length<1){
-						alert("제목을 입력해주세요.");
-						return;
-					}
-				 if(interview == null || interview.length<1){
-						alert("내용을 입력해주세요.");
-						return;
-					}
-				 
-				
-				  $.ajax( 
-							{
-								url : "/meetingRest/addCrewM",
-								method : "post" ,
-								dataType : "json" ,
-								data : JSON.stringify({
-									meetingNo : "${meeting.meetingNo}" ,
-									meetingMasterId : "${sessionScope.me.userId}", 
-									interviewTitle : $("#interviewTitle").val(),
-									interview : $("#interview").val()
-									
-								}),
-								headers : {
-									"Accept" : "application/json",
-									"Content-Type" : "application/json"
-								},
-								success : function(JSONData , status) {
-									if(JSONData==5018){
-										alert("이미 가입하셨습니다.");
-										$("#dialog2form")[0].reset();
-										$("#dialog2").toggle();
-									}else{
-										alert("가입 신청이 완료되었습니다.\n 모임장의 승인후 가입됩니다.");
-										//window.opener.location.reload(false);
-										$("#dialog2form")[0].reset();
-										$("#dialog2").toggle();
-									}
-								}
-				});
-				
-			});
-		});
+
 		
 		$(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -426,145 +384,13 @@
 								}
 						});
 				});
-			});
-		////* 지역구 선택부 끝!!!!!  *////
-		
-		////* 모임원 선택부  *////
-
-		
-		 
-		////* 반복여부가 선택되면  *////
-		/*  $(function(){
-				$( "#snooze" ).on("change" , function() {
-					//var idx = $(".brand_ids").index(this);
-					var snooze=$(this).val();
-					console.log(snooze);
-					
-					if(snooze=='Y'){
-						console.log("반복선택됨")
-						var list = "";
-						list+="<select id='weekday' class='form-control'>";
-						list+="<option value='월요일'>월요일</option>";
-						list+="<option value='화요일'>화요일</option>";
-						list+="<option value='수요일'>수요일</option>";
-						list+="<option value='목요일'>목요일</option>";
-						list+="<option value='금요일'>금요일</option>";
-						list+="<option value='토요일'>토요일</option>";
-						list+="<option value='일요일'>일요일</option>";
-						list+="</select>";
-						$( "#dateOrDay" ).empty().append(list);
-					}
-				});
-			}); */
-		
-		
-		
-		
-		//============= 회원정보수정 Event  처리 =============	
-		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			/*  $( "button:contains('확인')" ).on("click" , function() {
-				 self.location = "/product/listProduct?menu=${param.menu}"
-				}); */
-			  	$( "a[href='#' ]:contains('신고')" ).on("click" , function() {
-			  		if('${empty sessionScope.me}'=='true'){
-						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
-							$("#my-dialog,#dialog-background").toggle();
-							//self.location="/user/login";
-						 }else{   //취소
-
-						     return;
-
-						 }
-					}else{
-						self.location = "/complain/addComplain?meetingNo=${meeting.meetingNo}"
-					}
-				 
-				}); 
-			/*  $( "button:contains('삭제')" ).on("click" , function() {
-				 //history.go(-1);
-				 self.location = "/product/listProduct02?menu=${param.menu}"
-				}); */
-		});
-		//=============수정 시 모임장인지 확인==================================//
-		 $( function() {
-				//$("a[href='#' ]:contains('수정')").click(function () {
-					$("#update-dialog").click(function () {
-						$.ajax( 
-						 {
-								url : "/meetingRest/getCrewrole",
-								method : "post" ,
-								dataType : "text" ,
-								data : JSON.stringify({
-									meetingNo : "${meeting.meetingNo}" ,
-									meetingMasterId : "${sessionScope.me.userId}", 
-									
-								}),
-								headers : {
-									"Accept" : "application/json",
-									"Content-Type" : "application/json"
-								},
-								success : function(JSONData , status) {
-									console.log(JSONData);
-									
-									if(JSONData=='MST'){
-										$("#dialog,#backround").toggle();
-									}else {
-										alert("모임장만 가능합니다.");
-									}
-								
-								}
-						}); 
-				});
-			});
-			/*  $( function() {
-					$("#backround").click(function () {
-							$('#backround').toggle();
-					});
-				});
-			 $( function() {
-					$(".cancelbtn").click(function () {
-							$('#dialog,#backround').toggle();
-					});
-				}); */
-//=================삭제 시 모임장인지 확인==================================//		 
-		 $( function() {
-				$("a[href='#' ]:contains('삭제')").click(function () {
-					
-					$.ajax( 
-							 {
-									url : "/meetingRest/getCrewrole",
-									method : "post" ,
-									dataType : "text" ,
-									data : JSON.stringify({
-										meetingNo : "${meeting.meetingNo}" ,
-										meetingMasterId : "${sessionScope.me.userId}", 
-										
-									}),
-									headers : {
-										"Accept" : "application/json",
-										"Content-Type" : "application/json"
-									},
-									success : function(JSONData , status) {
-										console.log(JSONData);
-										
-										if(JSONData=='MST'){
-											if (confirm("삭제하시겠습니까?") == true){    //확인
-												$("#detailForm").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
-											 }else{   //취소
-											     return;
-											 }
-										}else {
-											alert("모임장만 가능합니다.");
-										}
-									}
-							}); 
-				});
-			});
-//=============강퇴 클릭 시 이벤트 처리==================================//		 
+			});	
+	 
+	 
 		$( function() {
 			var meetingnickname = ""; 
 			var index111= "";
+	
 			$("a.thisName").click(function () {
 				var indext = $(".thisName").index(this);
 				meetingnickname = $( ".thisName:eq("+indext+")" ).data("param");
@@ -572,16 +398,11 @@
 				console.log("안쪽 인덱스"+indext);
 			});
 			
-			
+			//=============강퇴 클릭 시 이벤트 처리==================================//		
 				$("a[href='#' ]:contains('강퇴하기')").click(function () {
 					console.log("밖같쪽 인덱스"+index111);
-					
 						var masterNick = "${crewList['0'].crewNickName}";
-						//console.log(meetingnickname);
-						//console.log(masterNick);
 						console.log($(".thisName:eq("+index111+")").parent().remove());
-						
-					 	
 					if(meetingnickname==masterNick){
 						alert("자기자신을 선택하셨습니다\n탈퇴하시겠습니까?");
 					}else{
@@ -662,13 +483,15 @@
 			
 				
 			});
-//==================위임 클릭 시 모임장인지 확인==================================//		 
+		 
 		$( function() {
 			var meetingnickname = ""; 
 			$("a.thisName").click(function () {
 				var indext = $(".thisName").index(this);
 				meetingnickname = $( ".thisName:eq("+indext+")" ).data("param");
 			});
+			
+			//==================위임 클릭 시 모임장인지 확인==================================//
 				$("a[href='#' ]:contains('위임하기')").click(function () {
 						var masterNick = "${crewList['0'].crewNickName}";
 						console.log(meetingnickname);
@@ -765,7 +588,7 @@
 								success : function(JSONData , status) {
 									if(JSONData==5018){
 										if (confirm("모임원만 참여가능합니다.\n가입하시겠습니까?") == true){    //확인
-											$("#dialog2").toggle();
+											$("#dialog2, #backround").toggle();
 										 }else{   //취소
 										     return;
 										 }
@@ -783,79 +606,9 @@
 					
 				});
 			});
-///////////////////////////* 가입하기 눌렀을때 로그인 확인 이벤트 처리  *////////////////
-		 $( function() {
-				$("button:contains('가입하기')").click(function () {
-					if('${empty sessionScope.me}'=='true'){
-						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
-							$("#my-dialog,#dialog-background").toggle();
-							//self.location="/user/login";
-						 }else{   //취소
 
-						     return;
-
-						 }
-					}else{
-						$("#dialog2").toggle();
-					}
-				});
-			});
-////////////////////* 탈퇴하기 눌렀을때 이벤트 처리부분 *////////////////////////////////////////
 		 $( function() {
-				$("a[href='#' ]:contains('탈퇴')").click(function () {
-					if('${empty sessionScope.me}'=='true'){
-						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
-							$("#my-dialog,#dialog-background").toggle();
-							//self.location="/user/login";
-						 }else{   //취소
-						     return;
-						 }
-					}else{
-						if(confirm("${meeting.meetingName} 에서 \n탈퇴 하시겠습니까?") == true){
-							$.ajax( 
-							 {
-									url : "/meetingRest/dropMeeting",
-									method : "post" ,
-									dataType : "json" ,
-									data : JSON.stringify({
-										meetingNo : "${meeting.meetingNo}" ,
-										meetingMasterId : "${sessionScope.me.userId}",
-										meetingActCount : "${meetingAct.meetingActCount}",
-										
-									}),
-									headers : {
-										"Accept" : "application/json",
-										"Content-Type" : "application/json"
-									},
-									success : function(JSONData , status) {
-										if(JSONData==5018){
-											if (confirm("모임원이 아니십니다.") == true){    //확인
-											 }else{   //취소
-											     return;
-											 }
-										}else{
-											if (confirm("${meeting.meetingName} 에서 \n탈퇴하였습니다.") == true){    //확인
-												self.location="/meeting/listMeeting";
-											 }else{   //취소
-											     return;
-											 }
-											
-											
-										}
-									}
-							}); 
-						}else{
-							return;
-						}
-					}
-					
-				});
-			});
-
-			
-		 
-/////////////////* 참여자목록 눌렀을때 이벤트 처리부분 */
-		 $( function() {
+				/////////////////* 참여자목록 눌렀을때 이벤트 처리부분 */
 				$("button:contains('참여자목록')").click(function () {
 					var count = $("#thisCount").data("param");
 					console.log(count);
@@ -888,7 +641,7 @@
 								success : function(JSONData , status) {
 									if(JSONData.result==0){
 										if (confirm("모임원만 열람가능합니다.\n가입하시겠습니까?") == true){    //확인
-											$("#dialog2").toggle();
+											$("#dialog2, #backround").toggle();
 										 }else{   //취소
 										     return;
 										 }
@@ -912,7 +665,7 @@
 												
 										console.log(display);	
 										$( ".actCrewList" ).html(display);
-										$("#dialog3").toggle();
+										$("#dialog3, #backround").toggle();
 										
 									}
 								}
@@ -920,6 +673,56 @@
 						
 					}
 					 
+				});
+				///////////////////참여자 끝!!!!!!!!!!!////
+				/////////////////빽그라운드////////////////////
+		 		$("#backround").click(function () {
+					//alert("dd");
+					$("#backround,#dialog2,#dialog,#dialog3,#nextDialog").hide();
+				});
+				//////////////////빽그라운드 끝!!!!!!!/////////////////
+				//=============승계
+				$("button:contains('승계')").click(function () { 	
+					if('${empty sessionScope.me}'=='true'){
+						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+							$("#my-dialog,#dialog-background").toggle();
+							//self.location="/user/login";
+						 }else{   //취소
+
+						     return;
+
+						 }
+					}else{
+						
+				
+						$.ajax( 
+							 {
+									url : "/meetingRest/takeOver",
+									method : "post" ,
+									dataType : "json" ,
+									data : JSON.stringify({
+										meetingNo : "${meeting.meetingNo}" ,
+										meetingMasterId : "${sessionScope.me.userId}", 
+										role : "MST",
+									}),
+									headers : {
+										"Accept" : "application/json",
+										"Content-Type" : "application/json"
+									},
+									success : function(JSONData , status) {
+										if(JSONData.result==0){
+											alert("모임원이 아니시네요");
+											
+										}else {
+											alert("모임장 가자~~");
+											self.location="/meeting/getMeeting?meetingNo="+${meeting.meetingNo};
+											
+										}
+									}
+							}); 
+						
+					}//else 끝!!
+					
 				});
 			});
 
@@ -1008,22 +811,27 @@
 	<input type="hidden" name="meetingCondition" value="DEL">
 	</form>
 	<div class="container" >
-		<div class="col-md-12 neayong" align="center" id="bigletter">
+		<div class="col-xs-12 col-sm-12 col-md-12 neayong" align="center" id="bigletter">
 		  	<span>${meeting.meetingName}</span><br/>
 		  	<img src="/resources/images/meeting/family.png" width="50px" height="50px"/>
 		  	${meeting.interestName}
 		  	
 		</div>
-		<!-- 
+
+		<c:if test="${crewList['0'].role != 'MST'}">	
+
 		 <div class="page-header">
-	       <h3 class=" text-info">getMeeting.jsp</h3>
-	       <button id="update-dialog">수정하기</button>
-	       <button type="button" id="btn-delete-dialog">삭제</button>
-	       <button type="button" id="btn-complain">신고</button>
-	       <button type="button" id="btn-takeOver">탈퇴하기</button>
+		<c:set var="now" value="<%=new java.util.Date()%>" />
+		<c:set var="sysYear"><fmt:formatDate value="${now}" pattern="yyyy-mm-dd" /></c:set> 
+	       <h3 class=" text-info">
+	       	<p>모임장이 떠낫어요ㅠㅠ</p> 
+	       	<p>모임장을 승계하지 않으면 </p> 
+	       	<p>모임이 삭제 될 예정입니다.</p> 
+	       </h3>
 	       <button type="button" id="btn-takeOver">승계</button>
+	      <!-- <img src="/resources/images/meeting/master2.png" width="50px" height="50px"/> be a master -->
 	    </div>
- -->
+		</c:if>
 
 		<div class="row">
 		  <div class="col-md-12">
@@ -1044,22 +852,25 @@
 			<hr/>
 		  </div>
 		 </div>
+		<c:if test="${crewList['0'].role=='MST'}">	
 		<div class='row'>
 			<table class="col-sm-12 col-md-12">
 				<tr>
-					<td>
+					<td id="thisP">
 					<span id="thisCount" data-param="${meetingAct.meetingActCount}"> ${meetingAct.meetingActCount}회차 모임 일정 </span>
 					</td>
 				</tr>
 			</table>
-		</div>		
-		<div id="meetingActCount" >
+		</div>	
+		
+
+		<div>
 			<div class='row'>
-				<div align="center" class="col-xs-2 col-md-2 ">
+				<div id="meetingActCount" align="center" class="col-xs-2 col-md-2 ">
 					<img src="/resources/images/meeting/calendar.png" height="50px" alt="Pic 01" >
 				</div>
 				
-				<div class="col-xs-6 col-md-6 ">
+				<div id="meetingActCount2" class="col-xs-6 col-md-6 ">
 				<p> 날짜 : ${meetingAct.meetingDate} ${meetingAct.meetingTime } </p>
 				<p> 장소 : ${meetingAct.meetingLocation} </p>
 				<p> 회비 : ${meetingAct.meetingDues} </p>
@@ -1124,6 +935,7 @@
 			</div>
 			
 		</div>
+		</c:if>
 	
 		<hr/>
 		<div align="center" class="col-xs-12 col-md-12 ">
@@ -1132,11 +944,11 @@
 		
 		<jsp:include page="/meeting/modal.jsp" />
 		<!-- 모달창 디자인 부분 -->
-        <div id="dialog2">
+        <div id="dialog2" class="madal">
         <form id="dialog2form" class="form-horizontal">
         <div>
         	<div name="meetingMasterId" value="${sessionScope.me.userId}" class="form-group col-sm-12 col-md-12" align="center">
-        		<img src="/resources/images/userprofile/${sessionScope.me.profile}" width="100px" height="100px" class="imgmen">
+        		<img src="/resources/images/userprofile/${sessionScope.me.profile}" width="100px" height="100px" class="imgmen"/>
         	</div>
         	
         	<div class="form-group col-sm-12 col-md-12" align="center">
@@ -1153,7 +965,7 @@
 		 	 placeholder="내용을 입력해주세요" ></textarea>
 		 	</div>
 	        <div class="form-group col-sm-12 col-md-12" align="center">
-	         <button type="button" class="btn btn-success"  >확 &nbsp;인</button>
+	         <a type="button" class="btn btn-success"  >확 &nbsp;인</a>
 	         <a class="btn btn-primary btn cancelbtn" id="pushCancle2" role="button">취&nbsp;소</a>
 	         </div>
 	    </div>
@@ -1167,7 +979,7 @@
 				<tr>
 					<td>
 					모임멤버${crewCount}명
-					<input type="checkbox">로그인된 멤버만 보기<br/>
+<!-- 					<input type="checkbox">로그인된 멤버만 보기<br/> -->
 					</td>
 				</tr>
 				
@@ -1177,12 +989,15 @@
 					<c:forEach var="crew" items="${crewList}">
 						
 					 		<div class="dropdown">
-					 			<img  src="/resources/images/userprofile/${crew.masterProfileImg}" width="100px" height="100px" class="imgmen">
-								<a class="dropdown-toggle thisName" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
-									<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
-									<span class="caret"></span>
-								</a>
-								<c:if test="${crew.role=='MST' }"><strong>모임장</strong></c:if>
+					 			<div>
+						 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" width="100%" height="100%" class="col-xs-1 col-sm-1 col-md-1 imgmen">
+									<a class="col-xs-3 col-sm-3 col-md-3 dropdown-toggle thisName" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+										<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
+										<span class="caret"></span>
+									</a>
+									<a class="col-xs-6 col-sm-6 col-md-6"></a>
+									<c:if test="${crew.role=='MST' }"><span><strong class="col-xs-2 col-sm-2 col-md-2">모임장</strong></span></c:if>
+								</div>
 								<ul class="dropdown-menu">
 									<c:if test="${sessionScope.me.nickName eq crewList['0'].crewNickName }">
 										<li><a href="#">강퇴하기</a></li>

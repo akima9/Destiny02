@@ -233,19 +233,241 @@
 		         	window.history.back();
 		         });
 		    }); 
+//===============메뉴얼==========
+			$(function() {
+				var masterNick = "${crewList['0'].crewNickName}";
+				var condition = "";
+				if(masterNick=='${sessionScope.me.nickName}'){
+					condition = "MST";
+				}else{
+					condition = "MEM";
+				}
+				var thisRole = "${ crewList['0'].crewNickName==sessionScope.me.nickName ? '모임장님' : '' }";
+				console.log(masterNick);
+				console.log(condition);
+				///신고하기 
+				  	$( "a[href='#' ]:contains('신고')" ).on("click" , function() {
+				  		if('${empty sessionScope.me}'=='true'){
+							if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+								$("#my-dialog,#dialog-background").toggle();
+								//self.location="/user/login";
+							 }else{   //취소
+
+							     return;
+
+							 }
+						}else{
+							self.location = "/complain/addComplain?meetingNo=${meeting.meetingNo}"
+						}
+					 
+					});
+				  //=============수정 시 모임장인지 확인==================================//
+					$("a[href='#' ]:contains('수정')").click(function () {
+						//$("#update-dialog").click(function () {
+							$.ajax( 
+							 {
+									url : "/meetingRest/getCrewrole",
+									method : "post" ,
+									dataType : "text" ,
+									data : JSON.stringify({
+										meetingNo : "${meeting.meetingNo}" ,
+										meetingMasterId : "${sessionScope.me.userId}", 
+										
+									}),
+									headers : {
+										"Accept" : "application/json",
+										"Content-Type" : "application/json"
+									},
+									success : function(JSONData , status) {
+										console.log(JSONData);
+										
+										if(JSONData=='MST'){
+											$("#dialog,#backround").toggle();
+										}else {
+											alert("모임장만 가능합니다.");
+										}
+									
+									}
+							}); 
+					});
+					//=================삭제 시 모임장인지 확인==================================//		
+					$("a[href='#' ]:contains('삭제')").click(function () {
+						
+						$.ajax( 
+								 {
+										url : "/meetingRest/getCrewrole",
+										method : "post" ,
+										dataType : "text" ,
+										data : JSON.stringify({
+											meetingNo : "${meeting.meetingNo}" ,
+											meetingMasterId : "${sessionScope.me.userId}", 
+											
+										}),
+										headers : {
+											"Accept" : "application/json",
+											"Content-Type" : "application/json"
+										},
+										success : function(JSONData , status) {
+											console.log(JSONData);
+											
+											if(JSONData=='MST'){
+												if (confirm("삭제하시겠습니까?") == true){    //확인
+													$("#detailForm").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
+												 }else{   //취소
+												     return;
+												 }
+											}else {
+												alert("모임장만 가능합니다.");
+											}
+										}
+								}); 
+					});
+					
+////////////////////* 탈퇴하기 눌렀을때 이벤트 처리부분 *////////////////////////////////////////
+					$("a[href='#' ]:contains('탈퇴')").click(function () {
+						if('${empty sessionScope.me}'=='true'){
+							if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+								$("#my-dialog,#dialog-background").toggle();
+								//self.location="/user/login";
+							 }else{   //취소
+							     return;
+							 }
+						}else if('${sessionScop.me.nickName==masterNick}'=='${crewCount==1}'){
+							if (confirm("모집된 모임원이 없으시네요.\n모임을삭제하시겠습니까?") == true){    //확인
+								$("#detailForm").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/meeting/updateMeeting").submit();
+							 }else{   //취소
+							     return;
+							 }
+						}else{
+							if(confirm("'"+thisRole+"'  "+" ${meeting.meetingName} 에서 \n탈퇴 하시겠습니까?") == true){
+								alert("탈퇴 컨디션이닷!"+condition);
+						
+								$.ajax( 
+								 {
+										url : "/meetingRest/dropMeeting",
+										method : "post" ,
+										dataType : "json" ,
+										data : JSON.stringify({
+											meetingNo : "${meeting.meetingNo}" ,
+											meetingMasterId : "${sessionScope.me.userId}",
+											meetingActCount : "${meetingAct.meetingActCount}",
+											meetingCondition : condition,  /* 모임장인지 아닌지 전달 */
+												
+										}),
+										headers : {
+											"Accept" : "application/json",
+											"Content-Type" : "application/json"
+										},
+										success : function(JSONData , status) {
+											if(JSONData==5018){
+												if (confirm("모임원이 아니십니다.") == true){    //확인
+												 }else{   //취소
+												     return;
+												 }
+											}else{
+												if (confirm("${meeting.meetingName} 에서 \n탈퇴하였습니다.") == true){    //확인
+													self.location="/meeting/listMeeting";
+												 }else{   //취소
+												     return;
+												 }
+												
+												
+											}
+										}
+								});  
+								
+							}else{
+								return;
+							}
+						}
+						
+					});
+					
+			///////////* 가입하기에서 확인누르면 이벤트 처리 *//////////////
+					 $( "a.btn.btn-success" ).on("click" , function() {
+						 
+						 var interviewTitle = $("#interviewTitle").val();
+						 var interview = $("#interview").val();
+						 
+						 if(interviewTitle == null || interviewTitle.length<1){
+								alert("제목을 입력해주세요.");
+								return;
+							}
+						 if(interview == null || interview.length<1){
+								alert("내용을 입력해주세요.");
+								return;
+							}
+						 
+						
+						  $.ajax( 
+									{
+										url : "/meetingRest/addCrewM",
+										method : "post" ,
+										dataType : "json" ,
+										data : JSON.stringify({
+											meetingNo : "${meeting.meetingNo}" ,
+											meetingMasterId : "${sessionScope.me.userId}", 
+											interviewTitle : $("#interviewTitle").val(),
+											interview : $("#interview").val()
+											
+										}),
+										headers : {
+											"Accept" : "application/json",
+											"Content-Type" : "application/json"
+										},
+										success : function(JSONData , status) {
+											if(JSONData==5018){
+												alert("이미 가입하셨습니다.");
+												$("#dialog2form")[0].reset();
+												$("#dialog2").toggle();
+											}else{
+												alert("가입 신청이 완료되었습니다.\n 모임장의 승인후 가입됩니다.");
+												//window.opener.location.reload(false);
+												$("#dialog2form")[0].reset();
+												$("#dialog2").toggle();
+											}
+										}
+						});
+						
+					});
+
+			
+
+			});
+				  
+///////////////////////////* 가입하기 눌렀을때 로그인 확인 이벤트 처리  *////////////////
+			 $( function() {
+					$("button:contains('가입하기'), a[href='#' ]:contains('가입')").click(function () {
+						if('${empty sessionScope.me}'=='true'){
+							if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+								$("#my-dialog,#dialog-background").toggle();
+								//self.location="/user/login";
+							 }else{   //취소
+
+							     return;
+
+							 }
+						}else{
+							$("#dialog2, #backround").toggle();
+						}
+					});
+				});
+
 		</script>
 
 </head>
+
+
 <body>
 		<div id="content" >
 			<div class="menu-button"><i class="zmdi zmdi-share"></i>
-				<a href="#" target="blank">수정</a>
-				<a href="#" target="blank">삭제</a>
-				<a href="#" target="blank">신고</a>
-				<a href="#" target="blank">탈퇴</a>
-				<a href="#" target="blank">가입</a>
+				<a href="#">수정</a>
+				<a href="#">삭제</a>
+				<a href="#">신고</a>
+				<a href="#">탈퇴</a>
+				<a href="#">가입</a>
 				<c:if test="${meeting.snooze}=='Y'">
-				<a href="#" target="blank">승계</a>
+				<a href="#">승계</a>
 				</c:if>
 			</div>	
 			

@@ -537,13 +537,13 @@ socket.on('updategage', function (username, data) {
 	   /*  if (data==10) {
 			console.log("1 상대방 gage : "+data+" 나의 gage : "+otherGage)
 		} */
-		if (otherGage==30&&myGage==30) {
+	   if (60>otherGage&&otherGage>=30&&60>myGage&&myGage>=30) {
 			alert("호감도 30% 달성!");
 			console.log("1 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
-		}else if (otherGage==60&&myGage==60) {
+		}else if (90>otherGage&&otherGage>=60&&90>myGage&&myGage>=60) {
 			alert("호감도 60% 달성!");
 			console.log("2 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
-		}else if (otherGage==90&&myGage==90) {
+		}else if (otherGage>=90&&myGage>=90) {
 			alert("호감도 90% 달성!");
 			console.log("3 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
 		} 

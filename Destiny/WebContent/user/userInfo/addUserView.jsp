@@ -10,6 +10,8 @@
 <title>우연</title>
 <!-- All CSS Insert -->
 <link rel="stylesheet" href="/resources/css/main.css" > 
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
 
 <!-- //All CSS Insert -->
 
@@ -19,6 +21,8 @@
 	<script src="/resources/javascript/skel.min.js"></script>
 	<script src="/resources/javascript/util.js"></script>
 	<script src="/resources/javascript/main.js"></script>
+	
+	
 	
 	
 	
@@ -300,9 +304,9 @@
 				});
 			 
 			 $(function() {
-				 $('input[name="userId"]').on("keyup", function(){
+				 $('#userId').on("keyup", function(){
 					 
-					 var userId = $('input[name="userId"]').val();
+					 var userId = $('#userId').val();
 					 
 					 $.ajax({
 						 url : "/user/json/getUser/"+userId,
@@ -315,10 +319,10 @@
 						 success : function(JSONData, status){
 							 //alert(JSONData.user);
 							 if(JSONData.user != null){
-								$('input[name="userId"]').css('background-color','pink');
+								$('#userId').css('background-color','pink');
 								$('#userIdWirte').text("이미 존재하는 아이디입니다.");
 							 } else {
-								$('input[name="userId"]').css('background-color','white');
+								$('#userId').css('background-color','white');
 								$('#userIdWirte').text("");
 							 }
 						 },
@@ -455,6 +459,107 @@
 	
 	
 	<style>
+		body{
+			position : relative;
+			font-family: 'Nanum Myeongjo', serif;
+		}
+		.container{
+			font-weight : 700;
+		}
+		.tumTitle{
+			font-weight : 700;
+		}
+	
+		.topImg{
+			display : block;
+			position : absolute;
+			top : 0;
+			background-image : url("/resources/images/background/meetingbg.jpg");
+			background-repeat : no-repeat;
+			background-position : center center;
+			background-size : cover;
+			width : 100%;
+			height : 400px;
+		}
+		
+		.topImg::after{
+			content : "";
+			background : rgba(0, 0, 0, 0.2);
+			position : absolute;
+			top : 0;
+			left : 0;
+			width : 100%;
+			height : 400px;
+		}
+		
+		.topImg h1{
+			position : absolute;
+			line-height : 450px;
+			width : 100%;
+			text-align : center;
+			color : white;
+			z-index : 99;
+			font-size : 60px;
+		}
+		
+		h1 .slim{
+			font-weight : lighter;
+		}
+		.wrap{
+			margin-top : 400px;
+		}
+		
+		li{
+			list-style-type : none;
+		}
+		
+		.smallNavi{
+			overflow : hidden;
+			float : right;
+			margin-top : -30px;
+			margin-bottom : 60px;
+		}
+		
+		.smallNavi li{
+			float : left;
+			margin-right : 20px;
+			margin-top : 8em;
+		}
+		
+		.homeImg{
+			margin-top : -2px;
+		}
+		
+		section.wrapper, article.wrapper {
+	    	padding: 500px 0;
+		}
+		
+		/* /////////////////////////////////////////////////////////// */
+		
+			.box{
+				width: 70%;
+				margin: 0 auto;
+			}
+			
+			input[type="text"], input[type="text"].join, input[type="password"].join, select.join, .join{
+			    background: #fff;
+			    border: none;
+			    border-bottom: 2px solid #ababab;
+			    color: #555;
+			    border-radius: 2px;
+			    width:70%;
+			    display:inline-block;
+			}
+			
+			input[type="text"].join.phone{
+			`	width:30%;
+			}
+			
+			row.join{
+			    margin-top: 15px;
+			}
+			
+		/* /////////////////////////////////////////////////////////// */
 		
 	</style>
 
@@ -465,46 +570,64 @@
 	<jsp:include page="/layout/header.jsp" />
 	<!-- //header -->
 	
+	<!-- 메인배경이미지 : start -->
+	<div class="topImg">
+		<h1>회원<span class="slim">가입</span></h1>
+	</div>
+	<!-- 메인배경이미지 : end -->
 	
 	
 	<!-- contents -->
 	<section id="main" class="wrapper">
 		<div class="inner">
-		
-		<h3>회원가입</h3>
-		
-			<form class="form-horizontal">
-					<div class="row uniform">
-
-						 <div class="12u">
-							<label for="userId">아 이 디</label>
-							  <input style="font-size:120%; color:black;" type="text"  id="userId" name="userId" placeholder="아이디">
-							  <span id="userIdWirte"></span>
-						  </div>
-					  
-			  
-			  
-						  <div class="6u">
-							<label for="password">비밀번호</label>
-							  <input style="font-size:120%; color:black;" type="password" id="password" name="password" placeholder="비밀번호">
-						  </div>
-						  
-						  <div class="6u">
-							<label for="password2">비밀번호 확인</label>
-							  <input style="font-size:120%; color:black;" type="password" id="password2" name="password2" placeholder="비밀번호 확인">
-						  </div>
-			  
-						  <div class="12u">
-							<label for="nickName" >닉네임</label>
-							  <input style="font-size:120%; color:black;" type="text"  id="nickName" name="nickName" placeholder="닉네임">
-							  <span id="nickNameWirte"></span>
-						  </div>
-			  
-						  
-							
-							<div class="6u">
-							<label for="address1">거주지 시/도</label>
-							  <select style="font-size:120%; color:black;" id="address1" name="address1">
+			<h3>회원가입</h3>
+			<div class="box">
+			
+				<form class="form-horizontal" id="form111">
+				
+				
+				<!-- ////////////////////////////////////////////////////////////////// -->
+					
+					<div class="row">
+						<div class="6u 12u$(small)">
+							<i class="material-icons" style="font-size:36px">person</i>
+							<input type="text" class="join" id="userId" name="userId" placeholder="아이디">
+				            <span id="userIdWirte"></span>
+						</div>
+						<div class="6u 12u$(small)">
+							<i class="material-icons" style="font-size:36px">person_outline</i>
+							<input type="text" class="join" id="nickName" name="nickName" placeholder="닉네임">
+				            <span id="nickNameWirte"></span>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="6u 12u$(small)">
+							<i class="material-icons" style="font-size:36px">https</i>
+							<input type="password" class="join" id="password" name="password" placeholder="비밀번호">
+						</div>
+						<div class="6u 12u$(small)">
+							<i class="material-icons" style="font-size:36px">https</i>
+							<input type="password" class="join" id="password2" name="password2" placeholder="비밀번호 확인">
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="6u 12u$(small)">
+							<i class='fas fa-venus-mars' style='font-size:36px'></i>
+							<input type="radio" name="gender" id="gender1" value="M" checked><label for="gender1">남성</label>
+							<input type="radio" name="gender" id="gender2" value="W"><label for="gender2">여성</label>
+						</div>
+						<div class="6u 12u$(small)">
+							<i class="material-icons" style="font-size:36px">cake</i>
+							<input type="date" id="birthday" name="birthday">
+						</div>
+					</div>
+					
+					<div class="row"><!-- 거주지 -->
+						<div class="6u 12u$(small)">
+							<i class='fas fa-home' style='font-size:36px'></i>
+							<select id="address1" name="address1" class="select_wrapper join">
 								<option value="서울">서울</option>
 								<option value="경기">경기</option>
 								<option value="인천">인천</option>
@@ -522,137 +645,74 @@
 								<option value="충남">충남</option>
 								<option value="충북">충북</option>
 								<option value="제주">제주</option>
-							  </select>
-							  </div>
-							  <div class="6u">
-							  <label for="address2">거주지 구/군</label>
-							  <select style="font-size:120%; color:black;" id="address2" name="address2">
+							</select>
+							
+							</div>
+							<div class="6u 12u$(small)">
+							
+							<select id="address2" name="address2" class="select_wrapper join">
 								<c:forEach var="location" items="${list}">
 									<option value="${location.townName}">${location.townName}</option>
 								</c:forEach>
-							  </select>
-							  <input type="hidden" name="address">
-							</div>
+							</select>
 							
-			  				
-							<div class="4u">  
-							<label for="phone1">휴대전화번호</label>
-							
-							  <select style="font-size:120%; color:black;" name="phoneBe" id="phone1">
-									<option value="010" >010</option>
-									<option value="011" >011</option>
-									<option value="016" >016</option>
-									<option value="018" >018</option>
-									<option value="019" >019</option>
+						</div>
+					</div>
+					
+					<div class="row"> <!-- 전화번호-->
+						<div class="10u 12u$(small)">
+							<i class='fas fa-mobile-alt' style='font-size:36px'></i>
+							 <select name="phoneBe" id="phone1" class="select_wrapper join phone">
+							 	<option value="010" >010</option>
+							 	<option value="011" >011</option>
+								<option value="016" >016</option>
+								<option value="018" >018</option>
+								<option value="019" >019</option>
 							 </select>
-							</div>
-							<div class="4u"> 
-							<label>&nbsp;</label>
-							  <input style="font-size:120%; color:black;" type="text" id="phone2" name="phoneBe" placeholder="번호">
-							</div>
-							<div class="4u"> 
-							<label>&nbsp;</label>
-							  <input style="font-size:120%; color:black;" type="text" id="phone3" name="phoneBe" placeholder="번호">
-							</div>
-							
-							
-							
-							 <div class="4u">
-							   <button  id="phoneConfirm" type="button" class="btn btn-info">휴대폰 인증</button>
-							 </div>
-							 <div class="8u">
-								<input style="font-size:120%; color:black;" type='text' class="form-control" id='authnumPhone' name='authnumPhone' placeholder='인증번호 7자리를 입력하세요'>
-								<input type="hidden" name="phone"/>
-								<span id="authnumPhoneWirte">아직 인증되지 않았습니다.</span>
-							 </div>
-							 
-							
-							 
-			  
-						   
-							
-							<div class="4u">
-								<label for="email" >이메일</label>
-							  	<input style="font-size:120%; color:black;" type="text"  id="email" name="email" placeholder="이메일">
-							</div>
-							<div class="4u">
-								<label for="authnum">&nbsp;</label>
-							 	<input type='text' id='authnum' name='authnum' placeholder='인증번호 7자리를 입력하세요'>
-								<span id="authnumWirte">아직 인증되지 않았습니다.</span>
-							</div>
-							<div class="4u">
-								<label for="emailConfirm">&nbsp;</label>
-							  <button id="emailConfirm" type="button">이메일 인증</button>
-							</div>
-						  
-			  
-			  
-						  <div class="4u">
-						   <label >성 별</label>
-							  <input type="radio" name="gender" id="gender1" value="M" checked><label for="gender1">남성</label>
-							  <input type="radio" name="gender" id="gender2" value="W"><label for="gender2">여성</label>
-						  </div>
-			  
-						  <div class="4u">
-							<label for="birthday">생년월일</label>
-								<input type="date" id="birthday" name="birthday">
-						  </div>
-			  
-						  <div class="4u">
-							<label for="profile">프로필 이미지</label>
-							  <input type="file" id="file" name="file"  multiple>
-						  </div>
-						  
-						  <!--  //////////////////////////////////////////////////관심사 선택 /////////////////////////////////////////////////////////////////////////////-->
-						<div class="12u">
-						   <label for="profile" >관심사(3개 선택)</label>
-								<input type="checkbox" name="selectInterest" value="10000" class="inter-chk" id="sltInter01"><label for="sltInter01">아웃도어/여행</label>
-								<input type="checkbox" name="selectInterest" value="10001" class="inter-chk" id="sltInter02"><label for="sltInter02">운동/스포츠</label>
-								<input type="checkbox" name="selectInterest" value="10002" class="inter-chk" id="sltInter03"><label for="sltInter03">인문학/책/글</label>
-								
-								<input type="checkbox" name="selectInterest" value="10003" class="inter-chk" id="sltInter04"><label for="sltInter04">업종/직무</label>
-								<input type="checkbox" name="selectInterest" value="10004" class="inter-chk" id="sltInter05"><label for="sltInter05">외국/언어</label>
-								<input type="checkbox" name="selectInterest" value="10005" class="inter-chk" id="sltInter06"><label for="sltInter06">문화/공연/축제</label>
-								
-								<input type="checkbox" name="selectInterest" value="10006" class="inter-chk" id="sltInter07"><label for="sltInter07">음악/악기</label>
-								<input type="checkbox" name="selectInterest" value="10007" class="inter-chk" id="sltInter08"><label for="sltInter08">공예/만들기</label>
-								<input type="checkbox" name="selectInterest" value="10008" class="inter-chk" id="sltInter09"><label for="sltInter09">댄스/무용</label>
-								
-								<input type="checkbox" name="selectInterest" value="10009" class="inter-chk" id="sltInter10"><label for="sltInter10">봉사활동</label>
-								<input type="checkbox" name="selectInterest" value="10010" class="inter-chk" id="sltInter11"><label for="sltInter11">사교/인맥</label>
-								<input type="checkbox" name="selectInterest" value="10011" class="inter-chk" id="sltInter12"><label for="sltInter12">차/오토바이</label>
-								
-								<input type="checkbox" name="selectInterest" value="10012" class="inter-chk" id="sltInter13"><label for="sltInter13">사진/영상</label>
-								<input type="checkbox" name="selectInterest" value="10013" class="inter-chk" id="sltInter14"><label for="sltInter14">야구관람</label>
-								<input type="checkbox" name="selectInterest" value="10014" class="inter-chk" id="sltInter15"><label for="sltInter15">게임/오락</label>
-								
-								<input type="checkbox" name="selectInterest" value="10015" class="inter-chk" id="sltInter16"><label for="sltInter16">요리/제조</label>
-								<input type="checkbox" name="selectInterest" value="10016" class="inter-chk" id="sltInter17"><label for="sltInter17">반려동물</label>
-								<input type="checkbox" name="selectInterest" value="10017" class="inter-chk" id="sltInter18"><label for="sltInter18">가족/결혼</label>
-								
-								<input type="checkbox" name="selectInterest" value="10018" class="inter-chk" id="sltInter19"><label for="sltInter19">함께해요</label>
-								<br/><br/>
-								<input type="hidden" name="firstInterest">
-								<input type="hidden" name="secondInterest">
-								<input type="hidden" name="thirdInterest">
-							</div>
-							<!--  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-							
-			  
-			  
-			  <div id="addConfirm" class="form-group">
-				
-			  </div>
-			  
-			  <ul class="actions small">	
-				  <li><button type="button" class="btn btn-primary"  >가 &nbsp;입</button></li>
-				  <li><a class="button special small" href="/index.jsp" role="button">취&nbsp;소</a></li>
-			  </ul>
-		
-		
+							 <input type="text" id="phone2" name="phoneBe" placeholder="번호" class="join phone">
+							 <input type="text" id="phone3" name="phoneBe" placeholder="번호" class="join phone">
+						</div>
+						
+						<div class="2u 12u$(small)">
+							<button  id="phoneConfirm" type="button" class="btn btn-info">인증</button>
+						</div>
+					</div>
+					
+					<div class="row"> <!-- 전화번호-->
+						<div class="6u 12u$(small)">
+							<i class='fas fa-mobile-alt' style='font-size:36px'></i>
+							 <input type='text' class="join" id='authnumPhone' name='authnumPhone' placeholder='인증번호를 입력하세요'/>
+							 <input type="hidden" name="phone"/>
+						</div>
+						<!-- <div class="6u 12u$(small)">
+							 <span id="authnumPhoneWirte">아직 인증되지 않았습니다.</span>
+						</div> -->
+					</div>
+					
+					<div class="row"> <!--이메일 -->
+						<div class="6u 12u$(small)">
+							<i class='far fa-envelope' style='font-size:36px'></i>
+						</div>
+					</div>
+					
+					<div class="row"><!-- 프로필 -->
+						<div class="6u 12u$(small)">
+							<i class='fas fa-portrait' style='font-size:36px'></i>
+						</div>
+					</div>
+					
+					<div class="row"><!-- 관심사 -->
+						<div class="6u 12u$(small)">
+							<i class='fas fa-mobile-alt' style='font-size:36px'></i>
+						</div>
+					</div>
+					
+					
+				<!-- ////////////////////////////////////////////////////////////////// -->
+						
+				</form>
 			</div>
-				
-			</form>
+			
 		</div>
 	</section>
 	<!-- //contents -->

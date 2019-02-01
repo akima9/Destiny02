@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.common.Search;
 import com.destiny.service.domain.User;
+import com.destiny.service.letter.LetterService;
 import com.destiny.service.user.UserService;
 import com.destiny.common.Page;
 
@@ -39,6 +40,10 @@ public class UserController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier("letterServiceImpl")
+	private LetterService letterService;
 	
 	public UserController() {
 		System.out.println(this.getClass());
@@ -394,9 +399,13 @@ public class UserController {
 	
 	@RequestMapping(value="getUserView", method=RequestMethod.GET)
 	public ModelAndView getUserView(HttpSession session) throws Exception{
+		
+		int notRead = letterService.getCountNetReadReceive(((User)session.getAttribute("me")).getUserId());
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/user/userInfo/getUserView.jsp");
 		modelAndView.addObject("me", session.getAttribute("me"));
+		modelAndView.addObject("notRead", notRead);
 		return modelAndView;
 	}
 	

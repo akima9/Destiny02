@@ -166,6 +166,7 @@
 	section.wrapper, article.wrapper {
     	padding: 500px 0;
 	}
+	
 
 </style>
 	
@@ -190,7 +191,7 @@
 			<form class="form-horizontal">
 
 				<div>
-					<table class="row-table">
+					<table class="row-table tablebm">
 						<caption>테이블 설명</caption>
 						
 						<colgroup>

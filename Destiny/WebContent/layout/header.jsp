@@ -67,16 +67,16 @@
 			}
 		});
 		
-		$("#userId").focus();
+		$("#userIdHeader").focus();
 		
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$("#loginButton").on("click" , function() {
-			var id=$("input[name='userId']").val();
-			var pw=$("input[name='password']").val();
+			var id=$("#toto").val();
+			var pw=$("#titi").val();
 			
 			if(id == null || id.length <1) {
 				alert('ID 를 입력하지 않으셨습니다.');
-				$("#userId").focus();
+				$("#userIdHeader").focus();
 				return;
 			}
 			
@@ -98,6 +98,15 @@
 	#nav{
 		font-family: 'Source Serif Pro', serif;
 	}
+
+.modal-login .avatar img {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.modal-login .avatar {
+    background: #fd5d7c;
+}
 </style>
 	<style>
         #dialog-background {
@@ -133,20 +142,21 @@
 		border: none;
 		background-color: #fff;
 	}
-	.modal-login .modal-header {
+	.modal-login .modal-header2 {
 		border-bottom: none;   
         position: relative;
         justify-content: center;
 	}
+	
 	.modal-login h4 {
 		text-align: center;
 		font-size: 26px;
 		margin: 30px 0 ;
 	}
 	.modal-login .form-control:focus {
-		border-color: #70c5c0;
+		/* border-color: #70c5c0; */
 	}
-	.modal-login .form-control, .modal-login .btn {
+	.modal-login .form-control, .modal-login .btn2 {
 		min-height: 40px;
 		border-radius: 3px; 
 	}
@@ -156,8 +166,8 @@
 		right: -5px;
 	}	
 	.modal-login .modal-footer {
-		background: #ecf0f1;
-		border-color: #dee4e7;
+		background: #ecf0f1; /* #ecf0f1; */
+		border-color: #dee4e7; /* #dee4e7 */
 		text-align: center;
         justify-content: center;
 		margin: 0 -20px -20px;
@@ -177,7 +187,7 @@
 		height: 95px;
 		border-radius: 50%;
 		z-index: 9;
-		background: #60c7c1;
+		/* background: #60c7c1; */
 		padding: 15px;
 		box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 	}
@@ -187,23 +197,36 @@
 	.modal-login.modal-dialog {
 		margin-top: 80px;
 	}
-    .modal-login .btn {
+    .modal-login .btn2 {
         color: #fff;
         border-radius: 4px;
-		background: #60c7c1;
+		/* background: #60c7c1; */
 		text-decoration: none;
 		transition: all 0.4s;
         line-height: normal;
         border: none;
     }
-	.modal-login .btn:hover, .modal-login .btn:focus {
-		background: #45aba6;
+	.modal-login .btn2:hover, .modal-login .btn2:focus {
+		/* background: #45aba6; */
 		outline: none;
 	}
 	.trigger-btn {
 		display: inline-block;
 		margin: 100px auto;
 	}
+	#userIdHeader, #password{
+		margin-bottom : 20px;
+	}
+	
+	input[type="text"], input[type="password"], select, textarea {
+	    background: #ffe7e7;
+	    border: none;
+	    color: #555;
+	    border-radius: 2px;
+	    width:90%;
+	}
+	
+	
 	</style>
 <header id="header">
 	<div class="inner">
@@ -240,23 +263,22 @@
 		<div id="my-dialog">
 			<div class="modal-dialog modal-login">
 				<div class="modal-content">
-					<div class="modal-header ">
+					<div class="modal-header2 " style="height:50px">
 						<div class="avatar">
 							<img src="/resources/images/meeting/logo.png"  alt="Avatar">
 						</div>				
-						<h4 class="modal-title">Login</h4>	
-		                
+						<h4>Login</h4>
 					</div>
 					<div class="modal-body">
 						<form id="loginForm">
 							<div class="form-group" class="form-horizontal">
-								<input id="userId" type="text" class="form-control" name="userId" placeholder="Username" required="required">		
+								<input id="toto" type="text" class="" name="userId" placeholder="userId" required="required">		
 							</div>
 							<div class="form-group">
-								<input id="password" type="password" class="form-control" name="password" placeholder="Password" required="required">	
+								<input id="titi" type="password" class="" name="password" placeholder="Password" required="required">	
 							</div>        
 							<div class="form-group" align="center">
-								<button id="loginButton" type="submit" class="btn btn-primary btn-lg btn-block login-btn">Login</button>
+								<button id="loginButton" type="submit" class="btn2">Login</button>
 							</div>
 						</form>
 					</div>

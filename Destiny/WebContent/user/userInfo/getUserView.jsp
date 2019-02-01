@@ -13,6 +13,8 @@
 
 <!-- //All CSS Insert -->
 
+
+
 <!-- All js -->
 	<!--  템플릿 사용하기 위해 필요한 js -->
 	<script src="/resources/javascript/jquery.min.js"></script>
@@ -21,7 +23,8 @@
 	<script src="/resources/javascript/main.js"></script>
 	
 	<link href="https://fonts.googleapis.com/css?family=Jua" rel="stylesheet">
-	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	
 
 
@@ -100,7 +103,7 @@
 		
 	</script>
 	<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script> -->
-	<script>
+	<script>/*
 	(function(d, s, id){
 	    var js, fjs = d.getElementsByTagName(s)[0];
 	    if (d.getElementById(id)) {return;}
@@ -108,6 +111,7 @@
 	    js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
 	    fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'frogue-embed'));
+	*/
 	</script>
 	
 	
@@ -177,7 +181,7 @@
 
 </head>
 
-<body >	
+<body>	
 	
 
 	<!-- header -->
@@ -186,7 +190,7 @@
 
 	<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- contents -->
-	<section id="communitymove" class="wrapper align-center">
+	<section id="communitymove" class="wrapper align-center" style="background-image : linear-gradient(135deg, #FAB7D9 , #FFFFFF);">
 		
 		<div class="inner">
 		
@@ -195,12 +199,12 @@
 		<br/>
 		
 		
-		<div id="frogue-container" class="position-right-bottom"
+		<!--  <div id="frogue-container" class="position-right-bottom"
 			      data-color="#555a9c"
 			      data-chatbot="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
 			      data-user="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
 			      data-init-key="value"
-			      ></div>
+			      ></div>-->
 		
 		
 		<div id="content">
@@ -208,6 +212,11 @@
 				<input type="text" name="questionButton" id="question" >
 			    <a class="button special 12u" href="#" id="questionButton">질문!</a>
 			</div>	
+			
+			<div class="bs-glyphicons">
+				<i class="fa fa-envelope-o" style="font-size:36px"></i> <span class="w3-badge">${notRead}</span>
+			</div>
+			
 		</div>
 		
 		
@@ -219,28 +228,42 @@
 			<div class="flex flex-3">
 			
 				
-				<div class="col-sm-4 col-md-4">
+				<div class="col-sm-3 col-md-3">
 			    <h4 style="font-family: 'Jua', sans-serif;">성격 &amp; 유형</h4><p>
 			    	<div class="image">
-			    		<img class="col-sm-4 col-md-4" src="/resources/images/layout/KakaoTalk_20190129_213128976.jpg" alt="Pic 01" width="250" height="250" >
+			    		<img class="col-sm-3 col-md-3" src="/resources/images/layout/KakaoTalk_20190129_213128976.jpg" alt="Pic 01" width="250" height="250" >
 			    	</div>
-			      <br/>당신의 MBTI성격유형을 알아보고 선택하세요. <br/>그리고 원하는 상대방 성격유형을 선택하세요.
-			    	</p>
-			    	<a class="button" href="/user/addTypeView/${me.userId}">move</a>
+			      <br/>당신의 MBTI성격유형을 알아보고 선택하세요. <br/>그리고 원하는 상대방 성격유형을 선택하세요.<br/>
+			    	<a class="button" href="/user/addTypeView/${me.userId}">select</a>
 			    </div>
 			   
 			   
 			
-				<div class="col-sm-4 col-md-4">
-			    <h4 style="font-family: 'Jua', sans-serif;">쪽지</h4>
-			    <a href="#" id="letterList"><span class="image"><img  class="col-sm-4 col-md-4" src="/resources/images/layout/letter.png" width="300" height="300" /></span></a>
-				   <br/> 유저에게 쪽지를 보내고 받으세요. 
+				<div class="col-sm-3 col-md-3">
+			    <h4 style="font-family: 'Jua', sans-serif;">쪽지</h4> 
+			    	<div class="image">
+					    <img  class="col-sm-3 col-md-3" src="/resources/images/layout/letterother.jpg" alt="Pic 01"  width="250" height="250" />
+			    	</div>
+			      <br/> 유저에게 쪽지를 보내고 받으세요.<br/><br/>
+			    	<a href="#" class="button" id="letterList">open</a>
 				</div>	
 	
-				<div class="col-sm-4 col-md-4" >
+				<div class="col-sm-3 col-md-3" >
 				<h4 style="font-family: 'Jua', sans-serif;">활동관리</h4>
-			    <p  style="font-size:100%; color:black;"><a href="/user/userAct/actMain.jsp" id="actMainButton"><span class="image"><img alt="" src="/resources/images/layout/act.jpg" style="width: 300px; height:300px; border-radius:25px;"  /></span></a>
-			   	 <br/>당신의 활동내역을 확인하고 관리하세요. </p>
+					<div class="image">
+			   		    <img class="col-sm-3 col-md-3" alt="Pic 01" src="/resources/images/layout/act.jpg" width="250" height="250"/>
+			   	 	</div>
+			   	 <br/>당신의 활동내역을 확인하고 관리하세요. <br/><br/>
+					<a href="/user/userAct/actMain.jsp" class="button" id="actMainButton">move</a>
+				</div>	
+				
+				<div class="col-sm-3 col-md-3" >
+				<h4 style="font-family: 'Jua', sans-serif;">개인정보조회</h4>
+					<div class="image">
+			   		    <img class="col-sm-3 col-md-3" alt="Pic 01" src="/resources/images/layout/users.png" width="250" height="250"/>
+			   	 	</div>
+			   	 <br/>당신의 개인정보를 확인하고 관리하세요. <br/><br/>
+					<a href="/user/getUser/${me.userId}" class="button" id="myInfoButton">move</a>
 				</div>	
 			
 			</div>
@@ -259,6 +282,7 @@
 		</div>
 			
 		</div>
+	
 	</section>
 	<!-- //contents -->
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->

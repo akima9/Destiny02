@@ -9,8 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>우연</title>
 <!-- All CSS Insert -->
+<link rel="stylesheet" href="/resources/css/cal.css" /> <!-- 케러셀-->
 <link rel="stylesheet" href="/resources/css/rest.css" /> <!-- 리스트 참조용 -->
 <link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->
+
 
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -47,22 +49,34 @@
 	 <style>
 	 body {
 	 	background-color: #f5f5f5;
+	 	
 	 }
-		/* #meetingNo {
-			font-size: 30px;
-		}
-		#myCarousel {
-			width: 100%;
-   			height: 680px;
-		}
-		
-		
-		#myCarousel img{
-			width : 100%;
-			height : 680px;
-			align : left;
-		} */
-		
+
+	#myCarousel :after {
+         background-image : url("/resources/images/meeting/back3.jpg");
+         background-repeat: no-repeat;
+  		 background-color: rgba( 255, 255, 255, 0.5 );
+   
+		 background-size: cover;
+		 top:0;
+		 left:0;
+		 position:absolute;
+		 background-size:100%;
+		 opacity:0.6!important;
+		 z-index:-1;
+		 content:"";
+		 width:100%;
+		 height:100%;
+         
+	}
+	
+	.carousel {
+	    position: relative;
+	    overflow: hidden;
+	    padding: 2em 0 2em 0;
+	    margin-bottom: 0;
+	}
+	
 	</style>
 	
 	
@@ -72,7 +86,7 @@
 		$( "#addMeeting" ).on("click", function() {
 			console.log("${empty sessionScope.me}");
 			
-			if('${sessionScope.me.userGrade }' !='NEW' && '${!empty sessionScope.me.userId}'){
+			if('${sessionScope.me.userGrade }' !='NEW' && ${!empty sessionScope.me.userId}){
 				//alert("성공");
 				self.location="/meeting/addMeeting"
 			}else if('${empty sessionScope.me}'=='true'){
@@ -151,7 +165,7 @@
    		$("form").attr("method" , "POST").attr("action" , "/meeting/listMeeting/"+meetingCenter).submit();
 		 });
 		
-	})
+	});
 		
 	</script>
 <!-- //All js -->
@@ -171,6 +185,8 @@
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- contents -->
 	<section id="main" class="wrapper">	
+	
+
 	 <!-- 베스트상품 테이블 -->
             <table>
 
@@ -265,6 +281,74 @@
 			 </table>
 		</form>	 
 			 <!-- 검색창 종료 -->
+			 
+			 <section id="myCarousel2" class="carousel">
+					<div class="reel">
+
+						<article>
+							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#">Pulvinar sagittis congue</a></h3>
+							</header>
+							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
+						</article>
+						<article>
+							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#">Pulvinar sagittis congue</a></h3>
+							</header>
+							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
+						</article>
+						<article>
+							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#">Pulvinar sagittis congue</a></h3>
+							</header>
+							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
+						</article>
+						<article>
+							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#">Pulvinar sagittis congue</a></h3>
+							</header>
+							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
+						</article>
+						<article>
+							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#">Pulvinar sagittis congue</a></h3>
+							</header>
+							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
+						</article>
+						<article>
+							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#">Pulvinar sagittis congue</a></h3>
+							</header>
+							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
+						</article>
+						<article>
+							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#">Pulvinar sagittis congue</a></h3>
+							</header>
+							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
+						</article>
+						<article>
+							<a href="#" class="image featured"><img src="/resources/images/meeting/action.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#">Pulvinar sagittis congue</a></h3>
+							</header>
+							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
+						</article>
+						<span class="forward" style></span>
+						<span class="backward" style></span>
+						
+						  
+					</div>
+				</section>
+			 
+			 
 			 
 			 <!-- 개설하기 버튼 시작 -->
 			 <div align="right" class="addMeeting">
