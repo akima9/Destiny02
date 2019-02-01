@@ -43,18 +43,19 @@
            type : 'get',
           // data : {'postNo':postNo},
            success : function(JSONData){
+        	   alert("JSONData : "+JSONData);
+           		console.log("JSONData.list[0] : "+JSONData.list[0]);
                 var a =''; 
                 $.each(JSONData, function(i){
                   var list = JSONData[i];
-                  console.log("list : "+list);
-                  console.log("ID : "+list.commentWriterId);
+                  alert("list : "+list);
                   if(list.commentNo != list.targetNo){
                      a += '<div class="replyAreaCoComment" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
                   }else{
                      a += '<div class="replyArea'+list.commentNo+'" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
                   }
                    
-                   a += '<div class="replyInfo'+list.commentNo+'">'+'댓글번호 : '+list.commentNo+' / 작성자 : '+list.commentWriterId;
+                   a += '<div class="replyInfo'+list.commentNo+'">'+list.commentWriterId;
                    if($('#loginUserId').val() == list.commentWriterId){
                       a += '<a onclick="replyUpdate('+list.commentNo+',\''+list.commentDetail+'\', \''+list.commentWriterId+'\','+list.targetNo+')"> 수정 </a>';
                       a += '<a onclick="replyDelete('+list.commentNo+')"> 삭제 </a>';
@@ -64,7 +65,7 @@
                }else{
                   a += '</div>';
                }
-                   a += '<div class="replyContent"  name="'+list.commentNo+'"> <p> 내용 : '+list.commentDetail+'</p>';
+                   a += '<div class="replyContent"  name="'+list.commentNo+'"> <p>'+list.commentDetail+'</p>';
                    a += '</div></div>';
                });
                 $(".commentInput").val('');
@@ -266,6 +267,7 @@
          <button type="button" class="commentSave" id="save">등록</button>
          <input type="hidden" id="loginUserId" name="userId" value="${ me.userId }">
          <input type="hidden" id="nickName" name="nickName" value="${ me.nickName }">
+         <img src="/resources/images/userprofile/${me.profile}">
       </div>
       
         <div class="replyList"></div>

@@ -103,6 +103,16 @@
 			$("form").attr("method","POST").attr("action","/info/updateRestaurantInfo?communityNo=${community.communityNo}").submit();
 		}
 		
+		$(".changeIn").hide();
+		
+		$("input[name=changeImg]").on("click",function(){
+			$(".changeIn").show();
+		});
+		$("input[name=changeImgCancel]").on("click",function(){
+			$(".changeIn").hide();
+		});
+		
+		
 	});
 </script>
 <style>
@@ -227,7 +237,16 @@
 				<div class="form-group">
 				
 					<label for="title">대표이미지</label>
-					<input type="file" name="uploadFile" class="form-control">
+					
+					<div class="changeBtn">
+						<input type="button" name="changeImg" value="변경">
+						<input type="button" name="changeImgCancel" value="변경취소">
+					</div>
+										
+					<div class="changeIn">
+						<input type="file" name="uploadFile" class="form-control">
+					</div>
+					
 					<div class="representImg">
 						<img src="/resources/images/uploadImg/${community.fileName }">
 					</div>

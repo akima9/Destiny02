@@ -35,11 +35,6 @@
 var userId = "${me.userId}";
 console.log("userId : "+userId);
 
-/* function fncGetList(currentPage){
-	$("#currentPage").val(currentPage)
-	$("form").attr("method","POST").attr("action","/info/listRestaurantInfo").submit();
-} */
-
 
 $(function() {
 	

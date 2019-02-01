@@ -1,5 +1,6 @@
 package com.destiny.web.comment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.destiny.service.comment.CommentService;
 import com.destiny.service.domain.Comment;
+import com.destiny.service.domain.User;
+import com.destiny.service.user.UserService;
 
 @RestController
 @RequestMapping("/comment/*")
@@ -24,6 +27,10 @@ public class CommentRestController {
 	@Autowired
 	@Qualifier("commentServiceImpl")
 	private CommentService commentService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
 	//setter Method 구현 않음
 	
 	public CommentRestController() {
@@ -50,13 +57,29 @@ public class CommentRestController {
 	
 	/*댓글 리스트 : start*/
 	@RequestMapping(value="/rest/getCommentList/{communityNo}", method=RequestMethod.GET)
-	public List<Comment> getCommentList(@PathVariable int communityNo) throws Exception{
-		System.out.println("/rest/listComment/ : GET");
+	public Map<String, Object> getCommentList(@PathVariable int communityNo) throws Exception{
+		
+		System.out.println("/rest/listComment/ : GET 실행 ========================================================");
 		System.out.println("communityNo : "+communityNo);
 		
 		List<Comment> list = commentService.getCommentList(communityNo);
-		System.out.println("list : "+list);
-		return list;
+		List<String> profileImg = new ArrayList<String>();
+		
+		User user = new User();
+		
+		for (Comment comment : list) {
+			user = userService.getUser(comment.getCommentWriterId());
+			profileImg.add(user.getProfile());
+		}
+		System.out.println(":: user : "+user);
+		System.out.println(":: profileImg : "+profileImg);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("profileImg", profileImg);
+		
+		
+		return map;
 	}
 	/*댓글 리스트 : end*/
 	

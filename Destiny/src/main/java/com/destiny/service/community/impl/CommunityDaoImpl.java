@@ -122,8 +122,18 @@ public class CommunityDaoImpl implements CommunityDao{
 	}
 
 	@Override
+	public List<Community> getMeetingStoryList(Search search) throws Exception {
+		return sqlSession.selectList("CommunityMapper.getMeetingStoryList", search);
+	}
+
+	@Override
 	public List<Community> getNoticeList(Search search) throws Exception {
 		return sqlSession.selectList("CommunityMapper.getNoticeList", search);
+	}
+
+	@Override
+	public List<Community> getDateStoryList(Search search) throws Exception {
+		return sqlSession.selectList("CommunityMapper.getDateStoryList", search);
 	}
 
 	@Override
@@ -154,6 +164,26 @@ public class CommunityDaoImpl implements CommunityDao{
 	@Override
 	public Community getNextNotice(int communityNo) throws Exception {
 		return sqlSession.selectOne("CommunityMapper.getNextNotice", communityNo);
+	}
+
+	@Override
+	public Community getPreMeetingStory(int communityNo) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getPreMeetingStory", communityNo);
+	}
+
+	@Override
+	public Community getNextMeetingStory(int communityNo) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getNextMeetingStory", communityNo);
+	}
+
+	@Override
+	public Community getPreDateStory(int communityNo) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getPreDateStory", communityNo);
+	}
+
+	@Override
+	public Community getNextDateStory(int communityNo) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getNextDateStory", communityNo);
 	}
 
 }

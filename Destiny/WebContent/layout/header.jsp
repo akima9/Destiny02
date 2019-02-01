@@ -18,6 +18,12 @@
 		$("a[href='#' ]:contains('Place')").on("click", function() {
 			self.location = "/find/mainFind"
 		});
+		$("a[href='#' ]:contains('MeetingStory')").on("click", function() {
+			self.location = "/meetingStory/listMeetingStory"
+		});
+		$("a[href='#' ]:contains('DateStory')").on("click", function() {
+			self.location = "/date/listDateStory"
+		});
 		$("a[href='#' ]:contains('RestaurantInfo')").on("click", function() {
 			self.location = "/info/listRestaurantInfo"
 		});
@@ -207,6 +213,8 @@
 			<a href="#" >Meeting</a>
 			<a href="#">Chatting</a>
 			<a href="#">Place</a>
+			<a href="#">MeetingStory</a>
+			<a href="#">DateStory</a>
 			<a href="#">RestaurantInfo</a>
 			<a href="#">LoveAdvice</a>
 			<a href="#">Notice</a>
