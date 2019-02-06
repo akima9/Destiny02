@@ -4,9 +4,13 @@
 <link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">
 
+<link rel="stylesheet" href="/resources/dist/css/superfish.css" media="screen">
+<script src="/resources/dist/js/hoverIntent.js"></script>
+<script src="/resources/dist/js/superfish.js"></script>
+
 <script type="text/javascript">
 	$(function() {
-		$("a[href='#' ]:contains('우연')").on("click", function() {
+		$("a[href='#' ]:contains('Destiny')").on("click", function() {
 			self.location = "/index.jsp"
 		});
 		$("a[href='#' ]:contains('Meeting')").on("click", function() {
@@ -92,21 +96,26 @@
 	});	
 </script>
 <style>
+	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR|Pacifico');
+	
 	strong{
 		font-family: 'Nanum Myeongjo', serif;
 	}
-	#nav{
+
+	#example{
 		font-family: 'Source Serif Pro', serif;
 	}
-
-.modal-login .avatar img {
-    width: 100%;
-    margin-top: 5px;
-}
-
-.modal-login .avatar {
-    background: #fd5d7c;
-}
+		#example a:hover{
+			/* color : #1c1c1c; */
+		}
+	.modal-login .avatar img {
+	    width: 100%;
+	    margin-top: 5px;
+	}
+	
+	.modal-login .avatar {
+	    background: #fd5d7c;
+	}
 </style>
 	<style>
         #dialog-background {
@@ -227,12 +236,63 @@
 	}
 	
 	
+	
+	#header a:last-child{
+		padding-right : 14px;
+	}
+	.sf-menu{
+		float : right;
+	}
+		.sf-menu a{
+		}
+		.sf-menu .current{
+			text-align : left;
+		}
+		.sf-menu li:hover{
+			border-bottom : 2px solid white;
+		}
 	</style>
 <header id="header">
+
 	<div class="inner">
-		<a href="#" class="logo"><strong>우연</strong></a>
+		<a href="#" class="logo" style="font-family: 'Pacifico';font-size:30px;font-weight:bold;">Destiny</a>
 		<!-- header 수정 후엔 footer.jsp에 #navepanel도 수정해주기 -->
-		<nav id="nav">
+		<ul class="sf-menu" id="example">
+			<li><a href="#">Meeting</a></li>
+			<li><a href="#">Chatting</a></li>
+			<li><a href="#">Place</a></li>
+			<li class="current">
+				<a href="#">Story</a>
+				<ul>
+					<li><a href="#">MeetingStory</a></li>
+					<li><a href="#">DateStory</a></li>
+				</ul>
+			</li>
+			<li class="current">
+				<a href="#">Information</a>
+				<ul>
+					<li><a href="#">RestaurantInfo</a></li>
+					<li><a href="#">LoveAdvice</a></li>
+				</ul>
+			</li>
+			<li><a href="#">Notice</a></li>
+			
+			<c:if test="${me.userGrade == 'ADM'}">
+				<li><a href="#">Complain</a></li>
+				<li><a href="#">UserList</a></li>
+			</c:if>
+			
+			<c:if test="${me == null}">
+				<li><a href="#" id="btn-open-dialog" >login</a></li>
+				<li><a href="#">join</a></li>
+			</c:if>
+			<c:if test="${me != null}">
+				<li><a href="#">MyPage</a></li>
+				<li><a href="#">logout</a></li>
+			</c:if>
+		</ul>
+		
+		<%-- <nav id="nav">
 			<a href="#" >Meeting</a>
 			<a href="#">Chatting</a>
 			<a href="#">Place</a>
@@ -255,7 +315,7 @@
 				<a href="#">MyPage</a>
 				<a href="#">logout</a>
 			</c:if>
-		</nav>
+		</nav> --%>
 		<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 	</div>
 	

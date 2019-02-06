@@ -152,6 +152,7 @@ $(function() {
 		color : white;
 		z-index : 99;
 		font-size : 60px;
+		font-family: 'Nanum Myeongjo', serif;
 	}
 	h1 .slim{
 		font-weight : lighter;
@@ -244,11 +245,32 @@ $(function() {
 		margin-top : 5px;
 		float : left;
 	}
-	
 	#searchKeyword{
-		width : 20em;
+		width : 50%;
+		float:left;
 		margin-top : 5px;
+	}
+	.filter{
+		width : 100%;
+		overflow : hidden;
+		float : right;
+		margin-bottom : 50px;
+	}
+	.filter .searchWrap{
+		overflow : hidden;
+		width : 50%;
+		float : right;
+	}
+	.filter .searchCondition{
+		width : 21%;
+	}
+	.filter button{
+		float : right;
+	}
+	.filter .searchSortingOption{
+		overflow : hidden;
 		float : left;
+		width : 160px;
 	}
 </style>
 </head>
@@ -280,9 +302,9 @@ $(function() {
 		<!-- 페이지 내부 네비게이션 경로 : end -->
 		
 		<form>
-			<div class="form-group search-group">
+			<div class="filter">
 			
-				<select class="sort-control" name="searchSortingOption" >
+				<select class="searchSortingOption" name="searchSortingOption" >
 					<option value="0"
 						${ !empty search.searchSortingOption && search.searchSortingOption=="0" ? "selected" : ""}>최신 게시물 순</option>
 					<option value="1"
@@ -293,19 +315,24 @@ $(function() {
 						${ !empty search.searchSortingOption && search.searchSortingOption=="3" ? "selected" : ""}>이전 게시물 순</option>
 				</select>
 				
-			    <select name="searchCondition" >
-					<option value="0"
-						${ !empty search.searchCondition && search.searchCondition=="0" ? "selected" : ""}>제목으로 검색</option>
-					<option value="1"
-						${ !empty search.searchCondition && search.searchCondition=="1" ? "selected" : ""}>작성자로 검색</option>
-				</select>
+				<div class="searchWrap">
 				
-			    <label class="sr-only" for="searchKeyword">검색어</label>
+					<select class="searchCondition" name="searchCondition" >
+						<option value="0"
+							${ !empty search.searchCondition && search.searchCondition=="0" ? "selected" : ""}>제목으로 검색</option>
+						<option value="1"
+							${ !empty search.searchCondition && search.searchCondition=="1" ? "selected" : ""}>작성자로 검색</option>
+					</select>
+					
+				    <label class="sr-only" for="searchKeyword">검색어</label>
+				    
+					<input type="text" id="searchKeyword" name="searchKeyword"  placeholder="검색어를 입력해주세요."
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" autocomplete=off>
+				    			 
+					<button type="button" class="button">검색</button>
+				
+				</div>
 			    
-				<input type="text" id="searchKeyword" name="searchKeyword"  placeholder="검색어를 입력해주세요."
-			    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" autocomplete=off>
-			    			 
-				<button type="button" class="button">검색</button>
 				
 			</div>
 			

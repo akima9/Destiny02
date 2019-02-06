@@ -67,7 +67,7 @@
 			 $( "button[id='writeStoryButton']" ).on("click" , function() {
 			 	//var userId = $("input[name='getUserId']").val();
 			 	var userId = "${me.userId}";
-				self.location = "/act/addStoryView/LUV";
+				self.location = "/act/addStoryView/DAT";
 		    });
 		});
 		
