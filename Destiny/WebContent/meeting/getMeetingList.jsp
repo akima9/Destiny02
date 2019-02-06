@@ -9,8 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>우연</title>
 <!-- All CSS Insert -->
-<link rel="stylesheet" href="/resources/css/rest.css" /> <!-- 리스트 참조용 -->
-<link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->
+<link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->	
+
+
 
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,7 +28,7 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
-	
+
 	
 	
 	<!-- Bootstrap core CSS -->
@@ -49,12 +50,17 @@
 	
 	 <style>
 	 body {
-	 	background-color: #f5f5f5;
+	 	background-color: #fff;
 	 	
 	 }
 	 
+	 #one{
+	 	padding: 0;
+	 }
 	 
-	 
+	 #lol{
+	 	margin-top: 350px;
+	 }
 	 
 	 /* 가로케러셀 */
 	 .col-centered {
@@ -218,6 +224,8 @@
 	.updateForm{
 		padding : 25em 0 10em 0;
 	}
+	
+	
 	 /*  메인백그라운드 끝! */
 	 
 	 
@@ -407,21 +415,89 @@
             
             <!-- /.carousel -->
             <!-- 베스트상품 테이블 종료 -->
+            	<section id="main" class="wrapper">	
+            			 <!-- 시작!! -->
+		<%-- <div class="col-xs-11 col-md-10 col-centered">
+					  <c:set var="i" value="0" />
+					  <c:forEach var="meet" items="${bestList}">
+					  <c:set var="i" value="${ i+1 }" />
+					  </c:forEach>
+					  
+			<div id="carousel" class="carousel slide" data-ride="carousel" data-type="multi" data-interval="2500">
+				<div class="carousel-inner">
+					<div class="item active">
+						<div class="carousel-col">
+							<!-- <div class="block red img-responsive"></div> -->
+							<img class="block" src="/resources/images/meeting/action.jpg" style="width:150px; height: 230px;" alt="First slide">
+						</div>
+					</div>
+					
+					<div class="item">
+						<div class="carousel-col">
+							<!-- <div class="block red img-responsive"></div> -->
+							<img class="block" src="/resources/images/meeting/${bestList[1].titleImg}" style="width:150px; height: 230px;" alt="First slide">
+							
+						</div>
+					</div>
+					
+					<div class="item">
+						<div class="carousel-col">
+							<!-- <div class="block red img-responsive"></div> -->
+							<img class="block" src="/resources/images/meeting/action.jpg"" style="width:150px; height: 230px;" alt="First slide">
+						</div>
+					</div> --%>
+					<!-- 
+					<div class="item">
+						<div class="carousel-col">
+							<div class="block green img-responsive"></div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="carousel-col">
+							<div class="block blue img-responsive"></div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="carousel-col">
+							<div class="block yellow img-responsive"></div>
+						</div>
+					</div>
+					 
+				</div>-->
+
+				<!-- Controls -->
+				<!-- <div class="left carousel-control">
+					<a href="#carousel" role="button" data-slide="prev">
+						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+				</div>
+				<div class="right carousel-control">
+					<a href="#carousel" role="button" data-slide="next">
+						<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+			</div> 
+
+		</div>-->
+
+	<!-- 끝!! -->		
             
-	<section id="main" class="wrapper">	
+
 		<div class="inner">
 		<div style="width:98%; margin-left:10px;">
 
         <form>
             <br/>
             <!-- 검색창 시작 -->
-            <table align="center" border="7" height="34px" bordercolor="#326ada">
-            	<tr>
-            		<td width='250px'>
+            <div style="margin-bottom: 30px;" id="lol" align="center" border="7" height="34px" bordercolor="#326ada" class="row col-xs-12 col-sm-12 col-md-12">
+
+            		<div class="col-xs-12 col-sm-12 col-md-4">
 	            		<input name="searchKeyword"  
-	            		type="text" placeholder="검색어를 입력"/>
-            		</td>
-            		<td class='search' width='250px'>
+	            		type="text" placeholder="검색어를 입력" style="width: 100%"/>
+            		</div>
+            		<div class='search col-xs-12 col-sm-12 col-md-2'>
 						<select id="centerLocation" class="form-control">
 				 		<option>중심지역-지역</option>
 				 		<option value="서울">서울</option>
@@ -442,11 +518,11 @@
 		                <option value="충북">충북</option>
 		                <option value="제주">제주</option>
 				 	</select>
-            		</td>
-            		<td id="location" class='search' width='250px'>
-						<input readonly="readonly" id="sconcentering" type="text" class="form-control"> 
-            		</td>
-            		<td width='250px'>
+            		</div>
+            		<div id="location" class='search col-xs-12 col-sm-12 col-md-2'>
+						<input readonly="readonly" id="sconcentering" type="text" class="form-control" style="width: 100%"> 
+            		</div>
+            		<div class="col-xs-12 col-sm-12 col-md-2">
             			<select id="interest" name="searchSortingOption" class="form-control">
 					 		<option >관심사</option>
 					 		<c:forEach var="Meeting" items="${interlist}">
@@ -455,107 +531,32 @@
 					 		
 					 		</c:forEach>
 				 		</select>
-            		</td>
-            		<td width='54px'><button type='button' id="plzsearch" class='sch_smit'>찾기</button></td>
-            	</tr>
-			</table>
-			
-			 <table class=search2 align="center" height="34px">
-			 	
-			 	  
-			 </table>
+            		</div>
+            		<div class="col-xs-12 col-sm-12 col-md-2"><input type='button' id="plzsearch" class='sch_smit search-btn' value="찾기"></div>
+			</div>
 		</form>	 
 			 <!-- 검색창 종료 -->
 			 
-			 <!-- 시작!! -->
-		<div class="col-xs-11 col-md-10 col-centered">
-					  <c:set var="i" value="0" />
-					  <c:forEach var="meet" items="${bestList}">
-					  <c:set var="i" value="${ i+1 }" />
-					  </c:forEach>
-					  
-			<div id="carousel" class="carousel slide" data-ride="carousel" data-type="multi" data-interval="2500">
-				<div class="carousel-inner">
-					<div class="item active">
-						<div class="carousel-col">
-							<!-- <div class="block red img-responsive"></div> -->
-							<img class="block" src="/resources/images/meeting/${bestList[0].titleImg}" style="width:150px; height: 230px;" alt="First slide">
-						</div>
-					</div>
-					
-					<div class="item">
-						<div class="carousel-col">
-							<!-- <div class="block red img-responsive"></div> -->
-							<img class="block" src="/resources/images/meeting/${bestList[1].titleImg}" style="width:150px; height: 230px;" alt="First slide">
-						</div>
-					</div>
-					
-					<div class="item">
-						<div class="carousel-col">
-							<!-- <div class="block red img-responsive"></div> -->
-							<img class="block" src="/resources/images/meeting/${bestList[2].titleImg}" style="width:150px; height: 230px;" alt="First slide">
-						</div>
-					</div>
-					<!-- 
-					<div class="item">
-						<div class="carousel-col">
-							<div class="block green img-responsive"></div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="carousel-col">
-							<div class="block blue img-responsive"></div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="carousel-col">
-							<div class="block yellow img-responsive"></div>
-						</div>
-					</div>
-					 -->
-				</div>
-
-				<!-- Controls -->
-				<div class="left carousel-control">
-					<a href="#carousel" role="button" data-slide="prev">
-						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-						<span class="sr-only">Previous</span>
-					</a>
-				</div>
-				<div class="right carousel-control">
-					<a href="#carousel" role="button" data-slide="next">
-						<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-						<span class="sr-only">Next</span>
-					</a>
-				</div>
-			</div>
-
-		</div>
-
-	<!-- 끝!! -->		 
+ 
 			 
 			 <!-- 개설하기 버튼 시작 -->
-			 <div align="right" class="addMeeting">
-			 <button type="button" id="addMeeting">개설하기</button>
-			 </div>
+			 
 			 <!-- 개설하기 버튼 종료 -->
 			 
 			 <!-- 리스트 시작 -->
                 <div class="landing">
 	              	<section id="one" class="wrapper style1">
 						<div class="inner">
+						<div align="right" class="addMeeting">
+						 	<input type="button" id="addMeeting" value="개설하기">
+						 </div>
 							<c:set var="i" value="0" />
 						 	<c:forEach var="meeting" items="${list}">
 						 	<c:set var="i" value="${ i+1 }" />
 						 	<hr/>
-						 	<c:if test="${i%2==0}">
-								<article class="feature left">
-							</c:if>
-							<c:if test="${i%2!=0}">
-								<article class="feature right">
-							</c:if>
-							
-								<span class="image"><img src="/resources/images/meeting/${meeting.titleImg}" alt="" /></span>
+						 	
+							<article class="feature left">
+								<div class="image"><img src="/resources/images/meeting/outdoor1.jpg" class="col-xs-12 col-sm-12 col-md-12" alt="" /></div>
 								<div class="content">
 									<p>${meeting.meetingCenter}<p>
 									<h2>${meeting.meetingName}</h2>
@@ -564,7 +565,7 @@
 									<p>이번모임장소:${meeting.meetingLocation}</p>
 									<ul class="actions">
 										<li>
-											<a href="#" data-param="${meeting.meetingNo}" class="button alt">More</a>
+											<a href="#" data-param="${meeting.meetingNo}" class="button">More</a>
 										</li>
 									</ul>
 								</div>
