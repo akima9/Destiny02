@@ -49,12 +49,25 @@ public class MeetingController {
 		System.out.println("하이rpt리스트");
 		//System.out.println(search.getSearchCondition());
 		Search search = new Search();
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		
+
 		Map<String , Object> map=meetingService.getMeetingList(search);
 		Map<String , Object> bestMap=meetingService.getBestProduct();
 		Map<String , Object> interestmap=meetingService.getInterestList();
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println("토탈 카운트는??"+((Integer)map.get("totalCount")).intValue());
+		
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("bestList", bestMap.get("bestList"));
 		model.addAttribute("interlist", interestmap.get("list"));
+		model.addAttribute("resultPage", resultPage);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/meeting/getMeetingList.jsp");
@@ -89,7 +102,7 @@ public class MeetingController {
 		Map<String , Object> map=meetingService.getMeetingList(search);
 		Map<String , Object> bestMap=meetingService.getBestProduct();
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-		
+		System.out.println("토탈 카운트는??"+((Integer)map.get("totalCount")).intValue());
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("bestList", bestMap.get("bestList"));
 		model.addAttribute("interlist", interestmap.get("list"));

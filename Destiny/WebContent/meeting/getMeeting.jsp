@@ -1038,7 +1038,7 @@
 					
 					 		<div class="dropdown">
 					 			<div class="col-xs-12 col-sm-12 col-md-12">
-						 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" width="100%" height="100%" class="col-xs-4 col-sm-1 col-md-1 imgmen">
+						 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" style="height: 50px; margin-bottom: 6px;"  class="col-xs-4 col-sm-1 col-md-1 imgmen">
 									<a href="#" class="dropdown-toggle thisName col-xs-2 col-sm-4 col-md-4" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
 										<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
 										<span class="caret"></span>

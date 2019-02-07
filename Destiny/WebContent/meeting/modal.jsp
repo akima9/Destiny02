@@ -35,14 +35,14 @@
 					<input style="width:100%;" type="button" class="" onclick="sample6_execDaumPostcode()" value="주소 검색"><br>
 					<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 				 </div>
-				  
+				 </form>
 				 <div class="form-group">
 				   <div class="col-sm-12 col-md-12 text-center">
 				     <button class="col-sm-6 col-md-6"  id="nextSchedul" value="nextSchedul">등록</button>
 					 <button class="col-sm-6 col-md-6" id="">취소</button>
 				   </div>
 				 </div>
-			</form>
+			
 		</div>
 		
 		<!-- //////////////////////////   다음 모임 등록 모달창 끝       ////////////////////////////////////////////// -->
