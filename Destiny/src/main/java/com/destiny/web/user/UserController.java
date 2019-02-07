@@ -70,7 +70,7 @@ public class UserController {
 		
 		System.out.println("/user/login : GET");
 		String Referer = request.getHeader("referer");
-		String referer = Referer.substring(21);
+		String referer = Referer.substring(24);
 		System.out.println("refere ==="+Referer);
 		System.out.println("이것은 자른것"+referer);
 		System.out.println("userId : " + user.getUserId());
