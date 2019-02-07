@@ -8,6 +8,7 @@
 <script src="/resources/dist/js/hoverIntent.js"></script>
 <script src="/resources/dist/js/superfish.js"></script>
 
+
 <script type="text/javascript">
    $(function() {
       $("a[href='#' ]:contains('Destiny')").on("click", function() {
@@ -73,26 +74,107 @@
       
       $("#headerId").focus();
       
-      //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+      $('#headerId').on("keyup", function(){
+    	  var id=$("#headerId").val();
+    	  $('.loginOk').text('');
+    	  if(id.length > 3 ){
+    		  $.ajax(
+        			  {
+        				  method : "GET",
+        				  url : '/user/json/getUser/'+id,
+        				  success : function(JSONData){
+        					  if(JSONData.user == null){
+        						  $('#loginCheckId').text('해당 회원이 존재하지 않습니다.');
+        					  }else{
+        						  $('#loginCheckId').text('');
+        						  if(JSONData.user.userGrade == 'BLK'){
+        							  $('#loginCheckBlack').text('블랙리스트');
+        						  }else if(JSONData.user.userGrade != 'BLK'){
+        							  $('#loginCheckBlack').text('');
+        						  }
+        					  }
+        				  }
+        		  
+        	  });
+    	  }else if(id.length == 0){
+    		  $('#loginCheckId').text('');
+    	  }
+      });
+      
+      $('#headerPw').on("keyup", function(){
+    	  var id=$("#headerId").val();
+    	  var pw=$("#headerPw").val();
+    	  $('.loginOk').text('');
+      	$.ajax(
+    			  {
+    				  method : "GET",
+    				  url : '/user/json/getUser/'+id,
+    				  success : function(JSONData){
+    					  if(JSONData.user.password != pw){
+    						  $('#loginCheckPw').text('비밀번호가 틀립니다.');
+    					  }else{
+    						  $('#loginCheckPw').text('');
+    					  }
+    				  }
+    		  
+    	  });
+      });
+      
       $("#loginButton").on("click" , function() {
          var id=$("#headerId").val();
          var pw=$("#headerPw").val();
          
          if(id == null || id.length <1) {
-            alert('ID 를 입력하지 않으셨습니다.');
+            //alert('ID 를 입력하지 않으셨습니다.');
+            $('.loginOk').text('아이디를 입력해주세요.');
             $("#headerId").focus();
             return;
          }
          
          if(pw == null || pw.length <1) {
-            alert('패스워드를 입력하지 않으셨습니다.');
+            //alert('패스워드를 입력하지 않으셨습니다.');
+            $('.loginOk').text('비밀번호를 입력해주세요.');
             $("#headerPw").focus();
             return;
          }
          
+         if($('#loginCheckId').text() != null && $('#loginCheckId').text() != ''){
+        	 //alert('아이디가 존재하지 않습니다.');
+        	 $('.loginOk').text('아이디가 존재하지 않습니다.');
+        	 $("#headerId").focus();
+        	 return false;
+         }
+         
+         if($('#loginCheckPw').text() != null && $('#loginCheckPw').text() != ''){
+        	 //alert('비밀번호가 틀립니다.');
+        	 $('.loginOk').text('비밀번호가 일치하지 않습니다.');
+        	 $("#headerPw").focus();
+        	 return false;
+         }
+         
+         if($('#loginCheckBlack').text() != null && $('#loginCheckBlack').text() != ''){
+        	 //alert('블랙리스트 회원입니다.');
+        	 $('.loginOk').text('블랙리스트 회원입니다.');
+        	 $("#headerPw").focus();
+        	 return false;
+         }
+         
          $("#loginForm").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
-         //self.location = "/user/login/"+id+"/"+pw;
       });
+      
+    	  /* $.ajax(
+    			  {
+    				  method : "GET",
+    				  url : '/user/json/getUser/'+id,
+    				  success : function(JSONData){
+    					  if(JSONData.user == null){
+    						  alert('user없음');
+    						  $('#loginCheck').text('user없음');
+    					  }
+    				  }
+    		  
+    	  }) */
+      
    });   
 </script>
 <style>
@@ -301,7 +383,14 @@
                      </div>
                      <div class="form-group">
                         <input id="headerPw" type="password" class="" name="password" placeholder="Password" required="required">
-                     </div>
+                     </div>  
+                              
+                     <span class="loginCheckId" id="loginCheckId"></span>
+                     <input type="hidden" class="loginCheckPw" id="loginCheckPw"></input>
+                     <input type="hidden" class="loginCheckBlack" id="loginCheckBlack"></input>
+                     
+                     <div class="loginOk" align="left"></div>
+                     
                      <div class="form-group" align="center">
                         <button id="loginButton" type="submit" class="btn2">Login</button>
                      </div>

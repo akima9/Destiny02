@@ -69,19 +69,27 @@ public class UserController {
 	public ModelAndView login(@ModelAttribute("user") User user, HttpSession session, HttpServletRequest request) throws Exception{
 		
 		System.out.println("/user/login : GET");
-		String Referer = request.getHeader("referer");
-		String referer = Referer.split("8080/")[1];
-		System.out.println("refere ==="+Referer);
-		System.out.println("이것은 자른것"+referer);
-		System.out.println("userId : " + user.getUserId());
-		System.out.println("password : " + user.getPassword());
-		
-		//Business Logic
-		User dbUser = new User();
-		 
-		
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/"+referer);
+	      
+	      //Business Logic
+	      User dbUser = new User();
+	       
+	      
+	      ModelAndView modelAndView = new ModelAndView();
+	      modelAndView.setViewName("redirect:/index.jsp");
+	      
+	      String Referer = request.getHeader("referer");
+	      String[] referarray = Referer.split("8080/");
+	      System.out.println(referarray.length);
+	      
+	      if(referarray.length>1) {
+	      String referer = Referer.split("8080/")[1];
+	      System.out.println("refere ==="+Referer);
+	      System.out.println("이것은 자른것"+referer);
+	      System.out.println("userId : " + user.getUserId());
+	      System.out.println("password : " + user.getPassword());
+
+	      modelAndView.setViewName("redirect:/"+referer);
+	      }
 		
 		//만일 유저가 없다면
 		if(userService.getUser( user.getUserId()) == null) {
@@ -105,7 +113,7 @@ public class UserController {
 				modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 			} else {
 				//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
-				System.out.println("로그인 + 현제 접속자 구현 로직 part");
+				System.out.println("로그인 + 현재 접속자 구현 로직 part");
 				ServletContext applicationScope = request.getSession().getServletContext();
 				
 				//String Ip = request.getRemoteAddr();
@@ -442,11 +450,11 @@ public class UserController {
 		
 		Map<String, Object> typeMap = userService.getTypeByUser(typeNo);
 		
-		String myTypeFile = (String) typeMap.get("myType") + ".JPG";
+		String myTypeFile = (String) typeMap.get("myType") + ".png";
 		List<String> typeFileList = new ArrayList<String>();
-		typeFileList.add((String) typeMap.get("firstType") + ".JPG");
-		typeFileList.add((String) typeMap.get("secondType") + ".JPG");
-		typeFileList.add((String) typeMap.get("thirdType") + ".JPG");
+		typeFileList.add((String) typeMap.get("firstType") + ".png");
+		typeFileList.add((String) typeMap.get("secondType") + ".png");
+		typeFileList.add((String) typeMap.get("thirdType") + ".png");
 		
 		Map<String, Object> typeFileMap = new HashMap<String, Object>();
 		typeFileMap.put("myTpyeFile", myTypeFile);
@@ -717,8 +725,10 @@ public class UserController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="leaveSite/{userId}", method=RequestMethod.GET)
-	public ModelAndView leaveSite(@PathVariable String userId) throws Exception{
+	@RequestMapping(value="leaveSite", method=RequestMethod.GET)
+	public ModelAndView leaveSite(HttpSession session) throws Exception{
+		
+		String userId = ( (User)session.getAttribute("me") ).getUserId();
 		
 		System.out.println("/user/leaveSite/{"+userId+"}");
 		

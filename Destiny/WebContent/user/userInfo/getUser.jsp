@@ -244,7 +244,7 @@
 				<div class="3u 12u$(small) subTitle">내 성격유형</div>
 				<div class="4u 12u$(small)">${typeMap.myType}</div>
 				<div class="5u 12u$(small)">
-					<img src="/resources/images/MBTI/${typeFileMap.myTpyeFile}" width="150" height="200"/>
+					<img src="/resources/images/mbti/${typeFileMap.myTpyeFile}" width="150" height="200"/>
 				</div>
 			</div>
 			<hr/>
@@ -257,13 +257,13 @@
 			<div class="row uniform">
 				<div class="3u 12u$(small)"></div>
 				<div class="3u 12u$(small)">
-					<img src="/resources/images/MBTI/${typeFileMap.typeFileList[0]}" width="150" height="200"/>
+					<img src="/resources/images/mbti/${typeFileMap.typeFileList[0]}" width="150" height="200"/>
 				</div>
 				<div class="3u 12u$(small)">
-					<img src="/resources/images/MBTI/${typeFileMap.typeFileList[1]}" width="150" height="200"/>
+					<img src="/resources/images/mbti/${typeFileMap.typeFileList[1]}" width="150" height="200"/>
 				</div>
 				<div class="3u 12u$(small)">
-					<img src="/resources/images/MBTI/${typeFileMap.typeFileList[2]}" width="150" height="200"/>
+					<img src="/resources/images/mbti/${typeFileMap.typeFileList[2]}" width="150" height="200"/>
 				</div>
 			</div>
 		
