@@ -352,4 +352,3 @@
 		
 		<div id="dialog-background"></div>
 </header>
-

@@ -31,6 +31,8 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
+	
+
 	.botton{
 	 
 	}
@@ -57,13 +59,7 @@
 		
      </style>
      
-     <style>
-       body > div.container{
-        	
-            margin-top: 10px;
-        }
-        
-    </style>
+
     
     <style>/* !!!폰트설정!!!!! */
 	@import url(//fonts.googleapis.com/earlyaccess/nanumpenscript.css);
@@ -88,6 +84,35 @@
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
+	
+	$(window).scroll(function() {
+		fnMenuLocation();
+    });
+	
+	function fnMenuLocation() {
+		/*
+		
+		var offset = $("#content").offset();
+        var topPadding = 15;
+		
+        console.log(offset);
+       
+        console.log($(window).scrollTop());
+        
+        
+		if ($(window).scrollTop() > offset.top) {
+            $("#content").stop().animate({
+                marginTop: $(window).scrollTop() - offset.top + topPadding
+            }, 1500);
+        } else {
+            $("#content").stop().animate({
+                marginTop: 0
+            });
+        };
+        */
+	}
+	
+	
  ////////////////* 데이트픽커 데이터 포맷 */////////
 		$( function() {
 		    $( ".datepicker" ).datepicker({
@@ -791,15 +816,15 @@
 	            }
 	        }).open();
 	    }
-	   
+	    
 	</script>
 	<!-- 다음우편 끝 -->
 	
 	
 	
 </head>
+<body onresize="fnMenuLocation()">
 
-<body>
 	<!-- ToolBar Start /////////////////////////////////////-->
     <jsp:include page="/layout/header.jsp" />
     <!-- ToolBar End /////////////////////////////////////-->
@@ -835,7 +860,7 @@
 
 		<div class="row">
 		  <div class="col-md-12">
-		  	<img src="/resources/images/meeting/${meeting.titleImg}" class="col-xs-12 col-md-12"/>
+		  	<img src="/resources/images/meeting/outdoor1.jpg" class="col-xs-12 col-md-12"/>
 		  </div>
 		  
 		  <div class="col-md-12">
@@ -989,7 +1014,7 @@
 					<c:forEach var="crew" items="${crewList}">
 						
 					 		<div class="dropdown">
-					 			<div>
+					 			<div class="col-xs-12 col-sm-12 col-md-12">
 						 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" width="100%" height="100%" class="col-xs-1 col-sm-1 col-md-1 imgmen">
 									<a class="col-xs-3 col-sm-3 col-md-3 dropdown-toggle thisName" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
 										<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
@@ -997,6 +1022,7 @@
 									</a>
 									<a class="col-xs-6 col-sm-6 col-md-6"></a>
 									<c:if test="${crew.role=='MST' }"><span><strong class="col-xs-2 col-sm-2 col-md-2">모임장</strong></span></c:if>
+									
 								</div>
 								<ul class="dropdown-menu">
 									<c:if test="${sessionScope.me.nickName eq crewList['0'].crewNickName }">
@@ -1015,9 +1041,7 @@
 			</table>
 		</div>
 		
-		<!-- footer -->
-		<jsp:include page="/layout/footer.jsp" />
-		<!-- //footer -->
+
 		<div id="dialog3">
 			<div class="actCrewList">
 				<form id="dialog3From" class="form-horizontal">
@@ -1028,6 +1052,10 @@
 		
 	</div>
 	
+			<!-- footer -->
+		<jsp:include page="/layout/footer.jsp" />
+		<!-- //footer -->
+
 	<!-- ////////////////      탭하면 나오는 메뉴 시작             ////////////////////// -->
 
 		    <jsp:include page="/meeting/tapMeun.jsp" />
