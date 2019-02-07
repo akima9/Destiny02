@@ -59,6 +59,9 @@ public interface CommunityService {
 	//만남후기 게시글 리스트
 	public Map<String, Object> getDateStoryList(Search search) throws Exception;
 	
+	//index.jsp 만남후기 게시글 리스트
+	public Map<String, Object> getIndexDateStoryList(Search search) throws Exception;
+	
 	//공지사항 게시글 리스트
 	public Map<String, Object> getNoticeList(Search search) throws Exception;
 	

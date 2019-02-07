@@ -69,6 +69,10 @@ public class UserController {
 	public ModelAndView login(@ModelAttribute("user") User user, HttpSession session, HttpServletRequest request) throws Exception{
 		
 		System.out.println("/user/login : GET");
+		String Referer = request.getHeader("referer");
+		String referer = Referer.substring(24);
+		System.out.println("refere ==="+Referer);
+		System.out.println("이것은 자른것"+referer);
 		System.out.println("userId : " + user.getUserId());
 		System.out.println("password : " + user.getPassword());
 		
@@ -77,7 +81,7 @@ public class UserController {
 		 
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/index.jsp");
+		modelAndView.setViewName("redirect:"+referer);
 		
 		//만일 유저가 없다면
 		if(userService.getUser( user.getUserId()) == null) {

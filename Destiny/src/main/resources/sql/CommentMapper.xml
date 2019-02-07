@@ -15,6 +15,7 @@
 		<result property="commentDate"			column="comment_write_date" 			jdbcType="DATE" />
 		<result property="targetNo"				column="comment_target_no" 				jdbcType="NUMERIC" />
 		<result property="viewCondition" 		column="comment_view_condition" 		jdbcType="VARCHAR" />
+		<result property="profile" 				column="profile_img"			 		jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
@@ -59,10 +60,10 @@
 	
 	<!-- SQL : SELECT LIST -->
 	<select  id="getCommentList"  parameterType="map"	resultMap="commentSelectMap">
-	  	SELECT comment_no , community_no , comment_writer_id , comment_detail , comment_write_date, comment_target_no, comment_view_condition
-		FROM comments
-		WHERE community_no = #{commentComuNo} and comment_view_condition = 'DEF'<!--  and parent_reply_no is NULL -->
-		ORDER BY comment_target_no, comment_no 
+	  	SELECT re.comment_no , re.community_no , re.comment_writer_id , re.comment_detail , re.comment_write_date, re.comment_target_no, re.comment_view_condition, us.profile_img
+		FROM comments re, users us
+		WHERE re.comment_writer_id = us.user_id and re.community_no = #{commentComuNo} and re.comment_view_condition = 'DEF'<!--  and parent_reply_no is NULL -->
+		ORDER BY re.comment_target_no, re.comment_no 
 	  	<!-- SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT comment_no , community_no , comment_writer_id , comment_detail , comment_write_date, comment_target_no, comment_view_condition

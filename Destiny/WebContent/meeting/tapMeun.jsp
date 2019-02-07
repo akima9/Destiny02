@@ -9,12 +9,16 @@
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.1.2/css/material-design-iconic-font.min.css">
 <style media="screen">
-		#content {  
-		  position:absolute;
-		  height:10%;   /* 퀵메뉴, 배너 이미지의 높이 */
-		  width:10%;    /* 퀵메뉴, 배너 이미지의 너비*/
-		  margin:0px 0px 10% 88%;   /* 가장 오른쪽의 수치가 화면 가운데에서 얼마만큼 오른쪽으로 레이어를 붙일 것인지 설정  */ 
-		  top: 10%;  /* 배너 상단에서 얼마나 떨어뜨릴지 설정*/
+		#followingbtn {  
+		  position:fixed;
+		  /* height:10%;  */  /* 퀵메뉴, 배너 이미지의 높이 */
+		 /*  width:10%;  */   /* 퀵메뉴, 배너 이미지의 너비*/
+		 bottom :100px;
+		 right : 15px;
+		 /*
+		 margin:0px 0px 10% 88%; */  /* 가장 오른쪽의 수치가 화면 가운데에서 얼마만큼 오른쪽으로 레이어를 붙일 것인지 설정  */ 
+			
+		 /*  top: 10%;  */ /* 배너 상단에서 얼마나 떨어뜨릴지 설정*/
 		  text-align: left;
 		  background: #fff0;
 		}
@@ -26,9 +30,10 @@
 		  -webkit-transition: 0.4s;
 		  -moz-transition: 0.4s;
 		  transition: 0.4s;
-		  position: absolute;
-		  top : 25em;
-		  right: 10px;
+		  /* position: absolute; */
+		  /* top : 25em;
+		  right: 10px; */
+		  margin-top : 80px;
 		  width: 60px;
 		  height: 60px;
 		  text-align: center;
@@ -41,13 +46,14 @@
 		  cursor: pointer;
 		  z-index: 100;
 		}
-		.menu-button2 {
+		.menu-butt {
 		  -webkit-transition: 0.4s;
 		  -moz-transition: 0.4s;
 		  transition: 0.4s;
-		  position: absolute;
+		  /* position: absolute;
 		  top : 31em;
-		  right: 10px;
+		  right: 10px; */
+		  
 		  width: 60px;
 		  height: 60px;
 		  text-align: center;
@@ -60,6 +66,7 @@
 		  cursor: pointer;
 		  z-index: 100;
 		}
+		
 		.menu-button:hover {
 		  background: #d81557;
 		  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.28), 0 4px 15px 0 rgba(0, 0, 0, 0.25);
@@ -88,7 +95,7 @@
 		  transition-delay: 0.3s;
 		  position: absolute;
 		  right: 30px;
-		  bottom: 30px;
+		  bottom: 30px; 
 		  background: #55acee;
 		}
 		.menu-button a:nth-child(3) {
@@ -208,28 +215,8 @@
 		
 		<script type="text/javascript">
 		 	$(function() {
-		 		
-		        var offset = $("#content").offset();
-		        var topPadding =15;
-		        $(window).scroll(function() {
-		
-		            if ($(window).scrollTop() > offset.top) {
-		                $("#content").stop().animate({
-		                    marginTop: $(window).scrollTop() - offset.top + topPadding
-		                }, 500);
-		            } else {
-		                $("#content").stop().animate({
-		                    marginTop: 0
-		                });
-		            };
-		         });
-		         
-		         
-		    }); 
-		 	
-		 	$(function() {
 		        
-		        $( ".menu-button2" ).on("click" , function() {
+		        $( ".menu-butt" ).on("click" , function() {
 		         	window.history.back();
 		         });
 		    }); 
@@ -459,7 +446,10 @@
 
 
 <body>
-		<div id="content" >
+		<div id="followingbtn">
+			<div class="menu-butt"><i class="glyphicon glyphicon-chevron-left"></i>
+			</div>
+			
 			<div class="menu-button"><i class="zmdi zmdi-share"></i>
 				<a href="#">수정</a>
 				<a href="#">삭제</a>
@@ -471,8 +461,7 @@
 				</c:if>
 			</div>	
 			
-			<div class="menu-button2"><i class="glyphicon glyphicon-chevron-left"></i>
-			</div>
+			
 		</div>
 </body>
 </html>

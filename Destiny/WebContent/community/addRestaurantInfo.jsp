@@ -25,9 +25,9 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
 
 <link rel="stylesheet" href="/resources/css/main.css" >
-	
 
 <script type="text/javascript">
+
 	$(function(){
 		
 		$(document).ready(function(){
@@ -225,6 +225,18 @@
 					<input type="file" name="uploadFile" class="form-control">
 					
 				</div>
+				
+				<div id="map" style="width:500px;height:400px"></div>
+				<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9de7d4536b72418f6f9b1bca7b91e861"></script>
+				<script>
+					var container = document.getElementById('map');
+					var options = {
+						center: new daum.maps.LatLng(33.450701, 126.570667),
+						level: 3
+					};
+					
+					var map = new daum.maps.Map(container, options);
+				</script>
 			
 				<div class="form-group">
 				
@@ -248,6 +260,10 @@
 	<div id="loading">
 		<img id="loading-image" src="../resources/images/loading.gif" alt="loading">
 	</div>
+	
+	<!-- ToolBar Start /////////////////////////////////////-->
+	<jsp:include page="/meeting/drownMeun.jsp" />
+  <!-- ToolBar End /////////////////////////////////////-->
 	
 </body>
 </html>

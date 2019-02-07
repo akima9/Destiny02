@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	
 	
@@ -27,19 +28,22 @@
 			});
 		</script>
 		
+		
 		<div class="inner">
-			<h3>FOOTER</h3>
 			
-			<label for="propose" style="font-size:120%; color:white;">for Admin, inquiry and proposal</label>
-				<input style="font-size:80%; color:black;" type="text" id="propose" name="propose"></input><br/>
-				
-				<ul class="actions small">
-					<li><a id="proposeButton" class="button special small" href="#" >send for Admin</a></li>	
-				</ul>
-				
-			<div class="copyright">
-				� Untitled. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Unsplash</a>.
+			<div class="foot">
+				<label for="propose" style="font-size:120%; color:white; text-align:center;">문의사항</label>
+					<input style="font-size:80%; color:black; width:100%;" type="text" id="propose" name="propose" placeholder="문의사항을 입력해주세요."></input><br/>
+					
+					<ul class="actions small">
+						<li><a id="proposeButton" class="button special small" href="#" >send for Admin</a></li>	
+					</ul>
+					
+				<div class="copyright">
+					&copy; Poeticalopers.<!--  Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Unsplash</a>. -->
+				</div>
 			</div>
+			
 		</div>
 	</footer>
 	
