@@ -60,6 +60,9 @@ public interface CommunityDao {
 	//만남후기 게시글 리스트
 	public List<Community> getDateStoryList(Search search) throws Exception;
 	
+	//index.jsp 만남후기 게시글 리스트
+	public List<Community> getIndexDateStoryList(Search search) throws Exception;
+	
 	//공지사항 게시글 리스트
 	public List<Community> getNoticeList(Search search) throws Exception;
 	

@@ -11,6 +11,7 @@ public class Comment {
 	private Date commentDate;
 	private int targetNo;
 	private String viewCondition;
+	private String profile;
 	
 	
 	public int getCommentNo() {
@@ -55,17 +56,18 @@ public class Comment {
 	public void setViewCondition(String viewCondition) {
 		this.viewCondition = viewCondition;
 	}
-	
+	public String getProfile() {
+		return profile;
+	}
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
 	
 	@Override
 	public String toString() {
-		return "comment [commentNo=" + commentNo + ", commentComuNo=" + commentComuNo + ", commentWriterId="
+		return "Comment [commentNo=" + commentNo + ", commentComuNo=" + commentComuNo + ", commentWriterId="
 				+ commentWriterId + ", commentDetail=" + commentDetail + ", commentDate=" + commentDate + ", targetNo="
-				+ targetNo + ", viewCondition=" + viewCondition + "]";
+				+ targetNo + ", viewCondition=" + viewCondition + ", profile=" + profile + "]";
 	}
-	
-	
-	
-	
 
 }

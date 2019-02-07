@@ -8,12 +8,22 @@
 
 <style type="text/css">
    .replyAreaCoComment{
-      margin-left : 50px;
+      margin-left : 100px;
    }
    a:hover{
       cursor : pointer;
    }
-   
+   .userProfileImgWrap{
+   	display : inline-block;
+   	width : 70px;
+   	height : 70px;
+   	border-radius : 50px;
+   }
+   .commenterId{
+   }
+   .replyContent p{
+   	padding : 20px;
+   }
 </style>
 <script type="text/javascript">
 
@@ -38,37 +48,37 @@
     
    //댓글 목록 : start
    function replyList(){
+	   alert("댓글 목록 출력");
        $.ajax({
            url : '/comment/rest/getCommentList/'+communityNo,
            type : 'get',
           // data : {'postNo':postNo},
            success : function(JSONData){
-        	   alert("JSONData : "+JSONData);
-           		console.log("JSONData.list[0] : "+JSONData.list[0]);
                 var a =''; 
                 $.each(JSONData, function(i){
                   var list = JSONData[i];
-                  alert("list : "+list);
                   if(list.commentNo != list.targetNo){
                      a += '<div class="replyAreaCoComment" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
                   }else{
                      a += '<div class="replyArea'+list.commentNo+'" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
                   }
                    
-                   a += '<div class="replyInfo'+list.commentNo+'">'+list.commentWriterId;
+                   a += '<div class="replyInfo'+list.commentNo+'" style="position:relative;"><div class="userProfileImgWrap" style="background : url(\'/resources/images/userprofile/'+list.profile+'\'); background-size : cover;"></div><span class="commenterId" style="position:absolute;top:20px;left:90px;">'+list.commentWriterId+'</span><div class="con" style="position:absolute;top:0;right:0;">';
                    if($('#loginUserId').val() == list.commentWriterId){
-                      a += '<a onclick="replyUpdate('+list.commentNo+',\''+list.commentDetail+'\', \''+list.commentWriterId+'\','+list.targetNo+')"> 수정 </a>';
+                      a += '<a onclick="replyUpdate('+list.commentNo+',\''+list.commentDetail+'\', \''+list.commentWriterId+'\','+list.targetNo+',\''+list.profile+'\')"> 수정 </a>';
                       a += '<a onclick="replyDelete('+list.commentNo+')"> 삭제 </a>';
                    }
                    if (list.commentNo == list.targetNo) {
-                      a += '<a onclick="reReplyInsert('+list.commentNo+',\''+list.commentDetail+'\', \''+list.commentWriterId+'\')"> 답글달기 </a></div>';
+                      a += '<a onclick="reReplyInsert('+list.commentNo+',\''+list.commentDetail+'\', \''+list.commentWriterId+'\','+list.targetNo+',\''+list.profile+'\')"> 답글달기 </a></div></div>';
                }else{
-                  a += '</div>';
+                  a += '</div></div>';
                }
                    a += '<div class="replyContent"  name="'+list.commentNo+'"> <p>'+list.commentDetail+'</p>';
                    a += '</div></div>';
                });
-                $(".commentInput").val('');
+               
+               $(".commentInput").val('');
+               
                $(".replyList").html(a); 
            }
        });
@@ -125,65 +135,61 @@
    }
    
    //댓글 수정 - 댓글 내용 출력을 input 폼으로 변경 
-   function replyUpdate(commentNo, commentDetail, commentWriterId, targetNo){
+   function replyUpdate(commentNo, commentDetail, commentWriterId, targetNo, profile){
       
       var a ='';
-      a += '<div class="input-group">';
+      a += '<div class="input-group" style="padding : 20px;">';
       a += '<input type="text" class="form-control" name="content_'+commentNo+'" value="'+commentDetail+'" autocomplete=off/>';
       a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="replyUpdateProc('+commentNo+');">수정</button> </span>';
       a += '</div>';
       $('.replyContent[name='+commentNo+']').html(a);
       
       var b = '';
-      b += '<div class="replyInfo'+commentNo+'">'+'댓글번호 : '+commentNo+' / 작성자 : '+commentWriterId;
-       b += '<a onclick="replyUpdateCancel('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+');"> 수정취소 </a></div>';
+      b += '<div class="replyInfo'+commentNo+'" style="position:relative;"><div class="userProfileImgWrap" style="background : url(\'/resources/images/userprofile/'+profile+'\'); background-size : cover;"></div><span class="commenterId" style="position:absolute;top:20px;left:90px;">'+commentWriterId+'</span><div class="con" style="position:absolute;top:0;right:0;">';
+      b += '<a onclick="replyUpdateCancel('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\');"> 수정취소 </a></div>';
       $('.replyInfo'+commentNo+'').html(b);
    }
    
    //댓글 수정 취소 : start
-   function replyUpdateCancel(commentNo, commentDetail, commentWriterId, targetNo){
+   function replyUpdateCancel(commentNo, commentDetail, commentWriterId, targetNo, profile){
       var a = '';
-         a += '<div class="replyInfo'+commentNo+'">'+'댓글번호 : '+commentNo+' / 작성자 : '+commentWriterId;
-          a += '<a onclick="replyUpdate('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\')"> 수정 </a>';
+         a += '<div class="replyInfo'+commentNo+'" style="position:relative;"><div class="userProfileImgWrap" style="background : url(\'/resources/images/userprofile/'+profile+'\'); background-size : cover;"></div><span class="commenterId" style="position:absolute;top:20px;left:90px;">'+commentWriterId+'</span><div class="con" style="position:absolute;top:0;right:0;">';
+          a += '<a onclick="replyUpdate('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\')"> 수정 </a>';
           a += '<a onclick="replyDelete('+commentNo+')"> 삭제 </a>';
           /* 대댓글이면 수정 취소 했을 때 답글 달기가 노출 되면 안됨 */
           /* 댓글번호 == 타겟번호 노출
           댓글번호 != 타겟번호 노출안됨 */
           if (commentNo == targetNo) {
-             a += '<a onclick="reReplyInsert('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\')"> 답글달기 </a></div>';   
+             a += '<a onclick="reReplyInsert('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\')"> 답글달기 </a></div>';   
       }else{
          a += '</div>';
       }
           $('.replyInfo'+commentNo+'').html(a);
       
       var b ='';
-         b += '<p> 내용 : '+commentDetail+'</p>';
+         b += '<p>'+commentDetail+'</p>';
          $('.replyContent[name='+commentNo+']').html(b);
    }
    //댓글 수정 취소 : end
    
    //대댓글 작성 취소 : start
-   function reReplyUpdateCancel(commentNo, commentDetail, commentWriterId){
+   function reReplyUpdateCancel(commentNo, commentDetail, commentWriterId, targetNo, profile){
       var a = '';
-         a += '<div class="replyInfo'+commentNo+'">'+'댓글번호 : '+commentNo+' / 작성자 : '+commentWriterId;
+         a += '<div class="replyInfo'+commentNo+'" style="position:relative;"><div class="userProfileImgWrap" style="background : url(\'/resources/images/userprofile/'+profile+'\'); background-size : cover;"></div><span class="commenterId" style="position:absolute;top:20px;left:90px;">'+commentWriterId+'</span><div class="con" style="position:absolute;top:0;right:0;">';
          if($('#loginUserId').val() == commentWriterId){
-           a += '<a onclick="replyUpdate('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\')"> 수정 </a>';
+           a += '<a onclick="replyUpdate('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\')"> 수정 </a>';
            a += '<a onclick="replyDelete('+commentNo+')"> 삭제 </a>';
         }
-          /* a += '<a onclick="replyUpdate('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\')"> 수정 </a>';
-          a += '<a onclick="replyDelete('+commentNo+')"> 삭제 </a>'; */
-          a += '<a onclick="reReplyInsert('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\')"> 답글달기 </a></div>';
+          a += '<a onclick="reReplyInsert('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\')"> 답글달기 </a></div>';
           $('.replyInfo'+commentNo+'').html(a);
       
-      /* var b ='';
-         b += '<div class="replyContent"  name="'+commentNo+'"> <p> 내용 : '+commentDetail+'</p></div>'; */
          $('.replyContent[name='+commentNo+'] > div').empty();
    }
    //대댓글 작성 취소 : end
    
    //대댓글 달기 - 댓글 내용 출력에 input 폼 추가
-   function reReplyInsert(commentNo, commentDetail, commentWriterId){
-      alert("대댓글 달기");
+   function reReplyInsert(commentNo, commentDetail, commentWriterId, targetNo, profile){
+      alert("답글 달기");
       var a ='';
        a += '<div class="input-group">';
        a += '<input type="text" class="form-control coCoInput" id="commentDetail" name="commentDetail" autocomplete="off"/>';
@@ -195,8 +201,8 @@
        $('.replyContent[name='+commentNo+']').append(a);
        
        var b = '';
-      b += '<div class="replyInfo'+commentNo+'">'+'댓글번호 : '+commentNo+' / 작성자 : '+commentWriterId;
-       b += '<a onclick="reReplyUpdateCancel('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\');"> 답글취소 </a></div>';
+      b += '<div class="replyInfo'+commentNo+'" style="position:relative;"><div class="userProfileImgWrap" style="background : url(\'/resources/images/userprofile/'+profile+'\'); background-size : cover;"></div><span class="commenterId" style="position:absolute;top:20px;left:90px;">'+commentWriterId+'</span><div class="con" style="position:absolute;top:0;right:0;">';
+       b += '<a onclick="reReplyUpdateCancel('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\');"> 답글취소 </a></div>';
       $('.replyInfo'+commentNo+'').html(b);
        
    }
@@ -267,7 +273,6 @@
          <button type="button" class="commentSave" id="save">등록</button>
          <input type="hidden" id="loginUserId" name="userId" value="${ me.userId }">
          <input type="hidden" id="nickName" name="nickName" value="${ me.nickName }">
-         <img src="/resources/images/userprofile/${me.profile}">
       </div>
       
         <div class="replyList"></div>

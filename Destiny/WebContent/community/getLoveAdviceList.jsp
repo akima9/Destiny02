@@ -204,6 +204,7 @@ $(function() {
 		color : white;
 		z-index : 99;
 		font-size : 60px;
+		font-family: 'Nanum Myeongjo', serif;
 		/* font-weight : bold; */
 	}
 	h1 .slim{
@@ -292,9 +293,20 @@ $(function() {
 	}
 	
 	#searchKeyword{
-		width : 55%;
+		width : 50%;
 		float:left;
 		margin-top : 5px;
+	}
+	.filter{
+		width : 50%;
+		overflow : hidden;
+		float : right;
+	}
+	.filter .searchCondition{
+		width : 21%;
+	}
+	.filter button{
+		float : right;
 	}
 </style>
 </head>
@@ -328,8 +340,8 @@ $(function() {
 		<!-- 페이지 내부 네비게이션 경로 : end -->
 		
 		<form>
-			<div class="form-group search-group">
-			    <select name="searchCondition" >
+			<div class="filter">
+			    <select class="searchCondition" name="searchCondition" >
 					<option value="0"
 						${ !empty search.searchCondition && search.searchCondition=="0" ? "selected" : ""}>제목으로 검색</option>
 					<option value="1"

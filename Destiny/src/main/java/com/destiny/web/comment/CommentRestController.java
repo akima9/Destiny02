@@ -57,29 +57,15 @@ public class CommentRestController {
 	
 	/*댓글 리스트 : start*/
 	@RequestMapping(value="/rest/getCommentList/{communityNo}", method=RequestMethod.GET)
-	public Map<String, Object> getCommentList(@PathVariable int communityNo) throws Exception{
+	public List<Comment> getCommentList(@PathVariable int communityNo) throws Exception{
 		
 		System.out.println("/rest/listComment/ : GET 실행 ========================================================");
 		System.out.println("communityNo : "+communityNo);
 		
 		List<Comment> list = commentService.getCommentList(communityNo);
-		List<String> profileImg = new ArrayList<String>();
+		System.out.println("::: list : "+list);
 		
-		User user = new User();
-		
-		for (Comment comment : list) {
-			user = userService.getUser(comment.getCommentWriterId());
-			profileImg.add(user.getProfile());
-		}
-		System.out.println(":: user : "+user);
-		System.out.println(":: profileImg : "+profileImg);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list);
-		map.put("profileImg", profileImg);
-		
-		
-		return map;
+		return list;
 	}
 	/*댓글 리스트 : end*/
 	

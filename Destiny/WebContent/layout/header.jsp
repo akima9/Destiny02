@@ -4,291 +4,351 @@
 <link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">
 
+<link rel="stylesheet" href="/resources/dist/css/superfish.css" media="screen">
+<script src="/resources/dist/js/hoverIntent.js"></script>
+<script src="/resources/dist/js/superfish.js"></script>
+
 <script type="text/javascript">
-   $(function() {
-      $("a[href='#' ]:contains('우연')").on("click", function() {
-         self.location = "/index.jsp"
-      });
-      $("a[href='#' ]:contains('Meeting')").on("click", function() {
-         self.location = "/meeting/listMeeting"
-      });
-      $("a[href='#' ]:contains('Chatting')").on("click", function() {
-         self.location = "/chatting/mainChatting"
-      });
-      $("a[href='#' ]:contains('Place')").on("click", function() {
-         self.location = "/find/mainFind"
-      });
-      $("a[href='#' ]:contains('MeetingStory')").on("click", function() {
-         self.location = "/meetingStory/listMeetingStory"
-      });
-      $("a[href='#' ]:contains('DateStory')").on("click", function() {
-         self.location = "/date/listDateStory"
-      });
-      $("a[href='#' ]:contains('RestaurantInfo')").on("click", function() {
-         self.location = "/info/listRestaurantInfo"
-      });
-      $("a[href='#' ]:contains('LoveAdvice')").on("click", function() {
-         self.location = "/love/listLoveAdvice"
-      });
-      $("a[href='#' ]:contains('Notice')").on("click", function() {
-         self.location = "/notice/listNotice"
-      });
-      $("a[href='#' ]:contains('Complain')").on("click", function() {
-         self.location = "/complain/listComplain"
-      });
-      $("a[href='#' ]:contains('UserList')").on("click", function() {
-         self.location = "/user/listUser"
-      });
-      $("a[href='#' ]:contains('login')").on("click", function() {
-         //self.location = "/user/login"
-         //self.location = "/user/userInfo/login.jsp"
-      });
-      $("a[href='#' ]:contains('join')").on("click", function() {
-         self.location = "/user/addUser"
-      });
-      $("a[href='#' ]:contains('MyPage')").on("click", function() {
-         self.location = "/user/getUserView"
-      });
-      $("a[href='#' ]:contains('logout')").on("click", function() {
-         self.location = "/user/logout/${me.userId}"
-      });
-      $("#btn-open-dialog,#dialog-background,#btn-close-dialog").click(function () {
-         $("#my-dialog,#dialog-background").toggle();
-      });
-      
-   });
-//////////============= "로그인"  Event 연결 =============   
-   $( function() {
-      
-      $("#password").keypress(function(e) {
-         if(e.which == 13) {
-            $(this).blur();
-            $('#loginButton').focus().click();
-         }
-      });
-      
-      $("#userIdHeader").focus();
-      
-      //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-      $("#loginButton").on("click" , function() {
-         var id=$("#toto").val();
-         var pw=$("#titi").val();
-         
-         if(id == null || id.length <1) {
-            alert('ID 를 입력하지 않으셨습니다.');
-            $("#userIdHeader").focus();
-            return;
-         }
-         
-         if(pw == null || pw.length <1) {
-            alert('패스워드를 입력하지 않으셨습니다.');
-            $("#password").focus();
-            return;
-         }
-         
-         $("#loginForm").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
-         //self.location = "/user/login/"+id+"/"+pw;
-      });
-   });   
+	$(function() {
+		$("a[href='#' ]:contains('Destiny')").on("click", function() {
+			self.location = "/index.jsp"
+		});
+		$("a[href='#' ]:contains('Meeting')").on("click", function() {
+			self.location = "/meeting/listMeeting"
+		});
+		$("a[href='#' ]:contains('Chatting')").on("click", function() {
+			self.location = "/chatting/mainChatting"
+		});
+		$("a[href='#' ]:contains('Place')").on("click", function() {
+			self.location = "/find/mainFind"
+		});
+		$("a[href='#' ]:contains('MeetingStory')").on("click", function() {
+			self.location = "/meetingStory/listMeetingStory"
+		});
+		$("a[href='#' ]:contains('DateStory')").on("click", function() {
+			self.location = "/date/listDateStory"
+		});
+		$("a[href='#' ]:contains('RestaurantInfo')").on("click", function() {
+			self.location = "/info/listRestaurantInfo"
+		});
+		$("a[href='#' ]:contains('LoveAdvice')").on("click", function() {
+			self.location = "/love/listLoveAdvice"
+		});
+		$("a[href='#' ]:contains('Notice')").on("click", function() {
+			self.location = "/notice/listNotice"
+		});
+		$("a[href='#' ]:contains('Complain')").on("click", function() {
+			self.location = "/complain/listComplain"
+		});
+		$("a[href='#' ]:contains('UserList')").on("click", function() {
+			self.location = "/user/listUser"
+		});
+		$("a[href='#' ]:contains('login')").on("click", function() {
+			//self.location = "/user/login"
+			//self.location = "/user/userInfo/login.jsp"
+		});
+		$("a[href='#' ]:contains('join')").on("click", function() {
+			self.location = "/user/addUser"
+		});
+		$("a[href='#' ]:contains('MyPage')").on("click", function() {
+			self.location = "/user/getUserView"
+		});
+		$("a[href='#' ]:contains('logout')").on("click", function() {
+			self.location = "/user/logout/${me.userId}"
+		});
+		$("#btn-open-dialog,#dialog-background,#btn-close-dialog").click(function () {
+			$("#my-dialog,#dialog-background").toggle();
+		});
+		
+	});
+//////////============= "로그인"  Event 연결 =============	
+	$( function() {
+		
+		$("#password").keypress(function(e) {
+			if(e.which == 13) {
+				$(this).blur();
+				$('#loginButton').focus().click();
+			}
+		});
+		
+		$("#userIdHeader").focus();
+		
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		$("#loginButton").on("click" , function() {
+			var id=$("#toto").val();
+			var pw=$("#titi").val();
+			
+			if(id == null || id.length <1) {
+				alert('ID 를 입력하지 않으셨습니다.');
+				$("#userIdHeader").focus();
+				return;
+			}
+			
+			if(pw == null || pw.length <1) {
+				alert('패스워드를 입력하지 않으셨습니다.');
+				$("#password").focus();
+				return;
+			}
+			
+			$("#loginForm").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
+			//self.location = "/user/login/"+id+"/"+pw;
+		});
+	});	
 </script>
 <style>
-   strong{
-      font-family: 'Nanum Myeongjo', serif;
-   }
-   #nav{
-      font-family: 'Source Serif Pro', serif;
-   }
+	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR|Pacifico');
+	
+	strong{
+		font-family: 'Nanum Myeongjo', serif;
+	}
 
-.modal-login .avatar img {
-    width: 100%;
-    margin-top: 5px;
-}
-
-.modal-login .avatar {
-    background: #fd5d7c;
-}
+	#example{
+		font-family: 'Source Serif Pro', serif;
+	}
+		#example a:hover{
+			/* color : #1c1c1c; */
+		}
+	.modal-login .avatar img {
+	    width: 100%;
+	    margin-top: 5px;
+	}
+	
+	.modal-login .avatar {
+	    background: #fd5d7c;
+	}
 </style>
-   <style>
+	<style>
         #dialog-background {
-          display: none;
-          position: fixed;
-          top: 0; left: 0;
-          width: 100%; height: 100%;
-          background: rgba(0,0,0,.3);
-          z-index: 10;
-      }
-      
-      #my-dialog {
-          display: none;
-          position: fixed;
-          left: calc( 50% - 160px ); top: calc( 30% - 70px );
-          width: 100px; height: 100px; 
-          z-index: 11;
-          padding: 10px;
-      }
-      </style>
-      
-      <style type="text/css">
-         body {
-      font-family: 'Varela Round', sans-serif;
-   }
-   .modal-login {      
-      color: #636363;
-      width: 350px;
-   }
-   .modal-login .modal-content {
-      padding: 20px;
-      border-radius: 5px;
-      border: none;
-      background-color: #fff;
-   }
-   .modal-login .modal-header2 {
-      border-bottom: none;   
+		    display: none;
+		    position: fixed;
+		    top: 0; left: 0;
+		    width: 100%; height: 100%;
+		    background: rgba(0,0,0,.3);
+		    z-index: 10;
+		}
+		
+		#my-dialog {
+		    display: none;
+		    position: fixed;
+		    left: calc( 50% - 160px ); top: calc( 30% - 70px );
+		    width: 100px; height: 100px; 
+		    z-index: 11;
+		    padding: 10px;
+		}
+   	</style>
+   	
+   	<style type="text/css">
+	      body {
+		font-family: 'Varela Round', sans-serif;
+	}
+	.modal-login {		
+		color: #636363;
+		width: 350px;
+	}
+	.modal-login .modal-content {
+		padding: 20px;
+		border-radius: 5px;
+		border: none;
+		background-color: #fff;
+	}
+	.modal-login .modal-header2 {
+		border-bottom: none;   
         position: relative;
         justify-content: center;
-   }
-   
-   .modal-login h4 {
-      text-align: center;
-      font-size: 26px;
-      margin: 30px 0 ;
-   }
-   .modal-login .form-control:focus {
-      /* border-color: #70c5c0; */
-   }
-   .modal-login .form-control, .modal-login .btn2 {
-      min-height: 40px;
-      border-radius: 3px; 
-   }
-   .modal-login .close {
+	}
+	
+	.modal-login h4 {
+		text-align: center;
+		font-size: 26px;
+		margin: 30px 0 ;
+	}
+	.modal-login .form-control:focus {
+		/* border-color: #70c5c0; */
+	}
+	.modal-login .form-control, .modal-login .btn2 {
+		min-height: 40px;
+		border-radius: 3px; 
+	}
+	.modal-login .close {
         position: absolute;
-      top: -5px;
-      right: -5px;
-   }   
-   .modal-login .modal-footer {
-      background: #ecf0f1; /* #ecf0f1; */
-      border-color: #dee4e7; /* #dee4e7 */
-      text-align: center;
+		top: -5px;
+		right: -5px;
+	}	
+	.modal-login .modal-footer {
+		background: #ecf0f1; /* #ecf0f1; */
+		border-color: #dee4e7; /* #dee4e7 */
+		text-align: center;
         justify-content: center;
-      margin: 0 -20px -20px;
-      border-radius: 5px;
-      font-size: 13px;
-   }
-   .modal-login .modal-footer a {
-      color: #999;
-   }      
-   .modal-login .avatar {
-      position: absolute;
-      margin: 0 auto;
-      left: 0;
-      right: 0;
-      top: -100px;
-      width: 95px;
-      height: 95px;
-      border-radius: 50%;
-      z-index: 9;
-      /* background: #60c7c1; */
-      padding: 15px;
-      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-   }
-   .modal-login .avatar img {
-      width: 100%;
-   }
-   .modal-login.modal-dialog {
-      margin-top: 80px;
-   }
+		margin: 0 -20px -20px;
+		border-radius: 5px;
+		font-size: 13px;
+	}
+	.modal-login .modal-footer a {
+		color: #999;
+	}		
+	.modal-login .avatar {
+		position: absolute;
+		margin: 0 auto;
+		left: 0;
+		right: 0;
+		top: -100px;
+		width: 95px;
+		height: 95px;
+		border-radius: 50%;
+		z-index: 9;
+		/* background: #60c7c1; */
+		padding: 15px;
+		box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+	}
+	.modal-login .avatar img {
+		width: 100%;
+	}
+	.modal-login.modal-dialog {
+		margin-top: 80px;
+	}
     .modal-login .btn2 {
         color: #fff;
         border-radius: 4px;
-      /* background: #60c7c1; */
-      text-decoration: none;
-      transition: all 0.4s;
+		/* background: #60c7c1; */
+		text-decoration: none;
+		transition: all 0.4s;
         line-height: normal;
         border: none;
     }
-   .modal-login .btn2:hover, .modal-login .btn2:focus {
-      /* background: #45aba6; */
-      outline: none;
-   }
-   .trigger-btn {
-      display: inline-block;
-      margin: 100px auto;
-   }
-   #userIdHeader, #password{
-      margin-bottom : 20px;
-   }
-   
-   input[type="text"], input[type="password"], select, textarea {
-       background: #ffe7e7;
-       border: none;
-       color: #555;
-       border-radius: 2px;
-       width:90%;
-   }
-   
-   
-   </style>
+	.modal-login .btn2:hover, .modal-login .btn2:focus {
+		/* background: #45aba6; */
+		outline: none;
+	}
+	.trigger-btn {
+		display: inline-block;
+		margin: 100px auto;
+	}
+	#userIdHeader, #password{
+		margin-bottom : 20px;
+	}
+	
+	input[type="text"], input[type="password"], select, textarea {
+	    background: #ffe7e7;
+	    border: none;
+	    color: #555;
+	    border-radius: 2px;
+	    width:90%;
+	}
+	
+	
+	
+	#header a:last-child{
+		padding-right : 14px;
+	}
+	.sf-menu{
+		float : right;
+	}
+		.sf-menu a{
+		}
+		.sf-menu .current{
+			text-align : left;
+		}
+		.sf-menu li:hover{
+			border-bottom : 2px solid white;
+		}
+	</style>
 <header id="header">
-   <div class="inner">
-      <a href="#" class="logo"><strong>우연</strong></a>
-      <!-- header 수정 후엔 footer.jsp에 #navepanel도 수정해주기 -->
-      <nav id="nav">
-         <a href="#" >Meeting</a>
-         <a href="#">Chatting</a>
-         <a href="#">Place</a>
-         <a href="#">MeetingStory</a>
-         <a href="#">DateStory</a>
-         <a href="#">RestaurantInfo</a>
-         <a href="#">LoveAdvice</a>
-         <a href="#">Notice</a>
-         
-         <c:if test="${me.userGrade == 'ADM'}">
-            <a href="#">Complain</a>
-            <a href="#">UserList</a>
-         </c:if>
-         
-         <c:if test="${me == null}">
-            <a href="#" id="btn-open-dialog" >login</a>
-            <a href="#">join</a>
-         </c:if>
-         <c:if test="${me != null}">
-            <a href="#">MyPage</a>
-            <a href="#">logout</a>
-         </c:if>
-      </nav>
-      <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
-   </div>
-   
-   <div id="myModal" >
-      <div id="my-dialog">
-         <div class="modal-dialog modal-login">
-            <div class="modal-content">
-               <div class="modal-header2 " style="height:50px">
-                  <div class="avatar">
-                     <img src="/resources/images/meeting/logo.png"  alt="Avatar">
-                  </div>            
-                  <h4>Login</h4>
-               </div>
-               <div class="modal-body">
-                  <form id="loginForm">
-                     <div class="form-group" class="form-horizontal">
-                        <input id="toto" type="text" class="" name="userId" placeholder="userId" required="required">      
-                     </div>
-                     <div class="form-group">
-                        <input id="titi" type="password" class="" name="password" placeholder="Password" required="required">   
-                     </div>        
-                     <div class="form-group" align="center">
-                        <button id="loginButton" type="submit" class="btn2">Login</button>
-                     </div>
-                  </form>
-               </div>
-               <div class="modal-footer">
-                  <a href="#">Forgot Password?</a>
-               </div>
-            </div>
-         </div>
-      </div>      
-      </div>   
-      
-      <div id="dialog-background"></div>
+
+	<div class="inner">
+		<a href="#" class="logo" style="font-family: 'Pacifico';font-size:30px;font-weight:bold;">Destiny</a>
+		<!-- header 수정 후엔 footer.jsp에 #navepanel도 수정해주기 -->
+		<ul class="sf-menu" id="example">
+			<li><a href="#">Meeting</a></li>
+			<li><a href="#">Chatting</a></li>
+			<li><a href="#">Place</a></li>
+			<li class="current">
+				<a href="#">Story</a>
+				<ul>
+					<li><a href="#">MeetingStory</a></li>
+					<li><a href="#">DateStory</a></li>
+				</ul>
+			</li>
+			<li class="current">
+				<a href="#">Information</a>
+				<ul>
+					<li><a href="#">RestaurantInfo</a></li>
+					<li><a href="#">LoveAdvice</a></li>
+				</ul>
+			</li>
+			<li><a href="#">Notice</a></li>
+			
+			<c:if test="${me.userGrade == 'ADM'}">
+				<li><a href="#">Complain</a></li>
+				<li><a href="#">UserList</a></li>
+			</c:if>
+			
+			<c:if test="${me == null}">
+				<li><a href="#" id="btn-open-dialog" >login</a></li>
+				<li><a href="#">join</a></li>
+			</c:if>
+			<c:if test="${me != null}">
+				<li><a href="#">MyPage</a></li>
+				<li><a href="#">logout</a></li>
+			</c:if>
+		</ul>
+		
+		<%-- <nav id="nav">
+			<a href="#" >Meeting</a>
+			<a href="#">Chatting</a>
+			<a href="#">Place</a>
+			<a href="#">MeetingStory</a>
+			<a href="#">DateStory</a>
+			<a href="#">RestaurantInfo</a>
+			<a href="#">LoveAdvice</a>
+			<a href="#">Notice</a>
+			
+			<c:if test="${me.userGrade == 'ADM'}">
+				<a href="#">Complain</a>
+				<a href="#">UserList</a>
+			</c:if>
+			
+			<c:if test="${me == null}">
+				<a href="#" id="btn-open-dialog" >login</a>
+				<a href="#">join</a>
+			</c:if>
+			<c:if test="${me != null}">
+				<a href="#">MyPage</a>
+				<a href="#">logout</a>
+			</c:if>
+		</nav> --%>
+		<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+	</div>
+	
+	<div id="myModal" >
+		<div id="my-dialog">
+			<div class="modal-dialog modal-login">
+				<div class="modal-content">
+					<div class="modal-header2 " style="height:50px">
+						<div class="avatar">
+							<img src="/resources/images/meeting/logo.png"  alt="Avatar">
+						</div>				
+						<h4>Login</h4>
+					</div>
+					<div class="modal-body">
+						<form id="loginForm">
+							<div class="form-group" class="form-horizontal">
+								<input id="toto" type="text" class="" name="userId" placeholder="userId" required="required">		
+							</div>
+							<div class="form-group">
+								<input id="titi" type="password" class="" name="password" placeholder="Password" required="required">	
+							</div>        
+							<div class="form-group" align="center">
+								<button id="loginButton" type="submit" class="btn2">Login</button>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<a href="#">Forgot Password?</a>
+					</div>
+				</div>
+			</div>
+		</div>      
+		</div>	
+		
+		<div id="dialog-background"></div>
 </header>
