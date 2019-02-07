@@ -384,6 +384,8 @@ var userGrade = "${me.userGrade}";
 		</div>
 	 
 	</div>
-
+<!-- footer -->
+	<jsp:include page="/layout/footer.jsp" />
+	<!-- //footer -->
 </body>
 </html>

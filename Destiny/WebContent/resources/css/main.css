@@ -2843,7 +2843,7 @@
 	@media screen and (max-width: 980px) {
 
 		#header {
-			top: 1em;
+			/* top: 1em; */
 		}
 
 	}
@@ -2851,7 +2851,7 @@
 	@media screen and (max-width: 736px) {
 
 		#header {
-			top: .5em;
+			/* top: .5em; */
 		}
 
 	}

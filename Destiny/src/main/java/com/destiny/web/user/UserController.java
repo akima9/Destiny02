@@ -407,6 +407,7 @@ public class UserController {
 		int notRead = letterService.getCountNetReadReceive(((User)session.getAttribute("me")).getUserId());
 		
 		ModelAndView modelAndView = new ModelAndView();
+		/*modelAndView.setViewName("forward:/layout/header.jsp");*/
 		modelAndView.setViewName("forward:/user/userInfo/getUserView.jsp");
 		modelAndView.addObject("me", session.getAttribute("me"));
 		modelAndView.addObject("notRead", notRead);
