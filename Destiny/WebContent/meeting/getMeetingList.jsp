@@ -485,7 +485,7 @@
 	<!-- 끝!! -->		
             
 
-		<div class="inner">
+		<div  class="landing">
 		<div style="width:98%; margin-left:10px;">
 
         <form>
@@ -544,8 +544,8 @@
 			 <!-- 개설하기 버튼 종료 -->
 			 
 			 <!-- 리스트 시작 -->
-                <div class="landing">
-	              	<section id="one" class="wrapper style1">
+                <div>
+	              	<section style="align-content:center;" id="one" class="wrapper style1">
 						<div class="inner">
 						<div align="right" class="addMeeting">
 						 	<input type="button" id="addMeeting" value="개설하기">

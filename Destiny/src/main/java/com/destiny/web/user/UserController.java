@@ -70,7 +70,7 @@ public class UserController {
 		
 		System.out.println("/user/login : GET");
 		String Referer = request.getHeader("referer");
-		String referer = Referer.substring(24);
+		String referer = Referer.split("8080/")[1];
 		System.out.println("refere ==="+Referer);
 		System.out.println("이것은 자른것"+referer);
 		System.out.println("userId : " + user.getUserId());
@@ -81,7 +81,7 @@ public class UserController {
 		 
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:"+referer);
+		modelAndView.setViewName("redirect:/"+referer);
 		
 		//만일 유저가 없다면
 		if(userService.getUser( user.getUserId()) == null) {

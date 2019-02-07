@@ -101,7 +101,6 @@
    strong{
       font-family: 'Nanum Myeongjo', serif;
    }
-
    #example{
       font-family: 'Source Serif Pro', serif;
    }
@@ -209,6 +208,7 @@
         line-height: normal;
         border: none;
     }
+
    .modal-login .btn2:hover, .modal-login .btn2:focus {
       /* background: #45aba6; */
       outline: none;

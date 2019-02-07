@@ -57,6 +57,10 @@
 		    overflow: auto;
 		}
 		
+		#header{
+			position : inherit;
+		}
+		
      </style>
      
 
@@ -1115,7 +1119,7 @@
 				 </div>
 				 
 				 <div class="form-group col-sm-2 col-md-2">
-				 	<button type="button" class="btn btn-warning" >梅何颇老</button>
+				 	<button type="button" class="btn" >梅何颇老</button>
 				 </div>
 				 
 				 <div class="form-group col-sm-12 col-md-12">
