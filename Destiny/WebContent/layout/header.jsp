@@ -116,29 +116,23 @@
 	.modal-login .avatar {
 	    background: #fd5d7c;
 	}
-</style>
-	<style>
-        #dialog-background {
-		    display: none;
-		    position: fixed;
-		    top: 0; left: 0;
-		    width: 100%; height: 100%;
-		    background: rgba(0,0,0,.3);
-		    z-index: 10;
-		}
-		
-		#my-dialog {
-		    display: none;
-		    position: fixed;
-		    left: calc( 50% - 160px ); top: calc( 30% - 70px );
-		    width: 100px; height: 100px; 
-		    z-index: 11;
-		    padding: 10px;
-		}
-   	</style>
-   	
-   	<style type="text/css">
-	      body {
+    #dialog-background {
+	    display: none;
+	    position: fixed;
+	    top: 0; left: 0;
+	    width: 100%; height: 100%;
+	    background: rgba(0,0,0,.3);
+	    z-index: 10;
+	}
+	#my-dialog {
+	    display: none;
+	    position: fixed;
+	    left: calc( 50% - 160px ); top: calc( 30% - 70px );
+	    width: 100px; height: 100px; 
+	    z-index: 11;
+	    padding: 10px;
+	}
+    body {
 		font-family: 'Varela Round', sans-serif;
 	}
 	.modal-login {		
@@ -234,24 +228,19 @@
 	    border-radius: 2px;
 	    width:90%;
 	}
-	
-	
-	
 	#header a:last-child{
 		padding-right : 14px;
 	}
 	.sf-menu{
 		float : right;
 	}
-		.sf-menu a{
-		}
-		.sf-menu .current{
-			text-align : left;
-		}
-		.sf-menu li:hover{
-			border-bottom : 2px solid white;
-		}
-	</style>
+	.sf-menu .current{
+		text-align : left;
+	}
+	.sf-menu li:hover{
+		border-bottom : 2px solid white;
+	}
+</style>
 <header id="header">
 
 	<div class="inner">
@@ -292,30 +281,6 @@
 			</c:if>
 		</ul>
 		
-		<%-- <nav id="nav">
-			<a href="#" >Meeting</a>
-			<a href="#">Chatting</a>
-			<a href="#">Place</a>
-			<a href="#">MeetingStory</a>
-			<a href="#">DateStory</a>
-			<a href="#">RestaurantInfo</a>
-			<a href="#">LoveAdvice</a>
-			<a href="#">Notice</a>
-			
-			<c:if test="${me.userGrade == 'ADM'}">
-				<a href="#">Complain</a>
-				<a href="#">UserList</a>
-			</c:if>
-			
-			<c:if test="${me == null}">
-				<a href="#" id="btn-open-dialog" >login</a>
-				<a href="#">join</a>
-			</c:if>
-			<c:if test="${me != null}">
-				<a href="#">MyPage</a>
-				<a href="#">logout</a>
-			</c:if>
-		</nav> --%>
 		<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 	</div>
 	
