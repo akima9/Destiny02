@@ -32,7 +32,7 @@
 .info .close:hover {cursor: pointer;}
 .info .body {position: relative;overflow: hidden;}
 .info .desc {position: relative;margin: 13px 0 0 90px; height: 90px;}
-/* .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap; } */
+.desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap; }
 .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
 .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
 .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
@@ -211,7 +211,7 @@
 					            '                <img src="/resources/images/meeting/${meeting.titleImg}" width="73" height="70"/>' +
 					            '           </div>' + 
 					            '            <div class="desc">' + 
-					            '                <div class=""><p>${meeting.meetingLocation}</p></div>' + 	
+					            '                <div class="ellipsis"><p>${meeting.meetingLocation}</p></div>' + 	
 					            '                <div><a href="/meeting/getMeeting?meetingNo=${meeting.meetingNo}" target="_blank" class="link">상세정보보기</a></div>' + 	
 					            '            </div>' + 
 					            '        </div>' + 
