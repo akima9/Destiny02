@@ -64,6 +64,8 @@
                   //alert("¼º°ø");
                   
                   popWin = window.open("/chatting/getRandomMatching.jsp","popWin", "left=500, top=600, width=800, height=900, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+                 
+                 
                            },//success
                   error: function () {
                      alert("error");

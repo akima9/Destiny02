@@ -77,7 +77,7 @@
 	 	WHERE woman_id=#{userId} OR man_id=#{userId}
 	 </select>
 	 
-	 <update 	id="updateContactMeeting"	parameterType="com.destiny.service.domain.Chatting">
+	 <update 	id="updateContactMeeting"	parameterType="int">
 		UPDATE chatting
 		<set>
 			contact_meeting='Y'

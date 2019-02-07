@@ -910,4 +910,16 @@ public class ChattingRestController {
       return map;
 	}
 	
+	@RequestMapping(value = "json/updateContactMeeting", method = RequestMethod.GET)
+	@ResponseBody
+	public String updateContactMeeting(HttpSession session, HttpServletRequest request) throws Exception {
+		System.out.println("json/updateContactMeeting µé¾î¿È");
+		String result="";
+		Chatting chatting=(Chatting)session.getAttribute("chatting");
+		chattingService.updateContactMeeting(chatting);
+		System.out.println("¿Ï·á");
+		result="ok";
+		return result;
+	}
+	
 }

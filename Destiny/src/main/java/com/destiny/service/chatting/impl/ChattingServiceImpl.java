@@ -79,7 +79,7 @@ public class ChattingServiceImpl implements ChattingService {
 	}
 
 	@Override
-	public void updateContactMeeting(String contact) throws Exception {
+	public void updateContactMeeting(Chatting chatting) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
