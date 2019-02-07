@@ -73,6 +73,13 @@ public class UserRestController {
 		return map;
 	}
 	
+	@RequestMapping(value="json/getUserByAndroid/{userId}", method=RequestMethod.GET)
+	public User getUserByAndroid(@PathVariable String userId) throws Exception{
+		System.out.println("restController 진입 성공. json/getUserByAndroid/"+userId);
+		User user = userService.getUser(userId);
+		return user;
+	}
+	
 	@RequestMapping(value="json/getUserByNickName/{nickName}", method=RequestMethod.GET)
 	public Map<String, Object> getUserByNickName(@PathVariable String nickName, HttpSession session) throws Exception{
 		System.out.println("restController 진입 성공. json/getUserByNickName/"+nickName);

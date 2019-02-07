@@ -1,17 +1,22 @@
 package com.destiny.web.meeting;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.destiny.common.Page;
+import com.destiny.common.Search;
 import com.destiny.service.domain.Meeting;
 import com.destiny.service.domain.User;
 import com.destiny.service.meeting.MeetingService;
@@ -29,6 +34,11 @@ public class MeetingRestController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	@Value("#{commonProperties['pageUnit']}")
+	int pageUnit;
+	@Value("#{commonProperties['pageSize']}")
+	int pageSize;
 	
 	public MeetingRestController(){
 		
@@ -230,6 +240,36 @@ public class MeetingRestController {
 			return notcollect;/*실패*/
 		}
 			
+	}
+	
+	@RequestMapping(value="meetingRest/meetingListByAndroid/{currentPage}", method=RequestMethod.GET)
+	public Map<String, Object> meetingListByAndroid(@PathVariable("currentPage") int currentPage) throws Exception{
+		System.out.println("안드로이드에서 meetingListByAndroid 로");
+		
+		Search search = new Search();
+		
+		if(currentPage == 0) {
+			search.setCurrentPage(1);
+		} else {
+			search.setCurrentPage(currentPage);
+		}
+		search.setPageSize(pageSize);
+		
+		Map<String, Object> map = meetingService.getMeetingList(search);
+		
+		//List<Meeting> list = (List<Meeting>)map.get("list");
+		
+		//Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		//System.out.println(resultPage);
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		
+		returnMap.put("list", (List<Meeting>)map.get("list"));
+		//returnMap.put("resultPage", resultPage);
+		//returnMap.put("search", search);
+		
+		System.out.println("안드로이드로 전달될 객체 : " + returnMap);
+		return returnMap;
 	}
 
 }
