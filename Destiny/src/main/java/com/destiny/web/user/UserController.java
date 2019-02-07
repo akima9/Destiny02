@@ -68,7 +68,7 @@ public class UserController {
 	@RequestMapping( value="login", method=RequestMethod.POST )
 	public ModelAndView login(@ModelAttribute("user") User user, HttpSession session, HttpServletRequest request) throws Exception{
 		
-		System.out.println("/user/login : GET");
+		System.out.println("/user/login : POST");
 		String Referer = request.getHeader("referer");
 		String referer = Referer.substring(24);
 		System.out.println("refere ==="+Referer);

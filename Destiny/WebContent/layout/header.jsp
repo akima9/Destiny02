@@ -64,29 +64,29 @@
 //////////============= "로그인"  Event 연결 =============   
    $( function() {
       
-      $("#password").keypress(function(e) {
+      $("#headerPw").keypress(function(e) {
          if(e.which == 13) {
             $(this).blur();
             $('#loginButton').focus().click();
          }
       });
       
-      $("#userIdHeader").focus();
+      $("#headerId").focus();
       
       //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
       $("#loginButton").on("click" , function() {
-         var id=$("#toto").val();
-         var pw=$("#titi").val();
+         var id=$("#headerId").val();
+         var pw=$("#headerPw").val();
          
          if(id == null || id.length <1) {
             alert('ID 를 입력하지 않으셨습니다.');
-            $("#userIdHeader").focus();
+            $("#headerId").focus();
             return;
          }
          
          if(pw == null || pw.length <1) {
             alert('패스워드를 입력하지 않으셨습니다.');
-            $("#password").focus();
+            $("#headerPw").focus();
             return;
          }
          
@@ -101,6 +101,7 @@
    strong{
       font-family: 'Nanum Myeongjo', serif;
    }
+
    #example{
       font-family: 'Source Serif Pro', serif;
    }
@@ -208,7 +209,6 @@
         line-height: normal;
         border: none;
     }
-
    .modal-login .btn2:hover, .modal-login .btn2:focus {
       /* background: #45aba6; */
       outline: none;
