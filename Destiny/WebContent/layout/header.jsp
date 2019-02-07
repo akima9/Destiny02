@@ -105,7 +105,6 @@
    strong{
       font-family: 'Nanum Myeongjo', serif;
    }
-
    #example{
       font-family: 'Source Serif Pro', serif;
    }
@@ -253,6 +252,7 @@
    .sf-menu li:hover{
       border-bottom : 2px solid white;
    }
+
    .right_nav{
 		list-style-type : none;
    }
@@ -372,10 +372,6 @@
       </div>   
       
       <div id="dialog-background"></div>
-      
-      
-      
-      
       
       <div id="navPanel">
 			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Home</a>

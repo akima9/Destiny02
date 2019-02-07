@@ -287,4 +287,22 @@
 	   	</set>
 	   	WHERE meeting_no = #{meetingNo}
 	 </update>	 
+<!-- /////////////////토탈카운트 가져가기////////////////// -->	 
+	 <select  id="getTotalCount"  parameterType="com.destiny.common.Search"	 resultType="int">
+	 SELECT COUNT(*)
+		FROM ( SELECT m.*, ma.act_date as meeting_date, ma.act_location as meeting_location, ma.act_date as meeting_date
+		FROM meeting m, meeting_act ma
+		WHERE m.meeting_no = ma.meeting_no 
+		and m.meeting_condition in ('DEF','EMP')
+			<if test="searchKeyword != null">
+				and m.meeting_name LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition != null">
+				and m.meeting_center LIKE '%'||#{searchCondition}||'%'
+			</if>
+			<if test="searchSortingOption != null">
+				and m.interest_name LIKE '%'||#{searchSortingOption}||'%'
+			</if>
+		order by m.meeting_no desc	) countTable		
+	 </select>
 </mapper>

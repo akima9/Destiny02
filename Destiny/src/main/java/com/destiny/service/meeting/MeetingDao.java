@@ -62,4 +62,6 @@ public interface MeetingDao {
 	public int nextMeeting(Meeting meeting)throws Exception; /*다음회차 모임 등록*/
 	
 	public void shutdown(Meeting meeting)throws Exception; /*모임장 탈퇴 셧다운 발동*/
+	
+	public int getTotalCount(Search search) throws Exception;
 }

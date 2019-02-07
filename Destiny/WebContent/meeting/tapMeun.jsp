@@ -417,6 +417,11 @@
 						});
 						
 					});
+			
+				 $( "#pushCancle2" ).on("click" , function() {
+					 //alert("√Îº“");
+					 $("#dialog2, #backround").toggle();
+				 });
 
 			
 
