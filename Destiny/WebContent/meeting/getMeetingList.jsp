@@ -556,7 +556,7 @@
 						 	<hr/>
 						 	
 							<article class="feature left">
-								<div class="image"><img src="/resources/images/meeting/outdoor1.jpg" class="col-xs-12 col-sm-12 col-md-12" alt="" /></div>
+								<div class="image"><img src="/resources/images/meeting/${meeting.titleImg}" class="col-xs-12 col-sm-12 col-md-12" alt="" /></div>
 								<div class="content">
 									<p>${meeting.meetingCenter}<p>
 									<h2>${meeting.meetingName}</h2>

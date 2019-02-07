@@ -860,7 +860,7 @@
 
 		<div class="row">
 		  <div class="col-md-12">
-		  	<img src="/resources/images/meeting/outdoor1.jpg" class="col-xs-12 col-md-12"/>
+		  	<img src="/resources/images/meeting/${meeting.titleImg}" class="col-xs-12 col-md-12"/>
 		  </div>
 		  
 		  <div class="col-md-12">
