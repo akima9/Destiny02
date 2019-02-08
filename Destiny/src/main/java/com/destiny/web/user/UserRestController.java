@@ -97,14 +97,22 @@ public class UserRestController {
 	}
 	
 	@RequestMapping(value="json/getUserByEmail/{email}", method=RequestMethod.GET)
-	public Map<String, Object> getUserByEmail(@PathVariable String email, HttpSession session) throws Exception{
+	public User getUserByEmail(@PathVariable("email") String email) throws Exception{
+		System.out.println("기본 email : " + email);
 		email += ".com";
 		System.out.println("restController 진입 성공. json/getUserByEmail/"+email);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("user", userService.getUserByEmail(email));
-		map.put("me", session.getAttribute("me"));
+		//map.put("user", userService.getUserByEmail(email));
+		//map.put("me", session.getAttribute("me"));
+		
+		User user = new User();
+		
+		if(userService.getUserByEmail(email) != null) {
+			user = userService.getUserByEmail(email);
+		}
+		
 		System.out.println("여긴 오냐?");
-		return map;
+		return user;
 	}
 	
 	@RequestMapping(value="json/getUserByPhone/{phone}", method=RequestMethod.GET)
@@ -112,7 +120,7 @@ public class UserRestController {
 		System.out.println("restController 진입 성공. json/getUserByPhone/"+phone);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", userService.getUserByPhone(phone));
-		map.put("me", session.getAttribute("me"));
+		//map.put("me", session.getAttribute("me"));
 		System.out.println("여긴 오냐?");
 		return map;
 	}

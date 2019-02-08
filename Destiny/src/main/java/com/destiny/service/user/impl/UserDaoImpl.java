@@ -45,8 +45,8 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public List<User> getUserByPhone(String phone) throws Exception {
-		return sqlSession.selectList("UserMapper.getUserByPhone", phone);
+	public User getUserByPhone(String phone) throws Exception {
+		return sqlSession.selectOne("UserMapper.getUserByPhone", phone);
 	}
 
 	@Override
@@ -94,6 +94,11 @@ public class UserDaoImpl implements UserDao{
 		sqlSession.update("UserMapper.updateType", user);
 	}
 
+	@Override
+	public void updatePassword(User user) throws Exception {
+		sqlSession.update("UserMapper.updatePassword", user);
+		
+	}
 
 	@Override
 	public void updateGrade(User user) throws Exception {
