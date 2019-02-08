@@ -193,6 +193,11 @@ public class MeetingDaoImpl implements MeetingDao {
 		sqlSession.update("MeetingMapper.shutdown", meeting);
 		
 	}
+
+	@Override
+	public int getTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.getTotalCount", search);
+	}
 	
 
 }

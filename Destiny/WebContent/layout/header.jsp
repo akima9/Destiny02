@@ -10,7 +10,11 @@
 
 
 <script type="text/javascript">
+
+
+
    $(function() {
+	   
       $("a[href='#' ]:contains('Destiny')").on("click", function() {
          self.location = "/index.jsp"
       });
@@ -127,6 +131,7 @@
          if(id == null || id.length <1) {
             //alert('ID 를 입력하지 않으셨습니다.');
             $('.loginOk').text('아이디를 입력해주세요.');
+
             $("#headerId").focus();
             return;
          }
@@ -290,7 +295,6 @@
         line-height: normal;
         border: none;
     }
-
    .modal-login .btn2:hover, .modal-login .btn2:focus {
       /* background: #45aba6; */
       outline: none;
@@ -313,14 +317,51 @@
    #header a:last-child{
       padding-right : 14px;
    }
-   .sf-menu{
-      float : right;
-   }
+	
+	.inner{
+		
+	}
+	.inner .sf-menu{
+		float : left;
+		margin-left : 150px;
+	}
+	.right_nav{
+		margin-left:0px;
+		float : right;
+	}
    .sf-menu .current{
       text-align : left;
    }
    .sf-menu li:hover{
       border-bottom : 2px solid white;
+   }
+
+   .right_nav{
+		list-style-type : none;
+   }
+   .right_nav li{
+		float : left;
+   }
+   		.right_nav li:hover{
+   			border-bottom : 2px solid white;
+   		}
+   .welcome:hover{
+		border-bottom : 0px solid white !important;
+   }
+   .welcome{
+   		font-family: 'Nanum Myeongjo', serif;
+   		font-size : 16px;
+   }
+   
+   @media screen and (max-width:1200px){
+   		.welcome{display:none;}
+   }
+   @media screen and (max-width:1120px){
+   		.welcome{display:none;}
+   }
+   @media screen and (max-width:990px){
+   		.sf-menu{display:none;}
+		.right_nav{display:none;}
    }
 </style>
 <header id="header">
@@ -347,19 +388,35 @@
             </ul>
          </li>
          <li><a href="#">Notice</a></li>
-         
          <c:if test="${me.userGrade == 'ADM'}">
-            <li><a href="#">Complain</a></li>
-            <li><a href="#">UserList</a></li>
+         	<li class="current">
+	            <a href="#">Admin</a>
+	            <ul>
+	               <li><a href="#">Complain</a></li>
+	               <li><a href="#">UserList</a></li>
+	            </ul>
+	         </li>
          </c:if>
+      </ul>
+      
+      <ul class="right_nav" id="example">
+		
          
          <c:if test="${me == null}">
             <li><a href="#" id="btn-open-dialog" >login</a></li>
             <li><a href="#">join</a></li>
          </c:if>
          <c:if test="${me != null}">
-            <li><a href="#">MyPage</a></li>
-            <li><a href="#">logout</a></li>
+         	<c:if test="${me.userGrade == 'ADM'}">
+         		<li class="welcome">관리자로 접속중</li>
+	            <li><a href="#">MyPage</a></li>
+            	<li><a href="#">logout</a></li>
+	         </c:if>
+	         <c:if test="${me.userGrade != 'ADM'}">
+	            <li class="welcome">${me.nickName}님 우리 ㄱr끔식 오래보r요...</li>
+	            <li><a href="#">MyPage</a></li>
+	            <li><a href="#">logout</a></li>
+	         </c:if>
          </c:if>
       </ul>
       
@@ -405,4 +462,28 @@
       </div>   
       
       <div id="dialog-background"></div>
+      
+      <div id="navPanel">
+			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Home</a>
+			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Meeting</a>
+			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Chatting</a>
+			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Place</a>
+			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">RestaurantInfo</a>
+			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">LoveAdvice</a>
+			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Notice</a>
+			<c:if test="${me.userGrade == 'ADM'}">
+				<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Complain</a>
+				<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">UserList</a>
+			</c:if>
+			<c:if test="${me == null}">
+				<a href="#" id="btn-open-dialog" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">login</a>
+				<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">join</a>
+			</c:if>
+			<c:if test="${me != null}">
+				<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">MyPage</a>
+				<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">logout</a>
+			</c:if>
+			<a href="#navPanel" class="close" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></a>
+		</div>
+		<div class="nav_bg"></div>
 </header>

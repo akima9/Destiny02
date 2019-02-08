@@ -176,7 +176,7 @@ $(function() {
 		font-size : 16px;
 		font-weight : 700;
 	}
-	.topImg{
+	/* .topImg{
 		display : block;
 		position : absolute;
 		top : 0;
@@ -186,6 +186,14 @@ $(function() {
 		background-size : cover;
 		width : 100%;
 		height : 400px;
+	} */
+	.topImg{
+		max-width : 100%;
+		height : 400px;
+		background-image : url("/resources/images/background/loveAdviceBackground.jpg");
+		background-position : center center;
+		background-size : cover;
+		background-repeat : no-repeat;
 	}
 	.topImg::after{
 		content : "";
@@ -196,7 +204,7 @@ $(function() {
 		width : 100%;
 		height : 400px;
 	}
-	.topImg h1{
+	/* .topImg h1{
 		position : absolute;
 		line-height : 330px;
 		width : 100%;
@@ -205,13 +213,24 @@ $(function() {
 		z-index : 99;
 		font-size : 60px;
 		font-family: 'Nanum Myeongjo', serif;
-		/* font-weight : bold; */
+		font-weight : bold;
+	} */
+	.topImg h1{
+		position : absolute;
+		width : 100%;
+		margin : 0;
+		padding : 0;
+		font-family: 'Nanum Myeongjo', serif;
+		font-size : 60px;
+		text-align : center;
+		height : 400px;
+		line-height : 450px;
+		color : white;
+		z-index : 99;
+		
 	}
 	h1 .slim{
 		font-weight : lighter;
-	}
-	.wrap{
-		margin-top : 400px;
 	}
 	
 	li{
@@ -371,6 +390,5 @@ $(function() {
 	</div>
 	
 	</div>
-
 </body>
 </html>
