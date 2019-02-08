@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>우연</title>
 <!-- All CSS Insert -->
-<link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->	
+
 <link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet">
 
 
@@ -48,7 +48,7 @@
 	<script src="/resources/javascript/main.js"></script>
 	
 	
-	
+	<link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->	
 	
 	 <style>
 	 body {
@@ -61,7 +61,7 @@
 	 }
 	 
 	 #lol{
-	 	margin-top: 350px;
+	 	/* margin-top: 350px; */
 	 }
 	 /* 폰트 설정 관련 */
 	 .titleName{
@@ -106,7 +106,7 @@
 	.representImg img{
 		width : 80%;
 	}
-	.topImg{
+	/* .topImg{
 		display : block;
 		position : absolute;
 		top : 0;
@@ -116,6 +116,14 @@
 		background-size : cover;
 		width : 100%;
 		height : 400px;
+	} */
+	.topImg{
+		max-width : 100%;
+		height : 400px;
+		background-image : url("/resources/images/background/meetingbg.jpg");
+		background-position : center center;
+		background-size : cover;
+		background-repeat : no-repeat;
 	}
 	.topImg::before{
 		content : "";
@@ -126,7 +134,7 @@
 		width : 100%;
 		height : 400px;
 	}
-	.topImg h1{
+	/* .topImg h1{
 		position : absolute;
 		line-height : 330px;
 		width : 100%;
@@ -134,6 +142,20 @@
 		color : white;
 		z-index : 99;
 		font-size : 60px;
+	} */
+	.topImg h1{
+		position : absolute;
+		width : 100%;
+		margin : 0;
+		padding : 0;
+		font-family: 'Nanum Myeongjo', serif;
+		font-size : 60px;
+		text-align : center;
+		height : 400px;
+		line-height : 450px;
+		color : white;
+		z-index : 99;
+		
 	}
 	h1 .slim{font-weight : lighter;}
 	
@@ -154,8 +176,12 @@
 	 
 	 
 	 
-	
-	
+	/* 반응형 미디어쿼리 */
+	/* @media screen and (max-width:1280px){
+		.ment{
+			display : none;
+		}
+	} */	
 	</style>
 	
 	

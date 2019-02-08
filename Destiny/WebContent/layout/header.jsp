@@ -15,7 +15,7 @@
 
 
    $(function() {
-	   
+      
       $("a[href='#' ]:contains('Destiny')").on("click", function() {
          self.location = "/index.jsp"
       });
@@ -80,49 +80,49 @@
       $("#headerId").focus();
       
       $('#headerId').on("keyup", function(){
-    	  var id=$("#headerId").val();
-    	  $('.loginOk').text('');
-    	  if(id.length > 3 ){
-    		  $.ajax(
-        			  {
-        				  method : "GET",
-        				  url : '/user/json/getUser/'+id,
-        				  success : function(JSONData){
-        					  if(JSONData.user == null){
-        						  $('#loginCheckId').text('해당 회원이 존재하지 않습니다.');
-        					  }else{
-        						  $('#loginCheckId').text('');
-        						  if(JSONData.user.userGrade == 'BLK'){
-        							  $('#loginCheckBlack').text('블랙리스트');
-        						  }else if(JSONData.user.userGrade != 'BLK'){
-        							  $('#loginCheckBlack').text('');
-        						  }
-        					  }
-        				  }
-        		  
-        	  });
-    	  }else if(id.length == 0){
-    		  $('#loginCheckId').text('');
-    	  }
+         var id=$("#headerId").val();
+         $('.loginOk').text('');
+         if(id.length > 3 ){
+            $.ajax(
+                   {
+                      method : "GET",
+                      url : '/user/json/getUser/'+id,
+                      success : function(JSONData){
+                         if(JSONData.user == null){
+                            $('#loginCheckId').text('해당 회원이 존재하지 않습니다.');
+                         }else{
+                            $('#loginCheckId').text('');
+                            if(JSONData.user.userGrade == 'BLK'){
+                               $('#loginCheckBlack').text('블랙리스트');
+                            }else if(JSONData.user.userGrade != 'BLK'){
+                               $('#loginCheckBlack').text('');
+                            }
+                         }
+                      }
+                
+             });
+         }else if(id.length == 0){
+            $('#loginCheckId').text('');
+         }
       });
       
       $('#headerPw').on("keyup", function(){
-    	  var id=$("#headerId").val();
-    	  var pw=$("#headerPw").val();
-    	  $('.loginOk').text('');
-      	$.ajax(
-    			  {
-    				  method : "GET",
-    				  url : '/user/json/getUser/'+id,
-    				  success : function(JSONData){
-    					  if(JSONData.user.password != pw){
-    						  $('#loginCheckPw').text('비밀번호가 틀립니다.');
-    					  }else{
-    						  $('#loginCheckPw').text('');
-    					  }
-    				  }
-    		  
-    	  });
+         var id=$("#headerId").val();
+         var pw=$("#headerPw").val();
+         $('.loginOk').text('');
+         $.ajax(
+               {
+                  method : "GET",
+                  url : '/user/json/getUser/'+id,
+                  success : function(JSONData){
+                     if(JSONData.user.password != pw){
+                        $('#loginCheckPw').text('비밀번호가 틀립니다.');
+                     }else{
+                        $('#loginCheckPw').text('');
+                     }
+                  }
+            
+         });
       });
       
       $("#loginButton").on("click" , function() {
@@ -132,6 +132,7 @@
          if(id == null || id.length <1) {
             //alert('ID 를 입력하지 않으셨습니다.');
             $('.loginOk').text('아이디를 입력해주세요.');
+
             $("#headerId").focus();
             return;
          }
@@ -144,41 +145,41 @@
          }
          
          if($('#loginCheckId').text() != null && $('#loginCheckId').text() != ''){
-        	 //alert('아이디가 존재하지 않습니다.');
-        	 $('.loginOk').text('아이디가 존재하지 않습니다.');
-        	 $("#headerId").focus();
-        	 return false;
+            //alert('아이디가 존재하지 않습니다.');
+            $('.loginOk').text('아이디가 존재하지 않습니다.');
+            $("#headerId").focus();
+            return false;
          }
          
          if($('#loginCheckPw').text() != null && $('#loginCheckPw').text() != ''){
-        	 //alert('비밀번호가 틀립니다.');
-        	 $('.loginOk').text('비밀번호가 일치하지 않습니다.');
-        	 $("#headerPw").focus();
-        	 return false;
+            //alert('비밀번호가 틀립니다.');
+            $('.loginOk').text('비밀번호가 일치하지 않습니다.');
+            $("#headerPw").focus();
+            return false;
          }
          
          if($('#loginCheckBlack').text() != null && $('#loginCheckBlack').text() != ''){
-        	 //alert('블랙리스트 회원입니다.');
-        	 $('.loginOk').text('블랙리스트 회원입니다.');
-        	 $("#headerPw").focus();
-        	 return false;
+            //alert('블랙리스트 회원입니다.');
+            $('.loginOk').text('블랙리스트 회원입니다.');
+            $("#headerPw").focus();
+            return false;
          }
          
          $("#loginForm").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
       });
       
-    	  /* $.ajax(
-    			  {
-    				  method : "GET",
-    				  url : '/user/json/getUser/'+id,
-    				  success : function(JSONData){
-    					  if(JSONData.user == null){
-    						  alert('user없음');
-    						  $('#loginCheck').text('user없음');
-    					  }
-    				  }
-    		  
-    	  }) */
+         /* $.ajax(
+               {
+                  method : "GET",
+                  url : '/user/json/getUser/'+id,
+                  success : function(JSONData){
+                     if(JSONData.user == null){
+                        alert('user없음');
+                        $('#loginCheck').text('user없음');
+                     }
+                  }
+            
+         }) */
       
    });   
 </script>
@@ -365,6 +366,9 @@
 		.right_nav{display:none;}
    }
 
+	.logo{
+		font-family: 'Pacifico';
+	}
 </style>
 
 <header id="header">
@@ -443,7 +447,14 @@
                      </div>
                      <div class="form-group">
                         <input id="headerPw" type="password" class="" name="password" placeholder="Password" required="required">
-                     </div>
+                     </div>  
+                              
+                     <span class="loginCheckId" id="loginCheckId"></span>
+                     <input type="hidden" class="loginCheckPw" id="loginCheckPw"></input>
+                     <input type="hidden" class="loginCheckBlack" id="loginCheckBlack"></input>
+                     
+                     <div class="loginOk" align="left"></div>
+                     
                      <div class="form-group" align="center">
                         <button id="loginButton" type="submit" class="btn2">Login</button>
                      </div>
@@ -455,7 +466,7 @@
             </div>
          </div>
       </div>      
-      </div>   
+      </div>    
       
       <div id="dialog-background"></div>
       
