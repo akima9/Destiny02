@@ -78,9 +78,9 @@
 	 </select>
 	 
 	 <update 	id="updateContactMeeting"	parameterType="com.destiny.service.domain.Chatting">
-		UPDATE chatting
+		UPDATE chatting 
 		<set>
-			contact_meeting='Y'
+			contact_meeting='Y' 
 		</set>
 	 	WHERE chatting_no=#{chattingNo} 
 	 </update>

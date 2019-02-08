@@ -44,12 +44,14 @@ public class ChattingServiceImpl implements ChattingService {
 	@Override
 	public Chatting getChatting(String userId) throws Exception {
 		chattingDao.getChatting(userId);
+		System.out.println("getChatting");
 		return chattingDao.getChatting(userId);
 	}
 	
 	@Override
 	public Chatting getChatting2(int roomNo) throws Exception {
 		chattingDao.getChatting2(roomNo);
+		System.out.println("getChatting2");
 		return chattingDao.getChatting2(roomNo);
 	}
 
@@ -79,9 +81,9 @@ public class ChattingServiceImpl implements ChattingService {
 	}
 
 	@Override
-	public void updateContactMeeting(String contact) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void updateContactMeeting(Chatting chatting) throws Exception {
+		chattingDao.updateContactMeeting(chatting);
+		System.out.println("updateContactMeeting");
 	}
 
 	@Override

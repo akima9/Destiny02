@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +19,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -25,10 +29,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.MessagingException;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.common.Coolsms;
 import com.destiny.service.domain.Location;
@@ -98,7 +104,7 @@ public class UserRestController {
 	public Map<String, Object> getUserByPhone(@PathVariable String phone, HttpSession session) throws Exception{
 		System.out.println("restController 진입 성공. json/getUserByPhone/"+phone);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("user", userService.getUserByPhone(phone));
+		map.put("list", userService.getUserByPhone(phone));
 		map.put("me", session.getAttribute("me"));
 		System.out.println("여긴 오냐?");
 		return map;
@@ -244,8 +250,8 @@ public class UserRestController {
 		String from = "ABC";
 		String to1 = email;
 		
-		//String user = "pischa@naver.com";
-		String password = "";
+		String user = "pischa@naver.com";
+		String password = "sunnydays15358";
 
 		
 		String content = "인증번호를 입력하여 주세요. 인증번호 ["+authNum+"]";
@@ -259,12 +265,15 @@ public class UserRestController {
 			props.put("mail.smtp.host", host);
 			props.put("mail.smtp.user", 587);
 			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.ssl.enable", "true"); 
+			props.put("mail.smtp.ssl.trust", "smtp.naver.com");
+
 			System.out.println("Properties 선언  : " + props.toString());
 			
 			Session session = Session.getInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(email,password);
+						return new PasswordAuthentication(user,password);
 					}
 			});
 			
@@ -273,7 +282,7 @@ public class UserRestController {
 			Message msg = new MimeMessage(session);
 			
 			
-			msg.setFrom(new InternetAddress(to1));
+			msg.setFrom(new InternetAddress(user));
 			
 			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to1));
 			msg.setSubject("Confirm Mail");
@@ -289,6 +298,214 @@ public class UserRestController {
 			e.printStackTrace();
 		}
 	}
+	
+	/*@RequestMapping( value="login", method=RequestMethod.POST )
+	public ModelAndView login(@ModelAttribute("user") User user, HttpSession session, HttpServletRequest request) throws Exception{
+		
+		System.out.println("/user/login : GET");
+	      
+	      //Business Logic
+	      User dbUser = new User();
+	       
+	      
+	      ModelAndView modelAndView = new ModelAndView();
+	      modelAndView.setViewName("redirect:/index.jsp");
+	      
+	      String Referer = request.getHeader("referer");
+	      
+	      String[] referarray = Referer.split("8080/");
+	      System.out.println(referarray.length);
+	      
+	      if(referarray.length>1) {
+	      String referer = Referer.split("8080/")[1];
+	      System.out.println("refere ==="+Referer);
+	      System.out.println("이것은 자른것"+referer);
+	      System.out.println("userId : " + user.getUserId());
+	      System.out.println("password : " + user.getPassword());
+
+	      modelAndView.setViewName("redirect:/"+referer);
+	      }
+		
+		//만일 유저가 없다면
+		if(userService.getUser( user.getUserId()) == null) {
+			System.out.println("가입되지 않은 아이디입니다.");
+			modelAndView.addObject("result", "Fail");
+			modelAndView.addObject("reason", "가입되지 않은 아이디입니다.");
+			modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+		} else {
+			System.out.println("유저정보 가져오기");
+			dbUser=userService.getUser( user.getUserId());
+		
+			//만일 탈퇴한 유저라면
+			if(dbUser.getUserState().equals("O")) {
+				modelAndView.addObject("result", "Fail");
+				modelAndView.addObject("reason", "탈퇴한 회원입니다. 다시 이용하고 싶으시면 계정을 복구해 주십시요.");
+				modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+			//만일 블랙리스트라면
+			} else if(dbUser.getUserGrade().equals("BLK")) {
+				modelAndView.addObject("result", "Fail");
+				modelAndView.addObject("reason", "블랙 리스트입니다. 다시 이용하고 싶으시면 새로운 이메일로 입력해 주십시요.");
+				modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+			} else {
+				//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
+				System.out.println("로그인 + 현제 접속자 구현 로직 part");
+				ServletContext applicationScope = request.getSession().getServletContext();
+				
+				//String Ip = request.getRemoteAddr();
+				
+				
+				String ip = request.getHeader("X-Forwarded-For");
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("Proxy-Client-IP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("WL-Proxy-Client-IP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("HTTP_CLIENT_IP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("HTTP_X_FORWARDED_FOR"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("X-Real-IP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getHeader("X-RealIP"); 
+				 } 
+				 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+				     ip = request.getRemoteAddr(); 
+				 }
+				
+				
+				List<String> ipLoginList = new ArrayList<String>();
+				
+				if(applicationScope.getAttribute("ipLoginList") != null) {
+					ipLoginList = (List<String>)applicationScope.getAttribute("ipLoginList");
+				}
+				
+				List<User> loginList = new ArrayList<User>();
+				
+				if(applicationScope.getAttribute("loginList") != null) {
+					loginList = (List<User>) applicationScope.getAttribute("loginList");
+				}
+				
+				int numberOfLogin = 0;
+				
+				if(applicationScope.getAttribute("numberOfLogin") != null) {
+					numberOfLogin = (int) applicationScope.getAttribute("numberOfLogin");
+				}
+				
+				boolean appendScope = false;
+				
+				System.out.println("현 접속자 중 지금 로그인 시도한 사람이 있습니까? ");
+				boolean checkDe = false;
+				for(int i = 0; i < loginList.size(); i++) {
+					if(loginList.get(i).toString().equals(dbUser.toString())) {
+						System.out.println("어 있엉~~~~~~~~~~~~~~~~~~~~~~~");
+						System.out.println("두 사람의 IP가 동일합니까?");
+						System.out.println("접속 시도자 IP : " + ip);
+						System.out.println("기존 로그인 IP : " + ipLoginList.get(i));
+						if(ipLoginList.get(i).equals(ip)) {
+							System.out.println("같은 ip에서의 접근입니다. ");
+						} else {
+							System.out.println("다른 ip에서의 접근입니다. ");
+							checkDe = true;
+						}
+					} else {
+						appendScope = true;
+					}
+				}
+				
+				//비밀번호가 일치하는가?
+				if(user.getPassword().equals(dbUser.getPassword())){
+					//중복 로그인이 아닌가?
+					if(!checkDe) {
+						
+						session.setAttribute("me", dbUser);
+						
+						//applicationScope에 올려도 되는가?
+						if(appendScope || loginList.size() == 0) { 
+							loginList.add(dbUser);
+							
+							numberOfLogin++;
+							
+							ipLoginList.add(ip);
+							
+							applicationScope.setAttribute("loginList", loginList);
+							applicationScope.setAttribute("numberOfLogin", numberOfLogin);
+							applicationScope.setAttribute("ipLoginList", ipLoginList);
+						}
+						for(User v : loginList) {
+							System.out.println("현제 접속자 목록 : " + v);
+						}
+						for(String v : ipLoginList) {
+							System.out.println("접속한 유저의 ip : " + v);
+						}
+						System.out.println("현제 접속자 : " + numberOfLogin);
+						
+						modelAndView.addObject("result", "Success");
+						modelAndView.addObject(dbUser.getUserId(), dbUser);
+						
+						//=========================================출석체크 로직 구현 part===========================================
+						int numAttendCount = dbUser.getAttendCount();
+						Date lastLoginDate = dbUser.getLastLoginDay();
+						System.out.println(dbUser.getUserId() + "의 마지막 로그인 날자 : " + lastLoginDate);
+						
+						java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
+				
+						System.out.println("현제 날짜(sql) : " + sqlDate);
+						
+						LocalDate lastLoginDateLocal = new Date(lastLoginDate.getTime()).toLocalDate();
+						LocalDate sqlDateLocal = new Date(sqlDate.getTime()).toLocalDate();
+						
+						if(lastLoginDateLocal.isBefore(sqlDateLocal)) {
+							System.out.println("다른날 접속입니다. 마지막 접속 : " + lastLoginDate + " 오늘 접속 : " + sqlDate + " 출석 횟수 : " + numAttendCount);
+							
+							dbUser.setLastLoginDay(sqlDate);
+							numAttendCount++;
+							dbUser.setAttendCount(numAttendCount);
+							
+							userService.attendLogin(dbUser);
+							
+							//==========================================등급 업!(일단 출석일로만)===================================
+							if(numAttendCount == 2) {
+								dbUser.setUserGrade("NOR");
+								userService.updateGrade(dbUser);
+							}
+							if(numAttendCount == 20) {
+								dbUser.setUserGrade("VIP");
+								userService.updateGrade(dbUser);
+							}
+							//==============================================================================================
+							
+						} else {
+							System.out.println("같은날 접속입니다. 마지막 접속 : " + lastLoginDate+ " 오늘 접속 : " + sqlDate);
+						}
+						
+						//=======================================================================================================
+						
+					
+					} else {
+						
+						
+						
+						modelAndView.addObject("reason", "이미 로그인된 계정입니다.");
+						modelAndView.addObject("result", "Fail");
+						modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+					}
+					
+				} else {
+					System.out.println("비밀번호가 다릅니다.");
+					modelAndView.addObject("reason", "비밀번호가 다릅니다.");
+					modelAndView.addObject("result", "Fail");
+					modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+				}
+				//====================================================================================================
+			}
+		}
+		return modelAndView;
+	}*/
 	
 	
 	

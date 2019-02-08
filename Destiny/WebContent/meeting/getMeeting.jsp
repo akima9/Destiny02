@@ -28,6 +28,17 @@
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!--  ///////////////////////// 데이트픽커 엔드 ////////////////////////// -->
+    
+    <!--  ///////////////////////// 타임픽커 ////////////////////////// -->
+	<link rel="stylesheet"
+		href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/jquery.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<link rel="stylesheet"
+		href="//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.css">
+	<script
+		src='//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.js'></script>
+	    
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
@@ -68,6 +79,15 @@
 			margin-right: 0;
 			margin-left: 0;
 		}
+		
+		.ui-timepicker {
+			font-size: 10px;
+			width: 100px;
+		}
+		
+		.ui-timepicker-table td a {
+			width: 2em;
+		}
      </style>
      
 
@@ -102,33 +122,78 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
-	$(window).scroll(function() {
-		fnMenuLocation();
-    });
+	function loadMap(keyword){
+		if(keyword ==null || keyword == ""){
+			keyword = "비트캠프 종로센터";
+		}
+		
+		
 	
-	function fnMenuLocation() {
-		/*
-		
-		var offset = $("#content").offset();
-        var topPadding = 15;
-		
-        console.log(offset);
-       
-        console.log($(window).scrollTop());
-        
-        
-		if ($(window).scrollTop() > offset.top) {
-            $("#content").stop().animate({
-                marginTop: $(window).scrollTop() - offset.top + topPadding
-            }, 1500);
-        } else {
-            $("#content").stop().animate({
-                marginTop: 0
-            });
-        };
-        */
+		var infowindow = new daum.maps.InfoWindow({zIndex:1});
+
+		var mapContainer = document.getElementById('map2'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new daum.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+		        level: 3 // 지도의 확대 레벨
+		    };  
+
+		// 지도를 생성합니다    
+		var map = new daum.maps.Map(mapContainer, mapOption); 
+
+		// 장소 검색 객체를 생성합니다
+		var ps = new daum.maps.services.Places(); 
+
+		// 키워드로 장소를 검색합니다
+		ps.keywordSearch(keyword, placesSearchCB); 
+
+		// 키워드 검색 완료 시 호출되는 콜백함수 입니다
+		function placesSearchCB (data, status, pagination) {
+		    if (status === daum.maps.services.Status.OK) {
+
+		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+		        // LatLngBounds 객체에 좌표를 추가합니다
+		        var bounds = new daum.maps.LatLngBounds();
+
+		        for (var i=0; i<data.length; i++) {
+		            displayMarker(data[i]);    
+		            bounds.extend(new daum.maps.LatLng(data[i].y, data[i].x));
+		        }       
+
+		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+		        map.setBounds(bounds);
+		    } 
+		}
+
+		// 지도에 마커를 표시하는 함수입니다
+		function displayMarker(place) {
+		    
+			    // 마커를 생성하고 지도에 표시합니다
+			    var marker = new daum.maps.Marker({
+			        map: map,
+			        position: new daum.maps.LatLng(place.y, place.x) 
+			    });
+				console.log(place);
+			    // 마커에 클릭이벤트를 등록합니다
+			    daum.maps.event.addListener(marker, 'click', function() {
+			        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+			        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+			        infowindow.open(map, marker);
+			        $('#place').val(place.road_address_name + ", "+ place.place_name );
+			    });
+		}
 	}
+	////////////////*로드맵 호출 */////////
+	$(function() {
+		$("#placeSearch").on("click", function() {
+			console.log($("#place").val());
+			loadMap($("#place").val());
+		});
+	});
 	
+////////////////* 타임피커 */////////
+	$(function() {
+		$('.timepicker').timepicker();
+	});	
 	
  ////////////////* 데이트픽커 데이터 포맷 */////////
 		$( function() {
@@ -155,24 +220,33 @@
 			var meetingDetail=$("textarea[name='meetingDetail']").val();
 			var meetingCrewLimit=$("select[name='meetingCrewLimit']").val();
 			var snooze=$("select[name='snooze']").val();
-			var meetingDate=$("input[name='meetingDate']").val();
+			var meetingDate=$("#reDate").val();
 			var meetingDay=$("#weekday").val();
-			var meetingTime=$("select[name='meetingTime']").val();
+			var meetingTime=$("input[name='meetingTime']").val();
 			var meetingLocation=$("input[name='meetingLocation']").val();
+			var dt = new Date();
+			var month = dt.getMonth()+1;
+			var day = dt.getDate();
+			var year = dt.getFullYear();
+			var hours = dt.getHours();
+			var minute = dt.getMinutes();
+			var time = (hours + ':' +minute);
+			var today = (year+'-0' +month + '-' + day+'-'+time);
+			var mitingTime = ('${meetingAct.meetingDate}'+'-'+'${meetingAct.meetingTime }');
 		
-			console.log("관심사"+interestName);
-			console.log("센터미팅"+centerMeeting);
-			console.log("미팅센터"+meetingCenter);
-			console.log("타이틀이미지"+titleImg);
-			console.log("제목"+meetingName);
-			console.log("내용"+meetingDetail);
-			console.log("인원"+meetingCrewLimit);
-			console.log("스누즈"+snooze);
+			//console.log("관심사"+interestName);
+			//console.log("센터미팅"+centerMeeting);
+			//console.log("미팅센터"+meetingCenter);
+			//console.log("타이틀이미지"+titleImg);
+			//console.log("제목"+meetingName);
+			//console.log("내용"+meetingDetail);
+			//console.log("인원"+meetingCrewLimit);
+			//console.log("스누즈"+snooze);
 			console.log("날짜"+meetingDate);
-			console.log("요일"+meetingDay);
-			console.log("시간"+meetingTime);
-			console.log("장소"+meetingLocation);
-
+			//console.log("요일"+meetingDay);
+			//console.log("시간"+meetingTime);
+			//console.log("장소"+meetingLocation);
+			console.log("오늘"+today);
 			if(interestName == null || interestName.length<1){
 				alert("관심사를 선택해 주세요.");
 				return;
@@ -209,7 +283,12 @@
 			}
 			
 			if(meetingDate == null && meetingDay == null){
-				alert("날짜or요일을 설정하요 주세요.");
+				alert("날짜를 지정하여 주세요.");
+				return;
+			}
+			
+			if (meetingDate<today) {
+				alert("잘못 된 날짜입니다.");
 				return;
 			}
 			
@@ -365,6 +444,10 @@
 
 					 }
 				});
+		
+			 $( "#nextCancle" ).on("click" , function() {
+				 $("#nextDialog, #backround").toggle();
+			 });
 		});
 		
 
@@ -847,7 +930,7 @@
 	
 	
 </head>
-<body onresize="fnMenuLocation()">
+<body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
     <jsp:include page="/layout/header.jsp" />
@@ -1038,7 +1121,7 @@
 					
 					 		<div class="dropdown">
 					 			<div class="col-xs-12 col-sm-12 col-md-12">
-						 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" width="100%" height="100%" class="col-xs-4 col-sm-1 col-md-1 imgmen">
+						 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" style="height: 50px; margin-bottom: 6px;"  class="col-xs-4 col-sm-1 col-md-1 imgmen">
 									<a href="#" class="dropdown-toggle thisName col-xs-2 col-sm-4 col-md-4" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
 										<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
 										<span class="caret"></span>
@@ -1082,7 +1165,7 @@
 		    <jsp:include page="/meeting/tapMeun.jsp" />
 
 	<!-- ////////////////      탭하면 나오는 메뉴 끝ㅇ             ////////////////////// -->
-		    <!-- 모달창 디자인 부분 -->
+		    <!-- 수정하기 모달창  -->
         <div id="dialog" class="modal">
         <!-- //////////////////////////모달창  내용부/////////////////////////////////////////////////// -->
         	<form id="contentsForm" class="form-horizontal">
@@ -1187,7 +1270,7 @@
 				 </div>
 			</div>	 
 				 <div  id="dateOrDay" class="form-group col-sm-12 col-md-12">
-		 			<input style="width: 100%;padding-left: 0px;padding-right: 0px;" type="text" class="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜" name="meetingDate"/>
+		 			<input style="width: 100%;padding-left: 0px;padding-right: 0px;" type="text" class="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜" id="reDate" name="meetingDate"/>
 		 	
 				 	<!--  
 				 	<select class="form-control">
@@ -1197,12 +1280,9 @@
 				 </div>
 				 
 				 <div class="form-group col-sm-12 col-md-12">
-				 	<select name="meetingTime" class="form-control">
-				 		<option>모임시간</option>
-				 		<option value="12:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='12:00' ? "selected" : "" }>12:00</option>
-				 		<option value="13:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='13:00' ? "selected" : "" }>13:00</option>
-				 		<option value="14:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='14:00' ? "selected" : "" }>14:00</option>
-				 	</select>
+				 	<input style="width: 100%;" type="text" readonly="readonly"
+					class='form-control timepicker' name="meetingTime"
+					placeholder="시간을 선택해 주세요.">
 				 </div>
 				 
 				 <div class="form-group col-sm-12 col-md-12">
@@ -1214,15 +1294,14 @@
 				 </div>
 				 
 				 <div class="form-group col-sm-12 col-md-12">
-				 <input style="width: 100%;" name="meetingLocation" type="text" class="form-control" id="sample5_address" value="${meeting.meetingLocation}" readonly="readonly">
-				 	<!-- <input type="text" class="form-control" placeholder="모임장소를 입력하여주세요."> -->
-				 </div>
-				 
-				 <div style="align-content: center;" class="form-group col-sm-12 col-md-12">
-					<input style="width: 100%;" type="button" class="" onclick="sample5_execDaumPostcode()" value="주소 검색">
-					<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
-				 	<!-- <button type="button" class="btn btn-warning">우편검색</button> -->
-				 </div>
+					<input style="width: 100%;" name="meetingLocation" type="text" class="form-control"
+						id="place" placeholder="주소를 검색해주세요.">
+				</div>
+	
+				<div class="form-group col-sm-12 col-md-12">
+					<input style="width: 100%;" type="button" class="btn btn-warning"
+						 id="placeSearch" value="주소 검색"><br>
+				</div>
 				  
 				 <div class="form-group">
 				   <div class="col-sm-12 col-md-12 text-center">
@@ -1230,6 +1309,8 @@
 					 <button class="col-sm-6 col-md-6 text-center" >취&nbsp;소</button>
 				   </div>
 				 </div>
+				 
+				 <div id="map2" style="width:100%;height:350px;"></div>
 		</form>
 		<!-- //////////////////////////모달창  내용부 끝/////////////////////////////////////////////////// -->
 		</div>

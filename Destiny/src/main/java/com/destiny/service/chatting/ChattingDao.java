@@ -22,7 +22,7 @@ public interface ChattingDao {
 	
 	public String addImage(String imageFileName) throws Exception;
 	
-	public void updateContactMeeting(String contact) throws Exception;
+	public void updateContactMeeting(Chatting chatting) throws Exception;
 	
 	public List<Telepathy> listTelepathy(int chattingNo) throws Exception;
 	

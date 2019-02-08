@@ -45,8 +45,8 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public User getUserByPhone(String phone) throws Exception {
-		return sqlSession.selectOne("UserMapper.getUserByPhone", phone);
+	public List<User> getUserByPhone(String phone) throws Exception {
+		return sqlSession.selectList("UserMapper.getUserByPhone", phone);
 	}
 
 	@Override

@@ -169,6 +169,16 @@ body>div.container {
 		var meetingDay = $("#weekday").val();
 		var meetingTime = $("input[name='meetingTime']").val();
 		var meetingLocation = $("input[name='meetingLocation']").val();
+		var dt = new Date();
+		var month = dt.getMonth()+1;
+		var day = dt.getDate();
+		var year = dt.getFullYear();
+		var hours = dt.getHours();
+		var minute = dt.getMinutes();
+		var time = (hours + ':' +minute);
+		var today = (year+'-0' +month + '-' + day);
+		var mitingTime = ('${meetingAct.meetingDate}'+'-'+'${meetingAct.meetingTime }');
+		/* ${meetingAct.meetingDate} ${meetingAct.meetingTime } */
 
 		console.log("관심사" + interestName);
 		console.log("미팅센터" + meetingCenter);
@@ -181,6 +191,8 @@ body>div.container {
 		console.log("요일" + meetingDay);
 		console.log("시간" + meetingTime);
 		console.log("장소" + meetingLocation);
+		console.log("오늘" + today);
+		console.log(meetingDate<today);
 
 		if (interestName == null || interestName.length < 1) {
 			alert("관심사를 선택해 주세요.");
@@ -218,7 +230,12 @@ body>div.container {
 		}
 
 		if (meetingDate == null && meetingDay == null) {
-			alert("날짜or요일을 설정하요 주세요.");
+			alert("날짜를 지정하여 주세요.");
+			return;
+		}
+		
+		if (meetingDate>today) {
+			alert("잘못 된 날짜입니다.");
 			return;
 		}
 
@@ -313,60 +330,6 @@ body>div.container {
 						});
 	});
 </script>
-
-
-<!-- 다음 우편 -->
-<!-- <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54cfa5aea3e5609fcbb420ef8cd6ed4c"></script>
-<script>
-	var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-	mapOption = {
-		center : new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-		level : 5
-	// 지도의 확대 레벨
-	};
-
-	//지도를 미리 생성
-	var map = new daum.maps.Map(mapContainer, mapOption);
-	//주소-좌표 변환 객체를 생성
-	var geocoder = new daum.maps.services.Geocoder();
-	//마커를 미리 생성
-	var marker = new daum.maps.Marker({
-		position : new daum.maps.LatLng(37.537187, 127.005476),
-		map : map
-	});
-
-	function sample5_execDaumPostcode() {
-		new daum.Postcode({
-			oncomplete : function(data) {
-				var addr = data.address; // 최종 주소 변수
-
-				// 주소 정보를 해당 필드에 넣는다.
-				document.getElementById("sample5_address").value = addr;
-				// 주소로 상세 정보를 검색
-				geocoder.addressSearch(data.address, function(results, status) {
-					// 정상적으로 검색이 완료됐으면
-					if (status === daum.maps.services.Status.OK) {
-
-						var result = results[0]; //첫번째 결과의 값을 활용
-
-						// 해당 주소에 대한 좌표를 받아서
-						var coords = new daum.maps.LatLng(result.y, result.x);
-						// 지도를 보여준다.
-						mapContainer.style.display = "block";
-						map.relayout();
-						// 지도 중심을 변경한다.
-						map.setCenter(coords);
-						// 마커를 결과값으로 받은 위치로 옮긴다.
-						marker.setPosition(coords)
-					}
-				});
-			}
-		}).open();
-	}
-</script> -->
-<!-- 다음우편 끝 -->
 
 </head>
 
