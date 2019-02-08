@@ -39,7 +39,7 @@
 				 <div class="form-group">
 				   <div class="col-sm-12 col-md-12 text-center">
 				     <button class="col-sm-6 col-md-6"  id="nextSchedul" value="nextSchedul">등록</button>
-					 <button class="col-sm-6 col-md-6" id="">취소</button>
+					 <button class="col-sm-6 col-md-6" id="nextCancle">취소</button>
 				   </div>
 				 </div>
 			

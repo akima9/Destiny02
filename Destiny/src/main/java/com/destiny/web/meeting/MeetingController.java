@@ -2,6 +2,8 @@ package com.destiny.web.meeting;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -141,7 +143,7 @@ public class MeetingController {
 		meetingService.addCrewList(meeting);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/index.jsp");
+		modelAndView.setViewName("redirect:/meeting/listMeeting");
 		return modelAndView;
 	}
 	
@@ -172,8 +174,16 @@ public class MeetingController {
 	}
 	
 	@RequestMapping(value="updateMeeting", method=RequestMethod.POST)
-	public ModelAndView updateMeeting(@ModelAttribute("meeting") Meeting meeting) throws Exception{
-		//System.out.println("하이 업데이트");
+	public ModelAndView updateMeeting(@ModelAttribute("meeting") Meeting meeting,HttpServletRequest request) throws Exception{
+		System.out.println("하이 업데이트");
+		
+		ModelAndView modelAndView = new ModelAndView();
+		String Referer = request.getHeader("referer");
+	
+		String referer = Referer.split("8080/")[1];
+		System.out.println("refere ==="+Referer);
+		System.out.println("이것은 자른것"+referer);
+		
 		//Meeting meeting = new Meeting();
 		System.out.println("미팅컨디션은"+meeting.getMeetingCondition());
 		//System.out.println(meeting.getMeetingNo());
@@ -183,17 +193,20 @@ public class MeetingController {
 			System.out.println("def가 아니다");
 			//개시물 삭제 플래그 처리 
 			meetingService.updateMeeting(meeting);
+			modelAndView.setViewName("redirect:/"+referer);
 		}else {
 			//개시물 내용 수정
 			meetingService.updateContentsMeeting(meeting);
 			meetingService.updateContentsAct(meeting);
+			modelAndView.setViewName("redirect:/meeting/listMeeting");
 		}
 		
 		
 		//model.addAttribute("meeting", meeting);
 		
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/index.jsp");
+		
+		//modelAndView.setViewName("redirect:/index.jsp");
+		//modelAndView.setViewName("redirect:/"+referer);
 		return modelAndView;
 		//return null;
 	}

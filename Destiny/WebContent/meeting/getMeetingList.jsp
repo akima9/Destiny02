@@ -176,8 +176,8 @@
 
                 // scrollbar의 thumb가 바닥 전 30px까지 도달 하면 리스트를 가져온다.
                 
-                console.log("다큐멘트길이 = "+documentHeight);
-                console.log("스크롤탑 + 윈도우 길이 + 200 = "+scrollTop + windowHeight);
+                //console.log("다큐멘트길이 = "+documentHeight);
+                //console.log("스크롤탑 + 윈도우 길이 + 200 = "+scrollTop + windowHeight);
 
                 if( scrollTop + windowHeight + 150 > documentHeight ){
 
@@ -190,7 +190,7 @@
 				 
 				 startNo +=${resultPage.getCurrentPage()}
 
-				 console.log(startNo);
+				 //console.log(startNo);
 				 //fncGetProductList(startNo);
  
        		  $.ajax({
@@ -220,7 +220,7 @@
 								list+="<p>모임날짜:"+meeting.meetingDate+"&nbsp; &nbsp;<span class='glyphicon glyphicon-map-marker'></span>"+meeting.meetingLocation+"</p>";
 								list+="<ul class='actions'>";
 								list+="<li>";
-								list+="<a href='#' data-param='${meeting.meetingNo}' class='button'>More</a>";
+								list+="<a href='#' id='reMore' data-param='"+meeting.meetingNo+"' class='button'>More</a>";
 								list+="</li>";
 								list+="</ul>";
 								list+="</div>";
@@ -304,7 +304,14 @@
 		}); */
 		$("a[href='#' ]:contains('More')").on("click", function() {
 			var meetingNo = $(this).data("param");
-			//console.log(meetingNo);
+			//console.log("여기왔습니까??");
+			self.location="/meeting/getMeeting?meetingNo="+meetingNo;
+		});
+		
+		$(document).on("click","#reMore",function(){
+			var meetingNo = $(this).data("param");
+			//console.log("리컨펌");
+			//console.log($(this).data("param"));
 			self.location="/meeting/getMeeting?meetingNo="+meetingNo;
 		});
 		
