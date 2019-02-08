@@ -247,12 +247,12 @@ public class UserRestController {
 	private void sendEmail(String email, String authNum) {
 		String host = "smtp.naver.com";
 		String subject = "인증정보 전달";
-		String fromName = "전달자";
+		String fromName = "pischa";
 		String from = "ABC";
 		String to1 = email;
 		
-		//String user = "pischa@naver.com";
-		String password = "";
+		String user = "pischa@naver.com";
+		String password = "sunnydays15358";
 
 		
 		String content = "인증번호를 입력하여 주세요. 인증번호 ["+authNum+"]";
@@ -262,16 +262,18 @@ public class UserRestController {
 			System.out.println("sendEmail try 진입. email : " + email);
 			Properties props = new Properties();
 			
+			props.put("mail.transport.protocol", "smtp");
 			props.put("mail.smtp.starttls.enable", "true");
 			props.put("mail.smtp.host", host);
-			props.put("mail.smtp.user", 587);
+			props.put("mail.smtp.port", 587);
+			props.put("mail.smtp.ssl.trust", host);
 			props.put("mail.smtp.auth", "true");
 			System.out.println("Properties 선언  : " + props.toString());
 			
 			Session session = Session.getInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(email,password);
+						return new PasswordAuthentication("pischa",password);
 					}
 			});
 			
@@ -280,9 +282,9 @@ public class UserRestController {
 			Message msg = new MimeMessage(session);
 			
 			
-			msg.setFrom(new InternetAddress(to1));
+			msg.setFrom(new InternetAddress(user));
 			
-			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to1));
+			msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to1));
 			msg.setSubject("Confirm Mail");
 			msg.setText(content);
 			

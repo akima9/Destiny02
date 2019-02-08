@@ -11,18 +11,36 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import com.destiny.service.domain.Meeting;
+import com.destiny.service.meeting.MeetingService;
+
+@RestController
 @RequestMapping("/act/*")
 public class ActRestController {
+	
+	@Autowired
+	@Qualifier("meetingServiceImpl")
+	private MeetingService meetingService;
 
 	public ActRestController() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	@RequestMapping(value="json/getMeetingByAndroid/{meetingNo}", method=RequestMethod.GET)
+	public Meeting getMeeting(@PathVariable int meetingNo) throws Exception{
+		System.out.println("json/getMeeting/"+meetingNo);
+		Meeting meeting = meetingService.getMeeting(meetingNo);
+		System.out.println("안드로이드로 전달되는 meeting : " + meeting);
+		return meeting;
 	}
 	
 	@RequestMapping(value="json/inquiry/{propose}", method=RequestMethod.GET)
