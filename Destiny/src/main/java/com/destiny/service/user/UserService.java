@@ -19,7 +19,7 @@ public interface UserService {
 	
 	public User getUserByEmail(String email) throws Exception;
 	
-	public User getUserByPhone(String phone) throws Exception;
+	public List<User> getUserByPhone(String phone) throws Exception;
 	
 	public void attendLogin(User user) throws Exception;
 	

@@ -104,7 +104,7 @@ public class UserRestController {
 	public Map<String, Object> getUserByPhone(@PathVariable String phone, HttpSession session) throws Exception{
 		System.out.println("restController 진입 성공. json/getUserByPhone/"+phone);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("user", userService.getUserByPhone(phone));
+		map.put("list", userService.getUserByPhone(phone));
 		map.put("me", session.getAttribute("me"));
 		System.out.println("여긴 오냐?");
 		return map;
@@ -250,8 +250,8 @@ public class UserRestController {
 		String from = "ABC";
 		String to1 = email;
 		
-		//String user = "pischa@naver.com";
-		String password = "";
+		String user = "pischa@naver.com";
+		String password = "sunnydays15358";
 
 		
 		String content = "인증번호를 입력하여 주세요. 인증번호 ["+authNum+"]";
@@ -265,12 +265,15 @@ public class UserRestController {
 			props.put("mail.smtp.host", host);
 			props.put("mail.smtp.user", 587);
 			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.ssl.enable", "true"); 
+			props.put("mail.smtp.ssl.trust", "smtp.naver.com");
+
 			System.out.println("Properties 선언  : " + props.toString());
 			
 			Session session = Session.getInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(email,password);
+						return new PasswordAuthentication(user,password);
 					}
 			});
 			
@@ -279,7 +282,7 @@ public class UserRestController {
 			Message msg = new MimeMessage(session);
 			
 			
-			msg.setFrom(new InternetAddress(to1));
+			msg.setFrom(new InternetAddress(user));
 			
 			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to1));
 			msg.setSubject("Confirm Mail");
