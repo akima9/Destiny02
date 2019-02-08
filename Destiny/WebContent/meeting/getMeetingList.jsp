@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,7 +12,7 @@
 <title>우연</title>
 <!-- All CSS Insert -->
 <link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->	
-
+<link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet">
 
 
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
@@ -61,95 +63,17 @@
 	 #lol{
 	 	margin-top: 350px;
 	 }
+	 /* 폰트 설정 관련 */
+	 .titleName{
+	 	font-family: 'Gamja Flower', cursive;
+	 	font-size: 50px;
+	 }
+	 .meetingCenter{
+	 	color: #fd5d7c;
+	 	margin-bottom: -15px;
+	 	font-size: 20px;
+	 }
 	 
-	 /* 가로케러셀 */
-	 .col-centered {
-		    float: none;
-		    margin: 0 auto;
-		}
-		
-		.carousel-control { 
-		    width: 8%;
-		    width: 0px;
-		}
-		.carousel-control.left,
-		.carousel-control.right { 
-		    margin-right: 40px;
-		    margin-left: 32px; 
-		    background-image: none;
-		    opacity: 1;
-		}
-		.carousel-control > a > span {
-		    color: white;
-			  font-size: 29px !important;
-		}
-		
-		.carousel-col { 
-		    position: relative; 
-		    min-height: 1px; 
-		    padding: 5px; 
-		    float: left;
-		 }
-		
-		 .active > div { display:none; }
-		 .active > div:first-child { display:block; }
-		
-		/*xs*/
-		@media (max-width: 767px) {
-		  .carousel-inner .active.left { left: -50%; }
-		  .carousel-inner .active.right { left: 50%; }
-			.carousel-inner .next        { left:  50%; }
-			.carousel-inner .prev		     { left: -50%; }
-		  .carousel-col                { width: 50%; }
-			.active > div:first-child + div { display:block; }
-		}
-		
-		/*sm*/
-		@media (min-width: 768px) and (max-width: 991px) {
-		  .carousel-inner .active.left { left: -50%; }
-		  .carousel-inner .active.right { left: 50%; }
-			.carousel-inner .next        { left:  50%; }
-			.carousel-inner .prev		     { left: -50%; }
-		  .carousel-col                { width: 50%; }
-			.active > div:first-child + div { display:block; }
-		}
-		
-		/*md*/
-		@media (min-width: 992px) and (max-width: 1199px) {
-		  .carousel-inner .active.left { left: -33%; }
-		  .carousel-inner .active.right { left: 33%; }
-			.carousel-inner .next        { left:  33%; }
-			.carousel-inner .prev		     { left: -33%; }
-		  .carousel-col                { width: 33%; }
-			.active > div:first-child + div { display:block; }
-		  .active > div:first-child + div + div { display:block; }
-		}
-		
-		/*lg*/
-		@media (min-width: 1200px) {
-		  .carousel-inner .active.left { left: -25%; }
-		  .carousel-inner .active.right{ left:  25%; }
-			.carousel-inner .next        { left:  25%; }
-			.carousel-inner .prev		     { left: -25%; }
-		  .carousel-col                { width: 25%; }
-			.active > div:first-child + div { display:block; }
-		  .active > div:first-child + div + div { display:block; }
-			.active > div:first-child + div + div + div { display:block; }
-		}
-		
-		.block {
-			width: 306px;
-			height: 230px;
-		}
-		
-		.red {background: red;}
-		
-		.blue {background: blue;}
-		
-		.green {background: green;}
-		
-		.yellow {background: yellow;}
-	 /* 가로케러셀 끝!! */
 	/*  메인백그라운드 */
 	 	#loading {
 		 width: 100%;  
@@ -237,6 +161,84 @@
 	
 	<script>
 	$(function(){
+		var startNo = 1
+		
+		$(function(){
+			 $(window).scroll(function(){
+
+                var window = $(this);
+
+                var scrollTop = window.scrollTop();
+
+                var windowHeight = window.height();
+
+                var documentHeight = $(document).height();
+
+                // scrollbar의 thumb가 바닥 전 30px까지 도달 하면 리스트를 가져온다.
+                
+                console.log("다큐멘트길이 = "+documentHeight);
+                console.log("스크롤탑 + 윈도우 길이 + 200 = "+scrollTop + windowHeight);
+
+                if( scrollTop + windowHeight + 150 > documentHeight ){
+
+							fetchList();
+                }
+
+       	})
+       	
+       	function fetchList(){
+				 
+				 startNo +=${resultPage.getCurrentPage()}
+
+				 console.log(startNo);
+				 //fncGetProductList(startNo);
+ 
+       		  $.ajax({
+
+                    url:"/meetingRest/listMeeting?startNo="+startNo,
+
+            
+						method : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData , status) {
+							console.log(JSONData.list);
+							
+							var list="";
+							for(i in JSONData.list){
+								var meeting = JSONData.list[i];
+								//console.log(product.fileName);
+								list+="<article class='feature left'>";
+								list+="<div class='image' style='display: flex; height: 400px;'><img src='/resources/images/meeting/"+meeting.titleImg+"'class='col-xs-12 col-sm-12 col-md-12' /></div>";
+								list+="<div class='content'>";
+							    list+="<p class='meetingCenter'><span class='glyphicon glyphicon-record'></span>&nbsp;"+meeting.meetingCenter+"<p>";
+								list+="<h2 class='titleName'>"+meeting.meetingName+"</h2>";
+								list+="<p>모임정원 <span class='meetingCenter'>"+meeting.meetingCrewLimit+"</span>명      조회수<span class='meetingCenter'> "+meeting.meetingViews+"</span>회</p>";
+								list+="<p>모임날짜:"+meeting.meetingDate+"&nbsp; &nbsp;<span class='glyphicon glyphicon-map-marker'></span>"+meeting.meetingLocation+"</p>";
+								list+="<ul class='actions'>";
+								list+="<li>";
+								list+="<a href='#' data-param='${meeting.meetingNo}' class='button'>More</a>";
+								list+="</li>";
+								list+="</ul>";
+								list+="</div>";
+								list+="</article>";
+							}
+							$( "#appendPoint" ).append(list);
+						 
+						}
+				});	
+	       		  
+	       	} //fetchList끝 //여기까지 무한스크롤
+		});
+			
+		
+		
+		
+		
+		
 		
 		/* 돌아가는 가로 케러셀 */
 		
@@ -537,16 +539,10 @@
 		</form>	 
 			 <!-- 검색창 종료 -->
 			 
- 
-			 
-			 <!-- 개설하기 버튼 시작 -->
-			 
-			 <!-- 개설하기 버튼 종료 -->
-			 
 			 <!-- 리스트 시작 -->
                 <div>
 	              	<section style="align-content:center;" id="one" class="wrapper style1">
-						<div class="inner">
+						<div id="appendPoint" class="inner" style="text-align: center;">
 						<div align="right" class="addMeeting">
 						 	<input type="button" id="addMeeting" value="개설하기">
 						 </div>
@@ -556,13 +552,13 @@
 						 	<hr/>
 						 	
 							<article class="feature left">
-								<div class="image"><img src="/resources/images/meeting/${meeting.titleImg}" class="col-xs-12 col-sm-12 col-md-12" alt="" /></div>
+								<div class="image" style="display: flex; height: 400px;"><img src="/resources/images/meeting/${meeting.titleImg}" class="col-xs-12 col-sm-12 col-md-12" alt="" /></div>
 								<div class="content">
-									<p>${meeting.meetingCenter}<p>
-									<h2>${meeting.meetingName}</h2>
-									<p>모임정원 /${meeting.meetingCrewLimit}명      조회수 ${meeting.meetingViews}회</p>
-									<p>모임날짜:${meeting.meetingDate}</p>
-									<p>이번모임장소:${meeting.meetingLocation}</p>
+									<p class="meetingCenter"><span class="glyphicon glyphicon-record"></span>&nbsp;${meeting.meetingCenter}<p>
+									<h2 class="titleName">${meeting.meetingName}</h2>
+									<p>모임정원  <span class="meetingCenter">${meeting.meetingCrewLimit}</span>명      조회수 <span class="meetingCenter">${meeting.meetingViews}</span>회</p>
+									<p></p>
+									<p>모임날짜:${meeting.meetingDate}&nbsp; &nbsp;<span class="glyphicon glyphicon-map-marker"></span>${meeting.meetingLocation}</p>
 									<ul class="actions">
 										<li>
 											<a href="#" data-param="${meeting.meetingNo}" class="button">More</a>
