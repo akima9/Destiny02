@@ -464,7 +464,7 @@ socket.on('connect', function(){
 		}else{
 			mThreeImg="${telepathyList[2].exTwoImg}";
 		}
-    	$('#me').append('<div><img src="/resources/images/telepathy/'+mOneImg+'"  class="col-xs-4 col-sm-4 col-md-4 img-rounded"><img src="/resources/images/telepathy/'+mTwoImg+'"  class="col-xs-4 col-sm-4 col-md-4 img-rounded"><img src="/resources/images/telepathy/'+mThreeImg+'"  class="col-xs-4 col-sm-4 col-md-4 img-rounded"></div><br><div ><b class="col-xs-4 col-sm-4 col-md-4">' + mResult01+'</b><b class="col-xs-4 col-sm-4 col-md-4">'+mResult02+'</b><b class="col-xs-4 col-sm-4 col-md-4">'+mResult03+ '</b></div>');
+   		$('#me').append('<div><div class="col-xs-12 col-sm-12 col-md-12"><img src="/resources/images/telepathy/'+mOneImg+'" style="width: 50px; height: 50px;" class="col-xs-4 col-sm-4 col-md-4"><img src="/resources/images/telepathy/'+mTwoImg+'" style="width: 50px; height: 50px;" class="col-xs-4 col-sm-4 col-md-4"><img src="/resources/images/telepathy/'+mThreeImg+'" style="width: 50px; height: 50px;" class="col-xs-4 col-sm-4 col-md-4"></div><br><div>' + mResult01+''+mResult02+''+mResult03+ '</div></div>');
 		
 		
 		
@@ -720,29 +720,59 @@ socket.on('updategage', function (username, data) {
 			console.log("2 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
 		}else if (otherGage>=90&&myGage>=90) {
 			//alert("호감도 90% 달성!");
-			 var confirmflag = confirm("호감도 90% 달성! 상대방과 만나시겠습니까?");
-
-	           if(confirmflag){
-
-	              //확인 버튼 클릭 true 프로필 오픈 , 만남성사 테이블 업데이트
-        	$.ajax({
-		        url: '/chatting/json/updateContactMeeting/'+womanId,
-		        type: 'GET',
-		        dataType: 'json',
-		        success: function(JsonData) {
-		        	//프로필 사진과 아이디 공개 
-		        	 JsonData.profileImg
-			          JsonData.userId
-		        }
+			 var confirmflag01="";
+			 var confirmflagyou="";
+			 //둘다 만남을 선택해야만 진행됨
+			 if (womanId=="${me.userId}") {
+				 confirmflag01 = confirm("호감도 90% 달성! 상대방과 만나시겠습니까?");
+				 socket.emit('sendcontact', confirmflag01);
+			}else{
+				 confirmflagyou=confirm("호감도 90% 달성! 상대방과 만나시겠습니까?");
+				 socket.emit('sendcontact', confirmflagyou);
 				
-	    	});//ajax끝
-	        		 
-	           }else{
+			}
+			 
+				 socket.on('updatecontact',function(username,data){
+					 if (womanId==username) {
+						 confirmflag01=data;
+					}else{
+						confirmflagyou=data;
+					}
+					 console.log(data);
+					
+					 console.log(confirmflagyou);
+					 setTimeout(function() {
+			           if(confirmflag01&&confirmflagyou){
+			        	   console.log(confirmflag01);
+			        	   console.log(confirmflagyou);
+			              //확인 버튼 클릭 true 프로필 오픈 , 만남성사 테이블 업데이트
+		        		var contactMeeting=$.ajax({
+								        url: '/chatting/json/updateContactMeeting',
+								        type: 'GET',
+								        dataType: 'text',
+								        success: function(JsonData) {
+								        	//프로필 사진과 아이디 공개 
+								        	
+								        	 
+								        }
+										
+							    	});//ajax끝
+						contactMeeting.done(function(Data) {
+							console.log(Data);
+						});
+			        		 
+			           }else{
 
-	            //프로필 버튼 활성화
-	        	   $("#profile").attr("src","/resources/images/chatting/profile02.png");
-	   			 
-	           }
+			            //프로필 버튼 활성화
+			        	   $("#profile").attr("src","/resources/images/chatting/profile02.png");
+			   			 
+			           }
+					 }, 10000);
+					});
+			
+			 
+			
+			
 	
 			console.log("3 상대방 gage : "+otherGage+" 나의 gage : "+myGage)
 		} 
@@ -754,9 +784,9 @@ setTimeout(function() {
 	  
 	console.log(ti);//ti는 나의 gage
 	if (ti<10) {
-		 var confirmflag = confirm("10분동안 호감도가 10%를 넘지 못했습니다. 나가시겠습니까?");
+		 var confirmflag02 = confirm("10분동안 호감도가 10%를 넘지 못했습니다. 나가시겠습니까?");
 
-         if(confirmflag){
+         if(confirmflag02){
 
             //확인 버튼 클릭 true 나감
       	 	self.close();
@@ -880,30 +910,33 @@ $(function(){
 	//프로필 공개===================================================================
 	
 	$('#profile').click( function(e) {
-		if ("${me.userId}"==womanId) {
-			$.ajax({
-		        url: '/user/json/getUser/'+manId,
-		        type: 'GET',
-		        dataType: 'json',
-		        success: function(JsonData) {
-		        //프로필 사진과 아이디 공개 
-		        JsonData.profileImg
-		          JsonData.userId
-		        }
-				
-		    });	//ajax끝
-		}else{
-			$.ajax({
-		        url: '/user/json/getUser/'+womanId,
-		        type: 'GET',
-		        dataType: 'json',
-		        success: function(JsonData) {
-		        	//프로필 사진과 아이디 공개 
-		        	 JsonData.profileImg
+		if (ti>=90) {
+			if ("${me.userId}"==womanId) {
+				$.ajax({
+			        url: '/user/json/getUser/'+manId,
+			        type: 'GET',
+			        dataType: 'json',
+			        success: function(JsonData) {
+			        //프로필 사진과 아이디 공개 
+			        JsonData.profileImg
 			          JsonData.userId
-		        }
-				
-		    });//ajax끝
+			        }
+					
+			    });	//ajax끝
+			}else{
+				$.ajax({
+			        url: '/user/json/getUser/'+womanId,
+			        type: 'GET',
+			        dataType: 'json',
+			        success: function(JsonData) {
+			        	//프로필 사진과 아이디 공개 
+			        	 JsonData.profileImg
+				          JsonData.userId
+			        }
+					
+			    });//ajax끝
+			}
+			
 		}
 		
 	});

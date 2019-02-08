@@ -919,6 +919,7 @@ public class ChattingRestController {
 		chattingService.updateContactMeeting(chatting);
 		System.out.println("¿Ï·á");
 		result="ok";
+		System.out.println("result"+result);
 		return result;
 	}
 	

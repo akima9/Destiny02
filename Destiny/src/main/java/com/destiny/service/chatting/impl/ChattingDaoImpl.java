@@ -71,8 +71,8 @@ public class ChattingDaoImpl implements ChattingDao {
 
 	@Override
 	public void updateContactMeeting(Chatting chatting) throws Exception {
-		
-		sqlSession.update("ChattingMapper.updateContactMeeting",chatting.getChattingNo());
+		System.out.println("updateContactMeeting : "+chatting);
+		sqlSession.update("ChattingMapper.updateContactMeeting",chatting);
 		
 	}
 
