@@ -67,13 +67,12 @@ public class UserController {
 	
 	@RequestMapping( value="login", method=RequestMethod.POST )
 	public ModelAndView login(@ModelAttribute("user") User user, HttpSession session, HttpServletRequest request) throws Exception{
-		
-		System.out.println("/user/login : GET");
+
+		System.out.println("/user/login : POST");
 		
 		//Business Logic
 		User dbUser = new User();
 		 
-		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/index.jsp");
 		
@@ -114,7 +113,7 @@ public class UserController {
 				modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
 			} else {
 				//===========================================로그인 + 현제 접속자 구현 로직 part=================================================
-				System.out.println("로그인 + 현제 접속자 구현 로직 part");
+				System.out.println("로그인 + 현재 접속자 구현 로직 part");
 				ServletContext applicationScope = request.getSession().getServletContext();
 				
 				//String Ip = request.getRemoteAddr();
@@ -416,6 +415,7 @@ public class UserController {
 		int notRead = letterService.getCountNetReadReceive(((User)session.getAttribute("me")).getUserId());
 		
 		ModelAndView modelAndView = new ModelAndView();
+		/*modelAndView.setViewName("forward:/layout/header.jsp");*/
 		modelAndView.setViewName("forward:/user/userInfo/getUserView.jsp");
 		modelAndView.addObject("me", session.getAttribute("me"));
 		modelAndView.addObject("notRead", notRead);
@@ -451,11 +451,11 @@ public class UserController {
 		
 		Map<String, Object> typeMap = userService.getTypeByUser(typeNo);
 		
-		String myTypeFile = (String) typeMap.get("myType") + ".JPG";
+		String myTypeFile = (String) typeMap.get("myType") + ".png";
 		List<String> typeFileList = new ArrayList<String>();
-		typeFileList.add((String) typeMap.get("firstType") + ".JPG");
-		typeFileList.add((String) typeMap.get("secondType") + ".JPG");
-		typeFileList.add((String) typeMap.get("thirdType") + ".JPG");
+		typeFileList.add((String) typeMap.get("firstType") + ".png");
+		typeFileList.add((String) typeMap.get("secondType") + ".png");
+		typeFileList.add((String) typeMap.get("thirdType") + ".png");
 		
 		Map<String, Object> typeFileMap = new HashMap<String, Object>();
 		typeFileMap.put("myTpyeFile", myTypeFile);
@@ -726,8 +726,10 @@ public class UserController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="leaveSite/{userId}", method=RequestMethod.GET)
-	public ModelAndView leaveSite(@PathVariable String userId) throws Exception{
+	@RequestMapping(value="leaveSite", method=RequestMethod.GET)
+	public ModelAndView leaveSite(HttpSession session) throws Exception{
+		
+		String userId = ( (User)session.getAttribute("me") ).getUserId();
 		
 		System.out.println("/user/leaveSite/{"+userId+"}");
 		

@@ -42,7 +42,7 @@
 	
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$( ".getRestaurantLink" ).on("click" , function() {
-			 self.location ="/info/getRestaurantInfo?communityNo="+$(this).data("param");
+			 self.location ="/date/getDateStory?communityNo="+$(this).data("param");
 		});
 					
 		//==> userId LINK Event End User 에게 보일수 있도록 

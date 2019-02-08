@@ -127,7 +127,7 @@ video{
 		border : 2px solid #ffbcc7;
 		/* background : #ffbcc7; */
 		border-radius : 25px;
-		width : 17em;
+		width : 23%;
 		height : 17em;
 		transition: 1s;
 	}
@@ -192,6 +192,18 @@ article{
 		.story-wrap article{
 			float : left;
 		}
+			
+@media screen and (max-width:1180px){
+	#linkmove .flex div{
+		width : 48%;
+		margin-bottom : 40px;
+	}
+}
+@media screen and (max-width:650px){
+	#linkmove .flex div{
+		width : 100%;
+	}
+}		
 </style>
 
 <body>
@@ -270,43 +282,6 @@ article{
 				</form>
 				
 				<div class="story-wrap"></div>
-				
-				<!-- <article>
-					<div class="image round">
-						<img src="resources/css/images/pic01.jpg" alt="Pic 01" />
-					</div>
-					<header>
-						<h3>力格1</h3>
-					</header>
-					<p>郴侩1</p>
-					<footer>
-						<a href="#" class="button">Learn More</a>
-					</footer>
-				</article>
-				<article>
-					<div class="image round">
-						<img src="resources/css/images/pic02.jpg" alt="Pic 02" />
-					</div>
-					<header>
-						<h3>力格2</h3>
-					</header>
-					<p>郴侩2</p>
-					<footer>
-						<a href="#" class="button">Learn More</a>
-					</footer>
-				</article>
-				<article>
-					<div class="image round">
-						<img src="resources/css/images/pic02.jpg" alt="Pic 02" />
-					</div>
-					<header>
-						<h3>力格3</h3>
-					</header>
-					<p>郴侩3</p>
-					<footer>
-						<a href="#" class="button">Learn More</a>
-					</footer>
-				</article> -->
 			</div>
 		</div>
 	</section>
