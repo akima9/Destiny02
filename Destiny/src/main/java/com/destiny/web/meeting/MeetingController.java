@@ -2,6 +2,8 @@ package com.destiny.web.meeting;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.destiny.common.Search;
 import com.destiny.service.domain.Meeting;
 import com.destiny.service.meeting.MeetingService;
+import com.destiny.common.Page;
 
 @Controller
 @RequestMapping("/meeting/*")
@@ -48,12 +51,25 @@ public class MeetingController {
 		System.out.println("하이rpt리스트");
 		//System.out.println(search.getSearchCondition());
 		Search search = new Search();
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		
+
 		Map<String , Object> map=meetingService.getMeetingList(search);
 		Map<String , Object> bestMap=meetingService.getBestProduct();
 		Map<String , Object> interestmap=meetingService.getInterestList();
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println("토탈 카운트는??"+((Integer)map.get("totalCount")).intValue());
+		
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("bestList", bestMap.get("bestList"));
 		model.addAttribute("interlist", interestmap.get("list"));
+		model.addAttribute("resultPage", resultPage);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/meeting/getMeetingList.jsp");
@@ -69,6 +85,11 @@ public class MeetingController {
 		System.out.println(search);
 		System.out.println(meetingCenter);
 		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
 		if(meetingCenter !=null) {
 			if(search.getSearchCondition()=="시/군/구 선택" || meetingCenter.length()==2) {
 				System.out.println("시군구 선택");
@@ -82,9 +103,12 @@ public class MeetingController {
 		Map<String , Object> interestmap=meetingService.getInterestList();
 		Map<String , Object> map=meetingService.getMeetingList(search);
 		Map<String , Object> bestMap=meetingService.getBestProduct();
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println("토탈 카운트는??"+((Integer)map.get("totalCount")).intValue());
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("bestList", bestMap.get("bestList"));
 		model.addAttribute("interlist", interestmap.get("list"));
+		model.addAttribute("resultPage", resultPage);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/meeting/getMeetingList.jsp");
@@ -119,7 +143,7 @@ public class MeetingController {
 		meetingService.addCrewList(meeting);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/index.jsp");
+		modelAndView.setViewName("redirect:/meeting/listMeeting");
 		return modelAndView;
 	}
 	
@@ -150,8 +174,16 @@ public class MeetingController {
 	}
 	
 	@RequestMapping(value="updateMeeting", method=RequestMethod.POST)
-	public ModelAndView updateMeeting(@ModelAttribute("meeting") Meeting meeting) throws Exception{
-		//System.out.println("하이 업데이트");
+	public ModelAndView updateMeeting(@ModelAttribute("meeting") Meeting meeting,HttpServletRequest request) throws Exception{
+		System.out.println("하이 업데이트");
+		
+		ModelAndView modelAndView = new ModelAndView();
+		String Referer = request.getHeader("referer");
+	
+		String referer = Referer.split("8080/")[1];
+		System.out.println("refere ==="+Referer);
+		System.out.println("이것은 자른것"+referer);
+		
 		//Meeting meeting = new Meeting();
 		System.out.println("미팅컨디션은"+meeting.getMeetingCondition());
 		//System.out.println(meeting.getMeetingNo());
@@ -161,17 +193,20 @@ public class MeetingController {
 			System.out.println("def가 아니다");
 			//개시물 삭제 플래그 처리 
 			meetingService.updateMeeting(meeting);
+			modelAndView.setViewName("redirect:/"+referer);
 		}else {
 			//개시물 내용 수정
 			meetingService.updateContentsMeeting(meeting);
 			meetingService.updateContentsAct(meeting);
+			modelAndView.setViewName("redirect:/meeting/listMeeting");
 		}
 		
 		
 		//model.addAttribute("meeting", meeting);
 		
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/index.jsp");
+		
+		//modelAndView.setViewName("redirect:/index.jsp");
+		//modelAndView.setViewName("redirect:/"+referer);
 		return modelAndView;
 		//return null;
 	}

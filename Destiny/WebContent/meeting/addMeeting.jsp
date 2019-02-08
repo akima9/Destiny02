@@ -68,9 +68,79 @@ body>div.container {
 	width: 2em;
 }
 </style>
-
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54cfa5aea3e5609fcbb420ef8cd6ed4c&libraries=services"></script>
 <!--  ///////////////////////// JavaScript ////////////////////////// -->
 <script type="text/javascript">
+
+	function loadMap(keyword){
+		if(keyword ==null || keyword == ""){
+			keyword = "비트캠프 종로센터";
+		}
+		
+		
+	
+		var infowindow = new daum.maps.InfoWindow({zIndex:1});
+
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new daum.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+		        level: 3 // 지도의 확대 레벨
+		    };  
+
+		// 지도를 생성합니다    
+		var map = new daum.maps.Map(mapContainer, mapOption); 
+
+		// 장소 검색 객체를 생성합니다
+		var ps = new daum.maps.services.Places(); 
+
+		// 키워드로 장소를 검색합니다
+		ps.keywordSearch(keyword, placesSearchCB); 
+
+		// 키워드 검색 완료 시 호출되는 콜백함수 입니다
+		function placesSearchCB (data, status, pagination) {
+		    if (status === daum.maps.services.Status.OK) {
+
+		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+		        // LatLngBounds 객체에 좌표를 추가합니다
+		        var bounds = new daum.maps.LatLngBounds();
+
+		        for (var i=0; i<data.length; i++) {
+		            displayMarker(data[i]);    
+		            bounds.extend(new daum.maps.LatLng(data[i].y, data[i].x));
+		        }       
+
+		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+		        map.setBounds(bounds);
+		    } 
+		}
+
+		// 지도에 마커를 표시하는 함수입니다
+		function displayMarker(place) {
+		    
+			    // 마커를 생성하고 지도에 표시합니다
+			    var marker = new daum.maps.Marker({
+			        map: map,
+			        position: new daum.maps.LatLng(place.y, place.x) 
+			    });
+				console.log(place);
+			    // 마커에 클릭이벤트를 등록합니다
+			    daum.maps.event.addListener(marker, 'click', function() {
+			        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+			        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+			        infowindow.open(map, marker);
+			        $('#place').val(place.road_address_name + ", "+ place.place_name );
+			    });
+		}
+	}
+	////////////////*로드맵 호출 */////////
+	$(function() {
+		$("#placeSearch").on("click", function() {
+			console.log($("#place").val());
+			loadMap($("#place").val());
+		});
+	});
+	
+	
 	////////////////* 타임피커 */////////
 	$(function() {
 		$('.timepicker').timepicker();
@@ -99,6 +169,16 @@ body>div.container {
 		var meetingDay = $("#weekday").val();
 		var meetingTime = $("input[name='meetingTime']").val();
 		var meetingLocation = $("input[name='meetingLocation']").val();
+		var dt = new Date();
+		var month = dt.getMonth()+1;
+		var day = dt.getDate();
+		var year = dt.getFullYear();
+		var hours = dt.getHours();
+		var minute = dt.getMinutes();
+		var time = (hours + ':' +minute);
+		var today = (year+'-0' +month + '-' + day);
+		var mitingTime = ('${meetingAct.meetingDate}'+'-'+'${meetingAct.meetingTime }');
+		/* ${meetingAct.meetingDate} ${meetingAct.meetingTime } */
 
 		console.log("관심사" + interestName);
 		console.log("미팅센터" + meetingCenter);
@@ -111,6 +191,8 @@ body>div.container {
 		console.log("요일" + meetingDay);
 		console.log("시간" + meetingTime);
 		console.log("장소" + meetingLocation);
+		console.log("오늘" + today);
+		console.log(meetingDate<today);
 
 		if (interestName == null || interestName.length < 1) {
 			alert("관심사를 선택해 주세요.");
@@ -148,7 +230,12 @@ body>div.container {
 		}
 
 		if (meetingDate == null && meetingDay == null) {
-			alert("날짜or요일을 설정하요 주세요.");
+			alert("날짜를 지정하여 주세요.");
+			return;
+		}
+		
+		if (meetingDate>today) {
+			alert("잘못 된 날짜입니다.");
 			return;
 		}
 
@@ -209,8 +296,8 @@ body>div.container {
 	////* 지역구 선택부  *////
 	$(function() {
 		$("#centerLocation")
-				.on(
-						"change",
+				
+						.on("change",
 						function() {
 							//var idx = $(".brand_ids").index(this);
 							var city = $(this).val();
@@ -243,60 +330,6 @@ body>div.container {
 						});
 	});
 </script>
-
-
-<!-- 다음 우편 -->
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54cfa5aea3e5609fcbb420ef8cd6ed4c"></script>
-<script>
-	var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-	mapOption = {
-		center : new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-		level : 5
-	// 지도의 확대 레벨
-	};
-
-	//지도를 미리 생성
-	var map = new daum.maps.Map(mapContainer, mapOption);
-	//주소-좌표 변환 객체를 생성
-	var geocoder = new daum.maps.services.Geocoder();
-	//마커를 미리 생성
-	var marker = new daum.maps.Marker({
-		position : new daum.maps.LatLng(37.537187, 127.005476),
-		map : map
-	});
-
-	function sample5_execDaumPostcode() {
-		new daum.Postcode({
-			oncomplete : function(data) {
-				var addr = data.address; // 최종 주소 변수
-
-				// 주소 정보를 해당 필드에 넣는다.
-				document.getElementById("sample5_address").value = addr;
-				// 주소로 상세 정보를 검색
-				geocoder.addressSearch(data.address, function(results, status) {
-					// 정상적으로 검색이 완료됐으면
-					if (status === daum.maps.services.Status.OK) {
-
-						var result = results[0]; //첫번째 결과의 값을 활용
-
-						// 해당 주소에 대한 좌표를 받아서
-						var coords = new daum.maps.LatLng(result.y, result.x);
-						// 지도를 보여준다.
-						mapContainer.style.display = "block";
-						map.relayout();
-						// 지도 중심을 변경한다.
-						map.setCenter(coords);
-						// 마커를 결과값으로 받은 위치로 옮긴다.
-						marker.setPosition(coords)
-					}
-				});
-			}
-		}).open();
-	}
-</script>
-<!-- 다음우편 끝 -->
 
 </head>
 
@@ -424,14 +457,12 @@ body>div.container {
 
 			<div class="form-group col-sm-10 col-md-10">
 				<input name="meetingLocation" type="text" class="form-control"
-					id="sample5_address" placeholder="주소를 검색해주세요." readonly="readonly">
+					id="place" placeholder="주소를 검색해주세요.">
 			</div>
 
 			<div class="form-group col-sm-2 col-md-2">
 				<input type="button" class="btn btn-warning"
-					onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
-				<div id="map"
-					style="width: 300px; height: 300px; margin-top: 10px; display: none"></div>
+					 id="placeSearch" value="주소 검색"><br>
 			</div>
 
 			<div class="form-group">
@@ -440,6 +471,8 @@ body>div.container {
 					<a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
 				</div>
 			</div>
+		
+			<div id="map" style="width:100%;height:350px;"></div>
 		</form>
 	</div>
 	<!--  화면구성 div end /////////////////////////////////////-->

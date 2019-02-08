@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.destiny.common.Page;
@@ -21,6 +22,8 @@ import com.destiny.service.domain.Meeting;
 import com.destiny.service.domain.User;
 import com.destiny.service.meeting.MeetingService;
 import com.destiny.service.user.UserService;
+import com.destiny.common.Page;
+import com.destiny.common.Search;
 
 @RestController
 @RequestMapping("/meetingRest/*")
@@ -190,7 +193,7 @@ public class MeetingRestController {
 	}
 	
 	@RequestMapping( value="meetingRest/dropMeeting", method=RequestMethod.POST)
-	public int dropMeeting(@RequestBody Meeting meeting)throws Exception{
+	public int dropMeeting(@RequestBody Meeting meeting)throws Exception{ 
 		System.out.println("탈퇴  시작함");
 		System.out.println("여기미팅에 미팅회차 있어야함 "+meeting);
 		
@@ -198,22 +201,33 @@ public class MeetingRestController {
 		System.out.println("모임원인지 확인 "+result);
 		if(result < 1) return 5018;/*모임원 아님*/
 		
+		System.out.println("모임장인가요?"+meeting.getMeetingCondition());
+		if(meeting.getMeetingCondition().equals("MST")) {
+			System.out.println("모임장 탈퇴중입니다.");
+			meeting.setMeetingCondition("EMP");
+			meetingService.updateMeeting(meeting);
+			meetingService.shutdown(meeting);
+		}
+
 		if(result==1) {
+			
 			System.out.println("왔음???");
 			meeting.setMeetingActNo(meetingService.getActNo(meeting).getMeetingActNo());
-			int duplicationAct = meetingService.DuplicationAct(meeting);
-			if(duplicationAct>0) {
-				System.out.println("여기도??왔음???");
+				int duplicationAct = meetingService.DuplicationAct(meeting);
 				
-				int actremovResult = meetingService.kickOutAct(meeting);
-				System.out.println("회차 모임에서 삭제 되었나"+actremovResult);
-			}
+				if(duplicationAct>0) {
+					System.out.println("여기도??왔음???");
+					
+					int actremovResult = meetingService.kickOutAct(meeting);
+					System.out.println("회차 모임에서 삭제 되었나"+actremovResult);
+					
+				}
 			
 			meetingService.dropMeeting(meeting);
 			
 			result = 2;
 		}
-		
+
 		return result;
 	}
 	
@@ -270,6 +284,55 @@ public class MeetingRestController {
 		
 		//System.out.println("안드로이드로 전달될 객체 : " + returnMap);
 		return (List<Meeting>)map.get("list");
+	}
+
+	@RequestMapping( value="meetingRest/takeOver", method=RequestMethod.POST)
+	public Map<String , Object> takeOver(@RequestBody Meeting meeting)throws Exception{
+		System.out.println("승계 시작함");
+		
+		int result = meetingService.checkDuplicationCrew(meeting);
+		
+		if(result < 1) {
+			Map<String, Object> notCrewMap = new HashMap<String, Object>();
+			notCrewMap.put("result", result);
+			return notCrewMap; /*모임원아님*/
+		}
+
+			
+			meetingService.passto(meeting); /*모임장으로 변경*/
+			
+			int crewCount = meetingService.getCrewCount(meeting.getMeetingNo());
+			Map<String , Object> crewMap2=meetingService.getCrew(meeting.getMeetingNo());
+			
+			crewMap2.put("crewCount", crewCount);
+			crewMap2.put("crewList", crewMap2.get("crewList"));
+			
+			return crewMap2;
+	}
+	
+	@RequestMapping( value="meetingRest/listMeeting",method=RequestMethod.GET)
+	public Map<String , Object> listMeeting(@RequestParam("startNo") int startNo) throws Exception{
+		System.out.println("리스트시작함");
+		System.out.println("스타트넘버"+startNo);
+		//System.out.println(request.getAttribute("startNo"));
+		System.out.println(startNo);
+		//int CurrentPage = search.getCurrentPage();
+		//int PageSize = search.getPageSize();
+		int currentPage = startNo;
+		
+		Search search = new Search();
+		int pageSize = 3;
+		search.setPageSize(pageSize);
+		System.out.println(pageSize);
+		search.setCurrentPage(currentPage);
+		Map<String , Object> map=meetingService.getMeetingList(search);
+	    Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(),3, pageSize);
+		System.out.println("리절트페이지"+resultPage);
+		
+		System.out.println("리스트끝냄");
+		
+		return map;
+		
 	}
 
 }

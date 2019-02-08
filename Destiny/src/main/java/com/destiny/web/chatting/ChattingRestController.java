@@ -2,6 +2,8 @@ package com.destiny.web.chatting;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -9,6 +11,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -32,6 +35,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.service.chatting.ChattingService;
@@ -63,7 +68,7 @@ public class ChattingRestController {
 	private int no;
 	private int perfectNo;
 	private List<Telepathy> telepathyList=new  ArrayList<Telepathy>();
-	
+	private int count;
 	
 	@ResponseBody
 	@RequestMapping(value = "json/translate", method = RequestMethod.POST)
@@ -849,6 +854,73 @@ public class ChattingRestController {
 		map.put("telepathyListRe", telepathyList);
 		System.out.println("telepathyList : "+telepathyList);
 		return map;
+	}
+	
+	@RequestMapping(value = "json/imageUpload", method = RequestMethod.POST)
+	public Map<String, Object> imageUpload(HttpSession session, HttpServletRequest request, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+		System.out.println("json/imageUpload 들어옴");
+		 Chatting chatting= (Chatting)session.getAttribute("chatting");
+         User user=(User)session.getAttribute("me");
+	
+	
+		
+    String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\chatting\\image\\";
+    System.out.println("파일업로드하는곳");
+
+    
+      File dir = new File(path);
+      if(!dir.isDirectory()){
+          dir.mkdir();
+      }
+      String fileName1="";
+      Iterator<String> files = multipartHttpServletRequest.getFileNames();
+      System.out.println(files.hasNext());
+      System.out.println(files.toString());
+      while(files.hasNext()){
+          String uploadFile = files.next();
+          MultipartFile mFile = multipartHttpServletRequest.getFile(uploadFile);
+         
+          String chattingFile=""+chatting.getChattingNo()+user.getUserId()+count;
+          String fileName = mFile.getOriginalFilename();
+          System.out.println("실제 파일 이름 : " +fileName);
+          System.out.println("변경할 파일 이름 : "+chattingFile);
+         
+          String splitFileName=fileName.split("\\.")[0];
+          
+          System.out.println("splitFileName[0] : "+splitFileName);
+          String extension=fileName.split("\\.")[1];
+         // splitFileName[0]=chattingFile;
+         fileName=chattingFile+"."+extension;
+          System.out.println("변경된 파일 이름 : "+fileName);
+          count++;
+          try {
+              mFile.transferTo(new File(path,fileName));
+             
+          } catch (Exception e) {
+              e.printStackTrace();
+          }finally {
+          fileName1 = fileName;
+       }
+      }
+      Map<String, Object> map = new HashMap<String, Object>();
+      map.put("fileName", fileName1);
+      System.out.println(fileName1);
+      map.put("userId", user.getUserId());
+      
+      return map;
+	}
+	
+	@RequestMapping(value = "json/updateContactMeeting", method = RequestMethod.GET)
+	@ResponseBody
+	public String updateContactMeeting(HttpSession session, HttpServletRequest request) throws Exception {
+		System.out.println("json/updateContactMeeting 들어옴");
+		String result="";
+		Chatting chatting=(Chatting)session.getAttribute("chatting");
+		chattingService.updateContactMeeting(chatting);
+		System.out.println("완료");
+		result="ok";
+		System.out.println("result"+result);
+		return result;
 	}
 	
 }

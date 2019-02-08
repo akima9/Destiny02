@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -31,7 +32,7 @@
 .info .close:hover {cursor: pointer;}
 .info .body {position: relative;overflow: hidden;}
 .info .desc {position: relative;margin: 13px 0 0 90px; height: 90px;}
-/* .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap; } */
+.desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap; }
 .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
 .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
 .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
@@ -210,7 +211,7 @@
 					            '                <img src="/resources/images/meeting/${meeting.titleImg}" width="73" height="70"/>' +
 					            '           </div>' + 
 					            '            <div class="desc">' + 
-					            '                <div class=""><p>${meeting.meetingLocation}</p></div>' + 	
+					            '                <div class="ellipsis"><p>${meeting.meetingLocation}</p></div>' + 	
 					            '                <div><a href="/meeting/getMeeting?meetingNo=${meeting.meetingNo}" target="_blank" class="link">상세정보보기</a></div>' + 	
 					            '            </div>' + 
 					            '        </div>' + 
@@ -274,7 +275,7 @@
 body ul, body ol, body li{margin:0; padding:0; list-style:none;}
 .list-wrap{max-width:1400px; margin:0 auto;}
 .list-wrap:after{content:''; display:block; clear:both;}
-.list-item{box-sizing:border-box; float:left; width:calc(33.333% - 30px); margin:0 15px; margin-top:20px; padding: 15px; border:1px solid red; border-radius:10px;}
+.list-item{box-sizing:border-box; float:left; width:calc(33.333% - 30px); margin:0 15px; margin-top:20px; padding: 15px; border:1px solid #7d7b7b; border-radius:10px;}
 .list-img{max-width:200px; width:100%;}
 .list-tit{
 	font-size: 1.75em;

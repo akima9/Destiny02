@@ -27,8 +27,7 @@
 	$(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		 $( "button[id='leaveButton']" ).on("click" , function() {
-				var userId = $("input[name='userId']").val();
-				self.location = "/user/leaveSite/"+userId;
+				self.location = "/user/leaveSite";
 			});
 	});
 		

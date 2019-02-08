@@ -128,17 +128,9 @@
 		    width: 70%;
 		    margin: 40px auto;
 		}
-		.profileImg{text-align: center;}
-		.profileImg img{border: 3px solid;
-						border-radius: 7px;
-						-moz-border-radius: 7px;
-						-khtml-border-radius: 7px;
-						-webkit-border-radius: 150px;
-						}
-		.subTitle {
-		    font-size: 15px;
-		    font-weight: 1000;
-		}
+		.profileImg{overflow:hidden; max-width:350px; margin:-150px auto 0; text-align:center; border:3px solid #AAA; border-radius:50%;}
+		.profileImg img{width:100%; max-width:100%; height:100%;}
+		.subTitle{font-size:15px; font-weight:900;}
 	</style>
 	
 </head>
@@ -159,17 +151,15 @@
 	<section id="main" class="wrapper">
 		<div class="inner">
 		
-		<div class="box">
-		
-			<div class="row uniform">
-				<div class="12u 12u$(small) profileImg">
-					<c:set var="i" value="0" />
-					<c:forEach var="file" items="${filelist}" >
-						<c:set var="i" value="${ i+1 }" />
-						<img src="/resources/images/userprofile/${file}" width="250" height="250"/>
-					</c:forEach>
-				</div>
+		<div class="box" style="margin-top:80px;">
+			<div class="profileImg">
+				<c:set var="i" value="0" />
+				<c:forEach var="file" items="${filelist}" >
+					<c:set var="i" value="${ i+1 }" />
+					<img src="/resources/images/userprofile/${file}">
+				</c:forEach>
 			</div>
+			
 			<hr/>
 			<div class="row uniform">
 				<div class="3u 12u$(small) subTitle" >아이디</div>
@@ -244,7 +234,7 @@
 				<div class="3u 12u$(small) subTitle">내 성격유형</div>
 				<div class="4u 12u$(small)">${typeMap.myType}</div>
 				<div class="5u 12u$(small)">
-					<img src="/resources/images/MBTI/${typeFileMap.myTpyeFile}" width="150" height="200"/>
+					<img src="/resources/images/mbti/${typeFileMap.myTpyeFile}" width="150" height="200"/>
 				</div>
 			</div>
 			<hr/>
@@ -257,13 +247,13 @@
 			<div class="row uniform">
 				<div class="3u 12u$(small)"></div>
 				<div class="3u 12u$(small)">
-					<img src="/resources/images/MBTI/${typeFileMap.typeFileList[0]}" width="150" height="200"/>
+					<img src="/resources/images/mbti/${typeFileMap.typeFileList[0]}" width="150" height="200"/>
 				</div>
 				<div class="3u 12u$(small)">
-					<img src="/resources/images/MBTI/${typeFileMap.typeFileList[1]}" width="150" height="200"/>
+					<img src="/resources/images/mbti/${typeFileMap.typeFileList[1]}" width="150" height="200"/>
 				</div>
 				<div class="3u 12u$(small)">
-					<img src="/resources/images/MBTI/${typeFileMap.typeFileList[2]}" width="150" height="200"/>
+					<img src="/resources/images/mbti/${typeFileMap.typeFileList[2]}" width="150" height="200"/>
 				</div>
 			</div>
 		

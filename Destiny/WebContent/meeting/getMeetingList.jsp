@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,8 +11,9 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>우연</title>
 <!-- All CSS Insert -->
-<link rel="stylesheet" href="/resources/css/rest.css" /> <!-- 리스트 참조용 -->
-<link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->
+<link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->	
+<link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet">
+
 
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,7 +30,7 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
-	
+
 	
 	
 	<!-- Bootstrap core CSS -->
@@ -44,35 +47,234 @@
 	<script src="/resources/javascript/util.js"></script>
 	<script src="/resources/javascript/main.js"></script>
 	
+	
+	
+	
 	 <style>
 	 body {
-	 	background-color: #f5f5f5;
+	 	background-color: #fff;
 	 	
 	 }
-
-	#myCarousel :after {
-         background-image : url("/resources/images/meeting/back3.jpg");
-         background-repeat: no-repeat;
-  		 background-color: rgba( 255, 255, 255, 0.5 );
-   
-		 background-size: cover;
-		 top:0;
-		 left:0;
-		 position:absolute;
-		 background-size:100%;
-		 opacity:0.6!important;
-		 z-index:-1;
-		 content:"";
-		 width:100%;
-		 height:100%;
-         
+	 
+	 #one{
+	 	padding: 0;
+	 }
+	 
+	 #lol{
+	 	margin-top: 350px;
+	 }
+	 /* 폰트 설정 관련 */
+	 .titleName{
+	 	font-family: 'Gamja Flower', cursive;
+	 	font-size: 50px;
+	 }
+	 .meetingCenter{
+	 	color: #fd5d7c;
+	 	margin-bottom: -15px;
+	 	font-size: 20px;
+	 }
+	 
+	/*  메인백그라운드 */
+	 	#loading {
+		 width: 100%;  
+		 height: 100%;  
+		 top: 0px;
+		 left: 0px;
+		 position: fixed;  
+		 display: block;  
+		 opacity: 0.7;  
+		 background-color: #fff;  
+		 z-index: 99;  
+		 text-align: center; 
+	} 
+	  
+	#loading-image {  
+		 position: absolute;  
+		 top: 50%;  
+		 left: 50%; 
+		 z-index: 100; 
 	}
+	.representImg{
+		margin-top : 1em;
+		width : 25%;
+		height : 20em;
+		padding : 1em;
+		text-align : center;
+		border : 1px solid #a9a9a9;
+		border-radius : 5px;
+	}
+	.representImg img{
+		width : 80%;
+	}
+	.topImg{
+		display : block;
+		position : absolute;
+		top : 0;
+		background-image : url("/resources/images/background/meetingbg.jpg");
+		background-repeat : no-repeat;
+		background-position : center -400px;
+		background-size : cover;
+		width : 100%;
+		height : 400px;
+	}
+	.topImg::before{
+		content : "";
+		background : rgba(0, 0, 0, 0.2);
+		position : absolute;
+		top : 0;
+		left : 0;
+		width : 100%;
+		height : 400px;
+	}
+	.topImg h1{
+		position : absolute;
+		line-height : 330px;
+		width : 100%;
+		text-align : center;
+		color : white;
+		z-index : 99;
+		font-size : 60px;
+	}
+	h1 .slim{font-weight : lighter;}
+	
+	.smallNavi{
+		overflow : hidden;
+		float : right;
+	}
+	
+	.smallNavi li{
+		float : left;
+	}
+	.updateForm{
+		padding : 25em 0 10em 0;
+	}
+	
+	
+	 /*  메인백그라운드 끝! */
+	 
+	 
+	 
+	
 	
 	</style>
 	
 	
 	<script>
 	$(function(){
+		var startNo = 1
+		
+		$(function(){
+			 $(window).scroll(function(){
+
+                var window = $(this);
+
+                var scrollTop = window.scrollTop();
+
+                var windowHeight = window.height();
+
+                var documentHeight = $(document).height();
+
+                // scrollbar의 thumb가 바닥 전 30px까지 도달 하면 리스트를 가져온다.
+                
+                //console.log("다큐멘트길이 = "+documentHeight);
+                //console.log("스크롤탑 + 윈도우 길이 + 200 = "+scrollTop + windowHeight);
+
+                if( scrollTop + windowHeight + 150 > documentHeight ){
+
+							fetchList();
+                }
+
+       	})
+       	
+       	function fetchList(){
+				 
+				 startNo +=${resultPage.getCurrentPage()}
+
+				 //console.log(startNo);
+				 //fncGetProductList(startNo);
+ 
+       		  $.ajax({
+
+                    url:"/meetingRest/listMeeting?startNo="+startNo,
+
+            
+						method : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData , status) {
+							console.log(JSONData.list);
+							
+							var list="";
+							for(i in JSONData.list){
+								var meeting = JSONData.list[i];
+								//console.log(product.fileName);
+								list+="<article class='feature left'>";
+								list+="<div class='image' style='display: flex; height: 400px;'><img src='/resources/images/meeting/"+meeting.titleImg+"'class='col-xs-12 col-sm-12 col-md-12' /></div>";
+								list+="<div class='content'>";
+							    list+="<p class='meetingCenter'><span class='glyphicon glyphicon-record'></span>&nbsp;"+meeting.meetingCenter+"<p>";
+								list+="<h2 class='titleName'>"+meeting.meetingName+"</h2>";
+								list+="<p>모임정원 <span class='meetingCenter'>"+meeting.meetingCrewLimit+"</span>명      조회수<span class='meetingCenter'> "+meeting.meetingViews+"</span>회</p>";
+								list+="<p>모임날짜:"+meeting.meetingDate+"&nbsp; &nbsp;<span class='glyphicon glyphicon-map-marker'></span>"+meeting.meetingLocation+"</p>";
+								list+="<ul class='actions'>";
+								list+="<li>";
+								list+="<a href='#' id='reMore' data-param='"+meeting.meetingNo+"' class='button'>More</a>";
+								list+="</li>";
+								list+="</ul>";
+								list+="</div>";
+								list+="</article>";
+							}
+							$( "#appendPoint" ).append(list);
+						 
+						}
+				});	
+	       		  
+	       	} //fetchList끝 //여기까지 무한스크롤
+		});
+			
+		
+		
+		
+		
+		
+		
+		/* 돌아가는 가로 케러셀 */
+		
+		
+		$('.carousel[data-type="multi"] .item').each(function() {
+			var next = $(this).next();
+			if (!next.length) {
+				next = $(this).siblings(':first');
+			}
+			next.children(':first-child').clone().appendTo($(this));
+
+			for (var i = 0; i < 2; i++) {
+				next = next.next();
+				if (!next.length) {
+					next = $(this).siblings(':first');
+				}
+
+				next.children(':first-child').clone().appendTo($(this));
+			}
+		});
+		/* 돌아가는 가로 케러셀 끝!!!!!!!!!!!!! */
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		// 개설하기 누르면 이벤트 처리
 		$( "#addMeeting" ).on("click", function() {
 			console.log("${empty sessionScope.me}");
@@ -85,9 +287,7 @@
 					$("#my-dialog,#dialog-background").toggle();
 					//self.location="/user/login";
 				 }else{   //취소
-
 				     return;
-
 				 }
 			}else if('${sessionScope.me.userGrade }'=='NEW'){
 				alert("${sessionScope.me.nickName}님은 우연등급입니다.\n인연이상 회원부터 개설 하능합니다.");
@@ -104,7 +304,14 @@
 		}); */
 		$("a[href='#' ]:contains('More')").on("click", function() {
 			var meetingNo = $(this).data("param");
-			//console.log(meetingNo);
+			//console.log("여기왔습니까??");
+			self.location="/meeting/getMeeting?meetingNo="+meetingNo;
+		});
+		
+		$(document).on("click","#reMore",function(){
+			var meetingNo = $(this).data("param");
+			//console.log("리컨펌");
+			//console.log($(this).data("param"));
 			self.location="/meeting/getMeeting?meetingNo="+meetingNo;
 		});
 		
@@ -175,18 +382,23 @@
 
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- contents -->
-	<section id="main" class="wrapper">	
-	 <!-- 베스트상품 테이블 -->
-            <table>
 
-            <c:set var="i" value="0" />
+	
+		<div class="topImg">
+			<h1>우리들의<span class="slim">모임</span></h1>
+		</div>
+		
+	 <!-- 베스트상품 테이블 -->
+         <%--    <table>
+
+            	  <c:set var="i" value="0" />
 				  <c:forEach var="meeting" items="${bestList}">
 				  <c:set var="i" value="${ i+1 }" />
 				  </c:forEach>
 
 			<div id="myCarousel" class="carousel slide " data-ride="carousel">
 			      <!-- Indicators -->
-			      <div class="carousel-inner" role="listbox">
+				 <div class="carousel-inner" role="listbox">
 			        <div class="item active col-xs-12 col-sm-12" align="center">
 			          <img  class="first-slide" src="/resources/images/meeting/${bestList[0].titleImg}" style="width:auto; height: 400px;" alt="First slide"><!-- 첫번째 사진 -->
 					
@@ -206,26 +418,95 @@
 			      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
 			        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 			        <span class="sr-only">Next</span>
-			      </a>
+			      </a> 
 			   </div>
-            </table>
+            </table> --%>
+            
             <!-- /.carousel -->
             <!-- 베스트상품 테이블 종료 -->
+            	<section id="main" class="wrapper">	
+            			 <!-- 시작!! -->
+		<%-- <div class="col-xs-11 col-md-10 col-centered">
+					  <c:set var="i" value="0" />
+					  <c:forEach var="meet" items="${bestList}">
+					  <c:set var="i" value="${ i+1 }" />
+					  </c:forEach>
+					  
+			<div id="carousel" class="carousel slide" data-ride="carousel" data-type="multi" data-interval="2500">
+				<div class="carousel-inner">
+					<div class="item active">
+						<div class="carousel-col">
+							<!-- <div class="block red img-responsive"></div> -->
+							<img class="block" src="/resources/images/meeting/action.jpg" style="width:150px; height: 230px;" alt="First slide">
+						</div>
+					</div>
+					
+					<div class="item">
+						<div class="carousel-col">
+							<!-- <div class="block red img-responsive"></div> -->
+							<img class="block" src="/resources/images/meeting/${bestList[1].titleImg}" style="width:150px; height: 230px;" alt="First slide">
+							
+						</div>
+					</div>
+					
+					<div class="item">
+						<div class="carousel-col">
+							<!-- <div class="block red img-responsive"></div> -->
+							<img class="block" src="/resources/images/meeting/action.jpg"" style="width:150px; height: 230px;" alt="First slide">
+						</div>
+					</div> --%>
+					<!-- 
+					<div class="item">
+						<div class="carousel-col">
+							<div class="block green img-responsive"></div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="carousel-col">
+							<div class="block blue img-responsive"></div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="carousel-col">
+							<div class="block yellow img-responsive"></div>
+						</div>
+					</div>
+					 
+				</div>-->
+
+				<!-- Controls -->
+				<!-- <div class="left carousel-control">
+					<a href="#carousel" role="button" data-slide="prev">
+						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+				</div>
+				<div class="right carousel-control">
+					<a href="#carousel" role="button" data-slide="next">
+						<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+			</div> 
+
+		</div>-->
+
+	<!-- 끝!! -->		
             
 
-		<div class="inner">
+		<div  class="landing">
 		<div style="width:98%; margin-left:10px;">
 
         <form>
             <br/>
             <!-- 검색창 시작 -->
-            <table align="center" border="7" height="34px" bordercolor="#326ada">
-            	<tr>
-            		<td width='250px'>
+            <div style="margin-bottom: 30px;" id="lol" align="center" border="7" height="34px" bordercolor="#326ada" class="row col-xs-12 col-sm-12 col-md-12">
+
+            		<div class="col-xs-12 col-sm-12 col-md-4">
 	            		<input name="searchKeyword"  
-	            		type="text" placeholder="검색어를 입력"/>
-            		</td>
-            		<td class='search' width='250px'>
+	            		type="text" placeholder="검색어를 입력" style="width: 100%"/>
+            		</div>
+            		<div class='search col-xs-12 col-sm-12 col-md-2'>
 						<select id="centerLocation" class="form-control">
 				 		<option>중심지역-지역</option>
 				 		<option value="서울">서울</option>
@@ -246,11 +527,11 @@
 		                <option value="충북">충북</option>
 		                <option value="제주">제주</option>
 				 	</select>
-            		</td>
-            		<td id="location" class='search' width='250px'>
-						<input readonly="readonly" id="sconcentering" type="text" class="form-control"> 
-            		</td>
-            		<td width='250px'>
+            		</div>
+            		<div id="location" class='search col-xs-12 col-sm-12 col-md-2'>
+						<input readonly="readonly" id="sconcentering" type="text" class="form-control" style="width: 100%"> 
+            		</div>
+            		<div class="col-xs-12 col-sm-12 col-md-2">
             			<select id="interest" name="searchSortingOption" class="form-control">
 					 		<option >관심사</option>
 					 		<c:forEach var="Meeting" items="${interlist}">
@@ -259,49 +540,35 @@
 					 		
 					 		</c:forEach>
 				 		</select>
-            		</td>
-            		<td width='54px'><button type='button' id="plzsearch" class='sch_smit'>찾기</button></td>
-            	</tr>
-			</table>
-			
-			 <table class=search2 align="center" height="34px">
-			 	
-			 	  
-			 </table>
+            		</div>
+            		<div class="col-xs-12 col-sm-12 col-md-2"><input type='button' id="plzsearch" class='sch_smit search-btn' value="찾기"></div>
+			</div>
 		</form>	 
 			 <!-- 검색창 종료 -->
 			 
-			 <!-- 개설하기 버튼 시작 -->
-			 <div align="right" class="addMeeting">
-			 <button type="button" id="addMeeting">개설하기</button>
-			 </div>
-			 <!-- 개설하기 버튼 종료 -->
-			 
 			 <!-- 리스트 시작 -->
-                <div class="landing">
-	              	<section id="one" class="wrapper style1">
-						<div class="inner">
+                <div>
+	              	<section style="align-content:center;" id="one" class="wrapper style1">
+						<div id="appendPoint" class="inner" style="text-align: center;">
+						<div align="right" class="addMeeting">
+						 	<input type="button" id="addMeeting" value="개설하기">
+						 </div>
 							<c:set var="i" value="0" />
 						 	<c:forEach var="meeting" items="${list}">
 						 	<c:set var="i" value="${ i+1 }" />
 						 	<hr/>
-						 	<c:if test="${i%2==0}">
-								<article class="feature left">
-							</c:if>
-							<c:if test="${i%2!=0}">
-								<article class="feature right">
-							</c:if>
-							
-								<span class="image"><img src="/resources/images/meeting/${meeting.titleImg}" alt="" /></span>
+						 	
+							<article class="feature left">
+								<div class="image" style="display: flex; height: 400px;"><img src="/resources/images/meeting/${meeting.titleImg}" class="col-xs-12 col-sm-12 col-md-12" alt="" /></div>
 								<div class="content">
-									<p>${meeting.meetingCenter}<p>
-									<h2>${meeting.meetingName}</h2>
-									<p>모임정원 /${meeting.meetingCrewLimit}명      조회수 ${meeting.meetingViews}회</p>
-									<p>모임날짜:${meeting.meetingDate}</p>
-									<p>이번모임장소:${meeting.meetingLocation}</p>
+									<p class="meetingCenter"><span class="glyphicon glyphicon-record"></span>&nbsp;${meeting.meetingCenter}<p>
+									<h2 class="titleName">${meeting.meetingName}</h2>
+									<p>모임정원  <span class="meetingCenter">${meeting.meetingCrewLimit}</span>명      조회수 <span class="meetingCenter">${meeting.meetingViews}</span>회</p>
+									<p></p>
+									<p>모임날짜:${meeting.meetingDate}&nbsp; &nbsp;<span class="glyphicon glyphicon-map-marker"></span>${meeting.meetingLocation}</p>
 									<ul class="actions">
 										<li>
-											<a href="#" data-param="${meeting.meetingNo}" class="button alt">More</a>
+											<a href="#" data-param="${meeting.meetingNo}" class="button">More</a>
 										</li>
 									</ul>
 								</div>

@@ -29,6 +29,18 @@ public interface CommunityService {
 	//연애조언 다음글 상세보기
 	public Community getNextLoveAdvice(int communityNo) throws Exception;
 	
+	//모임후기 이전글 상세보기
+	public Community getPreMeetingStory(int communityNo) throws Exception;
+		
+	//모임후기 다음글 상세보기
+	public Community getNextMeetingStory(int communityNo) throws Exception;
+	
+	//만남후기 이전글 상세보기
+	public Community getPreDateStory(int communityNo) throws Exception;
+		
+	//만남후기 다음글 상세보기
+	public Community getNextDateStory(int communityNo) throws Exception;
+	
 	//공지사항 이전글 상세보기
 	public Community getPreNotice(int communityNo) throws Exception;
 		
@@ -40,6 +52,15 @@ public interface CommunityService {
 	
 	//연애조언 게시글 리스트
 	public Map<String, Object> getLoveAdviceList(Search search) throws Exception;
+	
+	//모임후기 게시글 리스트
+	public Map<String, Object> getMeetingStoryList(Search search) throws Exception;
+	
+	//만남후기 게시글 리스트
+	public Map<String, Object> getDateStoryList(Search search) throws Exception;
+	
+	//index.jsp 만남후기 게시글 리스트
+	public Map<String, Object> getIndexDateStoryList(Search search) throws Exception;
 	
 	//공지사항 게시글 리스트
 	public Map<String, Object> getNoticeList(Search search) throws Exception;

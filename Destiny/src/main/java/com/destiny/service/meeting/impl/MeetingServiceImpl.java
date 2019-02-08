@@ -32,6 +32,7 @@ public class MeetingServiceImpl implements MeetingService {
 	public Map<String, Object> getInterestList() throws Exception {
 		List<Meeting> list= meetingDao.getInterestList();
 		
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );
 		return map;
@@ -57,9 +58,11 @@ public class MeetingServiceImpl implements MeetingService {
 	@Override
 	public Map<String, Object> getMeetingList(Search search) throws Exception {
 		List<Meeting> list= meetingDao.getMeetingList(search);
+		int totalCount = meetingDao.getTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );
+		map.put("totalCount", new Integer(totalCount));
 		return map;
 	}
 
@@ -187,6 +190,12 @@ public class MeetingServiceImpl implements MeetingService {
 	@Override
 	public int nextMeeting(Meeting meeting) throws Exception {
 		return meetingDao.nextMeeting(meeting);
+	}
+
+	@Override
+	public void shutdown(Meeting meeting) throws Exception {
+		meetingDao.shutdown(meeting);
+		
 	}
 
 	

@@ -1,6 +1,9 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- 현재날짜구하기 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 
@@ -25,9 +28,25 @@
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!--  ///////////////////////// 데이트픽커 엔드 ////////////////////////// -->
+    
+    <!--  ///////////////////////// 타임픽커 ////////////////////////// -->
+	<link rel="stylesheet"
+		href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/jquery.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<link rel="stylesheet"
+		href="//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.css">
+	<script
+		src='//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.js'></script>
+	    
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
+	
+
+	.botton{
+	 
+	}
         #backround {
 		    display: none;
 		    position: fixed;
@@ -40,24 +59,38 @@
 		#dialog, #dialog2, #dialog3, #nextDialog {
 		    display: none;
 		    position: fixed;
-		    left: calc( 35%); top: calc( 30% ); 
+		    left: calc( 35%); top: calc( 10% ); 
 		    background: #fff;
 		    z-index: 11;
 		    padding: 10px;
 		    max-height: 700px;
-		    max-width: 650px;
+		    max-width: 350px;
 		    overflow: auto;
 		}
 		
+		#header{
+			position : inherit;
+		}
+		
+		.form-control{
+			height: 38.5px;
+		}
+		.form-horizontal .form-group{
+			margin-right: 0;
+			margin-left: 0;
+		}
+		
+		.ui-timepicker {
+			font-size: 10px;
+			width: 100px;
+		}
+		
+		.ui-timepicker-table td a {
+			width: 2em;
+		}
      </style>
      
-     <style>
-       body > div.container{
-        	
-            margin-top: 10px;
-        }
-        
-    </style>
+
     
     <style>/* !!!폰트설정!!!!! */
 	@import url(//fonts.googleapis.com/earlyaccess/nanumpenscript.css);
@@ -77,11 +110,91 @@
 		font-family: 'Cute Font', cursive;
 		font-size : 30px;
 	}
+	
+	@media screen and (max-width:600px){	
+		#dialog, #dialog2, #nextDialog{
+		    left: calc( 5%);
+		}
+	}
 	</style>
     
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
+	
+	function loadMap(keyword){
+		if(keyword ==null || keyword == ""){
+			keyword = "비트캠프 종로센터";
+		}
+		
+		
+	
+		var infowindow = new daum.maps.InfoWindow({zIndex:1});
+
+		var mapContainer = document.getElementById('map2'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new daum.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+		        level: 3 // 지도의 확대 레벨
+		    };  
+
+		// 지도를 생성합니다    
+		var map = new daum.maps.Map(mapContainer, mapOption); 
+
+		// 장소 검색 객체를 생성합니다
+		var ps = new daum.maps.services.Places(); 
+
+		// 키워드로 장소를 검색합니다
+		ps.keywordSearch(keyword, placesSearchCB); 
+
+		// 키워드 검색 완료 시 호출되는 콜백함수 입니다
+		function placesSearchCB (data, status, pagination) {
+		    if (status === daum.maps.services.Status.OK) {
+
+		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+		        // LatLngBounds 객체에 좌표를 추가합니다
+		        var bounds = new daum.maps.LatLngBounds();
+
+		        for (var i=0; i<data.length; i++) {
+		            displayMarker(data[i]);    
+		            bounds.extend(new daum.maps.LatLng(data[i].y, data[i].x));
+		        }       
+
+		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+		        map.setBounds(bounds);
+		    } 
+		}
+
+		// 지도에 마커를 표시하는 함수입니다
+		function displayMarker(place) {
+		    
+			    // 마커를 생성하고 지도에 표시합니다
+			    var marker = new daum.maps.Marker({
+			        map: map,
+			        position: new daum.maps.LatLng(place.y, place.x) 
+			    });
+				console.log(place);
+			    // 마커에 클릭이벤트를 등록합니다
+			    daum.maps.event.addListener(marker, 'click', function() {
+			        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+			        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+			        infowindow.open(map, marker);
+			        $('#place').val(place.road_address_name + ", "+ place.place_name );
+			    });
+		}
+	}
+	////////////////*로드맵 호출 */////////
+	$(function() {
+		$("#placeSearch").on("click", function() {
+			console.log($("#place").val());
+			loadMap($("#place").val());
+		});
+	});
+	
+////////////////* 타임피커 */////////
+	$(function() {
+		$('.timepicker').timepicker();
+	});	
+	
  ////////////////* 데이트픽커 데이터 포맷 */////////
 		$( function() {
 		    $( ".datepicker" ).datepicker({
@@ -107,24 +220,33 @@
 			var meetingDetail=$("textarea[name='meetingDetail']").val();
 			var meetingCrewLimit=$("select[name='meetingCrewLimit']").val();
 			var snooze=$("select[name='snooze']").val();
-			var meetingDate=$("input[name='meetingDate']").val();
+			var meetingDate=$("#reDate").val();
 			var meetingDay=$("#weekday").val();
-			var meetingTime=$("select[name='meetingTime']").val();
+			var meetingTime=$("input[name='meetingTime']").val();
 			var meetingLocation=$("input[name='meetingLocation']").val();
+			var dt = new Date();
+			var month = dt.getMonth()+1;
+			var day = dt.getDate();
+			var year = dt.getFullYear();
+			var hours = dt.getHours();
+			var minute = dt.getMinutes();
+			var time = (hours + ':' +minute);
+			var today = (year+'-0' +month + '-' + day+'-'+time);
+			var mitingTime = ('${meetingAct.meetingDate}'+'-'+'${meetingAct.meetingTime }');
 		
-			console.log("관심사"+interestName);
-			console.log("센터미팅"+centerMeeting);
-			console.log("미팅센터"+meetingCenter);
-			console.log("타이틀이미지"+titleImg);
-			console.log("제목"+meetingName);
-			console.log("내용"+meetingDetail);
-			console.log("인원"+meetingCrewLimit);
-			console.log("스누즈"+snooze);
+			//console.log("관심사"+interestName);
+			//console.log("센터미팅"+centerMeeting);
+			//console.log("미팅센터"+meetingCenter);
+			//console.log("타이틀이미지"+titleImg);
+			//console.log("제목"+meetingName);
+			//console.log("내용"+meetingDetail);
+			//console.log("인원"+meetingCrewLimit);
+			//console.log("스누즈"+snooze);
 			console.log("날짜"+meetingDate);
-			console.log("요일"+meetingDay);
-			console.log("시간"+meetingTime);
-			console.log("장소"+meetingLocation);
-
+			//console.log("요일"+meetingDay);
+			//console.log("시간"+meetingTime);
+			//console.log("장소"+meetingLocation);
+			console.log("오늘"+today);
 			if(interestName == null || interestName.length<1){
 				alert("관심사를 선택해 주세요.");
 				return;
@@ -161,7 +283,12 @@
 			}
 			
 			if(meetingDate == null && meetingDay == null){
-				alert("날짜or요일을 설정하요 주세요.");
+				alert("날짜를 지정하여 주세요.");
+				return;
+			}
+			
+			if (meetingDate<today) {
+				alert("잘못 된 날짜입니다.");
 				return;
 			}
 			
@@ -214,7 +341,7 @@
 						 }else{   //취소
 						     return;
 						 }
-					}else if('${sessionScope.me.nickName ne meetingnickname}'=='false'){
+					}else if("${sessionScope.me.nickName eq crewList['0'].crewNickName}"=="false"){
 						alert("모임장이 아니시네요");
 					}else if(mitingTime<today==false){
 						alert("아직진행중인 모임이 있습니다.\n완료후 등록해 주세요");
@@ -317,6 +444,10 @@
 
 					 }
 				});
+		
+			 $( "#nextCancle" ).on("click" , function() {
+				 $("#nextDialog, #backround").toggle();
+			 });
 		});
 		
 
@@ -654,7 +785,7 @@
 												display+="<img src='/resources/images/userprofile/"+displayValue[i].masterProfileImg+"' width='100px' height='100px'> <br/>";
 												display+=displayValue[i].crewNickName+"<br/>";
 											}
-												display+="<a class='btn btn-primary btn cancelbtn' role='button'>확인</a>"
+												display+="<button id='joinerConfirm' role='button'>확인</button>"
 												display+="</h6>";
 												
 										console.log(display);	
@@ -668,15 +799,65 @@
 					}
 					 
 				});
-				///////////////////참여자 끝!!!!!!!!!!!////
+				/////         참여자 끝!!!!!!!!!!!                  ////
+				
 				/////////////////빽그라운드////////////////////
 		 		$("#backround").click(function () {
 					//alert("dd");
 					$("#backround,#dialog2,#dialog,#dialog3,#nextDialog").hide();
 				});
 				//////////////////빽그라운드 끝!!!!!!!/////////////////
-			});
+				//=============승계
+				$("button:contains('승계')").click(function () { 	
+					if('${empty sessionScope.me}'=='true'){
+						if (confirm("로그인후이용가능합니다.\n로그인하시겠습니까?") == true){    //확인
+							$("#my-dialog,#dialog-background").toggle();
+							//self.location="/user/login";
+						 }else{   //취소
 
+						     return;
+
+						 }
+					}else{
+						
+				
+						$.ajax( 
+							 {
+									url : "/meetingRest/takeOver",
+									method : "post" ,
+									dataType : "json" ,
+									data : JSON.stringify({
+										meetingNo : "${meeting.meetingNo}" ,
+										meetingMasterId : "${sessionScope.me.userId}", 
+										role : "MST",
+									}),
+									headers : {
+										"Accept" : "application/json",
+										"Content-Type" : "application/json"
+									},
+									success : function(JSONData , status) {
+										if(JSONData.result==0){
+											alert("모임원이 아니시네요");
+											
+										}else {
+											alert("모임장 가자~~");
+											self.location="/meeting/getMeeting?meetingNo="+${meeting.meetingNo};
+											
+										}
+									}
+							}); 
+						
+					}//else 끝!!
+					
+				});
+			});
+		
+		$(function () {
+			///////////      참여자 확인 눌렀을때    ////////////
+			$(document).on("click","#joinerConfirm",function(){
+				$("#dialog3, #backround").toggle();
+			});
+		});
 
 	</script>
 	
@@ -742,15 +923,15 @@
 	            }
 	        }).open();
 	    }
-	   
+	    
 	</script>
 	<!-- 다음우편 끝 -->
 	
 	
 	
 </head>
-
 <body>
+
 	<!-- ToolBar Start /////////////////////////////////////-->
     <jsp:include page="/layout/header.jsp" />
     <!-- ToolBar End /////////////////////////////////////-->
@@ -768,16 +949,21 @@
 		  	${meeting.interestName}
 		  	
 		</div>
-		<!-- 
+
+		<c:if test="${crewList['0'].role != 'MST'}">	
+
 		 <div class="page-header">
-	       <h3 class=" text-info">getMeeting.jsp</h3>
-	       <button id="update-dialog">수정하기</button>
-	       <button type="button" id="btn-delete-dialog">삭제</button>
-	       <button type="button" id="btn-complain">신고</button>
-	       <button type="button" id="btn-takeOver">탈퇴하기</button>
+		<c:set var="now" value="<%=new java.util.Date()%>" />
+		<c:set var="sysYear"><fmt:formatDate value="${now}" pattern="yyyy-mm-dd" /></c:set> 
+	       <h3 class=" text-info">
+	       	<p>모임장이 떠낫어요ㅠㅠ</p> 
+	       	<p>모임장을 승계하지 않으면 </p> 
+	       	<p>모임이 삭제 될 예정입니다.</p> 
+	       </h3>
 	       <button type="button" id="btn-takeOver">승계</button>
+	      <!-- <img src="/resources/images/meeting/master2.png" width="50px" height="50px"/> be a master -->
 	    </div>
- -->
+		</c:if>
 
 		<div class="row">
 		  <div class="col-md-12">
@@ -798,6 +984,7 @@
 			<hr/>
 		  </div>
 		 </div>
+		<c:if test="${crewList['0'].role=='MST'}">	
 		<div class='row'>
 			<table class="col-sm-12 col-md-12">
 				<tr>
@@ -806,7 +993,9 @@
 					</td>
 				</tr>
 			</table>
-		</div>		
+		</div>	
+		
+
 		<div>
 			<div class='row'>
 				<div id="meetingActCount" align="center" class="col-xs-2 col-md-2 ">
@@ -878,19 +1067,20 @@
 			</div>
 			
 		</div>
+		</c:if>
 	
 		<hr/>
 		<div align="center" class="col-xs-12 col-md-12 ">
-			<button class="button">가입하기</button>
+			<button class="button" style="margin-bottom: 30px; width: 100%;">가입하기</button>
 		</div>
 		
 		<jsp:include page="/meeting/modal.jsp" />
-		<!-- 모달창 디자인 부분 -->
+		<!-- 모달창 디자인 부분 :: 가입하기 모달창 -->
         <div id="dialog2" class="madal">
         <form id="dialog2form" class="form-horizontal">
         <div>
         	<div name="meetingMasterId" value="${sessionScope.me.userId}" class="form-group col-sm-12 col-md-12" align="center">
-        		<img src="/resources/images/userprofile/${sessionScope.me.profile}" width="100px" height="100px" class="imgmen">
+        		<img src="/resources/images/userprofile/${sessionScope.me.profile}" width="100px" height="100px" class="imgmen"/>
         	</div>
         	
         	<div class="form-group col-sm-12 col-md-12" align="center">
@@ -921,7 +1111,6 @@
 				<tr>
 					<td>
 					모임멤버${crewCount}명
-<!-- 					<input type="checkbox">로그인된 멤버만 보기<br/> -->
 					</td>
 				</tr>
 				
@@ -929,14 +1118,18 @@
 					<td>
 					
 					<c:forEach var="crew" items="${crewList}">
-						
+					
 					 		<div class="dropdown">
-					 			<img  src="/resources/images/userprofile/${crew.masterProfileImg}" width="100px" height="100px" class="imgmen">
-								<a class="dropdown-toggle thisName" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
-									<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
-									<span class="caret"></span>
-								</a>
-								<c:if test="${crew.role=='MST' }"><strong>모임장</strong></c:if>
+					 			<div class="col-xs-12 col-sm-12 col-md-12">
+						 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" style="height: 50px; margin-bottom: 6px;"  class="col-xs-4 col-sm-1 col-md-1 imgmen">
+									<a href="#" class="dropdown-toggle thisName col-xs-2 col-sm-4 col-md-4" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+										<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
+										<span class="caret"></span>
+									</a>
+									<a class="col-xs-1 col-sm-4 col-md-4"></a>
+									<c:if test="${crew.role=='MST' }"><span><strong class="col-xs-5 col-sm-3 col-md-3">모임장</strong></span></c:if>
+									
+								
 								<ul class="dropdown-menu">
 									<c:if test="${sessionScope.me.nickName eq crewList['0'].crewNickName }">
 										<li><a href="#">강퇴하기</a></li>
@@ -944,19 +1137,15 @@
 									</c:if>
 										<li><a>쪽지보내기</a></li>
 								</ul>
-								
+								</div>
 							</div>
-							<hr/>
-
 					</c:forEach>
 					</td>
 				</tr>
 			</table>
 		</div>
 		
-		<!-- footer -->
-		<jsp:include page="/layout/footer.jsp" />
-		<!-- //footer -->
+<!--=======================참여자 목록 모달창================-->
 		<div id="dialog3">
 			<div class="actCrewList">
 				<form id="dialog3From" class="form-horizontal">
@@ -967,12 +1156,16 @@
 		
 	</div>
 	
+			<!-- footer -->
+		<jsp:include page="/layout/footer.jsp" />
+		<!-- //footer -->
+
 	<!-- ////////////////      탭하면 나오는 메뉴 시작             ////////////////////// -->
 
 		    <jsp:include page="/meeting/tapMeun.jsp" />
 
 	<!-- ////////////////      탭하면 나오는 메뉴 끝ㅇ             ////////////////////// -->
-		    <!-- 모달창 디자인 부분 -->
+		    <!-- 수정하기 모달창  -->
         <div id="dialog" class="modal">
         <!-- //////////////////////////모달창  내용부/////////////////////////////////////////////////// -->
         	<form id="contentsForm" class="form-horizontal">
@@ -990,7 +1183,7 @@
 				 </div>
 				
 				 <div class="form-group col-sm-8 col-md-8">
-				 	<input  name="interestName" id="selectedInterest" type="text" class="form-control" value="${meeting.interestName}">
+				 	<input style="width: 100%" name="interestName" id="selectedInterest" type="text" class="form-control" value="${meeting.interestName}">
 				 </div>
 				 
 				 <div class="form-group col-sm-6 col-md-6">
@@ -1017,20 +1210,16 @@
 				 </div>
 				 
 				 <div id="location" class="form-group col-sm-6 col-md-6">
-				 	<input type="text" class="form-control" id="centerMeeting" name="meetingCenter" data-param="${meeting.meetingCenter}" value="${meeting.meetingCenter}">
+				 	<input style="width: 100%" type="text" class="form-control" id="centerMeeting" name="meetingCenter" data-param="${meeting.meetingCenter}" value="${meeting.meetingCenter}">
 				 	
 				 </div>
 				 
-				 <div class="form-group col-sm-10 col-md-10">
+				 <div class="form-group col-sm-12 col-md-12">
 				 	<input type="file" class="form-control" name="imgFile" id="imgFile" value="${meeting.titleImg}">
 				 </div>
 				 
-				 <div class="form-group col-sm-2 col-md-2">
-				 	<button type="button" class="btn btn-warning" >첨부파일</button>
-				 </div>
-				 
 				 <div class="form-group col-sm-12 col-md-12">
-				 	<input type="text" class="form-control" name="meetingName" value="${meeting.meetingName}">
+				 	<input style="width: 100%" type="text" class="form-control" name="meetingName" value="${meeting.meetingName}">
 				 </div>
 				 
 				 <div class="form-group col-sm-12 col-md-12">
@@ -1072,16 +1261,16 @@
 				 	</select>
 				 </div>
 				 
-				 <div class="form-group col-sm-4 col-md-4">
-				 	<select name="snooze" id="snooze" class="form-control">
+				 <div class="form-group col-sm-12 col-md-12">
+				 	<select style="width: 100%;" name="snooze" id="snooze" class="form-control">
 				 		<option>반복여부</option>
 				 		<option value="Y" ${ ! empty meeting.snooze && meeting.snooze=='Y' ? "selected" : "" }>반복</option>
 				 		<option value="N" ${ ! empty meeting.snooze && meeting.snooze=='N' ? "selected" : "" }>한번</option>
 				 	</select>
 				 </div>
 			</div>	 
-				 <div  id="dateOrDay" class="form-group col-sm-4 col-md-4">
-		 			<input 	type="text" class="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜or요일" name="meetingDate"/>
+				 <div  id="dateOrDay" class="form-group col-sm-12 col-md-12">
+		 			<input style="width: 100%;padding-left: 0px;padding-right: 0px;" type="text" class="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜" id="reDate" name="meetingDate"/>
 		 	
 				 	<!--  
 				 	<select class="form-control">
@@ -1090,40 +1279,38 @@
 				 	-->
 				 </div>
 				 
-				 <div class="form-group col-sm-4 col-md-4">
-				 	<select name="meetingTime" class="form-control">
-				 		<option>모임시간</option>
-				 		<option value="12:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='12:00' ? "selected" : "" }>12:00</option>
-				 		<option value="13:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='13:00' ? "selected" : "" }>13:00</option>
-				 		<option value="14:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='14:00' ? "selected" : "" }>14:00</option>
-				 	</select>
+				 <div class="form-group col-sm-12 col-md-12">
+				 	<input style="width: 100%;" type="text" readonly="readonly"
+					class='form-control timepicker' name="meetingTime"
+					placeholder="시간을 선택해 주세요.">
 				 </div>
 				 
-				 <div class="form-group col-sm-8 col-md-8">
+				 <div class="form-group col-sm-12 col-md-12">
 				 	회비가 있다면 입력해주세요
 				 </div>
 				 
-				 <div class="form-group col-sm-4 col-md-4">
-				 	<input name="meetingDues" type="text" class="form-control" value="${meeting.meetingDues}">
+				 <div class="form-group col-sm-12 col-md-12">
+				 	<input style="width: 100%;" name="meetingDues" placeholder="ex)회비 1만원" type="text" class="form-control" value="${meeting.meetingDues}">
 				 </div>
 				 
-				 <div class="form-group col-sm-10 col-md-10">
-				 <input name="meetingLocation" type="text" class="form-control" id="sample5_address" value="${meeting.meetingLocation}" readonly="readonly">
-				 	<!-- <input type="text" class="form-control" placeholder="모임장소를 입력하여주세요."> -->
-				 </div>
-				 
-				 <div class="form-group col-sm-2 col-md-2">
-					<input type="button" class="btn btn-warning" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
-					<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
-				 	<!-- <button type="button" class="btn btn-warning">우편검색</button> -->
-				 </div>
+				 <div class="form-group col-sm-12 col-md-12">
+					<input style="width: 100%;" name="meetingLocation" type="text" class="form-control"
+						id="place" placeholder="주소를 검색해주세요.">
+				</div>
+	
+				<div class="form-group col-sm-12 col-md-12">
+					<input style="width: 100%;" type="button" class="btn btn-warning"
+						 id="placeSearch" value="주소 검색"><br>
+				</div>
 				  
 				 <div class="form-group">
-				   <div class="col-sm-offset-4  col-sm-4 text-center">
-				     <button type="button" class="btn btn-primary"  id="dialogConfrim">확 &nbsp;인</button>
-					 <a class="btn btn-primary btn cancelbtn" role="button" data-dismiss="#dialog">취&nbsp;소</a>
+				   <div class="col-sm-12 col-md-12 text-center">
+				     <button class="col-sm-6 col-md-6 text-center"  id="dialogConfrim">확&nbsp;인</button>
+					 <button class="col-sm-6 col-md-6 text-center" >취&nbsp;소</button>
 				   </div>
 				 </div>
+				 
+				 <div id="map2" style="width:100%;height:350px;"></div>
 		</form>
 		<!-- //////////////////////////모달창  내용부 끝/////////////////////////////////////////////////// -->
 		</div>

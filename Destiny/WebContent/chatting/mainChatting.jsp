@@ -64,6 +64,8 @@
                   //alert("¼º°ø");
                   
                   popWin = window.open("/chatting/getRandomMatching.jsp","popWin", "left=500, top=600, width=800, height=900, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+                 
+                 
                            },//success
                   error: function () {
                      alert("error");
@@ -159,7 +161,15 @@
       });
       
    });
-      
+   //Ãªº¿================================================================
+   (function(d, s, id){
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) {return;}
+	    js = d.createElement(s); js.id = id;
+	    js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
+	    fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'frogue-embed'));
+      //================================================================
    </script>
 <!-- //All js -->
    
@@ -176,6 +186,12 @@
    <!-- //header -->
 
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
+   		<div id="frogue-container" class="position-right-bottom"
+	      data-color="#555a9c"
+	      data-chatbot="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
+	      data-user="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
+	      data-init-key="value"
+	      ></div>
    <!-- contents -->
    
          <table>
@@ -272,6 +288,8 @@
          <!-- Community end -->
           
    <!-- //contents -->
+   
+   
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
 
    <!-- footer -->

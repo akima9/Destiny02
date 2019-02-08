@@ -8,19 +8,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>우리들의 연결고리</title>
 
-
-<!-- 참조 : http://getbootstrap.com/css/   -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>	
 
-
+<script src="/resources/javascript/jquery.min.js"></script>
 <script src="/resources/javascript/skel.min.js"></script>
 <script src="/resources/javascript/util.js"></script>
 <script src="/resources/javascript/main.js"></script>
@@ -30,6 +27,7 @@
 <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">
 
 
+</head>
 <script type="text/javascript">
 
 var userId = "${me.userId}";
@@ -231,7 +229,7 @@ $(function() {
 		font-size : 16px;
 		font-weight : 700;
 	}
-	.topImg{
+	/* .topImg{
 		display : block;
 		position : absolute;
 		top : 0;
@@ -241,6 +239,14 @@ $(function() {
 		background-size : cover;
 		width : 100%;
 		height : 400px;
+	} */
+	.topImg{
+		max-width : 100%;
+		height : 400px;
+		background-image : url("/resources/images/background/getRestaurantInfo_background.jpg");
+		background-position : center center;
+		background-size : cover;
+		background-repeat : no-repeat;
 	}
 	.topImg::after{
 		content : "";
@@ -251,7 +257,7 @@ $(function() {
 		width : 100%;
 		height : 400px;
 	}
-	.topImg h1{
+	/* .topImg h1{
 		position : absolute;
 		line-height : 330px;
 		width : 100%;
@@ -259,12 +265,24 @@ $(function() {
 		color : white;
 		z-index : 99;
 		font-size : 60px;
+		font-family: 'Nanum Myeongjo', serif;
+	} */
+	.topImg h1{
+		position : absolute;
+		width : 100%;
+		margin : 0;
+		padding : 0;
+		font-family: 'Nanum Myeongjo', serif;
+		font-size : 60px;
+		text-align : center;
+		height : 400px;
+		line-height : 450px;
+		color : white;
+		z-index : 99;
+		
 	}
 	h1 .slim{
 		font-weight : lighter;
-	}
-	.wrap{
-		margin-top : 400px;
 	}
 	
 	li{
@@ -348,26 +366,35 @@ $(function() {
 		margin-right : 1em;
 		margin-top : 5px;
 	}
-	
 	#searchKeyword{
-		width : 55%;
+		width : 50%;
 		float:left;
 		margin-top : 5px;
 	}
+	.filter{
+		width : 50%;
+		overflow : hidden;
+		float : right;
+	}
+	.filter .searchCondition{
+		width : 21%;
+	}
+	.filter button{
+		float : right;
+	}
 </style>
-</head>
+	
+
 
 <body>
 	
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/header.jsp" />
   	<!-- ToolBar End /////////////////////////////////////-->
-  	
-  	
-    
+
     <!-- 메인배경이미지 : start -->
-	<div class="topImg">
-		<h1>맛집<span class="slim">정보</span></h1>
+   	<div class="topImg">
+		<h1>맛집정보</h1>
 	</div>
 	<!-- 메인배경이미지 : end -->
 	
@@ -386,8 +413,8 @@ $(function() {
 		<!-- 페이지 내부 네비게이션 경로 : end -->
 		
 		<form>
-			<div class="form-group search-group">
-			    <select name="searchCondition" >
+			<div class="filter">
+			    <select class="searchCondition" name="searchCondition" >
 					<option value="0"
 						${ !empty search.searchCondition && search.searchCondition=="0" ? "selected" : ""}>제목으로 검색</option>
 					<option value="1"

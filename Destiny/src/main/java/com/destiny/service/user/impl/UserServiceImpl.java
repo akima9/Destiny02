@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUserByPhone(String phone) throws Exception {
+	public List<User> getUserByPhone(String phone) throws Exception {
 		return userDao.getUserByPhone(phone);
 	}
 
