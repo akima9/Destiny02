@@ -270,6 +270,10 @@
    		font-size : 16px;
    }
    
+   .logo{
+	   	font-family: 'Pacifico';
+   }
+   
    @media screen and (max-width:1200px){
    		.welcome{display:none;}
    }
@@ -284,7 +288,7 @@
 <header id="header">
 
    <div class="inner">
-      <a href="#" class="logo" style="font-family: 'Pacifico';font-size:30px;font-weight:bold;">Destiny</a>
+      <a href="#" class="logo">Destiny</a>
       <!-- header 수정 후엔 footer.jsp에 #navepanel도 수정해주기 -->
       <ul class="sf-menu" id="example">
          <li><a href="#">Meeting</a></li>

@@ -421,7 +421,7 @@
 
 	ul {
 	    list-style: disc;
-	    margin: 2em 0 2em 0;
+	    /* margin: 2em 0 2em 0; */
 	    padding-left: 1em;
 	}
 	
@@ -443,6 +443,9 @@
 	    box-shadow: inset 0 0 0 2px #ff264a;
 	    color: #ff264a !important;
 	    border-radius: 30px;
+	}
+	.align-center{
+		margin-top : 3em;
 	}
 /* /////////////////////////////////// */
 </style>

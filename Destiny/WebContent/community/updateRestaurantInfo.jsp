@@ -143,20 +143,18 @@
 		text-align : center;
 		border : 1px solid #a9a9a9;
 		border-radius : 5px;
+		overflow : hidden;
 	}
 	.representImg img{
 		width : 80%;
 	}
 	.topImg{
-		display : block;
-		position : absolute;
-		top : 0;
-		background-image : url("/resources/images/background/getRestaurantInfo07_background.jpg");
-		background-repeat : no-repeat;
-		background-position : center -400px;
-		background-size : cover;
-		width : 100%;
+		max-width : 100%;
 		height : 400px;
+		background-image : url("/resources/images/background/getRestaurantInfo_background.jpg");
+		background-position : center center;
+		background-size : cover;
+		background-repeat : no-repeat;
 	}
 	.topImg::after{
 		content : "";
@@ -169,25 +167,34 @@
 	}
 	.topImg h1{
 		position : absolute;
-		line-height : 330px;
 		width : 100%;
+		margin : 0;
+		padding : 0;
+		font-family: 'Nanum Myeongjo', serif;
+		font-size : 60px;
 		text-align : center;
+		height : 400px;
+		line-height : 450px;
 		color : white;
 		z-index : 99;
-		font-size : 60px;
+		
 	}
 	h1 .slim{font-weight : lighter;}
 	
 	.smallNavi{
 		overflow : hidden;
+		margin-top : -80px;
+		margin-bottom : 60px;
 		float : right;
 	}
 	
 	.smallNavi li{
 		float : left;
+		margin-right : 20px;
+		margin-top : 8em;
 	}
 	.updateForm{
-		padding : 25em 0 10em 0;
+		padding : 60px 0 10em 0;
 	}
 </style>
 
@@ -204,13 +211,13 @@
 	
 	<div class="container">
 		
-		<ul class="smallNavi">
+		<!-- <ul class="smallNavi">
 			<li class="homeImg"><img alt="home" src="../resources/images/background/home.jpg"></li>
 			<li>></li>
 			<li>스토리</li>
 			<li>></li>
 			<li>맛집정보</li>
-		</ul>
+		</ul> -->
 		
 		<div class="updateForm">
 		
@@ -276,7 +283,7 @@
 		<img id="loading-image" src="../resources/images/loading.gif" alt="loading">
 	</div>
 	<!-- footer -->
-	<jsp:include page="/layout/footer.jsp" />
+	<%-- <jsp:include page="/layout/footer.jsp" /> --%>
 	<!-- //footer -->
 </body>
 </html>

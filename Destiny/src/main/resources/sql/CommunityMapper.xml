@@ -530,7 +530,7 @@
 											</if>
 											<choose>
 												<when test="searchSortingOption == null">
-														ORDER BY community_no desc 
+														ORDER BY import_rank desc 
 												</when>
 											</choose>
 											<choose>
