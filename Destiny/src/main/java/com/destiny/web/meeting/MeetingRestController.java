@@ -10,12 +10,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.destiny.service.domain.Meeting;
 import com.destiny.service.domain.User;
 import com.destiny.service.meeting.MeetingService;
 import com.destiny.service.user.UserService;
+import com.destiny.common.Page;
+import com.destiny.common.Search;
 
 @RestController
 @RequestMapping("/meetingRest/*")
@@ -265,6 +268,31 @@ public class MeetingRestController {
 			crewMap2.put("crewList", crewMap2.get("crewList"));
 			
 			return crewMap2;
+	}
+	
+	@RequestMapping( value="meetingRest/listMeeting",method=RequestMethod.GET)
+	public Map<String , Object> listMeeting(@RequestParam("startNo") int startNo) throws Exception{
+		System.out.println("리스트시작함");
+		System.out.println("스타트넘버"+startNo);
+		//System.out.println(request.getAttribute("startNo"));
+		System.out.println(startNo);
+		//int CurrentPage = search.getCurrentPage();
+		//int PageSize = search.getPageSize();
+		int currentPage = startNo;
+		
+		Search search = new Search();
+		int pageSize = 3;
+		search.setPageSize(pageSize);
+		System.out.println(pageSize);
+		search.setCurrentPage(currentPage);
+		Map<String , Object> map=meetingService.getMeetingList(search);
+	    Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(),3, pageSize);
+		System.out.println("리절트페이지"+resultPage);
+		
+		System.out.println("리스트끝냄");
+		
+		return map;
+		
 	}
 
 }

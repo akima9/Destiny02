@@ -21,7 +21,7 @@ public interface ChattingService {
 	
 	public String addImage(String imageFileName) throws Exception;
 	
-	public void updateContactMeeting(String contact) throws Exception;
+	public void updateContactMeeting(Chatting chatting) throws Exception;
 	
 	public Map<String, Object> listTelepathy(int chattingNo) throws Exception;
 	
