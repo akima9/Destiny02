@@ -9,7 +9,6 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>우연</title>
 <!-- All CSS Insert -->
-<link rel="stylesheet" href="/resources/css/main.css" > 
 <link href="carousel.css" rel="stylesheet">
 <!-- //All CSS Insert -->
 
@@ -28,6 +27,7 @@
    
    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+   <link rel="stylesheet" href="/resources/css/main.css" > 
    
    
    <script type="text/javascript">
@@ -140,42 +140,42 @@
       });
       
       
-      $("a[href='#' ]:contains('MyPage')").on("click", function() {
-    	  if (userId=="") {
- 	         alert("로그인 후 이용 가능합니다.");
- 	         $("#my-dialog,#dialog-background").toggle();
- 	      }else {
- 	    	  self.location = "/user/getUserView"
- 	      }
-		});
-      $( "a[href='#' ]:contains('Story')" ).on("click" , function() {
-          //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-    	  
-    	  		//self.location = "/user/getUserView"
-			
-          
-      });
-      $( "a[href='#' ]:contains('Advice')" ).on("click" , function() {
-          //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-    	 	 self.location = "/love/listLoveAdvice"
-      });
+     
+      
+      
       
    });
-   //챗봇================================================================
-   (function(d, s, id){
-	    var js, fjs = d.getElementsByTagName(s)[0];
-	    if (d.getElementById(id)) {return;}
-	    js = d.createElement(s); js.id = id;
-	    js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
-	    fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'frogue-embed'));
-      //================================================================
+  
    </script>
 <!-- //All js -->
    
    
    <style>
-      
+      .topImg {
+    max-width: 100%;
+    height: 400px;
+    background-image: url(/resources/images/background/mainChatting.jpg);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.topImg h1 {
+    position: absolute;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 60px;
+    text-align: center;
+    height: 400px;
+    line-height: 450px;
+    color: white;
+    z-index: 99;
+}
+article {
+    width: 50%;
+    padding: 10px;
+}
    </style>
 
 </head>
@@ -184,78 +184,21 @@
    <!-- header -->
    <jsp:include page="/layout/header.jsp" />
    <!-- //header -->
+<!-- 메인배경이미지 : start -->
+   	<div class="topImg">
+		<h1>우연으로 시작된 인연</h1>
+	</div>
+	<!-- 메인배경이미지 : end -->
 
-<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
-   		<div id="frogue-container" class="position-right-bottom"
-	      data-color="#555a9c"
-	      data-chatbot="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
-	      data-user="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
-	      data-init-key="value"
-	      ></div>
-   <!-- contents -->
-   
-         <table>
-            <div id="myCarousel" class="carousel slide" data-ride="carousel">
-               <!-- Indicators -->
-               <ol class="carousel-indicators">
-                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                 <li data-target="#myCarousel" data-slide-to="1"></li>
-                 <li data-target="#myCarousel" data-slide-to="2"></li>
-               </ol>
-               
-               <div class="carousel-inner" role="listbox">
-                 <div class="item active col-xs-12 col-sm-12 " >
-                   <img class="first-slide center-block" src="/resources/images/chatting/main01.jpg" style="width:700px; height: 30%;" alt="First slide"><!-- 첫번째 사진 -->
-                 <div class="container">
-                   <div class="carousel-caption">
-                     	당신의 성격유형을 등록하세요!
-                     <h1>MBTI</h1>
-                     <p>MyPage에서 성격유형을 선택하세요.<code></code> 유형 등록 후 이상형 채팅이 가능합니다.</p>
-                     <p><a class="button special" href="#" role="button">MyPage</a></p>
-                   </div>
-                 </div>
-               </div>
-               <div class="item col-xs-12 col-sm-12">
-                 <img class="second-slide center-block" src="/resources/images/chatting/main02.jpg" style="width: 700px;  height: 30%;" alt="Second slide"><!-- 두번째 사진 -->
-                 <div class="container">
-                   <div class="carousel-caption">
-                     <h1>다양한 후기를 확인해 보세요!</h1>
-                     <p></p>
-                     <p><a class="button special" href="#" role="button">Story</a></p>
-                   </div>
-                 </div>
-               </div>
-               <div class="item col-xs-12 col-sm-12">
-                 <img class="third-slide center-block" src="/resources/images/chatting/main03.jpg" style="width: 700px; height: 30%;" alt="Third slide"><!-- 세번째 사진 -->
-                     <div class="container">
-                      <div class="carousel-caption">
-                         <h1>연애조언</h1>
-                         <p>고민이 있다면 이곳으로!</p>
-                         <p><a class="button special" href="#" role="button">Advice</a></p>
-                       </div> 
-                     </div>
-                   </div>
-                 </div> 
-                 <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                   <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                   <span class="sr-only">Previous</span>
-                 </a>
-                 <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                   <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                   <span class="sr-only">Next</span>
-                 </a>
-            </div>
-         </table>
-          
            
           <!-- Community start -->
          <section id="three" class="wrapper align-center">
             <div class="inner">
                <div class="flex flex-2">
                   <article>
-                     <div class="image round" >
+                     <div class="image fit" >
              
-                      <img src="https://media.istockphoto.com/vectors/people-chatting-vector-id504078623" style="width: 200px; height: 200px;" alt="Pic 01">
+                      <img src="/resources/images/chatting/random.jpg" style=" height: auto;" alt="Pic 01">
                       </div>
                       <header>
                         <h3>랜덤채팅</h3>
@@ -269,9 +212,9 @@
                   
                   
                   <article>
-                     <div  class="image round" >
+                     <div  class="image fit" >
              
-                      <img src="https://storage.googleapis.com/neris/public/images/system/home/home-16personalities.svg" style="width: 200px; height: 200px;" alt="Pic 01">
+                      <img src="/resources/images/chatting/perfect.jpg" style="  height: auto;" alt="Pic 01">
                        </div>
                        <header>
                        	<h3>이상형채팅</h3>
