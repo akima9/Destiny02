@@ -4,9 +4,18 @@
 <link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">
 
+<link rel="stylesheet" href="/resources/dist/css/superfish.css" media="screen">
+<script src="/resources/dist/js/hoverIntent.js"></script>
+<script src="/resources/dist/js/superfish.js"></script>
+
+
 <script type="text/javascript">
+
+
+
    $(function() {
-      $("a[href='#' ]:contains('우연')").on("click", function() {
+	   
+      $("a[href='#' ]:contains('Destiny')").on("click", function() {
          self.location = "/index.jsp"
       });
       $("a[href='#' ]:contains('Meeting')").on("click", function() {
@@ -60,76 +69,156 @@
 //////////============= "로그인"  Event 연결 =============   
    $( function() {
       
-      $("#password").keypress(function(e) {
+      $("#headerPw").keypress(function(e) {
          if(e.which == 13) {
             $(this).blur();
             $('#loginButton').focus().click();
          }
       });
       
-      $("#userIdHeader").focus();
+      $("#headerId").focus();
       
-      //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+      $('#headerId').on("keyup", function(){
+    	  var id=$("#headerId").val();
+    	  $('.loginOk').text('');
+    	  if(id.length > 3 ){
+    		  $.ajax(
+        			  {
+        				  method : "GET",
+        				  url : '/user/json/getUser/'+id,
+        				  success : function(JSONData){
+        					  if(JSONData.user == null){
+        						  $('#loginCheckId').text('해당 회원이 존재하지 않습니다.');
+        					  }else{
+        						  $('#loginCheckId').text('');
+        						  if(JSONData.user.userGrade == 'BLK'){
+        							  $('#loginCheckBlack').text('블랙리스트');
+        						  }else if(JSONData.user.userGrade != 'BLK'){
+        							  $('#loginCheckBlack').text('');
+        						  }
+        					  }
+        				  }
+        		  
+        	  });
+    	  }else if(id.length == 0){
+    		  $('#loginCheckId').text('');
+    	  }
+      });
+      
+      $('#headerPw').on("keyup", function(){
+    	  var id=$("#headerId").val();
+    	  var pw=$("#headerPw").val();
+    	  $('.loginOk').text('');
+      	$.ajax(
+    			  {
+    				  method : "GET",
+    				  url : '/user/json/getUser/'+id,
+    				  success : function(JSONData){
+    					  if(JSONData.user.password != pw){
+    						  $('#loginCheckPw').text('비밀번호가 틀립니다.');
+    					  }else{
+    						  $('#loginCheckPw').text('');
+    					  }
+    				  }
+    		  
+    	  });
+      });
+      
       $("#loginButton").on("click" , function() {
-         var id=$("#toto").val();
-         var pw=$("#titi").val();
+         var id=$("#headerId").val();
+         var pw=$("#headerPw").val();
          
          if(id == null || id.length <1) {
-            alert('ID 를 입력하지 않으셨습니다.');
-            $("#userIdHeader").focus();
+            //alert('ID 를 입력하지 않으셨습니다.');
+            $('.loginOk').text('아이디를 입력해주세요.');
+
+            $("#headerId").focus();
             return;
          }
          
          if(pw == null || pw.length <1) {
-            alert('패스워드를 입력하지 않으셨습니다.');
-            $("#password").focus();
+            //alert('패스워드를 입력하지 않으셨습니다.');
+            $('.loginOk').text('비밀번호를 입력해주세요.');
+            $("#headerPw").focus();
             return;
          }
          
+         if($('#loginCheckId').text() != null && $('#loginCheckId').text() != ''){
+        	 //alert('아이디가 존재하지 않습니다.');
+        	 $('.loginOk').text('아이디가 존재하지 않습니다.');
+        	 $("#headerId").focus();
+        	 return false;
+         }
+         
+         if($('#loginCheckPw').text() != null && $('#loginCheckPw').text() != ''){
+        	 //alert('비밀번호가 틀립니다.');
+        	 $('.loginOk').text('비밀번호가 일치하지 않습니다.');
+        	 $("#headerPw").focus();
+        	 return false;
+         }
+         
+         if($('#loginCheckBlack').text() != null && $('#loginCheckBlack').text() != ''){
+        	 //alert('블랙리스트 회원입니다.');
+        	 $('.loginOk').text('블랙리스트 회원입니다.');
+        	 $("#headerPw").focus();
+        	 return false;
+         }
+         
          $("#loginForm").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
-         //self.location = "/user/login/"+id+"/"+pw;
       });
+      
+    	  /* $.ajax(
+    			  {
+    				  method : "GET",
+    				  url : '/user/json/getUser/'+id,
+    				  success : function(JSONData){
+    					  if(JSONData.user == null){
+    						  alert('user없음');
+    						  $('#loginCheck').text('user없음');
+    					  }
+    				  }
+    		  
+    	  }) */
+      
    });   
 </script>
 <style>
+   @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR|Pacifico');
+   
    strong{
       font-family: 'Nanum Myeongjo', serif;
    }
-   #nav{
+   #example{
       font-family: 'Source Serif Pro', serif;
    }
-
-.modal-login .avatar img {
-    width: 100%;
-    margin-top: 5px;
-}
-
-.modal-login .avatar {
-    background: #fd5d7c;
-}
-</style>
-   <style>
-        #dialog-background {
-          display: none;
-          position: fixed;
-          top: 0; left: 0;
-          width: 100%; height: 100%;
-          background: rgba(0,0,0,.3);
-          z-index: 10;
+      #example a:hover{
+         /* color : #1c1c1c; */
       }
-      
-      #my-dialog {
-          display: none;
-          position: fixed;
-          left: calc( 50% - 160px ); top: calc( 30% - 70px );
-          width: 100px; height: 100px; 
-          z-index: 11;
-          padding: 10px;
-      }
-      </style>
-      
-      <style type="text/css">
-         body {
+   .modal-login .avatar img {
+       width: 100%;
+       margin-top: 5px;
+   }
+   
+   .modal-login .avatar {
+       background: #fd5d7c;
+   }
+    #dialog-background {
+       display: none;
+       position: fixed;
+       top: 0; left: 0;
+       width: 100%; height: 100%;
+       background: rgba(0,0,0,.3);
+       z-index: 10;
+   }
+   #my-dialog {
+       display: none;
+       position: fixed;
+       left: calc( 50% - 160px ); top: calc( 30% - 70px );
+       width: 100px; height: 100px; 
+       z-index: 11;
+       padding: 10px;
+   }
+    body {
       font-family: 'Varela Round', sans-serif;
    }
    .modal-login {      
@@ -214,9 +303,9 @@
       display: inline-block;
       margin: 100px auto;
    }
-   #userIdHeader, #password{
+   #headerId, #headerPw{
       margin-bottom : 20px;
-   }
+  }
    
    input[type="text"], input[type="password"], select, textarea {
        background: #ffe7e7;
@@ -225,37 +314,112 @@
        border-radius: 2px;
        width:90%;
    }
+   #header a:last-child{
+      padding-right : 14px;
+   }
+	
+	.inner{
+		
+	}
+	.inner .sf-menu{
+		float : left;
+		margin-left : 150px;
+	}
+	.right_nav{
+		margin-left:0px;
+		float : right;
+	}
+   .sf-menu .current{
+      text-align : left;
+   }
+   .sf-menu li:hover{
+      border-bottom : 2px solid white;
+   }
+
+   .right_nav{
+		list-style-type : none;
+   }
+   .right_nav li{
+		float : left;
+   }
+   		.right_nav li:hover{
+   			border-bottom : 2px solid white;
+   		}
+   .welcome:hover{
+		border-bottom : 0px solid white !important;
+   }
+   .welcome{
+   		font-family: 'Nanum Myeongjo', serif;
+   		font-size : 16px;
+   }
    
-   
-   </style>
+   @media screen and (max-width:1200px){
+   		.welcome{display:none;}
+   }
+   @media screen and (max-width:1120px){
+   		.welcome{display:none;}
+   }
+   @media screen and (max-width:990px){
+   		.sf-menu{display:none;}
+		.right_nav{display:none;}
+   }
+</style>
 <header id="header">
+
    <div class="inner">
-      <a href="#" class="logo"><strong>우연</strong></a>
+      <a href="#" class="logo" style="font-family: 'Pacifico';font-size:30px;font-weight:bold;">Destiny</a>
       <!-- header 수정 후엔 footer.jsp에 #navepanel도 수정해주기 -->
-      <nav id="nav">
-         <a href="#" >Meeting</a>
-         <a href="#">Chatting</a>
-         <a href="#">Place</a>
-         <a href="#">MeetingStory</a>
-         <a href="#">DateStory</a>
-         <a href="#">RestaurantInfo</a>
-         <a href="#">LoveAdvice</a>
-         <a href="#">Notice</a>
-         
+      <ul class="sf-menu" id="example">
+         <li><a href="#">Meeting</a></li>
+         <li><a href="#">Chatting</a></li>
+         <li><a href="#">Place</a></li>
+         <li class="current">
+            <a href="#">Story</a>
+            <ul>
+               <li><a href="#">MeetingStory</a></li>
+               <li><a href="#">DateStory</a></li>
+            </ul>
+         </li>
+         <li class="current">
+            <a href="#">Information</a>
+            <ul>
+               <li><a href="#">RestaurantInfo</a></li>
+               <li><a href="#">LoveAdvice</a></li>
+            </ul>
+         </li>
+         <li><a href="#">Notice</a></li>
          <c:if test="${me.userGrade == 'ADM'}">
-            <a href="#">Complain</a>
-            <a href="#">UserList</a>
+         	<li class="current">
+	            <a href="#">Admin</a>
+	            <ul>
+	               <li><a href="#">Complain</a></li>
+	               <li><a href="#">UserList</a></li>
+	            </ul>
+	         </li>
          </c:if>
+      </ul>
+      
+      <ul class="right_nav" id="example">
+		
          
          <c:if test="${me == null}">
-            <a href="#" id="btn-open-dialog" >login</a>
-            <a href="#">join</a>
+            <li><a href="#" id="btn-open-dialog" >login</a></li>
+            <li><a href="#">join</a></li>
          </c:if>
          <c:if test="${me != null}">
-            <a href="#">MyPage</a>
-            <a href="#">logout</a>
+         	<c:if test="${me.userGrade == 'ADM'}">
+         		<li class="welcome">관리자로 접속중</li>
+	            <li><a href="#">MyPage</a></li>
+            	<li><a href="#">logout</a></li>
+	         </c:if>
+	         <c:if test="${me.userGrade != 'ADM'}">
+	            <li class="welcome">${me.nickName}님 우리 ㄱr끔식 오래보r요...</li>
+	            <li><a href="#">MyPage</a></li>
+	            <li><a href="#">logout</a></li>
+	         </c:if>
          </c:if>
-      </nav>
+      </ul>
+      
       <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
    </div>
    
@@ -272,11 +436,18 @@
                <div class="modal-body">
                   <form id="loginForm">
                      <div class="form-group" class="form-horizontal">
-                        <input id="toto" type="text" class="" name="userId" placeholder="userId" required="required">      
+                        <input id="headerId" type="text" class="" name="userId" placeholder="userId" required="required">
                      </div>
                      <div class="form-group">
-                        <input id="titi" type="password" class="" name="password" placeholder="Password" required="required">   
-                     </div>        
+                        <input id="headerPw" type="password" class="" name="password" placeholder="Password" required="required">
+                     </div>  
+                              
+                     <span class="loginCheckId" id="loginCheckId"></span>
+                     <input type="hidden" class="loginCheckPw" id="loginCheckPw"></input>
+                     <input type="hidden" class="loginCheckBlack" id="loginCheckBlack"></input>
+                     
+                     <div class="loginOk" align="left"></div>
+                     
                      <div class="form-group" align="center">
                         <button id="loginButton" type="submit" class="btn2">Login</button>
                      </div>
@@ -291,4 +462,28 @@
       </div>   
       
       <div id="dialog-background"></div>
+      
+      <div id="navPanel">
+			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Home</a>
+			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Meeting</a>
+			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Chatting</a>
+			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Place</a>
+			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">RestaurantInfo</a>
+			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">LoveAdvice</a>
+			<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Notice</a>
+			<c:if test="${me.userGrade == 'ADM'}">
+				<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Complain</a>
+				<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">UserList</a>
+			</c:if>
+			<c:if test="${me == null}">
+				<a href="#" id="btn-open-dialog" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">login</a>
+				<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">join</a>
+			</c:if>
+			<c:if test="${me != null}">
+				<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">MyPage</a>
+				<a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">logout</a>
+			</c:if>
+			<a href="#navPanel" class="close" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></a>
+		</div>
+		<div class="nav_bg"></div>
 </header>

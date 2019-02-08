@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.destiny.common.Search;
 import com.destiny.service.domain.Meeting;
 import com.destiny.service.meeting.MeetingService;
+import com.destiny.common.Page;
 
 @Controller
 @RequestMapping("/meeting/*")
@@ -69,6 +70,11 @@ public class MeetingController {
 		System.out.println(search);
 		System.out.println(meetingCenter);
 		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
 		if(meetingCenter !=null) {
 			if(search.getSearchCondition()=="시/군/구 선택" || meetingCenter.length()==2) {
 				System.out.println("시군구 선택");
@@ -82,9 +88,12 @@ public class MeetingController {
 		Map<String , Object> interestmap=meetingService.getInterestList();
 		Map<String , Object> map=meetingService.getMeetingList(search);
 		Map<String , Object> bestMap=meetingService.getBestProduct();
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("bestList", bestMap.get("bestList"));
 		model.addAttribute("interlist", interestmap.get("list"));
+		model.addAttribute("resultPage", resultPage);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/meeting/getMeetingList.jsp");

@@ -38,7 +38,7 @@ public class MeetingDaoImpl implements MeetingDao {
 			MultipartFile file = meeting.getImgFile();
 			byte fileData[] = file.getBytes();
 			picpath = file.getOriginalFilename();
-			FileOutputStream fos = new FileOutputStream("C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\meeting\\" + picpath);
+			FileOutputStream fos = new FileOutputStream("C:\\Users\\Bitcamp\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\meeting" + picpath);
 			fos.write(fileData);
 			fos.close();
 		}
@@ -106,7 +106,7 @@ public class MeetingDaoImpl implements MeetingDao {
 			MultipartFile file = meeting.getImgFile();
 			byte fileData[] = file.getBytes();
 			picpath = file.getOriginalFilename();
-			FileOutputStream fos = new FileOutputStream("C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\meeting\\" + picpath);
+			FileOutputStream fos = new FileOutputStream("C:\\Users\\Bitcamp\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\meeting" + picpath);
 			fos.write(fileData);
 			fos.close();
 		}
@@ -192,6 +192,11 @@ public class MeetingDaoImpl implements MeetingDao {
 	public void shutdown(Meeting meeting) throws Exception {
 		sqlSession.update("MeetingMapper.shutdown", meeting);
 		
+	}
+
+	@Override
+	public int getTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("MeetingMapper.getTotalCount", search);
 	}
 	
 

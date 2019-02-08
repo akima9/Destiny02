@@ -256,6 +256,8 @@
 	<div id="loading">
 		<img id="loading-image" src="../resources/images/loading.gif" alt="loading">
 	</div>
-	
+	<!-- footer -->
+	<jsp:include page="/layout/footer.jsp" />
+	<!-- //footer -->
 </body>
 </html>

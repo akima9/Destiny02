@@ -153,6 +153,18 @@ public class CommunityServiceImpl implements CommunityService {
 		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
+	}
+
+	@Override
+	public Map<String, Object> getIndexDateStoryList(Search search) throws Exception {
+		List<Community> list = communityDao.getIndexDateStoryList(search);
+		int totalCount = communityDao.getTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
 	}	
 
 	@Override

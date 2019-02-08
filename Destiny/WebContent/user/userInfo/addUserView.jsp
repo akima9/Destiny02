@@ -31,7 +31,7 @@
 	//============= "가입"  Event 연결 =============
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "button.btn.btn-primary" ).on("click" , function() {
+			$( "a[name='join']" ).on("click" , function() {
 				fncAddUser();
 			});
 		});	
@@ -40,7 +40,7 @@
 		//============= "취소"  Event 처리 및  연결 =============
 		$(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("a[href='#' ]").on("click" , function() {
+			$("a[name='reset']").on("click" , function() {
 				$("form")[0].reset();
 			});
 		});	
@@ -49,14 +49,13 @@
 		function fncAddUser() {
 			
 			var id=$("input[name='userId']").val();
+			var nickName=$("input[name='nickName']").val();
 			var pw=$("input[name='password']").val();
 			var pw_confirm=$("input[name='password2']").val();
-			//var name=$("input[name='userName']").val();
 			var address1=$("select[name='address1']").val();
 			var address2=$("select[name='address2']").val();
 			
 			var address = address1 + " " + address2;
-			
 			alert(address);
 			
 			var items = [];
@@ -64,13 +63,57 @@
 			    items.push($(this).val());
 			});
 			
-			alert(items);
+			//alert(items);
 			
 			$("input:hidden[name='firstInterest']").val( items[0] );
 			$("input:hidden[name='secondInterest']").val( items[1] );
 			$("input:hidden[name='thirdInterest']").val( items[2] );
 			
-			if($("#authnumPhoneWirte").text() != "" && $("#authnumPhoneWirte ").text() != null){
+			
+			if(id == null || id.length <1){
+				alert("아이디를 입력해 주세요.");
+				return;
+			} else if(nickName == null || nickName.length < 1){
+				alert("닉네임을 입력해 주세요.");
+				return;
+			} else if(pw == null || pw.length <1){
+				alert("비밀번호를 입력해 주세요.");
+				return;
+			} else if(pw_confirm == null || pw_confirm.length <1){
+				alert("비밀번호를 확인해 주세요.");
+				return;
+			} else if( pw != pw_confirm ) {				
+				alert("비밀번호가 일치하지 않습니다.");
+				$("input:text[name='password2']").focus();
+				return;
+			} else if( $('[name="gender"]:checked').length != 1 ){
+				alert('성별을 선택해 주세요.');
+				return;
+			} else if( $('[name="birthday"]:checked').length != 1 ){
+				alert('생년월일을 선택해 주세요.');
+				return;
+			} else if(address == null || address.length <1){
+				alert("거주지를 선택해 주세요.");
+				return;
+			} else if($("#authnumPhoneWirte").text() != "" && $("#authnumPhoneWirte ").text() != null){
+				alert("휴대폰 번호가 제대로 입력되거나 인증이 수행되지 않았습니다. 확인해 주세요.");
+				return;
+			}
+			
+			var value = "";	
+			if( $("input:text[id='phone2']").val() != ""  &&  $("input:text[id='phone3']").val() != "") {
+				var value = $("select[id='phone1']").val() + "-" 
+									+ $("input[id='phone2']").val() + "-" 
+									+ $("input[id='phone3']").val();
+			} else {
+				alert("핸드폰 번호를 입력해 주세요.");
+				return;
+			}
+			
+			
+			
+			
+			/* if($("#authnumPhoneWirte").text() != "" && $("#authnumPhoneWirte ").text() != null){
 				alert("휴대폰 번호가 제대로 입력되거나 인증이 수행되지 않았습니다. 확인해 주세요.");
 				return;
 			}
@@ -81,24 +124,24 @@
 			}
 			
 			if(id == null || id.length <1){
-				alert("아이디는 반드시 입력하셔야 합니다.");
+				alert("아이디를 입력해 주세요.");
 				return;
 			}
 			if(pw == null || pw.length <1){
-				alert("패스워드는  반드시 입력하셔야 합니다.");
+				alert("패스워드를 입력해 주세요.");
 				return;
 			}
 			if(pw_confirm == null || pw_confirm.length <1){
-				alert("패스워드 확인은  반드시 입력하셔야 합니다.");
+				alert("패스워드를 확인해 주세요.");
 				return;
 			}
 			if(address == null || address.length <1){
-				alert("거주지는  반드시 입력하셔야 합니다.");
+				alert("거주지를 선택해 주세요.");
 				return;
 			}
 			
 			if( pw != pw_confirm ) {				
-				alert("비밀번호 확인이 일치하지 않습니다.");
+				alert("비밀번호가 일치하지 않습니다.");
 				$("input:text[name='password2']").focus();
 				return;
 			}
@@ -109,12 +152,12 @@
 									+ $("input[id='phone2']").val() + "-" 
 									+ $("input[id='phone3']").val();
 			} else {
-				alert("핸드폰 번호가 입력되지 않았습니다.");
+				alert("핸드폰 번호를 입력해 주세요.");
 				return;
 			}
 
 			if($("input:text[id='email']").val() == "" || $("input:text[id='email']").val() == null){
-				alert("이메일이 입력되지 않았습니다.");
+				alert("이메일을 입력해주세요.");
 				return;
 			}
 			
@@ -127,45 +170,10 @@
 			$("input:hidden[name='address']").val( address );
 			
 			
-			$("form").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/user/addUser").submit();
+			$("form").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/user/addUser").submit(); */
 		}
 		
 
-		
-		
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		   //==> 주민번호 유효성 check 는 이해정도로....
-			function checkSsn() {
-				var ssn1, ssn2; 
-				var nByear, nTyear; 
-				var today; 
-		
-				ssn = document.detailForm.ssn.value;
-				// 유효한 주민번호 형식인 경우만 나이 계산 진행, PortalJuminCheck 함수는 CommonScript.js 의 공통 주민번호 체크 함수임 
-				if(!PortalJuminCheck(ssn)) {
-					alert("잘못된 주민번호입니다.");
-					return false;
-				}
-			}
-		
-			function PortalJuminCheck(fieldValue){
-			    var pattern = /^([0-9]{6})-?([0-9]{7})$/; 
-				var num = fieldValue;
-			    if (!pattern.test(num)) return false; 
-			    num = RegExp.$1 + RegExp.$2;
-		
-				var sum = 0;
-				var last = num.charCodeAt(12) - 0x30;
-				var bases = "234567892345";
-				for (var i=0; i<12; i++) {
-					if (isNaN(num.substring(i,i+1))) return false;
-					sum += (num.charCodeAt(i) - 0x30) * (bases.charCodeAt(i) - 0x30);
-				}
-				var mod = sum % 11;
-				return ((11 - mod) % 10 == last) ? true : false;
-			}
-			 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
 			 
 			//==>"ID중복확인" Event 처리 및 연결
 			 $(function() {
@@ -207,11 +215,11 @@
 									 //alert("좀 돼바 슈밤");
 									 if(JSONData.authNum == $("#authnum").val()){
 										 //alert("맞음");
-										 $('input[name="authnum"]').css('background-color','rgb(207, 253, 170)');
+										 /* $('input[name="authnum"]').css('background-color','rgb(207, 253, 170)'); */
 										 $("#authnumWirte").text("");
 									 } else {
 										 //alert("아님");
-										 $('input[name="authnum"]').css('background-color','pink');
+										 /* $('input[name="authnum"]').css('background-color','pink'); */
 										 $("#authnumWirte").text("잘못된 인증번호입니다.");
 									 }
 								 });							
@@ -252,11 +260,11 @@
 								 //alert("좀 돼바 슈밤");
 								 if(JSONData.authNum == $("#authnumPhone").val()){
 									 //alert("맞음");
-									 $('input[name="authnumPhone"]').css('background-color','rgb(207, 253, 170)');
+									 /* $('input[name="authnumPhone"]').css('background-color','rgb(207, 253, 170)'); */
 									 $("#authnumPhoneWirte").text("");
 								 } else {
 									 //alert("아님");
-									 $('input[name="authnumPhone"]').css('background-color','pink');
+									 /* $('input[name="authnumPhone"]').css('background-color','pink'); */
 									 $("#authnumPhoneWirte").text("잘못된 인증번호입니다.");
 								 }
 							 });
@@ -319,10 +327,10 @@
 						 success : function(JSONData, status){
 							 //alert(JSONData.user);
 							 if(JSONData.user != null){
-								$('#userId').css('background-color','pink');
+								/* $('#userId').css('background-color','pink'); */
 								$('#userIdWirte').text("이미 존재하는 아이디입니다.");
 							 } else {
-								$('#userId').css('background-color','white');
+								/* $('#userId').css('background-color','white'); */
 								$('#userIdWirte').text("");
 							 }
 						 },
@@ -349,10 +357,10 @@
 						 success : function(JSONData, status){
 							 //alert(JSONData.user);
 							 if(JSONData.user != null){
-								$('input[name="nickName"]').css('background-color','pink');
+								/* $('input[name="nickName"]').css('background-color','pink'); */
 								$('#nickNameWirte').text("이미 존재하는 닉네임입니다.");
 							 } else {
-								$('input[name="nickName"]').css('background-color','white');
+								/* $('input[name="nickName"]').css('background-color','white'); */
 								$('#nickNameWirte').text("");
 							 }
 						 },
@@ -369,7 +377,7 @@
 					 
 					 var email = $('input[name="email"]').val();
 					 if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1) ){
-						$('input[name="email"]').css('background-color','pink');
+						/* $('input[name="email"]').css('background-color','pink'); */
 						$('#authnumWirte').text("이메일 형식이 아닙니다.");
 					 }else {
 					 
@@ -384,10 +392,10 @@
 							 success : function(JSONData, status){
 								 //alert(JSONData.user);
 								 if(JSONData.user != null){
-									$('input[name="email"]').css('background-color','pink');
+									/* $('input[name="email"]').css('background-color','pink'); */
 									$('#authnumWirte').text("이미 존재하는 이메일입니다.");
 								 } else {
-									$('input[name="email"]').css('background-color','white');
+									/* $('input[name="email"]').css('background-color','white'); */
 									$('#authnumWirte').text("아직 인증되지 않았습니다.");
 								 }
 							 },
@@ -421,14 +429,14 @@
 						 success : function(JSONData, status){
 							 //alert(JSONData.user);
 							 if(JSONData.user != null){
-								$('input[name="phoneBe"]').css('background-color','pink');
+								/* $('input[name="phoneBe"]').css('background-color','pink'); */
 								$('#authnumPhoneWirte').text("이미 존재하는 번호입니다.");
 							 } else {
 								 if(phone.length < 13 || phone.length > 13){
-									$('input[name="phoneBe"]').css('background-color','pink');
+									/* $('input[name="phoneBe"]').css('background-color','pink'); */
 									$('#authnumPhoneWirte').text("전화번호 형식이 아닙니다.");
 								 } else {
-									$('input[name="phoneBe"]').css('background-color','rgb(207, 253, 170)');
+									/* $('input[name="phoneBe"]').css('background-color','rgb(207, 253, 170)'); */
 									$('#authnumPhoneWirte').text("아직 인증되지 않았습니다.");
 								 }
 							 }
@@ -537,32 +545,35 @@
 		/* /////////////////////////////////////////////////////////// */
 		
 			.box{
-				width: 70%;
+				width: 100%;
 				margin: 0 auto;
 			}
 			
-			input[type="text"], input[type="text"].join, input[type="password"].join, select.join, .join{
+			input[type="text"], input[type="text"].join, input[type="password"].join, .join{
 			    background: #fff;
 			    border: none;
 			    border-bottom: 2px solid #ababab;
 			    color: #555;
 			    border-radius: 2px;
-			    width:70%;
+			    width:100%;
 			    display:inline-block;
-			}
-			
-			input[type="text"].join.phone{
-			`	width:30%;
 			}
 			
 			row.join{
 			    margin-top: 15px;
 			}
 			
+			input[type="text"], input[type="password"], select.join, textarea {
+		       background: #ffe7e7;
+		       border: none;
+		       color: #555;
+		       border-radius: 2px;
+		       width: 100%;
+		   }
+			
 		/* /////////////////////////////////////////////////////////// */
 		
 	</style>
-
 </head>
 
 <body>	
@@ -581,132 +592,270 @@
 	<section id="main" class="wrapper">
 		<div class="inner">
 			<h3>회원가입</h3>
-			<div class="box">
+			
 			
 				<form class="form-horizontal" id="form111">
 				
 				
 				<!-- ////////////////////////////////////////////////////////////////// -->
+				
+				<table class="row-table tablebm">
+					<caption>테이블 설명</caption>
 					
-					<div class="row">
-						<div class="6u 12u$(small)">
-							<i class="material-icons" style="font-size:36px">person</i>
-							<input type="text" class="join" id="userId" name="userId" placeholder="아이디">
-				            <span id="userIdWirte"></span>
-						</div>
-						<div class="6u 12u$(small)">
-							<i class="material-icons" style="font-size:36px">person_outline</i>
-							<input type="text" class="join" id="nickName" name="nickName" placeholder="닉네임">
-				            <span id="nickNameWirte"></span>
-						</div>
-					</div>
+					<colgroup>
+						<col style="width:20%;">
+						<col style="width:80%;">
+					</colgroup>
 					
-					<div class="row">
-						<div class="6u 12u$(small)">
-							<i class="material-icons" style="font-size:36px">https</i>
-							<input type="password" class="join" id="password" name="password" placeholder="비밀번호">
-						</div>
-						<div class="6u 12u$(small)">
-							<i class="material-icons" style="font-size:36px">https</i>
-							<input type="password" class="join" id="password2" name="password2" placeholder="비밀번호 확인">
-						</div>
-					</div>
+					<thead class="hide">
+						<tr>
+							<th>구분</th>
+							<td>내용</td>
+						</tr>
+					</thead>
 					
-					<div class="row">
-						<div class="6u 12u$(small)">
-							<i class='fas fa-venus-mars' style='font-size:36px'></i>
-							<input type="radio" name="gender" id="gender1" value="M" checked><label for="gender1">남성</label>
-							<input type="radio" name="gender" id="gender2" value="W"><label for="gender2">여성</label>
-						</div>
-						<div class="6u 12u$(small)">
-							<i class="material-icons" style="font-size:36px">cake</i>
-							<input type="date" id="birthday" name="birthday">
-						</div>
-					</div>
-					
-					<div class="row"><!-- 거주지 -->
-						<div class="6u 12u$(small)">
-							<i class='fas fa-home' style='font-size:36px'></i>
-							<select id="address1" name="address1" class="select_wrapper join">
-								<option value="서울">서울</option>
-								<option value="경기">경기</option>
-								<option value="인천">인천</option>
-								<option value="부산">부산</option>
-								<option value="대구">대구</option>
-								<option value="광주">광주</option>
-								<option value="대전">대전</option>
-								<option value="울산">울산</option>
-								<option value="세종">세종</option>
-								<option value="강원">강원</option>
-								<option value="경남">경남</option>
-								<option value="경북">경북</option>
-								<option value="전남">전남</option>
-								<option value="전북">전북</option>
-								<option value="충남">충남</option>
-								<option value="충북">충북</option>
-								<option value="제주">제주</option>
-							</select>
-							
-							</div>
-							<div class="6u 12u$(small)">
-							
-							<select id="address2" name="address2" class="select_wrapper join">
-								<c:forEach var="location" items="${list}">
-									<option value="${location.townName}">${location.townName}</option>
-								</c:forEach>
-							</select>
-							
-						</div>
-					</div>
-					
-					<div class="row"> <!-- 전화번호-->
-						<div class="10u 12u$(small)">
-							<i class='fas fa-mobile-alt' style='font-size:36px'></i>
-							 <select name="phoneBe" id="phone1" class="select_wrapper join phone">
-							 	<option value="010" >010</option>
-							 	<option value="011" >011</option>
-								<option value="016" >016</option>
-								<option value="018" >018</option>
-								<option value="019" >019</option>
-							 </select>
-							 <input type="text" id="phone2" name="phoneBe" placeholder="번호" class="join phone">
-							 <input type="text" id="phone3" name="phoneBe" placeholder="번호" class="join phone">
-						</div>
+					<tbody>
+						<tr>
+							<th>아이디</th>
+							<td>
+								<div class="row uniform">
+									<div class="6u$ 12u$(small)">
+										<input type="text" class="join" id="userId" name="userId">
+			          				  	<span id="userIdWirte"></span>
+									</div>
+								</div>
+							</td>
+						</tr>
 						
-						<div class="2u 12u$(small)">
-							<button  id="phoneConfirm" type="button" class="btn btn-info">인증</button>
-						</div>
-					</div>
-					
-					<div class="row"> <!-- 전화번호-->
-						<div class="6u 12u$(small)">
-							<i class='fas fa-mobile-alt' style='font-size:36px'></i>
-							 <input type='text' class="join" id='authnumPhone' name='authnumPhone' placeholder='인증번호를 입력하세요'/>
-							 <input type="hidden" name="phone"/>
-						</div>
-						<!-- <div class="6u 12u$(small)">
-							 <span id="authnumPhoneWirte">아직 인증되지 않았습니다.</span>
-						</div> -->
-					</div>
-					
-					<div class="row"> <!--이메일 -->
-						<div class="6u 12u$(small)">
-							<i class='far fa-envelope' style='font-size:36px'></i>
-						</div>
-					</div>
-					
-					<div class="row"><!-- 프로필 -->
-						<div class="6u 12u$(small)">
-							<i class='fas fa-portrait' style='font-size:36px'></i>
-						</div>
-					</div>
-					
-					<div class="row"><!-- 관심사 -->
-						<div class="6u 12u$(small)">
-							<i class='fas fa-mobile-alt' style='font-size:36px'></i>
-						</div>
-					</div>
-					
+						<tr>
+							<th>닉네임</th>
+							<td>
+								<div class="row uniform">
+									<div class="6u$ 12u$(small)">
+										<input type="text" class="join" id="nickName" name="nickName">
+				            			<span id="nickNameWirte"></span>
+									</div>
+								</div>
+							</td>
+						</tr>
+						
+						<tr>
+							<th>비밀번호</th>
+							<td>
+								<div class="row uniform">
+									<div class="6u$ 12u$(small)">
+										<input type="password" class="join" id="password" name="password">
+									</div>
+								</div>
+							</td>
+						</tr>
+						
+						<tr>
+							<th>비밀번호 확인</th>
+							<td>
+								<div class="row uniform">
+									<div class="6u$ 12u$(small)">
+										<input type="password" class="join" id="password2" name="password2">
+									</div>
+								</div>
+							</td>
+						</tr>
+						
+						<tr>
+							<th>성별</th>
+							<td>
+								<div class="row uniform">
+									<div class="4u 6u$(small)">
+										<input type="radio" name="gender" id="gender1" value="M" checked>
+										<label for="gender1">남성</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="radio" name="gender" id="gender2" value="W">
+										<label for="gender2">여성</label>
+									</div>
+								</div>
+							</td>
+						</tr>
+						
+						<tr>
+							<th>생년월일</th>
+							<td>
+								<div class="row uniform">
+									<div class="6u$ 12u$(small)">
+										<input type="date" id="birthday" name="birthday">
+									</div>
+								</div>
+							</td>
+						</tr>
+						
+						<tr>
+							<th>거주지</th>
+							<td>
+								<div class="row uniform">
+									<div class="4u 6u$(small)">
+										<div class="select-wrapper">
+											<select id="address1" name="address1" class="select_wrapper join">
+												<option value="서울">서울</option>
+												<option value="경기">경기</option>
+												<option value="인천">인천</option>
+												<option value="부산">부산</option>
+												<option value="대구">대구</option>
+												<option value="광주">광주</option>
+												<option value="대전">대전</option>
+												<option value="울산">울산</option>
+												<option value="세종">세종</option>
+												<option value="강원">강원</option>
+												<option value="경남">경남</option>
+												<option value="경북">경북</option>
+												<option value="전남">전남</option>
+												<option value="전북">전북</option>
+												<option value="충남">충남</option>
+												<option value="충북">충북</option>
+												<option value="제주">제주</option>
+											</select>
+										</div>
+									</div>
+									
+									<div class="4u 6u$(small)">
+										<div class="select-wrapper">
+											<select id="address2" name="address2" class="select_wrapper join">
+												<c:forEach var="location" items="${list}">
+													<option value="${location.townName}">${location.townName}</option>
+												</c:forEach>
+											</select>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+						
+						<tr>
+							<th>휴대폰 번호</th>
+							<td>
+								<div class="row uniform">
+									<div class="3u 12u$(small)">
+										<div class="select-wrapper">
+											<select name="phoneBe" id="phone1" class="select_wrapper join phone">
+											 	<option value="010" >010</option>
+											 	<option value="011" >011</option>
+												<option value="016" >016</option>
+												<option value="018" >018</option>
+												<option value="019" >019</option>
+											 </select>
+										 </div>
+									 </div>
+									 
+									 <div class="3u 12u$(small)">
+									 	<input type="text" id="phone2" name="phoneBe" placeholder="번호" class="join phone" maxlength="4">
+									 </div>
+									 
+									 <div class="3u 12u$(small)">
+										 <input type="text" id="phone3" name="phoneBe" placeholder="번호" class="join phone" maxlength="4">
+									 </div>
+									 
+									 <div class="3u 12u$(small)">
+										 <button id="phoneConfirm" type="button" class="btn btn-info">인증</button>
+									 </div>
+									 
+									 <div class="6u$ 12u$(small)">
+										<input type='text' class="join" id='authnumPhone' name='authnumPhone' placeholder='인증번호를 입력하세요'/>
+										<input type="hidden" name="phone">
+										<span id="authnumPhoneWirte">아직 인증되지 않았습니다.</span>
+									</div>
+								</div>
+							</td>
+						</tr>
+						
+						<tr>
+							<th>관심사</th>
+							<td>
+								<div class="row uniform">
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10000" id="sltInter01">
+										<label for="sltInter01">아웃도어/여행</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10001" id="sltInter02">
+										<label for="sltInter02">운동/스포츠</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10002" id="sltInter03">
+										<label for="sltInter03">인문학/책/글</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10003" id="sltInter04">
+										<label for="sltInter04">업종/직무</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10004" id="sltInter05">
+										<label for="sltInter05">외국/언어</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10005" id="sltInter06">
+										<label for="sltInter06">문화/공연/축제</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10006" id="sltInter07">
+										<label for="sltInter07">음악/악기</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10007" id="sltInter08">
+										<label for="sltInter08">공예/만들기</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10008" id="sltInter09">
+										<label for="sltInter09">댄스/무용</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10009" id="sltInter10">
+										<label for="sltInter10">봉사활동</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10010" id="sltInter11">
+										<label for="sltInter11">사교/인맥</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10011" id="sltInter12">
+										<label for="sltInter12">차/오토바이</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10012" id="sltInter13">
+										<label for="sltInter13">사진/영상</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10013" id="sltInter14">
+										<label for="sltInter14">야구관람</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10014" id="sltInter15">
+										<label for="sltInter15">게임/오락</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10015" id="sltInter16">
+										<label for="sltInter16">요리/제조</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10016" id="sltInter17">
+										<label for="sltInter17">반려동물</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10017" id="sltInter18">
+										<label for="sltInter18">가족/결혼</label>
+									</div>
+									<div class="4u 6u$(small)">
+										<input type="checkbox" name="selectInterest" value="10018" id="sltInter19">
+										<label for="sltInter19">함께해요</label>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<ul class="actions align-center">
+					<li><a href="#" class="button" name="reset">취소</a></li>
+					<li><a href="#" class="button special" name="join">가입</a></li>
+				</ul>
 					
 				<!-- ////////////////////////////////////////////////////////////////// -->
 						

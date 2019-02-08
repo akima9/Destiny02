@@ -25,9 +25,9 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
 
 <link rel="stylesheet" href="/resources/css/main.css" >
-	
 
 <script type="text/javascript">
+
 	$(function(){
 		
 		$(document).ready(function(){
@@ -248,6 +248,9 @@
 	<div id="loading">
 		<img id="loading-image" src="../resources/images/loading.gif" alt="loading">
 	</div>
+	<!-- footer -->
+	<jsp:include page="/layout/footer.jsp" />
+	<!-- //footer -->
 	
 </body>
 </html>

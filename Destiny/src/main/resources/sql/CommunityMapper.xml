@@ -431,6 +431,20 @@
 		
 	
 	<!-- SQL : SELECT LIST -->
+	<select id="getIndexDateStoryList" parameterType="com.destiny.common.Search" resultMap="communitySelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT  comu.community_no, comu.community_writer_id, comu.category, comu.community_user_grade, comu.community_title, comu.community_writer_nick_name, comu.community_detail, comu.community_write_date, comu.community_views, comu.community_like, comu.import_rank, comu.community_view_condition, up.file_name
+											FROM community comu, upload up
+											WHERE comu.community_no = up.community_no
+													and category = 'DAT' 
+													and community_view_condition = 'DEF'
+											ORDER BY comu.community_views desc
+						) inner_table WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 
+	<!-- SQL : SELECT LIST -->
 	<select id="getMeetingStoryList" parameterType="com.destiny.common.Search" resultMap="communitySelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq

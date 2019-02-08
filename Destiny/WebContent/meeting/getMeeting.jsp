@@ -31,6 +31,8 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
+	
+
 	.botton{
 	 
 	}
@@ -46,24 +48,29 @@
 		#dialog, #dialog2, #dialog3, #nextDialog {
 		    display: none;
 		    position: fixed;
-		    left: calc( 35%); top: calc( 30% ); 
+		    left: calc( 35%); top: calc( 10% ); 
 		    background: #fff;
 		    z-index: 11;
 		    padding: 10px;
 		    max-height: 700px;
-		    max-width: 650px;
+		    max-width: 350px;
 		    overflow: auto;
 		}
 		
+		#header{
+			position : inherit;
+		}
+		
+		.form-control{
+			height: 38.5px;
+		}
+		.form-horizontal .form-group{
+			margin-right: 0;
+			margin-left: 0;
+		}
      </style>
      
-     <style>
-       body > div.container{
-        	
-            margin-top: 10px;
-        }
-        
-    </style>
+
     
     <style>/* !!!폰트설정!!!!! */
 	@import url(//fonts.googleapis.com/earlyaccess/nanumpenscript.css);
@@ -83,11 +90,46 @@
 		font-family: 'Cute Font', cursive;
 		font-size : 30px;
 	}
+	
+	@media screen and (max-width:600px){	
+		#dialog, #dialog2, #nextDialog{
+		    left: calc( 5%);
+		}
+	}
 	</style>
     
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
+	
+	$(window).scroll(function() {
+		fnMenuLocation();
+    });
+	
+	function fnMenuLocation() {
+		/*
+		
+		var offset = $("#content").offset();
+        var topPadding = 15;
+		
+        console.log(offset);
+       
+        console.log($(window).scrollTop());
+        
+        
+		if ($(window).scrollTop() > offset.top) {
+            $("#content").stop().animate({
+                marginTop: $(window).scrollTop() - offset.top + topPadding
+            }, 1500);
+        } else {
+            $("#content").stop().animate({
+                marginTop: 0
+            });
+        };
+        */
+	}
+	
+	
  ////////////////* 데이트픽커 데이터 포맷 */////////
 		$( function() {
 		    $( ".datepicker" ).datepicker({
@@ -220,7 +262,7 @@
 						 }else{   //취소
 						     return;
 						 }
-					}else if('${sessionScope.me.nickName ne meetingnickname}'=='false'){
+					}else if("${sessionScope.me.nickName eq crewList['0'].crewNickName}"=="false"){
 						alert("모임장이 아니시네요");
 					}else if(mitingTime<today==false){
 						alert("아직진행중인 모임이 있습니다.\n완료후 등록해 주세요");
@@ -660,7 +702,7 @@
 												display+="<img src='/resources/images/userprofile/"+displayValue[i].masterProfileImg+"' width='100px' height='100px'> <br/>";
 												display+=displayValue[i].crewNickName+"<br/>";
 											}
-												display+="<a class='btn btn-primary btn cancelbtn' role='button'>확인</a>"
+												display+="<button id='joinerConfirm' role='button'>확인</button>"
 												display+="</h6>";
 												
 										console.log(display);	
@@ -674,7 +716,8 @@
 					}
 					 
 				});
-				///////////////////참여자 끝!!!!!!!!!!!////
+				/////         참여자 끝!!!!!!!!!!!                  ////
+				
 				/////////////////빽그라운드////////////////////
 		 		$("#backround").click(function () {
 					//alert("dd");
@@ -725,7 +768,13 @@
 					
 				});
 			});
-
+		
+		$(function () {
+			///////////      참여자 확인 눌렀을때    ////////////
+			$(document).on("click","#joinerConfirm",function(){
+				$("#dialog3, #backround").toggle();
+			});
+		});
 
 	</script>
 	
@@ -791,15 +840,15 @@
 	            }
 	        }).open();
 	    }
-	   
+	    
 	</script>
 	<!-- 다음우편 끝 -->
 	
 	
 	
 </head>
+<body onresize="fnMenuLocation()">
 
-<body>
 	<!-- ToolBar Start /////////////////////////////////////-->
     <jsp:include page="/layout/header.jsp" />
     <!-- ToolBar End /////////////////////////////////////-->
@@ -939,11 +988,11 @@
 	
 		<hr/>
 		<div align="center" class="col-xs-12 col-md-12 ">
-			<button class="button">가입하기</button>
+			<button class="button" style="margin-bottom: 30px; width: 100%;">가입하기</button>
 		</div>
 		
 		<jsp:include page="/meeting/modal.jsp" />
-		<!-- 모달창 디자인 부분 -->
+		<!-- 모달창 디자인 부분 :: 가입하기 모달창 -->
         <div id="dialog2" class="madal">
         <form id="dialog2form" class="form-horizontal">
         <div>
@@ -979,7 +1028,6 @@
 				<tr>
 					<td>
 					모임멤버${crewCount}명
-<!-- 					<input type="checkbox">로그인된 멤버만 보기<br/> -->
 					</td>
 				</tr>
 				
@@ -987,17 +1035,18 @@
 					<td>
 					
 					<c:forEach var="crew" items="${crewList}">
-						
+					
 					 		<div class="dropdown">
-					 			<div>
-						 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" width="100%" height="100%" class="col-xs-1 col-sm-1 col-md-1 imgmen">
-									<a class="col-xs-3 col-sm-3 col-md-3 dropdown-toggle thisName" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+					 			<div class="col-xs-12 col-sm-12 col-md-12">
+						 			<img src="/resources/images/userprofile/${crew.masterProfileImg}" width="100%" height="100%" class="col-xs-4 col-sm-1 col-md-1 imgmen">
+									<a href="#" class="dropdown-toggle thisName col-xs-2 col-sm-4 col-md-4" data-param="${crew.crewNickName}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
 										<span id="masterNick" data-param="${crew.crewNickName}">${crew.crewNickName}</span>
 										<span class="caret"></span>
 									</a>
-									<a class="col-xs-6 col-sm-6 col-md-6"></a>
-									<c:if test="${crew.role=='MST' }"><span><strong class="col-xs-2 col-sm-2 col-md-2">모임장</strong></span></c:if>
-								</div>
+									<a class="col-xs-1 col-sm-4 col-md-4"></a>
+									<c:if test="${crew.role=='MST' }"><span><strong class="col-xs-5 col-sm-3 col-md-3">모임장</strong></span></c:if>
+									
+								
 								<ul class="dropdown-menu">
 									<c:if test="${sessionScope.me.nickName eq crewList['0'].crewNickName }">
 										<li><a href="#">강퇴하기</a></li>
@@ -1005,19 +1054,15 @@
 									</c:if>
 										<li><a>쪽지보내기</a></li>
 								</ul>
-								
+								</div>
 							</div>
-							<hr/>
-
 					</c:forEach>
 					</td>
 				</tr>
 			</table>
 		</div>
 		
-		<!-- footer -->
-		<jsp:include page="/layout/footer.jsp" />
-		<!-- //footer -->
+<!--=======================참여자 목록 모달창================-->
 		<div id="dialog3">
 			<div class="actCrewList">
 				<form id="dialog3From" class="form-horizontal">
@@ -1028,6 +1073,10 @@
 		
 	</div>
 	
+			<!-- footer -->
+		<jsp:include page="/layout/footer.jsp" />
+		<!-- //footer -->
+
 	<!-- ////////////////      탭하면 나오는 메뉴 시작             ////////////////////// -->
 
 		    <jsp:include page="/meeting/tapMeun.jsp" />
@@ -1051,7 +1100,7 @@
 				 </div>
 				
 				 <div class="form-group col-sm-8 col-md-8">
-				 	<input  name="interestName" id="selectedInterest" type="text" class="form-control" value="${meeting.interestName}">
+				 	<input style="width: 100%" name="interestName" id="selectedInterest" type="text" class="form-control" value="${meeting.interestName}">
 				 </div>
 				 
 				 <div class="form-group col-sm-6 col-md-6">
@@ -1078,20 +1127,16 @@
 				 </div>
 				 
 				 <div id="location" class="form-group col-sm-6 col-md-6">
-				 	<input type="text" class="form-control" id="centerMeeting" name="meetingCenter" data-param="${meeting.meetingCenter}" value="${meeting.meetingCenter}">
+				 	<input style="width: 100%" type="text" class="form-control" id="centerMeeting" name="meetingCenter" data-param="${meeting.meetingCenter}" value="${meeting.meetingCenter}">
 				 	
 				 </div>
 				 
-				 <div class="form-group col-sm-10 col-md-10">
+				 <div class="form-group col-sm-12 col-md-12">
 				 	<input type="file" class="form-control" name="imgFile" id="imgFile" value="${meeting.titleImg}">
 				 </div>
 				 
-				 <div class="form-group col-sm-2 col-md-2">
-				 	<button type="button" class="btn btn-warning" >첨부파일</button>
-				 </div>
-				 
 				 <div class="form-group col-sm-12 col-md-12">
-				 	<input type="text" class="form-control" name="meetingName" value="${meeting.meetingName}">
+				 	<input style="width: 100%" type="text" class="form-control" name="meetingName" value="${meeting.meetingName}">
 				 </div>
 				 
 				 <div class="form-group col-sm-12 col-md-12">
@@ -1133,16 +1178,16 @@
 				 	</select>
 				 </div>
 				 
-				 <div class="form-group col-sm-4 col-md-4">
-				 	<select name="snooze" id="snooze" class="form-control">
+				 <div class="form-group col-sm-12 col-md-12">
+				 	<select style="width: 100%;" name="snooze" id="snooze" class="form-control">
 				 		<option>반복여부</option>
 				 		<option value="Y" ${ ! empty meeting.snooze && meeting.snooze=='Y' ? "selected" : "" }>반복</option>
 				 		<option value="N" ${ ! empty meeting.snooze && meeting.snooze=='N' ? "selected" : "" }>한번</option>
 				 	</select>
 				 </div>
 			</div>	 
-				 <div  id="dateOrDay" class="form-group col-sm-4 col-md-4">
-		 			<input 	type="text" class="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜or요일" name="meetingDate"/>
+				 <div  id="dateOrDay" class="form-group col-sm-12 col-md-12">
+		 			<input style="width: 100%;padding-left: 0px;padding-right: 0px;" type="text" class="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜" name="meetingDate"/>
 		 	
 				 	<!--  
 				 	<select class="form-control">
@@ -1151,7 +1196,7 @@
 				 	-->
 				 </div>
 				 
-				 <div class="form-group col-sm-4 col-md-4">
+				 <div class="form-group col-sm-12 col-md-12">
 				 	<select name="meetingTime" class="form-control">
 				 		<option>모임시간</option>
 				 		<option value="12:00" ${ ! empty meeting.meetingTime && meeting.meetingTime=='12:00' ? "selected" : "" }>12:00</option>
@@ -1160,29 +1205,29 @@
 				 	</select>
 				 </div>
 				 
-				 <div class="form-group col-sm-8 col-md-8">
+				 <div class="form-group col-sm-12 col-md-12">
 				 	회비가 있다면 입력해주세요
 				 </div>
 				 
-				 <div class="form-group col-sm-4 col-md-4">
-				 	<input name="meetingDues" type="text" class="form-control" value="${meeting.meetingDues}">
+				 <div class="form-group col-sm-12 col-md-12">
+				 	<input style="width: 100%;" name="meetingDues" placeholder="ex)회비 1만원" type="text" class="form-control" value="${meeting.meetingDues}">
 				 </div>
 				 
-				 <div class="form-group col-sm-10 col-md-10">
-				 <input name="meetingLocation" type="text" class="form-control" id="sample5_address" value="${meeting.meetingLocation}" readonly="readonly">
+				 <div class="form-group col-sm-12 col-md-12">
+				 <input style="width: 100%;" name="meetingLocation" type="text" class="form-control" id="sample5_address" value="${meeting.meetingLocation}" readonly="readonly">
 				 	<!-- <input type="text" class="form-control" placeholder="모임장소를 입력하여주세요."> -->
 				 </div>
 				 
-				 <div class="form-group col-sm-2 col-md-2">
-					<input type="button" class="btn btn-warning" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+				 <div style="align-content: center;" class="form-group col-sm-12 col-md-12">
+					<input style="width: 100%;" type="button" class="" onclick="sample5_execDaumPostcode()" value="주소 검색">
 					<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 				 	<!-- <button type="button" class="btn btn-warning">우편검색</button> -->
 				 </div>
 				  
 				 <div class="form-group">
-				   <div class="col-sm-offset-4  col-sm-4 text-center">
-				     <button type="button" class="btn btn-primary"  id="dialogConfrim">확 &nbsp;인</button>
-					 <a class="btn btn-primary btn cancelbtn" role="button" data-dismiss="#dialog">취&nbsp;소</a>
+				   <div class="col-sm-12 col-md-12 text-center">
+				     <button class="col-sm-6 col-md-6 text-center"  id="dialogConfrim">확&nbsp;인</button>
+					 <button class="col-sm-6 col-md-6 text-center" >취&nbsp;소</button>
 				   </div>
 				 </div>
 		</form>

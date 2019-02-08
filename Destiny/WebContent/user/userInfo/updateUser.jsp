@@ -171,7 +171,9 @@
 			 });
 			
 
+			 
 			 $(function() {
+				 
 				$( "#address1" ).on("change" , function() {
 					
 					var idx = $("#address1").index(this);
@@ -195,7 +197,7 @@
 								for(i in JSONData.list){
 									var town = JSONData.list[i].townName;
 									//alert(town);
-									list+="<option value='"+town+"'>"+town+"</option>";
+									list+="<option value='"+town+"' >"+town+"</option>";
 							}
 								$( "#address2:eq("+idx+")" ).empty().append(list);
 							},
@@ -518,7 +520,7 @@
 							<div class="select-wrapper">
 								<select id="address2" name="address2">
 									<c:forEach var="location" items="${list}">
-										<option value="${location.townName}" >${location.townName}</option>
+										<option value="${location.townName}" ${ ! empty location[1] && location[1] == location.townName ? "selected" : ""  }>${location.townName}</option>
 									</c:forEach>
 								</select>
 								<input type="hidden" name="address">
