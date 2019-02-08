@@ -839,6 +839,12 @@
 								</div>
 							</td>
 						</tr>
+						<tr>
+							<th>프로필 사진</th>
+							<td colspan="3">
+								<input type="file" id="file" name="file"  multiple>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 				
