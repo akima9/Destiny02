@@ -316,8 +316,6 @@ public class MeetingRestController {
 		System.out.println("스타트넘버"+startNo);
 		//System.out.println(request.getAttribute("startNo"));
 		System.out.println(startNo);
-		//int CurrentPage = search.getCurrentPage();
-		//int PageSize = search.getPageSize();
 		int currentPage = startNo;
 		
 		Search search = new Search();
@@ -334,5 +332,16 @@ public class MeetingRestController {
 		return map;
 		
 	}
+	
+	@RequestMapping( value="meetingRest/nearMeeting", method=RequestMethod.GET)
+	public Map<String , Object> getActCrew(@RequestParam("address")String address)throws Exception{
+		System.out.println("근처모임  시작함");
+		
+		Map<String , Object> bestMap=meetingService.getNearMeeting(address);
+		System.out.println(bestMap);
+		
+		return bestMap;
+	}
+	
 
 }

@@ -19,7 +19,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	
-   
+   	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54cfa5aea3e5609fcbb420ef8cd6ed4c&libraries=services"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
@@ -187,6 +187,7 @@
 	
 	<script>
 	$(function(){
+		getLocation();
 		var startNo = 1
 		
 		$(function(){
@@ -259,47 +260,77 @@
 	       		  
 	       	} //fetchList끝 //여기까지 무한스크롤
 		});
-			
 		
+		function getLocation() {
+			//alert("로케이션 시작");
+		  if (navigator.geolocation) { // GPS를 지원하면
+		    navigator.geolocation.getCurrentPosition(function(position) {
+		      //alert(position.coords.latitude + ' ' + position.coords.longitude);
+		      findaddress(position.coords.latitude, position.coords.longitude);
+		    }, function(error) {
+		      console.error(error);
+		    }, {
+		      enableHighAccuracy: false,
+		      maximumAge: 0,
+		      timeout: Infinity
+		    });
+		  } else {
+		    alert('GPS를 지원하지 않습니다');
+		  }
+		}
+		//getLocation();
 		
-		
-		
-		
-		
-		/* 돌아가는 가로 케러셀 */
-		
-		
-		$('.carousel[data-type="multi"] .item').each(function() {
-			var next = $(this).next();
-			if (!next.length) {
-				next = $(this).siblings(':first');
-			}
-			next.children(':first-child').clone().appendTo($(this));
+		// 지오에서 받은거 주소로 변환
+		function findaddress(locationY,locationX){
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new daum.maps.services.Geocoder();
+		    // 좌표로 행정동 주소 정보를 요청합니다
+		    var address = geocoder.coord2RegionCode(locationX, locationY, searchAddrFromCoords);  
+		}
 
-			for (var i = 0; i < 2; i++) {
-				next = next.next();
-				if (!next.length) {
-					next = $(this).siblings(':first');
-				}
+		function searchAddrFromCoords(result, status) {
+			if (status === daum.maps.services.Status.OK) {
+				//console.log(result[0].region_2depth_name);
+				var address = result[0].region_2depth_name;
+				$.ajax({
 
-				next.children(':first-child').clone().appendTo($(this));
+                    url:"/meetingRest/nearMeeting?address="+address,
+						method : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData , status) {
+							//console.log(JSONData.bestList);
+							
+							var list="";
+							for(i in JSONData.bestList){
+								var meeting = JSONData.bestList[i];
+								//list+="<section id='linkmove' class='wrapper align-center'>";
+								//list+="<div class='inner'>";
+								//list+="<div id='frogue-container' class='position-right-bottom'data-color='#555a9c'data-chatbot='b9ca3ac0-61fd-496b-831f-3906f84fbb90'data-user='b9ca3ac0-61fd-496b-831f-3906f84fbb90'data-init-key='value'></div>";
+								//list+="<div class='flex secondSection'>";
+								list+="<div class='move_meeting'>";
+								list+="<span><img style='width: 350px; height: 350px;' src='/resources/images/meeting/"+meeting.titleImg+"'></span>";
+								list+="<p>"+meeting.meetingCenter+"</p>";
+								list+="<h3>"+meeting.meetingName+"</h3>";
+								list+="</div>";
+								//list+="</div>";
+								//list+="</div>";
+								//list+="</section>";
+							}
+							$( ".secondSection" ).empty().append(list);
+						 
+						}
+				});	
 			}
+		}
+		
+		// 내 주변 모임 찾기 스타트
+		$( "#nearMeeting" ).on("click", function() {
+			getLocation();
 		});
-		/* 돌아가는 가로 케러셀 끝!!!!!!!!!!!!! */
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		// 개설하기 누르면 이벤트 처리
 		$( "#addMeeting" ).on("click", function() {
@@ -322,12 +353,7 @@
 			}
 		});
 		
-		//제목눌렸을때 이벤트 처리
-		/* $( ".list_pop td:nth-child(3)" ).on("click", function() {
-			var meetingNo = $(this).data("param");
-			console.log(meetingNo);
-			self.location="/meeting/getMeeting?meetingNo="+meetingNo;
-		}); */
+		//more눌렀을때 이벤트 처리
 		$("a[href='#' ]:contains('More')").on("click", function() {
 			var meetingNo = $(this).data("param");
 			//console.log("여기왔습니까??");
@@ -572,12 +598,36 @@
 		</form>	 
 			 <!-- 검색창 종료 -->
 			 
+			 <!-- 링크이동 start -->
+		<%-- <c:if test="${!empty sessionScope.me=='true'}"> --%>
+			<section id="linkmove" class="wrapper align-center">
+				
+				<!-- <h2>내주변 추천모임</h2> -->
+				
+				<div class="inner">
+				
+					<div id="frogue-container" class="position-right-bottom"
+					      data-color="#555a9c"
+					      data-chatbot="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
+					      data-user="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
+					      data-init-key="value"
+					      ></div>
+					
+					<div class="flex secondSection">
+
+					</div>
+				</div>
+			</section>
+		<%-- </c:if> --%>
+			<!-- 링크이동 end -->
+			 
 			 <!-- 리스트 시작 -->
                 <div>
-	              	<section style="align-content:center;" id="one" class="wrapper style1">
+	              	<section style="align-content:center; " id="one" class="wrapper style1">
 						<div id="appendPoint" class="inner" style="text-align: center;">
 						<div align="right" class="addMeeting">
 						 	<input type="button" id="addMeeting" value="개설하기">
+						 	<!-- <input type="button" id="nearMeeting" value="내 주변 모임"> -->
 						 </div>
 							<c:set var="i" value="0" />
 						 	<c:forEach var="meeting" items="${list}">

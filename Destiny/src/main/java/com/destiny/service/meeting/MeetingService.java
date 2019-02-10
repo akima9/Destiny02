@@ -27,7 +27,7 @@ public interface MeetingService {
 	
 	public void updateViews(int meetingNo) throws Exception; /*상세보기 들어갈때 조회수 올려주기*/
 	
-	public Map<String , Object> getBestProduct() throws Exception; /*리스트 불러올떄 베스트 테이브 불러오기*/
+	public Map<String , Object> getNearMeeting(String address) throws Exception; /*리스트 불러올떄 베스트 테이브 불러오기*/
 
 	public void updateMeeting(Meeting meeting) throws Exception; /*모임 삭제될떄 상태값 변경*/
 	
