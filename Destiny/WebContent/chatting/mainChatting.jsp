@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>우연</title>
 <!-- All CSS Insert -->
-<link href="carousel.css" rel="stylesheet">
+
 <!-- //All CSS Insert -->
 
 <!-- All js -->
@@ -176,6 +176,22 @@ article {
     width: 50%;
     padding: 10px;
 }
+li{
+		list-style-type : none;
+	}
+
+.smallNavi{
+		overflow : hidden;
+		float : right;
+		margin-top : -80px;
+		margin-bottom : 60px;
+	}
+	
+	.smallNavi li{
+		float : left;
+		margin-right : 20px;
+		margin-top : 8em;
+	}
    </style>
 
 </head>
@@ -189,10 +205,18 @@ article {
 		<h1>우연으로 시작된 인연</h1>
 	</div>
 	<!-- 메인배경이미지 : end -->
-
-           
+	<div class="container">
+        <ul class="smallNavi">
+			<li class="homeImg"><img alt="home" src="../resources/images/background/home.jpg"></li>
+			<li>></li>
+			<li>채팅</li>
+			
+		</ul>
           <!-- Community start -->
          <section id="three" class="wrapper align-center">
+         <!-- 페이지 내부 네비게이션 경로 : start -->
+		
+		<!-- 페이지 내부 네비게이션 경로 : end -->
             <div class="inner">
                <div class="flex flex-2">
                   <article>
@@ -229,7 +253,7 @@ article {
             </div>
          </section>
          <!-- Community end -->
-          
+        </div>
    <!-- //contents -->
    
    
