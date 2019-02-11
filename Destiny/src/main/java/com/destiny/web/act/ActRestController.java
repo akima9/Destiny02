@@ -1,6 +1,7 @@
 package com.destiny.web.act;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -13,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.destiny.common.Search;
+import com.destiny.service.community.CommunityService;
+import com.destiny.service.domain.Community;
 import com.destiny.service.domain.Meeting;
 import com.destiny.service.meeting.MeetingService;
 
@@ -30,9 +35,90 @@ public class ActRestController {
 	@Autowired
 	@Qualifier("meetingServiceImpl")
 	private MeetingService meetingService;
+	
+	@Autowired
+	@Qualifier("communityServiceImpl")
+	private CommunityService communityService;
+	
+	@Value("#{commonProperties['pageUnit']}")
+	int pageUnit;
+	
+	@Value("#{commonProperties['pageSize']}")
+	int pageSize;
 
 	public ActRestController() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	@RequestMapping(value="json/getAdviceistByAndroid/{currentPage}", method=RequestMethod.GET)
+	public List<Community> getAdviceistByAndroid(@PathVariable int currentPage) throws Exception{
+		System.out.println("act/json/getAdviceistByAndroid/"+currentPage);
+		
+		Search search = new Search();
+		
+		if(currentPage == 0) {
+			search.setCurrentPage(1);
+		} else {
+			search.setCurrentPage(currentPage);
+		}
+		
+		
+		search.setPageSize(pageSize);
+		
+		System.out.println(":: search : "+search);
+		
+		Map<String, Object> map = communityService.getLoveAdviceList(search);
+		
+		System.out.println("MAP : "+map);
+		
+		List<Community> list = (List<Community>)map.get("list");
+		return list;
+	}
+	
+	@RequestMapping(value="json/getInfoListByAndroid/{currentPage}", method=RequestMethod.GET)
+	public List<Community> getInfoListByAndroid(@PathVariable int currentPage) throws Exception{
+		System.out.println("act/json/getInfoListByAndroid/"+currentPage);
+		
+		Search search = new Search();
+		
+		if(currentPage == 0) {
+			search.setCurrentPage(1);
+		} else {
+			search.setCurrentPage(currentPage);
+		}
+		
+		search.setPageSize(pageSize);
+		System.out.println(":: search : "+search);
+
+		Map<String, Object> map = communityService.getCommunityList(search);
+		
+		System.out.println("MAP : "+map);
+		
+		List<Community> list = (List<Community>)map.get("list");
+		return list;
+	}
+	
+	@RequestMapping(value="json/getNoticeListByAndroid/{currentPage}", method=RequestMethod.GET)
+	public List<Community> getNoticeListByAndroid(@PathVariable int currentPage) throws Exception{
+		System.out.println("act/json/getNoticeListByAndroid/"+currentPage);
+		
+		Search search = new Search();
+		
+		if(currentPage == 0) {
+			search.setCurrentPage(1);
+		} else {
+			search.setCurrentPage(currentPage);
+		}
+		
+		search.setPageSize(pageSize);
+		System.out.println(":: search : "+search);
+
+		Map<String, Object> map = communityService.getNoticeList(search);
+		
+		System.out.println("MAP : "+map);
+		
+		List<Community> list = (List<Community>)map.get("list");
+		return list;
 	}
 	
 	@RequestMapping(value="json/getMeetingByAndroid/{meetingNo}", method=RequestMethod.GET)
