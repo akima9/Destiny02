@@ -355,7 +355,7 @@
    		font-size : 16px;
    }
    
-   @media screen and (max-width:1200px){
+   @media screen and (max-width:1220px){
    		.welcome{display:none;}
    }
    @media screen and (max-width:1120px){
@@ -368,6 +368,17 @@
 
 	.logo{
 		font-family: 'Pacifico';
+	}
+	
+	.login_icon img{
+		width : 20px;
+		margin-top : -4px;
+		vertical-align: middle;
+		margin-right : 10px;
+	}
+	
+	.right_nav li{
+		padding-left : 0px;
 	}
 </style>
 
@@ -410,19 +421,19 @@
 		
          
          <c:if test="${me == null}">
-            <li><a href="#" id="btn-open-dialog" >login</a></li>
+            <li><a href="#" id="btn-open-dialog" ><span class="login_icon"><img src="/resources/icon/login.png"></span>login</a></li>
             <li><a href="#">join</a></li>
          </c:if>
          <c:if test="${me != null}">
          	<c:if test="${me.userGrade == 'ADM'}">
          		<li class="welcome">관리자로 접속중</li>
-	            <li><a href="#">MyPage</a></li>
-            	<li><a href="#">logout</a></li>
+	            <li><a href="#"><span class="login_icon"><img src="/resources/icon/myPage.png"></span>MyPage</a></li>
+            	<li><a href="#"><span class="login_icon"><img src="/resources/icon/logout.png"></span>logout</a></li>
 	         </c:if>
 	         <c:if test="${me.userGrade != 'ADM'}">
 	            <li class="welcome">${me.nickName}님 우리 ㄱr끔식 오래보r요...</li>
-	            <li><a href="#">MyPage</a></li>
-	            <li><a href="#">logout</a></li>
+	            <li><a href="#"><span class="login_icon"><img src="/resources/icon/myPage.png"></span>MyPage</a></li>
+	            <li><a href="#"><span class="login_icon"><img src="/resources/icon/logout.png"></span>logout</a></li>
 	         </c:if>
          </c:if>
       </ul>
