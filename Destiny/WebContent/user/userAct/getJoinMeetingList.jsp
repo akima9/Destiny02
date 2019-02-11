@@ -38,28 +38,21 @@
 		$("#currentPage").val(currentPage)
 		$("form").attr("method" , "GET").attr("action" , "/act/getOpenMeetingList").submit();
 	}
-	
-	//============= userId 에 회원정보보기  Event  처리(Click) =============	
+		
 	 $(function() {
-	
-		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		$( ".getRestaurantLink" ).on("click" , function() {
+		//==> 모임 이동
+		$( ".getMeetingLink" ).on("click" , function() {
 			 self.location ="/meeting/getMeeting?meetingNo="+$(this).data("param");
 		});
-					
-		//==> userId LINK Event End User 에게 보일수 있도록 
-		$( "td:nth-child(2)" ).css("color" , "red");
+		
+		//==> 모임회차
+		$(".getMeetingAct").on("click", function(){
+			var meetingNo = $(this).data("param");
+			self.location = "/act/getMeetingAct/"+ meetingNo;
+		});
 		
 	});	
 	
-	 $(function() {
-			//==> userId LINK Event End User 에게 보일수 있도록 
-			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
-			$("h7").css("color" , "red");
-			
-			//==> 아래와 같이 정의한 이유는 ??
-			$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
-		});	
 </script>
 
 <style>
@@ -138,71 +131,18 @@
 		margin-top : -2px;
 	}
 	
-	.viewSort{
-		cursor : pointer;
-	}
-	
-	.likeSort{
-		cursor : pointer;
-	}
-	
-	.noSort{
-		cursor : pointer;
-	}
-	
-	.thumbnail{
-		cursor : pointer;
-		padding : 20px;
-	}
-	
-	.tumTitle{
-		text-align : center;
-	}
-	
-	.infoFirst, .infoSecond{
-		overflow : hidden;
-		padding-left : 0;
-	}
-	
-	.infoFirst li, .infoSecond li{
-		float : left;
-	}
-	
-	.infoFirst li:last-child, .infoSecond li:last-child{
-		float : right;
-	}
-	
-	.caption p{
-		text-align : center;
-	}
-	form{
-		/* padding-top : 5em; */
-		content:"";
-		display:block;
-		clear:both;
-	}
-	.search-group{
-		width : 63%;
-		text-align : right;
-		content:"";
-		display:block;
-		clear:both;
-		float : right;
-	}
-	select{
-		width : 9em;
-		font-family: 'Nanum Myeongjo', serif;
-		font-weight : 700;
-		margin-right : 1em;
-		margin-top : 5px;
-		float : left;
-	}
-	
-	#searchKeyword{
-		width : 20em;
-		margin-top : 5px;
-		float : left;
-	}
+	.getMeetingLink{cursor:pointer;}
+	/* table sytle 추가 */
+	.wrap{max-width:1440px; margin-top: 400px;}
+	table{border-collapse:collapse; table-layout:fixed; margin-top:20px;}
+	.table-type01{width:100%;}
+	.table-type01 thead tr th{position:relative; padding:10px 5px; vertical-align:middle; text-align:center; border-top:2px solid #000; font-size:16px; font-weight:600;}
+	.table-type01 thead tr th:before{content:''; position:absolute; top:50%; left:0; width:1px; height:20px; background:#DDD; transform:translateY(-50%);}
+	.table-type01 thead tr th:first-child:before{display:none;}
+	.table-type01 tbody tr td{padding:10px 5px; vertical-align:middle; text-align:center; border-bottom:1px solid #DDD; font-size:14px;}
+	.table-type01 tbody tr td:nth-child(3){padding:10px 20px; vertical-align:middle; text-align:left; border-bottom:1px solid #DDD; font-size:14px;}
+	.table-type01 tbody tr:first-child td{border-top:1px solid #DDD;}
+	/* table sytle 추가 */
 </style>
 </head>
 
@@ -230,7 +170,7 @@
 				<li>></li>
 				<li>마이페이지</li>
 				<li>></li>
-				<li>가입한 모임</li>
+				<li>개설한 모임</li>
 			</ul>
 			<!-- 페이지 내부 네비게이션 경로 : end -->
 			
@@ -241,55 +181,54 @@
 				</div>
 			</form>
 			
-			<div class="12u"> 전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지</div>
+			<div class="12u" style="clear:both;"> 전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지</div>
 			
 			<!-- 테이블 리스트 : start -->
-			<table class="table table-hover table-striped">
-			
-				<thead>
-					<tr>
-						<th align="center">No</th>
-						<th align="center">모임 제목</th>
-						<th align="center">모임 이미지</th>
-						<th align="center">개설자 닉네임</th>
-						<th align="center">관심사</th>
-						<th align="center">회차 조회</th>
-					</tr>
-				</thead>
-				
-				<tbody>
-					<c:set var="i" value="0"/>
-					<c:forEach var="meeting" items="${list}">
-						<c:set var="i" value="${i+1}"/>
-						<tr>
-							<td>
-								<span>${ i }</span>
-							</td>
-							<td>
-								<span class="getRestaurantLink" title="Click : 모임 이동"">${meeting.meetingName}</span>
-							</td>
-							<td>
-								<span>
-									<img src="/resources/images/meeting/${meeting.titleImg}" width="170" height="170"/>
-								</span>
-							</td>
-							<td>
-								<span>${meeting.meetingMasterId}</span>
-							</td>
-							<td>
-								<span>${meeting.interestName}</span>
-							</td>
-							<td>
-								<span>
-									<a class="btn btn-primary btn" href="/act/getMeetingAct/${meeting.meetingNo}" role="button" id="getMeetingAct">모임 &nbsp;회차&nbsp;조회</a>
-								</span>
-							</td>
-							
-						</tr>
-					</c:forEach>
-				</tbody>
-			
-			</table>
+			<table class="table-type01">
+	            <colgroup>
+	                <col style="width:5%">
+	                <col style="width:15%">
+	                <col style="width:30%">
+	                <col style="width:15%">
+	                <col style="width:15%">
+	                <col style="width:20%">
+	            </colgroup>
+	            <thead>
+	                <tr>
+	                    <th>No</th>
+	                    <th>모임이미지</th>
+	                    <th>모임제목</th>
+	                    <th>개설자</th>
+	                    <th>관심사</th>
+	                    <th>회차 조회</th>
+	                </tr>
+	            </thead>
+	    
+	            <tbody>
+	            
+	            	<c:set var="i" value="0"/>
+	            	<c:forEach var="meeting" items="${list}">
+	            		<c:set var="i" value="${i+1}"/>
+	            		
+	            		<tr>
+		                    <td>${ i }</td>
+		                    <td>
+		                    	<img src="/resources/images/meeting/${meeting.titleImg}" width="150" height=150"/>
+		                    </td>
+		                    <td class="getMeetingLink" data-param="${meeting.meetingNo}">
+		                    	${meeting.meetingName}
+		                    </td>
+		                    <td>${meeting.meetingMasterId}</td>
+		                    <td>${meeting.interestName}</td>
+		                    <td>
+		                    	<%-- <a class="btn btn-primary btn" href="/act/getMeetingAct/${meeting.meetingNo}" role="button" id="getMeetingAct">모임 &nbsp;회차&nbsp;조회</a> --%>
+		                    	<button type="button" class="getMeetingAct" id="getMeetingAct" data-param="${meeting.meetingNo}">회차 조회</button>
+		                    </td>
+		                </tr>
+	            		
+	            	</c:forEach>
+	            </tbody>
+        	</table>
 			<!-- 테이블 리스트 : end -->
 		</div>
 		

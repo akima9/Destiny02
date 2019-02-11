@@ -38,7 +38,8 @@ public class MeetingDaoImpl implements MeetingDao {
 			MultipartFile file = meeting.getImgFile();
 			byte fileData[] = file.getBytes();
 			picpath = file.getOriginalFilename();
-			FileOutputStream fos = new FileOutputStream("C:\\Users\\Binna\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\meeting\\" + picpath);
+			FileOutputStream fos = new FileOutputStream("C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\meeting\\" + picpath);
+
 			fos.write(fileData);
 			fos.close();
 		}

@@ -7,25 +7,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>우연</title>
-<!-- All CSS Insert -->
-<link rel="stylesheet" href="/resources/css/main.css" > 
-<!-- //All CSS Insert -->
+<title>우리들의 연결고리</title>
+
+
+<!-- 참조 : http://getbootstrap.com/css/   -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
 <!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-<!-- //All CSS Insert -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
-<!-- All js -->
 
-		
-	
-	<script src="/resources/javascript/jquery.min.js"></script>
-	<script src="/resources/javascript/skel.min.js"></script>
-	<script src="/resources/javascript/util.js"></script>
-	<script src="/resources/javascript/main.js"></script>
-	
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="/resources/javascript/skel.min.js"></script>
+<script src="/resources/javascript/util.js"></script>
+<script src="/resources/javascript/main.js"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<link rel="stylesheet" href="/resources/css/main.css" >
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">
+
 	<script>
 		
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
@@ -38,14 +42,14 @@
 		//============= "검색"  Event  처리 =============	
 		 $(function() {
 			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button.btn.btn-default" ).on("click" , function() {
+			 $( ".searchBtn" ).on("click" , function() {
 				fncGetList(1);
 			});
 			 
 			 $("input[name='searchKeyword']").keypress(function(e) {
 				if(e.which == 13) {
 					$(this).blur();
-					$('button.btn.btn-default').focus().click();
+					$('.searchBtn').focus().click();
 				}
 			});
 		 });
@@ -58,9 +62,6 @@
 			$( "td:nth-child(2)" ).on("click" , function() {
 				 self.location ="/user/getUser/"+$(this).text().trim();
 			});
-						
-			//==> userId LINK Event End User 에게 보일수 있도록 
-			$( "td:nth-child(2)" ).css("color" , "red");
 			
 		});	
 		
@@ -73,6 +74,7 @@
 
 				//var userId = $(this).next().val();
 				var userId = $(this).data("param");
+				
 				$.ajax( 
 						{
 							url : "/user/json/getUser/"+userId ,
@@ -85,6 +87,7 @@
 							success : function(JSONData , status) {
 
 								if($( "#"+userId+" #aa" ).html() != null){
+									$('#'+userId).hide();
 									$("#aa").remove();
 									$("#bb").remove();
 									$("#cc").remove();
@@ -92,7 +95,6 @@
 									return;
 								}
 								
-							
 								var images = "";
 									$.each( JSONData.filelist, function(i, v){
 										images = "<img src='/resources/images/userprofile/"+v+"' width='200px' height='200px'/>"
@@ -117,7 +119,6 @@
 									+'</h5>'
 									+'</td>';
 								
-								
 									$("#aa").remove();
 									$("#bb").remove();
 									$("#cc").remove();
@@ -127,15 +128,16 @@
 								$('tr[id="'+userId+'"]').on("click", function(){
 									self.location = "/user/getUser/"+userId;
 								});
+								
+								$('.preview').hide();
+								$('#'+userId).show();
 							}
+							
 					});
+				
 					////////////////////////////////////////////////////////////////////////////////////////////
 				
 			});
-			
-			//==> userId LINK Event End User 에게 보일수 있도록 
-			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
-			$("h7").css("color" , "red");
 			
 		});	
 	
@@ -154,19 +156,17 @@
 		.tumTitle{
 			font-weight : 700;
 		}
-	
 		.topImg{
 			display : block;
 			position : absolute;
 			top : 0;
 			background-image : url("/resources/images/background/userlistbg.png");
 			background-repeat : no-repeat;
-			background-position : center -280px;
+			background-position : center -500px;
 			background-size : cover;
 			width : 100%;
 			height : 400px;
 		}
-		
 		.topImg::after{
 			content : "";
 			background : rgba(0, 0, 0, 0.2);
@@ -176,11 +176,9 @@
 			width : 100%;
 			height : 400px;
 		}
-		
 		.topImg h1{
-			font-family: 'Nanum Myeongjo', serif;
 			position : absolute;
-			line-height : 450px;
+			line-height : 330px;
 			width : 100%;
 			text-align : center;
 			color : white;
@@ -193,6 +191,7 @@
 			font-weight : lighter;
 		}
 		.wrap{
+			max-width:1440px;
 			margin-top : 400px;
 		}
 		
@@ -203,7 +202,7 @@
 		.smallNavi{
 			overflow : hidden;
 			float : right;
-			margin-top : -30px;
+			margin-top : -80px;
 			margin-bottom : 60px;
 		}
 		
@@ -216,10 +215,13 @@
 		.homeImg{
 			margin-top : -2px;
 		}
-		
-		section.wrapper, article.wrapper {
-	    	padding: 500px 0;
-		}
+		.getUserLink{cursor:pointer;}
+		.table-type01{width:100%;}
+		.table-type01 thead tr th{position:relative; padding:13px 5px; vertical-align:middle; text-align:center; border-top:2px solid #000; font-size:16px; font-weight:600;}
+		.table-type01 thead tr th:before{content:''; position:absolute; top:50%; left:0; width:1px; height:20px; background:#DDD; transform:translateY(-50%);}
+		.table-type01 thead tr th:first-child:before{display:none;}
+		.table-type01 tbody tr td{padding:13px 5px; vertical-align:middle; text-align:center; border-bottom:1px solid #DDD; font-size:14px;}
+		.table-type01 tbody tr:first-child td{border-top:1px solid #DDD;}
 	</style>
 	
 </head>
@@ -234,17 +236,21 @@
 			<h1>회원<span class="slim">리스트</span></h1>
 		</div>
 		<!-- 메인배경이미지 : end -->
-
+		
 	<!-- contents -->
-	<section id="main" class="wrapper">
-		<div class="inner">	
-			
-			<div class="col-md-5">
-		    	<p class="text-primary">
-		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
-		    	</p>
-		    </div>
-		    <hr class="major">
+	<div class="container">
+	
+		<div class="wrap">
+		
+			<!-- 페이지 내부 네비게이션 경로 : start -->
+			<ul class="smallNavi">
+				<li class="homeImg"><img alt="home" src="/resources/images/background/home.jpg"></li>
+				<li>></li>
+				<li>마이페이지</li>
+				<li>></li>
+				<li>채팅 조회</li>
+			</ul>
+			<!-- 페이지 내부 네비게이션 경로 : end -->
 			
 			<!-- form Start /////////////////////////////////////-->
 			<form class="form-horizontal">
@@ -252,7 +258,7 @@
 				<!-- 검색 Start /////////////////////////////////////-->
 				
 				
-				<div class="row uniform" >
+				<div class="row uniform" style="margin-top:0;">
 					<div class="2u 12u$(small)">
 						<div class="select-wrapper">
 							<select  name="searchSortingOption">
@@ -282,7 +288,7 @@
 					</div>
 					
 					<div class="2u 12u$(small)">
-						<button type="button" class="btn btn-default">검색</button>
+						<button type="button" class="searchBtn">검색</button>
 					</div>
 					
 					<input type="hidden" id="currentPage" name="currentPage" value=""/>
@@ -292,11 +298,15 @@
 				
 				<br/><br/>
 				
-				<!-- List Start /////////////////////////////////////-->
+				<%-- <div class="col-md-5">
+			    	<p class="text-primary">
+			    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
+			    	</p>
+			    </div> --%>
+				
+				<!-- Table List Start /////////////////////////////////////-->
 				<div>
-					<table class="row-table">
-						<caption>테이블 설명</caption>
-						
+					<table class="table-type01">						
 						<colgroup>
 							<col style="width:5%;">
 							<col style="width:15%;">
@@ -324,7 +334,7 @@
 								
 								<tr>
 									<td>${i}</td>
-									<td title="Click:회원 정보 확인"> ${user.userId}</td>
+									<td class="getUserLink" title="Click:회원 정보 확인"> ${user.userId}</td>
 									<td>${user.nickName}</td>
 									<td>${user.email}</td>
 									
@@ -349,7 +359,7 @@
 									<td data-param="${user.userId}"> 간략보기</td>
 								</tr>
 							
-								<tr id="${user.userId}" colspan="6" height="1" >
+								<tr class="preview" id="${user.userId}" height="1" style="display:none;">
 								</tr>
 							</c:forEach>
 							
@@ -363,7 +373,7 @@
 		<jsp:include page="/common/pageNavigator_new.jsp"/>	
 		<!-- pageNavigator -->
 		
-	</section>
+	</div>
 	<!-- //contents -->
 	
 	<!-- footer -->

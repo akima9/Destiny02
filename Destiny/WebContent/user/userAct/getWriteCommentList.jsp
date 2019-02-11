@@ -36,26 +36,22 @@
 		$("form").attr("method" , "GET").attr("action" , "/act/getWriteCommentList").submit();
 	}
 	
-	//============= userId 에 회원정보보기  Event  처리(Click) =============	
+	//============= 댓글 쓴 게시글로 이동  Event  처리(Click) =============	
 	 $(function() {
 	
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$( "td:nth-child(2)" ).on("click" , function() {
 			 self.location ="/info/getRestaurantInfo?communityNo="+$(this).text().trim();
 		});
-					
-		//==> userId LINK Event End User 에게 보일수 있도록 
-		$( "td:nth-child(2)" ).css("color" , "red");
+		
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		$( "td:nth-child(3)" ).on("click" , function() {
+			var communityNo = $(this).data('param');
+			 self.location ="/info/getRestaurantInfo?communityNo="+communityNo;
+		});
 		
 	});	
 	
-	//============= userId 에 회원정보보기  Event  처리 (double Click)=============
-	 $(function() {
-		
-		//==> userId LINK Event End User 에게 보일수 있도록 
-		$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
-		$("h7").css("color" , "red");
-	});	
 </script>
 
 <style>
@@ -113,10 +109,6 @@
 		list-style-type : none;
 	}
 	
-	/*  .container{
-		overflow : hidden;
-	} */
-	
 	.smallNavi{
 		overflow : hidden;
 		float : right;
@@ -134,71 +126,19 @@
 		margin-top : -2px;
 	}
 	
-	.viewSort{
-		cursor : pointer;
-	}
+	.getCommunityLink{cursor:pointer;}
 	
-	.likeSort{
-		cursor : pointer;
-	}
-	
-	.noSort{
-		cursor : pointer;
-	}
-	
-	.thumbnail{
-		cursor : pointer;
-		padding : 20px;
-	}
-	
-	.tumTitle{
-		text-align : center;
-	}
-	
-	.infoFirst, .infoSecond{
-		overflow : hidden;
-		padding-left : 0;
-	}
-	
-	.infoFirst li, .infoSecond li{
-		float : left;
-	}
-	
-	.infoFirst li:last-child, .infoSecond li:last-child{
-		float : right;
-	}
-	
-	.caption p{
-		text-align : center;
-	}
-	form{
-		/* padding-top : 5em; */
-		content:"";
-		display:block;
-		clear:both;
-	}
-	.search-group{
-		width : 63%;
-		text-align : right;
-		content:"";
-		display:block;
-		clear:both;
-		float : right;
-	}
-	select{
-		width : 9em;
-		font-family: 'Nanum Myeongjo', serif;
-		font-weight : 700;
-		margin-right : 1em;
-		margin-top : 5px;
-		float : left;
-	}
-	
-	#searchKeyword{
-		width : 20em;
-		margin-top : 5px;
-		float : left;
-	}
+	/* table sytle 추가 */
+	.wrap{max-width:1440px; margin-top: 400px;}
+	table{border-collapse:collapse; table-layout:fixed; margin-top:20px;}
+	.table-type01{width:100%;}
+	.table-type01 thead tr th{position:relative; padding:10px 5px; vertical-align:middle; text-align:center; border-top:2px solid #000; font-size:16px; font-weight:600;}
+	.table-type01 thead tr th:before{content:''; position:absolute; top:50%; left:0; width:1px; height:20px; background:#DDD; transform:translateY(-50%);}
+	.table-type01 thead tr th:first-child:before{display:none;}
+	.table-type01 tbody tr td{padding:10px 5px; vertical-align:middle; text-align:center; border-bottom:1px solid #DDD; font-size:14px;}
+	.table-type01 tbody tr td:nth-child(3){padding:10px 20px; vertical-align:middle; text-align:left; border-bottom:1px solid #DDD; font-size:14px;}
+	.table-type01 tbody tr:first-child td{border-top:1px solid #DDD;}
+	/* table sytle 추가 */
 </style>
 </head>
 
@@ -237,49 +177,41 @@
 				</div>
 			</form>
 			
-			<div class="12u"> 전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지</div>
+			<div class="12u" style="clear:both;"> 전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지</div>
 			
 			<!-- 테이블 리스트 : start -->
-			<table class="table table-hover table-striped">
-			
-				<thead>
-					<tr>
-						<th aligin="center">No</th>
-						<th aligin="center">게시글</th>
-						<th aligin="center">작성자 닉네임</th>
-						<th aligin="center">댓글 내용</th>
-						<th aligin="center">작성일</th>
-					</tr>
-				</thead>
-				
-				<tbody>
-					<c:set var="i" value="0"/>
-					<c:forEach var="comment" items="${list}">
-						<c:set var="i" value="${i+1}"/>
-						<tr>
-							<td>
-								<span>${ i }</span>
-							</td>
-							<td>
-								<span>${ comment.commentNo }</span>
-							</td>
-							<td title="Click : 게시글 이동">
-								<span>${comment.commentComuNo}</span>
-							</td>
-							<td>
-								<span>${comment.commentWriterId}</span>
-							</td>
-							<td>
-								<span>${comment.commentDetail}</span>
-							</td>
-							<td>
-								<span>${comment.commentDate}</span>
-							</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			
-			</table>
+			<table class="table-type01">
+	            <colgroup>
+	                <col style="width:5%">
+	                <col style="width:15%">
+	                <col style="width:60%">
+	                <col style="width:20%">
+	            </colgroup>
+	            <thead>
+	                <tr>
+	                    <th>No</th>
+	                    <th>게시글번호</th>
+	                    <th>내용</th>
+	                    <th>작성일</th>
+	                </tr>
+	            </thead>
+	    
+	            <tbody>
+	            
+	            	<c:set var="i" value="0"/>
+	            	<c:forEach var="comment" items="${list}">
+	            		<c:set var="i" value="${i+1}"/>
+	            		
+	            		<tr>
+		                    <td>${ i }</td>
+		                    <td class="getCommunityLink">${comment.commentComuNo}</td>
+		                    <td class="getCommunityLink" data-param="${comment.commentComuNo}">${comment.commentDetail}</td>
+		                    <td>${comment.commentDate}</td>
+		                </tr>
+	            		
+	            	</c:forEach>
+	            </tbody>
+        	</table>
 			<!-- 테이블 리스트 : end -->
 		</div>
 		
