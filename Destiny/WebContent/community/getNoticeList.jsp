@@ -291,6 +291,12 @@ $(function() {
 		float : left;
 		width : 160px;
 	}
+	
+	
+	/* 빵메뉴 안맞아서 따로 만듬^^ */
+	.fa{
+		line-height : 50px;
+	}
 </style>
 </head>
 

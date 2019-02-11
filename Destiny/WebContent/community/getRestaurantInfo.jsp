@@ -24,7 +24,9 @@
  <!-- 참조 : http://getbootstrap.com/css/   -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-
+<script src="/resources/javascript/skel.min.js"></script>
+<script src="/resources/javascript/util.js"></script>
+<script src="/resources/javascript/main.js"></script>
 
 
 <link rel="stylesheet" href="/resources/css/main.css" >
@@ -265,6 +267,12 @@
 		background : red;
 		margin-bottom : 10em;
 		
+	}
+	
+	
+	/* 빵메뉴 안맞아서 따로 만듬^^ */
+	.fa{
+		line-height : 50px;
 	}
 </style>
 

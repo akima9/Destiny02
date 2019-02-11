@@ -31,6 +31,10 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
+<script src="/resources/javascript/skel.min.js"></script>
+<script src="/resources/javascript/util.js"></script>
+<script src="/resources/javascript/main.js"></script>
+
 
 <link rel="stylesheet" href="/resources/css/main.css" >
  
@@ -288,6 +292,12 @@ var userGrade = "${me.userGrade}";
 		background : red;
 		margin-bottom : 10em;
 		
+	}
+	
+	
+	/* 빵메뉴 안맞아서 따로 만듬^^ */
+	.fa{
+		line-height : 50px;
 	}
 </style>
 
