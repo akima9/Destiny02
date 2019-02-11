@@ -15,6 +15,7 @@
 <script src="/resources/javascript/skel.min.js"></script>
 <script src="/resources/javascript/util.js"></script>
 <script src="/resources/javascript/main.js"></script>
+<script src ="https://unpkg.com/sweetalert/dist/sweetalert.min.js" ></script>
 
 <link href="https://fonts.googleapis.com/css?family=Jua" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -31,6 +32,8 @@
 				self.location = "/user/userInfo/leaveSite.jsp";
 			});
 		});
+		
+		
 		
 		$(function(){
 			$("button[id='actMainButton']").on("click", function(){
@@ -304,7 +307,7 @@
 				<br />
 				<div class="col-sm-6 col-md-6">
 					<br />
-					<button id="leaveSite" type="button">
+					<button id="leaveSite" type="button" >
 						<p>»ηΐΜΖ® Ε»Επ</p>
 					</button>
 				</div>

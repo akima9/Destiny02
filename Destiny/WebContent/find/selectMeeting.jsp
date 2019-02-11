@@ -108,7 +108,7 @@
 		font-weight : 700;
 	}
 
-	.topImg{
+	/* .topImg{
 		display : block;
 		position : absolute;
 		top : 0;
@@ -118,8 +118,15 @@
 		background-size : cover;
 		width : 100%;
 		height : 400px;
+	} */
+	.topImg{
+		max-width : 100%;
+		height : 400px;
+		background-image : url("/resources/images/background/meetingbg.jpg");
+		background-position : center center;
+		background-size : cover;
+		background-repeat : no-repeat;
 	}
-	
 	.topImg::after{
 		content : "";
 		background : rgba(0, 0, 0, 0.2);
@@ -129,22 +136,23 @@
 		width : 100%;
 		height : 400px;
 	}
-	
 	.topImg h1{
 		position : absolute;
-		line-height : 450px;
 		width : 100%;
+		margin : 0;
+		padding : 0;
+		font-family: 'Nanum Myeongjo', serif;
+		font-size : 60px;
 		text-align : center;
+		height : 400px;
+		line-height : 450px;
 		color : white;
 		z-index : 99;
-		font-size : 60px;
+		
 	}
 	
 	h1 .slim{
 		font-weight : lighter;
-	}
-	.wrap{
-		margin-top : 400px;
 	}
 	
 	li{
@@ -154,7 +162,7 @@
 	.smallNavi{
 		overflow : hidden;
 		float : right;
-		margin-top : -30px;
+		margin-top : -80px;
 		margin-bottom : 60px;
 	}
 	
@@ -168,10 +176,6 @@
 		margin-top : -2px;
 	}
 	
-	section.wrapper, article.wrapper {
-    	padding: 500px 0;
-	}
-
 </style>
 	
 
@@ -189,8 +193,22 @@
 	<!-- 메인배경이미지 : end -->
 
 	<!-- contents -->
-	<section id="main" class="wrapper">
-		<div class="inner">			
+	<!-- <section id="main" class="wrapper">
+		<div class="inner">	 -->	
+	<div class="container">
+	
+		<div class="wrap">
+		
+			<!-- 페이지 내부 네비게이션 경로 : start -->
+			<ul class="smallNavi">
+				<li class="homeImg"><img alt="home" src="/resources/images/background/home.jpg"></li>
+				<li>></li>
+				<li>Place</li>
+				<li>></li>
+				<li>모임 검색</li>
+			</ul>
+			<!-- 페이지 내부 네비게이션 경로 : end -->
+			
 			<div class="row uniform">
 				<div class="3u 6u$(small)">
 					<input type="radio" name="selectRadio" id="ex1" value="1" checked="checked">
@@ -268,7 +286,7 @@
 				</div>
 			</form>
 		</div>
-	</section>
+	</div>
 	<!-- //contents -->
 
 	

@@ -104,7 +104,7 @@
 		font-weight : 700;
 	}
 
-	.topImg{
+	/* .topImg{
 		display : block;
 		position : absolute;
 		top : 0;
@@ -113,6 +113,15 @@
 		background-size : cover;
 		width : 100%;
 		height : 400px;
+	} */
+	
+	.topImg{
+		max-width : 100%;
+		height : 400px;
+		background-image : url("/resources/images/background/userbg.jpg");
+		background-position : center center;
+		background-size : cover;
+		background-repeat : no-repeat;
 	}
 	
 	.topImg::after{
@@ -149,7 +158,7 @@
 	.smallNavi{
 		overflow : hidden;
 		float : right;
-		margin-top : -30px;
+		margin-top : -80px;
 		margin-bottom : 60px;
 	}
 	
@@ -163,11 +172,6 @@
 		margin-top : -2px;
 	}
 	
-	section.wrapper, article.wrapper {
-    	padding: 500px 0;
-	}
-	
-
 </style>
 	
 </head>
@@ -186,6 +190,16 @@
 	<!-- contents -->
 	<section id="main" class="wrapper">
 		<div class="inner">
+		
+			<!-- 페이지 내부 네비게이션 경로 : start -->
+			<ul class="smallNavi">
+				<li class="homeImg"><img alt="home" src="/resources/images/background/home.jpg"></li>
+				<li>></li>
+				<li>Place</li>
+				<li>></li>
+				<li>이상형 검색</li>
+			</ul>
+			<!-- 페이지 내부 네비게이션 경로 : end -->
 			
 			<!-- form Start /////////////////////////////////////-->
 			<form class="form-horizontal">

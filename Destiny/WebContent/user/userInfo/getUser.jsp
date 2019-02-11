@@ -128,8 +128,8 @@
 		    width: 70%;
 		    margin: 40px auto;
 		}
-		.profileImg{overflow:hidden; max-width:350px; margin:-150px auto 0; text-align:center; border:3px solid #AAA; border-radius:50%;}
-		.profileImg img{width:100%; max-width:100%; height:100%;}
+		.profileImg{overflow:hidden; max-width:350px; max-height:350px; margin:-150px auto 0; text-align:center; border:3px solid #AAA; border-radius:50%;}
+		.profileImg img{max-width:350px; max-height:350px;}
 		.subTitle{font-size:15px; font-weight:900;}
 	</style>
 	
