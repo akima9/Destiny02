@@ -50,17 +50,14 @@
 		}
 	
 		.topImg{
-			display : block;
-			position : absolute;
-			top : 0;
-			background-image : url("/resources/images/background/complainbg.jpg");
-			background-repeat : no-repeat;
-			background-position : center -280px;
-			background-size : cover;
-			width : 100%;
+			max-width : 100%;
 			height : 400px;
+			background-image : url("/resources/images/background/complainbg.jpg");
+			background-position : center center;
+			background-size : cover;
+			background-repeat : no-repeat;
 		}
-		
+			
 		.topImg::after{
 			content : "";
 			background : rgba(0, 0, 0, 0.2);
@@ -84,9 +81,9 @@
 		h1 .slim{
 			font-weight : lighter;
 		}
-		.wrap{
+		/* .wrap{
 			margin-top : 400px;
-		}
+		} */
 		
 		li{
 			list-style-type : none;
@@ -95,7 +92,7 @@
 		.smallNavi{
 			overflow : hidden;
 			float : right;
-			margin-top : -30px;
+			margin-top : -180px;
 			margin-bottom : 60px;
 		}
 		
@@ -109,9 +106,14 @@
 			margin-top : -2px;
 		}
 		
-		section.wrapper, article.wrapper {
-	    	padding: 500px 0;
-		}
+		table{border-collapse:collapse; table-layout:fixed;}
+		.table-type01{width:100%;}
+		.table-type01 thead tr th{position:relative; padding:13px 5px; vertical-align:middle; text-align:center; border-top:2px solid #000; font-size:16px; font-weight:600;}
+		.table-type01 thead tr th:before{content:''; position:absolute; top:50%; left:0; width:1px; height:20px; background:#DDD; transform:translateY(-50%);}
+		.table-type01 thead tr th:first-child:before{display:none;}
+		.table-type01 tbody tr td{padding:13px 5px; vertical-align:middle; text-align:center; border-bottom:1px solid #DDD; font-size:14px;}
+		.table-type01 tbody tr:first-child td{border-top:1px solid #DDD;}
+	
 	
 	</style>
 	
@@ -131,19 +133,29 @@
 	<!-- contents -->
 	<section id="main" class="wrapper">
 		<div class="inner">
-			<div class="col-md-5">
+		
+			<!-- 페이지 내부 네비게이션 경로 : start -->
+			<ul class="smallNavi">
+				<li class="homeImg"><img alt="home" src="/resources/images/background/home.jpg"></li>
+				<li>></li>
+				<li>신고함 관리</li>
+			</ul>
+			<!-- 페이지 내부 네비게이션 경로 : end -->
+		
+			<!-- <div class="col-md-5"> -->
+			<div class="6u$">
 		    	<p class="text-primary">
 		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
 		    	</p>
 		    </div>
-		    <hr class="major">
+		    <!-- <hr class="major"> -->
 			
 			<!-- form Start /////////////////////////////////////-->
 			<form class="form-horizontal">
 
 				<div>
-					<table class="row-table">
-						<caption>테이블 설명</caption>
+					<!-- <table class="row-table"> -->
+					<table class="table-type01">
 						
 						<colgroup>
 							<col style="width:5%;">

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -188,6 +189,8 @@ public class UserController {
 					if(!checkDe) {
 						
 						session.setAttribute("me", dbUser);
+						int notRead = letterService.getCountNetReadReceive(((User)session.getAttribute("me")).getUserId());
+						session.setAttribute("notRead", notRead);
 						
 						//applicationScope에 올려도 되는가?
 						if(appendScope || loginList.size() == 0) { 
@@ -776,7 +779,61 @@ public class UserController {
 		}
 		return modelAndView;
 	}
-
 	
+	@RequestMapping(value="findId/{email}", method=RequestMethod.GET)
+	public ModelAndView findId(@PathVariable("email") String email) throws Exception{
+		System.out.println("user/findId/"+email);
+		ModelAndView modelAndView = new ModelAndView();
+		email += ".com";
+		
+		if(userService.getUserByEmail(email) != null) {
+			User user = userService.getUserByEmail(email);
+			modelAndView.addObject("reason", "당신의 아이디는  ["+user.getUserId()+"] 입니다.");
+			
+			modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+		} else {
+			modelAndView.addObject("reason", "notFound");
+			modelAndView.setViewName("redirect:/user/userInfo/findId.jsp");
+		}
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="updatePassword/{userId}", method=RequestMethod.GET)
+	public ModelAndView updatePassword(@PathVariable("userId") String userId) throws Exception{
+		System.out.println("user/updatePassword/"+userId);
+		ModelAndView modelAndView = new ModelAndView();
+		
+		User user = new User();
+		if(userService.getUser(userId) != null) {
+			user = userService.getUser(userId);
+		}
+		
+		modelAndView.setViewName("forward:/user/userInfo/updatePasswordSecond.jsp");
+		modelAndView.addObject("user", user);
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="updatePasswordSecond/{userId}/{password}", method=RequestMethod.GET)
+	public ModelAndView updatePasswordSecond(@PathVariable("userId") String userId,
+											@PathVariable("password") String password) throws Exception{
+		
+		System.out.println("user/updatePasswordSecond/"+userId);
+		ModelAndView modelAndView = new ModelAndView();
+		
+		User user = new User();
+		if(userService.getUser(userId) != null) {
+			user = userService.getUser(userId);
+		}
+		
+		user.setPassword(password);
+		userService.updatePassword(user);
+		
+		modelAndView.setViewName("forward:/user/userInfo/loginDe.jsp");
+		modelAndView.addObject("reason", "비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요.");
+		
+		return modelAndView;
+	}
 	
 }

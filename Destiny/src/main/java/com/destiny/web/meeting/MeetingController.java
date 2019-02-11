@@ -60,14 +60,12 @@ public class MeetingController {
 		
 
 		Map<String , Object> map=meetingService.getMeetingList(search);
-		Map<String , Object> bestMap=meetingService.getBestProduct();
 		Map<String , Object> interestmap=meetingService.getInterestList();
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("토탈 카운트는??"+((Integer)map.get("totalCount")).intValue());
 		
 		model.addAttribute("list", map.get("list"));
-		model.addAttribute("bestList", bestMap.get("bestList"));
 		model.addAttribute("interlist", interestmap.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		
@@ -80,7 +78,7 @@ public class MeetingController {
 	@RequestMapping(value="listMeeting/{meetingCenter}", method=RequestMethod.POST)
 	public ModelAndView listMeeting(Model model, @PathVariable("meetingCenter") String meetingCenter,
 			@ModelAttribute("search") Search search) throws Exception{
-		
+
 		System.out.println("하이리스트");
 		System.out.println(search);
 		System.out.println(meetingCenter);
@@ -102,11 +100,9 @@ public class MeetingController {
 		
 		Map<String , Object> interestmap=meetingService.getInterestList();
 		Map<String , Object> map=meetingService.getMeetingList(search);
-		Map<String , Object> bestMap=meetingService.getBestProduct();
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("토탈 카운트는??"+((Integer)map.get("totalCount")).intValue());
 		model.addAttribute("list", map.get("list"));
-		model.addAttribute("bestList", bestMap.get("bestList"));
 		model.addAttribute("interlist", interestmap.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		

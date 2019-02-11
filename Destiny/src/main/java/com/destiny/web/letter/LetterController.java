@@ -86,7 +86,7 @@ public class LetterController {
 	@RequestMapping( value="sendLetterView/{senderId}", method=RequestMethod.GET)
 	public ModelAndView sendLetterView(@PathVariable String senderId)throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/letter/sendletter.jsp");
+		modelAndView.setViewName("forward:/meeting/message.jsp");
 		modelAndView.addObject("senderId", senderId);
 		return modelAndView;
 	}
@@ -94,7 +94,7 @@ public class LetterController {
 	@RequestMapping( value="sendLetter", method=RequestMethod.POST)
 	public String sendLetter(@ModelAttribute("letter") Letter letter, HttpSession session, Model model) throws Exception{
 		System.out.println("/user/sendLetter : POST");
-		
+		System.out.println("찍어보자 레터 : "+letter);
 		if(userService.getUser(letter.getReceiverId()) == null) {
 			model.addAttribute("reason", "입력한 수신자 아이디가 존재하지 않습니다.");
 		} else {

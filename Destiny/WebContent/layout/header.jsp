@@ -314,7 +314,7 @@
        border: none;
        color: #555;
        border-radius: 2px;
-       width:90%;
+       width:100%;
    }
    #header a:last-child{
       padding-right : 14px;
@@ -429,11 +429,13 @@
          		<li class="welcome">관리자로 접속중</li>
 	            <li><a href="#"><span class="login_icon"><img src="/resources/icon/myPage.png"></span>MyPage</a></li>
             	<li><a href="#"><span class="login_icon"><img src="/resources/icon/logout.png"></span>logout</a></li>
+            	<li>쪽지 : ${notRead}</li>
 	         </c:if>
 	         <c:if test="${me.userGrade != 'ADM'}">
 	            <li class="welcome">${me.nickName}님 우리 ㄱr끔식 오래보r요...</li>
 	            <li><a href="#"><span class="login_icon"><img src="/resources/icon/myPage.png"></span>MyPage</a></li>
 	            <li><a href="#"><span class="login_icon"><img src="/resources/icon/logout.png"></span>logout</a></li>
+	            <li>쪽지 : ${notRead}</li>
 	         </c:if>
          </c:if>
       </ul>
@@ -472,7 +474,8 @@
                   </form>
                </div>
                <div class="modal-footer">
-                  <a href="#">Forgot Password?</a>
+                  <a href="/user/userInfo/findId.jsp">Forgot Id?</a>
+                  <a href="/user/userInfo/updatePassword.jsp">Forgot Password?</a>
                </div>
             </div>
          </div>

@@ -37,16 +37,26 @@
 		$("form").attr("method" , "GET").attr("action" , "/act/getWriteCommunityList").submit();
 	}
 	
-	//============= userId 에 회원정보보기  Event  처리(Click) =============	
+	//============= 해당 게시물로 이동하는  Event  처리(Click) =============	
 	 $(function() {
 	
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		$( ".getRestaurantLink" ).on("click" , function() {
-			 self.location ="/date/getDateStory?communityNo="+$(this).data("param");
+		$( ".getCommunityLink" ).on("click" , function() {
+			var category = $(this).data("param1");
+			
+			if(category=='RES'){
+				self.location ="/info/getRestaurantInfo?communityNo="+$(this).data("param");
+			}else if(category =='LUV'){
+				self.location ="/info/getRestaurantInfo?communityNo="+$(this).data("param");
+			}else if(category == 'MET'){
+				//모임후기
+			}else if(category == 'DAT'){
+				//만남후기
+			}else if(category == 'NTC'){
+				//공지사항
+			}
+			 
 		});
-					
-		//==> userId LINK Event End User 에게 보일수 있도록 
-		$( "td:nth-child(2)" ).css("color" , "red");
 		
 	});	
 	
@@ -60,9 +70,6 @@
 		font-family: 'Nanum Myeongjo', serif;
 	}
 	.container{
-		font-weight : 700;
-	}
-	.tumTitle{
 		font-weight : 700;
 	}
 	.button{
@@ -129,72 +136,23 @@
 	.homeImg{
 		margin-top : -2px;
 	}
-	
-	.viewSort{
-		cursor : pointer;
-	}
-	
-	.likeSort{
-		cursor : pointer;
-	}
-	
-	.noSort{
-		cursor : pointer;
-	}
-	
-	.thumbnail{
-		cursor : pointer;
-		padding : 20px;
-	}
-	
-	.tumTitle{
-		text-align : center;
-	}
-	
-	.infoFirst, .infoSecond{
-		overflow : hidden;
-		padding-left : 0;
-	}
-	
-	.infoFirst li, .infoSecond li{
-		float : left;
-	}
-	
-	.infoFirst li:last-child, .infoSecond li:last-child{
-		float : right;
-	}
-	
-	.caption p{
-		text-align : center;
-	}
 	form{
 		/* padding-top : 5em; */
-		content:"";
-		display:block;
-		clear:both;
-	}
-	.search-group{
-		width : 63%;
-		text-align : right;
-		content:"";
-		display:block;
-		clear:both;
-		float : right;
-	}
-	select{
-		width : 9em;
-		font-family: 'Nanum Myeongjo', serif;
-		font-weight : 700;
-		margin-right : 1em;
-		margin-top : 5px;
-		float : left;
 	}
 	
-	#searchKeyword{
-		width : 20em;
-		margin-top : 5px;
-		float : left;
-	}
+	.getCommunityLink{cursor:pointer;}
+	/* table sytle 추가 */
+	.wrap{max-width:1440px; margin-top: 400px;}
+	table{border-collapse:collapse; table-layout:fixed; margin-top:20px;}
+	.table-type01{width:100%;}
+	.table-type01 thead tr th{position:relative; padding:10px 5px; vertical-align:middle; text-align:center; border-top:2px solid #000; font-size:16px; font-weight:600;}
+	.table-type01 thead tr th:before{content:''; position:absolute; top:50%; left:0; width:1px; height:20px; background:#DDD; transform:translateY(-50%);}
+	.table-type01 thead tr th:first-child:before{display:none;}
+	.table-type01 tbody tr td{padding:10px 5px; vertical-align:middle; text-align:center; border-bottom:1px solid #DDD; font-size:14px;}
+	.table-type01 tbody tr td:nth-child(3){padding:10px 20px; vertical-align:middle; text-align:left; border-bottom:1px solid #DDD; font-size:14px;}
+	.table-type01 tbody tr:first-child td{border-top:1px solid #DDD;}
+	/* table sytle 추가 */
+	
 </style>
 </head>
 
@@ -227,81 +185,70 @@
 			<!-- 페이지 내부 네비게이션 경로 : end -->
 			
 			<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-			<form>
-				<div class="form-group search-group">
-					<input type="hidden" id="currentPage" name="currentPage" value="">
-				</div>
+			<form class="form-inline" name="detailForm">			  
+			  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+			  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 			</form>
 			
-			<div class="12u"> 전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지</div>
+			<div class="12u" style="clear:both;"> 전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지</div>
 			
 			<!-- 테이블 리스트 : start -->
-			<table class="table table-hover table-striped">
-			
-				<thead>
-					<tr>
-						<th aligin="center">No</th>
-						<th aligin="center">제목</th>
-						<th aligin="center">카테고리</th>
-						<th aligin="center">작성일</th>
-						<th aligin="center">공감수</th>
-						<th aligin="center">댓글수</th>
-					</tr>
-				</thead>
-				
-				<tbody>
-					<c:set var="i" value="0"/>
-					<c:forEach var="community" items="${list}">
-						<c:set var="i" value="${i+1}"/>
-						<tr>
-							<td>
-								<span>${ i }</span>
-							</td>
-							<td>
-								<span class="getRestaurantLink" data-param="${ community.communityNo }">${community.title }</span>
-							</td>
-							<td>
-								<c:if test="${community.category == 'RES'}">
-									<span>맛집정보</span>
-								</c:if>
-								<c:if test="${community.category == 'LUV'}">
-									<span>연애조언</span>
-								</c:if>
-								<c:if test="${community.category == 'MET'}">
-									<span>모임후기</span>
-								</c:if>
-								<c:if test="${community.category == 'DAT'}">
-									<span>만남후기</span>
-								</c:if>
-								<c:if test="${community.category == 'NTC'}">
-									<span>공지사항</span>
-								</c:if>
-								
-							</td>
-							<td>
-								<span>${community.writeDate}</span>
-							</td>
-							<td>
-								<span>${community.like}</span>
-							</td>
-							<td>
-								<span>${listCommentCount[i-1]}</span>
-							</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			
-			</table>
+			<table class="table-type01">
+	            <colgroup>
+	                <col style="width:5%">
+	                <col style="width:15%">
+	                <col style="width:50%">
+	                <col style="width:20%">
+	                <col style="width:10%">
+	            </colgroup>
+	            <thead>
+	                <tr>
+	                    <th>No</th>
+	                    <th>카테고리</th>
+	                    <th>제목</th>
+	                    <th>작성일</th>
+	                    <th>공감수</th>
+	                </tr>
+	            </thead>
+	    
+	            <tbody>
+	            
+	            	<c:set var="i" value="0"/>
+	            	<c:forEach var="community" items="${list}">
+	            		<c:set var="i" value="${i+1}"/>
+	            		
+	            		<tr>
+		                    <td>${ i }</td>
+		                    <td>
+		                    	<c:if test="${community.category == 'RES'}"> [맛집정보] </c:if>
+		                    	<c:if test="${community.category == 'LUV'}"> [연애조언] </c:if>
+		                    	<c:if test="${community.category == 'MET'}"> [모임후기] </c:if>
+		                    	<c:if test="${community.category == 'DAT'}"> [만남후기] </c:if>
+		                    	<c:if test="${community.category == 'NTC'}"> [공지사항] </c:if>
+		                    </td>
+		                    <td class="getCommunityLink" data-param="${ community.communityNo }" data-param1="${ community.category }">
+		                    	${community.title }
+		                    </td>
+		                    <td>${community.writeDate}</td>
+		                    <td>${community.like}</td>
+		                </tr>
+	            		
+	            	</c:forEach>
+	            </tbody>
+        	</table>
 			<!-- 테이블 리스트 : end -->
 		</div>
 		
+		
+		
 		<!-- PageNavigation : start -->
-		<jsp:include page="/common/pageNavigator_new.jsp" />
+		<jsp:include page="/common/pageNavigator.jsp" />
 		<!-- PageNavigation : end -->
-	
-	
-	
 	</div>
+	
+	<!-- footer -->
+	<jsp:include page="/layout/footer.jsp" />
+	<!-- //footer -->
 
 </body>
 </html>
