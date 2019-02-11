@@ -2825,13 +2825,20 @@ body{overflow-y:scroll;}
 					font-size: 1.25em;
 				}
 
-				@media screen and (max-width: 980px) {
+				@media screen and (max-width: 1035px) {
 
 					#header a.navPanelToggle {
 						display: inline-block;
 					}
 
 				}
+/* 				@media screen and (max-width: 980px) {
+
+					#header a.navPanelToggle {
+						display: inline-block;
+					}
+
+				} */
 
 			@media screen and (max-width: 736px) {
 
@@ -2867,7 +2874,7 @@ body{overflow-y:scroll;}
 
 /* Nav */
 
-	@media screen and (max-width: 980px) {
+	@media screen and (max-width: 1035px) {
 
 		#nav {
 			display: none;

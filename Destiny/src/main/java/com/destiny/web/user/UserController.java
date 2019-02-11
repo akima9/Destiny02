@@ -416,6 +416,7 @@ public class UserController {
 	public ModelAndView getUserView(HttpSession session) throws Exception{
 		
 		int notRead = letterService.getCountNetReadReceive(((User)session.getAttribute("me")).getUserId());
+		session.setAttribute("notRead", notRead);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		/*modelAndView.setViewName("forward:/layout/header.jsp");*/
