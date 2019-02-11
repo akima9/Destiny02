@@ -14,7 +14,8 @@
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54cfa5aea3e5609fcbb420ef8cd6ed4c&libraries=services"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54cfa5aea3e5609fcbb420ef8cd6ed4c&libraries=services"></script><!-- 다음지도 -->
+	<script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script><!-- 카카오공유 -->
 	<link rel="stylesheet" href="/resources/css/main.css" > <!-- 우연메인 -->
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -42,7 +43,332 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-	
+	/* 메세지 스타일 */
+	#sendMessage {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 200px;
+  height: 40px;
+  line-height: 37px;
+  vertical-align: middle;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  font-family: "Open Sans Condensed";
+  font-size: 1.3rem;
+  color: White;
+  cursor: pointer;
+  z-index: 10;
+  -moz-transform-style: preserve-3D;
+  -webkit-transform-style: preserve-3D;
+  transform-style: preserve-3D;
+  -moz-transform: none;
+  -ms-transform: none;
+  -webkit-transform: none;
+  transform: none;
+  -moz-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  opacity: 1.0;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+#sendMessage.hide {
+  -moz-transform: perspective(1000px) translateY(-300px) rotateX(74deg);
+  -ms-transform: perspective(1000px) translateY(-300px) rotateX(74deg);
+  -webkit-transform: perspective(1000px) translateY(-300px) rotateX(74deg);
+  transform: perspective(1000px) translateY(-300px) rotateX(74deg);
+  opacity: 0.2;
+}
+
+.popup {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 30%;
+  height: 300px;
+  overflow: hidden;
+  z-index: 20;
+  font-family: "Montserrat", "Open Sans";
+  padding: 10px;
+  background-color: #777373;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.6);
+  -moz-transform-style: preserve-3D;
+  -webkit-transform-style: preserve-3D;
+  transform-style: preserve-3D;
+  -moz-transform: perspective(1000px) translateY(300px) rotateX(-74deg);
+  -ms-transform: perspective(1000px) translateY(300px) rotateX(-74deg);
+  -webkit-transform: perspective(1000px) translateY(300px) rotateX(-74deg);
+  transform: perspective(1000px) translateY(300px) rotateX(-74deg);
+  -moz-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  opacity: 0.2;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.popup.show {
+  display: block;
+  opacity: 1;
+  -moz-transform: none;
+  -ms-transform: none;
+  -webkit-transform: none;
+  transform: none;
+}
+.popup .headerMessage {
+  padding: 10px 10px;
+}
+.popup .headerMessage .titleMessage {
+  font-size: 1.6rem;
+  font-family: "Open Sans Condensed";
+  float: left;
+}
+.popup .headerMessage .iconMessage {
+  float: right;
+  font-size: 1.3rem;
+}
+.popup .headerMessage .iconMessage img {
+  cursor: pointer;
+  -moz-transform: none;
+  -ms-transform: none;
+  -webkit-transform: none;
+  transform: none;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.popup .contentMessage .iconMessage img:hover {
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+}
+.popup .headerMessage:before, .popup .headerMessage:after {
+  content: "";
+  display: table;
+}
+.popup .headerMessage:after {
+  clear: both;
+}
+.popup .contentMessage {
+  padding: 10px;
+  position: relative;
+}
+.popup .contentMessage * {
+  box-sizing: border-box;
+  box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+.popup .contentMessage html {
+  background-color: #1d1f20;
+  color: White;
+}
+.popup .contentMessage body {
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/102308/Blur-4.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+.popup .contentMessage #sendMessage {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 200px;
+  height: 40px;
+  line-height: 37px;
+  vertical-align: middle;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  border-radius: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  font-family: "Open Sans Condensed";
+  font-size: 1.3rem;
+  color: White;
+  cursor: pointer;
+  z-index: 10;
+  transform-style: preserve-3D;
+  transform-style: preserve-3D;
+  transform-style: preserve-3D;
+  transform: none;
+  transform: none;
+  transform: none;
+  transform: none;
+  backface-visibility: hidden;
+  backface-visibility: hidden;
+  backface-visibility: hidden;
+  opacity: 1;
+  transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.popup .contentMessage #sendMessage.hide {
+  transform: perspective(1000px) translateY(-300px) rotateX(74deg);
+  transform: perspective(1000px) translateY(-300px) rotateX(74deg);
+  transform: perspective(1000px) translateY(-300px) rotateX(74deg);
+  transform: perspective(1000px) translateY(-300px) rotateX(74deg);
+  opacity: 0.2;
+}
+.popup .contentMessage .popup {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 50%;
+  height: 300px;
+  overflow: hidden;
+  z-index: 20;
+  font-family: "Montserrat", "Open Sans";
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  border-radius: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.6);
+  transform-style: preserve-3D;
+  transform-style: preserve-3D;
+  transform-style: preserve-3D;
+  transform: perspective(1000px) translateY(300px) rotateX(-74deg);
+  transform: perspective(1000px) translateY(300px) rotateX(-74deg);
+  transform: perspective(1000px) translateY(300px) rotateX(-74deg);
+  transform: perspective(1000px) translateY(300px) rotateX(-74deg);
+  backface-visibility: hidden;
+  backface-visibility: hidden;
+  backface-visibility: hidden;
+  opacity: 0.2;
+  transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.popup .contentMessage .popup.show {
+  display: block;
+  opacity: 1;
+  transform: none;
+  transform: none;
+  transform: none;
+  transform: none;
+}
+.popup .contentMessage .popup .headerMessage {
+  padding: 10px 10px;
+}
+.popup .contentMessage .popup .headerMessage .titleMessage {
+  font-size: 1.6rem;
+  font-family: "Open Sans Condensed";
+  float: left;
+}
+.popup .contentMessage .popup .headerMessage .iconMessage {
+  float: right;
+  font-size: 1.3rem;
+}
+.popup .contentMessage .popup .headerMessage .iconMessage img {
+  cursor: pointer;
+  transform: none;
+  transform: none;
+  transform: none;
+  transform: none;
+  transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.popup .contentMessage .popup .headerMessage .iconMessage img:hover {
+  transform: scale(1.2);
+  transform: scale(1.2);
+  transform: scale(1.2);
+  transform: scale(1.2);
+}
+.popup .contentMessage .popup .headerMessage:before, .popup .contentMessage .popup .headerMessage:after {
+  content: "";
+  display: table;
+}
+.popup .contentMessage .popup .headerMessage:after {
+  clear: both;
+}
+.popup .contentMessage .popup .contentMessage {
+  padding: 10px;
+  position: relative;
+}
+.popup .contentMessage .popup .contentMessage textarea {
+  width: 100%;
+  height: 150px;
+  margin: 0;
+  border: 0;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  border-radius: 5px;
+  border-radius: 5px;
+  font-family: "Open Sans";
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+  color: White;
+}
+.popup .contentMessage textarea {
+  width: 100%;
+  height: 150px;
+  margin: 0;
+  border: 0;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  border-radius: 5px;
+  border-radius: 5px;
+  font-family: "Open Sans";
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+  color: White;
+}
+	/* 메세지 끝 */
 
 	.botton{
 	 
@@ -121,7 +447,42 @@
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
+	//카카오 공유
+	function shareKakaotalk() {
+		var titleName = $("#titleName").data("param");
+		var titleImg = $("#imgFile").data("param");
+		console.log(titleName);
+		console.log(titleImg);
+        Kakao.init("baad7faa4b3ad6290f086e2b755b061f");      // 사용할 앱의 JavaScript 키를 설정
+        Kakao.Link.sendDefault({
+              objectType:"feed"
+            , content : {
+                  title:"No.1 만남 Web\n우리들의 연결고리"   // 콘텐츠의 타이틀
+                , description:"["+titleName+"] 모임에 초대합니다"   // 콘텐츠 상세설명
+                , imageUrl: "http://cafefiles.naver.net/MjAxODA2MjFfMTAx/MDAxNTI5NTcwMjg3OTEw.21gaue1FyllFGbbc9XJScIzukSlVWux0X279tbprlJUg.fsIa9YiYvANM25xnZO56cQ10SPnDc1JvmrjTXGx6T5sg.JPEG.lskppo87/a.JPG"   // 썸네일 이미지
+                , link : {
+                      mobileWebUrl:"https://developers.kakao.com/"   // 모바일 카카오톡에서 사용하는 웹 링크 URL
+                    , webUrl:"https://developers.kakao.com/" // PC버전 카카오톡에서 사용하는 웹 링크 URL
+                }
+            }
+            , social : {
+                  likeCount:0       // LIKE 개수
+                , commentCount:0    // 댓글 개수s
+                , sharedCount:0     // 공유 회수
+            }
+            , buttons : [
+                {
+                      title:"우연 웹으로 이동"    // 버튼 제목
+                    , link : {
+                        mobileWebUrl:"https://developers.kakao.com/"   // 모바일 카카오톡에서 사용하는 웹 링크 URL
+                      , webUrl:"https://developers.kakao.com/" // PC버전 카카오톡에서 사용하는 웹 링크 URL
+                    }
+                }
+            ]
+        });
+    }
 	
+	//다음 지도
 	function loadMap(keyword){
 		if(keyword ==null || keyword == ""){
 			keyword = "비트캠프 종로센터";
@@ -595,15 +956,43 @@
 				}); 
 		
 			$("a:contains('쪽지보내기')").click(function () {
-				alert("쪽지");
-				console.log("쪽지 받는사람"+meetingnickname);
+				 
+				//alert("쪽지");
+				/*console.log("쪽지 받는사람"+meetingnickname);
 
 				popWin = window.open(
 						"/letter/sendLetterView/"+meetingnickname,
 						"popWin",
 						"left=300, top=200, width=300, height=500, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-
+ */
+				$(".popup").addClass("show");
 			 });
+			//쪽지 취소 아이콘 눌리면
+			$( "#messageCancle" ).on("click" , function() {
+				$("#contentMessage").empty();
+				$(".popup").removeClass("show");
+			});
+			
+			
+			//쪽지보내기 아이콘 눌리면
+			 $( "#sendNow" ).on("click" , function() {
+				 alert("암히얼");
+				  
+				 //var receiverId = $("input[name='receiverId']").val();
+				 var letterTitle = $("input[name='letterTitle']").val();
+				 var letterDetail = $("textarea[name='letterDetail']").val();
+				 $("#thisIsReceiver").val(meetingnickname); 
+				 
+				 if(letterTitle == "" || letterDetail == ""){
+					alert("필수값이 입력되지 않았습니다.")
+					 
+					return; 
+				 }
+				 
+				 $("#massageForm").attr("method" , "POST").attr("action" , "/letter/sendLetter").submit();
+			
+			 });
+			
 			
 			
 				
@@ -944,7 +1333,7 @@
 	</form>
 	<div class="container" >
 		<div class="col-xs-12 col-sm-12 col-md-12 neayong" align="center" id="bigletter">
-		  	<span>${meeting.meetingName}</span><br/>
+		  	<span id="titleName" data-param="${meeting.meetingName}">${meeting.meetingName}</span><br/>
 		  	<img src="/resources/images/meeting/family.png" width="50px" height="50px"/>
 		  	${meeting.interestName}
 		  	
@@ -1013,16 +1402,20 @@
 					<button class="button small">참여하기</button>
 					<button class="button small">참여자목록</button><hr/>
 					</div>
+				</div>
 					<c:if test="${meeting.snooze=='Y'}">
 						<div align="center">
 							<button  class="button small" type="button" id="nextMeeting">다음 모임 등록</button>
 						</div>
+						
 					</c:if>
-				</div>	
+				<a id="kakao-link-btn" onclick="shareKakaotalk()">
+					<img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"/>
+				</a>
 			</div>
 			<div class='row'>
 			<!-- 다음지도 -->
-			<div id="map" style="width:70%;height:350px;"></div>
+			<div id="map" style="width:70%;height:350px;margin-left: 12%; margin-top: 15px;"></div>
 
 			
 			<script>
@@ -1215,7 +1608,7 @@
 				 </div>
 				 
 				 <div class="form-group col-sm-12 col-md-12">
-				 	<input type="file" class="form-control" name="imgFile" id="imgFile" value="${meeting.titleImg}">
+				 	<input type="file" class="form-control" name="imgFile" id="imgFile" data-param="${meeting.titleImg}" value="${meeting.titleImg}">
 				 </div>
 				 
 				 <div class="form-group col-sm-12 col-md-12">
@@ -1313,6 +1706,22 @@
 				 <div id="map2" style="width:100%;height:350px;"></div>
 		</form>
 		<!-- //////////////////////////모달창  내용부 끝/////////////////////////////////////////////////// -->
+		</div>
+		
+		<div class="popup">
+		<form id="massageForm">
+		
+		<input type="hidden" name="receiverId" id="thisIsReceiver" value="">
+		  <div class="headerMessage">
+		    <div class="titleMessage">Send a message</div>
+		    <div id="messageCancle" align="end"><img src="https://img.icons8.com/ultraviolet/20/000000/delete-sign.png"></div>
+		  </div>
+		  <div class="contentMessage">
+		 	<input placeholder="message title" type="text" id="letterTitle" name="letterTitle" style="background:#0000004d; border: 1px solid #00000033;width: 100%;margin-bottom: 5px; color: white;">
+		    <textarea name="letterDetail" id="messageText" placeholder="Your message"></textarea>
+		    <div class="iconMessage" id="sendNow" align="end"><img src="https://img.icons8.com/ultraviolet/30/000000/paper-plane.png"></div>
+		  </div>
+		</form> 
 		</div>
 		<div id="backround"></div>
 		

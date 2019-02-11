@@ -7,19 +7,20 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>우리들의 연결고리</title>
-<!-- 
+
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-Latest compiled and minified CSS
+<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
 
-Optional theme
+<!-- Optional theme -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css" integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous">
 
 
-Latest compiled and minified JavaScript
+<!-- Latest compiled and minified JavaScript -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw" crossorigin="anonymous"></script>
- -->
+
  
  <!-- 참조 : http://getbootstrap.com/css/   -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -162,15 +163,12 @@ var userGrade = "${me.userGrade}";
 	}
 	
 	.topImg{
-		display : block;
-		position : absolute;
-		top : 0;
-		background-image : url("/resources/images/background/notice02_background.jpg");
-		background-repeat : no-repeat;
-		background-position : center -500px;
-		background-size : cover;
-		width : 100%;
+		max-width : 100%;
 		height : 400px;
+		background-image : url("/resources/images/background/noticeBackground.jpg");
+		background-position : center center;
+		background-size : cover;
+		background-repeat : no-repeat;
 	}
 	.topImg::after{
 		content : "";
@@ -183,16 +181,19 @@ var userGrade = "${me.userGrade}";
 	}
 	.topImg h1{
 		position : absolute;
-		line-height : 330px;
 		width : 100%;
+		margin : 0;
+		padding : 0;
+		font-family: 'Nanum Myeongjo', serif;
+		font-size : 60px;
 		text-align : center;
+		height : 400px;
+		line-height : 450px;
 		color : white;
 		z-index : 99;
-		font-size : 60px;
+		
 	}
 	h1 .slim{font-weight : lighter;}
-	
-	.wrap{margin-top : 400px;}
 	
 	.rightBtn{float : right; margin-left : 6px;}
 	
@@ -359,7 +360,7 @@ var userGrade = "${me.userGrade}";
 		
 		<div class="detail">
 			<div class="contentsDetail">${ community.detail }</div>
-			<input type="text" name="importRank" value="${community.importRank }">
+			<input type="hidden" name="importRank" value="${community.importRank }">
 		</div>
 		
 		<div class="control">

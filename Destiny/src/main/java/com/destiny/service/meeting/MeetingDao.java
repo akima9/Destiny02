@@ -27,7 +27,7 @@ public interface MeetingDao {
 	
 	public void updateViews(int meetingNo)throws Exception;
 	
-	public List<Meeting> getBestProduct() throws Exception;
+	public List<Meeting> getNearMeeting(String address) throws Exception;
 	
 	public void updateMeeting(Meeting meeting)throws Exception;
 	

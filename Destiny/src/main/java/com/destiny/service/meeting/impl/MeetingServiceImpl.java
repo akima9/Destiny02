@@ -96,8 +96,8 @@ public class MeetingServiceImpl implements MeetingService {
 	}
 
 	@Override
-	public Map<String, Object> getBestProduct() throws Exception {
-		List<Meeting> bestList= meetingDao.getBestProduct();
+	public Map<String, Object> getNearMeeting(String address) throws Exception {
+		List<Meeting> bestList= meetingDao.getNearMeeting(address);
 		
 		Map<String, Object> bestMap = new HashMap<String, Object>();
 		bestMap.put("bestList", bestList );

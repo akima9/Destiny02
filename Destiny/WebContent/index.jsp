@@ -53,7 +53,7 @@
 					for (var i = 0; i < 3; i++) {
 						var community = JSON.list[i];
 						console.log("communityNo : "+community.communityNo);
-						list += '<article style="text-align : center;"><div style="display:inline-block;width : 300px; height : 300px; border-radius : 100%; background : url(\'resources/images/uploadImg/'+community.fileName+'\'); background-size : cover; box-shadow : 0px 15px 15px -4px rgba(229, 66, 93, 0.7);border : 6px solid white;">';
+						list += '<article style="text-align : center;"><div style="display:inline-block;width : 300px; height : 300px; border-radius : 100%; background : url(\'resources/images/uploadImg/'+community.fileName+'\'); background-size : cover; box-shadow : 0px 15px 15px -4px rgba(229, 66, 93, 0.7);border : 3px solid white;">';
 						/* list += '<img src="resources/images/uploadImg/'+community.fileName+'" alt="title_img" />'; */
 						list += '</div>';
 						list += '<header><h3 style="color : white">'+community.title+'</h3></header>';
@@ -193,6 +193,11 @@ article{
 			float : left;
 		}
 			
+@media screen and (max-width:1280px){
+	.ment{
+		display : none;
+	}
+}			
 @media screen and (max-width:1180px){
 	#linkmove .flex div{
 		width : 48%;

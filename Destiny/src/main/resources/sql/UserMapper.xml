@@ -166,6 +166,16 @@
 	 	</where>
 	 </update>
 	 
+	 <update id="updatePassword" parameterType="com.destiny.service.domain.User">
+	 	UPDATE users
+	 	<set>
+	 		password = #{password}
+	 	</set>
+	 	<where>
+	 		user_id = #{userId}
+	 	</where>
+	 </update>
+	 
 	 <!-- //////////SQL : WARNING UPDATE///////////////////////////////////////////////////////////////////////// -->
 	 <update id="updateWarningCount" parameterType="com.destiny.service.domain.User">
 	 	UPDATE users
@@ -237,6 +247,8 @@
 							</where>
 						</if> ) countTable						
 	 </select>
+	 
+	 
 	 
 	 
 	 

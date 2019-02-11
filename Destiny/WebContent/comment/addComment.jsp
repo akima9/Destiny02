@@ -48,7 +48,6 @@
     
    //´ñ±Û ¸ñ·Ï : start
    function replyList(){
-	   alert("´ñ±Û ¸ñ·Ï Ãâ·Â");
        $.ajax({
            url : '/comment/rest/getCommentList/'+communityNo,
            type : 'get',
@@ -281,5 +280,6 @@
    </div>
       
    
+
 </body>
 </html>
