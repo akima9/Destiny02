@@ -33,7 +33,7 @@
 	//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "GET").attr("action" , "/act/getWriteCommentList").submit();
+		$("form").attr("method" , "GET").attr("action" , "/act/getCommentListByWriter/${me.userId}").submit();
 	}
 	
 	//============= 댓글 쓴 게시글로 이동  Event  처리(Click) =============	
@@ -190,7 +190,7 @@
 	            <thead>
 	                <tr>
 	                    <th>No</th>
-	                    <th>게시글번호</th>
+	                    <th>게시글</th>
 	                    <th>내용</th>
 	                    <th>작성일</th>
 	                </tr>
@@ -204,7 +204,8 @@
 	            		
 	            		<tr>
 		                    <td>${ i }</td>
-		                    <td class="getCommunityLink">${comment.commentComuNo}</td>
+		                    <%-- <td class="getCommunityLink">${comment.commentComuNo}</td> --%>
+		                    <td class="getCommunityLink">${stringList[i-1]}</td>
 		                    <td class="getCommunityLink" data-param="${comment.commentComuNo}">${comment.commentDetail}</td>
 		                    <td>${comment.commentDate}</td>
 		                </tr>
@@ -216,7 +217,7 @@
 		</div>
 		
 		<!-- PageNavigation : start -->
-		<jsp:include page="/common/pageNavigator_new.jsp" />
+		<jsp:include page="/common/pageNavigator.jsp" />
 		<!-- PageNavigation : end -->
 	
 	

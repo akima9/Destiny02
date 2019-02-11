@@ -157,7 +157,8 @@
 	 		crew_condition = #{crewCondition}
 	 	</set>
 	 	<where>
-	 		crew_id = #{meetingMasterId}
+	 		crew_id = #{meetingMasterId} 
+	 		AND meeting_no = #{meetingNo}
 	 	</where>
 	 </update>
 	 

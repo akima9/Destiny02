@@ -122,7 +122,7 @@
 					  <td align="left"><img src="/resources/images/userprofile/${user.profile}" width="170" height="170"/></td>
 					  <td align="left">${user.birthday}</td>
 					  <td align="left"><c:if test="${user.gender eq 'M'}">남성</c:if>
-					  				   <c:if test="${user.gender eq 'F'}">여성</c:if></td>
+					  				   <c:if test="${user.gender eq 'W'}">여성</c:if></td>
 					  <td align="left">
 						<c:if test="${user.userGrade=='NEW'}">신규회원</c:if>
 				  		<c:if test="${user.userGrade=='NOR'}">일반회원</c:if>

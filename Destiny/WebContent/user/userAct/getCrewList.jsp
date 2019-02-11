@@ -28,8 +28,6 @@
 			$("#currentPage").val(currentPage)
 			$("form").attr("method" , "GET").attr("action" , "/act/getMeetingAct/${contextMeeting.meetingNo}").submit();
 		}
-		<%-- <a class="btn btn-primary btn" href="/act/judgmentApply/yes/${meetingNo}/${meeting.meetingMasterId}" role="button" id="applyOK">가입 &nbsp;수락</a> --%>
-		<%-- <a class="btn btn-primary btn" href="/act/judgmentApply/no/${meetingNo}/${meeting.meetingMasterId}" role="button" id="applyNO">가입 &nbsp;거절</a> --%>
 		
 		//============= 모임 가입 수락/거절  Event  처리=============
 		 $(function() {
@@ -37,6 +35,7 @@
 			$(".applyOK").on("click", function(){
 				var meetingNo = $(this).data("param");
 				var meetingMasterId = $(this).data("param1");
+				alert("가입을 수락하시겠습니까?");
 				self.location = "/act/judgmentApply/yes/"+meetingNo+"/"+meetingMasterId;
 			});
 			
@@ -44,6 +43,8 @@
 			$(".applyNO").on("click", function(){
 				var meetingNo = $(this).data("param");
 				var meetingMasterId = $(this).data("param1");
+				
+				alert("가입을 거절하시겠습니까?");
 				self.location = "/act/judgmentApply/no/"+meetingNo+"/"+meetingMasterId;
 			});
 			 
@@ -122,10 +123,10 @@
 			margin-top : -2px;
 		}
 		
-		button{padding: 0 1em;}
+		button{padding: 0 2em; height:30px;}
 		
 		/* table sytle 추가 */
-		table{border-collapse:collapse; table-layout:fixed;}
+		table{border-collapse:collapse; table-layout:fixed; margin-top:20px;}
 		.table-type01{width:100%;}
 		.table-type01 thead tr th{position:relative; padding:10px 5px; vertical-align:middle; text-align:center; border-top:2px solid #000; font-size:16px; font-weight:600;}
 		.table-type01 thead tr th:before{content:''; position:absolute; top:50%; left:0; width:1px; height:20px; background:#DDD; transform:translateY(-50%);}
@@ -168,36 +169,68 @@
 				<li>모임 신청자</li>
 			</ul>
 			<!-- 페이지 내부 네비게이션 경로 : end -->
-		
+			
+			
 			<div>
+					<table class="row-table tablebm">
+						<caption>테이블 설명</caption>
+						
+						<colgroup>
+							<col style="width:50%;">
+							<col style="width:20%;">
+							<col style="width:30%;">
+						</colgroup>
+						
+						<tbody>
+							<tr>
+								<td rowspan="5" background="/resources/images/meeting/${contextMeeting.titleImg}">
+								</td>
+								<th>모임명</th>
+								<td>${contextMeeting.meetingName}</td>
+							</tr>
+							<tr>
+								<th>관심사</th>
+								<td>${contextMeeting.interestName}</td>
+							</tr>
+							<tr>
+								<th>장소</th>
+								<td>${contextMeetingAct.meetingLocation}</td>
+							</tr>
+							<tr>
+								<th>날짜 / 시간</th>
+								<td>${contextMeetingAct.meetingDate} / ${contextMeetingAct.meetingTime}</td>
+							</tr>
+							<tr>
+								<th>모임정원</th>
+								<td>${limit}명</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<hr/>
+			
+			
+		
+			<%-- <div>
 				<img src="/resources/images/meeting/${contextMeeting.titleImg}" width="1050" height="300"/><br/><br/>
 			
 				<h4>모임 명 : ${contextMeeting.meetingName}</h4>
+				<h4>회원 리미트 : ${limit}</h4>
 				<br/><br/>
 				
-			</div>
+			</div> --%>
 			
-			<!-- table 위쪽 검색 Start /////////////////////////////////////-->
-			  <div class="row">
-	    
-				<div class="6u text-left">
-					<p class="text-primary">
-						전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
-					</p>
-				</div>
-				
-				<div class="6u text-right">
-					<form class="form-inline" name="detailForm">
-					
-					
-					  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-					  <input type="hidden" id="currentPage" name="currentPage" value=""/>
-					  
-					</form>
-				</div>
-				
+			<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+			<%-- <form class="form-horizontal">
+			  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+			</form>
+			<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+			
+			<div class="12u" style="clear:both;"> 전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지</div> --%>
+			<div>
+				<h4>Message : ${reason}</h4>
+				<br/><br/>
 			</div>
-			<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 			
 			<!-- 테이블 리스트 : start -->
 			<table class="table-type01">
@@ -224,13 +257,19 @@
 	    
 	            <tbody>
 	            
+		            <c:if test="${listAPL[0] == null}">
+	            		<tr>
+	            			<td colspan="7"> 모임 신청자가 없습니다. </td>
+	            		</tr>
+	           		</c:if>
+	            		
 	            	<c:set var="i" value="0" />
 	            	<c:forEach var="meeting" items="${listAPL}">
 	            		<c:set var="i" value="${ i+1 }" />
 	            		<tr>
 	            			<td>${ meeting.meetingCrewNo }</td>
 	            			<td>
-	            				<img src="/resources/images/userprofile/${meeting.masterProfileImg}" width="150" height="150"/>
+	            				<img src="/resources/images/userprofile/${meeting.masterProfileImg}" width="100px" height="100px"/>
 	            			</td>
 	            			<td data-param="${meeting.meetingMasterId}">${meeting.crewNickName}</td>
 	            			<td>
@@ -249,10 +288,8 @@
 								</div>
 	            			</td>
 	            			<td>
-	            				<%-- <a class="btn btn-primary btn" href="/act/judgmentApply/yes/${meetingNo}/${meeting.meetingMasterId}" role="button" id="applyOK">가입 &nbsp;수락</a> --%>
-								<%-- <a class="btn btn-primary btn" href="/act/judgmentApply/no/${meetingNo}/${meeting.meetingMasterId}" role="button" id="applyNO">가입 &nbsp;거절</a> --%>
-								<button type="button" class="applyOK" id="applyOK" data-param="${meetingNo}" data-param1="${meeting.meetingMasterId}">가입 수락</button>
-								<button type="button" class="applyNO" id="applyNO" data-param="${meetingNo}" data-param1="${meeting.meetingMasterId}">가입 거절</button>
+								<button type="button" class="applyOK" id="applyOK" data-param="${meetingNo}" data-param1="${meeting.meetingMasterId}">수락</button>
+								<button type="button" class="applyNO" id="applyNO" data-param="${meetingNo}" data-param1="${meeting.meetingMasterId}">거절</button>
 	            			</td>
 	            		</tr>
 	            		
@@ -262,10 +299,9 @@
         	</table>
 			<!-- 테이블 리스트 : end -->
 			
-			<hr/><hr/>
 			
 			<!-- 테이블 리스트 : start -->
-			<table class="table-type01">
+			<%-- <table class="table-type01">
 	            <colgroup>
 	                <col style="width:5%">
 	                <col style="width:20%">
@@ -316,7 +352,7 @@
 	            	</c:forEach>
 	            	
 	            </tbody>
-        	</table>
+        	</table> --%>
 			<!-- 테이블 리스트 : end -->
 			
 			<%-- <!-- PageNavigation Start... -->

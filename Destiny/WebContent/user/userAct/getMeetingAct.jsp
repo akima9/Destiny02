@@ -18,10 +18,17 @@
 	<script src="/resources/javascript/util.js"></script>
 	<script src="/resources/javascript/main.js"></script>
 	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+	
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	
 	<script>
 		function fncGetList(currentPage) {
@@ -121,9 +128,11 @@
 		.homeImg{
 			margin-top : -2px;
 		}
+		
 		button{padding: 0 2em;}
+		.close {width: 35px; height: 30px; text-shadow: 0 1px 0 #ffdfe5;}
 		/* table sytle 추가 */
-		table{border-collapse:collapse; table-layout:fixed;}
+		table{border-collapse:collapse; table-layout:fixed; margin-top:20px;}
 		.table-type01{width:100%;}
 		.table-type01 thead tr th{position:relative; padding:10px 5px; vertical-align:middle; text-align:center; border-top:2px solid #000; font-size:16px; font-weight:600;}
 		.table-type01 thead tr th:before{content:''; position:absolute; top:50%; left:0; width:1px; height:20px; background:#DDD; transform:translateY(-50%);}
@@ -163,14 +172,237 @@
 				<li>모임 회차조회</li>
 			</ul>
 			<!-- 페이지 내부 네비게이션 경로 : end -->
-		
+			
 			<div>
+				<table class="row-table tablebm">
+					<caption>테이블 설명</caption>
+					
+					<colgroup>
+						<col style="width:50%;">
+						<col style="width:20%;">
+						<col style="width:30%;">
+					</colgroup>
+					
+					<tbody>
+						<tr>
+							<td rowspan="5" background="/resources/images/meeting/${contextMeeting.titleImg}">
+							</td>
+							<th>모임명</th>
+							<td>${contextMeeting.meetingName}</td>
+						</tr>
+						<tr>
+							<th>관심사</th>
+							<td>${contextMeeting.interestName}</td>
+						</tr>
+						<tr>
+							<th>장소</th>
+							<td>${contextMeetingAct.meetingLocation}</td>
+						</tr>
+						<tr>
+							<th>날짜 / 시간</th>
+							<td>${contextMeetingAct.meetingDate} / ${contextMeetingAct.meetingTime}</td>
+						</tr>
+						<tr>
+							<th>모임정원</th>
+							<td>${contextMeeting.meetingCrewLimit}명</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<hr/>
+			
+			<c:if test="${me.userId eq contextMeeting.meetingMasterId}">
+				<div class="row uniform">
+					<div class="flex ">
+				 		<div class="4u">
+				 			
+				 			<h4>모임 회원들의 상위 관심사 top5</h4>
+				 			<canvas id="myChart" width="400" height="400"></canvas>
+							<script>
+							var ctx = document.getElementById("myChart").getContext('2d');
+							var myChart = new Chart(ctx, {
+							    type: 'pie',
+							    data: {
+							        labels: ["${fiveTOPInerest[0]}", "${fiveTOPInerest[1]}", "${fiveTOPInerest[2]}", "${fiveTOPInerest[3]}", "${fiveTOPInerest[4]}"],
+							        datasets: [{
+							            label: '# of Votes',
+							            data: [${fiveTOP[0]}, ${fiveTOP[1]}, ${fiveTOP[2]}, ${fiveTOP[3]}, ${fiveTOP[4]}],
+							            backgroundColor: [
+							                'rgba(255, 99, 132, 0.2)',
+							                'rgba(54, 162, 235, 0.2)',
+							                'rgba(255, 206, 86, 0.2)',
+							                'rgba(75, 192, 192, 0.2)',
+							                'rgba(153, 102, 255, 0.2)'
+							            ],
+							            borderColor: [
+							                'rgba(255,99,132,1)',
+							                'rgba(54, 162, 235, 1)',
+							                'rgba(255, 206, 86, 1)',
+							                'rgba(75, 192, 192, 1)',
+							                'rgba(153, 102, 255, 1)'
+							            ],
+							            borderWidth: 1
+							        }]
+							    },
+							    options: {
+							        scales: {
+							            yAxes: [{
+							                ticks: {
+							                    beginAtZero:true
+							                }
+							            }]
+							        }
+							    }
+							});
+							</script>
+						</div>
+						
+						<div class="4u">	
+							<h4>모임 회원들의 성비</h4>
+				 			<canvas id="myChart2" width="400" height="400"></canvas>
+							<script>
+							var ctx = document.getElementById("myChart2").getContext('2d');
+							var myChart = new Chart(ctx, {
+							    type: 'doughnut',
+							    data: {
+							        labels: ["남성", "여성"],
+							        datasets: [{
+							            label: '# of Votes',
+							            data: [${maleNum}, ${femaleNum}],
+							            backgroundColor: [
+							                'rgba(255, 99, 132, 0.2)',
+							                'rgba(54, 162, 235, 0.2)'
+							            ],
+							            borderColor: [
+							                'rgba(255,99,132,1)',
+							                'rgba(54, 162, 235, 1)'
+							            ],
+							            borderWidth: 1
+							        }]
+							    },
+							    options: {
+							        scales: {
+							            yAxes: [{
+							                ticks: {
+							                    beginAtZero:true
+							                }
+							            }]
+							        }
+							    }
+							});
+							</script>
+						</div>
+							
+						<div class="4u">
+							<h4>모임 회원들의 연령대</h4>
+				 			<canvas id="myChart3" width="400" height="400"></canvas>
+							<script>
+							var ctx = document.getElementById("myChart3").getContext('2d');
+							var myChart = new Chart(ctx, {
+							    type: 'bar',
+							    data: {
+							        labels: ["0~19", "20~39", "40~59", "60~79", "80~99"],
+							        datasets: [{
+							            label: '# of Votes',
+							            data: [${firstGeneration}, ${secondGeneration}, ${thirdGeneration}, ${fourthGeneration}, ${fifthGeneration}],
+							            backgroundColor: [
+							                'rgba(255, 99, 132, 0.2)',
+							                'rgba(54, 162, 235, 0.2)',
+							                'rgba(255, 206, 86, 0.2)',
+							                'rgba(75, 192, 192, 0.2)',
+							                'rgba(153, 102, 255, 0.2)'
+							            ],
+							            borderColor: [
+							                'rgba(255,99,132,1)',
+							                'rgba(54, 162, 235, 1)',
+							                'rgba(255, 206, 86, 1)',
+							                'rgba(75, 192, 192, 1)',
+							                'rgba(153, 102, 255, 1)'
+							            ],
+							            borderWidth: 1
+							        }]
+							    },
+							    options: {
+							        scales: {
+							            yAxes: [{
+							                ticks: {
+							                    beginAtZero:false
+							                }
+							            }]
+							        }
+							    }
+							});
+							</script>
+						</div>
+					</div>
+				</div>
+				
+				
+			</c:if>
+			
+			
+			<hr/>
+		
+			<%-- <div>
 				<img src="/resources/images/meeting/${contextMeeting.titleImg}" width="1050" height="300"/><br/><br/>
 			
 				<h4>모임 명 : ${contextMeeting.meetingName}</h4>
 				<br/><br/>
 				
-			</div>
+			</div> --%>
+			
+			<%-- <table class="table-type01">
+	            <colgroup>
+	                <col style="width:5%">
+	                <col style="width:20%">
+	                <col style="width:10%">
+	                <col style="width:10%">
+	                <col style="width:45%">
+	                <col style="width:10%">
+	            </colgroup>
+	            <thead>
+	                <tr>
+	                    <th>No</th>
+	                    <th>프로필</th>
+	                    <th>닉네임</th>
+	                    <th>성별</th>
+	                    <th>소개글</th>
+	                    <th>수락 / 거절</th>
+	                </tr>
+	            </thead>
+	    
+	            <tbody>
+	            
+	            	<c:set var="i" value="0" />
+	            	<c:forEach var="meeting" items="${listYES}">
+	            		<c:set var="i" value="${ i+1 }" />
+	            		<tr>
+	            			<td>${ meeting.meetingCrewNo }</td>
+	            			<td>
+	            				<img src="/resources/images/userprofile/${meeting.masterProfileImg}" width="150" height="150"/>
+	            			</td>
+	            			<td data-param="${meeting.meetingMasterId}">${meeting.crewNickName}</td>
+	            			<td>
+	            				<c:if test="${listYESUser[i-1].gender eq 'M'}">남성</c:if>
+	            				<c:if test="${listYESUser[i-1].gender eq 'W'}">여성</c:if>
+	            			</td>
+	            			<td>
+	            				<div class="panel panel-info">
+								  <div class="panel-heading">
+									<h3 class="panel-title">${meeting.interviewTitle}</h3>
+								  </div>
+								  <div class="panel-body">
+									${meeting.interview}
+								  </div>
+								</div>
+	            			</td>
+	            			<td>수락됨</td>
+	            		</tr>
+	            		
+	            	</c:forEach>
+	            	
+	            </tbody>
+        	</table> --%>
 			
 			<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 			  <div class="row">
@@ -210,7 +442,7 @@
 	                    <th>No</th>
 	                    <th>회차</th>
 	                    <th>모임 날짜</th>
-	                    <th>모임 날짜</th>
+	                    <th>모임 시간</th>
 	                    <th>장소</th>
 	                    <th>모임원</th>
 	                    <th>리뷰작성</th>
@@ -225,13 +457,14 @@
 	            		
 	            		<tr>
 		                    <td>${ i }</td>
-		                    <td>${meeting.meetingActNo}회</td>
+		                    <td>${meeting.meetingActNo}</td>
 		                    <td>${meeting.meetingDate}</td>
 		                    <td>${meeting.meetingTime}</td>
 		                    <td>${meeting.meetingLocation}</td>
 		                    <td>
 		                    	<%-- <a class="btn btn-primary btn" href="/act/getActCrew/${meeting.meetingActNo}/${meeting.meetingActCount}/${contextMeeting.meetingNo}" role="button" id="getActCrew">보기</a> --%>
-		                    	<button type="button" class="getActCrew" id="getActCrew" data-param="${meeting.meetingActNo}" data-param1="${meeting.meetingActCount}" data-param2="${contextMeeting.meetingNo}">보기</button>
+		                    	<%-- <button type="button" class="getActCrew" id="getActCrew" data-param="${meeting.meetingActNo}" data-param1="${meeting.meetingActCount}" data-param2="${contextMeeting.meetingNo}">보기</button> --%>
+		                    	<button type="button" data-toggle="modal" data-target="#myModal2">보기</button>
 		                    </td>
 		                    <td>
 		                    	<!-- <a class="btn btn-primary btn" href="/act/addStoryView/MET" role="button" id="writeStoryButton">리뷰 작성</a> -->
@@ -239,6 +472,35 @@
 		                    </td>
 		                    
 		                </tr>
+		                <!-- Modal -->
+						<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" id="myModalLabel"> [ 모임에 참여한 회원 ]</h4>
+						      </div>
+						      
+						      
+						      <c:set var="i" value="0" />
+							  <c:forEach var="user" items="${listUser}">
+								<c:set var="i" value="${ i+1 }" />
+								<div class="modal-body">
+									<div class="row">
+										<div class="3u 6u(small)"><span><img src="/resources/images/userprofile/${user.profile}" width="150px" height="150px"/></span></div>
+									</div>
+								</div>
+							  </c:forEach>
+								  
+						      
+						      <div class="modal-footer">
+						        <button type="button" class="button" data-dismiss="modal">확인</button>
+						        <!-- <button type="button" class="button special">확인</button> -->
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						<!-- Modal -->
 	            		
 	            	</c:forEach>
 	            </tbody>
@@ -246,7 +508,7 @@
 			<!-- 테이블 리스트 : end -->
 			
 			<!-- PageNavigation Start... -->
-			<jsp:include page="/common/pageNavigator_new.jsp"/>
+			<jsp:include page="/common/pageNavigator.jsp"/>
 			<!-- PageNavigation End... -->
 		
 		</div>

@@ -36,7 +36,7 @@
 	//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "GET").attr("action" , "/act/getOpenMeetingList").submit();
+		$("form").attr("method" , "GET").attr("action" , "/act/getJoinMeetingList/${me.userId}").submit();
 	}
 		
 	 $(function() {
@@ -233,7 +233,7 @@
 		</div>
 		
 		<!-- PageNavigation : start -->
-		<jsp:include page="/common/pageNavigator_new.jsp" />
+		<jsp:include page="/common/pageNavigator.jsp" />
 		<!-- PageNavigation : end -->
 	
 	

@@ -34,7 +34,7 @@
 	//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "GET").attr("action" , "/act/getWriteCommunityList").submit();
+		$("form").attr("method" , "GET").attr("action" , "/act/getWriteCommunityList/${me.userId}").submit();
 	}
 	
 	//============= 해당 게시물로 이동하는  Event  처리(Click) =============	
@@ -47,13 +47,13 @@
 			if(category=='RES'){
 				self.location ="/info/getRestaurantInfo?communityNo="+$(this).data("param");
 			}else if(category =='LUV'){
-				self.location ="/info/getRestaurantInfo?communityNo="+$(this).data("param");
+				self.location ="/love/getLoveAdvice?communityNo="+$(this).data("param");
 			}else if(category == 'MET'){
-				//모임후기
+				self.location ="/meetingStory/getMeetingStory?communityNo="+$(this).data("param");
 			}else if(category == 'DAT'){
-				//만남후기
+				self.location ="/date/getDateStory?communityNo="+$(this).data("param");
 			}else if(category == 'NTC'){
-				//공지사항
+				self.location ="/notice/getNotice?communityNo="+$(this).data("param");
 			}
 			 
 		});
@@ -185,7 +185,7 @@
 			<!-- 페이지 내부 네비게이션 경로 : end -->
 			
 			<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-			<form class="form-inline" name="detailForm">			  
+			<form class="form-horizontal">			  
 			  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 			  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 			</form>
