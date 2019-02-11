@@ -75,6 +75,58 @@ public class ActRestController {
 		return list;
 	}
 	
+	@RequestMapping(value="json/getDateReviewListByAndroid/{currentPage}", method=RequestMethod.GET)
+	public List<Community> getDateReviewListByAndroid(@PathVariable int currentPage) throws Exception{
+		System.out.println("act/json/getReviewListByAndroid/"+currentPage);
+		
+		Search search = new Search();
+		
+		if(currentPage == 0) {
+			search.setCurrentPage(1);
+		} else {
+			search.setCurrentPage(currentPage);
+		}
+		
+		
+		search.setPageSize(pageSize);
+		
+		System.out.println(":: search : "+search);
+		
+		Map<String, Object> map = communityService.getDateStoryList(search);
+		
+		System.out.println("MAP : "+map);
+		
+		List<Community> list = (List<Community>)map.get("list");
+		return list;
+	}
+	
+	@RequestMapping(value="json/getMeetingReviewListByAndroid/{currentPage}", method=RequestMethod.GET)
+	public List<Community> getMeetingReviewListByAndroid(@PathVariable int currentPage) throws Exception{
+		System.out.println("act/json/getMeetingReviewListByAndroid/"+currentPage);
+		
+		Search search = new Search();
+		
+		if(currentPage == 0) {
+			search.setCurrentPage(1);
+		} else {
+			search.setCurrentPage(currentPage);
+		}
+		
+		
+		search.setPageSize(pageSize);
+		
+		System.out.println(":: search : "+search);
+		
+		Map<String, Object> map = communityService.getMeetingStoryList(search);
+		
+		System.out.println("MAP : "+map);
+		
+		List<Community> list = (List<Community>)map.get("list");
+		return list;
+	}
+	
+	
+	
 	@RequestMapping(value="json/getInfoListByAndroid/{currentPage}", method=RequestMethod.GET)
 	public List<Community> getInfoListByAndroid(@PathVariable int currentPage) throws Exception{
 		System.out.println("act/json/getInfoListByAndroid/"+currentPage);
@@ -96,6 +148,28 @@ public class ActRestController {
 		
 		List<Community> list = (List<Community>)map.get("list");
 		return list;
+	}
+	
+	@RequestMapping(value="json/getInfoByAndroid/{communityNo}", method=RequestMethod.GET)
+	public Community getInfoByAndroid(@PathVariable("communityNo") int communityNo) throws Exception{
+		System.out.println("act/json/getInfoByAndroid/"+communityNo);
+		
+		Community community = communityService.getCommunity(communityNo);
+		communityService.updateViews(communityNo);
+		System.out.println(community);
+		
+		return community;
+	}
+	
+	@RequestMapping(value="json/getAdvcieByAndroid/{communityNo}", method=RequestMethod.GET)
+	public Community getAdvcieByAndroid(@PathVariable("communityNo") int communityNo) throws Exception{
+		System.out.println("act/json/getInfoByAndroid/"+communityNo);
+		
+		Community community = communityService.getCommunity(communityNo);
+		communityService.updateViews(communityNo);
+		System.out.println(community);
+		
+		return community;
 	}
 	
 	@RequestMapping(value="json/getNoticeListByAndroid/{currentPage}", method=RequestMethod.GET)
@@ -120,6 +194,8 @@ public class ActRestController {
 		List<Community> list = (List<Community>)map.get("list");
 		return list;
 	}
+	
+	
 	
 	@RequestMapping(value="json/getMeetingByAndroid/{meetingNo}", method=RequestMethod.GET)
 	public Meeting getMeeting(@PathVariable int meetingNo) throws Exception{
