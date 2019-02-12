@@ -362,13 +362,13 @@ socket.on('updatechat', function (username, data1) {
 				//번역언어가 없을 경우
 				if (lang=="") {
 					$('<li class="sent"><img src="/resources/images/chatting/loading.gif" alt="" /><p>' + data1 + '</p></li>').appendTo($('.messages ul'));
-					$('.message-input input').val(null);
+					//$('.message-input input').val(null);
 					$(".messages").animate({ scrollTop: $(document).height() }, "fast");
 					//$('#user_1').append("<li><div class='you'><div><div class='name'>"+username+"</div><div class='img'></div><div class='text'><div>"+data1+"</div></div></div></div></li>");
 				//번역언어가 있을 경우
 				}else{
 					$('<li class="sent"><img src="/resources/images/chatting/loading.gif" alt="" /><p>' + data1 + '<br>'+Data+'</p></li>').appendTo($('.messages ul'));
-					$('.message-input input').val(null);
+					//$('.message-input input').val(null);
 					$(".messages").animate({ scrollTop: $(document).height() }, "fast");
 					//$('#user_1').append("<li><div class='you'><div><div class='name'>"+username+"</div><div class='img'></div><div class='text'><div>"+data1+"<br>"+Data+"</div></div></div></div></li>");	
 				}
@@ -378,6 +378,7 @@ socket.on('updatechat', function (username, data1) {
 			})
 		}else{
 			//alert("server message");
+			
 			$("<li><div class='title text-center'><div>"+username+"<div>"+data1+"</div></div></div></li>").appendTo($('.messages ul'));
 			$(".messages").animate({ scrollTop: $(document).height() }, "fast");
 			
@@ -394,6 +395,7 @@ socket.on('updatechat', function (username, data1) {
 		
 	}else{
 		//alert("내 message");
+		
 		$('<li class="replies"><img src="/resources/images/chatting/loading.gif" alt="" /><p>' + data1 + '</p></li>').appendTo($('.messages ul'));
 	$('.message-input input').val(null);
 	$(".messages").animate({ scrollTop: $(document).height() }, "fast");
@@ -573,7 +575,7 @@ function newMessage() {
 		//return false;
 	}else{
 		socket.emit('sendchat', message);
-		$(".message-input input").val('');
+		
 	}
 	
 	
