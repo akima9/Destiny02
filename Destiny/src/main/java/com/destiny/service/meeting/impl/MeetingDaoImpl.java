@@ -1,7 +1,11 @@
 package com.destiny.service.meeting.impl;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.destiny.common.Search;
 import com.destiny.service.domain.Meeting;
 import com.destiny.service.meeting.MeetingDao;
+import com.destiny.service.meeting.MeetingService;
 
 @Repository("meetingDaoImpl")
 public class MeetingDaoImpl implements MeetingDao {
@@ -21,6 +26,10 @@ public class MeetingDaoImpl implements MeetingDao {
 	public void setSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}	
+	
+	@Autowired
+	@Qualifier("meetingServiceImpl")
+	private MeetingService meetingService;
 	
 	public MeetingDaoImpl() {
 		System.out.println(this.getClass());
@@ -38,7 +47,7 @@ public class MeetingDaoImpl implements MeetingDao {
 			MultipartFile file = meeting.getImgFile();
 			byte fileData[] = file.getBytes();
 			picpath = file.getOriginalFilename();
-			FileOutputStream fos = new FileOutputStream("C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\meeting\\" + picpath);
+			FileOutputStream fos = new FileOutputStream("C:\\Users\\Bitcamp\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\meeting\\" + picpath);
 
 			fos.write(fileData);
 			fos.close();
@@ -103,15 +112,19 @@ public class MeetingDaoImpl implements MeetingDao {
 	@Override
 	public void updateContentsMeeting(Meeting meeting) throws Exception {
 		String picpath = "";
+		
 		if(meeting.getImgFile() !=null && !meeting.getImgFile().isEmpty()) {
 			MultipartFile file = meeting.getImgFile();
 			byte fileData[] = file.getBytes();
 			picpath = file.getOriginalFilename();
-			FileOutputStream fos = new FileOutputStream("C:\\Users\\Binna\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\meeting\\" + picpath);
+			FileOutputStream fos = new FileOutputStream("C:\\Users\\Bitcamp\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\meeting\\" + picpath);
 			fos.write(fileData);
 			fos.close();
+			meeting.setTitleImg(picpath);
+		}else {
+			meeting.setTitleImg(meetingService.getMeeting(meeting.getMeetingNo()).getTitleImg()); 
 		}
-		meeting.setTitleImg(picpath);
+		
 		
 		sqlSession.update("MeetingMapper.updateContentsMeeting",meeting);
 		

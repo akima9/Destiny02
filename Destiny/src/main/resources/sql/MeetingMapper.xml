@@ -41,11 +41,11 @@
 		SELECT* FROM interest
 	 </select>
 <!-- /////////////////베스트상품 조회////////////////// -->
-	 <select  id="getNearMeeting"  resultMap="meetingSelectMap">
+	 <select  id="getNearMeeting" parameterType="String" resultMap="meetingSelectMap">
 	 		SELECT *
 			FROM ( SELECT inner_table. * ,  ROWNUM AS row_seq 
 				FROM (
-				select*from meeting where meeting_center = '부천시' order by meeting_views desc
+				select*from meeting where meeting_center = #{value} order by meeting_views desc
 				) inner_table 
 			WHERE ROWNUM &lt;= 3)
 			WHERE row_seq BETWEEN 1 AND 3 
@@ -194,9 +194,10 @@
 	 <insert 	id="addCrewAct"		parameterType="com.destiny.service.domain.Meeting">
 	 	INSERT
 		INTO meeting_act_crew_list ( act_crew_no, meeting_act_no, meeting_crew_no,
-					act_crew_id, meeting_act_count) 
+					act_crew_id, meeting_act_count,meeting_act_date, 
+					meeting_act_time, meeting_act_location) 
 		VALUES	 ( seq_meeting_act_crew_no.nextval, #{meetingActNo}, #{meetingCrewNo},
-					#{meetingMasterId}, #{meetingActCount})
+					#{meetingMasterId}, #{meetingActCount}, #{meetingDate}, #{meetingTime}, #{meetingLocation})
 	 </insert>
 	 
 <!-- ////////////////모임원인지 확인 ////////////////// -->	 

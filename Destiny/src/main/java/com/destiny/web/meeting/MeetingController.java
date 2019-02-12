@@ -3,6 +3,7 @@ package com.destiny.web.meeting;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.destiny.common.Search;
 import com.destiny.service.domain.Meeting;
+import com.destiny.service.domain.User;
 import com.destiny.service.meeting.MeetingService;
 import com.destiny.common.Page;
 
@@ -114,12 +116,12 @@ public class MeetingController {
 	
 	@RequestMapping(value="addMeeting", method=RequestMethod.GET)
 	public ModelAndView addMeetingView(Model model,@ModelAttribute("meeting") Meeting meeting) throws Exception{
-		
+		//단순 페이지 이동
 		System.out.println("개설하기");
 		
-		Map<String , Object> map=meetingService.getInterestList();
+		//Map<String , Object> map=meetingService.getInterestList();
 		
-		model.addAttribute("list", map.get("list"));
+		//model.addAttribute("list", map.get("list"));
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/meeting/addMeeting.jsp");
@@ -130,9 +132,11 @@ public class MeetingController {
 	}
 	
 	@RequestMapping(value="addMeeting", method=RequestMethod.POST)
-	public ModelAndView addMeeting(@ModelAttribute("meeting") Meeting meeting) throws Exception{
+	public ModelAndView addMeeting(@ModelAttribute("meeting") Meeting meeting, HttpSession session) throws Exception{
 		System.out.println("하이에드포스트");
-		System.out.println(meeting);
+		//개설하기 페이지에서 개설하기 하면 오는곳
+		
+		meeting.setMeetingMasterId(((User)session.getAttribute("me")).getUserId());
 		
 		meetingService.addMeeting(meeting);
 		meetingService.addAct(meeting);
@@ -152,6 +156,7 @@ public class MeetingController {
 		model.addAttribute("list", map.get("list"));
 		
 		Meeting meeting = meetingService.getMeeting(meetingNo);
+		System.out.println("모임정원???"+meeting.getMeetingCrewLimit());
 		meetingService.updateViews(meetingNo);
 		Meeting meetingAct = meetingService.getAct(meetingNo);
 		int crewCount = meetingService.getCrewCount(meetingNo);
@@ -179,6 +184,13 @@ public class MeetingController {
 		String referer = Referer.split("8080/")[1];
 		System.out.println("refere ==="+Referer);
 		System.out.println("이것은 자른것"+referer);
+		
+		//String name = "";
+		/*if(meeting.getImgFile().getOriginalFilename() == "") {
+			System.out.println("파일업로드 안함");
+			meeting.setTitleImg(meetingService.getMeeting(meeting.getMeetingNo()).getTitleImg()); 
+			return null;
+		}*/
 		
 		//Meeting meeting = new Meeting();
 		System.out.println("미팅컨디션은"+meeting.getMeetingCondition());

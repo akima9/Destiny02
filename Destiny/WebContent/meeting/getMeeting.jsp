@@ -1,9 +1,7 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- 현재날짜구하기 -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 
 <!DOCTYPE html>
 
@@ -450,19 +448,22 @@
 	//카카오 공유
 	function shareKakaotalk() {
 		var titleName = $("#titleName").data("param");
-		var titleImg = $("#imgFile").data("param");
+		var titleImg = "192.168.0.52:8080/resources/images/meeting/"+$("#imgFile").data("param");
+		var reffer = window.location.href;
 		console.log(titleName);
 		console.log(titleImg);
+		console.log(reffer);
+		
         Kakao.init("baad7faa4b3ad6290f086e2b755b061f");      // 사용할 앱의 JavaScript 키를 설정
         Kakao.Link.sendDefault({
               objectType:"feed"
             , content : {
                   title:"No.1 만남 Web\n우리들의 연결고리"   // 콘텐츠의 타이틀
                 , description:"["+titleName+"] 모임에 초대합니다"   // 콘텐츠 상세설명
-                , imageUrl: "http://cafefiles.naver.net/MjAxODA2MjFfMTAx/MDAxNTI5NTcwMjg3OTEw.21gaue1FyllFGbbc9XJScIzukSlVWux0X279tbprlJUg.fsIa9YiYvANM25xnZO56cQ10SPnDc1JvmrjTXGx6T5sg.JPEG.lskppo87/a.JPG"   // 썸네일 이미지
+                , imageUrl: "https://i.imgur.com/hKx0BFY.jpg"   // 썸네일 이미지
                 , link : {
-                      mobileWebUrl:"https://developers.kakao.com/"   // 모바일 카카오톡에서 사용하는 웹 링크 URL
-                    , webUrl:"https://developers.kakao.com/" // PC버전 카카오톡에서 사용하는 웹 링크 URL
+                      mobileWebUrl:reffer   // 모바일 카카오톡에서 사용하는 웹 링크 URL
+                    , webUrl:reffer // PC버전 카카오톡에서 사용하는 웹 링크 URL
                 }
             }
             , social : {
@@ -474,12 +475,13 @@
                 {
                       title:"우연 웹으로 이동"    // 버튼 제목
                     , link : {
-                        mobileWebUrl:"https://developers.kakao.com/"   // 모바일 카카오톡에서 사용하는 웹 링크 URL
-                      , webUrl:"https://developers.kakao.com/" // PC버전 카카오톡에서 사용하는 웹 링크 URL
+                        mobileWebUrl:reffer   // 모바일 카카오톡에서 사용하는 웹 링크 URL
+                      , webUrl:reffer // PC버전 카카오톡에서 사용하는 웹 링크 URL
                     }
                 }
             ]
         });
+       
     }
 	
 	//다음 지도
@@ -617,12 +619,12 @@
 				alert("중심지역을 선택해 주세요.");
 				return;
 			}
-			
+			/* 
 			if(titleImg == null || titleImg.length<1){
 				alert("대표이미지를 설정하여 주세요.");
 				return;
 			}
-			
+			 */
 			if(meetingName == null || meetingName.length<1){
 				alert("모임이름을 작성하여 주세요.");
 				return;
@@ -1093,6 +1095,10 @@
 									meetingNo : "${meeting.meetingNo}" ,
 									meetingMasterId : "${sessionScope.me.userId}",
 									meetingActCount : count,
+									//meetingDate : "${meetingAct.meetingDate}",
+									//meetingTime : "${meetingAct.meetingTime}",
+									//meetingLocation : "${meetingAct.meetingLocation}",
+								
 									
 								}),
 								headers : {
@@ -1410,7 +1416,7 @@
 						
 					</c:if>
 				<a id="kakao-link-btn" onclick="shareKakaotalk()">
-					<img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"/>
+					<img style="width: 42px; height: 42px;" src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"/>
 				</a>
 			</div>
 			<div class='row'>
@@ -1631,7 +1637,6 @@
 				
 				 <div id="crewNo" class="form-group col-sm-4 col-md-4">
 				 	<select name="meetingCrewLimit" class="form-control">
-				 		<option value="1"  ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==1 ? "selected" : "" }>1</option>
 				 		<option value="2" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==2 ? "selected" : "" }>2</option>
 				 		<option value="3" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==3 ? "selected" : "" }>3</option>
 				 		<option value="4" ${ ! empty meeting.meetingCrewLimit && meeting.meetingCrewLimit==4 ? "selected" : "" }>4</option>
@@ -1663,7 +1668,9 @@
 				 </div>
 			</div>	 
 				 <div  id="dateOrDay" class="form-group col-sm-12 col-md-12">
-		 			<input style="width: 100%;padding-left: 0px;padding-right: 0px;" type="text" class="datepicker" readonly="readonly" class="form-control" placeholder="모임날짜" id="reDate" name="meetingDate"/>
+		 			<input value="${meetingAct.meetingDate }" style="width: 100%;padding-left: 0px;padding-right: 0px;" 
+		 			type="text" class="datepicker" readonly="readonly" class="form-control" 
+		 			placeholder="모임날짜" id="reDate" name="meetingDate"/>
 		 	
 				 	<!--  
 				 	<select class="form-control">
@@ -1673,7 +1680,7 @@
 				 </div>
 				 
 				 <div class="form-group col-sm-12 col-md-12">
-				 	<input style="width: 100%;" type="text" readonly="readonly"
+				 	<input value="${meetingAct.meetingTime }" style="width: 100%;" type="text" readonly="readonly"
 					class='form-control timepicker' name="meetingTime"
 					placeholder="시간을 선택해 주세요.">
 				 </div>
@@ -1683,12 +1690,12 @@
 				 </div>
 				 
 				 <div class="form-group col-sm-12 col-md-12">
-				 	<input style="width: 100%;" name="meetingDues" placeholder="ex)회비 1만원" type="text" class="form-control" value="${meeting.meetingDues}">
+				 	<input value="${meetingAct.meetingDues}" style="width: 100%;" name="meetingDues" placeholder="ex)회비 1만원" type="text" class="form-control" value="${meeting.meetingDues}">
 				 </div>
 				 
 				 <div class="form-group col-sm-12 col-md-12">
-					<input style="width: 100%;" name="meetingLocation" type="text" class="form-control"
-						id="place" placeholder="주소를 검색해주세요.">
+					<input value="${meetingAct.meetingLocation}" style="width: 100%;" name="meetingLocation" type="text" class="form-control"
+						id="place" placeholder="주소를 입력해주세요.">
 				</div>
 	
 				<div class="form-group col-sm-12 col-md-12">
