@@ -44,7 +44,7 @@ $(function() {
 	});
 	
 });
-/* 
+ 
 var n=1;
 	setTimeout(function() { 
    
@@ -63,7 +63,7 @@ var n=1;
 			
 	   		 n++; }, 1000);
 		
-	})(); */
+	})(); 
 
 </script>
 
@@ -102,7 +102,10 @@ section.wrapper, article.wrapper {
 }
 .image.fit img {
     width: 100%;
-    height: 120px;
+    height: 200px;
+}
+.in{
+margin-bottom: 50px;
 }
 
 </style>
@@ -121,7 +124,7 @@ section.wrapper, article.wrapper {
 		<c:set var="i" value="0" />
 		<c:forEach var="telepathy" items="${telepathyList}">
 		<c:set var="i" value="${ i+1 }" />	
-		<div class=" flex-2 flex-2">
+		<div class=" flex-2 flex-2 in">
 			<div class="row align-center  12u 12u$(small)">
 			  		<div class="5u"><strong>${i}</strong></div>
 					<div class="7u$">${telepathy.telepathyQuestion}</div>
