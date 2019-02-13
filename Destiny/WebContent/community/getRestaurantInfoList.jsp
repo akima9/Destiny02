@@ -7,7 +7,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>우리들의 연결고리</title>
@@ -15,7 +14,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>	
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
 <script src="/resources/javascript/jquery.min.js"></script>
 <script src="/resources/javascript/skel.min.js"></script>
@@ -27,7 +26,11 @@
 <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">
 
 
+
 </head>
+
+
+
 <script type="text/javascript">
 
 var userId = "${me.userId}";
@@ -40,7 +43,6 @@ console.log("userId : "+userId);
 
 
 $(function() {
-	
 	
 	
 	/* 무한스크롤 : start */
@@ -95,7 +97,11 @@ $(function() {
 					list += '</ul></div></div></div>';
 				}
 				
+				/* $(".rowList").html($(".rowList").html()+list); */
+				
 				$(".rowList").html($(".rowList").html()+list);
+				/* $(".giyong").hide();
+				$(".giyong").fadeIn(1000); */
 				
 				init();
 			}
@@ -381,6 +387,12 @@ $(function() {
 	}
 	.filter button{
 		float : right;
+	}
+	
+	
+	/* 빵메뉴 안맞아서 따로 만듬^^ */
+	.fa{
+		line-height : 50px;
 	}
 </style>
 	

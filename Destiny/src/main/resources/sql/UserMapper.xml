@@ -82,8 +82,8 @@
 	 
 	 <insert id="addUser" parameterType="com.destiny.service.domain.User">
 	 	INSERT 
-	 	INTO users(user_id, nick_name, user_grade, password, email, birthday, address, profile_img, gender, phone, attend_count, last_login_day, warning_count, first_interest, second_interest, third_interest)
-	 	VALUES	  (#{userId}, #{nickName}, 'NEW', #{password}, #{email}, #{birthday}, #{address}, #{profile}, #{gender}, #{phone}, 0, to_date('1970/01/19 10:48:43', 'YYYY/MM/DD HH24:MI:SS'), 0, #{firstInterest}, #{secondInterest}, #{thirdInterest})
+	 	INTO users(user_id, nick_name, user_grade, password, email, birthday, address, profile_img, gender, phone, attend_count, last_login_day, warning_count, first_interest, second_interest, third_interest, user_state)
+	 	VALUES	  (#{userId}, #{nickName}, 'NEW', #{password}, #{email}, #{birthday}, #{address}, #{profile}, #{gender}, #{phone}, 0, to_date('1970/01/19 10:48:43', 'YYYY/MM/DD HH24:MI:SS'), 0, #{firstInterest}, #{secondInterest}, #{thirdInterest},'I')
 	 </insert>
 	 
 	 <select id="locationList" parameterType="String" resultMap="locationSelectMap">

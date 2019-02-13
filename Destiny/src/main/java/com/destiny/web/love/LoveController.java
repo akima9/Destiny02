@@ -94,14 +94,22 @@ public class LoveController {
 	public ModelAndView addLoveAdvice(@ModelAttribute("community") Community community, HttpSession session, @RequestParam("uploadFile")MultipartFile fileName, MultipartHttpServletRequest mtfRequest, @ModelAttribute("upload")Upload upload) throws Exception{
 		System.out.println(":: LoveController/addLoveAdvice/post : 실행");
 		
-		/*대표이미지 업로드 : start*/
-		String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\uploadImg\\";
-		String name = System.currentTimeMillis()+"."+fileName.getOriginalFilename().split("\\.")[1];
-		
-		File file = new File(path + name);
+		if(fileName.getOriginalFilename() == "") {
+			System.out.println("이미지 없음");
+			upload.setFileName("basic.gif");
+		}else {
+			/*대표이미지 업로드 : start*/
+			String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\uploadImg\\";
+			String name = System.currentTimeMillis()+"."+fileName.getOriginalFilename().split("\\.")[1];
+			
+			File file = new File(path + name);
 
-		fileName.transferTo(file);
-		/*대표이미지 업로드 : end*/
+			fileName.transferTo(file);
+			/*대표이미지 업로드 : end*/
+			
+			upload.setFileName(name);
+		}
+		
 		
 		User user = (User)session.getAttribute("me"); 
 		String userId = user.getUserId();
@@ -128,12 +136,13 @@ public class LoveController {
 		System.out.println("community : "+community);
 		/*업로드 테이블 : start*/
 		upload.setCommunityNo(community.getCommunityNo());
-		upload.setFileName(name);
+		/*upload.setFileName(name);*/
 		upload.setFileCode("IMG");
 		uploadService.addUload(upload);
 		System.out.println("upload : "+upload);
 		/*업로드 테이블 : end*/
-		modelAndView.setViewName("/community/addLoveAdviceConfirm.jsp");
+		/*modelAndView.setViewName("/community/addLoveAdviceConfirm.jsp");*/
+		modelAndView.setViewName("/love/listLoveAdvice");
 		return modelAndView;
 	}
 	/*addLoveAdvice : end*/

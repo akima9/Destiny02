@@ -102,6 +102,10 @@ public class MeetingRestController {
 		int duplicationAct = meetingService.DuplicationAct(meeting);
 		System.out.println("참여중복값은"+duplicationAct);
 		if(duplicationAct >0 ) return 486; /*이미참여함*/
+		
+		meeting.setMeetingDate(meetingService.getAct(meeting.getMeetingNo()).getMeetingDate());
+	    meeting.setMeetingTime(meetingService.getAct(meeting.getMeetingNo()).getMeetingTime());
+	    meeting.setMeetingLocation(meetingService.getAct(meeting.getMeetingNo()).getMeetingLocation());
 
 		meeting.setMeetingDate(meetingService.getAct(meeting.getMeetingNo()).getMeetingDate());
 		meeting.setMeetingTime(meetingService.getAct(meeting.getMeetingNo()).getMeetingTime());

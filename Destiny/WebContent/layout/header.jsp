@@ -7,8 +7,6 @@
 <link rel="stylesheet" href="/resources/dist/css/superfish.css" media="screen">
 <script src="/resources/dist/js/hoverIntent.js"></script>
 <script src="/resources/dist/js/superfish.js"></script>
-<script src ="https://unpkg.com/sweetalert/dist/sweetalert.min.js" ></script >
-
 
 <script type="text/javascript">
 
@@ -65,6 +63,11 @@
       $("#btn-open-dialog,#dialog-background,#btn-close-dialog").click(function () {
          $("#my-dialog,#dialog-background").toggle();
       });
+      $("#letter_icon").on("click", function() {
+    	  popWin = window.open("/letter/getLetterList",
+				   	 "popWin",
+					 "left=300, top=200, width=1100, height=700, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+       });
       
    });
 //////////============= "로그인"  Event 연결 =============   
@@ -353,15 +356,37 @@
    .welcome{
    		font-family: 'Nanum Myeongjo', serif;
    		font-size : 16px;
+   		padding-right : 16px;
    }
    
-   @media screen and (max-width:1220px){
+   #mail{
+   		position : relative;
+   }
+	   #mailCount{
+	   	background : #ff3057;
+	   	border-radius : 100%;
+	   	width : 20px;
+	   	height : 20px;
+	   	line-height : 21px;
+	   	text-align : center;
+	   	position : absolute;
+	   	top : 10px;
+	   	left : 30px;
+	   	color : white;
+	   	font-size : 15px;
+	   }
+   
+   
+   @media screen and (max-width:1280px){
    		.welcome{display:none;}
    }
    @media screen and (max-width:1120px){
    		.welcome{display:none;}
    }
-   @media screen and (max-width:990px){
+   @media screen and (max-width:1015px){
+   		#mail{display:none;}
+   }
+   @media screen and (max-width:1035px){
    		.sf-menu{display:none;}
 		.right_nav{display:none;}
    }
@@ -427,15 +452,33 @@
          <c:if test="${me != null}">
          	<c:if test="${me.userGrade == 'ADM'}">
          		<li class="welcome">관리자로 접속중</li>
+            	<c:if test="${notRead != 0}">
+		            <li id="mail" >
+		            	<a id="letter_icon" href="#">
+		            		<span class="login_icon">
+		            			<img src="/resources/icon/mail.png">
+		            		</span>
+		            	</a>
+	            		<p id="mailCount">${notRead}</p>
+		            </li>
+	            </c:if>
 	            <li><a href="#"><span class="login_icon"><img src="/resources/icon/myPage.png"></span>MyPage</a></li>
             	<li><a href="#"><span class="login_icon"><img src="/resources/icon/logout.png"></span>logout</a></li>
-            	<li>쪽지 : ${notRead}</li>
 	         </c:if>
 	         <c:if test="${me.userGrade != 'ADM'}">
 	            <li class="welcome">${me.nickName}님 우리 ㄱr끔식 오래보r요...</li>
+	            <c:if test="${notRead != 0}">
+		            <li id="mail" >
+		            	<a id="letter_icon" href="#">
+		            		<span class="login_icon">
+		            			<img src="/resources/icon/mail.png">
+		            		</span>
+		            	</a>
+	            		<p id="mailCount">${notRead}</p>
+		            </li>
+	            </c:if>
 	            <li><a href="#"><span class="login_icon"><img src="/resources/icon/myPage.png"></span>MyPage</a></li>
 	            <li><a href="#"><span class="login_icon"><img src="/resources/icon/logout.png"></span>logout</a></li>
-	            <li>쪽지 : ${notRead}</li>
 	         </c:if>
          </c:if>
       </ul>

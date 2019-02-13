@@ -38,7 +38,7 @@
 	//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "GET").attr("action" , "/act/getContactList").submit();
+		$("form").attr("method" , "GET").attr("action" , "/act/getContactList/${me.userId}").submit();
 	}
 	
 	//=============리뷰 작성 Event 처리=============	
@@ -151,7 +151,7 @@
     
     <!-- 메인배경이미지 : start -->
 	<div class="topImg">
-		<h1>채팅 <span class="slim">조회</span></h1>
+		<h1>성사된 <span class="slim">만남</span></h1>
 	</div>
 	<!-- 메인배경이미지 : end -->
 	
@@ -165,7 +165,9 @@
 				<li>></li>
 				<li>마이페이지</li>
 				<li>></li>
-				<li>채팅 조회</li>
+				<li>활동관리</li>
+				<li>></li>
+				<li>성사된 만남</li>
 			</ul>
 			<!-- 페이지 내부 네비게이션 경로 : end -->
 			
@@ -199,6 +201,12 @@
 	    
 	            <tbody>
 	            
+	            	<c:if test="${list[0] == null}">
+	            		<tr>
+	            			<td colspan="7"> 성사된 만남이 없습니다. </td>
+	            		</tr>
+	           		</c:if>
+	            
 	            	<c:set var="i" value="0"/>
 	            	<c:forEach var="chatting" items="${list}">
 	            		<c:set var="i" value="${i+1}"/>
@@ -226,7 +234,7 @@
 		</div>
 		
 		<!-- PageNavigation : start -->
-		<jsp:include page="/common/pageNavigator_new.jsp" />
+		<jsp:include page="/common/pageNavigator.jsp" />
 		<!-- PageNavigation : end -->
 	
 	

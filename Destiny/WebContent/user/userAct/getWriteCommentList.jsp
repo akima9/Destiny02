@@ -33,7 +33,7 @@
 	//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "GET").attr("action" , "/act/getWriteCommentList").submit();
+		$("form").attr("method" , "GET").attr("action" , "/act/getCommentListByWriter/${me.userId}").submit();
 	}
 	
 	//============= 댓글 쓴 게시글로 이동  Event  처리(Click) =============	
@@ -152,7 +152,7 @@
     
     <!-- 메인배경이미지 : start -->
 	<div class="topImg">
-		<h1><span class="slim">작성한 </span>댓글 <span class="slim">조회</span></h1>
+		<h1><span class="slim">작성한 </span>댓글 <span class="slim"></span></h1>
 	</div>
 	<!-- 메인배경이미지 : end -->
 	
@@ -165,6 +165,8 @@
 				<li class="homeImg"><img alt="home" src="/resources/images/background/home.jpg"></li>
 				<li>></li>
 				<li>마이페이지</li>
+				<li>></li>
+				<li>활동관리</li>
 				<li>></li>
 				<li>작성한 댓글</li>
 			</ul>
@@ -190,7 +192,7 @@
 	            <thead>
 	                <tr>
 	                    <th>No</th>
-	                    <th>게시글번호</th>
+	                    <th>게시글</th>
 	                    <th>내용</th>
 	                    <th>작성일</th>
 	                </tr>
@@ -198,13 +200,20 @@
 	    
 	            <tbody>
 	            
+	            	<c:if test="${list[0] == null}">
+	            		<tr>
+	            			<td colspan="7"> 작성한 댓글이 없습니다. </td>
+	            		</tr>
+	           		</c:if>
+	            
 	            	<c:set var="i" value="0"/>
 	            	<c:forEach var="comment" items="${list}">
 	            		<c:set var="i" value="${i+1}"/>
 	            		
 	            		<tr>
 		                    <td>${ i }</td>
-		                    <td class="getCommunityLink">${comment.commentComuNo}</td>
+		                    <%-- <td class="getCommunityLink">${comment.commentComuNo}</td> --%>
+		                    <td class="getCommunityLink">${stringList[i-1]}</td>
 		                    <td class="getCommunityLink" data-param="${comment.commentComuNo}">${comment.commentDetail}</td>
 		                    <td>${comment.commentDate}</td>
 		                </tr>
@@ -216,7 +225,7 @@
 		</div>
 		
 		<!-- PageNavigation : start -->
-		<jsp:include page="/common/pageNavigator_new.jsp" />
+		<jsp:include page="/common/pageNavigator.jsp" />
 		<!-- PageNavigation : end -->
 	
 	

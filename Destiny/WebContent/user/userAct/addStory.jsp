@@ -102,10 +102,10 @@
 				alert("내용을 입력해주세요.");
 				return false;
 			}
-			if (file == null || file.length < 1) {
+			/* if (file == null || file.length < 1) {
 				alert("대표이미지를 등록해주세요.");
 				return false;
-			}
+			} */
 			
 			$("form").attr("method","POST").attr("action","/act/addStory/${Category}").submit();
 		}

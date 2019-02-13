@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -337,11 +338,12 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="addUser", method=RequestMethod.POST)
-	public ModelAndView addUser(@ModelAttribute("user") User user, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
+	public ModelAndView addUser(@ModelAttribute("user") User user, @RequestParam("uploadFile")MultipartFile profileName) throws Exception{
 		System.out.println("/user/addUser : POST");
 		
 		System.out.println("가져온 user정보 : " + user);
 		ModelAndView modelAndView = new ModelAndView();
+		
 		//=====================탈퇴한 회원인지 조회해서 탈퇴한 회원이면 신규회원으로 전환=========================
 	
 		if(userService.getUser(user.getUserId()) != null) {
@@ -353,56 +355,31 @@ public class UserController {
 				userService.updateGrade(user);
 			}*/
 		} else {
-			//===========================프로필 사진 업로드(다중)===========================
-			String temDir = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\userprofile\\";
 			
-			List<MultipartFile> fileList  = multipartHttpServletRequest.getFiles("file");
-			System.out.println("받은 파일들 : " + fileList);
+			String name = "";
 			
-			String originalFileName = null;
-			long fileSize = 0;
-			int idx = 0;
-			String initail = "";
-			
-			List list = new ArrayList();
-			
-			File file = new File(temDir);
-			if(file.exists() == false) {
-				file.mkdirs();
+			if(profileName.getOriginalFilename() == "") {
+				System.out.println("이미지 없음");
+				user.setProfile("basic.gif");
+			}else {
+				System.out.println("profileName : " + profileName);
+				
+				/*프로필이미지 업로드 : start*/
+				String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\userprofile\\";
+				name = System.currentTimeMillis()+"."+profileName.getOriginalFilename().split("\\.")[1];
+				
+				System.out.println("profilenameName : " + name);
+				
+				File file = new File(path + name);
+
+				profileName.transferTo(file);
+				/*프로필이미지 업로드 : end*/
+				
+				user.setProfile(name);
 			}
-			
-			//	================DB에 File이름 setting==================
-			for(MultipartFile mf : fileList) {
-				System.out.println("각 파일 : " + mf);
-				originalFileName = mf.getOriginalFilename();
-				System.out.println("파일 이름 : " + originalFileName);
-				
-				idx = originalFileName.indexOf('.');
-				initail = originalFileName.substring(idx, originalFileName.length());
-				originalFileName = originalFileName.substring(0, idx);
-				originalFileName += System.currentTimeMillis();
-				originalFileName += initail;
-				
-				list.add(originalFileName);
-				
-				fileSize = mf.getSize();
-				System.out.println("파일 사이즈 : " + fileSize);
-				
-				String safeFile = temDir + originalFileName;
-				System.out.println("파일 경로 + 이름 : " + safeFile);
-				file = new File(safeFile);
-				mf.transferTo(file);
-			}
-			String profileDomain = String.valueOf(list);
-			profileDomain = profileDomain.replace("[", "");
-			profileDomain = profileDomain.replace("]", "");
-			
-			user.setProfile(profileDomain);
-			//====================================================
-			//=========================================================================
-			user.setUserState("I");
 			
 			userService.addUser(user);
+			
 		}
 
 		modelAndView.setViewName("redirect:/index.jsp");
@@ -416,6 +393,7 @@ public class UserController {
 	public ModelAndView getUserView(HttpSession session) throws Exception{
 		
 		int notRead = letterService.getCountNetReadReceive(((User)session.getAttribute("me")).getUserId());
+		session.setAttribute("notRead", notRead);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		/*modelAndView.setViewName("forward:/layout/header.jsp");*/

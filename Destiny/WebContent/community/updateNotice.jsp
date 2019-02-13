@@ -26,6 +26,10 @@
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
 
+<script src="/resources/javascript/skel.min.js"></script>
+<script src="/resources/javascript/util.js"></script>
+<script src="/resources/javascript/main.js"></script>
+
 <link rel="stylesheet" href="/resources/css/main.css" >
 <script type="text/javascript">
 	$(function(){
@@ -186,6 +190,12 @@
 	}
 	.updateForm{
 		padding : 60px 0 10em 0;
+	}
+	
+	
+	/* 빵메뉴 안맞아서 따로 만듬^^ */
+	.fa{
+		line-height : 50px;
 	}
 </style>
 

@@ -34,7 +34,7 @@
 	//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "GET").attr("action" , "/act/getWriteCommunityList").submit();
+		$("form").attr("method" , "GET").attr("action" , "/act/getWriteCommunityList/${me.userId}").submit();
 	}
 	
 	//============= 해당 게시물로 이동하는  Event  처리(Click) =============	
@@ -47,13 +47,13 @@
 			if(category=='RES'){
 				self.location ="/info/getRestaurantInfo?communityNo="+$(this).data("param");
 			}else if(category =='LUV'){
-				self.location ="/info/getRestaurantInfo?communityNo="+$(this).data("param");
+				self.location ="/love/getLoveAdvice?communityNo="+$(this).data("param");
 			}else if(category == 'MET'){
-				//모임후기
+				self.location ="/meetingStory/getMeetingStory?communityNo="+$(this).data("param");
 			}else if(category == 'DAT'){
-				//만남후기
+				self.location ="/date/getDateStory?communityNo="+$(this).data("param");
 			}else if(category == 'NTC'){
-				//공지사항
+				self.location ="/notice/getNotice?communityNo="+$(this).data("param");
 			}
 			 
 		});
@@ -161,12 +161,10 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/header.jsp" />
   	<!-- ToolBar End /////////////////////////////////////-->
-  	
-  	
-    
+
     <!-- 메인배경이미지 : start -->
 	<div class="topImg">
-		<h1><span class="slim">작성한 </span>게시물 <span class="slim">조회</span></h1>
+		<h1><span class="slim">작성한 </span>게시글<span class="slim"></span></h1>
 	</div>
 	<!-- 메인배경이미지 : end -->
 	
@@ -180,12 +178,14 @@
 				<li>></li>
 				<li>마이페이지</li>
 				<li>></li>
-				<li>작성한 게시물 조회</li>
+				<li>활동관리</li>
+				<li>></li>
+				<li>작성한 게시글</li>
 			</ul>
 			<!-- 페이지 내부 네비게이션 경로 : end -->
 			
 			<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-			<form class="form-inline" name="detailForm">			  
+			<form class="form-horizontal">			  
 			  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 			  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 			</form>
@@ -212,6 +212,12 @@
 	            </thead>
 	    
 	            <tbody>
+	            
+	            	<c:if test="${list[0] == null}">
+	            		<tr>
+	            			<td colspan="7"> 작성한 게시글이 없습니다. </td>
+	            		</tr>
+	           		</c:if>
 	            
 	            	<c:set var="i" value="0"/>
 	            	<c:forEach var="community" items="${list}">

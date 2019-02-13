@@ -8,10 +8,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>우연</title>
-<!-- All CSS Insert -->
-<link rel="stylesheet" href="/resources/css/main.css" > 
-
-<!-- //All CSS Insert -->
 
 <!-- All js -->
 	<!--  템플릿 사용하기 위해 필요한 js -->
@@ -21,10 +17,41 @@
 	<script src="/resources/javascript/main.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
 	
+<!-- All CSS Insert -->
+<link rel="stylesheet" href="/resources/css/main.css" >
+<!-- //All CSS Insert -->
+	
 	
 	
 	<script>
-	
+	$(function(){
+		
+		/* 내가 쓴 게시글 링크 */
+		$(".user-act-top li:nth-child(1)").on("click",function(){
+			self.location = "/act/getWriteCommunityList/${me.userId}";
+		});
+		
+		/* 내가 쓴 댓글 링크 */
+		$(".user-act-top li:nth-child(2)").on("click",function(){
+			self.location = "/act/getCommentListByWriter/${me.userId}";
+		});
+		
+		/* 개설한 모임 링크 */
+		$(".user-act-top li:nth-child(3)").on("click",function(){
+			self.location = "/act/getOpenMeetingList/${me.userId}";
+		});
+		
+		/* 가입한 모임 링크 */
+		$(".user-act-bottom li:nth-child(1)").on("click",function(){
+			self.location = "/act/getJoinMeetingList/${me.userId}";
+		});
+		
+		/* 성사된 만남 링크 */
+		$(".user-act-bottom li:nth-child(2)").on("click",function(){
+			self.location = "/act/getContactList/${me.userId}";
+		});
+		
+	});
 	</script>
 <!-- //All js -->
 	
@@ -76,66 +103,97 @@
 		.inner{
 			text-align:center;
 		}
+			.inner .user-act-top a{
+				color : #fd5d7c;
+				text-decoration : none;
+			}
+			.inner .user-act-bottom a{
+				color : #fd5d7c;
+				text-decoration : none;
+			}
 		.user-act-top{
-			overflow:hidden;
 			display:inline-block;
 		}
 			.user-act-top li{
 				float : left;
-				padding:1em;
+				padding:4.5em;
 				width : 300px;
 				height : 300px;
 				text-align:center;
-				border:3px solid #fd5d7c;
+				border:2px solid #fd5d7c;
 				border-radius:100%;
 				margin : 0 30px 30px 0;
-				position : relative;
+				transition: 1s;
 			}
 			.user-act-top li:last-child{
 				margin-right : 0px;
 			}
-			.user-act-top a{
-				display : inline-block;
-				height : 300px;
-				width : 300px;
-				position : absolute;
-				top : -3px;
-				left : -3px;
-				border-radius : 100%;
-				line-height : 400px;
-				text-decoration : none;
-				color : #fd5d7c;
+			.user-act-top li:hover{
+				box-shadow: 15px 15px 0px 0px #ffbcc7;
+				transform: translate(-5%, -5%);
+				cursor : pointer;
+			}
+			.user-act-top .icon{
+				margin : 0 auto;
+				width : 50px;
+				height : 50px;
+				background : orange;
+				margin-bottom : 40px;
+			}
+			.user-act-top .post_icon{
+				background : url("/resources/icon/exam.png");
+				background-size : cover;
+			}
+			.user-act-top .comment_icon{
+				background : url("/resources/icon/talk.png");
+				background-size : cover;
+			}
+			.user-act-top .make_icon{
+				background : url("/resources/icon/workers.png");
+				background-size : cover;
 			}
 		
 		.user-act-bottom{
-			overflow:hidden;
 			display:inline-block;
 		}
 			.user-act-bottom li{
 				float : left;
-				padding:1em;
+				padding:4.5em;
 				width : 300px;
 				height : 300px;
 				text-align:center;
-				border:3px solid #fd5d7c;
+				border:2px solid #fd5d7c;
 				border-radius:100%;
 				margin : 0 30px 30px 0;
+				transition: 1s;
 			}
 			.user-act-bottom li:last-child{
 				margin-right : 0px;
 			}
-			.user-act-bottom li .icon{
-				margin:0 auto;
-				width : 80px;
-				height : 80px;
-				margin-top : 40px;
-				background : orange;
+			.user-act-bottom li:hover{
+				box-shadow: 15px 15px 0px 0px #ffbcc7;
+				transform: translate(-5%, -5%);
+				cursor : pointer;
 			}
-			.user-act-bottom .button{
-				margin-top : 50px;
-				padding:0 1.5em;
+			.user-act-bottom .icon{
+				margin : 0 auto;
+				width : 50px;
+				height : 50px;
+				background : orange;
+				margin-bottom : 40px;
+			}
+			.user-act-bottom .love_icon{
+				background : url("/resources/icon/relationship.png");
+				background-size : cover;
+			}
+			.user-act-bottom .join_icon{
+				background : url("/resources/icon/network.png");
+				background-size : cover;
 			}
 		
+	.navPanelToggle{
+		float : right;
+	}		
 	</style>
 
 </head>
@@ -159,58 +217,28 @@
 		
 			<ul class="user-act-top">
 				<li>
-					<div class="icon" style="background:url('/resources/icon/post-it.png');background-size:cover;"></div>
-					<a href="/act/getWriteCommunityList/${me.userId}">작성한 게시글 목록</a>
+					<div class="icon post_icon"></div>
+					<a href="/act/getWriteCommunityList/${me.userId}">작성한 게시글</a>
 				</li>
 				<li>
-					<!-- <div class="icon"></div> -->
-					<a href="/act/getCommentListByWriter/${me.userId}">작성한 댓글 목록</a>
+					<div class="icon comment_icon"></div>
+					<a href="/act/getCommentListByWriter/${me.userId}">작성한 댓글</a>
 				</li>
 				<li>
-					<!-- <div class="icon"></div> -->
-					<a href="/act/getOpenMeetingList/${me.userId}">개설한 모임 목록</a>
+					<div class="icon make_icon"></div>
+					<a href="/act/getOpenMeetingList/${me.userId}">개설한 모임</a>
 				</li>
 			</ul>
 			<ul class="user-act-bottom">
 				<li>
-					<!-- <div class="icon"></div> -->
-					<a href="/act/getJoinMeetingList/${me.userId}">가입한 모임 목록</a>
+					<div class="icon join_icon"></div>
+					<a href="/act/getJoinMeetingList/${me.userId}">가입한 모임</a>
 				</li>
 				<li>
-					<!-- <div class="icon"></div> -->
-					<a href="/act/getContactList/${me.userId}">성사된 만남 목록</a>
+					<div class="icon love_icon"></div>
+					<a href="/act/getContactList/${me.userId}">성사된 만남</a>
 				</li>
 			</ul>
-			<%-- <div class="box alt">
-				<div class="row 200% uniform ">
-					 
-					<div class="4u">
-					<a href="/act/getWriteCommunityList/${me.userId}" class="button special">작성한 개시글 목록</a>
-					<br/>당신이 작성한 개시글 목록을 관리하세요.
-					</div>
-
-					<div class="4u">
-					<a href="/act/getCommentListByWriter/${me.userId}" class="button special">작성한 댓글 목록</a>
-					<br/>당신이 작성한 댓글을 모아보세요.
-					</div>
-
-					<div class="4u">
-					<a href="/act/getOpenMeetingList/${me.userId}" class="button special">개설한 모임 목록</a>
-					<br/>당신이 개설한 모임의 목록을 관리하세요.
-					</div>
-
-					<div class="4u">
-					<a href="/act/getJoinMeetingList/${me.userId}" class="button special">가입한 모임 목록</a>
-					<br/>당신이 가입한 모임의 목록을 관리하세요.
-					</div>
-
-					<div class="4u">
-					<a href="/act/getContactList/${me.userId}" class="button special">성사된 만남 목록</a>
-					<br/>당신이 맞이해온 만남의 기록을 살펴보세요.
-					</div>
-
-				</div>
-			</div> --%>
 			
 		</div>
 	</section>
@@ -220,8 +248,6 @@
 	<!-- footer -->
 	<jsp:include page="/layout/footer.jsp" />
 	<!-- //footer -->
-	
-	
 	
 </body>
 </html>

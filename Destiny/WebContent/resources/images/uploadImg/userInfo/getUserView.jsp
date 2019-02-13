@@ -10,12 +10,6 @@
 <title>우연</title>
 
 <!-- All js -->
-<!-- 부트스트랩 CDN -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-
 <!--  템플릿 사용하기 위해 필요한 js -->
 <script src="/resources/javascript/jquery.min.js"></script>
 <script src="/resources/javascript/skel.min.js"></script>
@@ -50,12 +44,9 @@
 		
 		$(function(){
 			$("a[id='letterList']").on("click", function(){
-				popWin = window.open("/letter/getLetterList",
+				popWin = window.open("/letter/letterMain.jsp",
 					   	 "popWin",
-						 "left=300, top=200, width=1100, height=585, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-				/* popWin = window.open("/letter/getLetterList2.jsp",
-					   	 "popWin",
-						 "left=300, top=200, width=1100, height=585, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no"); */						 
+						 "left=300, top=200, width=1100, height=700, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 
 			});
 		});
@@ -216,54 +207,6 @@
 }
 
 
-
-
-
-		/* 쪽지함CSS : start */
-		ul{
-			margin : 0;
-			padding : 0;
-		}
-		
-		.modal-header{
-			border : 0;
-			text-align : center;
-		}
-		.modal-body{
-			padding : 0;
-		}
-		.modal-footer{
-			border : 0;
-		}
-		
-		#top{
-			overflow : hidden;
-		}
-			#top li{
-				list-style-type : none;
-				float : left;
-				padding : 0;
-				width : 50%;
-				border-top : 1px solid #e5e5e5;
-				border-bottom : 1px solid #e5e5e5;
-			}
-			#top li:nth-child(1){
-				border-right : 1px solid #e5e5e5;
-			}
-			#top li a{
-				text-decoration : none;
-				color : black;
-				display : block;
-				width : 100%;
-				text-align : center;
-				padding : 20px;
-			}
-			#top li a:hover{
-				color : white;
-				background : #ff264a;
-				transition : 1s;
-			}
-		/* 쪽지함CSS : end */
 </style>
 
 
@@ -315,7 +258,7 @@
 								<h4>성격 &amp; 유형</h4>
 								<p>
 								<div class="image">
-									<img
+									<img class="col-sm-3 col-md-3"
 										src="/resources/images/layout/KakaoTalk_20190129_213128976.jpg"
 										alt="Pic 01" width="250" height="250">
 								</div>
@@ -324,20 +267,16 @@
 							<li>
 								<h4>쪽지</h4>
 								<div class="image">
-									<img
+									<img class="col-sm-3 col-md-3"
 										src="/resources/images/layout/letterother.jpg" alt="Pic 01"
 										width="250" height="250" />
 								</div>
-								<!-- Button trigger modal -->
-								<!-- <button type="button" data-toggle="modal" data-target="#myModal2">
-									open
-								</button>-->
 								<a href="#" class="button" id="letterList">open</a>
 							</li>
 							<li>
 								<h4>활동관리</h4>
 								<div class="image">
-									<img alt="Pic 01"
+									<img class="col-sm-3 col-md-3" alt="Pic 01"
 										src="/resources/images/layout/act.jpg" width="250" height="250" />
 								</div>
 								<a href="/user/userAct/actMain.jsp" class="button"
@@ -346,7 +285,7 @@
 							<li>
 								<h4>개인정보조회</h4>
 								<div class="image">
-									<img alt="Pic 01"
+									<img class="col-sm-3 col-md-3" alt="Pic 01"
 										src="/resources/images/layout/users.png" width="250"
 										height="250" />
 								</div>
@@ -354,9 +293,19 @@
 									id="myInfoButton">move</a>
 							</li>
 						</ul>
+
+					
+
+
+				
+
+
+
+
+
 				<br />
 				<br />
-				<div>
+				<div class="col-sm-6 col-md-6">
 					<br />
 					<button id="leaveSite" type="button" >
 						<p>사이트 탈퇴</p>
@@ -368,37 +317,6 @@
 
 	</section>
 	<!-- //contents -->
-	
-	
-	<!-- Modal -->
-	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	  <div class="modal-dialog" role="document">
-
-	    <!-- modal-content : start -->
-	    <div class="modal-content">
-	      
-	      <div class="modal-header">
-	        <h4 class="modal-title" id="myModalLabel">쪽지</h4>
-	      </div>
-	      
-	      <div class="modal-body">
-			<section id="top">
-				<ul>
-					<li><a href="/letter/getLetterList">받은 쪽지함</a></li>
-					<li><a href="/letter/sendLetterList">보낸 쪽지함</a></li>
-				</ul>
-			</section>
-			<section id="bottom"></section>
-	      </div>
-	      
-	      <div class="modal-footer">
-	        <button type="button" data-dismiss="modal">Close</button>
-	      </div>
-	      
-	    </div>
-	    <!-- modal-content : end -->
-	  </div>
-	</div>
 	<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 	<!-- footer -->

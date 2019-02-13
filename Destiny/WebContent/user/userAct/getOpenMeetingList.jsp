@@ -36,33 +36,34 @@
 	//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "GET").attr("action" , "/act/getOpenMeetingList").submit();
+		$("form").attr("method" , "GET").attr("action" , "/act/getOpenMeetingList/${me.userId}").submit();
 	}
 	
-	//============= userId 에 회원정보보기  Event  처리(Click) =============	
 	 $(function() {
 	
-		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		 //==> 모임 이동
 		$( ".getMeetingLink" ).on("click" , function() {
 			 self.location ="/meeting/getMeeting?meetingNo="+$(this).data("param");
 		});
 		
 		//==> 가입 신청자
-		$(".getCrewList").on("click", function(){
+		/* $(".getCrewList").on("click", function(){
 			var meetingNo = $(this).data("param");
 			self.location = "/act/getCrewList/"+ meetingNo;
+		}); */
+		
+		//==> 가입 신청자(팝업창)
+		$(".getCrewList").on("click", function(){
+			var meetingNo = $(this).data("param");
+			popWin = window.open("/act/getCrewList/"+ meetingNo,
+				   	 "popWin",
+					 "left=300, top=200, width=1100, height=700, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 		});
 		
 		//==> 모임회차
 		$(".getMeetingAct").on("click", function(){
 			var meetingNo = $(this).data("param");
-			self.location = "/act/getMeetingAct/"+ meetingNo;
-		});
-		
-		//==> 모임차트
-		$(".getMeetingChart").on("click", function(){
-			var meetingNo = $(this).data("param");
-			self.location = "/act/meetingChart/"+ meetingNo;
+			self.location = "/act/getMeetingAct/${me.userId}/"+ meetingNo;
 		});
 		
 	});	
@@ -77,12 +78,8 @@
 	.container{
 		font-weight : 700;
 	}
-	.tumTitle{
-		font-weight : 700;
-	}
-	.button{
-		font-size : 16px;
-		font-weight : 700;
+	.wrap{
+		margin-top : 400px;
 	}
 	.topImg{
 		display : block;
@@ -116,17 +113,9 @@
 	h1 .slim{
 		font-weight : lighter;
 	}
-	.wrap{
-		margin-top : 400px;
-	}
-	
 	li{
 		list-style-type : none;
 	}
-	
-	/*  .container{
-		overflow : hidden;
-	} */
 	
 	.smallNavi{
 		overflow : hidden;
@@ -147,6 +136,7 @@
 	
 	button{padding: 0px 2em;}
 	.getMeetingLink{cursor:pointer;}
+	
 	/* table sytle 추가 */
 	.wrap{max-width:1440px; margin-top: 400px;}
 	table{border-collapse:collapse; table-layout:fixed; margin-top:20px;}
@@ -171,7 +161,7 @@
     
     <!-- 메인배경이미지 : start -->
 	<div class="topImg">
-		<h1><span class="slim">개설한 </span>모임 <span class="slim">조회</span></h1>
+		<h1><span class="slim">개설한 </span>모임 <span class="slim"></span></h1>
 	</div>
 	<!-- 메인배경이미지 : end -->
 	
@@ -184,6 +174,8 @@
 				<li class="homeImg"><img alt="home" src="/resources/images/background/home.jpg"></li>
 				<li>></li>
 				<li>마이페이지</li>
+				<li>></li>
+				<li>활동관리</li>
 				<li>></li>
 				<li>개설한 모임</li>
 			</ul>
@@ -206,9 +198,8 @@
 	                <col style="width:25%">
 	                <col style="width:10%">
 	                <col style="width:15%">
-	                <col style="width:10%">
-	                <col style="width:10%">
-	                <col style="width:10%">
+	                <col style="width:15%">
+	                <col style="width:15%">
 	            </colgroup>
 	            <thead>
 	                <tr>
@@ -219,11 +210,16 @@
 	                    <th>관심사</th>
 	                    <th>가입 신청자</th>
 	                    <th>회차 조회</th>
-	                    <th>모임 관리</th>
 	                </tr>
 	            </thead>
 	    
 	            <tbody>
+	            
+	            	<c:if test="${list[0] == null}">
+	            		<tr>
+	            			<td colspan="7"> 개설한 모임이 없습니다. </td>
+	            		</tr>
+	           		</c:if>
 	            
 	            	<c:set var="i" value="0"/>
 	            	<c:forEach var="meeting" items="${list}">
@@ -240,16 +236,10 @@
 		                    <td>${meeting.meetingCenter}</td>
 		                    <td>${meeting.interestName}</td>
 		                    <td>
-		                    	<%-- <a class="btn btn-primary btn" href="/act/getCrewList/${meeting.meetingNo}" role="button" id="getCrewList">신청자 조회</a> --%>
 		                    	<button type="button" class="getCrewList" id="getCrewList" data-param="${meeting.meetingNo}">신청자 조회</button>
 		                    </td>
 		                    <td>
-		                    	<%-- <a class="btn btn-primary btn" href="/act/getMeetingAct/${meeting.meetingNo}" role="button" id="getMeetingAct">회차 조회</a> --%>
 		                    	<button type="button" class="getMeetingAct" id="getMeetingAct" data-param="${meeting.meetingNo}">회차 조회</button>
-		                    </td>
-		                    <td>
-		                    	<%-- <a class="btn btn-primary btn" href="/act/meetingChart/${meeting.meetingNo}" role="button" id="getMeetingChart">차트 조회</a> --%>
-		                    	<button type="button" class="getMeetingChart" id="getMeetingChart" data-param="${meeting.meetingNo}">차트 조회</button>
 		                    </td>
 		                </tr>
 	            		
@@ -259,11 +249,15 @@
 			<!-- 테이블 리스트 : end -->
 			
 			<!-- PageNavigation : start -->
-			<jsp:include page="/common/pageNavigator_new.jsp" />
+			<jsp:include page="/common/pageNavigator.jsp" />
 			<!-- PageNavigation : end -->
 		</div>
 		
 	</div>
+	
+	<!-- footer -->
+	<jsp:include page="/layout/footer.jsp" />
+	<!-- //footer -->
 
 </body>
 </html>

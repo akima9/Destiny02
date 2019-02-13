@@ -41,6 +41,7 @@ import com.destiny.service.Act.ActService;
 import com.destiny.service.chatting.ChattingService;
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Chatting;
+import com.destiny.service.domain.Comment;
 import com.destiny.service.domain.Community;
 import com.destiny.service.domain.Meeting;
 import com.destiny.service.domain.Upload;
@@ -186,6 +187,7 @@ public class ActController {
 		modelAndView.addObject("limit", limit);
 		modelAndView.addObject("reason", reason);
 		modelAndView.addObject("contextMeeting", meetingService.getMeeting(meetingNo));
+		modelAndView.addObject("contextMeetingAct", meetingService.getAct(meetingNo));
 		return modelAndView;
 	}
 	
@@ -205,11 +207,11 @@ public class ActController {
 			
 		if(judgment.equals("yes")) {
 			if(contextMeeting.getMeetingCrewLimit() == meetingService.getCrewCount(meetingNo)) {
-				request.setAttribute("judgmentApplyReason", "가입 한도를 초과하셨습니다.");
+				request.setAttribute("judgmentApplyReason", "가입 인원을 초과하셨습니다.");
 			} else {
 				meeting.setCrewCondition("YES");
 				meeting.setMeetingMasterId(userId);
-				
+				meeting.setMeetingNo(meetingNo);
 				actService.updateCrewCondition(meeting);
 			}
 		} else if(judgment.equals("no")) {
@@ -222,11 +224,24 @@ public class ActController {
 	}
 	
 	
-	@RequestMapping(value="getMeetingAct/{meetingNo}", method=RequestMethod.GET)
-	public ModelAndView getMeetingAct(@PathVariable("meetingNo") int meetingNo, @ModelAttribute("search") Search search) throws Exception{
+	@RequestMapping(value="getMeetingAct/{userId}/{meetingNo}", method=RequestMethod.GET)
+	public ModelAndView getMeetingAct(@PathVariable("userId") String userId, @PathVariable("meetingNo") int meetingNo, @ModelAttribute("search") Search search) throws Exception{
 		
 		System.out.println("act/getMeetingAct : GET + " + meetingNo);
+		/* =============모임원 Start================================= */
+		List<Meeting> listCrew = actService.getCrewAll(meetingNo);
+		List<Meeting> listYES = new ArrayList<Meeting>();
+		List<User> listYESUser = new ArrayList<User>();
 		
+		for(Meeting v : listCrew) {
+			if(!v.getRole().equals("MST")){
+				if (v.getCrewCondition().equals("YES")) {
+					listYES.add(v);
+					listYESUser.add(userService.getUser(v.getMeetingMasterId()));
+				}
+			}
+		}
+		/* =============모임원 End================================= */
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
@@ -234,18 +249,196 @@ public class ActController {
 		search.setPageSize(pageSize);
 		
 		Meeting contextMeeting = meetingService.getMeeting(meetingNo);
+		Map<String , Object> map = actService.getMeetingAct(search, meetingNo,userId);
+		System.out.println("contextMeeting : " + meetingService.getAct(meetingNo));
+		System.out.println("mapppppppppppp2 : " + map.get("list"));
 		
-		Map<String , Object> map = actService.getMeetingAct(search, meetingNo);
+		/* ============모임 회차 참여인원 Start===================== */
+
+			List<Meeting>listMeeting = (List<Meeting>)map.get("list");
+			List<List> actCrewList = new ArrayList<List>();
+			
+			if( listMeeting.size() != 0) {
+				Meeting meetingAct = listMeeting.get(0);
+				System.out.println("모임 회차 참여인원 meetingAct : " + meetingAct);
+				
+				int meetingActNo = meetingAct.getMeetingActNo();
+				int meetingCount = meetingService.getAct(meetingNo).getMeetingActCount();
+				System.out.println("meetingCount : " + meetingCount);
+
+				for(int i = 1; i<=meetingCount;i++) {
+					
+					Meeting meeting = new Meeting();
+					meeting.setMeetingActNo(meetingActNo);
+					meeting.setMeetingActCount(i);
+					
+					List<String> listString = actService.getActCrew(meeting);
+					List<User> listUser = new ArrayList<User>();
+					
+					for(String v : listString) {
+						listUser.add(userService.getUser(v));
+						System.out.println("listUser : " + v  +"=====================");
+					}
+					
+					actCrewList.add(listUser);
+					
+				}
+			}
+			
+			
+		/* ===============모임 회차 참여인원 End=================== */
 		
+		/* =================차트 Start========================= */
+		
+		//============================================가입한 회원들의 주요 관심사=============================================
+		Map<String, Object> meetingCrewMap = meetingService.getCrew(meetingNo);
+		List<Meeting> meetingCrew = (List<Meeting>) meetingCrewMap.get("crewList");
+		
+		int[] personalInterestArray = new int[3];
+		User user = new User();
+		List<String> personalInterestList = new ArrayList<String>();
+		List<String> globalInterestList = new ArrayList<String>();
+		
+		for(Meeting m : meetingCrew) {
+			System.out.println("여기는?");
+			user = userService.getUser(m.getMeetingMasterId());
+			//meetingCrewUser.add(user);
+			
+			System.out.println("여긴 오나?");
+			
+			personalInterestArray[0] = user.getFirstInterest();
+			personalInterestArray[1] = user.getSecondInterest();
+			personalInterestArray[2] = user.getThirdInterest();
+			
+			personalInterestList = userService.getInterestByUser(personalInterestArray);
+			for(String s : personalInterestList) {
+				globalInterestList.add(s);
+			}
+		}
+		
+		List<String> interestList = userService.getInterestList();
+		
+		int[] numOfInterest = new int[19];
+		int i = 0;
+		
+		for(String s : interestList) {
+			for(String ss: globalInterestList) {
+				if(s.equals(ss)) {
+					numOfInterest[i]++;
+				}
+			}
+			i++;
+		}
+		
+		for(int j = 0; j<=18; j++) {
+			System.out.println(interestList.get(j) + " : " + numOfInterest[j]);
+		}
+		
+		int[] fiveTOP = new int[5];
+		String[] fiveTOPInerest = new String[5];
+		
+		int max = 0;
+		String maxInterest = "";
+		
+		int temporarily = 0;
+		
+		for(int k = 0; k<=4; k++){
+			
+			for(int j = 0; j<=18; j++) {
+				if(numOfInterest[j] > max) {
+					max = numOfInterest[j];
+					maxInterest = interestList.get(j);
+					
+					temporarily = j;
+				}
+			}
+			numOfInterest[temporarily] = 0;
+			temporarily = 0;
+			
+			fiveTOP[k] = max;
+			fiveTOPInerest[k] = maxInterest;
+			
+			max= 0;
+			maxInterest = "";
+		}
+		//===================================================================================================
+		
+		//==========================================모임 성비, 연령대=============================================
+		List<User> meetingCrewUser = new ArrayList<User>();
+		int femaleNum = 0;
+		int maleNum = 0;
+		
+		int firstGeneration = 0;	//0~19
+		int secondGeneration = 0;	//20~39
+		int thirdGeneration = 0;	//40~59
+		int fourthGeneration = 0;	//60~79
+		int fifthGeneration = 0;	//80~99
+		
+		int age = 0;
+		
+		java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
+		
+		for(Meeting m : meetingCrew) {
+			user = userService.getUser(m.getMeetingMasterId());
+			
+			if(user.getGender().equals("M")) {
+				maleNum++;
+			} else {
+				femaleNum++;
+			}
+			
+			LocalDate generation = new Date((user.getBirthday()).getTime()).toLocalDate();
+			LocalDate sqlDateLocal = new Date(sqlDate.getTime()).toLocalDate();
+			
+			Period period = Period.between(generation, sqlDateLocal);
+			age = period.getYears() + 2;
+			System.out.println("이사람은 몇짤???" + age);
+			
+			if(0 < age && age <= 19) {
+				firstGeneration++;
+			} else if(19 < age && age <= 39) {
+				secondGeneration++;
+			} else if(39 < age && age <= 59) {
+				thirdGeneration++;
+			} else if(59 < age && age <= 79) {
+				fourthGeneration++;
+			} else if(79 < age && age <= 99) {
+				fifthGeneration++;
+			}
+		}
+		
+		
+		//===================================================================================================
+		
+		/* =====================차트 end============================= */
+		
+		
+		
+		/*페이지 처리 Start*/
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("getMeetingActCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
+		/*페이지 처리 End*/
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/user/userAct/getMeetingAct.jsp");
 		modelAndView.addObject("list", map.get("list"));
+		modelAndView.addObject("listYES", listYES);
+		modelAndView.addObject("listYESUser", listYESUser);
 		modelAndView.addObject("resultPage", resultPage);
+		modelAndView.addObject("actCrewList",actCrewList);
 		modelAndView.addObject("search", search);
 		modelAndView.addObject("contextMeeting", contextMeeting);
+		modelAndView.addObject("contextMeetingAct", meetingService.getAct(meetingNo));
+		
+		modelAndView.addObject("fiveTOP", fiveTOP);
+		modelAndView.addObject("fiveTOPInerest", fiveTOPInerest);
+		modelAndView.addObject("maleNum", maleNum);
+		modelAndView.addObject("femaleNum", femaleNum);
+		modelAndView.addObject("firstGeneration", firstGeneration);
+		modelAndView.addObject("secondGeneration", secondGeneration);
+		modelAndView.addObject("thirdGeneration", thirdGeneration);
+		modelAndView.addObject("fourthGeneration", fourthGeneration);
+		modelAndView.addObject("fifthGeneration", fifthGeneration);
 		return modelAndView;
 	}
 	
@@ -315,9 +508,22 @@ public class ActController {
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("getTotalCountByCommentSwiter")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
+		List<String> stringList = new ArrayList<String>();
+		List<Comment> list = (List<Comment>)map.get("list");
+		
+		System.out.println("Comment : " + list +"============================================");
+		
+		for(Comment comment : list) {
+			Community community = communityService.getCommunity(comment.getCommentComuNo());
+			String communityTilte = community.getTitle();
+			stringList.add(communityTilte);
+			System.out.println("stringList : " + communityTilte);
+		}
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/user/userAct/getWriteCommentList.jsp");
 		modelAndView.addObject("list",  map.get("list"));
+		modelAndView.addObject("stringList", stringList);
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
 		return modelAndView;
@@ -370,14 +576,24 @@ public class ActController {
 	public ModelAndView addStory(@ModelAttribute("community") Community community, HttpSession session, @PathVariable("Category") String Category, @RequestParam("uploadFile")MultipartFile fileName, MultipartHttpServletRequest mtfRequest, @ModelAttribute("upload")Upload upload) throws Exception{
 		System.out.println(":: ActController/addStory/post : 실행");
 		
-		/*대표이미지 업로드 : start*/
-		String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\uploadImg\\";
-		String name = System.currentTimeMillis()+"."+fileName.getOriginalFilename().split("\\.")[1];
 		
-		File file = new File(path + name);
+		if(fileName.getOriginalFilename() == "") {
+			System.out.println("이미지 없음");
+			upload.setFileName("basic.gif");
+		}else {
+			/*대표이미지 업로드 : start*/
+			String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\uploadImg\\";
+			String name = System.currentTimeMillis()+"."+fileName.getOriginalFilename().split("\\.")[1];
+			
+			File file = new File(path + name);
 
-		fileName.transferTo(file);
-		/*대표이미지 업로드 : end*/
+			fileName.transferTo(file);
+			/*대표이미지 업로드 : end*/
+			
+			upload.setFileName(name);
+		}
+		
+		
 		
 		User user = (User)session.getAttribute("me"); 
 		String userId = user.getUserId();
@@ -404,7 +620,7 @@ public class ActController {
 		System.out.println("community : "+community);
 		/*업로드 테이블 : start*/
 		upload.setCommunityNo(community.getCommunityNo());
-		upload.setFileName(name);
+		/*upload.setFileName(name);*/
 		upload.setFileCode("IMG");
 		uploadService.addUload(upload);
 		System.out.println("upload : "+upload);

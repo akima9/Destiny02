@@ -117,7 +117,8 @@ public class NoticeController {
 		communityService.addCommunity(community);
 		
 		System.out.println("community : "+community);
-		modelAndView.setViewName("/community/addNoticeConfirm.jsp");
+		/*modelAndView.setViewName("/community/addNoticeConfirm.jsp");*/
+		modelAndView.setViewName("/notice/listNotice");
 		return modelAndView;
 	}
 	/*addNotice : end*/

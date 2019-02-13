@@ -153,7 +153,8 @@ public class LetterController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		return "forward:/letter/getLetterList.jsp";
+		/*return "forward:/letter/getLetterList.jsp";*/
+		return "forward:/letter/getLetterList2.jsp";
 	}
 	
 	@RequestMapping( value="sendLetterList", method=RequestMethod.GET)
@@ -181,7 +182,8 @@ public class LetterController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		return "forward:/letter/sendLetterList.jsp";
+		/*return "forward:/letter/sendLetterList.jsp";*/
+		return "forward:/letter/sendLetterList2.jsp";
 	}
 	
 }
