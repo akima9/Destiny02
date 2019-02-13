@@ -19,8 +19,6 @@
    	height : 70px;
    	border-radius : 50px;
    }
-   .commenterId{
-   }
    .replyContent p{
    	padding : 20px;
    }
@@ -48,7 +46,6 @@
     
    //댓글 목록 : start
    function replyList(){
-	   alert("댓글 목록 출력");
        $.ajax({
            url : '/comment/rest/getCommentList/'+communityNo,
            type : 'get',
@@ -58,22 +55,22 @@
                 $.each(JSONData, function(i){
                   var list = JSONData[i];
                   if(list.commentNo != list.targetNo){
-                     a += '<div class="replyAreaCoComment" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
+                     a += '<div class="replyAreaCoComment" style="border-bottom:1px solid darkgray; margin-bottom: 15px;padding:20px 0;">';
                   }else{
-                     a += '<div class="replyArea'+list.commentNo+'" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
+                     a += '<div class="replyArea'+list.commentNo+'" style="border-bottom:1px solid darkgray;padding:20px 0;">';
                   }
                    
                    a += '<div class="replyInfo'+list.commentNo+'" style="position:relative;"><div class="userProfileImgWrap" style="background : url(\'/resources/images/userprofile/'+list.profile+'\'); background-size : cover;"></div><span class="commenterId" style="position:absolute;top:20px;left:90px;">'+list.commentWriterId+'</span><div class="con" style="position:absolute;top:0;right:0;">';
                    if($('#loginUserId').val() == list.commentWriterId){
-                      a += '<a onclick="replyUpdate('+list.commentNo+',\''+list.commentDetail+'\', \''+list.commentWriterId+'\','+list.targetNo+',\''+list.profile+'\')"> 수정 </a>';
-                      a += '<a onclick="replyDelete('+list.commentNo+')"> 삭제 </a>';
+                      a += '<a style="background:url(\'/resources/icon/edit.png\');background-size:cover;display:inline-block;width:25px;height:25px;margin-right:10px;" onclick="replyUpdate('+list.commentNo+',\''+list.commentDetail+'\', \''+list.commentWriterId+'\','+list.targetNo+',\''+list.profile+'\')"></a>';
+                      a += '<a style="background:url(\'/resources/icon/delete.png\');background-size:cover;display:inline-block;width:25px;height:25px;" onclick="replyDelete('+list.commentNo+')"></a>';
                    }
                    if (list.commentNo == list.targetNo) {
-                      a += '<a onclick="reReplyInsert('+list.commentNo+',\''+list.commentDetail+'\', \''+list.commentWriterId+'\','+list.targetNo+',\''+list.profile+'\')"> 답글달기 </a></div></div>';
+                      a += '<a style="background:url(\'/resources/icon/comment.png\');background-size:cover;display:inline-block;width:25px;height:25px;margin-left:10px;" onclick="reReplyInsert('+list.commentNo+',\''+list.commentDetail+'\', \''+list.commentWriterId+'\','+list.targetNo+',\''+list.profile+'\')"></a></div></div>';
                }else{
                   a += '</div></div>';
                }
-                   a += '<div class="replyContent"  name="'+list.commentNo+'"> <p>'+list.commentDetail+'</p>';
+                   a += '<div class="replyContent"  name="'+list.commentNo+'"> <p style="padding-left:90px;">'+list.commentDetail+'</p>';
                    a += '</div></div>';
                });
                
@@ -138,15 +135,15 @@
    function replyUpdate(commentNo, commentDetail, commentWriterId, targetNo, profile){
       
       var a ='';
-      a += '<div class="input-group" style="padding : 20px;">';
-      a += '<input type="text" class="form-control" name="content_'+commentNo+'" value="'+commentDetail+'" autocomplete=off/>';
-      a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="replyUpdateProc('+commentNo+');">수정</button> </span>';
+      a += '<div style="padding : 20px;overflow:hidden;">';
+      a += '<input style="float:left;width:88%;" type="text" name="content_'+commentNo+'" value="'+commentDetail+'" autocomplete=off/>';
+      a += '<span><button style="float:right;" type="button" onclick="replyUpdateProc('+commentNo+');">수정</button> </span>';
       a += '</div>';
       $('.replyContent[name='+commentNo+']').html(a);
       
       var b = '';
       b += '<div class="replyInfo'+commentNo+'" style="position:relative;"><div class="userProfileImgWrap" style="background : url(\'/resources/images/userprofile/'+profile+'\'); background-size : cover;"></div><span class="commenterId" style="position:absolute;top:20px;left:90px;">'+commentWriterId+'</span><div class="con" style="position:absolute;top:0;right:0;">';
-      b += '<a onclick="replyUpdateCancel('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\');"> 수정취소 </a></div>';
+      b += '<a style="background:url(\'/resources/icon/return.png\');background-size:cover;display:inline-block;width:25px;height:25px;margin-right:10px;" onclick="replyUpdateCancel('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\');"></a></div>';
       $('.replyInfo'+commentNo+'').html(b);
    }
    
@@ -154,20 +151,20 @@
    function replyUpdateCancel(commentNo, commentDetail, commentWriterId, targetNo, profile){
       var a = '';
          a += '<div class="replyInfo'+commentNo+'" style="position:relative;"><div class="userProfileImgWrap" style="background : url(\'/resources/images/userprofile/'+profile+'\'); background-size : cover;"></div><span class="commenterId" style="position:absolute;top:20px;left:90px;">'+commentWriterId+'</span><div class="con" style="position:absolute;top:0;right:0;">';
-          a += '<a onclick="replyUpdate('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\')"> 수정 </a>';
-          a += '<a onclick="replyDelete('+commentNo+')"> 삭제 </a>';
+          a += '<a style="background:url(\'/resources/icon/edit.png\');background-size:cover;display:inline-block;width:25px;height:25px;margin-right:10px;" onclick="replyUpdate('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\')"></a>';
+          a += '<a style="background:url(\'/resources/icon/delete.png\');background-size:cover;display:inline-block;width:25px;height:25px;margin-right:10px;" onclick="replyDelete('+commentNo+')"></a>';
           /* 대댓글이면 수정 취소 했을 때 답글 달기가 노출 되면 안됨 */
           /* 댓글번호 == 타겟번호 노출
           댓글번호 != 타겟번호 노출안됨 */
           if (commentNo == targetNo) {
-             a += '<a onclick="reReplyInsert('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\')"> 답글달기 </a></div>';   
+             a += '<a style="background:url(\'/resources/icon/comment.png\');background-size:cover;display:inline-block;width:25px;height:25px;margin-right:10px;" onclick="reReplyInsert('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\')"></a></div>';   
       }else{
          a += '</div>';
       }
           $('.replyInfo'+commentNo+'').html(a);
       
       var b ='';
-         b += '<p>'+commentDetail+'</p>';
+         b += '<p style="padding-left:90px;">'+commentDetail+'</p>';
          $('.replyContent[name='+commentNo+']').html(b);
    }
    //댓글 수정 취소 : end
@@ -177,10 +174,10 @@
       var a = '';
          a += '<div class="replyInfo'+commentNo+'" style="position:relative;"><div class="userProfileImgWrap" style="background : url(\'/resources/images/userprofile/'+profile+'\'); background-size : cover;"></div><span class="commenterId" style="position:absolute;top:20px;left:90px;">'+commentWriterId+'</span><div class="con" style="position:absolute;top:0;right:0;">';
          if($('#loginUserId').val() == commentWriterId){
-           a += '<a onclick="replyUpdate('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\')"> 수정 </a>';
-           a += '<a onclick="replyDelete('+commentNo+')"> 삭제 </a>';
+           a += '<a style="background:url(\'/resources/icon/edit.png\');background-size:cover;display:inline-block;width:25px;height:25px;margin-right:10px;" onclick="replyUpdate('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\')"></a>';
+           a += '<a style="background:url(\'/resources/icon/delete.png\');background-size:cover;display:inline-block;width:25px;height:25px;margin-right:10px;" onclick="replyDelete('+commentNo+')"></a>';
         }
-          a += '<a onclick="reReplyInsert('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\')"> 답글달기 </a></div>';
+          a += '<a style="background:url(\'/resources/icon/comment.png\');background-size:cover;display:inline-block;width:25px;height:25px;margin-right:10px;" onclick="reReplyInsert('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\')"></a></div>';
           $('.replyInfo'+commentNo+'').html(a);
       
          $('.replyContent[name='+commentNo+'] > div').empty();
@@ -191,10 +188,10 @@
    function reReplyInsert(commentNo, commentDetail, commentWriterId, targetNo, profile){
       alert("답글 달기");
       var a ='';
-       a += '<div class="input-group">';
-       a += '<input type="text" class="form-control coCoInput" id="commentDetail" name="commentDetail" autocomplete="off"/>';
+       a += '<div style="overflow:hidden;">';
+       a += '<input style="width:85%;float:left;" type="text" class="coCoInput" id="commentDetail" name="commentDetail" autocomplete="off"/>';
        /* onclick="reReplyText('+commentNo+',\''+commentWriterId+'\');" */
-       a += '<span class="input-group-btn"><button id="coComentIn" class="btn btn-default" type="button" onclick="reReplyText('+commentNo+',\''+commentWriterId+'\');">답글등록</button> </span>';
+       a += '<span><button style="float:right" id="coComentIn" type="button" onclick="reReplyText('+commentNo+',\''+commentWriterId+'\');">답글등록</button> </span>';
        a += '</div>';
        
          // $('.replyContent'+cno).html(a);
@@ -202,7 +199,7 @@
        
        var b = '';
       b += '<div class="replyInfo'+commentNo+'" style="position:relative;"><div class="userProfileImgWrap" style="background : url(\'/resources/images/userprofile/'+profile+'\'); background-size : cover;"></div><span class="commenterId" style="position:absolute;top:20px;left:90px;">'+commentWriterId+'</span><div class="con" style="position:absolute;top:0;right:0;">';
-       b += '<a onclick="reReplyUpdateCancel('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\');"> 답글취소 </a></div>';
+       b += '<a style="background:url(\'/resources/icon/return.png\');background-size:cover;display:inline-block;width:25px;height:25px;margin-right:10px;" onclick="reReplyUpdateCancel('+commentNo+',\''+commentDetail+'\', \''+commentWriterId+'\','+targetNo+',\''+profile+'\');"></a></div>';
       $('.replyInfo'+commentNo+'').html(b);
        
    }
@@ -242,7 +239,9 @@
    .commentWrap{
       margin-top : 40px;
       padding : 20px;
-      background-color : #fffced;
+      /* background-color : #fffced; */
+      border : 1px solid #ffc6cf;
+      
    }
    
    .commentForm{
@@ -281,5 +280,6 @@
    </div>
       
    
+
 </body>
 </html>

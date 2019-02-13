@@ -291,6 +291,12 @@ $(function() {
 		float : left;
 		width : 160px;
 	}
+	
+	
+	/* 빵메뉴 안맞아서 따로 만듬^^ */
+	.fa{
+		line-height : 50px;
+	}
 </style>
 </head>
 
@@ -323,7 +329,7 @@ $(function() {
 		<form>
 			<div class="filter">
 			
-				<select class="searchSortingOption" name="searchSortingOption" >
+				<select class="sort-control searchSortingOption" name="searchSortingOption" >
 					<option value="0"
 						${ !empty search.searchSortingOption && search.searchSortingOption=="0" ? "selected" : ""}>최신 게시물 순</option>
 					<option value="1"
@@ -394,7 +400,7 @@ $(function() {
 							<span class="getRestaurantLink" data-param="${ community.communityNo }">${community.title }</span>
 						</td>
 						<td>
-							<span>${community.writerNickName }</span>
+							<span>관리자</span>
 						</td>
 						<td>
 							<span>${community.writeDate }</span>
@@ -423,5 +429,6 @@ $(function() {
 <!-- footer -->
 	<jsp:include page="/layout/footer.jsp" />
 	<!-- //footer -->
+
 </body>
 </html>

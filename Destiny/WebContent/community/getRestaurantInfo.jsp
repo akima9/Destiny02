@@ -24,7 +24,9 @@
  <!-- 참조 : http://getbootstrap.com/css/   -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-
+<script src="/resources/javascript/skel.min.js"></script>
+<script src="/resources/javascript/util.js"></script>
+<script src="/resources/javascript/main.js"></script>
 
 
 <link rel="stylesheet" href="/resources/css/main.css" >
@@ -140,15 +142,12 @@
 	}
 	
 	.topImg{
-		display : block;
-		position : absolute;
-		top : 0;
-		background-image : url("/resources/images/background/getRestaurantInfo07_background.jpg");
-		background-repeat : no-repeat;
-		background-position : center -400px;
-		background-size : cover;
-		width : 100%;
+		max-width : 100%;
 		height : 400px;
+		background-image : url("/resources/images/background/getRestaurantInfo_background.jpg");
+		background-position : center center;
+		background-size : cover;
+		background-repeat : no-repeat;
 	}
 	.topImg::after{
 		content : "";
@@ -161,16 +160,19 @@
 	}
 	.topImg h1{
 		position : absolute;
-		line-height : 330px;
 		width : 100%;
+		margin : 0;
+		padding : 0;
+		font-family: 'Nanum Myeongjo', serif;
+		font-size : 60px;
 		text-align : center;
+		height : 400px;
+		line-height : 450px;
 		color : white;
 		z-index : 99;
-		font-size : 60px;
+		
 	}
 	h1 .slim{font-weight : lighter;}
-	
-	.wrap{margin-top : 400px;}
 	
 	.rightBtn{float : right; margin-left : 6px;}
 	
@@ -265,6 +267,12 @@
 		background : red;
 		margin-bottom : 10em;
 		
+	}
+	
+	
+	/* 빵메뉴 안맞아서 따로 만듬^^ */
+	.fa{
+		line-height : 50px;
 	}
 </style>
 
@@ -380,7 +388,7 @@
 	 
 	</div>
 <!-- footer -->
-	<jsp:include page="/layout/footer.jsp" />
+	<%-- <jsp:include page="/layout/footer.jsp" /> --%>
 	<!-- //footer -->
 </body>
 </html>

@@ -62,7 +62,8 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 			
 			if(		uri.indexOf("addUser") != -1 ||	uri.indexOf("login") != -1 		|| 
 					uri.indexOf("json") != -1 || uri.indexOf("getBackSite") != -1   ||
-					uri.indexOf("act") != -1){
+					uri.indexOf("act") != -1	||	uri.indexOf("findId") != -1		||
+					uri.indexOf("updatePassword") != -1	||	uri.indexOf("Android") != -1){
 				System.out.println("[ 로그 시도 상태 .... ]");
 				System.out.println("[ LogonCheckInterceptor end........]\n");
 				return true;

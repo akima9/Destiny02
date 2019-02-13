@@ -15,7 +15,7 @@
 
 
    $(function() {
-	   
+      
       $("a[href='#' ]:contains('Destiny')").on("click", function() {
          self.location = "/index.jsp"
       });
@@ -65,6 +65,11 @@
       $("#btn-open-dialog,#dialog-background,#btn-close-dialog").click(function () {
          $("#my-dialog,#dialog-background").toggle();
       });
+      $("#letter_icon").on("click", function() {
+    	  popWin = window.open("/letter/getLetterList",
+				   	 "popWin",
+					 "left=300, top=200, width=1100, height=700, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+       });
       
    });
 //////////============= "로그인"  Event 연결 =============   
@@ -80,49 +85,49 @@
       $("#headerId").focus();
       
       $('#headerId').on("keyup", function(){
-    	  var id=$("#headerId").val();
-    	  $('.loginOk').text('');
-    	  if(id.length > 3 ){
-    		  $.ajax(
-        			  {
-        				  method : "GET",
-        				  url : '/user/json/getUser/'+id,
-        				  success : function(JSONData){
-        					  if(JSONData.user == null){
-        						  $('#loginCheckId').text('해당 회원이 존재하지 않습니다.');
-        					  }else{
-        						  $('#loginCheckId').text('');
-        						  if(JSONData.user.userGrade == 'BLK'){
-        							  $('#loginCheckBlack').text('블랙리스트');
-        						  }else if(JSONData.user.userGrade != 'BLK'){
-        							  $('#loginCheckBlack').text('');
-        						  }
-        					  }
-        				  }
-        		  
-        	  });
-    	  }else if(id.length == 0){
-    		  $('#loginCheckId').text('');
-    	  }
+         var id=$("#headerId").val();
+         $('.loginOk').text('');
+         if(id.length > 3 ){
+            $.ajax(
+                   {
+                      method : "GET",
+                      url : '/user/json/getUser/'+id,
+                      success : function(JSONData){
+                         if(JSONData.user == null){
+                            $('#loginCheckId').text('해당 회원이 존재하지 않습니다.');
+                         }else{
+                            $('#loginCheckId').text('');
+                            if(JSONData.user.userGrade == 'BLK'){
+                               $('#loginCheckBlack').text('블랙리스트');
+                            }else if(JSONData.user.userGrade != 'BLK'){
+                               $('#loginCheckBlack').text('');
+                            }
+                         }
+                      }
+                
+             });
+         }else if(id.length == 0){
+            $('#loginCheckId').text('');
+         }
       });
       
       $('#headerPw').on("keyup", function(){
-    	  var id=$("#headerId").val();
-    	  var pw=$("#headerPw").val();
-    	  $('.loginOk').text('');
-      	$.ajax(
-    			  {
-    				  method : "GET",
-    				  url : '/user/json/getUser/'+id,
-    				  success : function(JSONData){
-    					  if(JSONData.user.password != pw){
-    						  $('#loginCheckPw').text('비밀번호가 틀립니다.');
-    					  }else{
-    						  $('#loginCheckPw').text('');
-    					  }
-    				  }
-    		  
-    	  });
+         var id=$("#headerId").val();
+         var pw=$("#headerPw").val();
+         $('.loginOk').text('');
+         $.ajax(
+               {
+                  method : "GET",
+                  url : '/user/json/getUser/'+id,
+                  success : function(JSONData){
+                     if(JSONData.user.password != pw){
+                        $('#loginCheckPw').text('비밀번호가 틀립니다.');
+                     }else{
+                        $('#loginCheckPw').text('');
+                     }
+                  }
+            
+         });
       });
       
       $("#loginButton").on("click" , function() {
@@ -145,45 +150,46 @@
          }
          
          if($('#loginCheckId').text() != null && $('#loginCheckId').text() != ''){
-        	 //alert('아이디가 존재하지 않습니다.');
-        	 $('.loginOk').text('아이디가 존재하지 않습니다.');
-        	 $("#headerId").focus();
-        	 return false;
+            //alert('아이디가 존재하지 않습니다.');
+            $('.loginOk').text('아이디가 존재하지 않습니다.');
+            $("#headerId").focus();
+            return false;
          }
          
          if($('#loginCheckPw').text() != null && $('#loginCheckPw').text() != ''){
-        	 //alert('비밀번호가 틀립니다.');
-        	 $('.loginOk').text('비밀번호가 일치하지 않습니다.');
-        	 $("#headerPw").focus();
-        	 return false;
+            //alert('비밀번호가 틀립니다.');
+            $('.loginOk').text('비밀번호가 일치하지 않습니다.');
+            $("#headerPw").focus();
+            return false;
          }
          
          if($('#loginCheckBlack').text() != null && $('#loginCheckBlack').text() != ''){
-        	 //alert('블랙리스트 회원입니다.');
-        	 $('.loginOk').text('블랙리스트 회원입니다.');
-        	 $("#headerPw").focus();
-        	 return false;
+            //alert('블랙리스트 회원입니다.');
+            $('.loginOk').text('블랙리스트 회원입니다.');
+            $("#headerPw").focus();
+            return false;
          }
          
          $("#loginForm").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
       });
       
-    	  /* $.ajax(
-    			  {
-    				  method : "GET",
-    				  url : '/user/json/getUser/'+id,
-    				  success : function(JSONData){
-    					  if(JSONData.user == null){
-    						  alert('user없음');
-    						  $('#loginCheck').text('user없음');
-    					  }
-    				  }
-    		  
-    	  }) */
+         /* $.ajax(
+               {
+                  method : "GET",
+                  url : '/user/json/getUser/'+id,
+                  success : function(JSONData){
+                     if(JSONData.user == null){
+                        alert('user없음');
+                        $('#loginCheck').text('user없음');
+                     }
+                  }
+            
+         }) */
       
    });   
 </script>
 <style>
+
    @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR|Pacifico');
    
    strong{
@@ -313,7 +319,7 @@
        border: none;
        color: #555;
        border-radius: 2px;
-       width:90%;
+       width:100%;
    }
    #header a:last-child{
       padding-right : 14px;
@@ -352,23 +358,61 @@
    .welcome{
    		font-family: 'Nanum Myeongjo', serif;
    		font-size : 16px;
+   		padding-right : 16px;
    }
    
-   @media screen and (max-width:1200px){
+   #mail{
+   		position : relative;
+   }
+	   #mailCount{
+	   	background : #ff3057;
+	   	border-radius : 100%;
+	   	width : 20px;
+	   	height : 20px;
+	   	line-height : 21px;
+	   	text-align : center;
+	   	position : absolute;
+	   	top : 10px;
+	   	left : 30px;
+	   	color : white;
+	   	font-size : 15px;
+	   }
+   
+   
+   @media screen and (max-width:1280px){
    		.welcome{display:none;}
    }
    @media screen and (max-width:1120px){
    		.welcome{display:none;}
    }
-   @media screen and (max-width:990px){
+   @media screen and (max-width:1015px){
+   		#mail{display:none;}
+   }
+   @media screen and (max-width:1035px){
    		.sf-menu{display:none;}
 		.right_nav{display:none;}
    }
+
+	.logo{
+		font-family: 'Pacifico';
+	}
+	
+	.login_icon img{
+		width : 20px;
+		margin-top : -4px;
+		vertical-align: middle;
+		margin-right : 10px;
+	}
+	
+	.right_nav li{
+		padding-left : 0px;
+	}
 </style>
+
 <header id="header">
 
    <div class="inner">
-      <a href="#" class="logo" style="font-family: 'Pacifico';font-size:30px;font-weight:bold;">Destiny</a>
+      <a href="#" class="logo">Destiny</a>
       <!-- header 수정 후엔 footer.jsp에 #navepanel도 수정해주기 -->
       <ul class="sf-menu" id="example">
          <li><a href="#">Meeting</a></li>
@@ -404,19 +448,39 @@
 		
          
          <c:if test="${me == null}">
-            <li><a href="#" id="btn-open-dialog" >login</a></li>
+            <li><a href="#" id="btn-open-dialog" ><span class="login_icon"><img src="/resources/icon/login.png"></span>login</a></li>
             <li><a href="#">join</a></li>
          </c:if>
          <c:if test="${me != null}">
          	<c:if test="${me.userGrade == 'ADM'}">
          		<li class="welcome">관리자로 접속중</li>
-	            <li><a href="#">MyPage</a></li>
-            	<li><a href="#">logout</a></li>
+            	<c:if test="${notRead != 0}">
+		            <li id="mail" >
+		            	<a id="letter_icon" href="#">
+		            		<span class="login_icon">
+		            			<img src="/resources/icon/mail.png">
+		            		</span>
+		            	</a>
+	            		<p id="mailCount">${notRead}</p>
+		            </li>
+	            </c:if>
+	            <li><a href="#"><span class="login_icon"><img src="/resources/icon/myPage.png"></span>MyPage</a></li>
+            	<li><a href="#"><span class="login_icon"><img src="/resources/icon/logout.png"></span>logout</a></li>
 	         </c:if>
 	         <c:if test="${me.userGrade != 'ADM'}">
 	            <li class="welcome">${me.nickName}님 우리 ㄱr끔식 오래보r요...</li>
-	            <li><a href="#">MyPage</a></li>
-	            <li><a href="#">logout</a></li>
+	            <c:if test="${notRead != 0}">
+		            <li id="mail" >
+		            	<a id="letter_icon" href="#">
+		            		<span class="login_icon">
+		            			<img src="/resources/icon/mail.png">
+		            		</span>
+		            	</a>
+	            		<p id="mailCount">${notRead}</p>
+		            </li>
+	            </c:if>
+	            <li><a href="#"><span class="login_icon"><img src="/resources/icon/myPage.png"></span>MyPage</a></li>
+	            <li><a href="#"><span class="login_icon"><img src="/resources/icon/logout.png"></span>logout</a></li>
 	         </c:if>
          </c:if>
       </ul>
@@ -455,12 +519,13 @@
                   </form>
                </div>
                <div class="modal-footer">
-                  <a href="#">Forgot Password?</a>
+                  <a href="/user/userInfo/findId.jsp">Forgot Id?</a>
+                  <a href="/user/userInfo/updatePassword.jsp">Forgot Password?</a>
                </div>
             </div>
          </div>
       </div>      
-      </div>   
+      </div>    
       
       <div id="dialog-background"></div>
       
@@ -486,5 +551,6 @@
 			</c:if>
 			<a href="#navPanel" class="close" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></a>
 		</div>
+
 		<div class="nav_bg"></div>
 </header>

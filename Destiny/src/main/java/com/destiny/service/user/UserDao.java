@@ -19,7 +19,7 @@ public interface UserDao {
 	
 	public User getUserByEmail(String email) throws Exception;
 	
-	public List<User> getUserByPhone(String phone) throws Exception;
+	public User getUserByPhone(String phone) throws Exception;
 	
 	public void attendLogin(User user) throws Exception;
 	
@@ -38,6 +38,8 @@ public interface UserDao {
 	public void updateUser(User user)throws Exception;
 	
 	public void updateType(User user)throws Exception;
+	
+	public void updatePassword(User user)throws Exception;
 	
 	public void updateGrade(User user)throws Exception;
 	

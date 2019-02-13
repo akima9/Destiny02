@@ -34,15 +34,20 @@
 		});	
 		
 		 $(function() {
+			 function checkbox_fn() {
+				 if( $('.inter-chk:checked').length >= 3 ) {
+					 $('.inter-chk').attr('disabled', true);
+					 $('.inter-chk:checked').attr('disabled', false);
+				 } else {
+					 $('.inter-chk').attr('disabled', false);
+				 }	 
+			 };
+			 
 			 $('.inter-chk').on('change', function() {
-				
-				if( $('.inter-chk:checked').length <= 2 ) {
-					$('.inter-chk').attr('disabled', false);
-				} else {
-					$('.inter-chk').attr('disabled', true);
-					$('.inter-chk:checked').attr('disabled', false);
-				}
+				 checkbox_fn(); 
 			}); 
+			 
+			 checkbox_fn();
 		 });
 		 
 		 function fncAddType(){
@@ -444,7 +449,6 @@
 	                    <div class="type-snippet">주위에 있으면 인생이 지루할 새가 없을 정도로 즉흥적이며 열정과 에너지가 넘치는 연예인형.</div>
 					</div>
 				</div>
-					
 			</div>
 		</main>
 

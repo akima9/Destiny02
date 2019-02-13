@@ -79,6 +79,13 @@ public class UserRestController {
 		return map;
 	}
 	
+	@RequestMapping(value="json/getUserByAndroid/{userId}", method=RequestMethod.GET)
+	public User getUserByAndroid(@PathVariable String userId) throws Exception{
+		System.out.println("restController 진입 성공. json/getUserByAndroid/"+userId);
+		User user = userService.getUser(userId);
+		return user;
+	}
+	
 	@RequestMapping(value="json/getUserByNickName/{nickName}", method=RequestMethod.GET)
 	public Map<String, Object> getUserByNickName(@PathVariable String nickName, HttpSession session) throws Exception{
 		System.out.println("restController 진입 성공. json/getUserByNickName/"+nickName);
@@ -90,14 +97,22 @@ public class UserRestController {
 	}
 	
 	@RequestMapping(value="json/getUserByEmail/{email}", method=RequestMethod.GET)
-	public Map<String, Object> getUserByEmail(@PathVariable String email, HttpSession session) throws Exception{
+	public User getUserByEmail(@PathVariable("email") String email) throws Exception{
+		System.out.println("기본 email : " + email);
 		email += ".com";
 		System.out.println("restController 진입 성공. json/getUserByEmail/"+email);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("user", userService.getUserByEmail(email));
-		map.put("me", session.getAttribute("me"));
+		//map.put("user", userService.getUserByEmail(email));
+		//map.put("me", session.getAttribute("me"));
+		
+		User user = new User();
+		
+		if(userService.getUserByEmail(email) != null) {
+			user = userService.getUserByEmail(email);
+		}
+		
 		System.out.println("여긴 오냐?");
-		return map;
+		return user;
 	}
 	
 	@RequestMapping(value="json/getUserByPhone/{phone}", method=RequestMethod.GET)
@@ -105,7 +120,7 @@ public class UserRestController {
 		System.out.println("restController 진입 성공. json/getUserByPhone/"+phone);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", userService.getUserByPhone(phone));
-		map.put("me", session.getAttribute("me"));
+		//map.put("me", session.getAttribute("me"));
 		System.out.println("여긴 오냐?");
 		return map;
 	}
@@ -246,7 +261,7 @@ public class UserRestController {
 	private void sendEmail(String email, String authNum) {
 		String host = "smtp.naver.com";
 		String subject = "인증정보 전달";
-		String fromName = "전달자";
+		String fromName = "pischa";
 		String from = "ABC";
 		String to1 = email;
 		
@@ -261,9 +276,11 @@ public class UserRestController {
 			System.out.println("sendEmail try 진입. email : " + email);
 			Properties props = new Properties();
 			
+			props.put("mail.transport.protocol", "smtp");
 			props.put("mail.smtp.starttls.enable", "true");
 			props.put("mail.smtp.host", host);
-			props.put("mail.smtp.user", 587);
+			props.put("mail.smtp.port", 587);
+			props.put("mail.smtp.ssl.trust", host);
 			props.put("mail.smtp.auth", "true");
 			props.put("mail.smtp.ssl.enable", "true"); 
 			props.put("mail.smtp.ssl.trust", "smtp.naver.com");
@@ -273,7 +290,7 @@ public class UserRestController {
 			Session session = Session.getInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(user,password);
+						return new PasswordAuthentication("pischa",password);
 					}
 			});
 			
@@ -284,7 +301,7 @@ public class UserRestController {
 			
 			msg.setFrom(new InternetAddress(user));
 			
-			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to1));
+			msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to1));
 			msg.setSubject("Confirm Mail");
 			msg.setText(content);
 			
