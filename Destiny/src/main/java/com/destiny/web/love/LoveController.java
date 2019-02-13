@@ -141,7 +141,8 @@ public class LoveController {
 		uploadService.addUload(upload);
 		System.out.println("upload : "+upload);
 		/*업로드 테이블 : end*/
-		modelAndView.setViewName("/community/addLoveAdviceConfirm.jsp");
+		/*modelAndView.setViewName("/community/addLoveAdviceConfirm.jsp");*/
+		modelAndView.setViewName("/love/listLoveAdvice");
 		return modelAndView;
 	}
 	/*addLoveAdvice : end*/
