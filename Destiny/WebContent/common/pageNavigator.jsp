@@ -10,23 +10,23 @@
 	.pager-wrap .btn-page-move{display:inline-block; vertical-align:top; width:30px; height:30px; line-height:30px; font-size:12px; font-weight:600; color:#666;}
 	.pager-wrap ul{display:inline-block; margin:0 15px;}
 	.pager-wrap ul li{display:inline-block; vertical-align:top; margin:0 5px;}
-	.pager-wrap ul li a{display:block; width:30px; height:30px; line-height:30px; background:#DDD; border-radius:50%; font-size:12px; color:#000;}
-	.pager-wrap ul li.on a{background:#fed53e;}
+	.pager-wrap ul li a{display:block; width:30px; height:30px; line-height:30px; /* background:#DDD; */ border-radius:50%; font-size:12px; color:#000;}
+	.pager-wrap ul li.on a{background:#fd5d7c;}
 </style>
 
 
 <div class="pager-wrap">
 
 	<!--  <<== ÁÂÃø nav -->
-	<c:if test="${ resultPage.currentPage <= resultPage.pageUnit }">
+	<%-- <c:if test="${ resultPage.currentPage <= resultPage.pageUnit }">
 		<li class="btn-page-move"></li>
-	</c:if>
+	</c:if> --%>
 	<c:if test="${ resultPage.currentPage > resultPage.pageUnit }">
 		<a href="javascript:fncGetList('${ resultPage.currentPage-1}')" class="btn-page-move">
 			&lt;&lt;
 		</a>
 	</c:if>
-		
+	
     <ul>
         <!--  Áß¾Ó  -->
 		<c:forEach var="i" begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">

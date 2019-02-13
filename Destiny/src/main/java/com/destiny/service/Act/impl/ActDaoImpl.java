@@ -74,10 +74,13 @@ public class ActDaoImpl implements ActDao{
 	
 
 	@Override
-	public List<Meeting> getMeetingAct(Search search, int meetingNo) throws Exception {
+	public List<Meeting> getMeetingAct(Search search, int meetingNo, String userId) throws Exception {
+		System.out.println("userId : " + userId);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("meetingNo", meetingNo);
 		map.put("search", search);
+		map.put("userId", userId);
 		
 		List<Meeting> list = sqlSession.selectList("ActMapper.getMeetingAct", map);
 		System.out.println("dao에서 전달된 값들 : " + meetingNo + search);

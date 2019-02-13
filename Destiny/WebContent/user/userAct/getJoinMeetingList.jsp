@@ -48,7 +48,7 @@
 		//==> 모임회차
 		$(".getMeetingAct").on("click", function(){
 			var meetingNo = $(this).data("param");
-			self.location = "/act/getMeetingAct/"+ meetingNo;
+			self.location = "/act/getMeetingAct/${me.userId}/"+ meetingNo;
 		});
 		
 	});	
@@ -156,7 +156,7 @@
     
     <!-- 메인배경이미지 : start -->
 	<div class="topImg">
-		<h1><span class="slim">가입한 </span>모임 <span class="slim">조회</span></h1>
+		<h1><span class="slim">가입한 </span>모임 <span class="slim"></span></h1>
 	</div>
 	<!-- 메인배경이미지 : end -->
 	
@@ -170,7 +170,9 @@
 				<li>></li>
 				<li>마이페이지</li>
 				<li>></li>
-				<li>개설한 모임</li>
+				<li>활동관리</li>
+				<li>></li>
+				<li>가입한 모임</li>
 			</ul>
 			<!-- 페이지 내부 네비게이션 경로 : end -->
 			
@@ -205,7 +207,13 @@
 	            </thead>
 	    
 	            <tbody>
-	            
+	            	
+	            	<c:if test="${list[0] == null}">
+	            		<tr>
+	            			<td colspan="7"> 가입한 모임이 없습니다. </td>
+	            		</tr>
+	           		</c:if>
+	            	
 	            	<c:set var="i" value="0"/>
 	            	<c:forEach var="meeting" items="${list}">
 	            		<c:set var="i" value="${i+1}"/>

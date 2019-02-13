@@ -224,8 +224,8 @@ public class ActController {
 	}
 	
 	
-	@RequestMapping(value="getMeetingAct/{meetingNo}", method=RequestMethod.GET)
-	public ModelAndView getMeetingAct(@PathVariable("meetingNo") int meetingNo, @ModelAttribute("search") Search search) throws Exception{
+	@RequestMapping(value="getMeetingAct/{userId}/{meetingNo}", method=RequestMethod.GET)
+	public ModelAndView getMeetingAct(@PathVariable("userId") String userId, @PathVariable("meetingNo") int meetingNo, @ModelAttribute("search") Search search) throws Exception{
 		
 		System.out.println("act/getMeetingAct : GET + " + meetingNo);
 		/* =============모임원 Start================================= */
@@ -249,27 +249,43 @@ public class ActController {
 		search.setPageSize(pageSize);
 		
 		Meeting contextMeeting = meetingService.getMeeting(meetingNo);
-		Map<String , Object> map = actService.getMeetingAct(search, meetingNo);
+		Map<String , Object> map = actService.getMeetingAct(search, meetingNo,userId);
+		System.out.println("contextMeeting : " + meetingService.getAct(meetingNo));
+		System.out.println("mapppppppppppp2 : " + map.get("list"));
 		
 		/* ============모임 회차 참여인원 Start===================== */
-		
-		List<Meeting> listMeeting = (List<Meeting>)map.get("list");
-		Meeting meetingAct = listMeeting.get(0);
-		System.out.println("모임 회차 참여인원 meetingAct : " + meetingAct);
-		
-		int meetingActNo = meetingAct.getMeetingActNo();
-		int meetingActCount = meetingAct.getMeetingActCount();
-		
-		Meeting meeting = new Meeting();
-		meeting.setMeetingActNo(meetingActNo);
-		meeting.setMeetingActCount(meetingActCount);
-		
-		List<String> listString = actService.getActCrew(meeting);
-		List<User> listUser = new ArrayList<User>();
-		
-		for(String v : listString) {
-			listUser.add(userService.getUser(v));
-		}
+
+			List<Meeting>listMeeting = (List<Meeting>)map.get("list");
+			List<List> actCrewList = new ArrayList<List>();
+			
+			if( listMeeting.size() != 0) {
+				Meeting meetingAct = listMeeting.get(0);
+				System.out.println("모임 회차 참여인원 meetingAct : " + meetingAct);
+				
+				int meetingActNo = meetingAct.getMeetingActNo();
+				int meetingCount = meetingService.getAct(meetingNo).getMeetingActCount();
+				System.out.println("meetingCount : " + meetingCount);
+
+				for(int i = 1; i<=meetingCount;i++) {
+					
+					Meeting meeting = new Meeting();
+					meeting.setMeetingActNo(meetingActNo);
+					meeting.setMeetingActCount(i);
+					
+					List<String> listString = actService.getActCrew(meeting);
+					List<User> listUser = new ArrayList<User>();
+					
+					for(String v : listString) {
+						listUser.add(userService.getUser(v));
+						System.out.println("listUser : " + v  +"=====================");
+					}
+					
+					actCrewList.add(listUser);
+					
+				}
+			}
+			
+			
 		/* ===============모임 회차 참여인원 End=================== */
 		
 		/* =================차트 Start========================= */
@@ -409,7 +425,7 @@ public class ActController {
 		modelAndView.addObject("listYES", listYES);
 		modelAndView.addObject("listYESUser", listYESUser);
 		modelAndView.addObject("resultPage", resultPage);
-		modelAndView.addObject("listUser",listUser);
+		modelAndView.addObject("actCrewList",actCrewList);
 		modelAndView.addObject("search", search);
 		modelAndView.addObject("contextMeeting", contextMeeting);
 		modelAndView.addObject("contextMeetingAct", meetingService.getAct(meetingNo));
@@ -560,14 +576,24 @@ public class ActController {
 	public ModelAndView addStory(@ModelAttribute("community") Community community, HttpSession session, @PathVariable("Category") String Category, @RequestParam("uploadFile")MultipartFile fileName, MultipartHttpServletRequest mtfRequest, @ModelAttribute("upload")Upload upload) throws Exception{
 		System.out.println(":: ActController/addStory/post : 실행");
 		
-		/*대표이미지 업로드 : start*/
-		String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\uploadImg\\";
-		String name = System.currentTimeMillis()+"."+fileName.getOriginalFilename().split("\\.")[1];
 		
-		File file = new File(path + name);
+		if(fileName.getOriginalFilename() == "") {
+			System.out.println("이미지 없음");
+			upload.setFileName("basic.gif");
+		}else {
+			/*대표이미지 업로드 : start*/
+			String path = "C:\\Users\\Bit\\git\\Destiny02\\Destiny\\WebContent\\resources\\images\\uploadImg\\";
+			String name = System.currentTimeMillis()+"."+fileName.getOriginalFilename().split("\\.")[1];
+			
+			File file = new File(path + name);
 
-		fileName.transferTo(file);
-		/*대표이미지 업로드 : end*/
+			fileName.transferTo(file);
+			/*대표이미지 업로드 : end*/
+			
+			upload.setFileName(name);
+		}
+		
+		
 		
 		User user = (User)session.getAttribute("me"); 
 		String userId = user.getUserId();
@@ -594,7 +620,7 @@ public class ActController {
 		System.out.println("community : "+community);
 		/*업로드 테이블 : start*/
 		upload.setCommunityNo(community.getCommunityNo());
-		upload.setFileName(name);
+		/*upload.setFileName(name);*/
 		upload.setFileCode("IMG");
 		uploadService.addUload(upload);
 		System.out.println("upload : "+upload);

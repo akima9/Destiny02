@@ -152,7 +152,7 @@
     
     <!-- 메인배경이미지 : start -->
 	<div class="topImg">
-		<h1><span class="slim">작성한 </span>댓글 <span class="slim">조회</span></h1>
+		<h1><span class="slim">작성한 </span>댓글 <span class="slim"></span></h1>
 	</div>
 	<!-- 메인배경이미지 : end -->
 	
@@ -165,6 +165,8 @@
 				<li class="homeImg"><img alt="home" src="/resources/images/background/home.jpg"></li>
 				<li>></li>
 				<li>마이페이지</li>
+				<li>></li>
+				<li>활동관리</li>
 				<li>></li>
 				<li>작성한 댓글</li>
 			</ul>
@@ -197,6 +199,12 @@
 	            </thead>
 	    
 	            <tbody>
+	            
+	            	<c:if test="${list[0] == null}">
+	            		<tr>
+	            			<td colspan="7"> 작성한 댓글이 없습니다. </td>
+	            		</tr>
+	           		</c:if>
 	            
 	            	<c:set var="i" value="0"/>
 	            	<c:forEach var="comment" items="${list}">
