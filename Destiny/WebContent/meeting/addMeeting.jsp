@@ -116,57 +116,57 @@
 			console.log(meetingDate<today);
 
 			if (interestName == null || interestName.length < 1) {
-				alert("관심사를 선택해 주세요.");
+				swal("관심사를 선택해 주세요.");
 				return;
 			}
 
 			if (meetingCenter == null || meetingCenter.length < 1) {
-				alert("중심지역을 선택해 주세요.");
+				swal("중심지역을 선택해 주세요.");
 				return;
 			}
 
 			if (titleImg == null || titleImg.length < 1) {
-				alert("대표이미지를 설정하여 주세요.");
+				swal("대표이미지를 설정하여 주세요.");
 				return;
 			}
 
 			if (meetingName == null || meetingName.length < 1) {
-				alert("모임이름을 작성하여 주세요.");
+				swal("모임이름을 작성하여 주세요.");
 				return;
 			}
 
 			if (meetingDetail == null || meetingDetail.length < 1) {
-				alert("모임설명을 작성하여 주세요.");
+				swal("모임설명을 작성하여 주세요.");
 				return;
 			}
 
 			if (meetingCrewLimit == null || meetingCrewLimit.length < 1) {
-				alert("모임인원을 설정하여 주세요.");
+				swal("모임인원을 설정하여 주세요.");
 				return;
 			}
 
 			if (snooze != 'Y' && snooze != 'N') {
-				alert("반복여부를 설정하여 주세요.");
+				swal("반복여부를 설정하여 주세요.");
 				return;
 			}
 
 			if (meetingDate == null && meetingDate == "") {
-				alert("날짜를 지정하여 주세요.");
+				swal("날짜를 지정하여 주세요.");
 				return;
 			}
 			
 			if (meetingDate<today) {
-				alert("잘못 된 날짜입니다.");
+				swal("잘못 된 날짜입니다.");
 				return;
 			}
 
 			if (meetingTime == null || meetingTime == '모임시간') {
-				alert("모임시간을 입력하여 주세요.");
+				swal("모임시간을 입력하여 주세요.");
 				return;
 			}
 
 			if (meetingLocation == null || meetingLocation.length < 1) {
-				alert("모임장소를 입력하여 주세요.");
+				swal("모임장소를 입력하여 주세요.");
 				return;
 			}
 
@@ -368,7 +368,7 @@
 	
 	<!-- 메인배경이미지 : start -->
 	<div class="topImg">
-		<h1>회원<span class="slim">가입</span></h1>
+		<h1>모임<span class="slim">개설</span></h1>
 	</div>
 	<!-- 메인배경이미지 : end -->
 	

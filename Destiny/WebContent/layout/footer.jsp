@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	
 	
@@ -10,7 +10,8 @@
 				$("#proposeButton").on("click", function(){
 					
 					var propose = $("input[name='propose']").val();
-					alert(propose);
+					swal("문의사항이 접수되었습니다.", "빠른시일내 답변 드리겠습니다.", "success");
+					$("#propose").val("");
 					
 					$.ajax({
 						url : "/act/json/inquiry/"+propose,
@@ -21,7 +22,6 @@
 							"Content-Type" : "application/json"
 						},
 						success : function(JSONData, status){
-							
 						}
 					});
 				});
@@ -32,8 +32,8 @@
 		<div class="inner">
 			
 			<div class="foot">
-				<label for="propose" style="font-size:120%; color:white; text-align:center;">���ǻ���</label>
-					<input style="font-size:80%; color:black; width:100%;" type="text" id="propose" name="propose" placeholder="���ǻ����� �Է����ּ���."></input><br/>
+				<label for="propose" style="font-size:120%; color:white; text-align:center;">문의사항</label>
+					<input style="font-size:80%; color:black; width:100%;" type="text" id="propose" name="propose" placeholder="문의사항을 입력해주세요."></input><br/>
 					
 					<ul class="actions small">
 						<li><a id="proposeButton" class="button special small" href="#" >send for Admin</a></li>	

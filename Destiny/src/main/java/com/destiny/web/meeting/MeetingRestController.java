@@ -353,5 +353,19 @@ public class MeetingRestController {
 		return bestMap;
 	}
 	
+	@RequestMapping( value="meetingRest/todayTogeterMeeting", method=RequestMethod.GET)
+	public Map<String , Object> todayTogeterMeeting(@RequestParam("today") String today)throws Exception{
+		System.out.println("오늘의 함께해요  시작함");
+		System.out.println(today);
+		//String tutu = URLEncoder.encode(today , "utf-8");
+		//System.out.println("어드레스 tutu?"+tutu);
+		//System.out.println("어드레스 모냐??"+address);
+		
+		Map<String , Object> todayTogeterMap=meetingService.getNearMeeting(today);
+		System.out.println(todayTogeterMap);
+		
+		return todayTogeterMap;
+	}
+	
 
 }

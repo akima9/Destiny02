@@ -11,10 +11,13 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpRequest;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +29,7 @@ import com.destiny.common.Search;
 import com.destiny.service.community.CommunityService;
 import com.destiny.service.domain.Community;
 import com.destiny.service.domain.Meeting;
+import com.destiny.service.domain.User;
 import com.destiny.service.meeting.MeetingService;
 
 @RestController
@@ -130,7 +134,7 @@ public class ActRestController {
 	}
 	
 	@RequestMapping(value="json/inquiry/{propose}", method=RequestMethod.GET)
-	public Map<String, Object> inquiry(@PathVariable("propose") String propose) throws Exception{
+	public Map<String, Object> inquiry(@PathVariable("propose") String propose, HttpSession users) throws Exception{
 		
 		System.out.println("act/inquiry/"+ propose);
 		
@@ -141,10 +145,14 @@ public class ActRestController {
 		String to1 = "pischa@naver.com";
 		
 		//String user = "pischa@naver.com";
-		String password = "sunnydays15358";
+		String password = "tls3507fma";
 		
-		String content = "다음과 같은 건의사항이 접수되었습니다. ["+propose+"]";
-		
+		//HttpSession users = 
+		//String content = propose;
+		String userId = ((User)users.getAttribute("me")).getUserId();
+		String userEmail = ((User)users.getAttribute("me")).getEmail();
+		System.out.println(userId);
+		System.out.println(userEmail);
 		try {
 			
 			System.out.println("sendEmail try 진입. email : " + to1);
@@ -172,7 +180,14 @@ public class ActRestController {
 			
 			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to1));
 			msg.setSubject("Inquiry Mail");
-			msg.setText(content);
+			//msg.setText(content);
+			msg.setContent(	/*"<div style=\"border: solid 1px black;inline-size: fit-content;border-radius: 30px;\">"+*/
+							"<img style=\"width:30%;height: 300px; margin-left: 5%;\" src=\"https://i.imgur.com/mWJS8jQ.png\">"+
+							"<hr/>"+
+							"<h1 style=\"margin-left: 5%;\">문의 사항이 접수 되었습니다.</h1><br/>"+
+							"<h1 style=\"margin-left: 5%;\"> '"+propose+"' </h1>"+
+							"<a style=\"margin-bottom:5px; margin-left: 5%; font-size: 20px;\" href='http://127.0.0.1:8080/'> 답변하기 </a>", 
+			           		"text/html;charset=utf-8");
 			
 			System.out.println("msg 구축 : " + msg.toString());
 			

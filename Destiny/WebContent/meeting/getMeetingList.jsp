@@ -187,10 +187,11 @@
 	
 	
 	<script>
+	
 	$(function(){
 		getLocation();
 		var startNo = 1
-		
+		/* 
 		$(function(){
 			 $(window).scroll(function(){
 
@@ -241,7 +242,7 @@
 								if(i%2==0){
 									//console.log("1입니다요.");
 									list+="<article class='feature left' style='float: right; margin-bottom: 20px;'>";
-									list+="<div class='image' style='display: flex; height: 400px;float: right;'><img src='/resources/images/meeting/"+meeting.titleImg+"' style='border-radius: 55px;' class='6u 12u(small)' /></div>";
+									list+="<div class='image' style='display: flex; width:600px; height: 400px;float: right;'><img src='/resources/images/meeting/"+meeting.titleImg+"' style='border-radius: 55px;' class='6u 12u(small)' /></div>";
 									list+="<div class='' style='float: left; margin-left: 10px;text-align: end;'>";
 								    list+="<p class='meetingCenter' style='margin-top: 80px;margin-bottom: -50px;'><span class='glyphicon glyphicon-record'></span>&nbsp;"+meeting.meetingCenter+"<p>";
 									list+="<h2 class='titleName' style='color:black; margin-bottom: -10px;'>"+meeting.meetingName+"</h2>";
@@ -259,7 +260,7 @@
 									
 									
 									list+="<article class='' style='float: left; margin-bottom: 20px;'>";
-									list+="<div class='image' style='display: flex; height: 400px;float: left;'><img src='/resources/images/meeting/"+meeting.titleImg+"' style='border-radius: 55px;' class='6u 12u(small)' /></div>";
+									list+="<div class='image' style='display: flex; width:600px; height: 400px;float: left;'><img src='/resources/images/meeting/"+meeting.titleImg+"' style='border-radius: 55px;' class='6u 12u(small)' /></div>";
 									list+="<div class='' style='float: left; margin-left: 10px;text-align: left;'>";
 								    list+="<p class='' style='margin-top: 80px;margin-bottom: -50px;'><span class='glyphicon glyphicon-record'></span>&nbsp;"+meeting.meetingCenter+"<p>";
 									list+="<h2 class='titleName' style='color:black; margin-bottom: -10px;'>"+meeting.meetingName+"</h2>";
@@ -289,16 +290,16 @@
 								list+="</ul>";
 								list+="</div>";
 								list+="</article>";
-								 */
+								
 							}
-							$( "#appendPoint" ).append(list);
+							$( "#one" ).append(list);
 						 
 						}
 				});	
 	       		  
 	       	} //fetchList끝 //여기까지 무한스크롤
 		});
-		
+		 */
 		function getLocation() {
 			//alert("로케이션 시작");
 		  if (navigator.geolocation) { // GPS를 지원하면
@@ -365,6 +366,7 @@
 				});	
 			}
 		}
+
 		
 		// 내 주변 모임 찾기 스타트
 		$( "#nearMeeting" ).on("click", function() {
@@ -569,11 +571,18 @@
 		</form>	 
 			 <!-- 검색창 종료 -->
 			 
-			 <!-- 링크이동 start -->
+			 
 		<%-- <c:if test="${!empty sessionScope.me=='true'}"> --%>
+			<section class="wrapper align-center" style="margin-top: -100px; margin-bottom: -60px">
+				<div align="right" class="inner" style="">
+				 	<input type="button" id="addMeeting" value="개설하기">
+				 	<!-- <input type="button" id="nearMeeting" value="내 주변 모임"> -->
+				</div>
+			</section>
+			<!-- 내주변 추천모임 start -->
 			<section id="linkmove" class="wrapper align-center" style="margin-top: -150px; margin-bottom: -50px">
 				
-				<h2 >내주변 추천모임</h2>
+				<h2 style="margin-top: -1px;">내주변 추천모임</h2>
 				
 				<div class="inner">
 				
@@ -587,27 +596,67 @@
 					<div class="flex secondSection">
 
 					</div>
+					<hr/>
 				</div>
 			</section>
-		<%-- </c:if> --%>
 			<!-- 링크이동 end -->
+			
+			<!-- 오늘의 함께해요 start -->
+			<section id="linkmove" class="wrapper align-center" style="margin-top: -150px; margin-bottom: -50px">
+				
+				<h2 style="margin-top: -40px;">오늘의 함께해요</h2>
+				
+				<div class="inner">
+				
+					<div id="frogue-container" class="position-right-bottom"
+					      data-color="#555a9c"
+					      data-chatbot="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
+					      data-user="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
+					      data-init-key="value"
+					      ></div>
+					
+					<div class="flex secondSection">
+
+					</div>
+					<hr/>
+				</div>
+			</section>
+			<!--오늘의 함께해요 end -->
+			
+			<!-- What's hot start -->
+			<section id="linkmove" class="wrapper align-center" style="margin-top: -150px; margin-bottom: -50px">
+				
+				<h2 style="margin-top: -40px;">What's hot</h2>
+				
+				<div class="inner">
+				
+					<div id="frogue-container" class="position-right-bottom"
+					      data-color="#555a9c"
+					      data-chatbot="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
+					      data-user="b9ca3ac0-61fd-496b-831f-3906f84fbb90"
+					      data-init-key="value"
+					      ></div>
+					
+					<div class="flex secondSection">
+
+					</div>
+					
+				</div>
+			</section>
+			<!--What's hot end -->
 			 
 			 <!-- 리스트 시작 -->
                 <div>
-	              	<section style="align-content:center; " id="one" class="wrapper style1">
+	              	<section style="align-content:center;" id="one" class="wrapper style1">
 						<div class="inner" style="text-align: center;overflow: hidden;">
-						<div align="right" class="addMeeting">
-						 	<input type="button" id="addMeeting" value="개설하기">
-						 	<!-- <input type="button" id="nearMeeting" value="내 주변 모임"> -->
-						 </div>
+						
 						 <hr/>
 							<c:set var="i" value="0" />
 						 	<c:forEach var="meeting" items="${list}">
 						 	<c:set var="i" value="${ i+1 }" />
-						 	<div id="appendPoint">
 								<c:if test="${i%2==1}">
 									<article class="" style="float: left; margin-bottom: 20px;">
-										<div class="image" style="display: flex; height: 400px;float: left;"><img src="/resources/images/meeting/${meeting.titleImg}" style="border-radius: 55px;" class="col-xs-12 col-sm-12 col-md-12" alt="" /></div>
+										<div class="image" style="display: flex; width:600px; height: 400px;float: left;"><img src="/resources/images/meeting/${meeting.titleImg}" style="border-radius: 55px;" class="col-xs-12 col-sm-12 col-md-12" alt="" /></div>
 										<div class="" style="float: left; margin-left: 10px;text-align: left;">
 											<p class="meetingCenter" style="margin-top: 80px;margin-bottom: -50px;"><span class="glyphicon glyphicon-record"></span>&nbsp;${meeting.meetingCenter}<p>
 											<h2 class="titleName" style="color:black; margin-bottom: -10px;">${meeting.meetingName}</h2>
@@ -624,7 +673,7 @@
 								</c:if>
 								<c:if test="${i%2==0}">
 									<article class="" style="float: right; margin-bottom: 20px;">
-										<div class="image" style="display: flex; height: 400px;float: right;"><img src="/resources/images/meeting/${meeting.titleImg}" style="border-radius: 55px;" class="col-xs-12 col-sm-12 col-md-12" alt="" /></div>
+										<div class="image" style="display: flex; width:600px; height: 400px;float: right;"><img src="/resources/images/meeting/${meeting.titleImg}" style="border-radius: 55px;" class="col-xs-12 col-sm-12 col-md-12" alt="" /></div>
 										<div class="" style="float: left; margin-left: 10px;text-align: end;">
 											<p class="meetingCenter" style="margin-top: 80px;margin-bottom: -50px;"><span class="glyphicon glyphicon-record"></span>&nbsp;${meeting.meetingCenter}<p>
 											<h2 class="titleName" style="color:black; margin-bottom: -10px;">${meeting.meetingName}</h2>
@@ -639,7 +688,7 @@
 										</div>
 									</article>
 								</c:if>						 	
-						 	</div>
+						 
 							</c:forEach>
 						
 						</div>

@@ -58,11 +58,10 @@ public class MeetingController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		
-		
 
 		Map<String , Object> map=meetingService.getMeetingList(search);
 		Map<String , Object> interestmap=meetingService.getInterestList();
+		//Map<String , Object> todayTogeterMap=meetingService.getNearMeeting();
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("토탈 카운트는??"+((Integer)map.get("totalCount")).intValue());
