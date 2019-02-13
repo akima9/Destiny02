@@ -7,8 +7,6 @@
 <link rel="stylesheet" href="/resources/dist/css/superfish.css" media="screen">
 <script src="/resources/dist/js/hoverIntent.js"></script>
 <script src="/resources/dist/js/superfish.js"></script>
-<script src ="https://unpkg.com/sweetalert/dist/sweetalert.min.js" ></script >
-
 
 <script type="text/javascript">
 

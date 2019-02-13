@@ -26,7 +26,11 @@
 <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">
 
 
+
 </head>
+
+
+
 <script type="text/javascript">
 
 var userId = "${me.userId}";
@@ -39,7 +43,6 @@ console.log("userId : "+userId);
 
 
 $(function() {
-	
 	
 	
 	/* 무한스크롤 : start */
@@ -94,7 +97,11 @@ $(function() {
 					list += '</ul></div></div></div>';
 				}
 				
+				/* $(".rowList").html($(".rowList").html()+list); */
+				
 				$(".rowList").html($(".rowList").html()+list);
+				/* $(".giyong").hide();
+				$(".giyong").fadeIn(1000); */
 				
 				init();
 			}

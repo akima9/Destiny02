@@ -133,7 +133,8 @@ public class InfoController {
 		uploadService.addUload(upload);
 		System.out.println("upload : "+upload);
 		/*업로드 테이블 : end*/
-		modelAndView.setViewName("/community/addRestaurantInfoConfirm.jsp");
+		/*modelAndView.setViewName("/community/addRestaurantInfoConfirm.jsp");*/
+		modelAndView.setViewName("/info/listRestaurantInfo");
 		return modelAndView;
 	}
 	/*addRestaurantInfo : end*/
